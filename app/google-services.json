@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "215890442182",
+    "project_id": "prodocument-743c0",
+    "storage_bucket": "prodocument-743c0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:215890442182:android:2dabf6d2e719de0ca6e4c7",
+        "android_client_info": {
+          "package_name": "com.natiqhaciyef.prodocument"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQM1U0F2FvbuilJuN0SyBEuI2woPluxhs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
