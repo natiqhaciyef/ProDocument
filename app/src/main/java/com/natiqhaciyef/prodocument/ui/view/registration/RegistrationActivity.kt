@@ -3,7 +3,9 @@ package com.natiqhaciyef.prodocument.ui.view.registration
 import android.os.Bundle
 import com.natiqhaciyef.prodocument.databinding.ActivityRegistrationBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RegistrationActivity : BaseActivity() {
     private lateinit var binding: ActivityRegistrationBinding
 

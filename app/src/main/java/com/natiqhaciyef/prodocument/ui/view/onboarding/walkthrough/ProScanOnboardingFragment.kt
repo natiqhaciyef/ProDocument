@@ -6,8 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.natiqhaciyef.prodocument.databinding.FragmentProScanOnboardingBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class ProScanOnboardingFragment : BaseFragment() {
     private lateinit var binding: FragmentProScanOnboardingBinding
 

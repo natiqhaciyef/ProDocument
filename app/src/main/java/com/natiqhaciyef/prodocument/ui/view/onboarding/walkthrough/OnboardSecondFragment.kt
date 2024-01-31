@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.natiqhaciyef.prodocument.databinding.FragmentOnboardSecondBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class OnboardSecondFragment : BaseFragment() {
     private lateinit var binding: FragmentOnboardSecondBinding
 
