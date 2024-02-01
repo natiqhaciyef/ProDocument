@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".data.di.ProDocApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -16,9 +17,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProDocument"
-        tools:targetApi="31">
+        tools:targetApi="31"
+        >
         <activity
-            android:name=".ui.view.activity.RegistrationActivity"
+            android:name=".ui.view.onboarding.OnboardingActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,10 +28,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.view.activity.MainActivity"
-            android:exported="false" />
 
+        <activity
+            android:name=".ui.view.registration.RegistrationActivity"
+            android:exported="false"/>
+
+        <activity
+            android:name=".ui.view.main.MainActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
