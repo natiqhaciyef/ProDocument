@@ -1,5 +1,6 @@
 package com.natiqhaciyef.prodocument.ui.view.onboarding.adapter
 
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -8,8 +9,9 @@ import com.natiqhaciyef.prodocument.ui.view.onboarding.walkthrough.OnboardSecond
 import com.natiqhaciyef.prodocument.ui.view.onboarding.walkthrough.OnboardThirdFragment
 
 
-class WalkthroughAdapter(fm: FragmentActivity) : FragmentStateAdapter(fm) {
-    override fun getItemCount(): Int = 3
+class WalkthroughAdapter(activity: AppCompatActivity, private val itemsCount: Int) :
+    FragmentStateAdapter(activity) {
+    override fun getItemCount(): Int = itemsCount
 
     override fun createFragment(position: Int): Fragment = when (position) {
         0 -> {
@@ -28,5 +30,4 @@ class WalkthroughAdapter(fm: FragmentActivity) : FragmentStateAdapter(fm) {
             OnboardFirstFragment()
         }
     }
-
 }

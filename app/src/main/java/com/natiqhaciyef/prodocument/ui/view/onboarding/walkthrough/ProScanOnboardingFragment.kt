@@ -29,9 +29,9 @@ class ProScanOnboardingFragment : BaseFragment() {
 
         viewModel.onboardingAction { route ->
 //            if()
-            navigateByActivityTitle(route, true)
+//            navigateByActivityTitle(route, true)
 //            else
-//            navigateByActivityTitle(WALKTHROUGH_ROUTE, true)
+            navigateByActivityTitle(WALKTHROUGH_ROUTE, true)
         }
     }
 }

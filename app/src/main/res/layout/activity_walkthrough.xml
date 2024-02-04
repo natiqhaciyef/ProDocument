@@ -6,4 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".ui.view.onboarding.WalkthroughActivity">
 
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/walkthroughViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="200dp"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
