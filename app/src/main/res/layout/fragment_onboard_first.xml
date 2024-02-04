@@ -3,7 +3,67 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
+    android:id="@+id/frag"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.view.onboarding.walkthrough.OnboardFirstFragment">
+
+    <ImageView
+        android:id="@+id/onboardingIcon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/onboarding_1_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/bottomShadow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:src="@drawable/bottom_white_transparent_shadow"
+        app:layout_constraintBottom_toBottomOf="@+id/onboardingIcon"
+        app:layout_constraintEnd_toEndOf="@id/onboardingIcon"
+        app:layout_constraintStart_toStartOf="@+id/onboardingIcon" />
+
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/urbanist_bold"
+        android:text="Scan all your documents quickly and easily"
+        android:textColor="@color/black"
+        android:textSize="28sp"
+        android:lineSpacingExtra="10dp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:layout_margin="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/onboardingIcon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bottomShadow"
+        app:layout_constraintVertical_bias="0.785" />
+
+    <TextView
+        android:id="@+id/descriptionText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:fontFamily="@font/urbanist_regular"
+        android:text="The easiest way of document scanning as a professional way"
+        android:textAlignment="center"
+        android:textColor="@color/grayscale_900"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleText"
+        app:layout_constraintVertical_bias="1.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

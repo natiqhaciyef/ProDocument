@@ -52,9 +52,7 @@ dependencies {
     val epoxyVersion = "5.1.3"
     val lifecycleVersion = "2.5.1"
 
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
     implementation("com.google.ar:core:1.30.0")
-
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
@@ -85,11 +83,9 @@ dependencies {
 
     //Fragment ktx
     implementation("androidx.fragment:fragment-ktx:$fragmentVersion")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0")
-
-    //Swipe Refresh Layout
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")
 
     //View Model Lifecycle
     implementation("androidx.lifecycle:lifecycle-viewmodel:$lifecycleVersion")
@@ -110,8 +106,10 @@ dependencies {
     implementation("com.google.dagger:hilt-android:$daggerVersion")
     kapt("com.google.dagger:hilt-android-compiler:$daggerVersion")
 
-    //Animation Library
+    //Animation Library & Swipe Refresh Layout & ViewPager
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("com.airbnb.android:lottie:5.2.0")
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
 
     // Work manager
     implementation("androidx.work:work-runtime-ktx:2.8.1")

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/onboarding_navigation"
-    app:startDestination="@id/onboardFirstFragment">
+    app:startDestination="@id/proScanOnboardingFragment">
 
     <fragment
         android:id="@+id/onboardFirstFragment"
@@ -28,4 +28,21 @@
         android:name="com.natiqhaciyef.prodocument.ui.view.onboarding.walkthrough.OnboardThirdFragment"
         android:label="fragment_onboard_third"
         tools:layout="@layout/fragment_onboard_third" />
+    <fragment
+        android:id="@+id/proScanOnboardingFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.onboarding.walkthrough.ProScanOnboardingFragment"
+        android:label="fragment_pro_scan_onboarding"
+        tools:layout="@layout/fragment_pro_scan_onboarding" >
+        <action
+            android:id="@+id/action_proScanOnboardingFragment_to_onboardFirstFragment"
+            app:destination="@id/onboardFirstFragment" />
+        <action
+            android:id="@+id/action_proScanOnboardingFragment_to_registration_nav_graph"
+            app:destination="@id/registration_nav_graph" />
+        <action
+            android:id="@+id/action_proScanOnboardingFragment_to_home_nav_graph"
+            app:destination="@id/home_nav_graph" />
+    </fragment>
+    <include app:graph="@navigation/registration_nav_graph" />
+    <include app:graph="@navigation/home_nav_graph" />
 </navigation>
