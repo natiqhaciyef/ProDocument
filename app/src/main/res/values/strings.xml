@@ -13,4 +13,6 @@
     <string name="onboarding_description_2">Easily customize your scan results by editing and customizing them to fit your preferences</string>
     <string name="onboarding_title_3">Organize your documents with ProScan now!</string>
     <string name="onboarding_description_3">Boost your document organization with ProScan! Simplify and tidy up your files effortlessly for enhanced efficiency.</string>
+    <string name="skip">Skip</string>
+    <string name="next">Next</string>
 </resources>

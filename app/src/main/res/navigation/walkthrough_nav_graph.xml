@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_onboardFirstFragment_to_onboardSecondFragment"
             app:destination="@id/onboardSecondFragment" />
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="prodoc://onboarding/walkthrough" />
     </fragment>
     <fragment
         android:id="@+id/onboardSecondFragment"

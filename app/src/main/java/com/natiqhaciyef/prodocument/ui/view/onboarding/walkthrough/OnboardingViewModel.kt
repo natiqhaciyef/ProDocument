@@ -21,11 +21,15 @@ class OnboardingViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             delay(3500)
-            if (auth.currentUser != null){
-                onAction(HOME_ROUTE)
-            }else{
-                onAction(REGISTER_ROUTE)
-            }
+            actionForOnBoarding(onAction)
+        }
+    }
+
+    fun actionForOnBoarding(onAction: (String) -> Unit) {
+        if (auth.currentUser != null) {
+            onAction(HOME_ROUTE)
+        } else {
+            onAction(REGISTER_ROUTE)
         }
     }
 }

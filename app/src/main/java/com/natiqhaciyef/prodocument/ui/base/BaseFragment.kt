@@ -2,7 +2,6 @@ package com.natiqhaciyef.prodocument.ui.base
 
 import android.content.Intent
 import android.net.Uri
-import android.view.MotionEvent
 import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
@@ -12,20 +11,20 @@ import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.natiqhaciyef.prodocument.R
+import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_MAIN_DEEPLINK
+import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.ONBOARDING_MAIN_DEEPLINK
+import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.REGISTER_MAIN_DEEPLINK
+import com.natiqhaciyef.prodocument.ui.store.AppStorePref
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.onboarding.OnboardingActivity
-import com.natiqhaciyef.prodocument.ui.view.onboarding.WalkthroughActivity
 import com.natiqhaciyef.prodocument.ui.view.registration.RegistrationActivity
 
 open class BaseFragment : Fragment() {
+    val dataStore = AppStorePref
 
     private fun setNavigationWithActivity(title: String) = when (title) {
         BaseNavigationDeepLink.ONBOARDING_ROUTE -> {
             Intent(requireContext(), OnboardingActivity::class.java)
-        }
-
-        BaseNavigationDeepLink.WALKTHROUGH_ROUTE -> {
-            Intent(requireContext(), WalkthroughActivity::class.java)
         }
 
         BaseNavigationDeepLink.REGISTER_ROUTE -> {
@@ -40,60 +39,19 @@ open class BaseFragment : Fragment() {
     }
 
     private fun getDeepLink(title: String) = when (title) {
-        // Main route
-        BaseNavigationDeepLink.HOME_ROUTE -> {
-            BaseNavigationDeepLink.HOME_MAIN_DEEPLINK
+        BaseNavigationDeepLink.ONBOARDING_ROUTE -> {
+            Intent(Intent.ACTION_VIEW, ONBOARDING_MAIN_DEEPLINK.toUri())
         }
 
         BaseNavigationDeepLink.REGISTER_ROUTE -> {
-            BaseNavigationDeepLink.REGISTER_MAIN_DEEPLINK
+            Intent(Intent.ACTION_VIEW, REGISTER_MAIN_DEEPLINK.toUri())
         }
 
-        // Home -> Details route
-        BaseNavigationDeepLink.SCAN_ROUTE -> {
-            BaseNavigationDeepLink.SCAN_MAIN_DEEPLINK
+        BaseNavigationDeepLink.HOME_ROUTE -> {
+            Intent(Intent.ACTION_VIEW, HOME_MAIN_DEEPLINK.toUri())
         }
 
-        BaseNavigationDeepLink.WATERMARK_ROUTE -> {
-            BaseNavigationDeepLink.WATERMARK_MAIN_DEEPLINK
-        }
-
-        BaseNavigationDeepLink.E_SIGN_ROUTE -> {
-            BaseNavigationDeepLink.E_SIGN_MAIN_DEEPLINK
-        }
-
-        BaseNavigationDeepLink.SPLIT_ROUTE -> {
-            BaseNavigationDeepLink.SPLIT_MAIN_DEEPLINK
-        }
-
-        BaseNavigationDeepLink.MERGE_ROUTE -> {
-            BaseNavigationDeepLink.MERGE_MAIN_DEEPLINK
-        }
-
-        BaseNavigationDeepLink.PROTECT_ROUTE -> {
-            BaseNavigationDeepLink.PROTECT_MAIN_DEEPLINK
-        }
-
-        BaseNavigationDeepLink.COMPRESS_ROUTE -> {
-            BaseNavigationDeepLink.COMPRESS_MAIN_DEEPLINK
-        }
-
-        BaseNavigationDeepLink.ALL_TOOLS_ROUTE -> {
-            BaseNavigationDeepLink.ALL_TOOLS_MAIN_DEEPLINK
-        }
-
-        // Result route
-        BaseNavigationDeepLink.SUCCESS_ROUTE -> {
-            BaseNavigationDeepLink.SUCCESS_DEEPLINK
-        }
-
-        BaseNavigationDeepLink.ERROR_ROUTE -> {
-            BaseNavigationDeepLink.ERROR_DEEPLINK
-        }
-
-        else -> {
-            BaseNavigationDeepLink.CUSTOM_MAIN_DEEPLINK
-        }
+        else -> Intent(Intent.ACTION_VIEW, REGISTER_MAIN_DEEPLINK.toUri())
     }
 
     private fun getNavGraph(title: String) = when (title) {
@@ -109,6 +67,10 @@ open class BaseFragment : Fragment() {
         // Registration route
         BaseNavigationDeepLink.ONBOARDING_ROUTE -> {
             R.navigation.onboarding_nav_graph
+        }
+
+        BaseNavigationDeepLink.WALKTHROUGH_ROUTE -> {
+            R.navigation.walkthrough_nav_graph
         }
 
         BaseNavigationDeepLink.FORGOT_PASSWORD_ROUTE -> {
@@ -178,8 +140,8 @@ open class BaseFragment : Fragment() {
     }
 
     fun navigateByDeepLink(title: String) {
-        val deepLink = getDeepLink(title).toUri()
-        requireActivity().startActivity(Intent(Intent.ACTION_VIEW, deepLink))
+        val deepLink = getDeepLink(title)
+        requireActivity().startActivity(deepLink)
     }
 
     fun navigateByRouteTitle(title: String) {

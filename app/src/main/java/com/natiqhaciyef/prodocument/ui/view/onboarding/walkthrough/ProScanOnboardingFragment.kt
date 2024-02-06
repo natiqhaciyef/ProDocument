@@ -5,11 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import com.natiqhaciyef.prodocument.R
+import androidx.lifecycle.lifecycleScope
 import com.natiqhaciyef.prodocument.databinding.FragmentProScanOnboardingBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.WALKTHROUGH_ROUTE
+import com.natiqhaciyef.prodocument.ui.store.AppStorePref
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ProScanOnboardingFragment : BaseFragment() {
@@ -26,12 +28,13 @@ class ProScanOnboardingFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModel.onboardingAction { route ->
-//            if()
-//            navigateByActivityTitle(route, true)
-//            else
-            navigateByActivityTitle(WALKTHROUGH_ROUTE, true)
+            lifecycleScope.launch {
+//                if (dataStore.readBoolean(requireContext()))
+//                    navigateByActivityTitle(route, true)
+//                else
+                    navigateByRouteTitle(WALKTHROUGH_ROUTE)
+            }
         }
     }
 }
