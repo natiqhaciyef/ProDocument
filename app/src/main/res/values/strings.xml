@@ -6,13 +6,26 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="proscan">ProScan</string>
 
-    <!-- onboarding & walkthrough -->
+    <!-- Buttons -->
+    <string name="skip">Skip</string>
+    <string name="next">Next</string>
+
+    <!-- Onboarding & Walkthrough -->
     <string name="onboarding_title_1">Scan all your documents quickly and easily</string>
     <string name="onboarding_title_2">You can also edit and customize scan results</string>
     <string name="onboarding_description_1">The easiest way of document scanning as a professional way</string>
     <string name="onboarding_description_2">Easily customize your scan results by editing and customizing them to fit your preferences</string>
     <string name="onboarding_title_3">Organize your documents with ProScan now!</string>
     <string name="onboarding_description_3">Boost your document organization with ProScan! Simplify and tidy up your files effortlessly for enhanced efficiency.</string>
-    <string name="skip">Skip</string>
-    <string name="next">Next</string>
+
+    <!-- Complete your profile -->
+    <string name="complete_your_profile_title">Complete your profile 📋</string>
+    <string name="complete_your_profile_description">Don\'t worry, only you can see your personal data. No one else will be able to see it.</string>
+    <string name="full_name">Full name</string>
+    <string name="phone_number">Phone number</string>
+    <string name="phone_number_example">+994 00 000 00 00</string>
+    <string name="gender">Gender</string>
+    <string name="date_of_birth">Date of birth</string>
+    <string name="date_of_birth_example">MM/DD/YYYY</string>
+    <string name="select">Select</string>
 </resources>

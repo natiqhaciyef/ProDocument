@@ -50,6 +50,7 @@
     <color name="warning">#FACC15</color>
     <color name="error">#F75555</color>
     <color name="disabled">#D8D8D8</color>
+    <color name="disabled_button">#3c53cc</color>
 
     <!-- Dark colors -->
     <color name="dark_1">#181A20</color>

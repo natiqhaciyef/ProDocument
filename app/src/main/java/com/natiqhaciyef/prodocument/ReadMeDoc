@@ -1,12 +1,23 @@
+// Head
 H1 - 48px ->
 H2 - 40px ->
 H3 - 32px -> 28sp
 H4 - 24px ->
-H5 - 20px ->
-H6/;gdsa`B1 - 18px -> 16sp
-B2 - 16px -> 14sp
+H5 - 20px -> 18sp
+H6 - 18px -> 18sp/16sp
+
+// Body
+B1 - 18px -> 18sp/16sp
+B2 - 16px -> 16sp
 B3 - 14px ->
 B4 - 12px ->
 B5 - 10px ->
 
+// Dp - Px
+ldpi (0.75x)	@ 100.00dp	= 75.00px
+mdpi (1x)	    @ 100.00dp	= 100.00px
+hdpi (1.5x)	    @ 100.00dp	= 150.00px
+xhdpi (2x)	    @ 100.00dp	= 200.00px
+xxhdpi (3x)	    @ 100.00dp	= 300.00px
+xxxhdpi (4x)	@ 100.00dp	= 400.00px
 
