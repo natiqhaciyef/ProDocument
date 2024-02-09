@@ -109,7 +109,8 @@
             android:hint="@string/full_name"
             android:inputType="text"
             android:paddingVertical="10dp"
-            android:textColor="@color/grayscale_500"
+            android:textColor="@color/grayscale_900"
+            android:textColorHint="@color/grayscale_500"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -141,7 +142,8 @@
             android:hint="@string/phone_number_example"
             android:inputType="phone"
             android:paddingVertical="10dp"
-            android:textColor="@color/grayscale_500"
+            android:textColor="@color/grayscale_900"
+            android:textColorHint="@color/grayscale_500"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -163,16 +165,20 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/completeProfileGenderDropDownMenu"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:paddingStart="-12dp"
             app:hintTextColor="@color/grayscale_500"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/completeProfileGenderTitle">
 
-            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            <AutoCompleteTextView
                 android:id="@+id/completeProfileGenderDropDownItem"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -180,13 +186,13 @@
                 android:drawableEnd="@drawable/down_arrow_icon"
                 android:fontFamily="@font/urbanist_bold"
                 android:gravity="center_vertical"
-                android:hint="@string/gender"
                 android:inputType="none"
-                android:paddingVertical="8dp"
+                android:paddingVertical="6dp"
                 android:paddingEnd="10dp"
                 android:textColor="@color/grayscale_900"
                 android:textColorHint="@color/grayscale_500"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                tools:ignore="TouchTargetSizeCheck,TextContrastCheck,DuplicateClickableBoundsCheck,DuplicateClickableBoundsCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -204,7 +210,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/completeProfileGenderDropDownMenu" />
 
-        <EditText
+        <TextView
             android:id="@+id/completeProfileDOBInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -214,14 +220,35 @@
             android:drawableEnd="@drawable/calendar_icon"
             android:fontFamily="@font/urbanist_bold"
             android:gravity="center_vertical"
-            android:inputType="text"
+            android:hint="@string/date_of_birth_example"
             android:paddingVertical="8dp"
-            android:text="@string/date_of_birth_example"
-            android:textColor="@color/grayscale_500"
+            android:textColor="@color/grayscale_900"
+            android:textColorHint="@color/grayscale_500"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/completeProfileDOBTitle" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/continueButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/custom_button_background"
+            android:backgroundTint="@color/primary_900"
+            android:enabled="false"
+            android:fontFamily="@font/urbanist_bold"
+            android:text="@string/continue_"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/completeProfileDOBInput" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

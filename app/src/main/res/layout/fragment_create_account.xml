@@ -1,10 +1,233 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.view.registration.create_account.CreateAccountFragment">
 
 
+    <ImageView
+        android:id="@+id/goBackIcon"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="26dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/back_arrow_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/createAccountTopBar"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:src="@drawable/create_profile_top_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/goBackIcon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/goBackIcon" />
+
+    <TextView
+        android:id="@+id/createAccountTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="36dp"
+        android:fontFamily="@font/urbanist_bold"
+        android:text="@string/create_profile_title"
+        android:textColor="@color/grayscale_900"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/createAccountTopBar" />
+
+    <TextView
+        android:id="@+id/createAccountDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/urbanist_regular"
+        android:lineSpacingExtra="5dp"
+        android:text="@string/create_profile_description"
+        android:textColor="@color/grayscale_900"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/createAccountTitle" />
+
+    <TextView
+        android:id="@+id/createAccountEmailTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/urbanist_bold"
+        android:text="@string/email"
+        android:textColor="@color/grayscale_900"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/createAccountDescription" />
+
+    <EditText
+        android:id="@+id/createAccountEmailInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/custom_registration_input_background"
+        android:fontFamily="@font/urbanist_bold"
+        android:gravity="center_vertical"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:paddingVertical="10dp"
+        android:textColor="@color/grayscale_500"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/createAccountEmailTitle" />
+
+    <TextView
+        android:id="@+id/createAccountPasswordTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/urbanist_bold"
+        android:text="@string/password"
+        android:textColor="@color/grayscale_900"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/createAccountEmailInput" />
+
+    <EditText
+        android:id="@+id/createAccountPasswordInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/custom_registration_input_background"
+        android:fontFamily="@font/urbanist_bold"
+        android:gravity="center_vertical"
+        android:hint="@string/password"
+        android:inputType="phone"
+        android:paddingVertical="10dp"
+        android:textColor="@color/grayscale_500"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/createAccountPasswordTitle" />
+
+
+    <TextView
+        android:id="@+id/createAccountConfirmPasswordTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/urbanist_bold"
+        android:text="@string/confirm_password"
+        android:textColor="@color/grayscale_900"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/createAccountPasswordInput" />
+
+    <EditText
+        android:id="@+id/createAccountConfirmPasswordInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/custom_registration_input_background"
+        android:fontFamily="@font/urbanist_bold"
+        android:gravity="center_vertical"
+        android:hint="@string/confirm_password"
+        android:inputType="textPassword"
+        android:paddingVertical="10dp"
+        android:textColor="@color/grayscale_500"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/createAccountConfirmPasswordTitle" />
+
+    <ImageView
+        android:id="@+id/passwordVisibilityIcon"
+        android:layout_width="24dp"
+        android:layout_height="26dp"
+        android:src="@drawable/visibility_off_icon"
+        app:layout_constraintBottom_toBottomOf="@id/createAccountPasswordInput"
+        app:layout_constraintEnd_toEndOf="@id/createAccountPasswordInput"
+        app:layout_constraintTop_toTopOf="@id/createAccountPasswordInput"
+        app:layout_constraintVertical_bias="0.4"
+        app:tint="@color/primary_900" />
+
+    <ImageView
+        android:id="@+id/confirmPasswordVisibilityIcon"
+        android:layout_width="24dp"
+        android:layout_height="26dp"
+        android:src="@drawable/visibility_off_icon"
+        app:layout_constraintBottom_toBottomOf="@id/createAccountConfirmPasswordInput"
+        app:layout_constraintEnd_toEndOf="@id/createAccountConfirmPasswordInput"
+        app:layout_constraintTop_toTopOf="@id/createAccountConfirmPasswordInput"
+        app:layout_constraintVertical_bias="0.4"
+        app:tint="@color/primary_900" />
+
+    <LinearLayout
+        android:id="@+id/rememberMeLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:paddingVertical="4dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginHorizontal="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/createAccountConfirmPasswordInput"
+        >
+        
+        <ImageView
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/not_selected_square_icon"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/remember_me"
+            android:textColor="@color/grayscale_900"
+            android:textSize="16sp"
+            android:fontFamily="@font/urbanist_semibold"
+            />
+
+    </LinearLayout>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/finishButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/custom_button_background"
+        android:backgroundTint="@color/primary_900"
+        android:fontFamily="@font/urbanist_bold"
+        android:text="@string/finish"
+        android:enabled="false"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+

@@ -9,6 +9,10 @@
     <!-- Buttons -->
     <string name="skip">Skip</string>
     <string name="next">Next</string>
+    <string name="select">Select</string>
+    <string name="continue_">Continue</string>
+    <string name="finish">Finish</string>
+
 
     <!-- Onboarding & Walkthrough -->
     <string name="onboarding_title_1">Scan all your documents quickly and easily</string>
@@ -23,9 +27,27 @@
     <string name="complete_your_profile_description">Don\'t worry, only you can see your personal data. No one else will be able to see it.</string>
     <string name="full_name">Full name</string>
     <string name="phone_number">Phone number</string>
-    <string name="phone_number_example">+994 00 000 00 00</string>
+    <string name="phone_number_example">055 000 00 00</string>
     <string name="gender">Gender</string>
     <string name="date_of_birth">Date of birth</string>
-    <string name="date_of_birth_example">MM/DD/YYYY</string>
-    <string name="select">Select</string>
+    <string name="not_selected">Not selected</string>
+    <string name="date_of_birth_example">DD/MM/YYYY</string>
+
+
+    <!-- Create account -->
+    <string name="create_profile_title">Create an account 🔐</string>
+    <string name="create_profile_description"><![CDATA[Enter your email & password. If you forget it, then you have to do forgot password.]]></string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="remember_me">Remember me</string>
+
+    <!-- Lets sign in -->
+    <string name="lets_sign_in_title">Let’s you in</string>
+    <string name="continue_with_platform_title">Continue with platform</string>
+    <string name="sign_in_with_password">Sign in with password</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="sign_up">Sign up</string>
+
+
 </resources>

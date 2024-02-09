@@ -30,9 +30,9 @@ class ProScanOnboardingFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.onboardingAction { route ->
             lifecycleScope.launch {
-//                if (dataStore.readBoolean(requireContext()))
-//                    navigateByActivityTitle(route, true)
-//                else
+                if (dataStore.readBoolean(requireContext()))
+                    navigateByActivityTitle(route, true)
+                else
                     navigateByRouteTitle(WALKTHROUGH_ROUTE)
             }
         }

@@ -30,4 +30,5 @@ object ErrorMessages {
     const val WRONG_FILLED_EMAIL_INPUT_REASON = "Email is not correct filled"
 
     const val ERROR = "Error"
+    const val DATE_OVER_FLOW_ERROR = "Selected date is not correct!"
 }
