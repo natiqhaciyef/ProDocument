@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.view.registration.results
+package com.natiqhaciyef.prodocument.ui.view.results
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MaskedEditText">
+        <attr name="mask" format="string" />
+        <attr name="placeholder" format="string" />
+    </declare-styleable>
+
+    <style name="EnabledButton" parent="Widget.AppCompat.Button">
+        <item name="android:backgroundTint">@drawable/button_enable_selector</item>
+    </style>
+
+    <style name="RoundedCornerImage">
+        <item name="cornerSize">50%</item>
+    </style>
+
+
+    <style name="CustomOutlinedBoxDenseExposedDropdownMenu" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+        <!-- Customize your attributes here -->
+        <item name="paddingStart">-14dp</item>
+        <!-- Add more attributes as needed -->
+    </style>
+</resources>

@@ -1,9 +1,13 @@
 package com.natiqhaciyef.prodocument.common.mapper
 
+import com.google.gson.Gson
 import com.natiqhaciyef.prodocument.common.helpers.hashPassword
 import com.natiqhaciyef.prodocument.data.model.UserIOModel
+import com.natiqhaciyef.prodocument.data.network.response.UserResponse
+import com.natiqhaciyef.prodocument.domain.model.UIResult
 import com.natiqhaciyef.prodocument.domain.model.mapped.MappedUserModel
 import com.natiqhaciyef.prodocument.domain.model.mapped.MappedUserWithoutPasswordModel
+import com.natiqhaciyef.prodocument.domain.repository.UserRepository
 
 // not hashable
 fun UserIOModel.toMappedUserModel(hashed: Boolean): MappedUserModel {
@@ -61,4 +65,40 @@ fun MappedUserModel.toUserIOPassword(hashed: Boolean): UserIOModel {
             imageUrl = this.imageUrl,
             password = hashPassword(this.password),
         )
+}
+
+fun UserResponse.toUIResult(): UIResult<MappedUserModel>? {
+    return if (this.data.isNotEmpty()) {
+        val mappedUser =
+            Gson().fromJson(this.data, UserIOModel::class.java).toMappedUserModel(hashed = true)
+        UIResult(
+            id = this.id,
+            data = mappedUser,
+            publishDate = this.publishDate
+        )
+    } else {
+        null
+    }
+}
+
+fun UIResult<MappedUserModel>.toResponse(): UserResponse? {
+    val parsedUser = Gson().toJson(this.data, UserIOModel::class.java)
+
+    return if (
+        this.data.email.isNotEmpty()
+        && this.data.name.isNotEmpty()
+        && this.data.password.isNotEmpty()
+        && this.data.phoneNumber.isNotEmpty()
+        && this.data.imageUrl.isNotEmpty()
+        && this.data.birthDate.isNotEmpty()
+        && this.data.gender.isNotEmpty()
+    ){
+        UserResponse(
+            id = this.id,
+            data = parsedUser,
+            publishDate = this.publishDate
+        )
+    }else{
+        null
+    }
 }

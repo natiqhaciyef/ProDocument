@@ -61,10 +61,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/completeProfileTitle" />
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/completeProfileAccountImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            app:shapeAppearanceOverlay="@style/RoundedCornerImage"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_marginTop="24dp"
             android:src="@drawable/profile_account_icon"
             app:layout_constraintEnd_toEndOf="parent"
@@ -140,6 +141,7 @@
             android:fontFamily="@font/urbanist_bold"
             android:gravity="center_vertical"
             android:hint="@string/phone_number_example"
+            android:imeOptions="actionDone"
             android:inputType="phone"
             android:paddingVertical="10dp"
             android:textColor="@color/grayscale_900"
@@ -165,7 +167,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/completeProfileGenderDropDownMenu"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -236,9 +238,9 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="28dp"
+            style="@style/EnabledButton"
             android:layout_marginBottom="24dp"
             android:background="@drawable/custom_button_background"
-            android:backgroundTint="@color/primary_900"
             android:enabled="false"
             android:fontFamily="@font/urbanist_bold"
             android:text="@string/continue_"

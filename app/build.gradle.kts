@@ -42,6 +42,7 @@ android {
     buildFeatures {
         buildConfig = true
         viewBinding = true
+        dataBinding = true
     }
 }
 
@@ -61,7 +62,7 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
-    // Epoxy UI
+    // Epoxy UI && Masked text
     implementation("com.airbnb.android:epoxy:$epoxyVersion")
     annotationProcessor("com.airbnb.android:epoxy-processor:$epoxyVersion")
 
