@@ -41,7 +41,7 @@
     <include app:graph="@navigation/forgot_password_nav_graph" />
     <fragment
         android:id="@+id/resultFragment"
-        android:name="com.natiqhaciyef.prodocument.ui.view.registration.results.ResultFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.results.ResultFragment"
         android:label="fragment_result"
         tools:layout="@layout/fragment_result" />
     <fragment

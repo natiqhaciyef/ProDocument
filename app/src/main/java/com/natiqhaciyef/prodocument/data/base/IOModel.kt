@@ -4,6 +4,4 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-open class IOModel : Parcelable {
-
-}
+open class IOModel : Parcelable

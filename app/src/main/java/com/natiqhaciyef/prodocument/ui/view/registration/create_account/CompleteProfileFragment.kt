@@ -2,15 +2,19 @@ package com.natiqhaciyef.prodocument.ui.view.registration.create_account
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.viewModels
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.common.objects.ErrorMessages
 import com.natiqhaciyef.prodocument.databinding.FragmentCompleteProfileBinding
+import com.natiqhaciyef.prodocument.domain.model.mapped.MappedUserModel
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -21,6 +25,7 @@ import java.util.Locale
 @AndroidEntryPoint
 class CompleteProfileFragment : BaseFragment() {
     private lateinit var binding: FragmentCompleteProfileBinding
+    private val viewModel: CompleteProfileViewModel by viewModels()
     private var genderSelection: String = "Not-selected"
     private var currentSelectedTime: Long = 0L
     private val genderList = listOf("Male", "Female")
@@ -29,7 +34,8 @@ class CompleteProfileFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentCompleteProfileBinding.inflate(inflater, container, false)
+        binding =
+            FragmentCompleteProfileBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -44,12 +50,32 @@ class CompleteProfileFragment : BaseFragment() {
             // validations
             fullNameValidation()
             phoneValidation()
+            genderValidation()
             binding.continueButton.setOnClickListener { continueButtonClickAction() }
         }
     }
 
     private fun continueButtonClickAction() {
-        Toast.makeText(requireContext(), "Success on click", Toast.LENGTH_SHORT).show()
+        binding.apply {
+            viewModel.collectDataFromCompleteProfileScreen(
+                data = MappedUserModel(
+                    name = completeProfileFullNameInput.text.toString(),
+                    email = "",
+                    phoneNumber = completeProfilePhoneNumberInput.text.toString(),
+                    gender = genderSelection,
+                    birthDate = completeProfileDOBInput.text.toString(),
+                    imageUrl = "not empty for now",
+                    password = ""
+                ),
+                onSuccess = {
+                    navigate(R.id.createAccountFragment)
+                },
+                onFail = {
+                    Toast.makeText(requireContext(), "${it?.localizedMessage}", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            )
+        }
     }
 
     private fun genderDropDownConfig() {
@@ -107,7 +133,7 @@ class CompleteProfileFragment : BaseFragment() {
             completeProfileFullNameInput.doOnTextChanged { text, start, before, count ->
                 continueButton.isEnabled = checkFullNameAcceptanceCondition(text)
                         && checkPhoneAcceptanceCondition(completeProfilePhoneNumberInput.text)
-                        && checkGenderAcceptanceCondition()
+                        && checkGenderAcceptanceCondition(completeProfileGenderDropDownItem.text)
                         && checkDateAcceptanceCondition()
             }
         }
@@ -115,11 +141,46 @@ class CompleteProfileFragment : BaseFragment() {
 
     private fun phoneValidation() {
         binding.apply {
-            completeProfilePhoneNumberInput.doOnTextChanged { text, start, before, count ->
-                continueButton.isEnabled = checkPhoneAcceptanceCondition(text)
-                        && checkFullNameAcceptanceCondition(completeProfileFullNameInput.text)
-                        && checkGenderAcceptanceCondition()
-                        && checkDateAcceptanceCondition()
+            completeProfilePhoneNumberInput.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                }
+
+                override fun onTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    continueButton.isEnabled = checkPhoneAcceptanceCondition(text)
+                            && checkFullNameAcceptanceCondition(completeProfileFullNameInput.text)
+                            && checkGenderAcceptanceCondition(completeProfileGenderDropDownItem.text)
+                            && checkDateAcceptanceCondition()
+                }
+
+                override fun afterTextChanged(text: Editable?) {
+                    text?.let {
+                        val formattedNumber = viewModel.formatPhoneNumber(completeProfilePhoneNumberInput.editableText.toString())
+                        if (formattedNumber != it.toString()) {
+                            completeProfilePhoneNumberInput.removeTextChangedListener(this)
+
+                            // Prevent IndexOutOfBoundsException
+                            completeProfilePhoneNumberInput.setText(formattedNumber)
+                            completeProfilePhoneNumberInput.setSelection(formattedNumber.length)
+
+                            completeProfilePhoneNumberInput.addTextChangedListener(this)
+                        }
+                    }
+                }
+            })
+        }
+    }
+
+    private fun genderValidation() {
+        binding.apply {
+            completeProfileGenderDropDownItem.setOnItemClickListener { adapterView, _, p, _ ->
+                genderSelection = adapterView.getItemAtPosition(p).toString()
+
+                continueButton.isEnabled =
+                    checkPhoneAcceptanceCondition(completeProfilePhoneNumberInput.text)
+                            && checkFullNameAcceptanceCondition(completeProfileFullNameInput.text)
+                            && checkGenderAcceptanceCondition(genderSelection)
+                            && checkDateAcceptanceCondition()
             }
         }
     }
@@ -127,8 +188,8 @@ class CompleteProfileFragment : BaseFragment() {
     private fun checkDateAcceptanceCondition() =
         currentSelectedTime < Calendar.getInstance().timeInMillis
 
-    private fun checkGenderAcceptanceCondition() =
-        genderSelection != "Not-selected"
+    private fun checkGenderAcceptanceCondition(text: CharSequence?) =
+        !text.isNullOrEmpty() && text != "Not-selected"
 
     private fun checkPhoneAcceptanceCondition(text: CharSequence?) =
         !text.isNullOrEmpty() && text.length == PHONE_NUMBER_MIN_LENGTH
@@ -139,6 +200,6 @@ class CompleteProfileFragment : BaseFragment() {
 
     companion object {
         private const val FULL_NAME_MIN_LENGTH = 10
-        private const val PHONE_NUMBER_MIN_LENGTH = 10
+        private const val PHONE_NUMBER_MIN_LENGTH = 13
     }
 }
