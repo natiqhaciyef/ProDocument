@@ -64,7 +64,42 @@ class CompleteProfileViewModel @Inject constructor() : BaseViewModel() {
                 }
 
                 onSuccess()
-            }else{
+            } else {
+                onFail(Exception(ErrorMessages.EMPTY_FIELD))
+            }
+        }
+    }
+
+    fun collectDataFromCreateAccountScreen(
+        data: MappedUserModel,
+        onSuccess: () -> Unit = { },
+        onFail: (Exception?) -> Unit = {}
+    ) {
+        viewModelScope.launch {
+            if (
+                data.email.isNotEmpty()
+                && data.email != "null"
+                && data.password.isNotEmpty()
+                && data.password != "null"
+                && data.name.isNotEmpty()
+                && data.phoneNumber.isNotEmpty()
+                && data.imageUrl.isNotEmpty()
+                && data.imageUrl != "null"
+                && data.birthDate.isNotEmpty()
+                && data.gender.isNotEmpty()
+            ) {
+                _state.value?.let {
+                    it.email = data.email
+                    it.password = data.password
+                    it.name = data.name
+                    it.phoneNumber = data.phoneNumber
+                    it.imageUrl = data.imageUrl
+                    it.birthDate = data.birthDate
+                    it.gender = data.gender
+                }
+
+                onSuccess()
+            } else {
                 onFail(Exception(ErrorMessages.EMPTY_FIELD))
             }
         }

@@ -63,14 +63,15 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/completeProfileAccountImage"
-            app:shapeAppearanceOverlay="@style/RoundedCornerImage"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_marginTop="24dp"
+            android:scaleType="centerCrop"
             android:src="@drawable/profile_account_icon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/completeProfileDescription" />
+            app:layout_constraintTop_toBottomOf="@id/completeProfileDescription"
+            app:shapeAppearanceOverlay="@style/RoundedCornerImage" />
 
         <ImageView
             android:id="@+id/completeProfileAccountImageEditIcon"
@@ -174,7 +175,7 @@
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="6dp"
             android:gravity="center"
-            android:paddingStart="-12dp"
+            android:paddingStart="-14dp"
             app:hintTextColor="@color/grayscale_500"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -234,11 +235,11 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/continueButton"
+            style="@style/EnabledButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="28dp"
-            style="@style/EnabledButton"
             android:layout_marginBottom="24dp"
             android:background="@drawable/custom_button_background"
             android:enabled="false"

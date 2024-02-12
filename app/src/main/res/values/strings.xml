@@ -49,5 +49,8 @@
     <string name="don_t_have_an_account">Don\'t have an account?</string>
     <string name="sign_up">Sign up</string>
 
+    <!-- Result -->
+    <string name="sign_up_successful_result">Sign Up Successful!</string>
+    <string name="your_account_has_been_created">Your account has been created</string>
 
 </resources>
