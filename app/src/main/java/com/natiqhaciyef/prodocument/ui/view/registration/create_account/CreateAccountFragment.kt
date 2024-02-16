@@ -1,9 +1,9 @@
 package com.natiqhaciyef.prodocument.ui.view.registration.create_account
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,15 +11,16 @@ import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import com.natiqhaciyef.prodocument.R
+import com.natiqhaciyef.prodocument.databinding.AlertDialogResultViewBinding
 import com.natiqhaciyef.prodocument.databinding.FragmentCreateAccountBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
-import com.natiqhaciyef.prodocument.ui.util.emailRegex
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class CreateAccountFragment : BaseFragment() {
     private lateinit var binding: FragmentCreateAccountBinding
-    private val viewModel: CompleteProfileViewModel by viewModels()
+    private val createAccountViewModel: CreateAccountViewModel by viewModels()
+    private val completeProfileViewModel: CompleteProfileViewModel by viewModels()
     private var isPasswordVisible = false
     private var isConfirmPasswordVisible = false
 
@@ -39,19 +40,26 @@ class CreateAccountFragment : BaseFragment() {
             emailValidation()
             passwordValidation()
 
+            goBackIcon.setOnClickListener { navigateBack() }
             finishButton.setOnClickListener { finishButtonClickAction() }
         }
     }
 
+
     private fun finishButtonClickAction() {
         binding.apply {
-            viewModel.state.observe(viewLifecycleOwner) {
-                val email = createAccountEmailInput.text.toString()
-                val password = createAccountPasswordInput.text.toString()
-                viewModel.collectDataFromCreateAccountScreen(
-                    data = it.copy(email = email, password = password),
+            val email = createAccountEmailInput.text.toString()
+            val password = createAccountPasswordInput.text.toString()
+            completeProfileViewModel.userState.observe(viewLifecycleOwner) { baseUiState ->
+                baseUiState?.email = email
+                baseUiState?.password = password
+
+                createAccountViewModel.clickButtonAction(
+                    mappedUserModel = baseUiState,
                     onSuccess = {
-                        Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT).show()
+                        createAccountViewModel.saveToDatabase(baseUiState) {
+                            tokenObserving()
+                        }
                     },
                     onFail = { exception ->
                         Toast.makeText(
@@ -64,6 +72,33 @@ class CreateAccountFragment : BaseFragment() {
             }
         }
     }
+
+    private fun tokenObserving() {
+        createAccountViewModel.localResultState.observe(viewLifecycleOwner) { localResult ->
+            if (localResult.obj != null && localResult.isSuccess) {
+                // token validation
+                createResultAlertDialog()
+            } else {
+                // something went wrong
+            }
+        }
+    }
+
+    private fun createResultAlertDialog() {
+        val binding = AlertDialogResultViewBinding.inflate(layoutInflater)
+        val resultDialog = AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
+            .setView(binding.root)
+            .setCancelable(true)
+            .create()
+
+        binding.resultButton.setOnClickListener {
+            resultDialog.dismiss()
+            navigate(R.id.loginFragment)
+        }
+
+        resultDialog.show()
+    }
+
 
     private fun passwordVisibility() {
         binding.apply {

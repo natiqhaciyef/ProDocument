@@ -9,8 +9,22 @@ import kotlinx.parcelize.Parcelize
 data class UserResponse(
     @SerializedName("id")
     override var id: Int,
-    @SerializedName("user")
-    override var data: String,      // data = UserIOModel
+    @SerializedName("full_name")
+    var fullName: String,
+    @SerializedName("phone_number")
+    var phoneNumber: String,
+    @SerializedName("gender")
+    var gender: String,
+    @SerializedName("date_of_birth")
+    var dateOfBirth: String,
+    @SerializedName("image_url")
+    var imageUrl: String,
+    @SerializedName("email")
+    var email: String,
+    @SerializedName("password")
+    var password: String,
     @SerializedName("publish_date")
     override var publishDate: String
 ) : IOModel(), BaseNetworkModel
+
+// data = split as a parameters of UserModel

@@ -1,11 +1,11 @@
 package com.natiqhaciyef.prodocument.data.model
 
-import android.os.Parcelable
+import androidx.room.Entity
 import com.natiqhaciyef.prodocument.data.base.IOModel
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-class UserIOModel(
+class UserModel(
     var name: String,
     var email: String,
     var phoneNumber: String,

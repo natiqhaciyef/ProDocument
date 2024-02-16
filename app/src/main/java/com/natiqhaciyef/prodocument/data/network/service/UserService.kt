@@ -8,10 +8,10 @@ import retrofit2.http.POST
 
 interface UserService {
 
-    @POST()
+    @POST("")
     @FormUrlEncoded
     suspend fun createAccount(
-        @Field("fullname") fullname: String,
+        @Field("fullName") fullName: String,
         @Field("phone_number") phoneNumber: String,
         @Field("gender") gender: String,
         @Field("dob") dateOfBirth: String,
@@ -20,11 +20,9 @@ interface UserService {
         @Field("password") password: String,
     ): TokenResponse?
 
-    @POST()
+    @POST("")
     @FormUrlEncoded
     suspend fun getUser(
         @Field("token") token: String,
-        @Field("email") email: String,
-        @Field("password") password: String,
     ): UserResponse?
 }

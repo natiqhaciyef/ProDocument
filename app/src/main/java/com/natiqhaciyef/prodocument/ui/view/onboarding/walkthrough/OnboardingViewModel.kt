@@ -1,20 +1,28 @@
 package com.natiqhaciyef.prodocument.ui.view.onboarding.walkthrough
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseAuth
+import com.natiqhaciyef.prodocument.common.clazz.Status
+import com.natiqhaciyef.prodocument.domain.model.UIResult
+import com.natiqhaciyef.prodocument.domain.model.mapped.MappedUserModel
+import com.natiqhaciyef.prodocument.domain.usecase.user.GetUserByTokenRemoteUseCase
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.REGISTER_ROUTE
+import com.natiqhaciyef.prodocument.ui.base.BaseUIState
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class OnboardingViewModel @Inject constructor(
-
+    private val getUserByTokenRemoteUseCase: GetUserByTokenRemoteUseCase
 ) : BaseViewModel() {
-    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val _userState = MutableLiveData(BaseUIState<UIResult<MappedUserModel>>())
+    val userState: MutableLiveData<BaseUIState<UIResult<MappedUserModel>>>
+        get() = _userState
 
     fun onboardingAction(
         onAction: (String) -> Unit = {},
@@ -26,10 +34,51 @@ class OnboardingViewModel @Inject constructor(
     }
 
     fun actionForOnBoarding(onAction: (String) -> Unit) {
-        if (auth.currentUser != null) {
+        if (userState.value != null && userState.value?.obj != null) {
             onAction(HOME_ROUTE)
         } else {
             onAction(REGISTER_ROUTE)
+        }
+    }
+
+    fun getUserByToken(token: String) {
+        viewModelScope.launch {
+            getUserByTokenRemoteUseCase.operate(token).collectLatest { result ->
+                when (result.status) {
+                    Status.LOADING -> {
+                        _userState.value?.apply {
+                            isLoading = true
+                            obj = null
+                            isSuccess = false
+                            failReason = null
+                            list = listOf()
+                            message = null
+                        }
+                    }
+
+                    Status.SUCCESS -> {
+                        _userState.value?.apply {
+                            isLoading = false
+                            obj = result.data
+                            isSuccess = true
+                            failReason = null
+                            list = listOf()
+                            message = null
+                        }
+                    }
+
+                    Status.ERROR -> {
+                        _userState.value?.apply {
+                            isLoading = false
+                            obj = null
+                            isSuccess = false
+                            failReason = result.exception
+                            list = listOf()
+                            message = result.message
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -5,19 +5,26 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.prodocument.common.objects.ErrorMessages
 import com.natiqhaciyef.prodocument.domain.model.mapped.MappedUserModel
+import com.natiqhaciyef.prodocument.ui.base.BaseUIState
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
 import com.natiqhaciyef.prodocument.ui.util.DefaultImplModels
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.util.logging.ErrorManager
 import javax.inject.Inject
 
+// zxing
 
 @HiltViewModel
 class CompleteProfileViewModel @Inject constructor() : BaseViewModel() {
-    private val _state = MutableLiveData(DefaultImplModels.mappedUserModel)
-    val state: LiveData<MappedUserModel>
-        get() = _state
+    private val _userState =
+        MutableLiveData(DefaultImplModels.mappedUserModel)
+    val userState: LiveData<MappedUserModel>
+        get() = _userState
+
+    private val _tokenState =
+        MutableLiveData(BaseUIState<String>())
+    val tokenState: LiveData<BaseUIState<String>>
+        get() = _tokenState
 
     fun formatPhoneNumber(input: String): String {
         val formattedStringBuilder = StringBuilder()
@@ -55,7 +62,7 @@ class CompleteProfileViewModel @Inject constructor() : BaseViewModel() {
                 && data.birthDate.isNotEmpty()
                 && data.gender.isNotEmpty()
             ) {
-                _state.value?.let {
+                _userState.value?.let {
                     it.name = data.name
                     it.phoneNumber = data.phoneNumber
                     it.imageUrl = data.imageUrl
@@ -70,38 +77,4 @@ class CompleteProfileViewModel @Inject constructor() : BaseViewModel() {
         }
     }
 
-    fun collectDataFromCreateAccountScreen(
-        data: MappedUserModel,
-        onSuccess: () -> Unit = { },
-        onFail: (Exception?) -> Unit = {}
-    ) {
-        viewModelScope.launch {
-            if (
-                data.email.isNotEmpty()
-                && data.email != "null"
-                && data.password.isNotEmpty()
-                && data.password != "null"
-                && data.name.isNotEmpty()
-                && data.phoneNumber.isNotEmpty()
-                && data.imageUrl.isNotEmpty()
-                && data.imageUrl != "null"
-                && data.birthDate.isNotEmpty()
-                && data.gender.isNotEmpty()
-            ) {
-                _state.value?.let {
-                    it.email = data.email
-                    it.password = data.password
-                    it.name = data.name
-                    it.phoneNumber = data.phoneNumber
-                    it.imageUrl = data.imageUrl
-                    it.birthDate = data.birthDate
-                    it.gender = data.gender
-                }
-
-                onSuccess()
-            } else {
-                onFail(Exception(ErrorMessages.EMPTY_FIELD))
-            }
-        }
-    }
 }

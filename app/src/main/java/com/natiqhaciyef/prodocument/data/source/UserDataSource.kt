@@ -1,26 +1,25 @@
 package com.natiqhaciyef.prodocument.data.source
 
-import com.natiqhaciyef.prodocument.data.model.UserIOModel
+import com.natiqhaciyef.prodocument.data.local.dao.UserDao
+import com.natiqhaciyef.prodocument.data.local.entity.UserEntity
+import com.natiqhaciyef.prodocument.data.model.UserModel
 import com.natiqhaciyef.prodocument.data.network.service.UserService
 
 class UserDataSource(
-    private val service: UserService
+    private val service: UserService,
+    private val dao: UserDao
 ) {
-
-    suspend fun getUser(
+    // network
+    suspend fun getUserFromNetwork(
         token: String,
-        email: String,
-        password: String,
     ) = service.getUser(
         token = token,
-        email = email,
-        password = password
     )
 
-    suspend fun createAccount(
-        userModel: UserIOModel
+    suspend fun createAccountFromNetwork(
+        userModel: UserModel
     ) = service.createAccount(
-        fullname = userModel.name,
+        fullName = userModel.name,
         phoneNumber = userModel.phoneNumber,
         gender = userModel.gender,
         dateOfBirth = userModel.birthDate,
@@ -28,5 +27,15 @@ class UserDataSource(
         email = userModel.email,
         password = userModel.password
     )
+
+
+    // local
+    suspend fun getUserFromLocal() = dao.getAllUser()
+
+    suspend fun insertToLocal(userEntity: UserEntity) = dao.insertUser(userEntity)
+
+    suspend fun removeFromLocal(userEntity: UserEntity) = dao.removeUser(userEntity)
+
+    suspend fun updateFromLocal(userEntity: UserEntity) = dao.updateUser(userEntity)
 
 }

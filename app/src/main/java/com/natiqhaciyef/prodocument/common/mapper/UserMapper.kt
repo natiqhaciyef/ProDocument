@@ -2,15 +2,15 @@ package com.natiqhaciyef.prodocument.common.mapper
 
 import com.google.gson.Gson
 import com.natiqhaciyef.prodocument.common.helpers.hashPassword
-import com.natiqhaciyef.prodocument.data.model.UserIOModel
+import com.natiqhaciyef.prodocument.data.local.entity.UserEntity
+import com.natiqhaciyef.prodocument.data.model.UserModel
 import com.natiqhaciyef.prodocument.data.network.response.UserResponse
 import com.natiqhaciyef.prodocument.domain.model.UIResult
 import com.natiqhaciyef.prodocument.domain.model.mapped.MappedUserModel
 import com.natiqhaciyef.prodocument.domain.model.mapped.MappedUserWithoutPasswordModel
-import com.natiqhaciyef.prodocument.domain.repository.UserRepository
 
 // not hashable
-fun UserIOModel.toMappedUserModel(hashed: Boolean): MappedUserModel {
+fun UserModel.toMappedUser(hashed: Boolean): MappedUserModel {
     return if (hashed) MappedUserModel(
         name = this.name,
         email = this.email,
@@ -32,7 +32,7 @@ fun UserIOModel.toMappedUserModel(hashed: Boolean): MappedUserModel {
         )
 }
 
-fun MappedUserModel.toMappedUserWithoutPasswordModel(): MappedUserWithoutPasswordModel {
+fun MappedUserModel.toMappedUserWithoutPassword(): MappedUserWithoutPasswordModel {
     return MappedUserWithoutPasswordModel(
         name = this.name,
         email = this.email,
@@ -44,9 +44,9 @@ fun MappedUserModel.toMappedUserWithoutPasswordModel(): MappedUserWithoutPasswor
 }
 
 // first time hashable
-fun MappedUserModel.toUserIOPassword(hashed: Boolean): UserIOModel {
+fun MappedUserModel.toUser(hashed: Boolean): UserModel {
     return if (hashed)
-        UserIOModel(
+        UserModel(
             name = this.name,
             email = this.email,
             phoneNumber = this.phoneNumber,
@@ -56,7 +56,7 @@ fun MappedUserModel.toUserIOPassword(hashed: Boolean): UserIOModel {
             password = this.password,
         )
     else
-        UserIOModel(
+        UserModel(
             name = this.name,
             email = this.email,
             phoneNumber = this.phoneNumber,
@@ -67,10 +67,28 @@ fun MappedUserModel.toUserIOPassword(hashed: Boolean): UserIOModel {
         )
 }
 
+
+// Network
 fun UserResponse.toUIResult(): UIResult<MappedUserModel>? {
-    return if (this.data.isNotEmpty()) {
-        val mappedUser =
-            Gson().fromJson(this.data, UserIOModel::class.java).toMappedUserModel(hashed = true)
+    return if (
+        this.email.isNotEmpty()
+        && this.fullName.isNotEmpty()
+        && this.password.isNotEmpty()
+        && this.phoneNumber.isNotEmpty()
+        && this.imageUrl.isNotEmpty()
+        && this.dateOfBirth.isNotEmpty()
+        && this.gender.isNotEmpty()
+    ) {
+        val mappedUser = MappedUserModel(
+            name = this.fullName,
+            email = this.email,
+            phoneNumber = this.phoneNumber,
+            gender = this.gender,
+            birthDate = this.dateOfBirth,
+            imageUrl = this.imageUrl,
+            password = this.password
+        )
+
         UIResult(
             id = this.id,
             data = mappedUser,
@@ -82,7 +100,6 @@ fun UserResponse.toUIResult(): UIResult<MappedUserModel>? {
 }
 
 fun UIResult<MappedUserModel>.toResponse(): UserResponse? {
-    val parsedUser = Gson().toJson(this.data, UserIOModel::class.java)
 
     return if (
         this.data.email.isNotEmpty()
@@ -92,13 +109,53 @@ fun UIResult<MappedUserModel>.toResponse(): UserResponse? {
         && this.data.imageUrl.isNotEmpty()
         && this.data.birthDate.isNotEmpty()
         && this.data.gender.isNotEmpty()
-    ){
+    ) {
         UserResponse(
             id = this.id,
-            data = parsedUser,
+            fullName = this.data.name,
+            phoneNumber = this.data.phoneNumber,
+            gender = this.data.gender,
+            dateOfBirth = this.data.birthDate,
+            imageUrl = this.data.imageUrl,
+            email = this.data.email,
+            password = this.data.password,
             publishDate = this.publishDate
         )
-    }else{
+    } else {
         null
     }
+}
+
+
+// Local db
+fun UserEntity.toUIResult(): UIResult<MappedUserModel> {
+    val mappedUser = MappedUserModel(
+        name = this.name,
+        email = this.email,
+        phoneNumber = this.phoneNumber,
+        gender = this.gender,
+        birthDate = this.birthDate,
+        imageUrl = this.imageUrl,
+        password = this.password
+    )
+
+    return UIResult(
+        id = this.id,
+        data = mappedUser,
+        publishDate = this.publishDate
+    )
+}
+
+fun UIResult<MappedUserModel>.toEntity(): UserEntity {
+    return UserEntity(
+        id = this.id,
+        name = this.data.name,
+        email = this.data.email,
+        phoneNumber = this.data.phoneNumber,
+        gender = this.data.gender,
+        birthDate = this.data.birthDate,
+        imageUrl = this.data.imageUrl,
+        password = this.data.password,
+        publishDate = this.publishDate
+    )
 }

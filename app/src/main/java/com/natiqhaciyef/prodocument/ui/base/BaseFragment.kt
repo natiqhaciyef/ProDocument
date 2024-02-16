@@ -126,6 +126,9 @@ open class BaseFragment : Fragment() {
         else -> 0
     }
 
+    fun navigateBack(){
+        findNavController().popBackStack()
+    }
 
     fun navigate(id: Int) {
         findNavController().navigate(id)

@@ -9,7 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import com.natiqhaciyef.prodocument.databinding.FragmentProScanOnboardingBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.WALKTHROUGH_ROUTE
-import com.natiqhaciyef.prodocument.ui.store.AppStorePref
+import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.TOKEN_KEY
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -28,12 +28,33 @@ class ProScanOnboardingFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.onboardingAction { route ->
-            lifecycleScope.launch {
-                if (dataStore.readBoolean(requireContext()))
-                    navigateByActivityTitle(route, true)
-                else
-                    navigateByRouteTitle(WALKTHROUGH_ROUTE)
+        // for initial state
+        observerLiveDataAndHandleAction()
+    }
+
+    private fun getTokenLocalStored() {
+        lifecycleScope.launch {
+            viewModel.apply {
+                val data = dataStore.readString(requireContext(), TOKEN_KEY)
+                getUserByToken(data)
+
+                observerLiveDataAndHandleAction()
+            }
+        }
+    }
+
+
+    private fun observerLiveDataAndHandleAction() {
+        viewModel.apply {
+            userState.observe(viewLifecycleOwner) { userState ->
+                onboardingAction { route ->
+                    lifecycleScope.launch {
+                        if (dataStore.readBoolean(requireContext()))
+                            navigateByActivityTitle(route, true)
+                        else
+                            navigateByRouteTitle(WALKTHROUGH_ROUTE)
+                    }
+                }
             }
         }
     }

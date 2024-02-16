@@ -14,6 +14,14 @@ import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.STR_KEY
 import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.PARCELABLE_KEY
 import kotlinx.coroutines.flow.first
 
+
+/**
+ * AppStorePref created for storing token, walkthrough screen visibility and other custom
+ * dataset. Simple and easy to use. By default this class initialized in BaseFragment
+ *
+ * @author Natig Hajiyev && ProScan Application
+ * */
+
 object AppStorePref {
     private val Context.ds: DataStore<Preferences> by preferencesDataStore("data_store")
 
@@ -29,11 +37,11 @@ object AppStorePref {
 
     suspend fun saveString(
         context: Context,
-        name: String,
+        data: String,
         key: Preferences.Key<String> = STR_KEY
     ) {
         context.ds.edit {
-            it[key] = name
+            it[key] = data
         }
     }
 
@@ -121,4 +129,6 @@ object AppStorePrefKeys {
     val PARCELABLE_KEY = stringPreferencesKey("PARCELABLE")
     val INT_KEY = intPreferencesKey("INTEGER")
     val BOOLEAN_KEY = booleanPreferencesKey("BOOLEAN")
+
+    val TOKEN_KEY = stringPreferencesKey("TOKEN_STORED")
 }

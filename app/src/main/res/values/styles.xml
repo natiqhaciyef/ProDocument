@@ -13,6 +13,13 @@
         <item name="cornerSize">50%</item>
     </style>
 
+    <style name="CheckboxTransparentStroke" parent="Theme.MaterialComponents.DayNight">
+        <item name="colorControlNormal">@color/transparent</item>
+    </style>
+
+    <style name="CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/custom_alert_dialog_background</item>
+    </style>
 
     <style name="CustomOutlinedBoxDenseExposedDropdownMenu" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
         <!-- Customize your attributes here -->

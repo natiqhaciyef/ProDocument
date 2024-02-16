@@ -1,15 +1,23 @@
 package com.natiqhaciyef.prodocument.domain.repository
 
-import com.natiqhaciyef.prodocument.data.model.UserIOModel
-import com.natiqhaciyef.prodocument.data.network.response.TokenResponse
-import com.natiqhaciyef.prodocument.data.network.response.UserResponse
+import com.natiqhaciyef.prodocument.data.local.entity.UserEntity
+import com.natiqhaciyef.prodocument.data.model.UserModel
+import com.natiqhaciyef.prodocument.domain.base.BaseRepository
 import com.natiqhaciyef.prodocument.domain.model.UIResult
 import com.natiqhaciyef.prodocument.domain.model.mapped.MappedUserModel
 
-interface UserRepository {
+interface UserRepository : BaseRepository{
 
-    suspend fun getUser(token: String, email: String, password: String): UIResult<MappedUserModel>?
+    suspend fun getUser(token: String): UIResult<MappedUserModel>?
 
-    suspend fun createAccount(user: UserIOModel): TokenResponse?
+    suspend fun createAccount(user: UserModel): String?
+
+    suspend fun getUserFromLocal(): List<UIResult<MappedUserModel>>?
+
+    suspend fun insertToLocal(userEntity: UserEntity)
+
+    suspend fun removeFromLocal(userEntity: UserEntity)
+
+    suspend fun updateFromLocal(userEntity: UserEntity)
 
 }
