@@ -14,12 +14,17 @@ sealed interface ResultExceptions {
 
     data class TokenCreationFailed(
         val msg: String = ErrorMessages.TOKEN_CREATION_FAILED_EXCEPTION,
-        val errorCode: Int = 4043
+        val errorCode: Int = 400
     ) : Exception(), ResultExceptions
 
     data class TokenRequestFailed(
         val msg: String = ErrorMessages.TOKEN_CREATION_FAILED_EXCEPTION,
-        val errorCode: Int = 5001
+        val errorCode: Int = 401
+    ) : Exception(), ResultExceptions
+
+    data class FieldsNotFound(
+        val msg: String = ErrorMessages.EMPTY_FIELD,
+        val errorCode: Int = 404
     ) : Exception(), ResultExceptions
 
 }

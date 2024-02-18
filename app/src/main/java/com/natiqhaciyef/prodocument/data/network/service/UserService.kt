@@ -1,5 +1,6 @@
 package com.natiqhaciyef.prodocument.data.network.service
 
+import com.natiqhaciyef.prodocument.data.network.response.CRUDResponse
 import com.natiqhaciyef.prodocument.data.network.response.TokenResponse
 import com.natiqhaciyef.prodocument.data.network.response.UserResponse
 import retrofit2.http.Field
@@ -25,4 +26,11 @@ interface UserService {
     suspend fun getUser(
         @Field("token") token: String,
     ): UserResponse?
+
+    @POST("")
+    @FormUrlEncoded
+    suspend fun signIn(
+        @Field("email") email: String,
+        @Field("password") password: String,
+    ): TokenResponse?
 }

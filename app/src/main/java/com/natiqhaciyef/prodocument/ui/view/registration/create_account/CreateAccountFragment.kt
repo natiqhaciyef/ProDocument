@@ -2,8 +2,6 @@ package com.natiqhaciyef.prodocument.ui.view.registration.create_account
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.text.method.HideReturnsTransformationMethod
-import android.text.method.PasswordTransformationMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,8 +19,7 @@ class CreateAccountFragment : BaseFragment() {
     private lateinit var binding: FragmentCreateAccountBinding
     private val createAccountViewModel: CreateAccountViewModel by viewModels()
     private val completeProfileViewModel: CompleteProfileViewModel by viewModels()
-    private var isPasswordVisible = false
-    private var isConfirmPasswordVisible = false
+    private var isRemembered: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,9 +31,8 @@ class CreateAccountFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        config()
         with(binding) {
-            passwordVisibility()
-            confirmPasswordVisibility()
             emailValidation()
             passwordValidation()
 
@@ -45,11 +41,23 @@ class CreateAccountFragment : BaseFragment() {
         }
     }
 
+    private fun config() {
+        binding.apply {
+            createAccountConfirmPasswordInput.setPasswordTitleText(R.string.confirm_password)
+            createAccountConfirmPasswordInput.setPasswordHintText(R.string.confirm_password)
+
+            createAccountPasswordInput.changeVisibility()
+            createAccountConfirmPasswordInput.changeVisibility()
+
+            rememberMeCheckBoxImage.onClickAction()
+        }
+    }
 
     private fun finishButtonClickAction() {
         binding.apply {
             val email = createAccountEmailInput.text.toString()
-            val password = createAccountPasswordInput.text.toString()
+            val password = createAccountPasswordInput.getPasswordText().toString()
+
             completeProfileViewModel.userState.observe(viewLifecycleOwner) { baseUiState ->
                 baseUiState?.email = email
                 baseUiState?.password = password
@@ -57,7 +65,9 @@ class CreateAccountFragment : BaseFragment() {
                 createAccountViewModel.clickButtonAction(
                     mappedUserModel = baseUiState,
                     onSuccess = {
-                        createAccountViewModel.saveToDatabase(baseUiState) {
+                        if (isRemembered) {
+                            createAccountViewModel.saveToDatabase(baseUiState) { tokenObserving() }
+                        } else {
                             tokenObserving()
                         }
                     },
@@ -99,63 +109,29 @@ class CreateAccountFragment : BaseFragment() {
         resultDialog.show()
     }
 
-
-    private fun passwordVisibility() {
-        binding.apply {
-            passwordVisibilityIcon.setOnClickListener {
-                isPasswordVisible = !isPasswordVisible
-                if (isPasswordVisible) {
-                    binding.createAccountPasswordInput.transformationMethod =
-                        HideReturnsTransformationMethod.getInstance()
-                    passwordVisibilityIcon.setImageResource(R.drawable.visibility_on_icon)
-                } else {
-                    binding.createAccountPasswordInput.transformationMethod =
-                        PasswordTransformationMethod.getInstance()
-                    passwordVisibilityIcon.setImageResource(R.drawable.visibility_off_icon)
-                }
-            }
-        }
-    }
-
-    private fun confirmPasswordVisibility() {
-        binding.apply {
-            confirmPasswordVisibilityIcon.setOnClickListener {
-                isConfirmPasswordVisible = !isConfirmPasswordVisible
-                if (isConfirmPasswordVisible) {
-                    binding.createAccountConfirmPasswordInput.transformationMethod =
-                        HideReturnsTransformationMethod.getInstance()
-                    confirmPasswordVisibilityIcon.setImageResource(R.drawable.visibility_on_icon)
-                } else {
-                    binding.createAccountConfirmPasswordInput.transformationMethod =
-                        PasswordTransformationMethod.getInstance()
-                    confirmPasswordVisibilityIcon.setImageResource(R.drawable.visibility_off_icon)
-                }
-            }
-        }
-    }
-
     private fun emailValidation() {
         binding.apply {
             createAccountEmailInput.doOnTextChanged { text, start, before, count ->
                 finishButton.isEnabled = checkEmailAcceptanceCondition(text)
-                        && checkPasswordAcceptanceCondition(createAccountPasswordInput.text)
+                        && checkPasswordAcceptanceCondition(createAccountPasswordInput.getPasswordText())
             }
         }
     }
 
     private fun passwordValidation() {
         binding.apply {
-            createAccountPasswordInput.doOnTextChanged { text, _, _, _ ->
+            createAccountPasswordInput.customDoOnTextChangeListener { text, _, _, _ ->
                 finishButton.isEnabled = checkPasswordAcceptanceCondition(text)
                         && checkEmailAcceptanceCondition(createAccountEmailInput.text)
             }
         }
 
         binding.apply {
-            createAccountPasswordInput.doOnTextChanged { text, _, _, _ ->
-                finishButton.isEnabled = binding.createAccountPasswordInput.text == text
-                        && checkEmailAcceptanceCondition(createAccountEmailInput.text)
-                        && checkPasswordAcceptanceCondition(text)
+            createAccountPasswordInput.customDoOnTextChangeListener { text, _, _, _ ->
+                finishButton.isEnabled =
+                    binding.createAccountPasswordInput.getPasswordText() == text
+                            && checkEmailAcceptanceCondition(createAccountEmailInput.text)
+                            && checkPasswordAcceptanceCondition(text)
             }
         }
     }

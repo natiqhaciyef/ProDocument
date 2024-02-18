@@ -90,97 +90,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/createAccountEmailTitle" />
 
-    <TextView
-        android:id="@+id/createAccountPasswordTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="24dp"
-        android:fontFamily="@font/urbanist_bold"
-        android:text="@string/password"
-        android:textColor="@color/grayscale_900"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/createAccountEmailInput" />
 
-    <EditText
+    <com.natiqhaciyef.prodocument.ui.custom.CustomPasswordInputEditText
         android:id="@+id/createAccountPasswordInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/custom_registration_input_background"
-        android:fontFamily="@font/urbanist_bold"
-        android:gravity="center_vertical"
-        android:hint="@string/password"
-        android:inputType="textPassword"
-        android:paddingVertical="10dp"
-        android:textColor="@color/grayscale_900"
-        android:textColorHint="@color/grayscale_500"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/createAccountPasswordTitle" />
-
-
-    <TextView
-        android:id="@+id/createAccountConfirmPasswordTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/createAccountEmailInput"
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="24dp"
-        android:fontFamily="@font/urbanist_bold"
-        android:text="@string/confirm_password"
-        android:textColor="@color/grayscale_900"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/createAccountPasswordInput" />
+        />
 
-    <EditText
+    <com.natiqhaciyef.prodocument.ui.custom.CustomPasswordInputEditText
         android:id="@+id/createAccountConfirmPasswordInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/custom_registration_input_background"
-        android:fontFamily="@font/urbanist_bold"
-        android:gravity="center_vertical"
-        android:hint="@string/confirm_password"
-        android:inputType="textPassword"
-        android:paddingVertical="10dp"
-        android:textColor="@color/grayscale_900"
-        android:textColorHint="@color/grayscale_500"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/createAccountConfirmPasswordTitle" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/createAccountPasswordInput"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="24dp"
+        />
 
-    <ImageView
-        android:id="@+id/passwordVisibilityIcon"
-        android:layout_width="24dp"
-        android:layout_height="26dp"
-        android:src="@drawable/visibility_off_icon"
-        app:layout_constraintBottom_toBottomOf="@id/createAccountPasswordInput"
-        app:layout_constraintEnd_toEndOf="@id/createAccountPasswordInput"
-        app:layout_constraintTop_toTopOf="@id/createAccountPasswordInput"
-        app:layout_constraintVertical_bias="0.4"
-        app:tint="@color/primary_900" />
-
-    <ImageView
-        android:id="@+id/confirmPasswordVisibilityIcon"
-        android:layout_width="24dp"
-        android:layout_height="26dp"
-        android:src="@drawable/visibility_off_icon"
-        app:layout_constraintBottom_toBottomOf="@id/createAccountConfirmPasswordInput"
-        app:layout_constraintEnd_toEndOf="@id/createAccountConfirmPasswordInput"
-        app:layout_constraintTop_toTopOf="@id/createAccountConfirmPasswordInput"
-        app:layout_constraintVertical_bias="0.4"
-        app:tint="@color/primary_900" />
-
-    <LinearLayout
-        android:id="@+id/rememberMeLinearLayout"
+    <com.natiqhaciyef.prodocument.ui.custom.CustomRememberMeButton
+        android:id="@+id/rememberMeCheckBoxImage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
@@ -190,24 +124,7 @@
         android:paddingVertical="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/createAccountConfirmPasswordInput">
-
-        <ImageView
-            android:id="@+id/rememberMeCheckBoxImage"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:background="@drawable/not_selected_square_icon" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:fontFamily="@font/urbanist_semibold"
-            android:text="@string/remember_me"
-            android:textColor="@color/grayscale_900"
-            android:textSize="16sp" />
-
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@id/createAccountConfirmPasswordInput"/>
 
 
     <androidx.appcompat.widget.AppCompatButton

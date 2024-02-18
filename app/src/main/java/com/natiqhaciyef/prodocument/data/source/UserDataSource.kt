@@ -28,6 +28,11 @@ class UserDataSource(
         password = userModel.password
     )
 
+    suspend fun signInFromNetwork(
+        email: String,
+        password: String
+    ) = service.signIn(email, password)
+
 
     // local
     suspend fun getUserFromLocal() = dao.getAllUser()

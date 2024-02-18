@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.prodocument.common.clazz.Status
 import com.natiqhaciyef.prodocument.common.helpers.getNow
 import com.natiqhaciyef.prodocument.common.objects.ErrorMessages
+import com.natiqhaciyef.prodocument.data.network.response.TokenResponse
 import com.natiqhaciyef.prodocument.domain.model.UIResult
 import com.natiqhaciyef.prodocument.domain.model.mapped.MappedUserModel
 import com.natiqhaciyef.prodocument.domain.usecase.user.CreateUserRemoteUseCase
@@ -28,8 +29,8 @@ class CreateAccountViewModel @Inject constructor(
         get() = _localResultState
 
     private val _tokenState =
-        MutableLiveData(BaseUIState<String>())
-    val tokenState: LiveData<BaseUIState<String>>
+        MutableLiveData(BaseUIState<TokenResponse>())
+    val tokenState: LiveData<BaseUIState<TokenResponse>>
         get() = _tokenState
 
     private fun collectDataFromCreateAccountScreen(

@@ -18,8 +18,11 @@ class UserRepositoryImpl(
     ): UIResult<MappedUserModel>? =
         ds.getUserFromNetwork(token = token)?.toUIResult()
 
-    override suspend fun createAccount(user: UserModel): String? =
-        ds.createAccountFromNetwork(userModel = user)?.uid
+    override suspend fun createAccount(user: UserModel): TokenResponse? =
+        ds.createAccountFromNetwork(userModel = user)
+
+    override suspend fun signIn(email: String, password: String): TokenResponse? =
+        ds.signInFromNetwork(email, password)
 
 
     override suspend fun getUserFromLocal(): List<UIResult<MappedUserModel>>? =

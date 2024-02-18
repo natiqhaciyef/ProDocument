@@ -3,7 +3,9 @@ package com.natiqhaciyef.prodocument.ui.custom
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import com.natiqhaciyef.prodocument.databinding.CustomSocialPlatformButtonBinding
 
 class CustomSocialMediaButton(
@@ -41,6 +43,20 @@ class CustomSocialMediaButton(
     fun onClickButtonAction(listener: () -> Unit) {
         binding?.socialPlatformButton?.setOnClickListener {
             listener()
+        }
+    }
+
+    fun changeTextVisibility(visible: Int) {
+        binding?.socialPlatformTitle?.visibility = visible
+    }
+
+    fun changeImageHorizontalBias(bias: Float) {
+        binding?.apply {
+            val yourView = socialPlatformImage
+            val constraintSet = ConstraintSet()
+            constraintSet.clone(platformName)
+            constraintSet.setHorizontalBias(yourView.id, bias)
+            constraintSet.applyTo(platformName)
         }
     }
 

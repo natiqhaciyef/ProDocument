@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.prodocument.common.objects.ErrorMessages
 import com.natiqhaciyef.prodocument.domain.model.mapped.MappedUserModel
-import com.natiqhaciyef.prodocument.ui.base.BaseUIState
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
 import com.natiqhaciyef.prodocument.ui.util.DefaultImplModels
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,11 +19,6 @@ class CompleteProfileViewModel @Inject constructor() : BaseViewModel() {
         MutableLiveData(DefaultImplModels.mappedUserModel)
     val userState: LiveData<MappedUserModel>
         get() = _userState
-
-    private val _tokenState =
-        MutableLiveData(BaseUIState<String>())
-    val tokenState: LiveData<BaseUIState<String>>
-        get() = _tokenState
 
     fun formatPhoneNumber(input: String): String {
         val formattedStringBuilder = StringBuilder()

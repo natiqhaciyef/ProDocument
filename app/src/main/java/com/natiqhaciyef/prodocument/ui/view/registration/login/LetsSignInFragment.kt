@@ -29,15 +29,44 @@ class LetsSignInFragment : BaseFragment() {
 //            googleSignInButton.initBinding()
             googleSignInButton.setIconImage(R.drawable.google)
             googleSignInButton.setTitleText("Continue with Google")
+            googleSignInButton.setOnClickListener { }
 
             facebookSignInButton.setIconImage(R.drawable.facebook)
             facebookSignInButton.setTitleText("Continue with Facebook")
+            facebookSignInButton.setOnClickListener { }
 
             appleSignInButton.setIconImage(R.drawable.apple)
             appleSignInButton.setTitleText("Continue with Apple")
+            appleSignInButton.setOnClickListener { }
 
-            goToSignInButton.setOnClickListener {  }
-            goToSignUpButtonText.setOnClickListener{ navigate(R.id.completeProfileFragment) }
+            goToSignInButton.setOnClickListener { navigate(R.id.loginFragment) }
+            goToSignUpButtonText.setOnClickListener { navigate(R.id.completeProfileFragment) }
         }
+    }
+
+    private fun socialMediaButtonClick(type: String) = when (type) {
+        GOOGLE -> { googleSignInAction() }
+        APPLE -> { appleSignInAction() }
+        FACEBOOK -> { facebookSignInAction() }
+        else -> {}
+    }
+
+
+    private fun googleSignInAction() {
+
+    }
+
+    private fun appleSignInAction() {
+
+    }
+
+    private fun facebookSignInAction() {
+
+    }
+
+    companion object {
+        private const val GOOGLE = "GOOGLE"
+        private const val APPLE = "APPLE"
+        private const val FACEBOOK = "FACEBOOK"
     }
 }

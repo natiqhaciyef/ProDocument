@@ -4,6 +4,7 @@ import com.natiqhaciyef.prodocument.common.clazz.Resource
 import com.natiqhaciyef.prodocument.common.mapper.toUser
 import com.natiqhaciyef.prodocument.common.objects.ErrorMessages
 import com.natiqhaciyef.prodocument.common.objects.ResultExceptions
+import com.natiqhaciyef.prodocument.data.network.response.TokenResponse
 import com.natiqhaciyef.prodocument.domain.base.BaseUseCase
 import com.natiqhaciyef.prodocument.domain.base.UseCase
 import com.natiqhaciyef.prodocument.domain.model.UIResult
@@ -16,9 +17,9 @@ import javax.inject.Inject
 @UseCase
 class CreateUserRemoteUseCase @Inject constructor(
     userRepository: UserRepository
-) : BaseUseCase<UserRepository, MappedUserModel, String?>(userRepository) {
+) : BaseUseCase<UserRepository, MappedUserModel, TokenResponse?>(userRepository) {
 
-    override fun operate(data: MappedUserModel): Flow<Resource<String?>> = flow {
+    override fun operate(data: MappedUserModel): Flow<Resource<TokenResponse?>> = flow {
         emit(Resource.loading(null))
         val result = repository.createAccount(data.toUser(hashed = false))
 

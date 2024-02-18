@@ -1,5 +1,6 @@
 package com.natiqhaciyef.prodocument.data.network.response
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import com.natiqhaciyef.prodocument.data.base.BaseNetworkModel
 import com.natiqhaciyef.prodocument.data.base.IOModel
@@ -24,7 +25,9 @@ data class UserResponse(
     @SerializedName("password")
     var password: String,
     @SerializedName("publish_date")
-    override var publishDate: String
-) : IOModel(), BaseNetworkModel
+    override var publishDate: String,
+    @SerializedName("result")
+    override var resultCode: CRUDResponse
+) : IOModel(), BaseNetworkModel, Parcelable
 
 // data = split as a parameters of UserModel

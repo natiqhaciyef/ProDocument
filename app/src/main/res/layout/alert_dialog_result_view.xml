@@ -9,8 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
 
         <ImageView
@@ -63,7 +62,7 @@
             android:background="@drawable/custom_button_background"
             android:backgroundTint="@color/primary_900"
             android:fontFamily="@font/urbanist_bold"
-            android:text="Go to Home"
+            android:text="@string/go_to_login"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="16sp"
