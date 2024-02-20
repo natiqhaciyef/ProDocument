@@ -7,11 +7,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.common.objects.ErrorMessages
 import com.natiqhaciyef.prodocument.databinding.FragmentLoginBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
+import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.TOKEN_KEY
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LoginFragment : BaseFragment() {
@@ -51,6 +54,7 @@ class LoginFragment : BaseFragment() {
             rememberMeCheckBoxImage.onClickAction()
 
             signInButton.setOnClickListener { loginButtonClickAction() }
+            forgotPasswordText.setOnClickListener { navigate(R.id.forgotPasswordFragment) }
         }
     }
 
@@ -58,15 +62,38 @@ class LoginFragment : BaseFragment() {
         binding.apply {
             val email = loginEmailInput.text.toString()
             val password = loginPasswordInput.text.toString()
-            loginViewModel.signIn(email = email, password = password) { exception ->
-                Toast.makeText(
-                    requireContext(),
-                    exception?.localizedMessage ?: ErrorMessages.SOMETHING_WENT_WRONG,
-                    Toast.LENGTH_SHORT
-                ).show()
+
+            loginViewModel.signIn(
+                email = email,
+                password = password,
+                onSuccess = {
+                    observeTokenState()
+                },
+                onFail = { exception ->
+                    Toast.makeText(
+                        requireContext(),
+                        exception?.localizedMessage ?: ErrorMessages.SOMETHING_WENT_WRONG,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            )
+        }
+    }
+
+    private fun observeTokenState() {
+        loginViewModel.tokenState.observe(viewLifecycleOwner) {
+            lifecycleScope.launch {
+                if (it.isSuccess && it.obj != null) {
+                    dataStore.saveString(
+                        context = requireContext(),
+                        data = it.obj!!.uid.toString(),
+                        key = TOKEN_KEY
+                    )
+                }
             }
         }
     }
+
 
     private fun emailValidation() {
         binding.apply {

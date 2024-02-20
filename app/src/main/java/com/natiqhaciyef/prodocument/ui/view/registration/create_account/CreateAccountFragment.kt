@@ -8,11 +8,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.AlertDialogResultViewBinding
 import com.natiqhaciyef.prodocument.databinding.FragmentCreateAccountBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
+import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.TOKEN_KEY
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CreateAccountFragment : BaseFragment() {
@@ -84,12 +87,16 @@ class CreateAccountFragment : BaseFragment() {
     }
 
     private fun tokenObserving() {
-        createAccountViewModel.localResultState.observe(viewLifecycleOwner) { localResult ->
-            if (localResult.obj != null && localResult.isSuccess) {
-                // token validation
-                createResultAlertDialog()
-            } else {
-                // something went wrong
+        createAccountViewModel.tokenState.observe(viewLifecycleOwner) { tokenState ->
+            lifecycleScope.launch {
+                if (tokenState.obj != null && tokenState.isSuccess) {
+                    dataStore.saveString(
+                        context = requireContext(),
+                        data = tokenState.obj!!.uid.toString(),
+                        key = TOKEN_KEY
+                    )
+                    createResultAlertDialog()
+                }
             }
         }
     }

@@ -26,6 +26,7 @@ class LoginViewModel @Inject constructor(
     fun signIn(
         email: String,
         password: String,
+        onSuccess: () -> Unit = {},
         onFail: (Exception?) -> Unit = {}
     ) {
         val map = mapOf("email" to email, "password" to password)
@@ -38,7 +39,7 @@ class LoginViewModel @Inject constructor(
                 signInRemoteUseCase.operate(map).collectLatest { result ->
                     when (result.status) {
                         Status.SUCCESS -> {
-                            if (result.data != null)
+                            if (result.data != null) {
                                 _tokenState.value?.apply {
                                     obj = result.data
                                     list = listOf()
@@ -47,6 +48,8 @@ class LoginViewModel @Inject constructor(
                                     message = null
                                     failReason = null
                                 }
+                                onSuccess()
+                            }
                         }
 
                         Status.ERROR -> {
