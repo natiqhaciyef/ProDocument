@@ -5,5 +5,5 @@ import com.natiqhaciyef.prodocument.data.network.response.CRUDResponse
 
 
 interface BaseNetworkModel: Parcelable {
-    var resultCode: CRUDResponse
+    var result: CRUDResponse?
 }

@@ -14,6 +14,8 @@ import com.natiqhaciyef.prodocument.databinding.AlertDialogResultViewBinding
 import com.natiqhaciyef.prodocument.databinding.FragmentCreateAccountBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.TOKEN_KEY
+import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkEmailAcceptanceCondition
+import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkPasswordAcceptanceCondition
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -141,15 +143,5 @@ class CreateAccountFragment : BaseFragment() {
                             && checkPasswordAcceptanceCondition(text)
             }
         }
-    }
-
-    private fun checkEmailAcceptanceCondition(text: CharSequence?) =
-        !text.isNullOrEmpty() //&& text.matches(emailRegex)
-
-    private fun checkPasswordAcceptanceCondition(text: CharSequence?) =
-        !text.isNullOrEmpty() && text.length >= PASSWORD_MIN_LENGTH
-
-    companion object {
-        private const val PASSWORD_MIN_LENGTH = 8
     }
 }

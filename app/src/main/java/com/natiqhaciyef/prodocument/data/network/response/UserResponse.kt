@@ -16,7 +16,7 @@ data class UserResponse(
     var phoneNumber: String,
     @SerializedName("gender")
     var gender: String,
-    @SerializedName("date_of_birth")
+    @SerializedName("dob")
     var dateOfBirth: String,
     @SerializedName("image_url")
     var imageUrl: String,
@@ -27,7 +27,7 @@ data class UserResponse(
     @SerializedName("publish_date")
     override var publishDate: String,
     @SerializedName("result")
-    override var resultCode: CRUDResponse
+    override var result: CRUDResponse?
 ) : IOModel(), BaseNetworkModel, Parcelable
 
 // data = split as a parameters of UserModel

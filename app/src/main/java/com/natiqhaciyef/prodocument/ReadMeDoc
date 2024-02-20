@@ -22,7 +22,6 @@ xxhdpi (3x)	    @ 100.00dp	= 300.00px
 xxxhdpi (4x)	@ 100.00dp	= 400.00px
 
 // Data navigation
-
 Response/Entity -> IOModel -> MappedModel -> UIResult
 
 

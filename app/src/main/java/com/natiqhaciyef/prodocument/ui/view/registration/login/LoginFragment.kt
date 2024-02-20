@@ -54,7 +54,10 @@ class LoginFragment : BaseFragment() {
             rememberMeCheckBoxImage.onClickAction()
 
             signInButton.setOnClickListener { loginButtonClickAction() }
-            forgotPasswordText.setOnClickListener { navigate(R.id.forgotPasswordFragment) }
+            forgotPasswordText.setOnClickListener {
+                val action = LoginFragmentDirections.actionLoginFragmentToForgotPasswordNavGraph()
+                navigate(action)
+            }
         }
     }
 

@@ -14,6 +14,7 @@
     <string name="finish">Finish</string>
     <string name="go_to_login">Go to Login</string>
     <string name="sign_in">Sign in</string>
+    <string name="confirm">Confirm</string>
 
 
     <!-- Result -->
@@ -65,5 +66,17 @@
     <string name="login_description"><![CDATA[Please enter your email & password to sign in.]]></string>
     <string name="forgot_password">Forgot Password</string>
     <string name="or_continue_with">or continue with</string>
+
+
+    <!-- Forgot password -->
+    <string name="forgot_password_title">Forgot password 🔑</string>
+    <string name="forgot_password_description">Enter your email address. We will send an OTP code for verification in the next step.</string>
+
+
+    <!-- OTP -->
+    <string name="otp_title">You’ve got mail 📩</string>
+    <string name="otp_description">We have sent the OTP verification code to your email address. Check your email and enter the code below.</string>
+    <string name="dont_get_email">Didn\'t receive email?</string>
+    <string name="resend_description"><![CDATA[<font color=#212121>You can resend code in </font><font color=#4B68FF>%1$s</font><font color=#212121> s</font>]]></string>
 
 </resources>

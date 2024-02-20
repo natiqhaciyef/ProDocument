@@ -10,5 +10,5 @@ data class TokenResponse(
     @SerializedName("token")
     var uid: String?,
     @SerializedName("result")
-    override var resultCode: CRUDResponse
+    override var result: CRUDResponse?
 ) : BaseNetworkModel, Parcelable

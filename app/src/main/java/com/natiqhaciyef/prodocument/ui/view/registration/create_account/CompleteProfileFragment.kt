@@ -27,6 +27,9 @@ import com.natiqhaciyef.prodocument.common.objects.ErrorMessages
 import com.natiqhaciyef.prodocument.databinding.FragmentCompleteProfileBinding
 import com.natiqhaciyef.prodocument.domain.model.mapped.MappedUserModel
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
+import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkFullNameAcceptanceCondition
+import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkGenderAcceptanceCondition
+import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkPhoneAcceptanceCondition
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -263,19 +266,4 @@ class CompleteProfileFragment : BaseFragment() {
 
     private fun checkDateAcceptanceCondition() =
         currentSelectedTime < Calendar.getInstance().timeInMillis
-
-    private fun checkGenderAcceptanceCondition(text: CharSequence?) =
-        !text.isNullOrEmpty() && text != "Not-selected"
-
-    private fun checkPhoneAcceptanceCondition(text: CharSequence?) =
-        !text.isNullOrEmpty() && text.length == PHONE_NUMBER_MIN_LENGTH
-
-    private fun checkFullNameAcceptanceCondition(text: CharSequence?) =
-        !text.isNullOrEmpty() && text.length >= FULL_NAME_MIN_LENGTH
-
-
-    companion object {
-        private const val FULL_NAME_MIN_LENGTH = 10
-        private const val PHONE_NUMBER_MIN_LENGTH = 13
-    }
 }

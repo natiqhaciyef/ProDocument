@@ -1,7 +1,6 @@
 package com.natiqhaciyef.prodocument.data.model
 
-import androidx.room.Entity
-import com.natiqhaciyef.prodocument.data.base.IOModel
+import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -13,5 +12,5 @@ class UserModel(
     var birthDate: String,
     var imageUrl: String,
     var password: String,
-) : IOModel()
+) : Parcelable
 

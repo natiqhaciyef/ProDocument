@@ -1,6 +1,5 @@
 package com.natiqhaciyef.prodocument.common.mapper
 
-import com.google.gson.Gson
 import com.natiqhaciyef.prodocument.common.helpers.hashPassword
 import com.natiqhaciyef.prodocument.data.local.entity.UserEntity
 import com.natiqhaciyef.prodocument.data.model.UserModel
@@ -119,7 +118,8 @@ fun UIResult<MappedUserModel>.toResponse(): UserResponse? {
             imageUrl = this.data.imageUrl,
             email = this.data.email,
             password = this.data.password,
-            publishDate = this.publishDate
+            publishDate = this.publishDate,
+            result = null
         )
     } else {
         null

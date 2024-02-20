@@ -1,6 +1,5 @@
 package com.natiqhaciyef.prodocument.data.network.service
 
-import com.natiqhaciyef.prodocument.data.network.response.CRUDResponse
 import com.natiqhaciyef.prodocument.data.network.response.TokenResponse
 import com.natiqhaciyef.prodocument.data.network.response.UserResponse
 import retrofit2.http.Field
@@ -12,11 +11,11 @@ interface UserService {
     @POST("")
     @FormUrlEncoded
     suspend fun createAccount(
-        @Field("fullName") fullName: String,
+        @Field("full_name") fullName: String,
         @Field("phone_number") phoneNumber: String,
         @Field("gender") gender: String,
         @Field("dob") dateOfBirth: String,
-        @Field("imageUrl") imageUrl: String,
+        @Field("image_url") imageUrl: String,
         @Field("email") email: String,
         @Field("password") password: String,
     ): TokenResponse?
