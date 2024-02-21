@@ -7,6 +7,7 @@ import android.view.View
 import androidx.appcompat.widget.AppCompatButton
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doOnTextChanged
+import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.CustomOtpEdittextBinding
 
 
@@ -25,12 +26,14 @@ class CustomOTPInput(
         binding =
             CustomOtpEdittextBinding.inflate(LayoutInflater.from(context), this, true)
 
-        config()
+        checkInput()
     }
 
-    private fun config() {
+    private fun checkInput() {
         binding?.apply {
             otp1.doOnTextChanged { text, start, before, count ->
+                checkFocus()
+
                 text?.let {
                     if (text.length == MAX_SINGLE_OTP_FIELD_SIZE) {
                         otp1.focusSearch(View.FOCUS_RIGHT)?.requestFocus()
@@ -42,6 +45,8 @@ class CustomOTPInput(
             }
 
             otp2.doOnTextChanged { text, start, before, count ->
+                checkFocus()
+
                 text?.let {
                     if (text.length == MAX_SINGLE_OTP_FIELD_SIZE) {
                         otp2.focusSearch(View.FOCUS_RIGHT)?.requestFocus()
@@ -53,6 +58,8 @@ class CustomOTPInput(
             }
 
             otp3.doOnTextChanged { text, start, before, count ->
+                checkFocus()
+
                 text?.let {
                     if (text.length == MAX_SINGLE_OTP_FIELD_SIZE) {
                         otp3.focusSearch(View.FOCUS_RIGHT)?.requestFocus()
@@ -64,6 +71,8 @@ class CustomOTPInput(
             }
 
             otp4.doOnTextChanged { text, start, before, count ->
+                checkFocus()
+
                 text?.let {
                     if (text.length == MAX_SINGLE_OTP_FIELD_SIZE) {
                         otp4.focusSearch(View.FOCUS_RIGHT)?.requestFocus()
@@ -72,6 +81,34 @@ class CustomOTPInput(
                         otp4.text.clear()
                     }
                 }
+            }
+        }
+    }
+
+    private fun checkFocus() {
+        binding?.apply {
+            if (otp1.isFocused) {
+                otp1.backgroundTintList = context.getColorStateList(R.color.transparent_blue)
+            } else {
+                otp1.background = context.getDrawable(R.drawable.custom_otp_input)
+            }
+
+            if (otp2.isFocused) {
+                otp2.backgroundTintList = context.getColorStateList(R.color.transparent_blue)
+            } else {
+                otp2.background = context.getDrawable(R.drawable.custom_otp_input)
+            }
+
+            if (otp3.isFocused) {
+                otp3.backgroundTintList = context.getColorStateList(R.color.transparent_blue)
+            } else {
+                otp3.background = context.getDrawable(R.drawable.custom_otp_input)
+            }
+
+            if (otp4.isFocused) {
+                otp4.backgroundTintList = context.getColorStateList(R.color.transparent_blue)
+            } else {
+                otp4.background = context.getDrawable(R.drawable.custom_otp_input)
             }
         }
     }

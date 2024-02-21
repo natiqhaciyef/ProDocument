@@ -3,6 +3,7 @@ package com.natiqhaciyef.prodocument.domain.repository.impl
 import com.natiqhaciyef.prodocument.common.mapper.toUIResult
 import com.natiqhaciyef.prodocument.data.local.entity.UserEntity
 import com.natiqhaciyef.prodocument.data.model.UserModel
+import com.natiqhaciyef.prodocument.data.network.response.CRUDResponse
 import com.natiqhaciyef.prodocument.data.network.response.TokenResponse
 import com.natiqhaciyef.prodocument.data.source.UserDataSource
 import com.natiqhaciyef.prodocument.domain.model.UIResult
@@ -23,6 +24,9 @@ class UserRepositoryImpl(
 
     override suspend fun signIn(email: String, password: String): TokenResponse? =
         ds.signInFromNetwork(email, password)
+
+    override suspend fun getOtp(email: String): CRUDResponse? =
+        ds.otpFromNetwork(email)
 
 
     override suspend fun getUserFromLocal(): List<UIResult<MappedUserModel>>? =

@@ -33,6 +33,10 @@ class UserDataSource(
         password: String
     ) = service.signIn(email, password)
 
+    suspend fun otpFromNetwork(
+        email: String,
+    ) = service.getOtp(email)
+
 
     // local
     suspend fun getUserFromLocal() = dao.getAllUser()

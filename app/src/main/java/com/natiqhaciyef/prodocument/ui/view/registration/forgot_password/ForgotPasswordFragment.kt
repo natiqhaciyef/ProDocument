@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.viewModels
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.FragmentForgotPasswordBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
@@ -15,6 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ForgotPasswordFragment : BaseFragment() {
     private lateinit var binding: FragmentForgotPasswordBinding
+    private val forgotPasswordViewModel: ForgotPasswordViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,6 +48,11 @@ class ForgotPasswordFragment : BaseFragment() {
     }
 
     private fun onClickAction() {
-        navigate(R.id.OTPFragment)
+//        forgotPasswordViewModel.getOtpResult(binding.forgotPasswordEmailInput.text.toString())
+//        forgotPasswordViewModel.otpResultState.observe(viewLifecycleOwner) {
+//            if (it.obj != null && it.isSuccess) {
+                navigate(R.id.OTPFragment)
+//            }
+//        }
     }
 }

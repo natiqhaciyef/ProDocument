@@ -22,6 +22,11 @@ sealed interface ResultExceptions {
         val errorCode: Int = 401
     ) : Exception(), ResultExceptions
 
+    data class OtpRequestFailed(
+        val msg: String = ErrorMessages.OTP_REQUEST_FAILED,
+        val errorCode: Int = 400
+    ) : Exception(), ResultExceptions
+
     data class FieldsNotFound(
         val msg: String = ErrorMessages.EMPTY_FIELD,
         val errorCode: Int = 404

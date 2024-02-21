@@ -9,7 +9,9 @@ object ErrorMessages {
     const val TOKEN_CREATION_FAILED_EXCEPTION =
         "Token creation failed due to network response returns null"
     const val TOKEN_REQUEST_FAILED =
-        "Token request failed due to network response returns exception/null"
+        "Token request failed due to network request returns exception/null"
+    const val OTP_REQUEST_FAILED =
+        "OTP request failed due to network request returns exception/null"
 
 
     const val NULL_PROPERTY = "Null property"
