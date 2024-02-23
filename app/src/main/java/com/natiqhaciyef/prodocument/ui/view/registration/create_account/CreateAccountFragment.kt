@@ -136,11 +136,9 @@ class CreateAccountFragment : BaseFragment() {
         }
 
         binding.apply {
-            createAccountPasswordInput.customDoOnTextChangeListener { text, _, _, _ ->
-                finishButton.isEnabled =
-                    binding.createAccountPasswordInput.getPasswordText() == text
-                            && checkEmailAcceptanceCondition(createAccountEmailInput.text)
-                            && checkPasswordAcceptanceCondition(text)
+            createAccountConfirmPasswordInput.customDoOnTextChangeListener { text, _, _, _ ->
+                finishButton.isEnabled = checkPasswordAcceptanceCondition(text)
+                        && checkEmailAcceptanceCondition(createAccountEmailInput.text)
             }
         }
     }

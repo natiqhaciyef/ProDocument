@@ -4,9 +4,7 @@ package com.natiqhaciyef.prodocument.ui.base
 object BaseNavigationDeepLink {
     // Deep links
     const val REGISTER_MAIN_DEEPLINK = "prodoc://register/main"
-
     const val ONBOARDING_MAIN_DEEPLINK = "prodoc://onboarding/main"
-
     const val HOME_MAIN_DEEPLINK = "prodoc://home/main"
 
 
@@ -29,4 +27,6 @@ object BaseNavigationDeepLink {
     const val SUCCESS_ROUTE = "Success"
     const val ERROR_ROUTE = "Error"
     const val CUSTOM_ROUTE = "Custom"
+
+    // NavParams
 }

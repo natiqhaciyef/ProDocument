@@ -26,7 +26,15 @@ class UserRepositoryImpl(
         ds.signInFromNetwork(email, password)
 
     override suspend fun getOtp(email: String): CRUDResponse? =
-        ds.otpFromNetwork(email)
+        ds.getOtpFromNetwork(email)
+
+    override suspend fun sendOtp(otp: String): CRUDResponse? =
+        ds.sendOtpToNetwork(otp)
+
+    override suspend fun updateUserPasswordByEmail(
+        email: String,
+        password: String
+    ): CRUDResponse? = ds.updateUserPasswordByEmailFromNetwork(email, password)
 
 
     override suspend fun getUserFromLocal(): List<UIResult<MappedUserModel>>? =

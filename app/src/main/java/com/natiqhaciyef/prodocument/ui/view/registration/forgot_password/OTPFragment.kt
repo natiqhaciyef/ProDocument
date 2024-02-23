@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.FragmentOTPBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
@@ -28,18 +29,32 @@ class OTPFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        config()
-        textHtmlConfig()
-    }
+        val data: OTPFragmentArgs by navArgs()
+        val email = data.emailData
 
-    private fun config() {
         binding.apply {
             goBackIcon.setOnClickListener { navigateBack() }
             customOTPView.buttonEnablingListener(confirmButton)
+            confirmButton.setOnClickListener { onClickAction(email) }
+
             resendTimingText.text = Html.fromHtml(
                 requireContext().getString(R.string.resend_description, "60"),
                 Html.FROM_HTML_MODE_COMPACT
             )
+        }
+        textHtmlConfig()
+    }
+
+
+    private fun onClickAction(email: String) {
+        otpViewModel.apply {
+//            sendOtp(otp = binding.customOTPView.getOTP())
+//            otpResultState.observe(viewLifecycleOwner) { state ->
+//            if (state.isSuccess && state.obj != null) {
+            val action = OTPFragmentDirections.actionOTPFragmentToChangePasswordFragment(email)
+            navigate(action)
+//            }
+//            }
         }
     }
 

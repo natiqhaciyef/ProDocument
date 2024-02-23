@@ -28,15 +28,11 @@ class ForgotPasswordFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        config()
-        emailValidation()
-    }
-
-    private fun config() {
         binding.apply {
             goBackIcon.setOnClickListener { navigateBack() }
-            continueButton.setOnClickListener { onClickAction() }
+            continueButton.setOnClickListener { onClickAction(forgotPasswordEmailInput.text.toString()) }
         }
+        emailValidation()
     }
 
     private fun emailValidation() {
@@ -47,12 +43,16 @@ class ForgotPasswordFragment : BaseFragment() {
         }
     }
 
-    private fun onClickAction() {
-//        forgotPasswordViewModel.getOtpResult(binding.forgotPasswordEmailInput.text.toString())
-//        forgotPasswordViewModel.otpResultState.observe(viewLifecycleOwner) {
+    private fun onClickAction(email: String) {
+//        forgotPasswordViewModel.apply {
+//        getOtpResult(binding.forgotPasswordEmailInput.text.toString())
+//        otpResultState.observe(viewLifecycleOwner) {
 //            if (it.obj != null && it.isSuccess) {
-                navigate(R.id.OTPFragment)
+        val action =
+            ForgotPasswordFragmentDirections.actionForgotPasswordFragment2ToOTPFragment2(email)
+        navigate(action)
 //            }
+//        }
 //        }
     }
 }

@@ -1,6 +1,5 @@
 package com.natiqhaciyef.prodocument.domain.repository
 
-import android.media.session.MediaSession.Token
 import com.natiqhaciyef.prodocument.data.local.entity.UserEntity
 import com.natiqhaciyef.prodocument.data.model.UserModel
 import com.natiqhaciyef.prodocument.data.network.response.CRUDResponse
@@ -18,6 +17,10 @@ interface UserRepository : BaseRepository{
     suspend fun signIn(email: String, password: String): TokenResponse?
 
     suspend fun getOtp(email: String): CRUDResponse?
+
+    suspend fun sendOtp(otp: String): CRUDResponse?
+
+    suspend fun updateUserPasswordByEmail(email: String, password: String): CRUDResponse?
 
     suspend fun getUserFromLocal(): List<UIResult<MappedUserModel>>?
 

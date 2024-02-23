@@ -27,7 +27,8 @@ class GetOtpRemoteUseCase @Inject constructor(
                 Resource.error(
                     msg = ErrorMessages.SOMETHING_WENT_WRONG,
                     data = null,
-                    exception = ResultExceptions.OtpRequestFailed()
+                    exception = ResultExceptions.UnknownError()
+                        .copy(msg = ErrorMessages.OTP_REQUEST_FAILED)
                 )
             )
         }

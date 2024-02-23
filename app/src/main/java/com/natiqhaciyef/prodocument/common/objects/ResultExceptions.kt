@@ -2,9 +2,9 @@ package com.natiqhaciyef.prodocument.common.objects
 
 sealed interface ResultExceptions {
 
-    data class CheckedParameterNotFound(
-        val msg: String = ErrorMessages.CHECKED_PARAMETER_NOT_FOUND_EXCEPTION,
-        val errorCode: Int = 4041
+    data class UserLoadingFailed(
+        val msg: String = ErrorMessages.USER_NOT_FOUND,
+        val errorCode: Int = 404
     ) : Exception(), ResultExceptions
 
     data class UseCaseAnnotationNotFound(
@@ -17,19 +17,19 @@ sealed interface ResultExceptions {
         val errorCode: Int = 400
     ) : Exception(), ResultExceptions
 
-    data class TokenRequestFailed(
+    data class RequestFailed(
         val msg: String = ErrorMessages.TOKEN_CREATION_FAILED_EXCEPTION,
         val errorCode: Int = 401
-    ) : Exception(), ResultExceptions
-
-    data class OtpRequestFailed(
-        val msg: String = ErrorMessages.OTP_REQUEST_FAILED,
-        val errorCode: Int = 400
     ) : Exception(), ResultExceptions
 
     data class FieldsNotFound(
         val msg: String = ErrorMessages.EMPTY_FIELD,
         val errorCode: Int = 404
+    ) : Exception(), ResultExceptions
+
+    data class UnknownError(
+        val msg: String = ErrorMessages.UNKNOWN_ERROR,
+        val errorCode: Int = 400
     ) : Exception(), ResultExceptions
 
 }

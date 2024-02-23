@@ -39,4 +39,17 @@ interface UserService {
     suspend fun getOtp(
         @Field("email") email: String
     ): CRUDResponse?
+
+    @POST("")
+    @FormUrlEncoded
+    suspend fun sendOtp(
+        @Field("otp") otp: String
+    ): CRUDResponse?
+
+    @POST("")
+    @FormUrlEncoded
+    suspend fun updateUserPasswordByEmail(
+        @Field("email") email: String,
+        @Field("password") password: String,
+    ): CRUDResponse?
 }

@@ -79,4 +79,9 @@
     <string name="dont_get_email">Didn\'t receive email?</string>
     <string name="resend_description"><![CDATA[<font color=#212121>You can resend code in </font><font color=#4B68FF>%1$s</font><font color=#212121> s</font>]]></string>
 
+
+    <!-- Change password -->
+    <string name="change_password_title">Create new password 🔐</string>
+    <string name="change_password_description">Enter your new password. If you forget it, then you have to do forgot password.</string>
+
 </resources>

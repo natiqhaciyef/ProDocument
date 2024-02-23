@@ -1,6 +1,7 @@
 package com.natiqhaciyef.prodocument.domain.usecase.user
 
 import com.natiqhaciyef.prodocument.common.clazz.Resource
+import com.natiqhaciyef.prodocument.common.objects.ErrorMessages
 import com.natiqhaciyef.prodocument.domain.base.BaseUseCase
 import com.natiqhaciyef.prodocument.common.objects.ResultExceptions
 import com.natiqhaciyef.prodocument.domain.base.ResultCases
@@ -26,9 +27,9 @@ class GetUserByTokenRemoteUseCase @Inject constructor(
         } else {
             emit(
                 Resource.error(
-                    msg = ResultCases.LOADING_FAIL,
+                    msg = ErrorMessages.SOMETHING_WENT_WRONG,
                     data = null,
-                    exception = ResultExceptions.TokenRequestFailed()
+                    exception = ResultExceptions.UnknownError()
                 )
             )
         }

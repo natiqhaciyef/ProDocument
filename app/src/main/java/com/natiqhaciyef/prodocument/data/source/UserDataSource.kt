@@ -33,9 +33,18 @@ class UserDataSource(
         password: String
     ) = service.signIn(email, password)
 
-    suspend fun otpFromNetwork(
+    suspend fun getOtpFromNetwork(
         email: String,
     ) = service.getOtp(email)
+
+    suspend fun sendOtpToNetwork(
+        otp: String,
+    ) = service.sendOtp(otp)
+
+    suspend fun updateUserPasswordByEmailFromNetwork(
+        email: String,
+        password: String
+    ) = service.updateUserPasswordByEmail(email, password)
 
 
     // local

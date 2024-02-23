@@ -1,7 +1,6 @@
 package com.natiqhaciyef.prodocument.common.objects
 
 object ErrorMessages {
-    const val UNKNOWN_ERROR = "Unknown error"
     const val CHECKED_PARAMETER_NOT_FOUND_EXCEPTION =
         "Checked parameter did not correct create or annotation did not add"
     const val CHECKED_USE_CASE_NOT_FOUND_EXCEPTION =
@@ -38,6 +37,9 @@ object ErrorMessages {
         "Email is not correct filled or Password have to be over 8 character."
     const val WRONG_FILLED_EMAIL_INPUT_REASON = "Email is not correct filled"
 
+    const val UNKNOWN_ERROR = "Unknown error"
     const val ERROR = "Error"
+
     const val DATE_OVER_FLOW_ERROR = "Selected date is not correct!"
+    const val UPDATE_FAILED = "Update failed after unknown error!"
 }
