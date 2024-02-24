@@ -17,13 +17,16 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class OTPFragment : BaseFragment() {
-    private lateinit var binding: FragmentOTPBinding
+    private var _binding: FragmentOTPBinding? = null
+    private val binding: FragmentOTPBinding
+        get() = _binding!!
+
     private val otpViewModel: OTPViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentOTPBinding.inflate(inflater, container, false)
+        _binding = FragmentOTPBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -69,5 +72,10 @@ class OTPFragment : BaseFragment() {
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

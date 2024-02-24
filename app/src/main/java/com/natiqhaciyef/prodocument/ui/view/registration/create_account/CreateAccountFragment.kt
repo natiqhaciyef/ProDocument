@@ -21,7 +21,10 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CreateAccountFragment : BaseFragment() {
-    private lateinit var binding: FragmentCreateAccountBinding
+    private var _binding: FragmentCreateAccountBinding? = null
+    private val binding: FragmentCreateAccountBinding
+        get() = _binding!!
+
     private val createAccountViewModel: CreateAccountViewModel by viewModels()
     private val completeProfileViewModel: CompleteProfileViewModel by viewModels()
     private var isRemembered: Boolean = false
@@ -30,7 +33,7 @@ class CreateAccountFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentCreateAccountBinding.inflate(inflater, container, false)
+        _binding = FragmentCreateAccountBinding.inflate(inflater, container, false)
         return binding.root
     }
 

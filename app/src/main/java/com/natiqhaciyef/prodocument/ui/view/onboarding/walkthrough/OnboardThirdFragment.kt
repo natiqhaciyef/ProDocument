@@ -14,14 +14,17 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class OnboardThirdFragment : BaseFragment() {
-    private lateinit var binding: FragmentOnboardThirdBinding
+    private var _binding: FragmentOnboardThirdBinding? = null
+    private val binding: FragmentOnboardThirdBinding
+        get() = _binding!!
+
     private val viewModel: OnboardingViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentOnboardThirdBinding.inflate(inflater, container, false)
+        _binding = FragmentOnboardThirdBinding.inflate(inflater, container, false)
         return binding.root
     }
 

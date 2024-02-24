@@ -12,13 +12,15 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class LetsSignInFragment : BaseFragment() {
-    private lateinit var binding: FragmentLetsSignInBinding
+    private var _binding: FragmentLetsSignInBinding? = null
+    private val binding: FragmentLetsSignInBinding
+        get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentLetsSignInBinding.inflate(inflater, container, false)
+        _binding = FragmentLetsSignInBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -45,9 +47,18 @@ class LetsSignInFragment : BaseFragment() {
     }
 
     private fun socialMediaButtonClick(type: String) = when (type) {
-        GOOGLE -> { googleSignInAction() }
-        APPLE -> { appleSignInAction() }
-        FACEBOOK -> { facebookSignInAction() }
+        GOOGLE -> {
+            googleSignInAction()
+        }
+
+        APPLE -> {
+            appleSignInAction()
+        }
+
+        FACEBOOK -> {
+            facebookSignInAction()
+        }
+
         else -> {}
     }
 
@@ -68,5 +79,10 @@ class LetsSignInFragment : BaseFragment() {
         private const val GOOGLE = "GOOGLE"
         private const val APPLE = "APPLE"
         private const val FACEBOOK = "FACEBOOK"
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

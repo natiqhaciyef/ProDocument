@@ -20,14 +20,17 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ChangePasswordFragment : BaseFragment() {
-    private lateinit var binding: FragmentChangePasswordBinding
+    private var _binding: FragmentChangePasswordBinding? = null
+    private val binding: FragmentChangePasswordBinding
+        get() = _binding!!
+
     private val changePasswordViewModel: ChangePasswordViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentChangePasswordBinding.inflate(inflater, container, false)
+        _binding = FragmentChangePasswordBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -97,5 +100,10 @@ class ChangePasswordFragment : BaseFragment() {
                 continueButton.isEnabled = checkPasswordAcceptanceCondition(text)
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

@@ -1,4 +1,6 @@
 <-- Create account -->
+@POST
+
 @Field("full_name") String
 @Field("phone_number") String
 @Field("gender") String
@@ -11,7 +13,9 @@
 
 
 
-<-- Login -->
+<-- Sign in -->
+@POST
+
 @Field("email") : String
 @Field("password") : String
 
@@ -20,6 +24,40 @@
 
 
 <-- Get User -->
+@POST
+
 @Field("token"): String
 
 {"id":0,"full_name":"","phone_number":"","gender":"","dob":"","image_url":"","email":"","password":"","publish_date":"","result":{"code":0,"message":""}}
+
+
+
+<-- Get OTP -->
+@POST
+
+@Field("email"): String
+
+{"code":0,"message":""}}
+
+
+
+<-- Send OTP -->
+@POST
+
+@Field("otp"): String
+
+{"code":0,"message":""}}
+
+
+<-- Update user password -->
+@POST
+
+@Field("email") : String
+@Field("password") : String
+
+{"code":0,"message":""}}
+
+
+-------------------------------------------------------------------------------
+
+

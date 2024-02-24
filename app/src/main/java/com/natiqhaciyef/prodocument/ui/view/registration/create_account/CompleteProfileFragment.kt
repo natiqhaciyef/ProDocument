@@ -38,7 +38,10 @@ import java.util.Locale
 
 @AndroidEntryPoint
 class CompleteProfileFragment : BaseFragment() {
-    private lateinit var binding: FragmentCompleteProfileBinding
+    private var _binding: FragmentCompleteProfileBinding? = null
+    private val binding: FragmentCompleteProfileBinding
+        get() = _binding!!
+
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
     private lateinit var activityLauncher: ActivityResultLauncher<Intent>
     private var currentSelectedTime: Long = 0L
@@ -52,7 +55,7 @@ class CompleteProfileFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding =
+        _binding =
             FragmentCompleteProfileBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -62,7 +65,7 @@ class CompleteProfileFragment : BaseFragment() {
         val calendar = Calendar.getInstance()
         registerPermissionForGallery()
 
-        with(binding) {
+        binding.apply {
             datePickerDialog(calendar)
             genderDropDownConfig()
 
@@ -96,7 +99,7 @@ class CompleteProfileFragment : BaseFragment() {
                     val data = result.data
                     if (data != null) {
                         imageData = data.data
-                        imageData?.let {
+                        imageData.let {
                             binding.completeProfileAccountImage.setImageURI(it)
                         }
                     }
@@ -204,11 +207,11 @@ class CompleteProfileFragment : BaseFragment() {
         if (calendar.time.time < System.currentTimeMillis())
             binding.completeProfileDOBInput.text = date
         else
-            binding.completeProfileDOBInput.text = ErrorMessages.DATE_OVER_FLOW_ERROR
+            binding?.completeProfileDOBInput?.text = ErrorMessages.DATE_OVER_FLOW_ERROR
     }
 
     private fun fullNameValidation() {
-        binding.apply {
+        binding?.apply {
             completeProfileFullNameInput.doOnTextChanged { text, start, before, count ->
                 continueButton.isEnabled = checkFullNameAcceptanceCondition(text)
                         && checkPhoneAcceptanceCondition(completeProfilePhoneNumberInput.text)
@@ -234,7 +237,8 @@ class CompleteProfileFragment : BaseFragment() {
 
                 override fun afterTextChanged(text: Editable?) {
                     text?.let {
-                        val formattedNumber = viewModel.formatPhoneNumber(completeProfilePhoneNumberInput.editableText.toString())
+                        val formattedNumber =
+                            viewModel.formatPhoneNumber(completeProfilePhoneNumberInput.editableText.toString())
                         if (formattedNumber != it.toString()) {
                             completeProfilePhoneNumberInput.removeTextChangedListener(this)
 
@@ -251,7 +255,7 @@ class CompleteProfileFragment : BaseFragment() {
     }
 
     private fun genderValidation() {
-        binding.apply {
+        binding?.apply {
             completeProfileGenderDropDownItem.setOnItemClickListener { adapterView, _, p, _ ->
                 genderSelection = adapterView.getItemAtPosition(p).toString()
 
@@ -266,4 +270,9 @@ class CompleteProfileFragment : BaseFragment() {
 
     private fun checkDateAcceptanceCondition() =
         currentSelectedTime < Calendar.getInstance().timeInMillis
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 }

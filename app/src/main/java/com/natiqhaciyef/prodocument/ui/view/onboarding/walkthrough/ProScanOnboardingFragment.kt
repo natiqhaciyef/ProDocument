@@ -15,14 +15,17 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ProScanOnboardingFragment : BaseFragment() {
-    private lateinit var binding: FragmentProScanOnboardingBinding
+    private var _binding: FragmentProScanOnboardingBinding? = null
+    private val binding: FragmentProScanOnboardingBinding
+        get() = _binding!!
+
     private val viewModel: OnboardingViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentProScanOnboardingBinding.inflate(inflater, container, false)
+        _binding = FragmentProScanOnboardingBinding.inflate(inflater, container, false)
         return binding.root
     }
 
