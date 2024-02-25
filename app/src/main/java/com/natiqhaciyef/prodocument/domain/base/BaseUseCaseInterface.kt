@@ -1,6 +1,6 @@
 package com.natiqhaciyef.prodocument.domain.base
 
-import com.natiqhaciyef.prodocument.common.clazz.Resource
+import com.natiqhaciyef.prodocument.common.model.Resource
 import com.natiqhaciyef.prodocument.domain.model.UIResult
 import kotlinx.coroutines.flow.Flow
 

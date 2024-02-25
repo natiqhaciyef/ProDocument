@@ -28,6 +28,8 @@ object ErrorMessages {
     const val PASSWORD_RESETTING_FAILED = "Password resetting failed"
     const val WRONG_FILLED_FIELD = "Wrong filled field(s)"
 
+    const val INVALID_TOKEN = "Invalid Token"
+
     const val DATA_NOT_FOUND = "Data not found"
     const val DOCUMENT_NOT_FOUND = "Document(s) not found"
     const val APPLICATION_UNDER_THE_TEST =

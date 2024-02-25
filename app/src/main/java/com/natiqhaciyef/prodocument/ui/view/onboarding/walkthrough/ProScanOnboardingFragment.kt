@@ -10,6 +10,7 @@ import com.natiqhaciyef.prodocument.databinding.FragmentProScanOnboardingBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.WALKTHROUGH_ROUTE
 import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.TOKEN_KEY
+import com.natiqhaciyef.prodocument.ui.view.onboarding.walkthrough.viewmodel.OnboardingViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -33,6 +34,7 @@ class ProScanOnboardingFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         // for initial state
         observerLiveDataAndHandleAction()
+        // getTokenLocalStored()
     }
 
     private fun getTokenLocalStored() {

@@ -1,6 +1,7 @@
 package com.natiqhaciyef.prodocument.data.di.module
 
 import com.natiqhaciyef.prodocument.data.network.NetworkConfig
+import com.natiqhaciyef.prodocument.data.network.service.MaterialService
 import com.natiqhaciyef.prodocument.data.network.service.UserService
 import dagger.Module
 import dagger.Provides
@@ -26,5 +27,10 @@ object RemoteModule {
     @Singleton
     fun provideUserService(network: Retrofit): UserService =
         network.create(UserService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideMaterialService(network: Retrofit): MaterialService =
+        network.create(MaterialService::class.java)
 
 }

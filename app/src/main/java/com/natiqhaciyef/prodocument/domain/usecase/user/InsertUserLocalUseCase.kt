@@ -1,9 +1,8 @@
 package com.natiqhaciyef.prodocument.domain.usecase.user
 
-import com.natiqhaciyef.prodocument.common.clazz.Resource
+import com.natiqhaciyef.prodocument.common.model.Resource
 import com.natiqhaciyef.prodocument.common.mapper.toEntity
 import com.natiqhaciyef.prodocument.domain.base.BaseUseCase
-import com.natiqhaciyef.prodocument.common.objects.ResultExceptions
 import com.natiqhaciyef.prodocument.domain.base.ResultCases
 import com.natiqhaciyef.prodocument.domain.base.UseCase
 import com.natiqhaciyef.prodocument.domain.model.UIResult

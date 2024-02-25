@@ -9,7 +9,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class UserResponse(
     @SerializedName("id")
-    override var id: Int,
+    override var id: String,
     @SerializedName("full_name")
     var fullName: String,
     @SerializedName("phone_number")

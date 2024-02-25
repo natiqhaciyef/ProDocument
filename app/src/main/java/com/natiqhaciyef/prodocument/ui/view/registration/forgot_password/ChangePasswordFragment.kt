@@ -15,6 +15,7 @@ import com.natiqhaciyef.prodocument.databinding.AlertDialogResultViewBinding
 import com.natiqhaciyef.prodocument.databinding.FragmentChangePasswordBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkPasswordAcceptanceCondition
+import com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.viewmodel.ChangePasswordViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 

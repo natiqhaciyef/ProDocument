@@ -11,6 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.FragmentOTPBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
+import com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.viewmodel.OTPViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

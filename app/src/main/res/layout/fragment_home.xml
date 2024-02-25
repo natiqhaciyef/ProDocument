@@ -1,18 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
     tools:context=".ui.view.main.home.HomeFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/topbarLinearLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Home"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="21dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingVertical="5dp"
+        android:weightSum="10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/topbarImage"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:src="@drawable/pro_scan_lens_icon" />
+
+        <TextView
+            android:id="@+id/topbarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_weight="8"
+            android:fontFamily="@font/urbanist_bold"
+            android:gravity="center_vertical"
+            android:text="@string/proscan"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/topbarSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_weight="9"
+            android:background="@drawable/custom_search_input_background"
+            android:fontFamily="@font/urbanist_medium"
+            android:paddingStart="16dp"
+            android:searchIcon="@color/transparent"
+            android:textColor="@color/grayscale_900"
+            android:textSize="16sp"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/topbarSearchIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/search_icon" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/homeRecyclerMenubar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:isScrollContainer="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topbarLinearLayout" />
+
+    <View
+        android:id="@+id/singleLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/long_simple_line"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/homeRecyclerMenubar" />
+
+    <TextView
+        android:id="@+id/recentFileTitle"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/urbanist_bold"
+        android:gravity="center_vertical"
+        android:text="@string/recent_files"
+        android:textColor="@color/grayscale_900"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/singleLine" />
+
+    <ImageView
+        android:id="@+id/rightArrowIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/right_arrow_icon"
+        app:layout_constraintBottom_toBottomOf="@id/recentFileTitle"
+        app:layout_constraintEnd_toEndOf="@id/recentFileTitle"
+        app:layout_constraintTop_toTopOf="@id/recentFileTitle" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/filesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recentFileTitle" />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabImageIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:backgroundTint="@color/primary_900"
+        android:foregroundTint="@color/white"
+        android:src="@drawable/image_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:shapeAppearanceOverlay="@style/RoundedCornerImage"
+        app:tint="@color/white" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabCameraIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="@color/primary_900"
+        android:foregroundTint="@color/white"
+        android:src="@drawable/camera_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/fabImageIcon"
+        app:shapeAppearanceOverlay="@style/RoundedCornerImage"
+        app:tint="@color/white" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

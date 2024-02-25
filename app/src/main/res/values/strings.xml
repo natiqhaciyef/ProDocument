@@ -4,6 +4,8 @@
     <string name="title_activity_registration">RegistrationActivity</string>
 
     <!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="proscan">ProScan</string>
 
     <!-- Buttons -->
@@ -83,5 +85,21 @@
     <!-- Change password -->
     <string name="change_password_title">Create new password 🔐</string>
     <string name="change_password_description">Enter your new password. If you forget it, then you have to do forgot password.</string>
+
+
+    <!-- Home -->
+    <string name="scan_code">Scan Code</string>
+    <string name="watermark">Watermark</string>
+    <string name="e_sign_pdf">eSign PDF</string>
+    <string name="split_pdf">Split PDF</string>
+    <string name="merge_pdf">Merge PDF</string>
+    <string name="protect_pdf">Protect PDF</string>
+    <string name="compress_pdf">Compress PDF</string>
+    <string name="all_tools">All tools</string>
+    <string name="recent_files">Recent Files</string>
+    <string name="home">Home</string>
+    <string name="files">Files</string>
+    <string name="premium">Premium</string>
+    <string name="profile">Profile</string>
 
 </resources>

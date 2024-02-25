@@ -9,7 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.FragmentOnboardFirstBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
-import com.natiqhaciyef.prodocument.ui.store.AppStorePref
+import com.natiqhaciyef.prodocument.ui.view.onboarding.walkthrough.viewmodel.OnboardingViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

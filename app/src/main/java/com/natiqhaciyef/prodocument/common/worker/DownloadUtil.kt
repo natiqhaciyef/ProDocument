@@ -14,7 +14,7 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
-import com.natiqhaciyef.prodocument.common.model.MaterialModel
+import com.natiqhaciyef.prodocument.data.model.MaterialModel
 import java.io.File
 import java.io.FileOutputStream
 import java.net.URL

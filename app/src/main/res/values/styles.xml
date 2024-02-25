@@ -13,6 +13,10 @@
         <item name="cornerSize">50%</item>
     </style>
 
+    <style name="RoundedCornerEightDpImage">
+        <item name="cornerSize">12dp</item>
+    </style>
+
     <style name="CheckboxTransparentStroke" parent="Theme.MaterialComponents.DayNight">
         <item name="colorControlNormal">@color/transparent</item>
     </style>

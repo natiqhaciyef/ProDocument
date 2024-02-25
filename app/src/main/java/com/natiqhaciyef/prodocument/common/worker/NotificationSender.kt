@@ -13,7 +13,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.natiqhaciyef.prodocument.R
-import com.natiqhaciyef.prodocument.common.clazz.Resource
+import com.natiqhaciyef.prodocument.common.model.Resource
 
 
 fun sendNotification(activityCompat: ComponentActivity?, context: Context, title: String, desc: String): Resource<String> {

@@ -10,4 +10,19 @@
         android:name="com.natiqhaciyef.prodocument.ui.view.main.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/filesFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.files.FilesFragment"
+        android:label="fragment_files"
+        tools:layout="@layout/fragment_files" />
+    <fragment
+        android:id="@+id/premiumFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.premium.PremiumFragment"
+        android:label="fragment_premium"
+        tools:layout="@layout/fragment_premium" />
 </navigation>

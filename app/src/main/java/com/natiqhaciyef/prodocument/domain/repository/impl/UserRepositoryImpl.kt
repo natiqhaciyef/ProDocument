@@ -5,6 +5,7 @@ import com.natiqhaciyef.prodocument.data.local.entity.UserEntity
 import com.natiqhaciyef.prodocument.data.model.UserModel
 import com.natiqhaciyef.prodocument.data.network.response.CRUDResponse
 import com.natiqhaciyef.prodocument.data.network.response.TokenResponse
+import com.natiqhaciyef.prodocument.data.network.response.UserResponse
 import com.natiqhaciyef.prodocument.data.source.UserDataSource
 import com.natiqhaciyef.prodocument.domain.model.UIResult
 import com.natiqhaciyef.prodocument.domain.model.mapped.MappedUserModel
@@ -16,8 +17,8 @@ class UserRepositoryImpl(
 
     override suspend fun getUser(
         token: String,
-    ): UIResult<MappedUserModel>? =
-        ds.getUserFromNetwork(token = token)?.toUIResult()
+    ): UserResponse? =
+        ds.getUserFromNetwork(token = token)
 
     override suspend fun createAccount(user: UserModel): TokenResponse? =
         ds.createAccountFromNetwork(userModel = user)

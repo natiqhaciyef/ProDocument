@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
-import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.FragmentForgotPasswordBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkEmailAcceptanceCondition
+import com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.viewmodel.ForgotPasswordViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 

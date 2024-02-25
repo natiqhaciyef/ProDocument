@@ -140,7 +140,7 @@ fun UserEntity.toUIResult(): UIResult<MappedUserModel> {
     )
 
     return UIResult(
-        id = this.id,
+        id = "${this.id}",
         data = mappedUser,
         publishDate = this.publishDate
     )
@@ -148,7 +148,7 @@ fun UserEntity.toUIResult(): UIResult<MappedUserModel> {
 
 fun UIResult<MappedUserModel>.toEntity(): UserEntity {
     return UserEntity(
-        id = this.id,
+        id = this.id.toInt(),
         name = this.data.name,
         email = this.data.email,
         phoneNumber = this.data.phoneNumber,

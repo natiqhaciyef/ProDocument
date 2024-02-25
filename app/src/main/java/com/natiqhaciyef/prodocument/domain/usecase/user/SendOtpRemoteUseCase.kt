@@ -1,6 +1,6 @@
 package com.natiqhaciyef.prodocument.domain.usecase.user
 
-import com.natiqhaciyef.prodocument.common.clazz.Resource
+import com.natiqhaciyef.prodocument.common.model.Resource
 import com.natiqhaciyef.prodocument.common.objects.ErrorMessages
 import com.natiqhaciyef.prodocument.common.objects.ResultExceptions
 import com.natiqhaciyef.prodocument.data.network.response.CRUDResponse

@@ -32,4 +32,9 @@ sealed interface ResultExceptions {
         val errorCode: Int = 400
     ) : Exception(), ResultExceptions
 
+    data class CustomIOException(
+        val msg: String = ErrorMessages.UNKNOWN_ERROR,
+        val errorCode: Int = 400
+    ) : Exception(), ResultExceptions
+
 }
