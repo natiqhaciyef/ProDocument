@@ -79,7 +79,7 @@ open class BaseFragment : Fragment() {
 
         // Home -> Details route
         BaseNavigationDeepLink.SCAN_ROUTE -> {
-            0
+            R.navigation.scan_nav_graph
         }
 
         BaseNavigationDeepLink.WATERMARK_ROUTE -> {
@@ -126,7 +126,7 @@ open class BaseFragment : Fragment() {
         else -> 0
     }
 
-    fun navigateBack(){
+    fun navigateBack() {
         findNavController().popBackStack()
     }
 
@@ -156,6 +156,7 @@ open class BaseFragment : Fragment() {
         val destinationIntent = setNavigationWithActivity(title)
         destinationIntent.let {
             requireActivity().startActivity(destinationIntent)
+            requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
             if (isFinished)
                 requireActivity().finish()
         }

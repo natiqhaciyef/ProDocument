@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scan_nav_graph"
+    app:startDestination="@id/scanTypeFragment">
+
+    <fragment
+        android:id="@+id/scanFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.scan.ScanFragment"
+        android:label="fragment_scan"
+        tools:layout="@layout/fragment_scan" />
+    <fragment
+        android:id="@+id/scanTypeFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.scan.ScanTypeFragment"
+        android:label="fragment_scan_type"
+        tools:layout="@layout/fragment_scan_type" />
+    <fragment
+        android:id="@+id/captureImageFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.scan.CaptureImageFragment"
+        android:label="fragment_capture_image"
+        tools:layout="@layout/fragment_capture_image" />
+</navigation>

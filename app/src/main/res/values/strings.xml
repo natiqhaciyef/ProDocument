@@ -102,4 +102,10 @@
     <string name="premium">Premium</string>
     <string name="profile">Profile</string>
 
+    <!-- Scan -->
+    <string name="scan_qr_title">Scan QR Code</string>
+    <string name="scan_image_title">Scan Image Code</string>
+    <string name="scan_qr_description">Please point the camera at the QR Code</string>
+    <string name="scan_image_description">Please set the camera at the Image</string>
+
 </resources>

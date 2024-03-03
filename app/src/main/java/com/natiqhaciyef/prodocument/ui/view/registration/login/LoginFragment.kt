@@ -12,7 +12,10 @@ import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.common.objects.ErrorMessages
 import com.natiqhaciyef.prodocument.databinding.FragmentLoginBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
+import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
 import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.TOKEN_KEY
+import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkEmailAcceptanceCondition
+import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkPasswordAcceptanceCondition
 import com.natiqhaciyef.prodocument.ui.view.registration.login.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -96,6 +99,8 @@ class LoginFragment : BaseFragment() {
                         data = it.obj!!.uid.toString(),
                         key = TOKEN_KEY
                     )
+
+                    navigateByActivityTitle(HOME_ROUTE, true)
                 }
             }
         }
@@ -120,15 +125,6 @@ class LoginFragment : BaseFragment() {
         }
     }
 
-    private fun checkEmailAcceptanceCondition(text: CharSequence?) =
-        !text.isNullOrEmpty() //&& text.matches(emailRegex)
-
-    private fun checkPasswordAcceptanceCondition(text: CharSequence?) =
-        !text.isNullOrEmpty() && text.length >= PASSWORD_MIN_LENGTH
-
-    companion object {
-        private const val PASSWORD_MIN_LENGTH = 8
-    }
 
     override fun onDestroy() {
         super.onDestroy()

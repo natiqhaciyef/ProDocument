@@ -1,17 +1,20 @@
 package com.natiqhaciyef.prodocument.ui.view.main.home
 
+import android.Manifest
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.natiqhaciyef.prodocument.databinding.FragmentHomeBinding
 import com.natiqhaciyef.prodocument.domain.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
+import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.SCAN_ROUTE
 import com.natiqhaciyef.prodocument.ui.util.UiList
+import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.home.adapter.FileItemAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.home.adapter.MenuAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.home.viewmodel.HomeViewModel
@@ -38,6 +41,8 @@ class HomeFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as MainActivity).binding.bottomNavBar.visibility = View.VISIBLE
+        
         menuAdapterConfig()
         fileAdapterConfig()
 
@@ -65,7 +70,8 @@ class HomeFragment : BaseFragment() {
     private fun menuAdapterConfig() {
         menuAdapter = MenuAdapter(list = UiList.generateHomeMenuItemsList(requireContext()))
         menuAdapter.onClickAction = { route ->
-            navigateByRouteTitle(route)
+                    navigateByRouteTitle(route)
+            (activity as MainActivity).binding.bottomNavBar.visibility = View.GONE
         }
 
         binding.apply {
