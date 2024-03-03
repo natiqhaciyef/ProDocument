@@ -15,6 +15,7 @@ import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.ImageProxy
 import androidx.camera.core.Preview
+import androidx.camera.core.Preview.SurfaceProvider
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
@@ -220,6 +221,7 @@ class ScanViewModel @Inject constructor(
                     CameraSelector.DEFAULT_BACK_CAMERA,
                     preview,
                     imageCapture,
+//                    analysisUseCase
                 )
 
             } catch (exc: Exception) {
