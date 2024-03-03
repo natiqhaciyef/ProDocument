@@ -7,6 +7,7 @@ import com.natiqhaciyef.prodocument.domain.model.UIResult
 import com.natiqhaciyef.prodocument.domain.model.mapped.MappedUserModel
 import com.natiqhaciyef.prodocument.domain.usecase.user.GetUserByTokenRemoteUseCase
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
+import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.REGISTER_ROUTE
 import com.natiqhaciyef.prodocument.ui.base.BaseUIState
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
