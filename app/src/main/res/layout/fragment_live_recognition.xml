@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
-    tools:context=".ui.view.scan.CaptureImageFragment">
+    tools:context=".ui.view.scan.LiveRecognitionFragment">
 
     <androidx.camera.view.PreviewView
         android:id="@+id/cameraXPreviewHolder"
@@ -20,13 +19,12 @@
         android:id="@+id/capturedImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
         android:scaleType="centerCrop"
-        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/goBackIcon"
@@ -46,7 +44,7 @@
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="24dp"
         android:fontFamily="@font/urbanist_bold"
-        android:text="@string/scan_image_title"
+        android:text="@string/scan_live_title"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="28sp"
@@ -62,7 +60,7 @@
         android:layout_marginTop="12dp"
         android:fontFamily="@font/urbanist_regular"
         android:gravity="center"
-        android:text="@string/scan_image_description"
+        android:text="@string/scan_live_description"
         android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"

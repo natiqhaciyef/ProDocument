@@ -28,11 +28,11 @@ data class MaterialResponse(
 
 @Parcelize
 data class MaterialsResponse(
-    override var result: CRUDResponse?,
     @SerializedName("materials")
     var materials: List<MaterialResponse>,
     @SerializedName("id")
     override var id: String,
+    override var result: CRUDResponse?,
     @SerializedName("publish_date")
     override var publishDate: String
 ) : IOModel(), BaseNetworkModel

@@ -55,6 +55,7 @@ dependencies {
     val mlKitBarcodeVersion = "18.3.0"
     val mlKitRecognizerVersion = "19.0.0"
     val viewPagerVersion = "1.0.0"
+    val scannerMlKitVersion = "16.0.0-beta1"
 
     // scanner .aar file integration
 //    implementation(files(mapOf("dir" to "libs", "include" to listOf("scanlibrary.aar"))))
@@ -101,6 +102,8 @@ dependencies {
     implementation("com.google.android.gms:play-services-mlkit-barcode-scanning:${mlKitBarcodeVersion}")
     implementation("com.google.android.gms:play-services-mlkit-text-recognition:$mlKitRecognizerVersion")
     implementation("com.google.android.gms:play-services-mlkit-text-recognition-common:$mlKitRecognizerVersion")
+    implementation("com.google.android.gms:play-services-mlkit-document-scanner:${scannerMlKitVersion}")
+//    implementation("com.google.firebase:firebase-ml-vision:24.1.0")   R4s.6zV3LruyE7K
 //    implementation("com.google.android.gms:play-services-vision:19.0.0")
 
 

@@ -31,16 +31,16 @@ class ScanTypeFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewPagerInitConfig()
-        buttonClickAction = {
-            binding.captureImageIcon
-        }
+        captureButtonClickAction = { binding.captureImageIcon }
+        galleryButtonClickAction = { binding.galleryForeground }
     }
 
     private fun viewPagerInitConfig() {
         binding.apply {
             val fragments = listOf(
                 ScanFragment(),
-                CaptureImageFragment()
+                CaptureImageFragment(),
+                LiveRecognitionFragment()
             )
             val adapter = ScanViewPagerAdapter(fragments, this@ScanTypeFragment)
             scanViewPager.adapter = adapter
@@ -53,6 +53,10 @@ class ScanTypeFragment : BaseFragment() {
 
                     1 -> {
                         CameraTypes.CAPTURE_IMAGE_SCREEN.title
+                    }
+
+                    2 -> {
+                        CameraTypes.LIVE_SCANNER.title
                     }
 
                     else -> {
@@ -69,8 +73,7 @@ class ScanTypeFragment : BaseFragment() {
     }
 
     companion object {
-        var buttonClickAction: () -> View? = {
-            null
-        }
+        var captureButtonClickAction: () -> View? = { null }
+        var galleryButtonClickAction: () -> View? = { null }
     }
 }

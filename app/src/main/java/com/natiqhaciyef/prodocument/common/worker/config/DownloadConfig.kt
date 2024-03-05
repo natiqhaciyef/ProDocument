@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.common.worker
+package com.natiqhaciyef.prodocument.common.worker.config
 
 import android.content.ContentValues
 import android.content.Context
@@ -14,6 +14,7 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
+import com.natiqhaciyef.prodocument.common.worker.FileDownloadWorker
 import com.natiqhaciyef.prodocument.data.model.MaterialModel
 import java.io.File
 import java.io.FileOutputStream
