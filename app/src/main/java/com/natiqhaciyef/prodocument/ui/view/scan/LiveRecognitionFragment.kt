@@ -92,7 +92,7 @@ class LiveRecognitionFragment : BaseFragment() {
             requireContext(),
             viewLifecycleOwner,
             binding.cameraXPreviewHolder,
-            CameraTypes.CAPTURE_IMAGE_SCREEN,
+            CameraTypes.LIVE_SCANNER,
             view,
         ) { uri ->
             uri as Uri

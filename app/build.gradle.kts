@@ -56,6 +56,11 @@ dependencies {
     val mlKitRecognizerVersion = "19.0.0"
     val viewPagerVersion = "1.0.0"
     val scannerMlKitVersion = "16.0.0-beta1"
+    val zxingVersion = "4.3.0"
+    val dataStoreVersion = "1.0.0"
+    val coilVersion = "2.5.0"
+    val okHttpLoggingInterceptorVersion = "5.0.0-alpha.3"
+    val lottieVersion = "5.2.0"
 
     // scanner .aar file integration
 //    implementation(files(mapOf("dir" to "libs", "include" to listOf("scanlibrary.aar"))))
@@ -108,10 +113,11 @@ dependencies {
 
 
     //Zxing (scanner)
-    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
+    implementation("com.journeyapps:zxing-android-embedded:$zxingVersion")
 
     //Data store
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation("androidx.datastore:datastore-preferences:$dataStoreVersion")
+    implementation("androidx.security:security-crypto:$dataStoreVersion")
 
     //Fragment ktx
     implementation("androidx.fragment:fragment-ktx:$fragmentVersion")
@@ -126,13 +132,13 @@ dependencies {
     //Image loader library
     implementation("com.github.bumptech.glide:glide:4.15.1")
     annotationProcessor("com.github.bumptech.glide:compiler:4.14.2")
-    implementation("io.coil-kt:coil:2.5.0")
+    implementation("io.coil-kt:coil:$coilVersion")
 
     //Retrofit library
     implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
     implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
     implementation("com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion")
-    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.3")
+    implementation("com.squareup.okhttp3:logging-interceptor:$okHttpLoggingInterceptorVersion")
 
     //Dagger hilt
     implementation("com.google.dagger:hilt-android:$daggerVersion")
@@ -140,7 +146,7 @@ dependencies {
 
     //Animation Library & Swipe Refresh Layout & ViewPager
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-    implementation("com.airbnb.android:lottie:5.2.0")
+    implementation("com.airbnb.android:lottie:$lottieVersion")
     implementation("androidx.viewpager2:viewpager2:$viewPagerVersion")
 
     // Work manager

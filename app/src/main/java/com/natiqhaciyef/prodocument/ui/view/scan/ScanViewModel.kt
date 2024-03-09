@@ -36,13 +36,12 @@ class ScanViewModel @Inject constructor(
                 cameraReaderLiveData.value?.openBarcodeScanner(preview, onSuccess)
             }
 
-            CameraTypes.CAPTURE_IMAGE_SCREEN.name -> {
-                val options = cameraReaderLiveData.value?.openCameraScannerOptions()
-                options?.let(onSuccess)
-            }
-
             CameraTypes.LIVE_SCANNER.name -> {
                 cameraReaderLiveData.value?.openLiveTextRecognizer(preview, view, onSuccess)
+            }
+
+            CameraTypes.CAPTURE_IMAGE_SCREEN.name -> {
+                cameraReaderLiveData.value?.openCapturedImageTextRecognizer(preview, view, onSuccess)
             }
         }
     }

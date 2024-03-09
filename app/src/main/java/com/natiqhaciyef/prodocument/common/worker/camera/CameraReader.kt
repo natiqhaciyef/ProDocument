@@ -126,8 +126,7 @@ class CameraReader(
     }
 
 
-
-    // Image capture
+    // Live reader
     @ExperimentalGetImage
     fun openLiveTextRecognizer(
         cameraXPreviewHolder: PreviewView,
@@ -235,12 +234,103 @@ class CameraReader(
     }
 
 
-    fun openCameraScannerOptions() = GmsDocumentScannerOptions.Builder()
-        .setGalleryImportAllowed(false)
-        .setPageLimit(2)
-        .setResultFormats(RESULT_FORMAT_JPEG, RESULT_FORMAT_PDF)
-        .setScannerMode(SCANNER_MODE_FULL)
-        .build()
+    // Captured reader
+
+    @ExperimentalGetImage
+    fun openCapturedImageTextRecognizer(
+        cameraXPreviewHolder: PreviewView,
+        button: View? = null,
+        onSuccess: (Any) -> Unit
+    ) {
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
+        val imageCapture = ImageCapture.Builder().build()
+
+
+        val name = SimpleDateFormat(FILE_NAME_FORMAT, Locale.US)
+            .format(System.currentTimeMillis())
+        val contentValues = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, name)
+            put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+                put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/CameraX-Image")
+            }
+        }
+
+
+        val outputOptions = ImageCapture.OutputFileOptions
+            .Builder(
+                context.contentResolver,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                contentValues
+            )
+            .build()
+
+
+        cameraProviderFuture.addListener({
+            val cameraProvider = cameraProviderFuture.get()
+
+            // preview use case
+            val preview = Preview.Builder()
+                .build()
+                .also { it.setSurfaceProvider(cameraXPreviewHolder.surfaceProvider) }
+
+
+            button?.setOnClickListener {
+                imageCapture.takePicture(
+                    outputOptions,
+                    ContextCompat.getMainExecutor(context),
+                    object : ImageCapture.OnImageSavedCallback {
+                        override fun onError(exc: ImageCaptureException) {
+                            Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
+                        }
+
+                        override fun onImageSaved(output: ImageCapture.OutputFileResults) {
+                            val msg = "Photo capture succeeded: ${output.savedUri}"
+                            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+                            Log.e(TAG, msg)
+                            processRecognizerCapturedImage(output.savedUri)
+                            output.savedUri?.let(onSuccess)
+                        }
+                    }
+                )
+            }
+
+            try {
+                cameraProvider?.unbindAll()
+                cameraProvider?.bindToLifecycle(
+                    lifecycle,
+                    CameraSelector.DEFAULT_BACK_CAMERA,
+                    preview,
+                    imageCapture,
+                )
+
+            } catch (exc: Exception) {
+                Log.e(TAG, "Use case binding failed", exc)
+            }
+
+        }, ContextCompat.getMainExecutor(context))
+    }
+
+    @ExperimentalGetImage
+    private fun processRecognizerCapturedImage(
+        uri: Uri? = null,
+        onSuccess: (Text) -> Unit = {}
+    ) {
+        uri?.let {
+            val inputImage = InputImage.fromFilePath(context, uri)
+
+            val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+
+            recognizer.process(inputImage)
+                .addOnSuccessListener { visionText ->
+                    processTextBlock(visionText)
+                    onSuccess(visionText)
+                }
+                .addOnFailureListener {
+                    Log.e(ContentValues.TAG, it.message.orEmpty())
+                }
+        }
+    }
 
 
     private fun processTextBlock(result: Text) {
@@ -265,7 +355,14 @@ class CameraReader(
     }
 
     companion object {
-        const val TAG = "staff"
+        val cameraScannerDefaultOptions = GmsDocumentScannerOptions.Builder()
+            .setGalleryImportAllowed(true)
+            .setPageLimit(30)
+            .setResultFormats(RESULT_FORMAT_PDF, RESULT_FORMAT_JPEG)
+            .setScannerMode(SCANNER_MODE_FULL)
+            .build()
+
+        const val TAG = "ACTION_STAFF_CAMERA"
         private const val FILE_NAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
     }
 }

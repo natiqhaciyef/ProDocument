@@ -39,8 +39,8 @@ class ScanTypeFragment : BaseFragment() {
         binding.apply {
             val fragments = listOf(
                 ScanFragment(),
+                LiveRecognitionFragment(),
                 CaptureImageFragment(),
-                LiveRecognitionFragment()
             )
             val adapter = ScanViewPagerAdapter(fragments, this@ScanTypeFragment)
             scanViewPager.adapter = adapter
@@ -52,11 +52,11 @@ class ScanTypeFragment : BaseFragment() {
                     }
 
                     1 -> {
-                        CameraTypes.CAPTURE_IMAGE_SCREEN.title
+                        CameraTypes.LIVE_SCANNER.title
                     }
 
                     2 -> {
-                        CameraTypes.LIVE_SCANNER.title
+                        CameraTypes.CAPTURE_IMAGE_SCREEN.title
                     }
 
                     else -> {
