@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.activity.ComponentActivity
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import com.natiqhaciyef.util.common.worker.sendNotification
+import com.natiqhaciyef.prodocument.common.worker.config.sendNotification
 
 class NotificationWorker(val context: Context, workerParams: WorkerParameters) :
     Worker(context, workerParams) {

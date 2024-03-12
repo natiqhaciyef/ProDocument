@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/registration_nav_graph"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/letsSignInFragment">
 
     <fragment
         android:id="@+id/loginFragment"
@@ -16,19 +16,12 @@
         <action
             android:id="@+id/action_loginFragment_to_createAccountFragment"
             app:destination="@id/createAccountFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_resultFragment"
-            app:destination="@id/resultFragment" />
     </fragment>
     <fragment
         android:id="@+id/completeProfileFragment"
         android:name="com.natiqhaciyef.prodocument.ui.view.registration.create_account.CompleteProfileFragment"
         android:label="fragment_complete_profile"
-        tools:layout="@layout/fragment_complete_profile" >
-        <action
-            android:id="@+id/action_completeProfileFragment_to_resultFragment"
-            app:destination="@id/resultFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_complete_profile" />
     <fragment
         android:id="@+id/createAccountFragment"
         android:name="com.natiqhaciyef.prodocument.ui.view.registration.create_account.CreateAccountFragment"
@@ -40,8 +33,12 @@
     </fragment>
     <include app:graph="@navigation/forgot_password_nav_graph" />
     <fragment
-        android:id="@+id/resultFragment"
-        android:name="com.natiqhaciyef.prodocument.ui.view.registration.results.ResultFragment"
-        android:label="fragment_result"
-        tools:layout="@layout/fragment_result" />
+        android:id="@+id/letsSignInFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.registration.login.LetsSignInFragment"
+        android:label="fragment_lets_sign_in"
+        tools:layout="@layout/fragment_lets_sign_in" >
+        <action
+            android:id="@+id/action_letsSignInFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
 </navigation>

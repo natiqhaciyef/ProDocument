@@ -9,5 +9,26 @@
         android:id="@+id/homeFragment"
         android:name="com.natiqhaciyef.prodocument.ui.view.main.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_scan_nav_graph"
+            app:destination="@id/scan_nav_graph"
+            app:popUpTo="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/filesFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.files.FilesFragment"
+        android:label="fragment_files"
+        tools:layout="@layout/fragment_files" />
+    <fragment
+        android:id="@+id/premiumFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.premium.PremiumFragment"
+        android:label="fragment_premium"
+        tools:layout="@layout/fragment_premium" />
+    <include app:graph="@navigation/scan_nav_graph" />
 </navigation>

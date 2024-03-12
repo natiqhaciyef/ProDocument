@@ -1,9 +1,257 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.view.registration.create_account.CompleteProfileFragment">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/goBackIcon"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="26dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/back_arrow_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/completeProfileTopBar"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:src="@drawable/complete_profile_top_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/goBackIcon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/goBackIcon" />
+
+        <TextView
+            android:id="@+id/completeProfileTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="36dp"
+            android:fontFamily="@font/urbanist_bold"
+            android:text="@string/complete_your_profile_title"
+            android:textColor="@color/grayscale_900"
+            android:textSize="28sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/completeProfileTopBar" />
+
+        <TextView
+            android:id="@+id/completeProfileDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/urbanist_regular"
+            android:lineSpacingExtra="5dp"
+            android:text="@string/complete_your_profile_description"
+            android:textColor="@color/grayscale_900"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/completeProfileTitle" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/completeProfileAccountImage"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="24dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/profile_account_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/completeProfileDescription"
+            app:shapeAppearanceOverlay="@style/RoundedCornerImage" />
+
+        <ImageView
+            android:id="@+id/completeProfileAccountImageEditIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/profile_edit_icon"
+            app:layout_constraintBottom_toBottomOf="@id/completeProfileAccountImage"
+            app:layout_constraintEnd_toEndOf="@id/completeProfileAccountImage"
+            app:layout_constraintHorizontal_bias="0.95"
+            app:layout_constraintStart_toStartOf="@id/completeProfileAccountImage"
+            app:layout_constraintTop_toTopOf="@id/completeProfileAccountImage"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/completeProfileFullNameTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/urbanist_bold"
+            android:text="@string/full_name"
+            android:textColor="@color/grayscale_900"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/completeProfileAccountImage" />
+
+        <EditText
+            android:id="@+id/completeProfileFullNameInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/custom_registration_input_background"
+            android:fontFamily="@font/urbanist_bold"
+            android:gravity="center_vertical"
+            android:hint="@string/full_name"
+            android:inputType="text"
+            android:paddingVertical="10dp"
+            android:textColor="@color/grayscale_900"
+            android:textColorHint="@color/grayscale_500"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/completeProfileFullNameTitle" />
+
+        <TextView
+            android:id="@+id/completeProfilePhoneNumberTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/urbanist_bold"
+            android:text="@string/phone_number"
+            android:textColor="@color/grayscale_900"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/completeProfileFullNameInput" />
+
+        <EditText
+            android:id="@+id/completeProfilePhoneNumberInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/custom_registration_input_background"
+            android:fontFamily="@font/urbanist_bold"
+            android:gravity="center_vertical"
+            android:hint="@string/phone_number_example"
+            android:imeOptions="actionDone"
+            android:inputType="phone"
+            android:paddingVertical="10dp"
+            android:textColor="@color/grayscale_900"
+            android:textColorHint="@color/grayscale_500"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/completeProfilePhoneNumberTitle" />
+
+        <TextView
+            android:id="@+id/completeProfileGenderTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/urbanist_bold"
+            android:text="@string/gender"
+            android:textColor="@color/grayscale_900"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/completeProfilePhoneNumberInput" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/completeProfileGenderDropDownMenu"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:paddingStart="-14dp"
+            app:hintTextColor="@color/grayscale_500"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/completeProfileGenderTitle">
+
+            <AutoCompleteTextView
+                android:id="@+id/completeProfileGenderDropDownItem"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/custom_registration_input_background"
+                android:drawableEnd="@drawable/down_arrow_icon"
+                android:fontFamily="@font/urbanist_bold"
+                android:gravity="center_vertical"
+                android:inputType="none"
+                android:paddingVertical="6dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/grayscale_900"
+                android:textColorHint="@color/grayscale_500"
+                android:textSize="16sp"
+                tools:ignore="TouchTargetSizeCheck,TextContrastCheck,DuplicateClickableBoundsCheck,DuplicateClickableBoundsCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <TextView
+            android:id="@+id/completeProfileDOBTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/urbanist_bold"
+            android:text="@string/date_of_birth"
+            android:textColor="@color/grayscale_900"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/completeProfileGenderDropDownMenu" />
+
+        <TextView
+            android:id="@+id/completeProfileDOBInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/custom_registration_input_background"
+            android:drawableEnd="@drawable/calendar_icon"
+            android:fontFamily="@font/urbanist_bold"
+            android:gravity="center_vertical"
+            android:hint="@string/date_of_birth_example"
+            android:paddingVertical="8dp"
+            android:textColor="@color/grayscale_900"
+            android:textColorHint="@color/grayscale_500"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/completeProfileDOBTitle" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/continueButton"
+            style="@style/EnabledButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/custom_button_background"
+            android:enabled="false"
+            android:fontFamily="@font/urbanist_bold"
+            android:text="@string/continue_"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/completeProfileDOBInput" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

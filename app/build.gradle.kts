@@ -51,6 +51,20 @@ dependencies {
     val daggerVersion = "2.46"
     val epoxyVersion = "5.1.3"
     val lifecycleVersion = "2.5.1"
+    val cameraXVersion = "1.3.1"
+    val mlKitBarcodeVersion = "18.3.0"
+    val mlKitRecognizerVersion = "19.0.0"
+    val viewPagerVersion = "1.0.0"
+    val scannerMlKitVersion = "16.0.0-beta1"
+    val zxingVersion = "4.3.0"
+    val dataStoreVersion = "1.0.0"
+    val coilVersion = "2.5.0"
+    val okHttpLoggingInterceptorVersion = "5.0.0-alpha.3"
+    val lottieVersion = "5.2.0"
+
+    // scanner .aar file integration
+//    implementation(files(mapOf("dir" to "libs", "include" to listOf("scanlibrary.aar"))))
+
 
     implementation("com.google.ar:core:1.30.0")
     implementation("androidx.core:core-ktx:1.9.0")
@@ -61,7 +75,7 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
-    // Epoxy UI
+    // Epoxy UI && Masked text
     implementation("com.airbnb.android:epoxy:$epoxyVersion")
     annotationProcessor("com.airbnb.android:epoxy-processor:$epoxyVersion")
 
@@ -81,6 +95,30 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
     implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
 
+    // Camera X
+    implementation("androidx.camera:camera-core:${cameraXVersion}")
+    implementation("androidx.camera:camera-camera2:${cameraXVersion}")
+    implementation("androidx.camera:camera-lifecycle:${cameraXVersion}")
+    implementation("androidx.camera:camera-video:${cameraXVersion}")
+    implementation("androidx.camera:camera-view:${cameraXVersion}")
+    implementation("androidx.camera:camera-extensions:${cameraXVersion}")
+
+    // Android Barcode scanner and Text recognizer ml kit
+    implementation("com.google.android.gms:play-services-mlkit-barcode-scanning:${mlKitBarcodeVersion}")
+    implementation("com.google.android.gms:play-services-mlkit-text-recognition:$mlKitRecognizerVersion")
+    implementation("com.google.android.gms:play-services-mlkit-text-recognition-common:$mlKitRecognizerVersion")
+    implementation("com.google.android.gms:play-services-mlkit-document-scanner:${scannerMlKitVersion}")
+//    implementation("com.google.firebase:firebase-ml-vision:24.1.0")   R4s.6zV3LruyE7K
+//    implementation("com.google.android.gms:play-services-vision:19.0.0")
+
+
+    //Zxing (scanner)
+    implementation("com.journeyapps:zxing-android-embedded:$zxingVersion")
+
+    //Data store
+    implementation("androidx.datastore:datastore-preferences:$dataStoreVersion")
+    implementation("androidx.security:security-crypto:$dataStoreVersion")
+
     //Fragment ktx
     implementation("androidx.fragment:fragment-ktx:$fragmentVersion")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
@@ -94,13 +132,13 @@ dependencies {
     //Image loader library
     implementation("com.github.bumptech.glide:glide:4.15.1")
     annotationProcessor("com.github.bumptech.glide:compiler:4.14.2")
-    implementation("io.coil-kt:coil:2.5.0")
+    implementation("io.coil-kt:coil:$coilVersion")
 
     //Retrofit library
     implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
     implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
     implementation("com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion")
-    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.3")
+    implementation("com.squareup.okhttp3:logging-interceptor:$okHttpLoggingInterceptorVersion")
 
     //Dagger hilt
     implementation("com.google.dagger:hilt-android:$daggerVersion")
@@ -108,8 +146,8 @@ dependencies {
 
     //Animation Library & Swipe Refresh Layout & ViewPager
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-    implementation("com.airbnb.android:lottie:5.2.0")
-    implementation("androidx.viewpager2:viewpager2:1.0.0")
+    implementation("com.airbnb.android:lottie:$lottieVersion")
+    implementation("androidx.viewpager2:viewpager2:$viewPagerVersion")
 
     // Work manager
     implementation("androidx.work:work-runtime-ktx:2.8.1")
