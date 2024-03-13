@@ -3,7 +3,9 @@ package com.natiqhaciyef.prodocument.ui.view.onboarding
 import android.os.Bundle
 import com.natiqhaciyef.prodocument.databinding.ActivityOnboardingBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class OnboardingActivity : BaseActivity() {
     private lateinit var binding: ActivityOnboardingBinding
 

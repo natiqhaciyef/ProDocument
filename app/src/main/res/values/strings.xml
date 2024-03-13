@@ -1,49 +1,113 @@
 <resources>
-    <string name="app_name">ProDocument</string>
+    <string name="app_name">ProScan</string>
     <string name="default_web_client_id">215890442182-hf32bgffbujnnmda753pd8jeaefi1lsd.apps.googleusercontent.com</string>
     <string name="title_activity_registration">RegistrationActivity</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
-    <string name="lorem_ipsum">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
-        volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
-        dui nec risus. Maecenas non sodales nisi, vel dictum dolor. Class aptent taciti sociosqu ad
-        litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse blandit eleifend
-        diam, vel rutrum tellus vulputate quis. Aliquam eget libero aliquet, imperdiet nisl a,
-        ornare ex. Sed rhoncus est ut libero porta lobortis. Fusce in dictum tellus.\n\n
-        Suspendisse interdum ornare ante. Aliquam nec cursus lorem. Morbi id magna felis. Vivamus
-        egestas, est a condimentum egestas, turpis nisl iaculis ipsum, in dictum tellus dolor sed
-        neque. Morbi tellus erat, dapibus ut sem a, iaculis tincidunt dui. Interdum et malesuada
-        fames ac ante ipsum primis in faucibus. Curabitur et eros porttitor, ultricies urna vitae,
-        molestie nibh. Phasellus at commodo eros, non aliquet metus. Sed maximus nisl nec dolor
-        bibendum, vel congue leo egestas.\n\n
-        Sed interdum tortor nibh, in sagittis risus mollis quis. Curabitur mi odio, condimentum sit
-        amet auctor at, mollis non turpis. Nullam pretium libero vestibulum, finibus orci vel,
-        molestie quam. Fusce blandit tincidunt nulla, quis sollicitudin libero facilisis et. Integer
-        interdum nunc ligula, et fermentum metus hendrerit id. Vestibulum lectus felis, dictum at
-        lacinia sit amet, tristique id quam. Cras eu consequat dui. Suspendisse sodales nunc ligula,
-        in lobortis sem porta sed. Integer id ultrices magna, in luctus elit. Sed a pellentesque
-        est.\n\n
-        Aenean nunc velit, lacinia sed dolor sed, ultrices viverra nulla. Etiam a venenatis nibh.
-        Morbi laoreet, tortor sed facilisis varius, nibh orci rhoncus nulla, id elementum leo dui
-        non lorem. Nam mollis ipsum quis auctor varius. Quisque elementum eu libero sed commodo. In
-        eros nisl, imperdiet vel imperdiet et, scelerisque a mauris. Pellentesque varius ex nunc,
-        quis imperdiet eros placerat ac. Duis finibus orci et est auctor tincidunt. Sed non viverra
-        ipsum. Nunc quis augue egestas, cursus lorem at, molestie sem. Morbi a consectetur ipsum, a
-        placerat diam. Etiam vulputate dignissim convallis. Integer faucibus mauris sit amet finibus
-        convallis.\n\n
-        Phasellus in aliquet mi. Pellentesque habitant morbi tristique senectus et netus et
-        malesuada fames ac turpis egestas. In volutpat arcu ut felis sagittis, in finibus massa
-        gravida. Pellentesque id tellus orci. Integer dictum, lorem sed efficitur ullamcorper,
-        libero justo consectetur ipsum, in mollis nisl ex sed nisl. Donec maximus ullamcorper
-        sodales. Praesent bibendum rhoncus tellus nec feugiat. In a ornare nulla. Donec rhoncus
-        libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
-        vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
-    </string>
+    <!-- TODO: Remove or change this placeholder text -->
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="proscan">ProScan</string>
+
+    <!-- Buttons -->
+    <string name="skip">Skip</string>
+    <string name="next">Next</string>
+    <string name="select">Select</string>
+    <string name="continue_">Continue</string>
+    <string name="finish">Finish</string>
+    <string name="go_to_login">Go to Login</string>
+    <string name="sign_in">Sign in</string>
+    <string name="confirm">Confirm</string>
+
+
+    <!-- Result -->
+    <string name="sign_up_successful_result">Sign Up Successful!</string>
+    <string name="your_account_has_been_created">Your account has been created</string>
+
+
+    <!-- Onboarding & Walkthrough -->
+    <string name="onboarding_title_1">Scan all your documents quickly and easily</string>
+    <string name="onboarding_title_2">You can also edit and customize scan results</string>
+    <string name="onboarding_description_1">The easiest way of document scanning as a professional way</string>
+    <string name="onboarding_description_2">Easily customize your scan results by editing and customizing them to fit your preferences</string>
+    <string name="onboarding_title_3">Organize your documents with ProScan now!</string>
+    <string name="onboarding_description_3">Boost your document organization with ProScan! Simplify and tidy up your files effortlessly for enhanced efficiency.</string>
+
+
+    <!-- Complete your profile -->
+    <string name="complete_your_profile_title">Complete your profile 📋</string>
+    <string name="complete_your_profile_description">Don\'t worry, only you can see your personal data. No one else will be able to see it.</string>
+    <string name="full_name">Full name</string>
+    <string name="phone_number">Phone number</string>
+    <string name="phone_number_example">055 000 00 00</string>
+    <string name="gender">Gender</string>
+    <string name="date_of_birth">Date of birth</string>
+    <string name="not_selected">Not selected</string>
+    <string name="date_of_birth_example">DD/MM/YYYY</string>
+
+
+    <!-- Create account -->
+    <string name="create_profile_title">Create an account 🔐</string>
+    <string name="create_profile_description"><![CDATA[Enter your email & password. If you forget it, then you have to do forgot password.]]></string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="remember_me">Remember me</string>
+
+
+    <!-- Lets sign in -->
+    <string name="lets_sign_in_title">Let’s you in</string>
+    <string name="continue_with_platform_title">Continue with platform</string>
+    <string name="sign_in_with_password">Sign in with password</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="sign_up">Sign up</string>
+
+
+    <!-- Login -->
+    <string name="login">Login</string>
+    <string name="login_title">Hello there 👋</string>
+    <string name="login_description"><![CDATA[Please enter your email & password to sign in.]]></string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="or_continue_with">or continue with</string>
+
+
+    <!-- Forgot password -->
+    <string name="forgot_password_title">Forgot password 🔑</string>
+    <string name="forgot_password_description">Enter your email address. We will send an OTP code for verification in the next step.</string>
+
+
+    <!-- OTP -->
+    <string name="otp_title">You’ve got mail 📩</string>
+    <string name="otp_description">We have sent the OTP verification code to your email address. Check your email and enter the code below.</string>
+    <string name="dont_get_email">Didn\'t receive email?</string>
+    <string name="resend_description"><![CDATA[<font color=#212121>You can resend code in </font><font color=#4B68FF>%1$s</font><font color=#212121> s</font>]]></string>
+
+
+    <!-- Change password -->
+    <string name="change_password_title">Create new password 🔐</string>
+    <string name="change_password_description">Enter your new password. If you forget it, then you have to do forgot password.</string>
+
+
+    <!-- Home -->
+    <string name="scan_code">Scan Code</string>
+    <string name="watermark">Watermark</string>
+    <string name="e_sign_pdf">eSign PDF</string>
+    <string name="split_pdf">Split PDF</string>
+    <string name="merge_pdf">Merge PDF</string>
+    <string name="protect_pdf">Protect PDF</string>
+    <string name="compress_pdf">Compress PDF</string>
+    <string name="all_tools">All tools</string>
+    <string name="recent_files">Recent Files</string>
+    <string name="home">Home</string>
+    <string name="files">Files</string>
+    <string name="premium">Premium</string>
+    <string name="profile">Profile</string>
+
+    <!-- Scan -->
+    <string name="scan_qr_title">Scan QR Code</string>
+    <string name="scan_image_title">Scan Image Code</string>
+    <string name="scan_live_title">Live Recognition Code</string>
+    <string name="scan_qr_description">Please point the camera at the QR Code</string>
+    <string name="scan_live_description">Please set the camera at the view</string>
+    <string name="scan_image_description">Please capture and set camera at the Image</string>
+
 </resources>

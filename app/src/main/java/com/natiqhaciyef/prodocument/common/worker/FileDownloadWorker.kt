@@ -14,6 +14,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import com.natiqhaciyef.prodocument.R
+import com.natiqhaciyef.prodocument.common.worker.config.getSavedFileUri
 
 class FileDownloadWorker(
     private val context: Context,
