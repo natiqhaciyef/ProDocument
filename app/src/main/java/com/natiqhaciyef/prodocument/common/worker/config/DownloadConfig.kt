@@ -2,10 +2,12 @@ package com.natiqhaciyef.prodocument.common.worker.config
 
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.work.Constraints
 import androidx.work.Data
@@ -14,17 +16,15 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
+import com.natiqhaciyef.prodocument.BuildConfig
 import com.natiqhaciyef.prodocument.common.worker.FileDownloadWorker
-import com.natiqhaciyef.prodocument.data.model.MaterialModel
 import com.natiqhaciyef.prodocument.domain.model.mapped.MappedMaterialModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import java.io.File
 import java.io.FileOutputStream
-import java.net.HttpURLConnection
 import java.net.URL
 import java.util.UUID
+
 
 const val PDF = "PDF"
 const val DOCX = "DOCX"
@@ -38,13 +38,8 @@ fun getSavedFileUri(
     fileUrl: String,
     context: Context
 ): Uri? {
-    val mimeType = when (fileType) {
-        PDF -> "application/pdf"
-        DOCX -> "application/docx"
-        PNG, JPEG -> "image/png"
-        MP4 -> "video/mp4"
-        else -> "application/docx"
-    } // different types of files will have different mime type
+    val mimeType =
+        getIntentFileType(fileType) // different types of files will have different mime type
 
     if (mimeType.isEmpty()) return null
 
@@ -89,6 +84,14 @@ fun getSavedFileUri(
     }
 }
 
+fun getIntentFileType(type: String) = when (type) {
+    PDF -> "application/pdf"
+    DOCX -> "application/docx"
+    PNG -> "image/png"
+    JPEG -> "image/jpeg"
+    MP4 -> "video/mp4"
+    else -> "application/docx"
+}
 
 fun startDownloadingFile(
     file: MappedMaterialModel,
@@ -155,40 +158,67 @@ fun startDownloadingFile(
         }
 }
 
-fun downloadFile(
-    context: Context,
-    url: String
-) {
-    val fileName = URL(url).file
-
-    val directory = File(
-        context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS),
-        "MyDownloads"
-    )
-    directory.mkdirs()
-
-    val file = File(directory, fileName)
-
-    val thread = CoroutineScope(Dispatchers.Main).launch {
-        val urlConnection = URL(url).openConnection() as HttpURLConnection
-        urlConnection.connect()
-
-        val inputStream = urlConnection.inputStream
-        val outputStream = FileOutputStream(file.path)
-
-        val buffer = ByteArray(1024)
-        var readBytes: Int
-
-        do {
-            readBytes = inputStream.read(buffer)
-            if (readBytes > 0) {
-                outputStream.write(buffer, 0, readBytes)
-            }
-        } while (readBytes > 0)
-
-        inputStream.close()
-        outputStream.close()
+fun BaseFragment.createAndShareFile(
+    fileType: String,
+    urls: List<String>,
+    isShare: Boolean = true
+) = when (fileType) {
+    PDF -> {
+        shareFile(urls, PDF, isShare)
     }
 
-    thread.start()
+    JPEG -> {
+        shareFile(urls, JPEG, isShare)
+    }
+
+    PNG -> {
+        shareFile(urls, PNG, isShare)
+    }
+
+    else -> {
+        listOf()
+    }
 }
+
+private fun BaseFragment.shareFile(
+    urls: List<String>,
+    fileType: String,
+    isShare: Boolean = true
+): List<Uri> {
+    val list = mutableListOf<Uri>()
+    val sharingIntent = Intent(Intent.ACTION_SEND)
+
+    if (urls.size == 1) {
+        val externalUri = getAddressOfFile(requireContext(), urls[0])
+        if (isShare)
+            sharingIntent.apply {
+                type = getIntentFileType(fileType)
+                putExtra(Intent.EXTRA_STREAM, externalUri)
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+        list.add(externalUri)
+    } else {
+
+        for (url in urls) {
+            list.add(getAddressOfFile(requireContext(), url))
+        }
+
+        if (isShare)
+            sharingIntent.apply {
+                type = getIntentFileType(fileType)
+                putExtra(Intent.EXTRA_STREAM, list.toTypedArray())
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+    }
+
+    startActivity(Intent.createChooser(sharingIntent, "Share data using"))
+    return list
+}
+
+private fun getAddressOfFile(context: Context, uri: String) =
+    FileProvider.getUriForFile(
+        context,
+        "${BuildConfig.APPLICATION_ID}.provider",
+        File(uri)
+    )
+
