@@ -51,17 +51,22 @@ class CaptureImageFragment : BaseFragment() {
                     GmsDocumentScanningResult.fromActivityResultIntent(result.data)
 
                 if (resultForPDF != null) {
-                    createAndShareFile(
-                        context = requireContext(),
+                    val pdfList = createAndShareFile(
                         fileType = PDF,
-                        urls = listOf(resultForPDF.pdf?.uri.toString())
+                        urls = listOf(resultForPDF.pdf?.uri?.path.toString()),
+                        isShare = true
                     )
 
-                    createAndShareFile(
-                        context = requireContext(),
+                    println(pdfList)
+
+                    val imageList = createAndShareFile(
                         fileType = PNG,
-                        urls = resultForPDF.pages?.map { it.imageUri.toString() } ?: listOf()
+                        urls = resultForPDF.pages?.map { it.imageUri.path.toString() } ?: listOf(),
+                        isShare = false
                     )
+
+                    println(imageList)
+
                     navigateByRouteTitle(HOME_ROUTE)
                 }
             }

@@ -7,8 +7,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
-import android.provider.MediaStore.Images
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.work.Constraints
@@ -161,35 +159,20 @@ fun startDownloadingFile(
 }
 
 fun BaseFragment.createAndShareFile(
-    context: Context,
     fileType: String,
     urls: List<String>,
+    isShare: Boolean = true
 ) = when (fileType) {
     PDF -> {
-        val externalPdfUri = FileProvider.getUriForFile(
-            context,
-            "${BuildConfig.APPLICATION_ID}.provider",
-            File(urls[0])
-        )
-
-        val shareIntent =
-            Intent(Intent.ACTION_SEND).apply {
-                putExtra(Intent.EXTRA_STREAM, externalPdfUri)
-                type = getIntentFileType(PDF)
-                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            }
-
-        startActivity(Intent.createChooser(shareIntent, "share pdf"))
-        listOf(externalPdfUri)
+        shareFile(urls, PDF, isShare)
     }
 
-    JPEG, PNG -> {
-        val list = mutableListOf<String>()
-        for (url in urls) {
-            val uri = shareImage(url.toUri())
-            list.add(uri.toString())
-        }
-        list
+    JPEG -> {
+        shareFile(urls, JPEG, isShare)
+    }
+
+    PNG -> {
+        shareFile(urls, PNG, isShare)
     }
 
     else -> {
@@ -197,13 +180,45 @@ fun BaseFragment.createAndShareFile(
     }
 }
 
-private fun BaseFragment.shareImage(uri: Uri): Uri {
+private fun BaseFragment.shareFile(
+    urls: List<String>,
+    fileType: String,
+    isShare: Boolean = true
+): List<Uri> {
+    val list = mutableListOf<Uri>()
     val sharingIntent = Intent(Intent.ACTION_SEND)
-    val screenshotUri = Uri.parse(Images.Media.EXTERNAL_CONTENT_URI.toString() + "/" + uri)
 
-    sharingIntent.setType(getIntentFileType(JPEG))
-    sharingIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri)
-    startActivity(Intent.createChooser(sharingIntent, "Share image using"))
+    if (urls.size == 1) {
+        val externalUri = getAddressOfFile(requireContext(), urls[0])
+        if (isShare)
+            sharingIntent.apply {
+                type = getIntentFileType(fileType)
+                putExtra(Intent.EXTRA_STREAM, externalUri)
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+        list.add(externalUri)
+    } else {
 
-    return screenshotUri
+        for (url in urls) {
+            list.add(getAddressOfFile(requireContext(), url))
+        }
+
+        if (isShare)
+            sharingIntent.apply {
+                type = getIntentFileType(fileType)
+                putExtra(Intent.EXTRA_STREAM, list.toTypedArray())
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+    }
+
+    startActivity(Intent.createChooser(sharingIntent, "Share data using"))
+    return list
 }
+
+private fun getAddressOfFile(context: Context, uri: String) =
+    FileProvider.getUriForFile(
+        context,
+        "${BuildConfig.APPLICATION_ID}.provider",
+        File(uri)
+    )
+
