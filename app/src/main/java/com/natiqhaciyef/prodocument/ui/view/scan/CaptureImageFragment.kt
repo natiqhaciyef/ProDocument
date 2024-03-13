@@ -16,18 +16,18 @@ import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.ExperimentalGetImage
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanning
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanningResult
-import com.natiqhaciyef.prodocument.BuildConfig
 import com.natiqhaciyef.prodocument.common.helpers.loadImage
 import com.natiqhaciyef.prodocument.common.worker.camera.CameraReader
+import com.natiqhaciyef.prodocument.common.worker.config.PDF
+import com.natiqhaciyef.prodocument.common.worker.config.PNG
+import com.natiqhaciyef.prodocument.common.worker.config.createAndShareFile
 import com.natiqhaciyef.prodocument.databinding.FragmentCaptureImageBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
 import com.natiqhaciyef.prodocument.ui.view.scan.behaviour.CameraTypes
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.File
 
 //val inset = context.convertDpToPixel(16)
 
@@ -51,25 +51,19 @@ class CaptureImageFragment : BaseFragment() {
                     GmsDocumentScanningResult.fromActivityResultIntent(result.data)
 
                 if (resultForPDF != null) {
-                    val shortUrl = resultForPDF.pdf?.uri?.path.toString()
-                    val externalUri = FileProvider.getUriForFile(
-                        requireContext(),
-                        "${BuildConfig.APPLICATION_ID}.provider",
-                        File(shortUrl)
+                    createAndShareFile(
+                        context = requireContext(),
+                        fileType = PDF,
+                        urls = listOf(resultForPDF.pdf?.uri.toString())
                     )
 
-                    val shareIntent =
-                        Intent(Intent.ACTION_SEND).apply {
-                            putExtra(Intent.EXTRA_STREAM, externalUri)
-                            type = "application/pdf"
-                            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                        }
-
-                    startActivity(Intent.createChooser(shareIntent, "share pdf"))
-
+                    createAndShareFile(
+                        context = requireContext(),
+                        fileType = PNG,
+                        urls = resultForPDF.pages?.map { it.imageUri.toString() } ?: listOf()
+                    )
                     navigateByRouteTitle(HOME_ROUTE)
                 }
-
             }
         }
 
@@ -210,7 +204,6 @@ class CaptureImageFragment : BaseFragment() {
         scanner.getStartScanIntent(requireActivity())
             .addOnSuccessListener { intentSender ->
                 scannerLauncher.launch(IntentSenderRequest.Builder(intentSender).build())
-                navigateByRouteTitle(HOME_ROUTE)
             }
             .addOnFailureListener {
                 println(it.localizedMessage)
