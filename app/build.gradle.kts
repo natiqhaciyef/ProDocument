@@ -129,10 +129,11 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
 
-    //Image loader library
+    //Image & document loader library
     implementation("com.github.bumptech.glide:glide:4.15.1")
     annotationProcessor("com.github.bumptech.glide:compiler:4.14.2")
     implementation("io.coil-kt:coil:$coilVersion")
+    implementation("com.github.barteksc:android-pdf-viewer:2.3.0")
 
     //Retrofit library
     implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
