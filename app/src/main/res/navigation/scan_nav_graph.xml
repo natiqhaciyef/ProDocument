@@ -20,4 +20,9 @@
         android:name="com.natiqhaciyef.prodocument.ui.view.scan.CaptureImageFragment"
         android:label="fragment_capture_image"
         tools:layout="@layout/fragment_capture_image" />
+    <fragment
+        android:id="@+id/modifyPdfFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.scan.ModifyPdfFragment"
+        android:label="fragment_modify_pdf"
+        tools:layout="@layout/fragment_modify_pdf" />
 </navigation>

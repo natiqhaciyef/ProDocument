@@ -8,14 +8,12 @@ import com.natiqhaciyef.prodocument.domain.model.mapped.MappedMaterialModel
 
 
 fun MaterialModel.toMappedMaterial(): MappedMaterialModel? {
-    return if (!title.isNullOrEmpty()
-        && !description.isNullOrEmpty()
-    ) {
+    return if (!title.isNullOrEmpty()) {
         MappedMaterialModel(
             id = this.id,
             image = this.image,
             title = this.title!!,
-            description = this.description!!,
+            description = this.description,
             createdDate = this.createdDate,
             type = this.type,
             url = this.url,
@@ -36,18 +34,18 @@ fun MappedMaterialModel.toMaterial(): MaterialModel {
 }
 
 fun MaterialResponse.toUIResult(): UIResult<MappedMaterialModel>? {
-    return if (!this.title.isNullOrEmpty() && !this.description.isNullOrEmpty()) {
+    return if (!this.title.isNullOrEmpty()) {
         val mappedModel = MappedMaterialModel(
             id = this.id,
             image = this.image,
             title = this.title!!,
-            description = this.description!!,
+            description = this.description,
             createdDate = this.publishDate,
             type = this.type,
             url = this.url,
         )
 
-        UIResult<MappedMaterialModel>(
+        UIResult(
             id = this.id,
             publishDate = this.publishDate,
             data = mappedModel
@@ -58,12 +56,12 @@ fun MaterialResponse.toUIResult(): UIResult<MappedMaterialModel>? {
 }
 
 fun MaterialResponse.toMappedModel(): MappedMaterialModel? {
-    return if (!this.title.isNullOrEmpty() && !this.description.isNullOrEmpty()) {
+    return if (!this.title.isNullOrEmpty()) {
         MappedMaterialModel(
             id = this.id,
             image = this.image,
             title = this.title!!,
-            description = this.description!!,
+            description = this.description,
             createdDate = this.publishDate,
             type = this.type,
             url = this.url,

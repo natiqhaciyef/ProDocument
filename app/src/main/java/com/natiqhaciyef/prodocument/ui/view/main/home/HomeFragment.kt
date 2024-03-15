@@ -103,7 +103,7 @@ class HomeFragment : BaseFragment() {
         binding.apply {
             topbarSearch.doOnTextChanged { text, start, before, count ->
                 text?.let {
-                    list.filter { it.title.contains(text.toString()) && it.description.contains(text.toString()) }
+                    list.filter { it.title.contains(text.toString()) }
                     fileAdapter.updateList(list)
                 }
             }
