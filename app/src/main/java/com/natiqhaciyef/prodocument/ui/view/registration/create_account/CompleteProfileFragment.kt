@@ -38,11 +38,7 @@ import java.util.Locale
 
 
 @AndroidEntryPoint
-class CompleteProfileFragment : BaseFragment() {
-    private var _binding: FragmentCompleteProfileBinding? = null
-    private val binding: FragmentCompleteProfileBinding
-        get() = _binding!!
-
+class CompleteProfileFragment : BaseFragment<FragmentCompleteProfileBinding>() {
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
     private lateinit var activityLauncher: ActivityResultLauncher<Intent>
     private var currentSelectedTime: Long = 0L

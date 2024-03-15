@@ -22,11 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @ExperimentalGetImage
 @AndroidEntryPoint
-class LiveRecognitionFragment : BaseFragment() {
-    private var _binding: FragmentLiveRecognitionBinding? = null
-    private val binding: FragmentLiveRecognitionBinding
-        get() = _binding!!
-
+class LiveRecognitionFragment : BaseFragment<FragmentLiveRecognitionBinding>() {
     private val scanViewModel: ScanViewModel by viewModels()
     private val registerForCameraPermissionResult =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->

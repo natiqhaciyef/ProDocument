@@ -11,11 +11,7 @@ import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ModifyPdfFragment : BaseFragment() {
-    private var _binding: FragmentModifyPdfBinding? = null
-    private val binding: FragmentModifyPdfBinding
-        get() = _binding!!
-
+class ModifyPdfFragment : BaseFragment<FragmentModifyPdfBinding>() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

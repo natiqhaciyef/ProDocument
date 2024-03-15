@@ -20,11 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class ChangePasswordFragment : BaseFragment() {
-    private var _binding: FragmentChangePasswordBinding? = null
-    private val binding: FragmentChangePasswordBinding
-        get() = _binding!!
-
+class ChangePasswordFragment : BaseFragment<FragmentChangePasswordBinding>() {
     private val changePasswordViewModel: ChangePasswordViewModel by viewModels()
 
     override fun onCreateView(

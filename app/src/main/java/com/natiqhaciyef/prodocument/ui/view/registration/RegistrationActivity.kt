@@ -6,12 +6,16 @@ import com.natiqhaciyef.prodocument.ui.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RegistrationActivity : BaseActivity() {
-    private lateinit var binding: ActivityRegistrationBinding
+class RegistrationActivity : BaseActivity<ActivityRegistrationBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityRegistrationBinding.inflate(layoutInflater)
+        _binding = ActivityRegistrationBinding.inflate(layoutInflater)
         setContentView(binding.root)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

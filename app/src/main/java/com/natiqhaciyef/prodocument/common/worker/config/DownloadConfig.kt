@@ -9,6 +9,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
+import androidx.fragment.app.Fragment
 import androidx.work.Constraints
 import androidx.work.Data
 import androidx.work.ExistingWorkPolicy
@@ -158,7 +159,7 @@ fun startDownloadingFile(
         }
 }
 
-fun BaseFragment.createAndShareFile(
+fun Fragment.createAndShareFile(
     fileType: String,
     urls: List<String>,
     isShare: Boolean = true
@@ -180,7 +181,7 @@ fun BaseFragment.createAndShareFile(
     }
 }
 
-private fun BaseFragment.shareFile(
+private fun Fragment.shareFile(
     urls: List<String>,
     fileType: String,
     isShare: Boolean = true

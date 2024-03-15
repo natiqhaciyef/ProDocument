@@ -22,11 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class CreateAccountFragment : BaseFragment() {
-    private var _binding: FragmentCreateAccountBinding? = null
-    private val binding: FragmentCreateAccountBinding
-        get() = _binding!!
-
+class CreateAccountFragment : BaseFragment<FragmentCreateAccountBinding>() {
     private val createAccountViewModel: CreateAccountViewModel by viewModels()
     private val completeProfileViewModel: CompleteProfileViewModel by viewModels()
     private var isRemembered: Boolean = false

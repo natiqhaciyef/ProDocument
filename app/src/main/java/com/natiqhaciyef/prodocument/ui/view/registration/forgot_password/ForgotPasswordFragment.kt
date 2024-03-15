@@ -14,11 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class ForgotPasswordFragment : BaseFragment() {
-    private var _binding: FragmentForgotPasswordBinding? = null
-    private val binding: FragmentForgotPasswordBinding
-        get() = _binding!!
-
+class ForgotPasswordFragment : BaseFragment<FragmentForgotPasswordBinding>() {
     private val forgotPasswordViewModel: ForgotPasswordViewModel by viewModels()
 
     override fun onCreateView(

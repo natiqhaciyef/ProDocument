@@ -10,11 +10,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class ProfileFragment : BaseFragment() {
-    private var _binding: FragmentProfileBinding? = null
-    private val binding: FragmentProfileBinding
-        get() = _binding!!
-
+class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
