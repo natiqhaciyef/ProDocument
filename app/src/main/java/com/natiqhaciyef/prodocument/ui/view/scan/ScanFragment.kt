@@ -18,11 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @ExperimentalGetImage
 @AndroidEntryPoint
-class ScanFragment : BaseFragment() {
-    private var _binding: FragmentScanBinding? = null
-    private val binding: FragmentScanBinding
-        get() = _binding!!
-
+class ScanFragment : BaseFragment<FragmentScanBinding>() {
     private val scanViewModel: ScanViewModel by viewModels()
 
     private val registerForPermissionResult =

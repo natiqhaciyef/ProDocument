@@ -13,11 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class OnboardThirdFragment : BaseFragment() {
-    private var _binding: FragmentOnboardThirdBinding? = null
-    private val binding: FragmentOnboardThirdBinding
-        get() = _binding!!
-
+class OnboardThirdFragment : BaseFragment<FragmentOnboardThirdBinding>() {
     private val viewModel: OnboardingViewModel by viewModels()
 
     override fun onCreateView(

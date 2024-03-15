@@ -21,11 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class LoginFragment : BaseFragment() {
-    private var _binding: FragmentLoginBinding? = null
-    private val binding: FragmentLoginBinding
-        get() = _binding!!
-
+class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     private val loginViewModel: LoginViewModel by viewModels()
 
     override fun onCreateView(

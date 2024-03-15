@@ -14,11 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class OnboardFirstFragment : BaseFragment() {
-    private var _binding: FragmentOnboardFirstBinding? =null
-    private val binding: FragmentOnboardFirstBinding
-        get() = _binding!!
-
+class OnboardFirstFragment : BaseFragment<FragmentOnboardFirstBinding>() {
     private val viewModel: OnboardingViewModel by viewModels()
 
     override fun onCreateView(

@@ -33,11 +33,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @ExperimentalGetImage
 @AndroidEntryPoint
-class CaptureImageFragment : BaseFragment() {
-    private var _binding: FragmentCaptureImageBinding? = null
-    private val binding: FragmentCaptureImageBinding
-        get() = _binding!!
-
+class CaptureImageFragment : BaseFragment<FragmentCaptureImageBinding>() {
     private val scanViewModel: ScanViewModel by viewModels()
     private var imageUri: Uri? = null
 
@@ -55,15 +51,13 @@ class CaptureImageFragment : BaseFragment() {
                         fileType = PDF,
                         urls = listOf(resultForPDF.pdf?.uri?.path.toString()),
                         isShare = true
-                    )[0]
+                    )
 
                     scanViewModel.createMaterial(
                         title = "Scanned file",
-                        uri = pdfList,
+                        uri = pdfList.first(),
                         image = ""
                     )
-
-                    println(pdfList)
 
 //                    val imageList = createAndShareFile(
 //                        fileType = PNG,

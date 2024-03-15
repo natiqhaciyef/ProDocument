@@ -11,11 +11,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class LetsSignInFragment : BaseFragment() {
-    private var _binding: FragmentLetsSignInBinding? = null
-    private val binding: FragmentLetsSignInBinding
-        get() = _binding!!
-
+class LetsSignInFragment : BaseFragment<FragmentLetsSignInBinding>() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

@@ -17,11 +17,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class OTPFragment : BaseFragment() {
-    private var _binding: FragmentOTPBinding? = null
-    private val binding: FragmentOTPBinding
-        get() = _binding!!
-
+class OTPFragment : BaseFragment<FragmentOTPBinding>() {
     private val otpViewModel: OTPViewModel by viewModels()
 
     override fun onCreateView(
