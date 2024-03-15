@@ -8,7 +8,7 @@ data class MappedMaterialModel(
     var id: String,
     var image: String,
     var title: String,
-    var description: String,
+    var description: String?,
     var createdDate: String,
     var type: String,
     var url: String,

@@ -55,19 +55,23 @@ class CaptureImageFragment : BaseFragment() {
                         fileType = PDF,
                         urls = listOf(resultForPDF.pdf?.uri?.path.toString()),
                         isShare = true
+                    )[0]
+
+                    scanViewModel.createMaterial(
+                        title = "Scanned file",
+                        uri = pdfList,
+                        image = ""
                     )
 
                     println(pdfList)
 
-                    val imageList = createAndShareFile(
-                        fileType = PNG,
-                        urls = resultForPDF.pages?.map { it.imageUri.path.toString() } ?: listOf(),
-                        isShare = false
-                    )
+//                    val imageList = createAndShareFile(
+//                        fileType = PNG,
+//                        urls = resultForPDF.pages?.map { it.imageUri.path.toString() } ?: listOf(),
+//                        isShare = false
+//                    )
 
-                    println(imageList)
-
-                    navigateByRouteTitle(HOME_ROUTE)
+//                    navigateByRouteTitle(HOME_ROUTE)
                 }
             }
         }
