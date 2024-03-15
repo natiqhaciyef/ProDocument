@@ -18,11 +18,10 @@ import androidx.camera.core.ExperimentalGetImage
 import androidx.core.content.ContextCompat
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanning
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanningResult
-import com.natiqhaciyef.prodocument.common.helpers.loadImage
-import com.natiqhaciyef.prodocument.common.worker.camera.CameraReader
-import com.natiqhaciyef.prodocument.common.worker.config.PDF
-import com.natiqhaciyef.prodocument.common.worker.config.PNG
-import com.natiqhaciyef.prodocument.common.worker.config.createAndShareFile
+import com.natiqhaciyef.common.helpers.loadImage
+import com.natiqhaciyef.prodocument.worker.camera.CameraReader
+import com.natiqhaciyef.prodocument.worker.config.PDF
+import com.natiqhaciyef.prodocument.worker.config.createAndShareFile
 import com.natiqhaciyef.prodocument.databinding.FragmentCaptureImageBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE

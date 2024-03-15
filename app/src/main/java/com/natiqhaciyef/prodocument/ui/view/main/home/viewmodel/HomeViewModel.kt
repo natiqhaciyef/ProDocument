@@ -3,9 +3,9 @@ package com.natiqhaciyef.prodocument.ui.view.main.home.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.natiqhaciyef.prodocument.common.model.Status
-import com.natiqhaciyef.prodocument.domain.model.mapped.MappedMaterialModel
-import com.natiqhaciyef.prodocument.domain.usecase.material.GetAllMaterialsRemoteUseCase
+import com.natiqhaciyef.common.model.Status
+import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
+import com.natiqhaciyef.domain.usecase.material.GetAllMaterialsRemoteUseCase
 import com.natiqhaciyef.prodocument.ui.base.BaseUIState
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,8 +29,8 @@ class HomeViewModel @Inject constructor(
                     Status.SUCCESS -> {
                         if (result.data != null) {
                             _fileState.value?.apply {
-                                obj = result.data.first()
-                                list = result.data
+                                obj = result.data!!.first()
+                                list = result.data!!
                                 isLoading = false
                                 isSuccess = true
                                 message = null

@@ -2,12 +2,11 @@ package com.natiqhaciyef.prodocument.ui.view.onboarding.walkthrough.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.natiqhaciyef.prodocument.common.model.Status
-import com.natiqhaciyef.prodocument.domain.model.UIResult
-import com.natiqhaciyef.prodocument.domain.model.mapped.MappedUserModel
-import com.natiqhaciyef.prodocument.domain.usecase.user.GetUserByTokenRemoteUseCase
+import com.natiqhaciyef.common.model.Status
+import com.natiqhaciyef.common.model.UIResult
+import com.natiqhaciyef.common.model.mapped.MappedUserModel
+import com.natiqhaciyef.domain.usecase.user.GetUserByTokenRemoteUseCase
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
-import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.REGISTER_ROUTE
 import com.natiqhaciyef.prodocument.ui.base.BaseUIState
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

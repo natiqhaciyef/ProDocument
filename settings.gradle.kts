@@ -18,4 +18,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "ProDocument"
 include(":app")
- 
+include(":common")
+include(":data")
+include(":domain")
