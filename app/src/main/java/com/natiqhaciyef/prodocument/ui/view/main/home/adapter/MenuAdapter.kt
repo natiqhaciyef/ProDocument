@@ -3,7 +3,7 @@ package com.natiqhaciyef.prodocument.ui.view.main.home.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.natiqhaciyef.prodocument.common.model.MenuItemModel
+import com.natiqhaciyef.common.model.MenuItemModel
 import com.natiqhaciyef.prodocument.databinding.RecyclerMenuItemViewBinding
 
 

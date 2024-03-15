@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.natiqhaciyef.prodocument.databinding.RecyclerFilesItemViewBinding
-import com.natiqhaciyef.prodocument.domain.model.mapped.MappedMaterialModel
+import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 
 class FileItemAdapter(
     private val context: Context,

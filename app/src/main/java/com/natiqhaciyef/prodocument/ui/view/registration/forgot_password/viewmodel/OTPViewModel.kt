@@ -3,9 +3,9 @@ package com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.viewmo
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.natiqhaciyef.prodocument.common.model.Status
-import com.natiqhaciyef.prodocument.data.network.response.CRUDResponse
-import com.natiqhaciyef.prodocument.domain.usecase.user.SendOtpRemoteUseCase
+import com.natiqhaciyef.common.model.CRUDModel
+import com.natiqhaciyef.common.model.Status
+import com.natiqhaciyef.domain.usecase.user.SendOtpRemoteUseCase
 import com.natiqhaciyef.prodocument.ui.base.BaseUIState
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,8 +19,8 @@ import javax.inject.Inject
 class OTPViewModel @Inject constructor(
     private val sendOtpRemoteUseCase: SendOtpRemoteUseCase
 ) : BaseViewModel() {
-    private val _otpResultState = MutableLiveData<BaseUIState<CRUDResponse>>(BaseUIState())
-    val otpResultState: LiveData<BaseUIState<CRUDResponse>>
+    private val _otpResultState = MutableLiveData<BaseUIState<CRUDModel>>(BaseUIState())
+    val otpResultState: LiveData<BaseUIState<CRUDModel>>
         get() = _otpResultState
 
     val timingFlow = flow {

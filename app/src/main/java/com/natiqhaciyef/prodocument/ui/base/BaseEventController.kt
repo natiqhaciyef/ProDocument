@@ -2,7 +2,7 @@ package com.natiqhaciyef.prodocument.ui.base
 
 import android.content.Context
 import com.airbnb.epoxy.EpoxyController
-import com.natiqhaciyef.prodocument.domain.model.UIResult
+import com.natiqhaciyef.common.model.UIResult
 
 abstract class BaseEventController<T : BaseViewModel>(
     var context: Context,

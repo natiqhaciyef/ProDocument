@@ -7,11 +7,10 @@ import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.view.PreviewView
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
-import com.natiqhaciyef.prodocument.common.helpers.getNow
-import com.natiqhaciyef.prodocument.common.worker.camera.CameraReader
-import com.natiqhaciyef.prodocument.common.worker.config.PDF
-import com.natiqhaciyef.prodocument.data.model.MaterialModel
-import com.natiqhaciyef.prodocument.domain.model.mapped.MappedMaterialModel
+import com.natiqhaciyef.common.helpers.getNow
+import com.natiqhaciyef.prodocument.worker.camera.CameraReader
+import com.natiqhaciyef.prodocument.worker.config.PDF
+import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
 import com.natiqhaciyef.prodocument.ui.view.scan.behaviour.CameraTypes
 import dagger.hilt.android.lifecycle.HiltViewModel
