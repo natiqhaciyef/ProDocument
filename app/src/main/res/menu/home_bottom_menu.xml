@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/home_selector_icon"
+        android:title="@string/home" />
+
+    <item
+        android:id="@+id/filesFragment"
+        android:icon="@drawable/folder_selector_icon"
+        android:title="@string/files" />
+
+    <item
+        android:id="@+id/premiumFragment"
+        android:icon="@drawable/star_selector_icon"
+        android:title="@string/premium" />
+
+    <item
+        android:id="@+id/profileFragment"
+        android:icon="@drawable/profile_selector_icon"
+        android:title="@string/profile" />
+
+</menu>

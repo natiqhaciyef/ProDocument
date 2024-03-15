@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/registration_nav_graph"
+    app:startDestination="@id/letsSignInFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.registration.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_forgot_password_nav_graph"
+            app:destination="@id/forgot_password_nav_graph" />
+        <action
+            android:id="@+id/action_loginFragment_to_createAccountFragment"
+            app:destination="@id/createAccountFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/completeProfileFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.registration.create_account.CompleteProfileFragment"
+        android:label="fragment_complete_profile"
+        tools:layout="@layout/fragment_complete_profile" />
+    <fragment
+        android:id="@+id/createAccountFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.registration.create_account.CreateAccountFragment"
+        android:label="fragment_create_account"
+        tools:layout="@layout/fragment_create_account" >
+        <action
+            android:id="@+id/action_createAccountFragment_to_completeProfileFragment"
+            app:destination="@id/completeProfileFragment" />
+    </fragment>
+    <include app:graph="@navigation/forgot_password_nav_graph" />
+    <fragment
+        android:id="@+id/letsSignInFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.registration.login.LetsSignInFragment"
+        android:label="fragment_lets_sign_in"
+        tools:layout="@layout/fragment_lets_sign_in" >
+        <action
+            android:id="@+id/action_letsSignInFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+</navigation>

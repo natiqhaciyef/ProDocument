@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 
 @Parcelize
-class MappedUserModel(
+data class MappedUserModel(
     var name: String,
     var email: String,
     var phoneNumber: String,
@@ -16,7 +16,7 @@ class MappedUserModel(
 ) : Parcelable
 
 @Parcelize
-class MappedUserWithoutPasswordModel(
+data class MappedUserWithoutPasswordModel(
     var name: String,
     var email: String,
     var phoneNumber: String,

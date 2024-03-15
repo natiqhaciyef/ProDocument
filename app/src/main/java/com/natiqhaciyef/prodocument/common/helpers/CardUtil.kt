@@ -1,8 +1,8 @@
 package com.natiqhaciyef.prodocument.common.helpers
 
 import com.natiqhaciyef.prodocument.R
-import com.natiqhaciyef.prodocument.common.clazz.PaymentChoiceModel
-import com.natiqhaciyef.prodocument.common.clazz.PaymentTypes
+import com.natiqhaciyef.prodocument.common.model.PaymentChoiceModel
+import com.natiqhaciyef.prodocument.common.model.PaymentTypes
 
 
 fun String.onlyDigits(): Boolean{
