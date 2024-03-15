@@ -3,8 +3,8 @@ package com.natiqhaciyef.prodocument.ui.view.registration.create_account.viewmod
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.natiqhaciyef.prodocument.common.objects.ErrorMessages
-import com.natiqhaciyef.prodocument.domain.model.mapped.MappedUserModel
+import com.natiqhaciyef.common.objects.ErrorMessages
+import com.natiqhaciyef.common.model.mapped.MappedUserModel
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
 import com.natiqhaciyef.prodocument.ui.util.DefaultImplModels
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -23,9 +23,9 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
 import com.natiqhaciyef.prodocument.R
-import com.natiqhaciyef.prodocument.common.objects.ErrorMessages
+import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.prodocument.databinding.FragmentCompleteProfileBinding
-import com.natiqhaciyef.prodocument.domain.model.mapped.MappedUserModel
+import com.natiqhaciyef.common.model.mapped.MappedUserModel
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkFullNameAcceptanceCondition
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkGenderAcceptanceCondition
@@ -252,7 +252,7 @@ class CompleteProfileFragment : BaseFragment<FragmentCompleteProfileBinding>() {
     }
 
     private fun genderValidation() {
-        binding?.apply {
+        binding.apply {
             completeProfileGenderDropDownItem.setOnItemClickListener { adapterView, _, p, _ ->
                 genderSelection = adapterView.getItemAtPosition(p).toString()
 

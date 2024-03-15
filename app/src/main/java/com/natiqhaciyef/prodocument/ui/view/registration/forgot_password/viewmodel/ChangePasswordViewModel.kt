@@ -3,9 +3,9 @@ package com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.viewmo
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.natiqhaciyef.prodocument.common.model.Status
-import com.natiqhaciyef.prodocument.data.network.response.CRUDResponse
-import com.natiqhaciyef.prodocument.domain.usecase.user.UpdateUserPasswordByEmailRemoteUseCase
+import com.natiqhaciyef.common.model.CRUDModel
+import com.natiqhaciyef.common.model.Status
+import com.natiqhaciyef.domain.usecase.user.UpdateUserPasswordByEmailRemoteUseCase
 import com.natiqhaciyef.prodocument.ui.base.BaseUIState
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,8 +17,8 @@ import javax.inject.Inject
 class ChangePasswordViewModel @Inject constructor(
     private val updateUserPasswordByEmailRemoteUseCase: UpdateUserPasswordByEmailRemoteUseCase
 ) : BaseViewModel() {
-    private val _updateResultState = MutableLiveData<BaseUIState<CRUDResponse>>(BaseUIState())
-    val updateResultState: LiveData<BaseUIState<CRUDResponse>>
+    private val _updateResultState = MutableLiveData<BaseUIState<CRUDModel>>(BaseUIState())
+    val updateResultState: LiveData<BaseUIState<CRUDModel>>
         get() = _updateResultState
 
     fun updatePassword(email: String, password: String) {

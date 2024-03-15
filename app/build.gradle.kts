@@ -47,7 +47,6 @@ android {
 
 dependencies {
     val fragmentVersion = "1.5.2"
-    val retrofitVersion = "2.9.0"
     val daggerVersion = "2.46"
     val epoxyVersion = "5.1.3"
     val lifecycleVersion = "2.5.1"
@@ -59,7 +58,6 @@ dependencies {
     val zxingVersion = "4.3.0"
     val dataStoreVersion = "1.0.0"
     val coilVersion = "2.5.0"
-    val okHttpLoggingInterceptorVersion = "5.0.0-alpha.3"
     val lottieVersion = "5.2.0"
     val navigationVersion = "2.5.3"
     val encryptedSharedPrefVersion = "1.1.0-alpha06"
@@ -70,6 +68,9 @@ dependencies {
     // scanner .aar file integration
 //    implementation(files(mapOf("dir" to "libs", "include" to listOf("scanlibrary.aar"))))
 
+
+    implementation(project(":common"))
+    implementation(project(":domain"))
 
     implementation("com.google.ar:core:1.30.0")
     implementation("androidx.core:core-ktx:1.9.0")
@@ -90,11 +91,6 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx")
 //    implementation("com.google.firebase:firebase-storage-ktx")
-
-    //Room db
-    implementation("androidx.room:room-runtime:2.5.0")
-    kapt("androidx.room:room-compiler:2.6.1")
-    implementation("androidx.room:room-ktx:2.5.0")
 
     //Navigation
     implementation("androidx.navigation:navigation-fragment-ktx:$navigationVersion")
@@ -143,11 +139,6 @@ dependencies {
     implementation("io.coil-kt:coil:$coilVersion")
     implementation("com.github.barteksc:android-pdf-viewer:$pdfViewerVersion")
 
-    //Retrofit library
-    implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
-    implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
-    implementation("com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion")
-    implementation("com.squareup.okhttp3:logging-interceptor:$okHttpLoggingInterceptorVersion")
 
     //Dagger hilt
     implementation("com.google.dagger:hilt-android:$daggerVersion")
