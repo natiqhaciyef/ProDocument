@@ -61,6 +61,11 @@ dependencies {
     val coilVersion = "2.5.0"
     val okHttpLoggingInterceptorVersion = "5.0.0-alpha.3"
     val lottieVersion = "5.2.0"
+    val navigationVersion = "2.5.3"
+    val encryptedSharedPrefVersion = "1.1.0-alpha06"
+    val pdfViewerVersion = "2.3.0"
+    val workManagerVersion = "2.8.1"
+    val swipeLayoutVersion = "1.1.0"
 
     // scanner .aar file integration
 //    implementation(files(mapOf("dir" to "libs", "include" to listOf("scanlibrary.aar"))))
@@ -92,8 +97,11 @@ dependencies {
     implementation("androidx.room:room-ktx:2.5.0")
 
     //Navigation
-    implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
-    implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
+    implementation("androidx.navigation:navigation-fragment-ktx:$navigationVersion")
+    implementation("androidx.navigation:navigation-ui-ktx:$navigationVersion")
+
+    // Encrypted Shared Preference
+    implementation("androidx.security:security-crypto:${encryptedSharedPrefVersion}")
 
     // Camera X
     implementation("androidx.camera:camera-core:${cameraXVersion}")
@@ -133,7 +141,7 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.15.1")
     annotationProcessor("com.github.bumptech.glide:compiler:4.14.2")
     implementation("io.coil-kt:coil:$coilVersion")
-    implementation("com.github.barteksc:android-pdf-viewer:2.3.0")
+    implementation("com.github.barteksc:android-pdf-viewer:$pdfViewerVersion")
 
     //Retrofit library
     implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
@@ -146,12 +154,12 @@ dependencies {
     kapt("com.google.dagger:hilt-android-compiler:$daggerVersion")
 
     //Animation Library & Swipe Refresh Layout & ViewPager
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:$swipeLayoutVersion")
     implementation("com.airbnb.android:lottie:$lottieVersion")
     implementation("androidx.viewpager2:viewpager2:$viewPagerVersion")
 
     // Work manager
-    implementation("androidx.work:work-runtime-ktx:2.8.1")
+    implementation("androidx.work:work-runtime-ktx:$workManagerVersion")
 
     //Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
