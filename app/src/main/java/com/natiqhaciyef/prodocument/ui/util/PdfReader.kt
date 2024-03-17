@@ -76,7 +76,7 @@ object PdfReader {
             .swipeHorizontal(false)
             .enableDoubletap(true)
             .defaultPage(0)
-            .onDraw(addDrawListener(ctx))
+//            .onDraw(addDrawListener(ctx))
             .onLoad(addLoadCompleteListener(this)) // called after document is loaded and starts to be rendered
             .onPageChange(addOnPageChangeListener())
             .onPageScroll(addOnPageScrollListener())
