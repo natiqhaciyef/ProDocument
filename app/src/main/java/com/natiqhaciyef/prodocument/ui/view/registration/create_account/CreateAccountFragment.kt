@@ -49,8 +49,8 @@ class CreateAccountFragment : BaseFragment<FragmentCreateAccountBinding>() {
 
     private fun config() {
         binding.apply {
-            createAccountConfirmPasswordInput.setPasswordTitleText(R.string.confirm_password)
-            createAccountConfirmPasswordInput.setPasswordHintText(R.string.confirm_password)
+            createAccountConfirmPasswordInput.setPasswordTitleText(com.natiqhaciyef.common.R.string.confirm_password)
+            createAccountConfirmPasswordInput.setPasswordHintText(com.natiqhaciyef.common.R.string.confirm_password)
 
             createAccountPasswordInput.changeVisibility()
             createAccountConfirmPasswordInput.changeVisibility()
@@ -106,10 +106,11 @@ class CreateAccountFragment : BaseFragment<FragmentCreateAccountBinding>() {
 
     private fun createResultAlertDialog() {
         val binding = AlertDialogResultViewBinding.inflate(layoutInflater)
-        val resultDialog = AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
-            .setView(binding.root)
-            .setCancelable(true)
-            .create()
+        val resultDialog =
+            AlertDialog.Builder(requireContext(), com.natiqhaciyef.common.R.style.CustomAlertDialog)
+                .setView(binding.root)
+                .setCancelable(true)
+                .create()
 
         binding.resultButton.setOnClickListener {
             resultDialog.dismiss()

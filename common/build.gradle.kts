@@ -37,6 +37,13 @@ android {
 dependencies {
     val lottieVersion = "5.2.0"
     val coilVersion = "2.5.0"
+    val mlKitBarcodeVersion = "18.3.0"
+    val mlKitRecognizerVersion = "19.0.0"
+    val scannerMlKitVersion = "16.0.0-beta1"
+    val cameraXVersion = "1.3.1"
+    val pdfViewerVersion = "2.3.0"
+    val workManagerVersion = "2.8.1"
+
 
     implementation(project(":data"))
 
@@ -58,4 +65,25 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx")
 //    implementation("com.google.firebase:firebase-storage-ktx")
+
+    implementation("androidx.camera:camera-core:${cameraXVersion}")
+    implementation("androidx.camera:camera-camera2:${cameraXVersion}")
+    implementation("androidx.camera:camera-lifecycle:${cameraXVersion}")
+    implementation("androidx.camera:camera-video:${cameraXVersion}")
+    implementation("androidx.camera:camera-view:${cameraXVersion}")
+    implementation("androidx.camera:camera-extensions:${cameraXVersion}")
+    implementation("com.google.android.gms:play-services-mlkit-barcode-scanning:${mlKitBarcodeVersion}")
+    implementation("com.google.android.gms:play-services-mlkit-text-recognition:$mlKitRecognizerVersion")
+    implementation("com.google.android.gms:play-services-mlkit-text-recognition-common:$mlKitRecognizerVersion")
+    implementation("com.google.android.gms:play-services-mlkit-document-scanner:${scannerMlKitVersion}")
+
+    implementation("com.github.barteksc:android-pdf-viewer:$pdfViewerVersion")
+
+    // Work manager
+    implementation("androidx.work:work-runtime-ktx:$workManagerVersion")
+
+    //Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
 }

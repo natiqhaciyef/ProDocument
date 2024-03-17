@@ -162,7 +162,7 @@ class CompleteProfileFragment : BaseFragment<FragmentCompleteProfileBinding>() {
             ArrayAdapter(requireContext(), R.layout.drop_down_gender_item, genderList)
 
         binding.apply {
-            completeProfileGenderDropDownItem.hint = getString(R.string.gender)
+            completeProfileGenderDropDownItem.hint = getString(com.natiqhaciyef.common.R.string.gender)
             completeProfileGenderDropDownItem.setAdapter(genderAdapter)
             completeProfileGenderDropDownItem.setOnItemClickListener { adapterView, _, p, _ ->
                 genderList.forEach {

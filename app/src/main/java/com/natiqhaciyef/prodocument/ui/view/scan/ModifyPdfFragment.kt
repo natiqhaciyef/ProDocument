@@ -1,14 +1,22 @@
 package com.natiqhaciyef.prodocument.ui.view.scan
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.natiqhaciyef.prodocument.R
+import androidx.core.net.toUri
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
+import com.natiqhaciyef.common.R
+import com.natiqhaciyef.common.worker.config.PDF
+import com.natiqhaciyef.prodocument.ui.util.PdfReader.createDefaultPdfUriLoader
 import com.natiqhaciyef.prodocument.databinding.FragmentModifyPdfBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
+import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.TITLE_COUNT_KEY
+import com.natiqhaciyef.prodocument.ui.util.CameraReader.Companion.createAndShareFile
+import com.natiqhaciyef.prodocument.ui.util.CameraReader.Companion.getAddressOfFile
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ModifyPdfFragment : BaseFragment<FragmentModifyPdfBinding>() {
@@ -22,6 +30,38 @@ class ModifyPdfFragment : BaseFragment<FragmentModifyPdfBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val data: ModifyPdfFragmentArgs by navArgs()
+        val material = data.fileMaterial
+
+        binding.apply {
+            if (material != null) {
+                val uri = material.url
+                countTitle()
+
+                val uriAddress = getAddressOfFile(
+                    requireContext(),
+                    uri
+                ) ?: "".toUri()
+
+                pdfView.createDefaultPdfUriLoader(requireContext(), uriAddress)
+                shareIconButton.setOnClickListener { sharePdf(uri) }
+            }
+        }
+    }
+
+
+    private fun sharePdf(uri: String) = createAndShareFile(
+        fileType = PDF,
+        urls = listOf(uri),
+        isShare = true
+    )
+
+    private fun countTitle() {
+        lifecycleScope.launch {
+            var number = dataStore.readInt(requireContext(), TITLE_COUNT_KEY)
+            dataStore.saveInt(requireContext(), ++number, TITLE_COUNT_KEY)
+            binding.pdfTitleText.setText(getString(R.string.title_count, number.toString()))
+        }
     }
 
     override fun onDestroy() {
