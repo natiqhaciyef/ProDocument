@@ -9,11 +9,7 @@ import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PremiumFragment : BaseFragment() {
-    private var _binding: FragmentPremiumBinding? = null
-    private val binding: FragmentPremiumBinding
-        get() = _binding!!
-
+class PremiumFragment : BaseFragment<FragmentPremiumBinding>() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

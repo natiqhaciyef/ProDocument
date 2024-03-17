@@ -7,7 +7,7 @@ import android.view.View
 import androidx.appcompat.widget.AppCompatButton
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doOnTextChanged
-import com.natiqhaciyef.prodocument.R
+import com.natiqhaciyef.common.R
 import com.natiqhaciyef.prodocument.databinding.CustomOtpEdittextBinding
 
 

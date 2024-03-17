@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.ExperimentalGetImage
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import com.natiqhaciyef.prodocument.R
-import com.natiqhaciyef.prodocument.common.helpers.loadImage
+import com.natiqhaciyef.common.helpers.loadImage
 import com.natiqhaciyef.prodocument.databinding.FragmentLiveRecognitionBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink
@@ -22,11 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @ExperimentalGetImage
 @AndroidEntryPoint
-class LiveRecognitionFragment : BaseFragment() {
-    private var _binding: FragmentLiveRecognitionBinding? = null
-    private val binding: FragmentLiveRecognitionBinding
-        get() = _binding!!
-
+class LiveRecognitionFragment : BaseFragment<FragmentLiveRecognitionBinding>() {
     private val scanViewModel: ScanViewModel by viewModels()
     private val registerForCameraPermissionResult =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->

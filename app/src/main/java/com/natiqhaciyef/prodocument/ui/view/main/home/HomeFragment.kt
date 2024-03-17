@@ -1,18 +1,15 @@
 package com.natiqhaciyef.prodocument.ui.view.main.home
 
-import android.Manifest
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.natiqhaciyef.prodocument.databinding.FragmentHomeBinding
-import com.natiqhaciyef.prodocument.domain.model.mapped.MappedMaterialModel
+import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
-import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.SCAN_ROUTE
 import com.natiqhaciyef.prodocument.ui.util.UiList
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.home.adapter.FileItemAdapter
@@ -21,11 +18,7 @@ import com.natiqhaciyef.prodocument.ui.view.main.home.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment() {
-    private var _binding: FragmentHomeBinding? = null
-    private val binding: FragmentHomeBinding
-        get() = _binding!!
-
+class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val homeViewModel: HomeViewModel by viewModels()
     private var searchIconClick = false
     private lateinit var menuAdapter: MenuAdapter
@@ -103,7 +96,7 @@ class HomeFragment : BaseFragment() {
         binding.apply {
             topbarSearch.doOnTextChanged { text, start, before, count ->
                 text?.let {
-                    list.filter { it.title.contains(text.toString()) && it.description.contains(text.toString()) }
+                    list.filter { it.title.contains(text.toString()) }
                     fileAdapter.updateList(list)
                 }
             }

@@ -15,11 +15,7 @@ import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class OnboardSecondFragment : BaseFragment() {
-    private var _binding: FragmentOnboardSecondBinding? = null
-    private val binding: FragmentOnboardSecondBinding
-        get() = _binding!!
-
+class OnboardSecondFragment : BaseFragment<FragmentOnboardSecondBinding>() {
     private val viewModel: OnboardingViewModel by viewModels()
 
     override fun onCreateView(

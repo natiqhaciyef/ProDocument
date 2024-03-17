@@ -10,12 +10,10 @@ import com.natiqhaciyef.prodocument.ui.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity() {
-    lateinit var binding: ActivityMainBinding
-
+class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         window.decorView.apply {
             systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
@@ -26,5 +24,10 @@ class MainActivity : BaseActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentContainerViewHome) as NavHostFragment
         NavigationUI.setupWithNavController(binding.bottomNavBar, navHostFragment.navController)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

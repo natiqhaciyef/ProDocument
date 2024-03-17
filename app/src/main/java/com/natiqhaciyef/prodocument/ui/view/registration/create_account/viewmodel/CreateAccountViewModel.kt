@@ -3,14 +3,14 @@ package com.natiqhaciyef.prodocument.ui.view.registration.create_account.viewmod
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.natiqhaciyef.prodocument.common.model.Status
-import com.natiqhaciyef.prodocument.common.helpers.getNow
-import com.natiqhaciyef.prodocument.common.objects.ErrorMessages
-import com.natiqhaciyef.prodocument.data.network.response.TokenResponse
-import com.natiqhaciyef.prodocument.domain.model.UIResult
-import com.natiqhaciyef.prodocument.domain.model.mapped.MappedUserModel
-import com.natiqhaciyef.prodocument.domain.usecase.user.CreateUserRemoteUseCase
-import com.natiqhaciyef.prodocument.domain.usecase.user.InsertUserLocalUseCase
+import com.natiqhaciyef.common.helpers.getNow
+import com.natiqhaciyef.common.model.Status
+import com.natiqhaciyef.common.objects.ErrorMessages
+import com.natiqhaciyef.common.model.UIResult
+import com.natiqhaciyef.common.model.mapped.MappedTokenModel
+import com.natiqhaciyef.common.model.mapped.MappedUserModel
+import com.natiqhaciyef.domain.usecase.user.CreateUserRemoteUseCase
+import com.natiqhaciyef.domain.usecase.user.InsertUserLocalUseCase
 import com.natiqhaciyef.prodocument.ui.base.BaseUIState
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,8 +29,8 @@ class CreateAccountViewModel @Inject constructor(
         get() = _localResultState
 
     private val _tokenState =
-        MutableLiveData(BaseUIState<TokenResponse>())
-    val tokenState: LiveData<BaseUIState<TokenResponse>>
+        MutableLiveData(BaseUIState<MappedTokenModel>())
+    val tokenState: LiveData<BaseUIState<MappedTokenModel>>
         get() = _tokenState
 
     private fun collectDataFromCreateAccountScreen(

@@ -3,7 +3,6 @@ package com.natiqhaciyef.prodocument.ui.custom
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import com.natiqhaciyef.prodocument.databinding.CustomSocialPlatformButtonBinding

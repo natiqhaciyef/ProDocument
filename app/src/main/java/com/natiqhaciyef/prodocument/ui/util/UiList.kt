@@ -1,8 +1,8 @@
 package com.natiqhaciyef.prodocument.ui.util
 
 import android.content.Context
-import com.natiqhaciyef.prodocument.R
-import com.natiqhaciyef.prodocument.common.model.MenuItemModel
+import com.natiqhaciyef.common.R
+import com.natiqhaciyef.common.model.MenuItemModel
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.ALL_TOOLS_ROUTE
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.COMPRESS_ROUTE
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.E_SIGN_ROUTE

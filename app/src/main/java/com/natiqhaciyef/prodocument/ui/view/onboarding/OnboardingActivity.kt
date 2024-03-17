@@ -6,12 +6,15 @@ import com.natiqhaciyef.prodocument.ui.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class OnboardingActivity : BaseActivity() {
-    private lateinit var binding: ActivityOnboardingBinding
-
+class OnboardingActivity : BaseActivity<ActivityOnboardingBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityOnboardingBinding.inflate(layoutInflater)
+        _binding = ActivityOnboardingBinding.inflate(layoutInflater)
         setContentView(binding.root)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

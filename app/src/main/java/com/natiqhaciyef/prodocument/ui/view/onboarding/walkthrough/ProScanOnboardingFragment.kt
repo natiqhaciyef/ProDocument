@@ -15,11 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class ProScanOnboardingFragment : BaseFragment() {
-    private var _binding: FragmentProScanOnboardingBinding? = null
-    private val binding: FragmentProScanOnboardingBinding
-        get() = _binding!!
-
+class ProScanOnboardingFragment : BaseFragment<FragmentProScanOnboardingBinding>() {
     private val viewModel: OnboardingViewModel by viewModels()
 
     override fun onCreateView(

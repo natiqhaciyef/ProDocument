@@ -9,7 +9,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.natiqhaciyef.prodocument.R
-import com.natiqhaciyef.prodocument.common.objects.ErrorMessages
+import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.prodocument.databinding.FragmentLoginBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
@@ -21,11 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class LoginFragment : BaseFragment() {
-    private var _binding: FragmentLoginBinding? = null
-    private val binding: FragmentLoginBinding
-        get() = _binding!!
-
+class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     private val loginViewModel: LoginViewModel by viewModels()
 
     override fun onCreateView(
@@ -52,11 +48,11 @@ class LoginFragment : BaseFragment() {
 
             appleSignInButton.changeImageHorizontalBias(0.5f)
             appleSignInButton.changeTextVisibility(View.GONE)
-            appleSignInButton.setIconImage(R.drawable.apple)
+            appleSignInButton.setIconImage(com.natiqhaciyef.common.R.drawable.apple)
 
             facebookSignInButton.changeImageHorizontalBias(0.5f)
             facebookSignInButton.changeTextVisibility(View.GONE)
-            facebookSignInButton.setIconImage(R.drawable.facebook)
+            facebookSignInButton.setIconImage(com.natiqhaciyef.common.R.drawable.facebook)
 
             rememberMeCheckBoxImage.onClickAction()
 

@@ -47,24 +47,30 @@ android {
 
 dependencies {
     val fragmentVersion = "1.5.2"
-    val retrofitVersion = "2.9.0"
     val daggerVersion = "2.46"
     val epoxyVersion = "5.1.3"
     val lifecycleVersion = "2.5.1"
+    val viewPagerVersion = "1.0.0"
     val cameraXVersion = "1.3.1"
     val mlKitBarcodeVersion = "18.3.0"
     val mlKitRecognizerVersion = "19.0.0"
-    val viewPagerVersion = "1.0.0"
     val scannerMlKitVersion = "16.0.0-beta1"
     val zxingVersion = "4.3.0"
     val dataStoreVersion = "1.0.0"
     val coilVersion = "2.5.0"
-    val okHttpLoggingInterceptorVersion = "5.0.0-alpha.3"
     val lottieVersion = "5.2.0"
+    val navigationVersion = "2.5.3"
+    val encryptedSharedPrefVersion = "1.1.0-alpha06"
+    val pdfViewerVersion = "2.3.0"
+    val workManagerVersion = "2.8.1"
+    val swipeLayoutVersion = "1.1.0"
 
     // scanner .aar file integration
 //    implementation(files(mapOf("dir" to "libs", "include" to listOf("scanlibrary.aar"))))
 
+
+    implementation(project(":common"))
+    implementation(project(":domain"))
 
     implementation("com.google.ar:core:1.30.0")
     implementation("androidx.core:core-ktx:1.9.0")
@@ -86,14 +92,12 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore-ktx")
 //    implementation("com.google.firebase:firebase-storage-ktx")
 
-    //Room db
-    implementation("androidx.room:room-runtime:2.5.0")
-    kapt("androidx.room:room-compiler:2.6.1")
-    implementation("androidx.room:room-ktx:2.5.0")
-
     //Navigation
-    implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
-    implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
+    implementation("androidx.navigation:navigation-fragment-ktx:$navigationVersion")
+    implementation("androidx.navigation:navigation-ui-ktx:$navigationVersion")
+
+    // Encrypted Shared Preference
+    implementation("androidx.security:security-crypto:${encryptedSharedPrefVersion}")
 
     // Camera X
     implementation("androidx.camera:camera-core:${cameraXVersion}")
@@ -133,25 +137,20 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.15.1")
     annotationProcessor("com.github.bumptech.glide:compiler:4.14.2")
     implementation("io.coil-kt:coil:$coilVersion")
-    implementation("com.github.barteksc:android-pdf-viewer:2.3.0")
+    implementation("com.github.barteksc:android-pdf-viewer:$pdfViewerVersion")
 
-    //Retrofit library
-    implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
-    implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
-    implementation("com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion")
-    implementation("com.squareup.okhttp3:logging-interceptor:$okHttpLoggingInterceptorVersion")
 
     //Dagger hilt
     implementation("com.google.dagger:hilt-android:$daggerVersion")
     kapt("com.google.dagger:hilt-android-compiler:$daggerVersion")
 
     //Animation Library & Swipe Refresh Layout & ViewPager
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:$swipeLayoutVersion")
     implementation("com.airbnb.android:lottie:$lottieVersion")
     implementation("androidx.viewpager2:viewpager2:$viewPagerVersion")
 
     // Work manager
-    implementation("androidx.work:work-runtime-ktx:2.8.1")
+    implementation("androidx.work:work-runtime-ktx:$workManagerVersion")
 
     //Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")

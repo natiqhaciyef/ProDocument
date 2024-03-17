@@ -23,9 +23,9 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
 import com.natiqhaciyef.prodocument.R
-import com.natiqhaciyef.prodocument.common.objects.ErrorMessages
+import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.prodocument.databinding.FragmentCompleteProfileBinding
-import com.natiqhaciyef.prodocument.domain.model.mapped.MappedUserModel
+import com.natiqhaciyef.common.model.mapped.MappedUserModel
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkFullNameAcceptanceCondition
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkGenderAcceptanceCondition
@@ -38,11 +38,7 @@ import java.util.Locale
 
 
 @AndroidEntryPoint
-class CompleteProfileFragment : BaseFragment() {
-    private var _binding: FragmentCompleteProfileBinding? = null
-    private val binding: FragmentCompleteProfileBinding
-        get() = _binding!!
-
+class CompleteProfileFragment : BaseFragment<FragmentCompleteProfileBinding>() {
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
     private lateinit var activityLauncher: ActivityResultLauncher<Intent>
     private var currentSelectedTime: Long = 0L
@@ -166,7 +162,7 @@ class CompleteProfileFragment : BaseFragment() {
             ArrayAdapter(requireContext(), R.layout.drop_down_gender_item, genderList)
 
         binding.apply {
-            completeProfileGenderDropDownItem.hint = getString(R.string.gender)
+            completeProfileGenderDropDownItem.hint = getString(com.natiqhaciyef.common.R.string.gender)
             completeProfileGenderDropDownItem.setAdapter(genderAdapter)
             completeProfileGenderDropDownItem.setOnItemClickListener { adapterView, _, p, _ ->
                 genderList.forEach {
@@ -256,7 +252,7 @@ class CompleteProfileFragment : BaseFragment() {
     }
 
     private fun genderValidation() {
-        binding?.apply {
+        binding.apply {
             completeProfileGenderDropDownItem.setOnItemClickListener { adapterView, _, p, _ ->
                 genderSelection = adapterView.getItemAtPosition(p).toString()
 

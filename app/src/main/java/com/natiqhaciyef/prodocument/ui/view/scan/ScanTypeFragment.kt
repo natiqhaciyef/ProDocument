@@ -15,11 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @ExperimentalGetImage
 @AndroidEntryPoint
-class ScanTypeFragment : BaseFragment() {
-    private var _binding: FragmentScanTypeBinding? = null
-    private val binding: FragmentScanTypeBinding
-        get() = _binding!!
-
+class ScanTypeFragment : BaseFragment<FragmentScanTypeBinding>() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

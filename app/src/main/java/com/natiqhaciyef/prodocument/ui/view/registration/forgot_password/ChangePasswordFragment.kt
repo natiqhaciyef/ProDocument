@@ -20,11 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class ChangePasswordFragment : BaseFragment() {
-    private var _binding: FragmentChangePasswordBinding? = null
-    private val binding: FragmentChangePasswordBinding
-        get() = _binding!!
-
+class ChangePasswordFragment : BaseFragment<FragmentChangePasswordBinding>() {
     private val changePasswordViewModel: ChangePasswordViewModel by viewModels()
 
     override fun onCreateView(
@@ -46,8 +42,8 @@ class ChangePasswordFragment : BaseFragment() {
 
             newPasswordText.changeVisibility()
             newPasswordConfirmText.changeVisibility()
-            newPasswordConfirmText.setPasswordTitleText(requireContext().getString(R.string.confirm_password))
-            newPasswordConfirmText.setPasswordHintText(requireContext().getString(R.string.confirm_password))
+            newPasswordConfirmText.setPasswordTitleText(requireContext().getString(com.natiqhaciyef.common.R.string.confirm_password))
+            newPasswordConfirmText.setPasswordHintText(requireContext().getString(com.natiqhaciyef.common.R.string.confirm_password))
         }
         passwordValidation()
         confirmPasswordValidation()

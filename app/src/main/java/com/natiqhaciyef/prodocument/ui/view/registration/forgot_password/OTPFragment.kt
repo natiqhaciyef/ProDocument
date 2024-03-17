@@ -17,11 +17,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class OTPFragment : BaseFragment() {
-    private var _binding: FragmentOTPBinding? = null
-    private val binding: FragmentOTPBinding
-        get() = _binding!!
-
+class OTPFragment : BaseFragment<FragmentOTPBinding>() {
     private val otpViewModel: OTPViewModel by viewModels()
 
     override fun onCreateView(
@@ -42,7 +38,7 @@ class OTPFragment : BaseFragment() {
             confirmButton.setOnClickListener { onClickAction(email) }
 
             resendTimingText.text = Html.fromHtml(
-                requireContext().getString(R.string.resend_description, "60"),
+                requireContext().getString(com.natiqhaciyef.common.R.string.resend_description, "60"),
                 Html.FROM_HTML_MODE_COMPACT
             )
         }
@@ -67,7 +63,7 @@ class OTPFragment : BaseFragment() {
             lifecycleScope.launch {
                 otpViewModel.timingFlow.collectLatest {
                     resendTimingText.text = Html.fromHtml(
-                        requireContext().getString(R.string.resend_description, "$it"),
+                        requireContext().getString(com.natiqhaciyef.common.R.string.resend_description, "$it"),
                         Html.FROM_HTML_MODE_COMPACT
                     )
                 }

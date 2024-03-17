@@ -9,11 +9,7 @@ import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FilesFragment : BaseFragment() {
-    private var _binding: FragmentFilesBinding? = null
-    private val binding : FragmentFilesBinding
-        get() = _binding!!
-
+class FilesFragment : BaseFragment<FragmentFilesBinding>() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

@@ -22,11 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class CreateAccountFragment : BaseFragment() {
-    private var _binding: FragmentCreateAccountBinding? = null
-    private val binding: FragmentCreateAccountBinding
-        get() = _binding!!
-
+class CreateAccountFragment : BaseFragment<FragmentCreateAccountBinding>() {
     private val createAccountViewModel: CreateAccountViewModel by viewModels()
     private val completeProfileViewModel: CompleteProfileViewModel by viewModels()
     private var isRemembered: Boolean = false
@@ -53,8 +49,8 @@ class CreateAccountFragment : BaseFragment() {
 
     private fun config() {
         binding.apply {
-            createAccountConfirmPasswordInput.setPasswordTitleText(R.string.confirm_password)
-            createAccountConfirmPasswordInput.setPasswordHintText(R.string.confirm_password)
+            createAccountConfirmPasswordInput.setPasswordTitleText(com.natiqhaciyef.common.R.string.confirm_password)
+            createAccountConfirmPasswordInput.setPasswordHintText(com.natiqhaciyef.common.R.string.confirm_password)
 
             createAccountPasswordInput.changeVisibility()
             createAccountConfirmPasswordInput.changeVisibility()
@@ -110,10 +106,11 @@ class CreateAccountFragment : BaseFragment() {
 
     private fun createResultAlertDialog() {
         val binding = AlertDialogResultViewBinding.inflate(layoutInflater)
-        val resultDialog = AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
-            .setView(binding.root)
-            .setCancelable(true)
-            .create()
+        val resultDialog =
+            AlertDialog.Builder(requireContext(), com.natiqhaciyef.common.R.style.CustomAlertDialog)
+                .setView(binding.root)
+                .setCancelable(true)
+                .create()
 
         binding.resultButton.setOnClickListener {
             resultDialog.dismiss()

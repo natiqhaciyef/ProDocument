@@ -16,16 +16,15 @@ import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.ExperimentalGetImage
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanning
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanningResult
-import com.natiqhaciyef.prodocument.common.helpers.loadImage
-import com.natiqhaciyef.prodocument.common.worker.camera.CameraReader
-import com.natiqhaciyef.prodocument.common.worker.config.PDF
-import com.natiqhaciyef.prodocument.common.worker.config.PNG
-import com.natiqhaciyef.prodocument.common.worker.config.createAndShareFile
+import com.natiqhaciyef.common.helpers.loadImage
+import com.natiqhaciyef.prodocument.ui.util.CameraReader
 import com.natiqhaciyef.prodocument.databinding.FragmentCaptureImageBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
+import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.SCAN_ROUTE
 import com.natiqhaciyef.prodocument.ui.view.scan.behaviour.CameraTypes
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,11 +32,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @ExperimentalGetImage
 @AndroidEntryPoint
-class CaptureImageFragment : BaseFragment() {
-    private var _binding: FragmentCaptureImageBinding? = null
-    private val binding: FragmentCaptureImageBinding
-        get() = _binding!!
-
+class CaptureImageFragment : BaseFragment<FragmentCaptureImageBinding>() {
     private val scanViewModel: ScanViewModel by viewModels()
     private var imageUri: Uri? = null
 
@@ -51,23 +46,24 @@ class CaptureImageFragment : BaseFragment() {
                     GmsDocumentScanningResult.fromActivityResultIntent(result.data)
 
                 if (resultForPDF != null) {
-                    val pdfList = createAndShareFile(
-                        fileType = PDF,
-                        urls = listOf(resultForPDF.pdf?.uri?.path.toString()),
-                        isShare = true
+                    val material = scanViewModel.createMaterial(
+                        title = "Scanned file title",
+                        uri = resultForPDF.pdf?.uri?.path.toString().toUri(),
+                        image = "${
+                            resultForPDF.pages?.map { it.imageUri.path.toString() }?.first()
+                        }"
                     )
 
-                    println(pdfList)
+                    requireActivity().onBackPressedDispatcher.addCallback(object: OnBackPressedCallback(true){
+                        override fun handleOnBackPressed() {
+                            navigateByRouteTitle(SCAN_ROUTE)
+                        }
+                    })
 
-                    val imageList = createAndShareFile(
-                        fileType = PNG,
-                        urls = resultForPDF.pages?.map { it.imageUri.path.toString() } ?: listOf(),
-                        isShare = false
-                    )
-
-                    println(imageList)
-
-                    navigateByRouteTitle(HOME_ROUTE)
+                    val action =
+                        ScanTypeFragmentDirections
+                            .actionScanTypeFragmentToModifyPdfFragment(material)
+                    navigate(action)
                 }
             }
         }

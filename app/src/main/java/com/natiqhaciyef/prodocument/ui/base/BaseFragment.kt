@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import androidx.viewbinding.ViewBinding
 import com.google.android.material.snackbar.Snackbar
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_MAIN_DEEPLINK
@@ -19,7 +20,11 @@ import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.onboarding.OnboardingActivity
 import com.natiqhaciyef.prodocument.ui.view.registration.RegistrationActivity
 
-open class BaseFragment : Fragment() {
+open class BaseFragment<VB : ViewBinding> : Fragment() {
+    protected var _binding: VB? = null
+    val binding: VB
+        get() = _binding!!
+
     val dataStore = AppStorePref
 
     private fun setNavigationWithActivity(title: String) = when (title) {
@@ -156,7 +161,10 @@ open class BaseFragment : Fragment() {
         val destinationIntent = setNavigationWithActivity(title)
         destinationIntent.let {
             requireActivity().startActivity(destinationIntent)
-            requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+            requireActivity().overridePendingTransition(
+                com.natiqhaciyef.common.R.anim.slide_in_right,
+                com.natiqhaciyef.common.R.anim.slide_out_left
+            )
             if (isFinished)
                 requireActivity().finish()
         }
@@ -186,5 +194,10 @@ open class BaseFragment : Fragment() {
 
     fun generateToast(title: String) {
         Toast.makeText(requireContext(), title, Toast.LENGTH_LONG).show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }
