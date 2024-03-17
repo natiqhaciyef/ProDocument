@@ -42,8 +42,8 @@ class ChangePasswordFragment : BaseFragment<FragmentChangePasswordBinding>() {
 
             newPasswordText.changeVisibility()
             newPasswordConfirmText.changeVisibility()
-            newPasswordConfirmText.setPasswordTitleText(requireContext().getString(R.string.confirm_password))
-            newPasswordConfirmText.setPasswordHintText(requireContext().getString(R.string.confirm_password))
+            newPasswordConfirmText.setPasswordTitleText(requireContext().getString(com.natiqhaciyef.common.R.string.confirm_password))
+            newPasswordConfirmText.setPasswordHintText(requireContext().getString(com.natiqhaciyef.common.R.string.confirm_password))
         }
         passwordValidation()
         confirmPasswordValidation()

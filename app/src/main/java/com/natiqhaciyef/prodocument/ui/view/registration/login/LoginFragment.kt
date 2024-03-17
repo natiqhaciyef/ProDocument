@@ -48,11 +48,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
             appleSignInButton.changeImageHorizontalBias(0.5f)
             appleSignInButton.changeTextVisibility(View.GONE)
-            appleSignInButton.setIconImage(R.drawable.apple)
+            appleSignInButton.setIconImage(com.natiqhaciyef.common.R.drawable.apple)
 
             facebookSignInButton.changeImageHorizontalBias(0.5f)
             facebookSignInButton.changeTextVisibility(View.GONE)
-            facebookSignInButton.setIconImage(R.drawable.facebook)
+            facebookSignInButton.setIconImage(com.natiqhaciyef.common.R.drawable.facebook)
 
             rememberMeCheckBoxImage.onClickAction()
 

@@ -25,15 +25,15 @@ class LetsSignInFragment : BaseFragment<FragmentLetsSignInBinding>() {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
 //            googleSignInButton.initBinding()
-            googleSignInButton.setIconImage(R.drawable.google)
+            googleSignInButton.setIconImage(com.natiqhaciyef.common.R.drawable.google)
             googleSignInButton.setTitleText("Continue with Google")
             googleSignInButton.setOnClickListener { }
 
-            facebookSignInButton.setIconImage(R.drawable.facebook)
+            facebookSignInButton.setIconImage(com.natiqhaciyef.common.R.drawable.facebook)
             facebookSignInButton.setTitleText("Continue with Facebook")
             facebookSignInButton.setOnClickListener { }
 
-            appleSignInButton.setIconImage(R.drawable.apple)
+            appleSignInButton.setIconImage(com.natiqhaciyef.common.R.drawable.apple)
             appleSignInButton.setTitleText("Continue with Apple")
             appleSignInButton.setOnClickListener { }
 

@@ -8,8 +8,8 @@ import androidx.camera.view.PreviewView
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import com.natiqhaciyef.common.helpers.getNow
-import com.natiqhaciyef.prodocument.worker.camera.CameraReader
-import com.natiqhaciyef.prodocument.worker.config.PDF
+import com.natiqhaciyef.prodocument.ui.util.CameraReader
+import com.natiqhaciyef.common.worker.config.PDF
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
 import com.natiqhaciyef.prodocument.ui.view.scan.behaviour.CameraTypes
