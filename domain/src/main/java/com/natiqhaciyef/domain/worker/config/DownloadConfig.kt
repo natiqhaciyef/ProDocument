@@ -1,15 +1,12 @@
-package com.natiqhaciyef.common.worker.config
+package com.natiqhaciyef.domain.worker.config
 
 import android.content.ContentValues
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
-import androidx.core.content.FileProvider
 import androidx.core.net.toUri
-import androidx.fragment.app.Fragment
 import androidx.work.Constraints
 import androidx.work.Data
 import androidx.work.ExistingWorkPolicy
@@ -18,7 +15,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
-import com.natiqhaciyef.common.worker.FileDownloadWorker
+import com.natiqhaciyef.domain.worker.FileDownloadWorker
 import java.io.File
 import java.io.FileOutputStream
 import java.net.URL

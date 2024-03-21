@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.worker.config
+package com.natiqhaciyef.domain.worker.config
 
 import android.Manifest
 import android.app.NotificationChannel
