@@ -27,7 +27,7 @@ data class MaterialResponse(
 
 
 @Parcelize
-data class MaterialsResponse(
+data class ListMaterialResponse(
     @SerializedName("materials")
     var materials: List<MaterialResponse>,
     @SerializedName("id")

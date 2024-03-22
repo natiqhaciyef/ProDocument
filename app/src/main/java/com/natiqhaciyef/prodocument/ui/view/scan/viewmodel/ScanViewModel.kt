@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.view.scan
+package com.natiqhaciyef.prodocument.ui.view.scan.viewmodel
 
 import android.content.Context
 import android.net.Uri
