@@ -9,21 +9,12 @@ import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PremiumFragment : BaseFragment<FragmentPremiumBinding>() {
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentPremiumBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+class PremiumFragment : BaseFragment<FragmentPremiumBinding, PremiumViewModel>(
+    FragmentPremiumBinding::inflate,
+    PremiumViewModel::class
+) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 }

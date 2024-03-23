@@ -2,16 +2,24 @@ package com.natiqhaciyef.prodocument.ui.base
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.snackbar.Snackbar
 import com.natiqhaciyef.prodocument.R
+import com.natiqhaciyef.prodocument.databinding.FragmentHomeBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_MAIN_DEEPLINK
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.ONBOARDING_MAIN_DEEPLINK
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.REGISTER_MAIN_DEEPLINK
@@ -19,11 +27,20 @@ import com.natiqhaciyef.prodocument.ui.store.AppStorePref
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.onboarding.OnboardingActivity
 import com.natiqhaciyef.prodocument.ui.view.registration.RegistrationActivity
+import kotlin.reflect.KClass
 
-open class BaseFragment<VB : ViewBinding> : Fragment() {
+abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel>(
+    private val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB,
+    private val viewModelClass: KClass<VM>?
+) : Fragment() {
     protected var _binding: VB? = null
     val binding: VB
         get() = _binding!!
+    val viewModel: VM?
+        get() {
+            viewModelClass?.let { return ViewModelProvider(this)[viewModelClass.java] }
+            return null
+        }
 
     val dataStore = AppStorePref
 
@@ -199,5 +216,14 @@ open class BaseFragment<VB : ViewBinding> : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = bindInflater(inflater, container, false)
+        return binding.root
     }
 }

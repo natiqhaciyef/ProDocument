@@ -33,8 +33,11 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @ExperimentalGetImage
 @AndroidEntryPoint
-class CaptureImageFragment : BaseFragment<FragmentCaptureImageBinding>() {
-    private val scanViewModel: ScanViewModel by viewModels()
+class CaptureImageFragment : BaseFragment<FragmentCaptureImageBinding, ScanViewModel>(
+    FragmentCaptureImageBinding::inflate,
+    ScanViewModel::class
+) {
+//    private val viewModel: ScanViewModel by viewModels()
     private var imageUri: Uri? = null
 
     private var scanner =
@@ -47,7 +50,7 @@ class CaptureImageFragment : BaseFragment<FragmentCaptureImageBinding>() {
                     GmsDocumentScanningResult.fromActivityResultIntent(result.data)
 
                 if (resultForPDF != null) {
-                    val material = scanViewModel.createMaterial(
+                    val material = viewModel?.createMaterial(
                         title = "Scanned file title",
                         uri = resultForPDF.pdf?.uri?.path.toString().toUri(),
                         image = "${
@@ -96,13 +99,6 @@ class CaptureImageFragment : BaseFragment<FragmentCaptureImageBinding>() {
             }
         }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentCaptureImageBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -150,7 +146,7 @@ class CaptureImageFragment : BaseFragment<FragmentCaptureImageBinding>() {
     private fun startCamera(
         view: View? = null,
     ) {
-        scanViewModel.startCamera(
+        viewModel?.startCamera(
             requireContext(),
             viewLifecycleOwner,
             binding.cameraXPreviewHolder,

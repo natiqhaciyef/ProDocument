@@ -17,15 +17,11 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class OTPFragment : BaseFragment<FragmentOTPBinding>() {
-    private val otpViewModel: OTPViewModel by viewModels()
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentOTPBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+class OTPFragment : BaseFragment<FragmentOTPBinding, OTPViewModel>(
+    FragmentOTPBinding::inflate,
+    OTPViewModel::class
+) {
+//    private val viewModel: OTPViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,7 +43,7 @@ class OTPFragment : BaseFragment<FragmentOTPBinding>() {
 
 
     private fun onClickAction(email: String) {
-        otpViewModel.apply {
+        viewModel?.apply {
 //            sendOtp(otp = binding.customOTPView.getOTP())
 //            otpResultState.observe(viewLifecycleOwner) { state ->
 //            if (state.isSuccess && state.obj != null) {
@@ -61,7 +57,7 @@ class OTPFragment : BaseFragment<FragmentOTPBinding>() {
     private fun textHtmlConfig() {
         binding.apply {
             lifecycleScope.launch {
-                otpViewModel.timingFlow.collectLatest {
+                viewModel?.timingFlow?.collectLatest {
                     resendTimingText.text = Html.fromHtml(
                         requireContext().getString(com.natiqhaciyef.common.R.string.resend_description, "$it"),
                         Html.FROM_HTML_MODE_COMPACT
