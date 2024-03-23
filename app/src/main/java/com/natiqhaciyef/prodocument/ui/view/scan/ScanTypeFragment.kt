@@ -8,6 +8,7 @@ import androidx.camera.core.ExperimentalGetImage
 import com.google.android.material.tabs.TabLayoutMediator
 import com.natiqhaciyef.prodocument.databinding.FragmentScanTypeBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
+import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
 import com.natiqhaciyef.prodocument.ui.view.scan.adapter.ScanViewPagerAdapter
 import com.natiqhaciyef.prodocument.ui.view.scan.behaviour.CameraTypes
 import dagger.hilt.android.AndroidEntryPoint
@@ -15,14 +16,10 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @ExperimentalGetImage
 @AndroidEntryPoint
-class ScanTypeFragment : BaseFragment<FragmentScanTypeBinding>() {
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentScanTypeBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+class ScanTypeFragment : BaseFragment<FragmentScanTypeBinding, BaseViewModel>(
+    FragmentScanTypeBinding::inflate,
+    null
+) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

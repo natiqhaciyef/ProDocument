@@ -23,8 +23,11 @@ import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class ChangePasswordFragment : BaseFragment<FragmentChangePasswordBinding>() {
-    private val changePasswordViewModel: ChangePasswordViewModel by viewModels()
+class ChangePasswordFragment : BaseFragment<FragmentChangePasswordBinding, ChangePasswordViewModel>(
+    FragmentChangePasswordBinding::inflate,
+    ChangePasswordViewModel::class
+) {
+//    private val viewModel: ChangePasswordViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,7 +56,7 @@ class ChangePasswordFragment : BaseFragment<FragmentChangePasswordBinding>() {
     }
 
     private fun onClickAction(email: String) {
-        changePasswordViewModel.apply {
+        viewModel?.apply {
 //            updatePassword(email, binding.newPasswordText.text.toString())
             updateResultState.observe(viewLifecycleOwner) { state ->
                 lifecycleScope.launch {

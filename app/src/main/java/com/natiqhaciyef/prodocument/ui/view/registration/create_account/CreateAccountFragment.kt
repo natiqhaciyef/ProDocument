@@ -24,18 +24,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class CreateAccountFragment : BaseFragment<FragmentCreateAccountBinding>() {
+class CreateAccountFragment : BaseFragment<FragmentCreateAccountBinding, CompleteProfileViewModel>(
+    FragmentCreateAccountBinding::inflate,
+    CompleteProfileViewModel::class
+) {
     private val createAccountViewModel: CreateAccountViewModel by viewModels()
-    private val completeProfileViewModel: CompleteProfileViewModel by viewModels()
     private var isRemembered: Boolean = false
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentCreateAccountBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -66,7 +60,7 @@ class CreateAccountFragment : BaseFragment<FragmentCreateAccountBinding>() {
             val email = createAccountEmailInput.text.toString()
             val password = createAccountPasswordInput.getPasswordText().toString()
 
-            completeProfileViewModel.userState.observe(viewLifecycleOwner) { baseUiState ->
+            viewModel?.userState?.observe(viewLifecycleOwner) { baseUiState ->
                 baseUiState?.email = email
                 baseUiState?.password = password
 

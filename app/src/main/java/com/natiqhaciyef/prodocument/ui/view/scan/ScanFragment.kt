@@ -19,8 +19,11 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @ExperimentalGetImage
 @AndroidEntryPoint
-class ScanFragment : BaseFragment<FragmentScanBinding>() {
-    private val scanViewModel: ScanViewModel by viewModels()
+class ScanFragment : BaseFragment<FragmentScanBinding, ScanViewModel>(
+    FragmentScanBinding::inflate,
+    ScanViewModel::class
+) {
+//    private val viewModel: ScanViewModel by viewModels()
 
     private val registerForPermissionResult =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
@@ -29,13 +32,6 @@ class ScanFragment : BaseFragment<FragmentScanBinding>() {
             }
         }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentScanBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -64,7 +60,7 @@ class ScanFragment : BaseFragment<FragmentScanBinding>() {
 
 
     private fun startCameraConfig() {
-        scanViewModel.startCamera(
+        viewModel?.startCamera(
             requireContext(),
             viewLifecycleOwner,
             binding.cameraXPreviewHolder,
@@ -74,7 +70,7 @@ class ScanFragment : BaseFragment<FragmentScanBinding>() {
 
         }
 
-        scanViewModel.startCamera(
+        viewModel?.startCamera(
             requireContext(),
             viewLifecycleOwner,
             binding.cameraXPreviewHolderBackground,

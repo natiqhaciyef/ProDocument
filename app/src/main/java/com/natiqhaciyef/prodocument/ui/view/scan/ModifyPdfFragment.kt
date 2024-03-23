@@ -19,20 +19,16 @@ import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.TITLE_COUNT_KEY
 import com.natiqhaciyef.prodocument.ui.util.CameraReader.Companion.createAndShareFile
 import com.natiqhaciyef.prodocument.ui.util.CameraReader.Companion.getAddressOfFile
 import com.natiqhaciyef.prodocument.ui.util.PdfReader.createDefaultPdfUriLoader
+import com.natiqhaciyef.prodocument.ui.view.scan.viewmodel.ModifyPdfViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class ModifyPdfFragment : BaseFragment<FragmentModifyPdfBinding>() {
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentModifyPdfBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
+class ModifyPdfFragment : BaseFragment<FragmentModifyPdfBinding, ModifyPdfViewModel>(
+    FragmentModifyPdfBinding::inflate,
+    ModifyPdfViewModel::class
+) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val data: ModifyPdfFragmentArgs by navArgs()

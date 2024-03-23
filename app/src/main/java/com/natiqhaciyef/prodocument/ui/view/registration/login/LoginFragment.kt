@@ -24,16 +24,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class LoginFragment : BaseFragment<FragmentLoginBinding>() {
-    private val loginViewModel: LoginViewModel by viewModels()
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentLoginBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
+    FragmentLoginBinding::inflate,
+    LoginViewModel::class
+) {
+//    private val viewModel: LoginViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -72,7 +67,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
             val email = loginEmailInput.text.toString()
             val password = loginPasswordInput.text.toString()
 
-            loginViewModel.signIn(
+            viewModel?.signIn(
                 email = email,
                 password = password,
                 onSuccess = {
@@ -90,7 +85,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     }
 
     private fun observeTokenState() {
-        loginViewModel.tokenState.observe(viewLifecycleOwner) { tokenState ->
+        viewModel?.tokenState?.observe(viewLifecycleOwner) { tokenState ->
             lifecycleScope.launch {
                 if (tokenState.isSuccess && tokenState.obj != null) {
                     dataStore.saveString(
