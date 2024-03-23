@@ -42,6 +42,8 @@ dependencies {
     val scannerMlKitVersion = "16.0.0-beta1"
     val cameraXVersion = "1.3.1"
     val pdfViewerVersion = "2.3.0"
+    val retrofitVersion = "2.9.0"
+    val okHttpLoggingInterceptorVersion = "5.0.0-alpha.3"
 
 
     implementation(project(":data"))
@@ -78,4 +80,10 @@ dependencies {
 
     implementation("com.github.barteksc:android-pdf-viewer:$pdfViewerVersion")
 
+
+    //Retrofit library
+    implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
+    implementation("com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion")
+    implementation("com.squareup.okhttp3:logging-interceptor:$okHttpLoggingInterceptorVersion")
 }

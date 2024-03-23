@@ -13,6 +13,8 @@ import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.AlertDialogResultViewBinding
 import com.natiqhaciyef.prodocument.databinding.FragmentCreateAccountBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
+import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys
+import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.MATERIAL_TOKEN_KEY
 import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.TOKEN_KEY
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkEmailAcceptanceCondition
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkPasswordAcceptanceCondition
@@ -98,6 +100,21 @@ class CreateAccountFragment : BaseFragment<FragmentCreateAccountBinding>() {
                         data = tokenState.obj!!.uid.toString(),
                         key = TOKEN_KEY
                     )
+
+                    dataStore.saveString(
+                        context = requireContext(),
+                        data = tokenState.obj!!.materialToken.toString(),
+                        key = MATERIAL_TOKEN_KEY
+                    )
+
+                    if (tokenState.obj!!.premiumToken != null) {
+                        dataStore.saveString(
+                            context = requireContext(),
+                            data = tokenState.obj!!.premiumToken.toString(),
+                            key = AppStorePrefKeys.PREMIUM_TOKEN_KEY
+                        )
+                    }
+
                     createResultAlertDialog()
                 }
             }
