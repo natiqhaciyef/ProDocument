@@ -22,16 +22,18 @@ data class MaterialResponse(
     var type: String,
     @SerializedName("url")
     var url: String,
+    @SerializedName("result")
     override var result: CRUDResponse? = null,
 ) : IOModel(), BaseNetworkModel, Parcelable
 
 
 @Parcelize
-data class MaterialsResponse(
+data class ListMaterialResponse(
     @SerializedName("materials")
     var materials: List<MaterialResponse>,
     @SerializedName("id")
     override var id: String,
+    @SerializedName("result")
     override var result: CRUDResponse?,
     @SerializedName("publish_date")
     override var publishDate: String

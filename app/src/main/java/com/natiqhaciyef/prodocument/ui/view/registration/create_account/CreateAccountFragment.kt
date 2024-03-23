@@ -13,6 +13,8 @@ import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.AlertDialogResultViewBinding
 import com.natiqhaciyef.prodocument.databinding.FragmentCreateAccountBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
+import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys
+import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.MATERIAL_TOKEN_KEY
 import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.TOKEN_KEY
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkEmailAcceptanceCondition
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkPasswordAcceptanceCondition
@@ -49,8 +51,8 @@ class CreateAccountFragment : BaseFragment<FragmentCreateAccountBinding>() {
 
     private fun config() {
         binding.apply {
-            createAccountConfirmPasswordInput.setPasswordTitleText(R.string.confirm_password)
-            createAccountConfirmPasswordInput.setPasswordHintText(R.string.confirm_password)
+            createAccountConfirmPasswordInput.setPasswordTitleText(com.natiqhaciyef.common.R.string.confirm_password)
+            createAccountConfirmPasswordInput.setPasswordHintText(com.natiqhaciyef.common.R.string.confirm_password)
 
             createAccountPasswordInput.changeVisibility()
             createAccountConfirmPasswordInput.changeVisibility()
@@ -98,6 +100,21 @@ class CreateAccountFragment : BaseFragment<FragmentCreateAccountBinding>() {
                         data = tokenState.obj!!.uid.toString(),
                         key = TOKEN_KEY
                     )
+
+                    dataStore.saveString(
+                        context = requireContext(),
+                        data = tokenState.obj!!.materialToken.toString(),
+                        key = MATERIAL_TOKEN_KEY
+                    )
+
+                    if (tokenState.obj!!.premiumToken != null) {
+                        dataStore.saveString(
+                            context = requireContext(),
+                            data = tokenState.obj!!.premiumToken.toString(),
+                            key = AppStorePrefKeys.PREMIUM_TOKEN_KEY
+                        )
+                    }
+
                     createResultAlertDialog()
                 }
             }
@@ -106,10 +123,11 @@ class CreateAccountFragment : BaseFragment<FragmentCreateAccountBinding>() {
 
     private fun createResultAlertDialog() {
         val binding = AlertDialogResultViewBinding.inflate(layoutInflater)
-        val resultDialog = AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
-            .setView(binding.root)
-            .setCancelable(true)
-            .create()
+        val resultDialog =
+            AlertDialog.Builder(requireContext(), com.natiqhaciyef.common.R.style.CustomAlertDialog)
+                .setView(binding.root)
+                .setCancelable(true)
+                .create()
 
         binding.resultButton.setOnClickListener {
             resultDialog.dismiss()

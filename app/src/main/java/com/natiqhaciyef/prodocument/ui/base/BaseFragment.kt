@@ -162,8 +162,8 @@ open class BaseFragment<VB : ViewBinding> : Fragment() {
         destinationIntent.let {
             requireActivity().startActivity(destinationIntent)
             requireActivity().overridePendingTransition(
-                R.anim.slide_in_right,
-                R.anim.slide_out_left
+                com.natiqhaciyef.common.R.anim.slide_in_right,
+                com.natiqhaciyef.common.R.anim.slide_out_left
             )
             if (isFinished)
                 requireActivity().finish()

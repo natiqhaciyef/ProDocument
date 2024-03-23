@@ -7,7 +7,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doOnTextChanged
-import com.natiqhaciyef.prodocument.R
+import com.natiqhaciyef.common.R
 import com.natiqhaciyef.prodocument.databinding.CustomPasswordInputEdittextBinding
 
 class CustomPasswordInputEditText(

@@ -14,6 +14,7 @@ import com.natiqhaciyef.prodocument.databinding.FragmentScanBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
 import com.natiqhaciyef.prodocument.ui.view.scan.behaviour.CameraTypes
+import com.natiqhaciyef.prodocument.ui.view.scan.viewmodel.ScanViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @ExperimentalGetImage

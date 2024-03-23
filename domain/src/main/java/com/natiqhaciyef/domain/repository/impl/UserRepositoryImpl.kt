@@ -35,7 +35,7 @@ class UserRepositoryImpl(
     override suspend fun updateUserPasswordByEmail(
         email: String,
         password: String
-    ): CRUDResponse? = ds.updateUserPasswordByEmailFromNetwork(email, password)
+    ): TokenResponse? = ds.updateUserPasswordByEmailFromNetwork(email, password)
 
 
     override suspend fun getUserFromLocal(): List<UIResult<MappedUserModel>>? =

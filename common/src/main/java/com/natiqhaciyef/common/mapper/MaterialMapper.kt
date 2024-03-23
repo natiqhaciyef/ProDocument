@@ -4,7 +4,7 @@ import com.natiqhaciyef.common.model.UIResult
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.data.model.MaterialModel
 import com.natiqhaciyef.data.network.response.MaterialResponse
-import com.natiqhaciyef.data.network.response.MaterialsResponse
+import com.natiqhaciyef.data.network.response.ListMaterialResponse
 
 
 fun MaterialModel.toMappedMaterial(): MappedMaterialModel? {
@@ -71,7 +71,7 @@ fun MaterialResponse.toMappedModel(): MappedMaterialModel? {
     }
 }
 
-fun MaterialsResponse.toUIResult(): UIResult<List<MappedMaterialModel>>? {
+fun ListMaterialResponse.toUIResult(): UIResult<List<MappedMaterialModel>>? {
     val materials = this.materials.map { it.toMappedModel() }
     return if (this.materials.isNotEmpty() && materials.contains(null)) {
         UIResult(

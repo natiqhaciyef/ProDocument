@@ -2,6 +2,7 @@ package com.natiqhaciyef.domain.repository
 
 import com.natiqhaciyef.domain.base.BaseRepository
 import com.natiqhaciyef.common.model.UIResult
+import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
 import com.natiqhaciyef.data.local.entity.UserEntity
 import com.natiqhaciyef.data.model.UserModel
@@ -21,7 +22,7 @@ interface UserRepository : BaseRepository {
 
     suspend fun sendOtp(otp: String): CRUDResponse?
 
-    suspend fun updateUserPasswordByEmail(email: String, password: String): CRUDResponse?
+    suspend fun updateUserPasswordByEmail(email: String, password: String): TokenResponse?
 
     suspend fun getUserFromLocal(): List<UIResult<MappedUserModel>>?
 

@@ -51,5 +51,5 @@ interface UserService {
     suspend fun updateUserPasswordByEmail(
         @Field("email") email: String,
         @Field("password") password: String,
-    ): CRUDResponse?
+    ): TokenResponse?
 }

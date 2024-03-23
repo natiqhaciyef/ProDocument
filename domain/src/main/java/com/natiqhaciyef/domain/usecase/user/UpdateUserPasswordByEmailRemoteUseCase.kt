@@ -1,8 +1,11 @@
 package com.natiqhaciyef.domain.usecase.user
 
+import com.natiqhaciyef.common.mapper.toMapped
 import com.natiqhaciyef.common.mapper.toModel
+import com.natiqhaciyef.common.mapper.toResponse
 import com.natiqhaciyef.common.model.CRUDModel
 import com.natiqhaciyef.common.model.Resource
+import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.common.objects.ResultExceptions
 import com.natiqhaciyef.data.network.response.CRUDResponse
@@ -16,9 +19,9 @@ import javax.inject.Inject
 @UseCase
 class UpdateUserPasswordByEmailRemoteUseCase @Inject constructor(
     userRepository: UserRepository
-) : BaseUseCase<UserRepository, Map<String, String>, CRUDModel>(userRepository) {
+) : BaseUseCase<UserRepository, Map<String, String>, MappedTokenModel>(userRepository) {
 
-    override fun operate(data: Map<String, String>): Flow<Resource<CRUDModel>> = flow {
+    override fun operate(data: Map<String, String>): Flow<Resource<MappedTokenModel>> = flow {
         emit(Resource.loading(null))
         val email = data["email"]
         val password = data["password"]
@@ -27,7 +30,7 @@ class UpdateUserPasswordByEmailRemoteUseCase @Inject constructor(
             val result = repository.updateUserPasswordByEmail(email, password)
 
             if (result != null) {
-                emit(Resource.success(result.toModel()))
+                emit(Resource.success(result.toMapped()))
             } else {
                 emit(
                     Resource.error(

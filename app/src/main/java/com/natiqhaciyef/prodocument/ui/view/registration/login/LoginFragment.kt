@@ -13,6 +13,9 @@ import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.prodocument.databinding.FragmentLoginBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
+import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys
+import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.MATERIAL_TOKEN_KEY
+import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.PREMIUM_TOKEN_KEY
 import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.TOKEN_KEY
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkEmailAcceptanceCondition
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkPasswordAcceptanceCondition
@@ -48,11 +51,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
             appleSignInButton.changeImageHorizontalBias(0.5f)
             appleSignInButton.changeTextVisibility(View.GONE)
-            appleSignInButton.setIconImage(R.drawable.apple)
+            appleSignInButton.setIconImage(com.natiqhaciyef.common.R.drawable.apple)
 
             facebookSignInButton.changeImageHorizontalBias(0.5f)
             facebookSignInButton.changeTextVisibility(View.GONE)
-            facebookSignInButton.setIconImage(R.drawable.facebook)
+            facebookSignInButton.setIconImage(com.natiqhaciyef.common.R.drawable.facebook)
 
             rememberMeCheckBoxImage.onClickAction()
 
@@ -87,14 +90,28 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     }
 
     private fun observeTokenState() {
-        loginViewModel.tokenState.observe(viewLifecycleOwner) {
+        loginViewModel.tokenState.observe(viewLifecycleOwner) { tokenState ->
             lifecycleScope.launch {
-                if (it.isSuccess && it.obj != null) {
+                if (tokenState.isSuccess && tokenState.obj != null) {
                     dataStore.saveString(
                         context = requireContext(),
-                        data = it.obj!!.uid.toString(),
+                        data = tokenState.obj!!.uid.toString(),
                         key = TOKEN_KEY
                     )
+
+                    dataStore.saveString(
+                        context = requireContext(),
+                        data = tokenState.obj!!.materialToken.toString(),
+                        key = MATERIAL_TOKEN_KEY
+                    )
+
+                    if (tokenState.obj!!.premiumToken != null) {
+                        dataStore.saveString(
+                            context = requireContext(),
+                            data = tokenState.obj!!.premiumToken.toString(),
+                            key = PREMIUM_TOKEN_KEY
+                        )
+                    }
 
                     navigateByActivityTitle(HOME_ROUTE, true)
                 }
