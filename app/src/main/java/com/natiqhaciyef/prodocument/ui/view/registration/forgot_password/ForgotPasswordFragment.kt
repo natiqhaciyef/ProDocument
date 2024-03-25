@@ -14,8 +14,11 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class ForgotPasswordFragment : BaseFragment<FragmentForgotPasswordBinding>() {
-    private val forgotPasswordViewModel: ForgotPasswordViewModel by viewModels()
+class ForgotPasswordFragment : BaseFragment<FragmentForgotPasswordBinding, ForgotPasswordViewModel>(
+    FragmentForgotPasswordBinding::inflate,
+    ForgotPasswordViewModel::class
+) {
+//    private val viewModel: ForgotPasswordViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,7 +46,7 @@ class ForgotPasswordFragment : BaseFragment<FragmentForgotPasswordBinding>() {
     }
 
     private fun onClickAction(email: String) {
-//        forgotPasswordViewModel.apply {
+//        viewModel?.apply {
 //        getOtpResult(binding.forgotPasswordEmailInput.text.toString())
 //        otpResultState.observe(viewLifecycleOwner) {
 //            if (it.obj != null && it.isSuccess) {

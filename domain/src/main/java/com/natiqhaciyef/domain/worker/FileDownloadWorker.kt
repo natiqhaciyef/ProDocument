@@ -1,4 +1,4 @@
-package com.natiqhaciyef.common.worker
+package com.natiqhaciyef.domain.worker
 
 import android.Manifest
 import android.app.NotificationChannel
@@ -14,7 +14,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import com.natiqhaciyef.common.R
-import com.natiqhaciyef.common.worker.config.getSavedFileUri
+import com.natiqhaciyef.domain.worker.config.getSavedFileUri
 
 class FileDownloadWorker(
     private val context: Context,

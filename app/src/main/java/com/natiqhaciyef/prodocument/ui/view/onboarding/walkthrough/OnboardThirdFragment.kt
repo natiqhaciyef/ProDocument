@@ -13,16 +13,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class OnboardThirdFragment : BaseFragment<FragmentOnboardThirdBinding>() {
-    private val viewModel: OnboardingViewModel by viewModels()
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentOnboardThirdBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+class OnboardThirdFragment : BaseFragment<FragmentOnboardThirdBinding, OnboardingViewModel>(
+    FragmentOnboardThirdBinding::inflate,
+    OnboardingViewModel::class
+) {
+//    private val viewModel: OnboardingViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,7 +30,7 @@ class OnboardThirdFragment : BaseFragment<FragmentOnboardThirdBinding>() {
     private fun onButtonClickAction() {
         lifecycleScope.launch {
             dataStore.saveBoolean(context = requireContext(), enabled = true)
-            viewModel.actionForOnBoarding { route ->
+            viewModel?.actionForOnBoarding { route ->
                 navigateByActivityTitle(route, true)
             }
         }

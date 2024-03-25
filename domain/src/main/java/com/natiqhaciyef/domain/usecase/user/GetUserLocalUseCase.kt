@@ -15,7 +15,7 @@ import javax.inject.Inject
 @UseCase
 class GetUserLocalUseCase @Inject constructor(
     userRepository: UserRepository
-) : BaseUseCase<UserRepository, Nothing, MappedUserModel>(userRepository) {
+) : BaseUseCase<UserRepository, Nothing, List<UIResult<MappedUserModel>>>(userRepository) {
 
     override operator fun invoke(): Flow<Resource<List<UIResult<MappedUserModel>>>> = flow {
         emit(Resource.loading(null))

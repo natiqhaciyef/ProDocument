@@ -18,19 +18,13 @@ import com.natiqhaciyef.prodocument.ui.view.main.home.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding>() {
-    private val homeViewModel: HomeViewModel by viewModels()
+class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
+    FragmentHomeBinding::inflate,
+    HomeViewModel::class
+) {
     private var searchIconClick = false
     private lateinit var menuAdapter: MenuAdapter
     private lateinit var fileAdapter: FileItemAdapter
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -101,10 +95,5 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 }
             }
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 }

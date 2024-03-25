@@ -7,19 +7,15 @@ import android.view.ViewGroup
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.FragmentLetsSignInBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
+import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class LetsSignInFragment : BaseFragment<FragmentLetsSignInBinding>() {
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentLetsSignInBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
+class LetsSignInFragment : BaseFragment<FragmentLetsSignInBinding, BaseViewModel>(
+    FragmentLetsSignInBinding::inflate,
+    null
+) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

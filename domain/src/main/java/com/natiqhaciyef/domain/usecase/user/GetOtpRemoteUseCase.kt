@@ -9,6 +9,8 @@ import com.natiqhaciyef.data.network.response.CRUDResponse
 import com.natiqhaciyef.domain.base.BaseUseCase
 import com.natiqhaciyef.domain.base.UseCase
 import com.natiqhaciyef.domain.repository.UserRepository
+import com.natiqhaciyef.domain.usecase.USER_EMAIL
+import com.natiqhaciyef.domain.usecase.USER_TOKEN
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -16,11 +18,13 @@ import javax.inject.Inject
 @UseCase
 class GetOtpRemoteUseCase @Inject constructor(
     userRepository: UserRepository
-) : BaseUseCase<UserRepository, String, CRUDModel?>(userRepository) {
+) : BaseUseCase<UserRepository, Map<String, String>, CRUDModel?>(userRepository) {
 
-    override fun operate(data: String): Flow<Resource<CRUDModel?>> = flow {
+    override fun operate(data: Map<String, String>): Flow<Resource<CRUDModel?>> = flow {
         emit(Resource.loading(null))
-        val result = repository.getOtp(data)
+        val token = data[USER_TOKEN].toString()
+        val email = data[USER_EMAIL].toString()
+        val result = repository.getOtp(token, email)
 
         if (result != null) {
             emit(Resource.success(result.toModel()))

@@ -2,7 +2,6 @@ package com.natiqhaciyef.domain.usecase.user
 
 import com.natiqhaciyef.common.mapper.toMapped
 import com.natiqhaciyef.common.model.Resource
-import com.natiqhaciyef.common.mapper.toUser
 import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.domain.base.BaseUseCase
 import com.natiqhaciyef.domain.base.UseCase
@@ -21,7 +20,7 @@ class CreateUserRemoteUseCase @Inject constructor(
 
     override fun operate(data: MappedUserModel): Flow<Resource<MappedTokenModel?>> = flow {
         emit(Resource.loading(null))
-        val result = repository.createAccount(data.toUser(hashed = false))
+        val result = repository.createAccount(data)
 
         if (result != null) {
             if (result.uid != null) {

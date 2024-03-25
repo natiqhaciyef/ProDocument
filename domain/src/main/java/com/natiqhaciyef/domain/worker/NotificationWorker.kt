@@ -1,10 +1,10 @@
-package com.natiqhaciyef.prodocument.worker
+package com.natiqhaciyef.domain.worker
 
 import android.content.Context
 import androidx.activity.ComponentActivity
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import com.natiqhaciyef.prodocument.worker.config.sendNotification
+import com.natiqhaciyef.domain.worker.config.sendNotification
 
 class NotificationWorker(val context: Context, workerParams: WorkerParameters) :
     Worker(context, workerParams) {

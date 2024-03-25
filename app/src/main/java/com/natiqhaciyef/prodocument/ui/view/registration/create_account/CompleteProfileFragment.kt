@@ -30,6 +30,7 @@ import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkFullNameAcceptanceCondition
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkGenderAcceptanceCondition
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkPhoneAcceptanceCondition
+import com.natiqhaciyef.prodocument.ui.util.formatPhoneNumber
 import com.natiqhaciyef.prodocument.ui.view.registration.create_account.viewmodel.CompleteProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -38,24 +39,19 @@ import java.util.Locale
 
 
 @AndroidEntryPoint
-class CompleteProfileFragment : BaseFragment<FragmentCompleteProfileBinding>() {
+class CompleteProfileFragment :
+    BaseFragment<FragmentCompleteProfileBinding, CompleteProfileViewModel>(
+        FragmentCompleteProfileBinding::inflate,
+        CompleteProfileViewModel::class
+    ) {
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
     private lateinit var activityLauncher: ActivityResultLauncher<Intent>
     private var currentSelectedTime: Long = 0L
     private var imageData: Uri? = null
     private var genderSelection: String = "Not-selected"
     private val genderList = listOf("Male", "Female")
-    private val viewModel: CompleteProfileViewModel by viewModels()
+//    private val viewModel: CompleteProfileViewModel by viewModels()
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding =
-            FragmentCompleteProfileBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -136,8 +132,9 @@ class CompleteProfileFragment : BaseFragment<FragmentCompleteProfileBinding>() {
 
     private fun continueButtonClickAction() {
         binding.apply {
-            viewModel.collectDataFromCompleteProfileScreen(
+            viewModel?.collectDataFromCompleteProfileScreen(
                 data = MappedUserModel(
+                    id= "",
                     name = completeProfileFullNameInput.text.toString(),
                     email = "",
                     phoneNumber = completeProfilePhoneNumberInput.text.toString(),
@@ -162,7 +159,8 @@ class CompleteProfileFragment : BaseFragment<FragmentCompleteProfileBinding>() {
             ArrayAdapter(requireContext(), R.layout.drop_down_gender_item, genderList)
 
         binding.apply {
-            completeProfileGenderDropDownItem.hint = getString(com.natiqhaciyef.common.R.string.gender)
+            completeProfileGenderDropDownItem.hint =
+                getString(com.natiqhaciyef.common.R.string.gender)
             completeProfileGenderDropDownItem.setAdapter(genderAdapter)
             completeProfileGenderDropDownItem.setOnItemClickListener { adapterView, _, p, _ ->
                 genderList.forEach {
@@ -235,7 +233,7 @@ class CompleteProfileFragment : BaseFragment<FragmentCompleteProfileBinding>() {
                 override fun afterTextChanged(text: Editable?) {
                     text?.let {
                         val formattedNumber =
-                            viewModel.formatPhoneNumber(completeProfilePhoneNumberInput.editableText.toString())
+                            formatPhoneNumber(completeProfilePhoneNumberInput.editableText.toString())
                         if (formattedNumber != it.toString()) {
                             completeProfilePhoneNumberInput.removeTextChangedListener(this)
 

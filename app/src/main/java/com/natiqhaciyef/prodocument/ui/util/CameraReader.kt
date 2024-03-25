@@ -36,10 +36,10 @@ import com.google.mlkit.vision.documentscanner.GmsDocumentScannerOptions.SCANNER
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
-import com.natiqhaciyef.common.worker.config.JPEG
-import com.natiqhaciyef.common.worker.config.PDF
-import com.natiqhaciyef.common.worker.config.PNG
-import com.natiqhaciyef.common.worker.config.getIntentFileType
+import com.natiqhaciyef.domain.worker.config.JPEG
+import com.natiqhaciyef.domain.worker.config.PDF
+import com.natiqhaciyef.domain.worker.config.PNG
+import com.natiqhaciyef.domain.worker.config.getIntentFileType
 import java.io.File
 import java.util.Locale
 import java.util.concurrent.Executors

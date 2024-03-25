@@ -16,12 +16,16 @@ import com.natiqhaciyef.prodocument.databinding.FragmentLiveRecognitionBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink
 import com.natiqhaciyef.prodocument.ui.view.scan.behaviour.CameraTypes
+import com.natiqhaciyef.prodocument.ui.view.scan.viewmodel.ScanViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @ExperimentalGetImage
 @AndroidEntryPoint
-class LiveRecognitionFragment : BaseFragment<FragmentLiveRecognitionBinding>() {
-    private val scanViewModel: ScanViewModel by viewModels()
+class LiveRecognitionFragment : BaseFragment<FragmentLiveRecognitionBinding, ScanViewModel>(
+    FragmentLiveRecognitionBinding::inflate,
+    ScanViewModel::class
+) {
+//    private val viewModel: ScanViewModel by viewModels()
     private val registerForCameraPermissionResult =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
@@ -29,14 +33,6 @@ class LiveRecognitionFragment : BaseFragment<FragmentLiveRecognitionBinding>() {
                 captureImageAction()
             }
         }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentLiveRecognitionBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -82,7 +78,7 @@ class LiveRecognitionFragment : BaseFragment<FragmentLiveRecognitionBinding>() {
     private fun startCamera(
         view: View? = null,
     ) {
-        scanViewModel.startCamera(
+        viewModel?.startCamera(
             requireContext(),
             viewLifecycleOwner,
             binding.cameraXPreviewHolder,

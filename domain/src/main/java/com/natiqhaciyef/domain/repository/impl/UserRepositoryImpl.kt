@@ -1,10 +1,10 @@
 package com.natiqhaciyef.domain.repository.impl
 
+import com.natiqhaciyef.common.mapper.toResponse
 import com.natiqhaciyef.common.mapper.toUIResult
 import com.natiqhaciyef.common.model.UIResult
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
 import com.natiqhaciyef.data.local.entity.UserEntity
-import com.natiqhaciyef.data.model.UserModel
 import com.natiqhaciyef.data.network.response.CRUDResponse
 import com.natiqhaciyef.data.network.response.TokenResponse
 import com.natiqhaciyef.data.network.response.UserResponse
@@ -20,14 +20,14 @@ class UserRepositoryImpl(
     ): UserResponse? =
         ds.getUserFromNetwork(token = token)
 
-    override suspend fun createAccount(user: UserModel): TokenResponse? =
-        ds.createAccountFromNetwork(userModel = user)
+    override suspend fun createAccount(user: MappedUserModel): TokenResponse? =
+        ds.createAccountFromNetwork(userModel = user.toResponse())
 
     override suspend fun signIn(email: String, password: String): TokenResponse? =
         ds.signInFromNetwork(email, password)
 
-    override suspend fun getOtp(email: String): CRUDResponse? =
-        ds.getOtpFromNetwork(email)
+    override suspend fun getOtp(token: String, email: String): CRUDResponse? =
+        ds.getOtpFromNetwork(token, email)
 
     override suspend fun sendOtp(otp: String): CRUDResponse? =
         ds.sendOtpToNetwork(otp)
@@ -35,7 +35,10 @@ class UserRepositoryImpl(
     override suspend fun updateUserPasswordByEmail(
         email: String,
         password: String
-    ): CRUDResponse? = ds.updateUserPasswordByEmailFromNetwork(email, password)
+    ): TokenResponse? = ds.updateUserPasswordByEmailFromNetwork(email, password)
+
+    override suspend fun logout(): CRUDResponse? =
+        ds.logout()
 
 
     override suspend fun getUserFromLocal(): List<UIResult<MappedUserModel>>? =

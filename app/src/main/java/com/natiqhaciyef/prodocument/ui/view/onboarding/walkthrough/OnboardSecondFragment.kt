@@ -15,16 +15,11 @@ import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class OnboardSecondFragment : BaseFragment<FragmentOnboardSecondBinding>() {
-    private val viewModel: OnboardingViewModel by viewModels()
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentOnboardSecondBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+class OnboardSecondFragment : BaseFragment<FragmentOnboardSecondBinding, OnboardingViewModel>(
+    FragmentOnboardSecondBinding::inflate,
+    OnboardingViewModel::class
+) {
+//    private val viewModel: OnboardingViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,7 +32,7 @@ class OnboardSecondFragment : BaseFragment<FragmentOnboardSecondBinding>() {
     private fun onSkipButtonClickAction() {
         lifecycleScope.launch {
             dataStore.saveBoolean(context = requireContext(), enabled = true)
-            viewModel.actionForOnBoarding { route ->
+            viewModel?.actionForOnBoarding { route ->
                 navigateByActivityTitle(route, true)
             }
         }

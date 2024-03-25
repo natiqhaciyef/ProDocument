@@ -2,7 +2,7 @@ package com.natiqhaciyef.data.source
 
 import com.natiqhaciyef.data.local.dao.UserDao
 import com.natiqhaciyef.data.local.entity.UserEntity
-import com.natiqhaciyef.data.model.UserModel
+import com.natiqhaciyef.data.network.response.UserResponse
 import com.natiqhaciyef.data.network.service.UserService
 
 class UserDataSource(
@@ -17,12 +17,12 @@ class UserDataSource(
     )
 
     suspend fun createAccountFromNetwork(
-        userModel: UserModel
+        userModel: UserResponse
     ) = service.createAccount(
-        fullName = userModel.name,
+        fullName = userModel.fullName,
         phoneNumber = userModel.phoneNumber,
         gender = userModel.gender,
-        dateOfBirth = userModel.birthDate,
+        dateOfBirth = userModel.dateOfBirth,
         imageUrl = userModel.imageUrl,
         email = userModel.email,
         password = userModel.password
@@ -34,8 +34,9 @@ class UserDataSource(
     ) = service.signIn(email, password)
 
     suspend fun getOtpFromNetwork(
+        token: String,
         email: String,
-    ) = service.getOtp(email)
+    ) = service.getOtp(token, email)
 
     suspend fun sendOtpToNetwork(
         otp: String,
@@ -46,6 +47,7 @@ class UserDataSource(
         password: String
     ) = service.updateUserPasswordByEmail(email, password)
 
+    suspend fun logout() = service.logout()
 
     // local
     suspend fun getUserFromLocal() = dao.getAllUser()

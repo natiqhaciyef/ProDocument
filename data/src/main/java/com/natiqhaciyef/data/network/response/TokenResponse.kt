@@ -10,6 +10,12 @@ import kotlinx.parcelize.Parcelize
 data class TokenResponse(
     @SerializedName("token")
     var uid: String?,
+    @SerializedName("material_token")
+    var materialToken: String?,
+    @SerializedName("premium_token")
+    var premiumToken: String?,
+    @SerializedName("premium_token_expiry_date")
+    var premiumTokenExpiryDate: String?,
     @SerializedName("result")
-    override var result: CRUDResponse?
+    override var result: CRUDResponse?,
 ) : BaseNetworkModel, Parcelable

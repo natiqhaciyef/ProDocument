@@ -15,26 +15,38 @@
         android:background="@drawable/custom_input_field_background"
         android:backgroundTint="@color/black"
         android:fontFamily="@font/urbanist_bolditalic"
-        android:maxLines="1"
         android:paddingStart="12dp"
         android:text="@string/title_count"
         android:textColor="@color/white"
         android:textSize="22sp"
-        app:layout_constraintEnd_toStartOf="@id/shareIconButton"
+        app:layout_constraintEnd_toStartOf="@id/modifyIconButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/shareIconButton"
+        android:id="@+id/optionsIconButton"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginEnd="16dp"
         android:visibility="visible"
-        android:src="@drawable/share_icon"
+        android:src="@drawable/options_icon"
         app:layout_constraintBottom_toBottomOf="@id/pdfTitleText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/pdfTitleText"
         app:layout_constraintVertical_bias="0.5"
+        app:tint="@color/white" />
+
+    <ImageView
+        android:id="@+id/modifyIconButton"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="16dp"
+        android:visibility="visible"
+        android:src="@drawable/modify_icon"
+        app:layout_constraintBottom_toBottomOf="@id/pdfTitleText"
+        app:layout_constraintTop_toTopOf="@id/pdfTitleText"
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintEnd_toStartOf="@id/optionsIconButton"
         app:tint="@color/white" />
 
     <TextView

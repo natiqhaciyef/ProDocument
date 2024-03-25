@@ -18,6 +18,7 @@
     <string name="sign_in">Sign in</string>
     <string name="save">Save</string>
     <string name="confirm">Confirm</string>
+    <string name="share">Share</string>
 
 
     <!-- Result -->
@@ -112,4 +113,10 @@
     <string name="scan_image_description">Please capture and set camera at the Image</string>
     <string name="title_count">Scanned file title %1$s</string>
 
+    <!--  Sharing category titles  -->
+    <string name="share_link">Share link</string>
+    <string name="share_pdf">Share PDF</string>
+    <string name="share_word">Share Word</string>
+    <string name="share_jpg">Share JPG</string>
+    <string name="share_png">Share PNG</string>
 </resources>

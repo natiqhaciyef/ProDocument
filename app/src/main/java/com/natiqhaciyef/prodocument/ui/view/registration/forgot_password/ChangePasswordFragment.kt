@@ -10,18 +10,26 @@ import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import com.natiqhaciyef.common.helpers.toJsonString
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.AlertDialogResultViewBinding
 import com.natiqhaciyef.prodocument.databinding.FragmentChangePasswordBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
+import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys
+import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.TOKEN_KEY
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkPasswordAcceptanceCondition
 import com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.viewmodel.ChangePasswordViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class ChangePasswordFragment : BaseFragment<FragmentChangePasswordBinding>() {
-    private val changePasswordViewModel: ChangePasswordViewModel by viewModels()
+class ChangePasswordFragment : BaseFragment<FragmentChangePasswordBinding, ChangePasswordViewModel>(
+    FragmentChangePasswordBinding::inflate,
+    ChangePasswordViewModel::class
+) {
+//    private val viewModel: ChangePasswordViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,13 +58,21 @@ class ChangePasswordFragment : BaseFragment<FragmentChangePasswordBinding>() {
     }
 
     private fun onClickAction(email: String) {
-        changePasswordViewModel.apply {
+        viewModel?.apply {
 //            updatePassword(email, binding.newPasswordText.text.toString())
-//            updateResultState.observe(viewLifecycleOwner){state ->
-//                if (state.isSuccess && state.obj != null){
-            createResultAlertDialog()
-//                }
-//            }
+            updateResultState.observe(viewLifecycleOwner) { tokenState ->
+                lifecycleScope.launch {
+                    if (tokenState.isSuccess && tokenState.obj != null) {
+                        dataStore.saveParcelableClassData(
+                            context = requireContext(),
+                            data = tokenState?.obj!!,
+                            key = TOKEN_KEY
+                        )
+
+                        createResultAlertDialog()
+                    }
+                }
+            }
         }
     }
 

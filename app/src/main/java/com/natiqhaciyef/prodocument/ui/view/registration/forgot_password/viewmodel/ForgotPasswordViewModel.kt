@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.model.CRUDModel
 import com.natiqhaciyef.common.model.Status
+import com.natiqhaciyef.domain.usecase.USER_EMAIL
+import com.natiqhaciyef.domain.usecase.USER_TOKEN
 import com.natiqhaciyef.domain.usecase.user.GetOtpRemoteUseCase
 import com.natiqhaciyef.prodocument.ui.base.BaseUIState
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
@@ -23,10 +25,15 @@ class ForgotPasswordViewModel @Inject constructor(
         get() = _otpResultState
 
     fun getOtpResult(
+        token: String,
         email: String,
     ) {
+        val map = hashMapOf(
+            USER_TOKEN to token,
+            USER_EMAIL to email
+        )
         viewModelScope.launch {
-            getOtpRemoteUseCase.operate(email).collectLatest { result ->
+            getOtpRemoteUseCase.operate(map).collectLatest { result ->
                 when (result.status) {
                     Status.LOADING -> {
                         _otpResultState.value?.apply {

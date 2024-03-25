@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.natiqhaciyef.common.helpers.toMappedToken
 import com.natiqhaciyef.prodocument.databinding.FragmentProScanOnboardingBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.WALKTHROUGH_ROUTE
@@ -15,16 +16,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class ProScanOnboardingFragment : BaseFragment<FragmentProScanOnboardingBinding>() {
-    private val viewModel: OnboardingViewModel by viewModels()
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentProScanOnboardingBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+class ProScanOnboardingFragment : BaseFragment<FragmentProScanOnboardingBinding, OnboardingViewModel>(
+    FragmentProScanOnboardingBinding::inflate,
+    OnboardingViewModel::class
+) {
+//    private val viewModel: OnboardingViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,8 +31,8 @@ class ProScanOnboardingFragment : BaseFragment<FragmentProScanOnboardingBinding>
 
     private fun getTokenLocalStored() {
         lifecycleScope.launch {
-            viewModel.apply {
-                val data = dataStore.readString(requireContext(), TOKEN_KEY)
+            viewModel?.apply {
+                val data = dataStore.readString(requireContext(), TOKEN_KEY).toMappedToken()
                 getUserByToken(data)
 
                 observerLiveDataAndHandleAction()
@@ -46,7 +42,7 @@ class ProScanOnboardingFragment : BaseFragment<FragmentProScanOnboardingBinding>
 
 
     private fun observerLiveDataAndHandleAction() {
-        viewModel.apply {
+        viewModel?.apply {
             userState.observe(viewLifecycleOwner) { userState ->
                 onboardingAction { route ->
                     lifecycleScope.launch {

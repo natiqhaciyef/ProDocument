@@ -1,14 +1,11 @@
 package com.natiqhaciyef.prodocument.ui.view.registration.login
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.natiqhaciyef.prodocument.R
+import com.natiqhaciyef.common.helpers.toJsonString
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.prodocument.databinding.FragmentLoginBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
@@ -21,16 +18,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class LoginFragment : BaseFragment<FragmentLoginBinding>() {
-    private val loginViewModel: LoginViewModel by viewModels()
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentLoginBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
+    FragmentLoginBinding::inflate,
+    LoginViewModel::class
+) {
+//    private val viewModel: LoginViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -69,7 +61,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
             val email = loginEmailInput.text.toString()
             val password = loginPasswordInput.text.toString()
 
-            loginViewModel.signIn(
+            viewModel?.signIn(
                 email = email,
                 password = password,
                 onSuccess = {
@@ -87,12 +79,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     }
 
     private fun observeTokenState() {
-        loginViewModel.tokenState.observe(viewLifecycleOwner) {
+        viewModel?.tokenState?.observe(viewLifecycleOwner) { tokenState ->
             lifecycleScope.launch {
-                if (it.isSuccess && it.obj != null) {
-                    dataStore.saveString(
+                if (tokenState.isSuccess && tokenState.obj != null) {
+                    dataStore.saveParcelableClassData(
                         context = requireContext(),
-                        data = it.obj!!.uid.toString(),
+                        data = tokenState.obj!!,
                         key = TOKEN_KEY
                     )
 

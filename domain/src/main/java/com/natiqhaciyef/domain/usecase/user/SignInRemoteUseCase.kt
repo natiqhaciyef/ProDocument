@@ -9,6 +9,8 @@ import com.natiqhaciyef.data.network.response.TokenResponse
 import com.natiqhaciyef.domain.base.BaseUseCase
 import com.natiqhaciyef.domain.base.UseCase
 import com.natiqhaciyef.domain.repository.UserRepository
+import com.natiqhaciyef.domain.usecase.USER_EMAIL
+import com.natiqhaciyef.domain.usecase.USER_PASSWORD
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -19,8 +21,8 @@ class SignInRemoteUseCase @Inject constructor(
 ) : BaseUseCase<UserRepository, Map<String, String>, MappedTokenModel>(userRepository) {
 
     override fun operate(data: Map<String, String>): Flow<Resource<MappedTokenModel>> = flow {
-        val email = data["email"]
-        val password = data["password"]
+        val email = data[USER_EMAIL]
+        val password = data[USER_PASSWORD]
 
         emit(Resource.loading(null))
         if (email != null && password != null) {

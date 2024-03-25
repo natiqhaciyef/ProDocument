@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.common.model.UIResult
+import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
 import com.natiqhaciyef.domain.usecase.user.GetUserByTokenRemoteUseCase
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
@@ -41,40 +42,42 @@ class OnboardingViewModel @Inject constructor(
         }
     }
 
-    fun getUserByToken(token: String) {
+    fun getUserByToken(token: MappedTokenModel) {
         viewModelScope.launch {
-            getUserByTokenRemoteUseCase.operate(token).collectLatest { result ->
-                when (result.status) {
-                    Status.LOADING -> {
-                        _userState.value?.apply {
-                            isLoading = true
-                            obj = null
-                            isSuccess = false
-                            failReason = null
-                            list = listOf()
-                            message = null
+            if (!token.uid.isNullOrEmpty()) {
+                getUserByTokenRemoteUseCase.operate(token.uid!!).collectLatest { result ->
+                    when (result.status) {
+                        Status.LOADING -> {
+                            _userState.value?.apply {
+                                isLoading = true
+                                obj = null
+                                isSuccess = false
+                                failReason = null
+                                list = listOf()
+                                message = null
+                            }
                         }
-                    }
 
-                    Status.SUCCESS -> {
-                        _userState.value?.apply {
-                            isLoading = false
-                            obj = result.data
-                            isSuccess = true
-                            failReason = null
-                            list = listOf()
-                            message = null
+                        Status.SUCCESS -> {
+                            _userState.value?.apply {
+                                isLoading = false
+                                obj = result.data
+                                isSuccess = true
+                                failReason = null
+                                list = listOf()
+                                message = null
+                            }
                         }
-                    }
 
-                    Status.ERROR -> {
-                        _userState.value?.apply {
-                            isLoading = false
-                            obj = null
-                            isSuccess = false
-                            failReason = result.exception
-                            list = listOf()
-                            message = result.message
+                        Status.ERROR -> {
+                            _userState.value?.apply {
+                                isLoading = false
+                                obj = null
+                                isSuccess = false
+                                failReason = result.exception
+                                list = listOf()
+                                message = result.message
+                            }
                         }
                     }
                 }

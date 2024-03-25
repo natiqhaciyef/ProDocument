@@ -24,9 +24,18 @@ class GetUserByTokenRemoteUseCase @Inject constructor(
 
         if (result != null) {
             val uiResult = result.toUIResult()
-            if (uiResult != null){
-                emit(Resource.success(uiResult))
-            }else{
+            if (uiResult?.result != null) {
+                if (uiResult.result!!.resultCode in 200..299)
+                    emit(Resource.success(uiResult))
+                else
+                    emit(
+                        Resource.error(
+                            data = uiResult,
+                            msg = "${uiResult.result!!.resultCode}: ${uiResult.result!!.message}",
+                            exception = Exception(uiResult.result?.message)
+                        )
+                    )
+            } else {
                 emit(
                     Resource.error(
                         msg = result.result?.message ?: ErrorMessages.UNKNOWN_ERROR,
