@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.natiqhaciyef.common.helpers.toMappedToken
 import com.natiqhaciyef.prodocument.databinding.FragmentProScanOnboardingBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.WALKTHROUGH_ROUTE
@@ -31,7 +32,7 @@ class ProScanOnboardingFragment : BaseFragment<FragmentProScanOnboardingBinding,
     private fun getTokenLocalStored() {
         lifecycleScope.launch {
             viewModel?.apply {
-                val data = dataStore.readString(requireContext(), TOKEN_KEY)
+                val data = dataStore.readString(requireContext(), TOKEN_KEY).toMappedToken()
                 getUserByToken(data)
 
                 observerLiveDataAndHandleAction()

@@ -33,7 +33,7 @@ class OTPViewModel @Inject constructor(
     }
 
 
-    fun sendOtp(otp: String){
+    fun sendOtp(token: String, otp: String){
         viewModelScope.launch {
             sendOtpRemoteUseCase.operate(otp).collectLatest {result ->
                 when (result.status) {
