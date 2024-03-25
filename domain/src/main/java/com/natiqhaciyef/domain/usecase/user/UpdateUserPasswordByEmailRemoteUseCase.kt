@@ -12,6 +12,8 @@ import com.natiqhaciyef.data.network.response.CRUDResponse
 import com.natiqhaciyef.domain.base.BaseUseCase
 import com.natiqhaciyef.domain.base.UseCase
 import com.natiqhaciyef.domain.repository.UserRepository
+import com.natiqhaciyef.domain.usecase.USER_EMAIL
+import com.natiqhaciyef.domain.usecase.USER_PASSWORD
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -23,8 +25,8 @@ class UpdateUserPasswordByEmailRemoteUseCase @Inject constructor(
 
     override fun operate(data: Map<String, String>): Flow<Resource<MappedTokenModel>> = flow {
         emit(Resource.loading(null))
-        val email = data["email"]
-        val password = data["password"]
+        val email = data[USER_EMAIL]
+        val password = data[USER_PASSWORD]
 
         if (!email.isNullOrEmpty() && !password.isNullOrEmpty()) {
             val result = repository.updateUserPasswordByEmail(email, password)

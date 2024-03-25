@@ -1,6 +1,7 @@
 package com.natiqhaciyef.domain.repository.impl
 
-import com.natiqhaciyef.data.model.MaterialModel
+import com.natiqhaciyef.common.mapper.toMaterialResponse
+import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.data.network.response.CRUDResponse
 import com.natiqhaciyef.data.network.response.MaterialResponse
 import com.natiqhaciyef.data.network.response.ListMaterialResponse
@@ -17,10 +18,13 @@ class MaterialRepositoryImpl(
         ds.getFileById(materialId = materialId, token = token)
 
     override suspend fun createMaterialByToken(
-        materialModel: MaterialModel,
+        materialModel: MappedMaterialModel,
         materialToken: String
     ) =
-        ds.createMaterialByToken(materialToken = materialToken, materialModel = materialModel)
+        ds.createMaterialByToken(
+            materialToken = materialToken,
+            materialModel = materialModel.toMaterialResponse()
+        )
 
     override suspend fun removeMaterialByToken(
         materialId: String,
@@ -29,11 +33,11 @@ class MaterialRepositoryImpl(
         ds.removeMaterialByToken(materialToken = materialToken, materialId = materialId)
 
     override suspend fun updateMaterialByToken(
-        materialModel: MaterialModel,
+        materialModel: MappedMaterialModel,
         materialToken: String
     ): CRUDResponse? = ds.updateMaterialByToken(
         materialToken = materialToken,
-        materialModel = materialModel
+        materialModel = materialModel.toMaterialResponse()
     )
 
 }

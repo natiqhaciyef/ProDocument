@@ -14,7 +14,7 @@ interface BaseUseCaseInterface<In, Out> {
      * @return Flow List of UIResult of K type
      * @author Natig Hajiyev && ProScan app
      */
-    operator fun invoke(): Flow<Resource<List<UIResult<Out>>?>>?
+    operator fun invoke(): Flow<Resource<Out>>?
 
 
     /***

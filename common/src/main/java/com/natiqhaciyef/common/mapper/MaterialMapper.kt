@@ -2,36 +2,9 @@ package com.natiqhaciyef.common.mapper
 
 import com.natiqhaciyef.common.model.UIResult
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
-import com.natiqhaciyef.data.model.MaterialModel
 import com.natiqhaciyef.data.network.response.MaterialResponse
 import com.natiqhaciyef.data.network.response.ListMaterialResponse
 
-
-fun MaterialModel.toMappedMaterial(): MappedMaterialModel? {
-    return if (!title.isNullOrEmpty()) {
-        MappedMaterialModel(
-            id = this.id,
-            image = this.image,
-            title = this.title!!,
-            description = this.description,
-            createdDate = this.createdDate,
-            type = this.type,
-            url = this.url,
-        )
-    } else null
-}
-
-fun MappedMaterialModel.toMaterial(): MaterialModel {
-    return MaterialModel(
-        id = this.id,
-        image = this.image,
-        title = this.title,
-        description = this.description,
-        createdDate = this.createdDate,
-        type = this.type,
-        url = this.url,
-    )
-}
 
 fun MaterialResponse.toUIResult(): UIResult<MappedMaterialModel>? {
     return if (!this.title.isNullOrEmpty()) {
@@ -53,6 +26,18 @@ fun MaterialResponse.toUIResult(): UIResult<MappedMaterialModel>? {
     } else {
         null
     }
+}
+
+fun MappedMaterialModel.toMaterialResponse(): MaterialResponse {
+    return MaterialResponse(
+        id = this.id,
+        image = this.image,
+        title = this.title,
+        description = this.description,
+        publishDate = createdDate,
+        type = this.type,
+        url = this.url,
+    )
 }
 
 fun MaterialResponse.toMappedModel(): MappedMaterialModel? {

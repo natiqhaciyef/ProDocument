@@ -12,14 +12,14 @@ interface MaterialService {
     @POST("")
     @FormUrlEncoded
     suspend fun getMaterials(
-        @Field("token") token: String
+        @Field("materialToken") token: String
     ): ListMaterialResponse?
 
     @POST("")
     @FormUrlEncoded
     suspend fun getMaterialById(
         @Field("id") materialId: String,
-        @Field("token") token: String
+        @Field("materialToken") token: String
     ): MaterialResponse?
 
     @POST("")

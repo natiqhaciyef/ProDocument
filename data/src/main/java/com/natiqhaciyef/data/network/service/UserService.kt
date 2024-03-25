@@ -5,7 +5,9 @@ import com.natiqhaciyef.data.network.response.TokenResponse
 import com.natiqhaciyef.data.network.response.UserResponse
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface UserService {
 
@@ -21,22 +23,21 @@ interface UserService {
         @Field("password") password: String,
     ): TokenResponse?
 
-    @POST("")
-    @FormUrlEncoded
+    @GET("")
     suspend fun getUser(
-        @Field("token") token: String,
+        @Query("token") token: String,
     ): UserResponse?
 
-    @POST("")
-    @FormUrlEncoded
+    @GET("")
     suspend fun signIn(
-        @Field("email") email: String,
-        @Field("password") password: String,
+        @Query("email") email: String,
+        @Query("password") password: String,
     ): TokenResponse?
 
     @POST("")
     @FormUrlEncoded
     suspend fun getOtp(
+        @Field("token") token: String,
         @Field("email") email: String
     ): CRUDResponse?
 
@@ -52,4 +53,7 @@ interface UserService {
         @Field("email") email: String,
         @Field("password") password: String,
     ): TokenResponse?
+
+    @GET("")
+    suspend fun logout(): CRUDResponse?
 }
