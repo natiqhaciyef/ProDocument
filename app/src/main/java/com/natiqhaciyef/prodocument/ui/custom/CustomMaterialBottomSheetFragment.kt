@@ -14,7 +14,9 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class CustomMaterialBottomSheetFragment : BottomSheetDialogFragment() {
+class CustomMaterialBottomSheetFragment(
+    val onClickAction: (String) -> Unit
+) : BottomSheetDialogFragment() {
     private var _binding: FragmentCustomMaterialBottomSheetBinding? = null
     private val binding: FragmentCustomMaterialBottomSheetBinding
         get() = _binding!!

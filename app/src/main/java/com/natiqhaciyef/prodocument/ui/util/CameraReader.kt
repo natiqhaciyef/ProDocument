@@ -36,6 +36,7 @@ import com.google.mlkit.vision.documentscanner.GmsDocumentScannerOptions.SCANNER
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
+import com.natiqhaciyef.domain.worker.config.DOCX
 import com.natiqhaciyef.domain.worker.config.JPEG
 import com.natiqhaciyef.domain.worker.config.PDF
 import com.natiqhaciyef.domain.worker.config.PNG
@@ -382,6 +383,10 @@ class CameraReader(
         ) = when (fileType) {
             PDF -> {
                 shareFile(urls, PDF, isShare)
+            }
+
+            DOCX -> {
+                shareFile(urls, DOCX, isShare)
             }
 
             JPEG -> {

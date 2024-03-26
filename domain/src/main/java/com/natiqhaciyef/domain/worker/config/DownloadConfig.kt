@@ -22,6 +22,7 @@ import java.net.URL
 import java.util.UUID
 
 
+const val URL = "url"
 const val PDF = "PDF"
 const val DOCX = "DOCX"
 const val PNG = "PNG"

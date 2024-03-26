@@ -11,6 +11,10 @@ class ShareCategoryAdapter(
     val list: MutableList<CategoryItem>
 ) : RecyclerView.Adapter<ShareCategoryAdapter.ShareCategoryHolder>() {
 
+    var onClickAction: (String) -> Unit = {
+
+    }
+
     inner class ShareCategoryHolder(val binding: RecyclerCategoryItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -36,6 +40,8 @@ class ShareCategoryAdapter(
                 sizeOfItemText.visibility = View.GONE
             }
         }
+
+        holder.itemView.setOnClickListener { onClickAction.invoke(item.type) }
     }
 
     fun updateList(list: MutableList<CategoryItem>) {
