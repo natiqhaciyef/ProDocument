@@ -1,4 +1,4 @@
-package com.natiqhaciyef.domain.usecase.user
+package com.natiqhaciyef.domain.usecase.user.local
 
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.common.mapper.toEntity
@@ -13,13 +13,18 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 @UseCase
-class RemoveUserLocalUseCase @Inject constructor(
+class InsertUserLocalUseCase @Inject constructor(
     userRepository: UserRepository
 ) : BaseUseCase<UserRepository, UIResult<MappedUserModel>, Nothing>(userRepository) {
 
     override fun run(data: UIResult<MappedUserModel>): Flow<Resource<Boolean>> = flow {
         emit(Resource.loading(null))
-        repository.removeFromLocal(data.toEntity())
-        Resource.success(true, ResultCases.REMOVE_SUCCESS)
+        repository.insertToLocal(data.toEntity())
+        emit(
+            Resource.success(
+                data = true,
+                message = ResultCases.INSERT_SUCCESS
+            )
+        )
     }
 }

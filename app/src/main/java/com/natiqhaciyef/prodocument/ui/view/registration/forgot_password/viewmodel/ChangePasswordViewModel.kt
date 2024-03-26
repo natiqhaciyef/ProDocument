@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.common.model.mapped.MappedTokenModel
-import com.natiqhaciyef.domain.usecase.user.UpdateUserPasswordByEmailRemoteUseCase
+import com.natiqhaciyef.domain.usecase.user.remote.UpdateUserPasswordByEmailRemoteUseCase
 import com.natiqhaciyef.prodocument.ui.base.BaseUIState
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

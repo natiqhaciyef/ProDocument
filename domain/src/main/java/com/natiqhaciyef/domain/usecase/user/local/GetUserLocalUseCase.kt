@@ -1,4 +1,4 @@
-package com.natiqhaciyef.domain.usecase.user
+package com.natiqhaciyef.domain.usecase.user.local
 
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.domain.base.BaseUseCase

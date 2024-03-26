@@ -1,10 +1,10 @@
-package com.natiqhaciyef.domain.usecase.user
+package com.natiqhaciyef.domain.usecase.user.remote
 
-import com.natiqhaciyef.common.mapper.toMapped
+import com.natiqhaciyef.common.mapper.toUIResult
 import com.natiqhaciyef.common.model.Resource
-import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.domain.base.BaseUseCase
 import com.natiqhaciyef.domain.base.UseCase
+import com.natiqhaciyef.common.model.UIResult
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.common.objects.ResultExceptions
@@ -14,17 +14,27 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 @UseCase
-class CreateUserRemoteUseCase @Inject constructor(
+class GetUserByTokenRemoteUseCase @Inject constructor(
     userRepository: UserRepository
-) : BaseUseCase<UserRepository, MappedUserModel, MappedTokenModel?>(userRepository) {
+) : BaseUseCase<UserRepository, String, UIResult<MappedUserModel>?>(userRepository) {
 
-    override fun operate(data: MappedUserModel): Flow<Resource<MappedTokenModel?>> = flow {
+    override fun operate(data: String): Flow<Resource<UIResult<MappedUserModel>?>> = flow {
         emit(Resource.loading(null))
-        val result = repository.createAccount(data)
+        val result = repository.getUser(data)
 
         if (result != null) {
-            if (result.uid != null) {
-                emit(Resource.success(result.toMapped()))
+            val uiResult = result.toUIResult()
+            if (uiResult?.result != null) {
+                if (uiResult.result!!.resultCode in 200..299)
+                    emit(Resource.success(uiResult))
+                else
+                    emit(
+                        Resource.error(
+                            data = uiResult,
+                            msg = "${uiResult.result!!.resultCode}: ${uiResult.result!!.message}",
+                            exception = Exception(uiResult.result?.message)
+                        )
+                    )
             } else {
                 emit(
                     Resource.error(
@@ -37,7 +47,6 @@ class CreateUserRemoteUseCase @Inject constructor(
                     )
                 )
             }
-
         } else {
             emit(
                 Resource.error(

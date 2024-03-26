@@ -16,7 +16,7 @@ interface UserRepository : BaseRepository {
 
     suspend fun signIn(email: String, password: String): TokenResponse?
 
-    suspend fun getOtp(token: String, email: String): CRUDResponse?
+    suspend fun getOtp(email: String): CRUDResponse?
 
     suspend fun sendOtp(otp: String): CRUDResponse?
 
