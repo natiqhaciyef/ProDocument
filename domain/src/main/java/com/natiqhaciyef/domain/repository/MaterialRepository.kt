@@ -12,17 +12,17 @@ interface MaterialRepository : BaseRepository {
 
     suspend fun getMaterialById(materialId: String, token: String): MaterialResponse?
 
-    suspend fun createMaterialByToken(
+    suspend fun createMaterialById(
         materialModel: MappedMaterialModel,
         materialToken: String
     ): CRUDResponse?
 
-    suspend fun removeMaterialByToken(
+    suspend fun removeMaterialById(
         materialId: String,
         materialToken: String
     ): CRUDResponse?
 
-    suspend fun updateMaterialByToken(
+    suspend fun updateMaterialById(
         materialModel: MappedMaterialModel,
         materialToken: String
     ): CRUDResponse?

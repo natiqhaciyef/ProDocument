@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.model.CRUDModel
 import com.natiqhaciyef.common.model.Status
-import com.natiqhaciyef.domain.usecase.user.SendOtpRemoteUseCase
+import com.natiqhaciyef.domain.usecase.user.remote.SendOtpRemoteUseCase
 import com.natiqhaciyef.prodocument.ui.base.BaseUIState
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -6,7 +6,7 @@ import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.common.model.UIResult
 import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
-import com.natiqhaciyef.domain.usecase.user.GetUserByTokenRemoteUseCase
+import com.natiqhaciyef.domain.usecase.user.remote.GetUserByTokenRemoteUseCase
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
 import com.natiqhaciyef.prodocument.ui.base.BaseUIState
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel

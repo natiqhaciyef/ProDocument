@@ -10,7 +10,7 @@ import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.domain.usecase.MATERIAL_MODEL
 import com.natiqhaciyef.domain.usecase.MATERIAL_TOKEN
-import com.natiqhaciyef.domain.usecase.material.CreateMaterialByTokenUseCase
+import com.natiqhaciyef.domain.usecase.material.CreateMaterialByIdUseCase
 import com.natiqhaciyef.prodocument.ui.base.BaseUIState
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ModifyPdfViewModel @Inject constructor(
     // create file for user
-    private val createMaterialByTokenUseCase: CreateMaterialByTokenUseCase
+    private val createMaterialByIdUseCase: CreateMaterialByIdUseCase
 ) : BaseViewModel() {
     private val _materialState = MutableLiveData<BaseUIState<CRUDModel>>(BaseUIState())
     val materialState: LiveData<BaseUIState<CRUDModel>>
@@ -38,7 +38,7 @@ class ModifyPdfViewModel @Inject constructor(
             )
 
             viewModelScope.launch {
-                createMaterialByTokenUseCase.operate(requestMap).collectLatest { result ->
+                createMaterialByIdUseCase.operate(requestMap).collectLatest { result ->
                     when (result.status) {
                         Status.SUCCESS -> {
                             result.data?.let { data ->

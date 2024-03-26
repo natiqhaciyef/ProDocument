@@ -26,8 +26,8 @@ class UserRepositoryImpl(
     override suspend fun signIn(email: String, password: String): TokenResponse? =
         ds.signInFromNetwork(email, password)
 
-    override suspend fun getOtp(token: String, email: String): CRUDResponse? =
-        ds.getOtpFromNetwork(token, email)
+    override suspend fun getOtp(email: String): CRUDResponse? =
+        ds.getOtpFromNetwork(email)
 
     override suspend fun sendOtp(otp: String): CRUDResponse? =
         ds.sendOtpToNetwork(otp)

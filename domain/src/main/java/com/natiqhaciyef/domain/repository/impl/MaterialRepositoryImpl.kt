@@ -17,25 +17,25 @@ class MaterialRepositoryImpl(
     override suspend fun getMaterialById(materialId: String, token: String): MaterialResponse? =
         ds.getFileById(materialId = materialId, token = token)
 
-    override suspend fun createMaterialByToken(
+    override suspend fun createMaterialById(
         materialModel: MappedMaterialModel,
         materialToken: String
     ) =
-        ds.createMaterialByToken(
+        ds.createMaterialById(
             materialToken = materialToken,
             materialModel = materialModel.toMaterialResponse()
         )
 
-    override suspend fun removeMaterialByToken(
+    override suspend fun removeMaterialById(
         materialId: String,
         materialToken: String
-    ): CRUDResponse? =
-        ds.removeMaterialByToken(materialToken = materialToken, materialId = materialId)
+    ) =
+        ds.removeMaterialById(materialToken = materialToken, materialId = materialId)
 
-    override suspend fun updateMaterialByToken(
+    override suspend fun updateMaterialById(
         materialModel: MappedMaterialModel,
         materialToken: String
-    ): CRUDResponse? = ds.updateMaterialByToken(
+    ): CRUDResponse? = ds.updateMaterialById(
         materialToken = materialToken,
         materialModel = materialModel.toMaterialResponse()
     )

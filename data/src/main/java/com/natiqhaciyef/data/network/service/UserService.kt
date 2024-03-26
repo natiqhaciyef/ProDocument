@@ -9,6 +9,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
 
+// maybe convert them to @Body annotation which are post request type
 interface UserService {
 
     @POST("")
@@ -28,17 +29,16 @@ interface UserService {
         @Query("token") token: String,
     ): UserResponse?
 
-    @GET("")
-    suspend fun signIn(
-        @Query("email") email: String,
-        @Query("password") password: String,
-    ): TokenResponse?
-
     @POST("")
     @FormUrlEncoded
+    suspend fun signIn(
+        @Field("email") email: String,
+        @Field("password") password: String,
+    ): TokenResponse?
+
+    @GET("")
     suspend fun getOtp(
-        @Field("token") token: String,
-        @Field("email") email: String
+        @Query("email") email: String
     ): CRUDResponse?
 
     @POST("")

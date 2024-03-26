@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 @UseCase
-class RemoveMaterialByTokenUseCase @Inject constructor(
+class RemoveMaterialByIdUseCase @Inject constructor(
     materialRepository: MaterialRepository
 ) : BaseUseCase<MaterialRepository, Map<String, String>, CRUDModel>(materialRepository) {
 
@@ -23,16 +23,26 @@ class RemoveMaterialByTokenUseCase @Inject constructor(
         val materialToken = data["materialToken"].toString()
 
         val result =
-            repository.removeMaterialByToken(materialId = materialId, materialToken = materialToken)
+            repository.removeMaterialById(materialId = materialId, materialToken = materialToken)
 
-        if (result != null){
-            emit(Resource.success(result.toModel()))
-        }else{
-            emit(Resource.error(
-                msg = ErrorMessages.SOMETHING_WENT_WRONG,
-                data = null,
-                exception = ResultExceptions.UnknownError()
-            ))
+        if (result != null) {
+            val crudModel = result.toModel()
+            if (crudModel.resultCode in 200..299)
+                emit(Resource.success(crudModel))
+            else
+                emit(Resource.error(
+                    data = crudModel,
+                    msg = "${crudModel.resultCode}: ${crudModel.message}",
+                    exception = Exception(message = crudModel.message)
+                ))
+        } else {
+            emit(
+                Resource.error(
+                    msg = ErrorMessages.SOMETHING_WENT_WRONG,
+                    data = null,
+                    exception = ResultExceptions.UnknownError()
+                )
+            )
         }
     }
 }

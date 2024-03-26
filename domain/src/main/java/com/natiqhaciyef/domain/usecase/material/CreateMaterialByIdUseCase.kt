@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 @UseCase
-class CreateMaterialByTokenUseCase @Inject constructor(
+class CreateMaterialByIdUseCase @Inject constructor(
     materialRepository: MaterialRepository
 ) : BaseUseCase<MaterialRepository, Map<String, String>, CRUDModel>(materialRepository) {
 
@@ -29,9 +29,18 @@ class CreateMaterialByTokenUseCase @Inject constructor(
             .toMappedMaterial()
 
 
-        val result = repository.createMaterialByToken(materialModel, token)
+        val result = repository.createMaterialById(materialModel, token)
         if (result != null) {
-            emit(Resource.success(data = result.toModel()))
+            val crudModel = result.toModel()
+
+            if (crudModel.resultCode in 200..299)
+                emit(Resource.success(data = crudModel))
+            else
+                emit(Resource.error(
+                    data = crudModel,
+                    msg = "${crudModel.resultCode}: ${crudModel.message}",
+                    exception = Exception(crudModel.message)
+                ))
         } else {
             emit(
                 Resource.error(

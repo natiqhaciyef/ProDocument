@@ -9,8 +9,8 @@ import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.common.model.UIResult
 import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
-import com.natiqhaciyef.domain.usecase.user.CreateUserRemoteUseCase
-import com.natiqhaciyef.domain.usecase.user.InsertUserLocalUseCase
+import com.natiqhaciyef.domain.usecase.user.remote.CreateUserRemoteUseCase
+import com.natiqhaciyef.domain.usecase.user.local.InsertUserLocalUseCase
 import com.natiqhaciyef.prodocument.ui.base.BaseUIState
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
