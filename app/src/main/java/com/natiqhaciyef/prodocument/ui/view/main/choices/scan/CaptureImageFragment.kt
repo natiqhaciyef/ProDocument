@@ -1,16 +1,13 @@
-package com.natiqhaciyef.prodocument.ui.view.scan
+package com.natiqhaciyef.prodocument.ui.view.main.choices.scan
 
 import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.content.Intent
-import androidx.fragment.app.viewModels
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore.Images.Media
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -24,9 +21,8 @@ import com.natiqhaciyef.prodocument.ui.util.CameraReader
 import com.natiqhaciyef.prodocument.databinding.FragmentCaptureImageBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
-import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.SCAN_ROUTE
-import com.natiqhaciyef.prodocument.ui.view.scan.behaviour.CameraTypes
-import com.natiqhaciyef.prodocument.ui.view.scan.viewmodel.ScanViewModel
+import com.natiqhaciyef.prodocument.ui.view.main.choices.scan.behaviour.CameraTypes
+import com.natiqhaciyef.prodocument.ui.view.main.choices.scan.viewmodel.ScanViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 //val inset = context.convertDpToPixel(16)
@@ -65,8 +61,9 @@ class CaptureImageFragment : BaseFragment<FragmentCaptureImageBinding, ScanViewM
                     })
 
                     val action =
-                        ScanTypeFragmentDirections
-                            .actionScanTypeFragmentToModifyPdfFragment(material)
+                        ScanTypeFragmentDirections.actionScanTypeFragmentToModifyPdfFragment(
+                            material
+                        )
                     navigate(action)
                 }
             }

@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.view.scan
+package com.natiqhaciyef.prodocument.ui.view.main.choices.scan
 
 import android.app.Activity
 import android.net.Uri
@@ -13,11 +13,6 @@ import androidx.navigation.fragment.navArgs
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.model.mapped.MappedTokenModel
-import com.natiqhaciyef.domain.worker.config.DOCX
-import com.natiqhaciyef.domain.worker.config.JPEG
-import com.natiqhaciyef.domain.worker.config.PDF
-import com.natiqhaciyef.domain.worker.config.PNG
-import com.natiqhaciyef.domain.worker.config.URL
 import com.natiqhaciyef.prodocument.databinding.FragmentModifyPdfBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.custom.CustomMaterialBottomSheetFragment
@@ -27,7 +22,7 @@ import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.TOKEN_KEY
 import com.natiqhaciyef.prodocument.ui.util.CameraReader.Companion.createAndShareFile
 import com.natiqhaciyef.prodocument.ui.util.CameraReader.Companion.getAddressOfFile
 import com.natiqhaciyef.prodocument.ui.util.PdfReader.createDefaultPdfUriLoader
-import com.natiqhaciyef.prodocument.ui.view.scan.viewmodel.ModifyPdfViewModel
+import com.natiqhaciyef.prodocument.ui.view.main.choices.scan.viewmodel.ModifyPdfViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -44,53 +39,11 @@ class ModifyPdfFragment : BaseFragment<FragmentModifyPdfBinding, ModifyPdfViewMo
         super.onViewCreated(view, savedInstanceState)
         val data: ModifyPdfFragmentArgs by navArgs()
         material = data.fileMaterial
-        val shareOptions = listOf(
-            CategoryItem(
-                id = 1,
-                title = requireActivity().getString(R.string.share_link),
-                iconId = R.drawable.link_icon,
-                size = null,
-                type = URL,
-                sizeType = null
-            ),
-            CategoryItem(
-                id = 2,
-                title = requireActivity().getString(R.string.share_pdf),
-                iconId = R.drawable.pdf_icon,
-                type = PDF,
-                size = null,
-                sizeType = null
-            ),
-            CategoryItem(
-                id = 3,
-                title = requireActivity().getString(R.string.share_word),
-                iconId = R.drawable.word_icon,
-                type = DOCX,
-                size = null,
-                sizeType = null
-            ),
-            CategoryItem(
-                id = 4,
-                title = requireActivity().getString(R.string.share_jpg),
-                iconId = R.drawable.image_icon,
-                type = JPEG,
-                size = null,
-                sizeType = null
-            ),
-            CategoryItem(
-                id = 5,
-                title = requireActivity().getString(R.string.share_png),
-                iconId = R.drawable.image_icon,
-                type = PNG,
-                size = null,
-                sizeType = null
-            ),
-        )
 
 
         binding.apply {
             material?.let {
-                val uri = material!!.url
+                val uri = it.url
                 countTitle()
 
                 uriAddress = getAddressOfFile(
@@ -103,7 +56,9 @@ class ModifyPdfFragment : BaseFragment<FragmentModifyPdfBinding, ModifyPdfViewMo
                 titleButtonChangeAction()
 
                 saveButton.setOnClickListener { saveButtonClickAction(materialModel = material!!) }
-                optionsIconButton.setOnClickListener { showBottomSheetDialog(shareOptions) }
+                optionsIconButton.setOnClickListener {
+                    showBottomSheetDialog(viewModel?.getShareOptions(requireActivity())!!)
+                }
             }
         }
     }
@@ -120,7 +75,6 @@ class ModifyPdfFragment : BaseFragment<FragmentModifyPdfBinding, ModifyPdfViewMo
 
     private fun saveButtonClickAction(materialModel: MappedMaterialModel) {
         binding.saveButton.setOnClickListener {
-            // create file holder & collect token
 //            getToken { token ->
 //                viewModel?.createMaterial(
 //                    token = token,

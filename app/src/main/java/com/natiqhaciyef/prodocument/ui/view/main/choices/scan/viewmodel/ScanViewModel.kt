@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.view.scan.viewmodel
+package com.natiqhaciyef.prodocument.ui.view.main.choices.scan.viewmodel
 
 import android.content.Context
 import android.net.Uri
@@ -12,7 +12,7 @@ import com.natiqhaciyef.prodocument.ui.util.CameraReader
 import com.natiqhaciyef.domain.worker.config.PDF
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
-import com.natiqhaciyef.prodocument.ui.view.scan.behaviour.CameraTypes
+import com.natiqhaciyef.prodocument.ui.view.main.choices.scan.behaviour.CameraTypes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.UUID
 import javax.inject.Inject
