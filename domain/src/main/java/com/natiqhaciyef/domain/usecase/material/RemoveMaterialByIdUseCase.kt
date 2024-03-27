@@ -33,7 +33,7 @@ class RemoveMaterialByIdUseCase @Inject constructor(
                 emit(Resource.error(
                     data = crudModel,
                     msg = "${crudModel.resultCode}: ${crudModel.message}",
-                    exception = Exception(message = crudModel.message)
+                    exception = Exception(crudModel.message)
                 ))
         } else {
             emit(

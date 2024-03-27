@@ -112,7 +112,7 @@ class ModifyPdfFragment : BaseFragment<FragmentModifyPdfBinding, ModifyPdfViewMo
     private fun showBottomSheetDialog(shareOptions: List<CategoryItem>) {
         CustomMaterialBottomSheetFragment.list = shareOptions.toMutableList()
         CustomMaterialBottomSheetFragment { type ->
-            shareFile(uri = uriAddress.toString(), fileType = type)
+            shareFile(uri = uriAddress ?: "".toUri(), fileType = type)
         }.show(
             childFragmentManager,
             CustomMaterialBottomSheetFragment::class.simpleName
@@ -190,7 +190,7 @@ class ModifyPdfFragment : BaseFragment<FragmentModifyPdfBinding, ModifyPdfViewMo
         }
     }
 
-    private fun shareFile(uri: String, fileType: String) = createAndShareFile(
+    private fun shareFile(uri: Uri, fileType: String) = createAndShareFile(
         fileType = fileType,
         urls = listOf(uri),
         isShare = true

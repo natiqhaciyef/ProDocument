@@ -39,6 +39,8 @@ class CustomMaterialBottomSheetFragment(
             recyclerOptionsView.adapter = adapter
             recyclerOptionsView.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+
+            adapter?.onClickAction = onClickAction
         }
     }
 

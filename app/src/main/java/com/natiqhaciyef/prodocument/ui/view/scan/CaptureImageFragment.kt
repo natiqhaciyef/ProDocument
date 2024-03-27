@@ -60,7 +60,7 @@ class CaptureImageFragment : BaseFragment<FragmentCaptureImageBinding, ScanViewM
 
                     requireActivity().onBackPressedDispatcher.addCallback(object: OnBackPressedCallback(true){
                         override fun handleOnBackPressed() {
-                            navigateByRouteTitle(SCAN_ROUTE)
+                            navigateByRouteTitle(HOME_ROUTE)
                         }
                     })
 

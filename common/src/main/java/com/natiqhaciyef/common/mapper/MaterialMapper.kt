@@ -1,5 +1,6 @@
 package com.natiqhaciyef.common.mapper
 
+import androidx.core.net.toUri
 import com.natiqhaciyef.common.model.UIResult
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.data.network.response.MaterialResponse
@@ -15,7 +16,7 @@ fun MaterialResponse.toUIResult(): UIResult<MappedMaterialModel>? {
             description = this.description,
             createdDate = this.publishDate,
             type = this.type,
-            url = this.url,
+            url = this.url.toUri(),
         )
 
         UIResult(
@@ -36,7 +37,7 @@ fun MappedMaterialModel.toMaterialResponse(): MaterialResponse {
         description = this.description,
         publishDate = createdDate,
         type = this.type,
-        url = this.url,
+        url = this.url.toString(),
     )
 }
 
@@ -49,7 +50,7 @@ fun MaterialResponse.toMappedModel(): MappedMaterialModel? {
             description = this.description,
             createdDate = this.publishDate,
             type = this.type,
-            url = this.url,
+            url = this.url.toUri(),
         )
     } else {
         null

@@ -378,7 +378,7 @@ class CameraReader(
 
         fun Fragment.createAndShareFile(
             fileType: String,
-            urls: List<String>,
+            urls: List<Uri>,
             isShare: Boolean = true
         ) = when (fileType) {
             PDF -> {
@@ -403,7 +403,7 @@ class CameraReader(
         }
 
         private fun Fragment.shareFile(
-            urls: List<String>,
+            urls: List<Uri>,
             fileType: String,
             isShare: Boolean = true
         ): List<Uri?> {
@@ -437,11 +437,11 @@ class CameraReader(
             return list
         }
 
-        fun getAddressOfFile(context: Context, uri: String?) = if (uri != null)
+        fun getAddressOfFile(context: Context, uri: Uri?) = if (uri != null)
             FileProvider.getUriForFile(
                 context,
                 "${BuildConfig.APPLICATION_ID}.provider",
-                File(uri)
+                File(uri.path.toString())
             )
         else
             null

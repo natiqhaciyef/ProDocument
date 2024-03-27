@@ -105,7 +105,7 @@ fun startDownloadingFile(
             FileDownloadWorker.FileParams.KEY_FILE_NAME,
             "${file.title} (${UUID.randomUUID()})"
         )
-        putString(FileDownloadWorker.FileParams.KEY_FILE_URL, file.url)
+        putString(FileDownloadWorker.FileParams.KEY_FILE_URL, file.url.toString())
         putString(FileDownloadWorker.FileParams.KEY_FILE_TYPE, file.type)
     }
 
