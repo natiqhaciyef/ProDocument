@@ -1,5 +1,6 @@
 package com.natiqhaciyef.common.model.mapped
 
+import android.net.Uri
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
@@ -11,7 +12,7 @@ data class MappedMaterialModel(
     var description: String?,
     var createdDate: String,
     var type: String,
-    var url: String,
+    var url: Uri,
     var downloadedUri: String? = null,
     var isDownloading: Boolean = false,
 ): Parcelable

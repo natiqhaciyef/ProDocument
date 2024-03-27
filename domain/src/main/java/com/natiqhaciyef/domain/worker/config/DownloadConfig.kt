@@ -22,6 +22,7 @@ import java.net.URL
 import java.util.UUID
 
 
+const val URL = "url"
 const val PDF = "PDF"
 const val DOCX = "DOCX"
 const val PNG = "PNG"
@@ -104,7 +105,7 @@ fun startDownloadingFile(
             FileDownloadWorker.FileParams.KEY_FILE_NAME,
             "${file.title} (${UUID.randomUUID()})"
         )
-        putString(FileDownloadWorker.FileParams.KEY_FILE_URL, file.url)
+        putString(FileDownloadWorker.FileParams.KEY_FILE_URL, file.url.toString())
         putString(FileDownloadWorker.FileParams.KEY_FILE_TYPE, file.type)
     }
 

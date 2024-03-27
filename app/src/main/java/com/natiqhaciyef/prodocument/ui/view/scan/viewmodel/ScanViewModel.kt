@@ -66,7 +66,7 @@ class ScanViewModel @Inject constructor(
         description = null,
         createdDate = getNow(),
         type = PDF,
-        url = uri.toString(),
+        url = uri,
         downloadedUri = null,
         isDownloading = false
     )

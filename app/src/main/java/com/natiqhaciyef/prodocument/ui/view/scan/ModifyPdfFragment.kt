@@ -1,6 +1,7 @@
 package com.natiqhaciyef.prodocument.ui.view.scan
 
 import android.app.Activity
+import android.net.Uri
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
@@ -12,12 +13,18 @@ import androidx.navigation.fragment.navArgs
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.model.mapped.MappedTokenModel
+import com.natiqhaciyef.domain.worker.config.DOCX
+import com.natiqhaciyef.domain.worker.config.JPEG
+import com.natiqhaciyef.domain.worker.config.PDF
+import com.natiqhaciyef.domain.worker.config.PNG
+import com.natiqhaciyef.domain.worker.config.URL
 import com.natiqhaciyef.prodocument.databinding.FragmentModifyPdfBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.custom.CustomMaterialBottomSheetFragment
 import com.natiqhaciyef.prodocument.ui.model.CategoryItem
 import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.TITLE_COUNT_KEY
 import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.TOKEN_KEY
+import com.natiqhaciyef.prodocument.ui.util.CameraReader.Companion.createAndShareFile
 import com.natiqhaciyef.prodocument.ui.util.CameraReader.Companion.getAddressOfFile
 import com.natiqhaciyef.prodocument.ui.util.PdfReader.createDefaultPdfUriLoader
 import com.natiqhaciyef.prodocument.ui.view.scan.viewmodel.ModifyPdfViewModel
@@ -31,6 +38,7 @@ class ModifyPdfFragment : BaseFragment<FragmentModifyPdfBinding, ModifyPdfViewMo
     ModifyPdfViewModel::class
 ) {
     private var material: MappedMaterialModel? = null
+    var uriAddress: Uri? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -42,12 +50,14 @@ class ModifyPdfFragment : BaseFragment<FragmentModifyPdfBinding, ModifyPdfViewMo
                 title = requireActivity().getString(R.string.share_link),
                 iconId = R.drawable.link_icon,
                 size = null,
+                type = URL,
                 sizeType = null
             ),
             CategoryItem(
                 id = 2,
                 title = requireActivity().getString(R.string.share_pdf),
                 iconId = R.drawable.pdf_icon,
+                type = PDF,
                 size = null,
                 sizeType = null
             ),
@@ -55,6 +65,7 @@ class ModifyPdfFragment : BaseFragment<FragmentModifyPdfBinding, ModifyPdfViewMo
                 id = 3,
                 title = requireActivity().getString(R.string.share_word),
                 iconId = R.drawable.word_icon,
+                type = DOCX,
                 size = null,
                 sizeType = null
             ),
@@ -62,6 +73,7 @@ class ModifyPdfFragment : BaseFragment<FragmentModifyPdfBinding, ModifyPdfViewMo
                 id = 4,
                 title = requireActivity().getString(R.string.share_jpg),
                 iconId = R.drawable.image_icon,
+                type = JPEG,
                 size = null,
                 sizeType = null
             ),
@@ -69,6 +81,7 @@ class ModifyPdfFragment : BaseFragment<FragmentModifyPdfBinding, ModifyPdfViewMo
                 id = 5,
                 title = requireActivity().getString(R.string.share_png),
                 iconId = R.drawable.image_icon,
+                type = PNG,
                 size = null,
                 sizeType = null
             ),
@@ -80,12 +93,12 @@ class ModifyPdfFragment : BaseFragment<FragmentModifyPdfBinding, ModifyPdfViewMo
                 val uri = material!!.url
                 countTitle()
 
-                val uriAddress = getAddressOfFile(
+                uriAddress = getAddressOfFile(
                     requireContext(),
                     uri
                 ) ?: "".toUri()
 
-                pdfView.createDefaultPdfUriLoader(requireContext(), uriAddress)
+                pdfView.createDefaultPdfUriLoader(requireContext(), uriAddress!!)
 //                shareIconButton.setOnClickListener { sharePdf(uri) }
 
                 titleButtonChangeAction()
@@ -96,16 +109,11 @@ class ModifyPdfFragment : BaseFragment<FragmentModifyPdfBinding, ModifyPdfViewMo
         }
     }
 
-
-//    private fun sharePdf(uri: String) = createAndShareFile(
-//        fileType = PDF,
-//        urls = listOf(uri),
-//        isShare = true
-//    )
-
     private fun showBottomSheetDialog(shareOptions: List<CategoryItem>) {
         CustomMaterialBottomSheetFragment.list = shareOptions.toMutableList()
-        CustomMaterialBottomSheetFragment().show(
+        CustomMaterialBottomSheetFragment { type ->
+            shareFile(uri = uriAddress ?: "".toUri(), fileType = type)
+        }.show(
             childFragmentManager,
             CustomMaterialBottomSheetFragment::class.simpleName
         )
@@ -181,6 +189,14 @@ class ModifyPdfFragment : BaseFragment<FragmentModifyPdfBinding, ModifyPdfViewMo
             binding.pdfTitleText.setText(getString(R.string.title_count, number.toString()))
         }
     }
+
+    private fun shareFile(uri: Uri, fileType: String) = createAndShareFile(
+        fileType = fileType,
+        urls = listOf(uri),
+        isShare = true
+    )
+
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
