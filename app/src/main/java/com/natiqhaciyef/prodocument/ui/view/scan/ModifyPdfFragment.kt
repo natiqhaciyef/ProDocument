@@ -99,7 +99,6 @@ class ModifyPdfFragment : BaseFragment<FragmentModifyPdfBinding, ModifyPdfViewMo
                 ) ?: "".toUri()
 
                 pdfView.createDefaultPdfUriLoader(requireContext(), uriAddress!!)
-//                shareIconButton.setOnClickListener { sharePdf(uri) }
 
                 titleButtonChangeAction()
 
