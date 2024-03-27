@@ -64,6 +64,7 @@ dependencies {
     val pdfViewerVersion = "2.3.0"
     val workManagerVersion = "2.8.1"
     val swipeLayoutVersion = "1.1.0"
+    val retrofitVersion = "2.9.0"
 
     // scanner .aar file integration
 //    implementation(files(mapOf("dir" to "libs", "include" to listOf("scanlibrary.aar"))))
@@ -122,6 +123,9 @@ dependencies {
     //Data store
     implementation("androidx.datastore:datastore-preferences:$dataStoreVersion")
     implementation("androidx.security:security-crypto:$dataStoreVersion")
+
+    //Gson
+    implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
 
     //Fragment ktx
     implementation("androidx.fragment:fragment-ktx:$fragmentVersion")

@@ -1,6 +1,7 @@
 package com.natiqhaciyef.prodocument.ui.store
 
 import android.content.Context
+import android.os.Parcelable
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -8,11 +9,13 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.google.gson.Gson
 import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.BOOLEAN_KEY
 import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.INT_KEY
 import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.STR_KEY
 import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.PARCELABLE_KEY
 import kotlinx.coroutines.flow.first
+import kotlin.reflect.KClass
 
 
 /**
@@ -25,13 +28,14 @@ import kotlinx.coroutines.flow.first
 object AppStorePref {
     private val Context.ds: DataStore<Preferences> by preferencesDataStore("data_store")
 
-    suspend fun saveParcelableClassData(
+    suspend fun <T> saveParcelableClassData(
         context: Context,
-        data: String,
+        data: T,
         key: Preferences.Key<String> = PARCELABLE_KEY
     ) {
+        val json = Gson().toJson(data)
         context.ds.edit {
-            it[key] = data
+            it[key] = json
         }
     }
 
@@ -66,10 +70,15 @@ object AppStorePref {
     }
 
 
-    suspend fun readParcelableClassData(
+    suspend fun <T> readParcelableClassData(
         context: Context,
+        classType: Class<T>,
         key: Preferences.Key<String> = PARCELABLE_KEY
-    ): String = context.ds.data.first()[key] ?: "Parcelable class not found"
+    ): T? {
+        val parcelable = context.ds.data.first()[key] ?: return null
+
+        return Gson().fromJson(parcelable, classType)
+    }
 
     suspend fun readString(
         context: Context,
@@ -132,6 +141,4 @@ object AppStorePrefKeys {
 
     val TITLE_COUNT_KEY = intPreferencesKey("TITLE_COUNT_KEY")
     val TOKEN_KEY = stringPreferencesKey("TOKEN_STORED")
-    val MATERIAL_TOKEN_KEY = stringPreferencesKey("MATERIAL_TOKEN_STORED")
-    val PREMIUM_TOKEN_KEY = stringPreferencesKey("PREMIUM_TOKEN_STORED")
 }

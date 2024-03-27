@@ -5,8 +5,11 @@ import com.natiqhaciyef.data.network.response.TokenResponse
 import com.natiqhaciyef.data.network.response.UserResponse
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
+// maybe convert them to @Body annotation which are post request type
 interface UserService {
 
     @POST("")
@@ -21,10 +24,9 @@ interface UserService {
         @Field("password") password: String,
     ): TokenResponse?
 
-    @POST("")
-    @FormUrlEncoded
+    @GET("")
     suspend fun getUser(
-        @Field("token") token: String,
+        @Query("token") token: String,
     ): UserResponse?
 
     @POST("")
@@ -34,10 +36,9 @@ interface UserService {
         @Field("password") password: String,
     ): TokenResponse?
 
-    @POST("")
-    @FormUrlEncoded
+    @GET("")
     suspend fun getOtp(
-        @Field("email") email: String
+        @Query("email") email: String
     ): CRUDResponse?
 
     @POST("")
@@ -52,4 +53,7 @@ interface UserService {
         @Field("email") email: String,
         @Field("password") password: String,
     ): TokenResponse?
+
+    @GET("")
+    suspend fun logout(): CRUDResponse?
 }

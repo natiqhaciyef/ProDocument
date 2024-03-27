@@ -5,28 +5,28 @@ import com.natiqhaciyef.data.network.response.MaterialResponse
 import com.natiqhaciyef.data.network.response.ListMaterialResponse
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface MaterialService {
 
-    @POST("")
-    @FormUrlEncoded
+    @GET("")
     suspend fun getMaterials(
-        @Field("token") token: String
+        @Path("material_token") token: String
     ): ListMaterialResponse?
 
-    @POST("")
-    @FormUrlEncoded
+    @GET("")
     suspend fun getMaterialById(
-        @Field("id") materialId: String,
-        @Field("token") token: String
+        @Query("id") materialId: String,
+        @Path("material_token") token: String
     ): MaterialResponse?
 
     @POST("")
     @FormUrlEncoded
-    suspend fun createMaterialByToken(
+    suspend fun createMaterialById(
         @Field("material_token") token: String,
-        @Field("material_id") id: String,
         @Field("publish_date") publishDate: String,
         @Field("image") image: String,
         @Field("title") title: String,
@@ -37,14 +37,14 @@ interface MaterialService {
 
     @POST("")
     @FormUrlEncoded
-    suspend fun removeMaterialByToken(
+    suspend fun removeMaterialById(
         @Field("material_token") token: String,
         @Field("material_id") id: String,
     ): CRUDResponse?
 
     @POST("")
     @FormUrlEncoded
-    suspend fun updateMaterialByToken(
+    suspend fun updateMaterialById(
         @Field("material_token") token: String,
         @Field("material_id") id: String,
         @Field("publish_date") publishDate: String,

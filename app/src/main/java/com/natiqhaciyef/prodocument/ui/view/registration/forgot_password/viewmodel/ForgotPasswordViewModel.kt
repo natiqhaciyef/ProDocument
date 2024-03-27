@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.model.CRUDModel
 import com.natiqhaciyef.common.model.Status
-import com.natiqhaciyef.domain.usecase.user.GetOtpRemoteUseCase
+import com.natiqhaciyef.domain.usecase.user.remote.GetOtpRemoteUseCase
 import com.natiqhaciyef.prodocument.ui.base.BaseUIState
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,9 +22,7 @@ class ForgotPasswordViewModel @Inject constructor(
     val otpResultState: LiveData<BaseUIState<CRUDModel>>
         get() = _otpResultState
 
-    fun getOtpResult(
-        email: String,
-    ) {
+    fun getOtpResult(email: String) {
         viewModelScope.launch {
             getOtpRemoteUseCase.operate(email).collectLatest { result ->
                 when (result.status) {

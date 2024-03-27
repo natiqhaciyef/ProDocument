@@ -1,37 +1,11 @@
 package com.natiqhaciyef.common.mapper
 
+import androidx.core.net.toUri
 import com.natiqhaciyef.common.model.UIResult
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
-import com.natiqhaciyef.data.model.MaterialModel
 import com.natiqhaciyef.data.network.response.MaterialResponse
 import com.natiqhaciyef.data.network.response.ListMaterialResponse
 
-
-fun MaterialModel.toMappedMaterial(): MappedMaterialModel? {
-    return if (!title.isNullOrEmpty()) {
-        MappedMaterialModel(
-            id = this.id,
-            image = this.image,
-            title = this.title!!,
-            description = this.description,
-            createdDate = this.createdDate,
-            type = this.type,
-            url = this.url,
-        )
-    } else null
-}
-
-fun MappedMaterialModel.toMaterial(): MaterialModel {
-    return MaterialModel(
-        id = this.id,
-        image = this.image,
-        title = this.title,
-        description = this.description,
-        createdDate = this.createdDate,
-        type = this.type,
-        url = this.url,
-    )
-}
 
 fun MaterialResponse.toUIResult(): UIResult<MappedMaterialModel>? {
     return if (!this.title.isNullOrEmpty()) {
@@ -42,7 +16,7 @@ fun MaterialResponse.toUIResult(): UIResult<MappedMaterialModel>? {
             description = this.description,
             createdDate = this.publishDate,
             type = this.type,
-            url = this.url,
+            url = this.url.toUri(),
         )
 
         UIResult(
@@ -55,6 +29,18 @@ fun MaterialResponse.toUIResult(): UIResult<MappedMaterialModel>? {
     }
 }
 
+fun MappedMaterialModel.toMaterialResponse(): MaterialResponse {
+    return MaterialResponse(
+        id = this.id,
+        image = this.image,
+        title = this.title,
+        description = this.description,
+        publishDate = createdDate,
+        type = this.type,
+        url = this.url.toString(),
+    )
+}
+
 fun MaterialResponse.toMappedModel(): MappedMaterialModel? {
     return if (!this.title.isNullOrEmpty()) {
         MappedMaterialModel(
@@ -64,7 +50,7 @@ fun MaterialResponse.toMappedModel(): MappedMaterialModel? {
             description = this.description,
             createdDate = this.publishDate,
             type = this.type,
-            url = this.url,
+            url = this.url.toUri(),
         )
     } else {
         null

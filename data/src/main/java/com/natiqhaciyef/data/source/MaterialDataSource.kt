@@ -1,6 +1,6 @@
 package com.natiqhaciyef.data.source
 
-import com.natiqhaciyef.data.model.MaterialModel
+import com.natiqhaciyef.data.network.response.MaterialResponse
 import com.natiqhaciyef.data.network.service.MaterialService
 
 class MaterialDataSource(
@@ -13,11 +13,10 @@ class MaterialDataSource(
     suspend fun getFileById(materialId: String, token: String) =
         service.getMaterialById(materialId = materialId, token = token)
 
-    suspend fun createMaterialByToken(materialModel: MaterialModel, materialToken: String) =
-        service.createMaterialByToken(
+    suspend fun createMaterialById(materialModel: MaterialResponse, materialToken: String) =
+        service.createMaterialById(
             token = materialToken,
-            id = materialModel.id,
-            publishDate = materialModel.createdDate,
+            publishDate = materialModel.publishDate,
             image = materialModel.image,
             title = materialModel.title ?: "",
             description = materialModel.description ?: "",
@@ -25,17 +24,17 @@ class MaterialDataSource(
             url = materialModel.url
         )
 
-    suspend fun removeMaterialByToken(materialToken: String, materialId: String) =
-        service.removeMaterialByToken(token = materialToken, id = materialId)
+    suspend fun removeMaterialById(materialToken: String, materialId: String) =
+        service.removeMaterialById(token = materialToken, id = materialId)
 
-    suspend fun updateMaterialByToken(
+    suspend fun updateMaterialById(
         materialToken: String,
-        materialModel: MaterialModel
+        materialModel: MaterialResponse
     ) =
-        service.updateMaterialByToken(
+        service.updateMaterialById(
             token = materialToken,
             id = materialModel.id,
-            publishDate = materialModel.createdDate,
+            publishDate = materialModel.publishDate,
             image = materialModel.image,
             title = materialModel.title ?: "",
             description = materialModel.description ?: "",

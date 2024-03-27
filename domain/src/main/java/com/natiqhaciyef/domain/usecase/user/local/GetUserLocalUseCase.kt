@@ -1,4 +1,4 @@
-package com.natiqhaciyef.domain.usecase.user
+package com.natiqhaciyef.domain.usecase.user.local
 
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.domain.base.BaseUseCase
@@ -15,7 +15,7 @@ import javax.inject.Inject
 @UseCase
 class GetUserLocalUseCase @Inject constructor(
     userRepository: UserRepository
-) : BaseUseCase<UserRepository, Nothing, MappedUserModel>(userRepository) {
+) : BaseUseCase<UserRepository, Nothing, List<UIResult<MappedUserModel>>>(userRepository) {
 
     override operator fun invoke(): Flow<Resource<List<UIResult<MappedUserModel>>>> = flow {
         emit(Resource.loading(null))

@@ -36,6 +36,7 @@ import com.google.mlkit.vision.documentscanner.GmsDocumentScannerOptions.SCANNER
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
+import com.natiqhaciyef.domain.worker.config.DOCX
 import com.natiqhaciyef.domain.worker.config.JPEG
 import com.natiqhaciyef.domain.worker.config.PDF
 import com.natiqhaciyef.domain.worker.config.PNG
@@ -377,11 +378,15 @@ class CameraReader(
 
         fun Fragment.createAndShareFile(
             fileType: String,
-            urls: List<String>,
+            urls: List<Uri>,
             isShare: Boolean = true
         ) = when (fileType) {
             PDF -> {
                 shareFile(urls, PDF, isShare)
+            }
+
+            DOCX -> {
+                shareFile(urls, DOCX, isShare)
             }
 
             JPEG -> {
@@ -398,7 +403,7 @@ class CameraReader(
         }
 
         private fun Fragment.shareFile(
-            urls: List<String>,
+            urls: List<Uri>,
             fileType: String,
             isShare: Boolean = true
         ): List<Uri?> {
@@ -432,11 +437,11 @@ class CameraReader(
             return list
         }
 
-        fun getAddressOfFile(context: Context, uri: String?) = if (uri != null)
+        fun getAddressOfFile(context: Context, uri: Uri?) = if (uri != null)
             FileProvider.getUriForFile(
                 context,
                 "${BuildConfig.APPLICATION_ID}.provider",
-                File(uri)
+                File(uri.path.toString())
             )
         else
             null

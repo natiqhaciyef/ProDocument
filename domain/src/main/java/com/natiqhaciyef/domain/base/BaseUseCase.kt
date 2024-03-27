@@ -10,7 +10,7 @@ abstract class BaseUseCase<REPO : BaseRepository, In : Any?, Out : Any?>(
     protected val repository: REPO
 ) : BaseUseCaseInterface<In, Out> {
 
-    override fun invoke(): Flow<Resource<List<UIResult<Out>>?>>? {
+    override fun invoke(): Flow<Resource<Out>>? {
         return null
     }
 

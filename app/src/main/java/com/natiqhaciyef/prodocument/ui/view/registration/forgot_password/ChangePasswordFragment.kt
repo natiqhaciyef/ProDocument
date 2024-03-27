@@ -11,11 +11,13 @@ import android.view.Window
 import android.view.WindowManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.natiqhaciyef.common.helpers.toJsonString
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.AlertDialogResultViewBinding
 import com.natiqhaciyef.prodocument.databinding.FragmentChangePasswordBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys
+import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.TOKEN_KEY
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkPasswordAcceptanceCondition
 import com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.viewmodel.ChangePasswordViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,28 +60,14 @@ class ChangePasswordFragment : BaseFragment<FragmentChangePasswordBinding, Chang
     private fun onClickAction(email: String) {
         viewModel?.apply {
 //            updatePassword(email, binding.newPasswordText.text.toString())
-            updateResultState.observe(viewLifecycleOwner) { state ->
+            updateResultState.observe(viewLifecycleOwner) { tokenState ->
                 lifecycleScope.launch {
-                    if (state.isSuccess && state.obj != null) {
-                        dataStore.saveString(
+                    if (tokenState.isSuccess && tokenState.obj != null) {
+                        dataStore.saveParcelableClassData(
                             context = requireContext(),
-                            data = state.obj!!.uid.toString(),
-                            key = AppStorePrefKeys.TOKEN_KEY
+                            data = tokenState?.obj!!,
+                            key = TOKEN_KEY
                         )
-
-                        dataStore.saveString(
-                            context = requireContext(),
-                            data = state.obj!!.materialToken.toString(),
-                            key = AppStorePrefKeys.MATERIAL_TOKEN_KEY
-                        )
-
-                        if (state.obj!!.premiumToken != null) {
-                            dataStore.saveString(
-                                context = requireContext(),
-                                data = state.obj!!.premiumToken.toString(),
-                                key = AppStorePrefKeys.PREMIUM_TOKEN_KEY
-                            )
-                        }
 
                         createResultAlertDialog()
                     }

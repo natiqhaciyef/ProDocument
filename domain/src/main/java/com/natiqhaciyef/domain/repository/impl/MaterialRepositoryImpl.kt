@@ -1,6 +1,7 @@
 package com.natiqhaciyef.domain.repository.impl
 
-import com.natiqhaciyef.data.model.MaterialModel
+import com.natiqhaciyef.common.mapper.toMaterialResponse
+import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.data.network.response.CRUDResponse
 import com.natiqhaciyef.data.network.response.MaterialResponse
 import com.natiqhaciyef.data.network.response.ListMaterialResponse
@@ -16,24 +17,27 @@ class MaterialRepositoryImpl(
     override suspend fun getMaterialById(materialId: String, token: String): MaterialResponse? =
         ds.getFileById(materialId = materialId, token = token)
 
-    override suspend fun createMaterialByToken(
-        materialModel: MaterialModel,
+    override suspend fun createMaterialById(
+        materialModel: MappedMaterialModel,
         materialToken: String
     ) =
-        ds.createMaterialByToken(materialToken = materialToken, materialModel = materialModel)
+        ds.createMaterialById(
+            materialToken = materialToken,
+            materialModel = materialModel.toMaterialResponse()
+        )
 
-    override suspend fun removeMaterialByToken(
+    override suspend fun removeMaterialById(
         materialId: String,
         materialToken: String
-    ): CRUDResponse? =
-        ds.removeMaterialByToken(materialToken = materialToken, materialId = materialId)
+    ) =
+        ds.removeMaterialById(materialToken = materialToken, materialId = materialId)
 
-    override suspend fun updateMaterialByToken(
-        materialModel: MaterialModel,
+    override suspend fun updateMaterialById(
+        materialModel: MappedMaterialModel,
         materialToken: String
-    ): CRUDResponse? = ds.updateMaterialByToken(
+    ): CRUDResponse? = ds.updateMaterialById(
         materialToken = materialToken,
-        materialModel = materialModel
+        materialModel = materialModel.toMaterialResponse()
     )
 
 }

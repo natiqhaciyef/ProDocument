@@ -1,4 +1,4 @@
-package com.natiqhaciyef.domain.usecase.user
+package com.natiqhaciyef.domain.usecase.user.remote
 
 import com.natiqhaciyef.common.mapper.toModel
 import com.natiqhaciyef.common.model.CRUDModel
@@ -23,7 +23,16 @@ class SendOtpRemoteUseCase @Inject constructor(
 
         val result = repository.sendOtp(data)
         if (result != null) {
-            emit(Resource.success(result.toModel()))
+            val crudModel = result.toModel()
+            if (crudModel.resultCode in 200..299)
+                emit(Resource.success(data = crudModel))
+            else
+                emit(Resource.error(
+                    data = crudModel,
+                    msg = "${crudModel.resultCode}: ${crudModel.message}",
+                    exception = Exception(crudModel.message)
+                ))
+
         } else {
             emit(
                 Resource.error(
@@ -34,5 +43,4 @@ class SendOtpRemoteUseCase @Inject constructor(
             )
         }
     }
-
 }

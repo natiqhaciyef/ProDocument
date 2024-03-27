@@ -1,6 +1,6 @@
 package com.natiqhaciyef.domain.repository
 
-import com.natiqhaciyef.data.model.MaterialModel
+import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.data.network.response.CRUDResponse
 import com.natiqhaciyef.data.network.response.MaterialResponse
 import com.natiqhaciyef.data.network.response.ListMaterialResponse
@@ -12,18 +12,18 @@ interface MaterialRepository : BaseRepository {
 
     suspend fun getMaterialById(materialId: String, token: String): MaterialResponse?
 
-    suspend fun createMaterialByToken(
-        materialModel: MaterialModel,
+    suspend fun createMaterialById(
+        materialModel: MappedMaterialModel,
         materialToken: String
     ): CRUDResponse?
 
-    suspend fun removeMaterialByToken(
+    suspend fun removeMaterialById(
         materialId: String,
         materialToken: String
     ): CRUDResponse?
 
-    suspend fun updateMaterialByToken(
-        materialModel: MaterialModel,
+    suspend fun updateMaterialById(
+        materialModel: MappedMaterialModel,
         materialToken: String
     ): CRUDResponse?
 }

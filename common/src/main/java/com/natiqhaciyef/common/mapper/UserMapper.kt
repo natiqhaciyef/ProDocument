@@ -1,36 +1,13 @@
 package com.natiqhaciyef.common.mapper
 
+import com.natiqhaciyef.common.helpers.getNow
 import com.natiqhaciyef.common.helpers.hashPassword
 import com.natiqhaciyef.common.model.UIResult
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
 import com.natiqhaciyef.common.model.mapped.MappedUserWithoutPasswordModel
 import com.natiqhaciyef.data.local.entity.UserEntity
-import com.natiqhaciyef.data.model.UserModel
 import com.natiqhaciyef.data.network.response.UserResponse
 
-
-// not hashable
-fun UserModel.toMappedUser(hashed: Boolean): MappedUserModel {
-    return if (hashed) MappedUserModel(
-        name = this.name,
-        email = this.email,
-        phoneNumber = this.phoneNumber,
-        gender = this.gender,
-        birthDate = this.birthDate,
-        imageUrl = this.imageUrl,
-        password = this.password,
-    )
-    else
-        MappedUserModel(
-            name = this.name,
-            email = this.email,
-            phoneNumber = this.phoneNumber,
-            gender = this.gender,
-            birthDate = this.birthDate,
-            imageUrl = this.imageUrl,
-            password = hashPassword(this.password),
-        )
-}
 
 fun MappedUserModel.toMappedUserWithoutPassword(): MappedUserWithoutPasswordModel {
     return MappedUserWithoutPasswordModel(
@@ -41,30 +18,6 @@ fun MappedUserModel.toMappedUserWithoutPassword(): MappedUserWithoutPasswordMode
         birthDate = this.birthDate,
         imageUrl = this.imageUrl,
     )
-}
-
-// first time hashable
-fun MappedUserModel.toUser(hashed: Boolean): UserModel {
-    return if (hashed)
-        UserModel(
-            name = this.name,
-            email = this.email,
-            phoneNumber = this.phoneNumber,
-            gender = this.gender,
-            birthDate = this.birthDate,
-            imageUrl = this.imageUrl,
-            password = this.password,
-        )
-    else
-        UserModel(
-            name = this.name,
-            email = this.email,
-            phoneNumber = this.phoneNumber,
-            gender = this.gender,
-            birthDate = this.birthDate,
-            imageUrl = this.imageUrl,
-            password = hashPassword(this.password),
-        )
 }
 
 
@@ -80,6 +33,7 @@ fun UserResponse.toUIResult(): UIResult<MappedUserModel>? {
         && this.gender.isNotEmpty()
     ) {
         val mappedUser = MappedUserModel(
+            id = this.id,
             name = this.fullName,
             email = this.email,
             phoneNumber = this.phoneNumber,
@@ -92,12 +46,29 @@ fun UserResponse.toUIResult(): UIResult<MappedUserModel>? {
         UIResult(
             id = this.id,
             data = mappedUser,
-            publishDate = this.publishDate
+            publishDate = this.publishDate,
+            result = this.result?.toModel()
         )
     } else {
         null
     }
 }
+
+
+fun MappedUserModel.toResponse(): UserResponse =
+    UserResponse(
+        id = this.id,
+        fullName = this.name,
+        phoneNumber = this.phoneNumber,
+        gender = this.gender,
+        dateOfBirth = this.birthDate,
+        imageUrl = this.imageUrl,
+        email = this.email,
+        password = this.password,
+        publishDate = "",
+        result = null
+    )
+
 
 fun UIResult<MappedUserModel>.toResponse(): UserResponse? {
 
@@ -120,7 +91,7 @@ fun UIResult<MappedUserModel>.toResponse(): UserResponse? {
             email = this.data.email,
             password = this.data.password,
             publishDate = this.publishDate,
-            result = null
+            result = this.result?.toResponse()
         )
     } else {
         null
@@ -131,6 +102,7 @@ fun UIResult<MappedUserModel>.toResponse(): UserResponse? {
 // Local db
 fun UserEntity.toUIResult(): UIResult<MappedUserModel> {
     val mappedUser = MappedUserModel(
+        id = this.id.toString(),
         name = this.name,
         email = this.email,
         phoneNumber = this.phoneNumber,
