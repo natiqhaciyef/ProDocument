@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.view.main.choices.scan
+package com.natiqhaciyef.prodocument.ui.view.main.home.options.scan
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -15,8 +15,8 @@ import com.natiqhaciyef.common.helpers.loadImage
 import com.natiqhaciyef.prodocument.databinding.FragmentLiveRecognitionBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink
-import com.natiqhaciyef.prodocument.ui.view.main.choices.scan.behaviour.CameraTypes
-import com.natiqhaciyef.prodocument.ui.view.main.choices.scan.viewmodel.ScanViewModel
+import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.behaviour.CameraTypes
+import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.viewmodel.ScanViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @ExperimentalGetImage
