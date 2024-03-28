@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/scanFragment"
-        android:name="com.natiqhaciyef.prodocument.ui.view.main.choices.scan.ScanFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.ScanFragment"
         android:label="fragment_scan"
         tools:layout="@layout/fragment_scan" >
         <action
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/scanTypeFragment"
-        android:name="com.natiqhaciyef.prodocument.ui.view.main.choices.scan.ScanTypeFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.ScanTypeFragment"
         android:label="fragment_scan_type"
         tools:layout="@layout/fragment_scan_type" >
         <action
@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/captureImageFragment"
-        android:name="com.natiqhaciyef.prodocument.ui.view.main.choices.scan.CaptureImageFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.CaptureImageFragment"
         android:label="fragment_capture_image"
         tools:layout="@layout/fragment_capture_image" >
         <action
@@ -37,7 +37,7 @@
     </fragment>
     <fragment
         android:id="@+id/modifyPdfFragment"
-        android:name="com.natiqhaciyef.prodocument.ui.view.main.choices.scan.ModifyPdfFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.ModifyPdfFragment"
         android:label="fragment_modify_pdf"
         tools:layout="@layout/fragment_modify_pdf" >
         <argument
