@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.view.main.choices.scan
+package com.natiqhaciyef.prodocument.ui.view.main.home.options.scan
 
 import android.app.Activity
 import android.net.Uri
@@ -22,7 +22,7 @@ import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.TOKEN_KEY
 import com.natiqhaciyef.prodocument.ui.util.CameraReader.Companion.createAndShareFile
 import com.natiqhaciyef.prodocument.ui.util.CameraReader.Companion.getAddressOfFile
 import com.natiqhaciyef.prodocument.ui.util.PdfReader.createDefaultPdfUriLoader
-import com.natiqhaciyef.prodocument.ui.view.main.choices.scan.viewmodel.ModifyPdfViewModel
+import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.viewmodel.ModifyPdfViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -37,7 +37,7 @@ class ModifyPdfFragment : BaseFragment<FragmentModifyPdfBinding, ModifyPdfViewMo
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val data: ModifyPdfFragmentArgs by navArgs()
+        val data: com.natiqhaciyef.prodocument.ui.view.main.choices.scan.ModifyPdfFragmentArgs by navArgs()
         material = data.fileMaterial
 
 
