@@ -37,7 +37,7 @@ class ModifyPdfFragment : BaseFragment<FragmentModifyPdfBinding, ModifyPdfViewMo
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val data: ModifyPdfFragmentArgs by navArgs()
+        val data: com.natiqhaciyef.prodocument.ui.view.main.choices.scan.ModifyPdfFragmentArgs by navArgs()
         material = data.fileMaterial
 
 
