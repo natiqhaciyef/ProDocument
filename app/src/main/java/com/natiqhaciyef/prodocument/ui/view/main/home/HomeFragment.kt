@@ -4,11 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.natiqhaciyef.prodocument.databinding.FragmentHomeBinding
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
+import com.natiqhaciyef.domain.worker.config.PDF
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.util.UiList
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
@@ -29,7 +32,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as MainActivity).binding.bottomNavBar.visibility = View.VISIBLE
-        
+
         menuAdapterConfig()
         fileAdapterConfig()
 
@@ -57,7 +60,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
     private fun menuAdapterConfig() {
         menuAdapter = MenuAdapter(list = UiList.generateHomeMenuItemsList(requireContext()))
         menuAdapter.onClickAction = { route ->
-                    navigateByRouteTitle(route)
+            navigateByRouteTitle(route)
             (activity as MainActivity).binding.bottomNavBar.visibility = View.GONE
         }
 
@@ -70,19 +73,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
     }
 
     private fun fileAdapterConfig() {
-//        homeViewModel.fileState.observe(viewLifecycleOwner) { uiState ->
-//            fileAdapter = FileItemAdapter(requireContext(), uiState.list)
-//            searchFile(uiState.list)
+//        viewModel?.fileState?.observe(viewLifecycleOwner) { uiState ->
+//        fileAdapter = FileItemAdapter(requireContext(), uiState.list)
+//        searchFile(uiState.list)
 //
-//            fileAdapter.onClickAction = { materialId ->
-//                // navigate to file details screen
-//            }
+//        fileAdapter.onClickAction = { materialId ->
+            // navigate to file details screen
+//        }
 //
-//            binding.apply {
-//                filesRecyclerView.adapter = fileAdapter
-//                filesRecyclerView.layoutManager =
-//                    LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-//            }
+//        binding.apply {
+//            filesRecyclerView.adapter = fileAdapter
+//            filesRecyclerView.layoutManager =
+//                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+//        }
 //        }
     }
 

@@ -22,6 +22,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import com.google.mlkit.vision.barcode.BarcodeScanner
@@ -386,7 +387,8 @@ class CameraReader(
             }
 
             DOCX -> {
-                shareFile(urls, DOCX, isShare)
+                val updatedUrls = urls.map { it.toString().replace(".pdf",".docx").toUri() }
+                shareFile(updatedUrls, DOCX, isShare)
             }
 
             JPEG -> {

@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.view.scan.adapter
+package com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.adapter
 
 import android.view.LayoutInflater
 import android.view.View
