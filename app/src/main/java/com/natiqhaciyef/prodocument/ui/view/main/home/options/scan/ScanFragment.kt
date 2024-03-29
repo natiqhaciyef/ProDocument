@@ -68,13 +68,13 @@ class ScanFragment : BaseFragment<FragmentScanBinding, ScanViewModel>(
         ) { value ->
             value as String
             // logic of qr scan
-            viewModel?.apply {
-                readQrCode(qrCode = value)
-
-                qrCodeLiveData.observe(viewLifecycleOwner) {
-                    // action after scanned success
-                }
-            }
+//            viewModel?.apply {
+//                readQrCode(qrCode = value)
+//
+//                qrCodeLiveData.observe(viewLifecycleOwner) {
+//                    // action after scanned success
+//                }
+//            }
         }
 
         viewModel?.startCamera(

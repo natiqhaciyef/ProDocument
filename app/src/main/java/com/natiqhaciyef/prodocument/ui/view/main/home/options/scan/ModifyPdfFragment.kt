@@ -46,10 +46,7 @@ class ModifyPdfFragment : BaseFragment<FragmentModifyPdfBinding, ModifyPdfViewMo
                 val uri = it.url
                 countTitle()
 
-                uriAddress = getAddressOfFile(
-                    requireContext(),
-                    uri
-                ) ?: "".toUri()
+                uriAddress = getAddressOfFile(requireContext(), uri) ?: "".toUri()
 
                 pdfView.createDefaultPdfUriLoader(requireContext(), uriAddress!!)
 
@@ -66,7 +63,9 @@ class ModifyPdfFragment : BaseFragment<FragmentModifyPdfBinding, ModifyPdfViewMo
     private fun showBottomSheetDialog(shareOptions: List<CategoryItem>) {
         CustomMaterialBottomSheetFragment.list = shareOptions.toMutableList()
         CustomMaterialBottomSheetFragment { type ->
-            shareFile(uri = uriAddress ?: "".toUri(), fileType = type)
+            material?.let {
+                shareFile(it.copy(type = type))
+            }
         }.show(
             childFragmentManager,
             CustomMaterialBottomSheetFragment::class.simpleName
@@ -143,9 +142,8 @@ class ModifyPdfFragment : BaseFragment<FragmentModifyPdfBinding, ModifyPdfViewMo
         }
     }
 
-    private fun shareFile(uri: Uri, fileType: String) = createAndShareFile(
-        fileType = fileType,
-        urls = listOf(uri),
+    private fun shareFile(material: MappedMaterialModel) = createAndShareFile(
+        material = material,
         isShare = true
     )
 

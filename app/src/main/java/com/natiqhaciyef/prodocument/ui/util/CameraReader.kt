@@ -20,6 +20,7 @@ import androidx.camera.core.ImageProxy
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
+import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
@@ -37,10 +38,12 @@ import com.google.mlkit.vision.documentscanner.GmsDocumentScannerOptions.SCANNER
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
+import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.domain.worker.config.DOCX
 import com.natiqhaciyef.domain.worker.config.JPEG
 import com.natiqhaciyef.domain.worker.config.PDF
 import com.natiqhaciyef.domain.worker.config.PNG
+import com.natiqhaciyef.domain.worker.config.URL
 import com.natiqhaciyef.domain.worker.config.getIntentFileType
 import java.io.File
 import java.util.Locale
@@ -378,25 +381,27 @@ class CameraReader(
 
 
         fun Fragment.createAndShareFile(
-            fileType: String,
-            urls: List<Uri>,
+            material: MappedMaterialModel,
             isShare: Boolean = true
-        ) = when (fileType) {
+        ) = when (material.type) {
+            URL -> {
+                shareFile(listOf(material.url), URL, isShare)
+            }
+
             PDF -> {
-                shareFile(urls, PDF, isShare)
+                shareFile(listOf(material.url), PDF, isShare)
             }
 
             DOCX -> {
-                val updatedUrls = urls.map { it.toString().replace(".pdf",".docx").toUri() }
-                shareFile(updatedUrls, DOCX, isShare)
+                shareFile(listOf(material.url), DOCX, isShare)
             }
 
             JPEG -> {
-                shareFile(urls, JPEG, isShare)
+                shareFile(listOf(material.image.toUri(), material.url), JPEG, isShare)
             }
 
             PNG -> {
-                shareFile(urls, PNG, isShare)
+                shareFile(listOf(material.image.toUri(), material.url), PNG, isShare)
             }
 
             else -> {
@@ -412,17 +417,41 @@ class CameraReader(
             val list = mutableListOf<Uri?>()
             val sharingIntent = Intent(Intent.ACTION_SEND)
 
-            if (urls.size == 1) {
-                val externalUri = getAddressOfFile(requireContext(), urls[0])
-                if (isShare)
+            if (fileType == URL) {
+                if (urls.isNotEmpty()) {
+                    val url = urls[0].toString().replace(".pdf", "").toUri()
+                    val address = getAddressOfFile(requireContext(), url)
+                    list.add(address)
+
                     sharingIntent.apply {
                         type = getIntentFileType(fileType)
-                        putExtra(Intent.EXTRA_STREAM, externalUri)
+                        putExtra(Intent.EXTRA_TEXT, url.toString())
                         addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                     }
-                list.add(externalUri)
-            } else {
+                }
+            } else if (fileType == PDF) {
+                if (urls.isNotEmpty()) {
+                    val externalUri = getAddressOfFile(requireContext(), urls[0])
+                    if (isShare)
+                        sharingIntent.apply {
+                            type = getIntentFileType(fileType)
+                            putExtra(Intent.EXTRA_STREAM, externalUri)
+                            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                        }
+                    list.add(externalUri)
+                }
 
+            } else if(fileType == DOCX) {
+                val url = urls[0].toString().replace(".pdf", ".docx").toUri()
+                val address = getAddressOfFile(requireContext(), url)
+                list.add(address)
+
+                sharingIntent.apply {
+                    type = getIntentFileType(fileType)
+                    putExtra(Intent.EXTRA_STREAM, url.toString())
+                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                }
+            }else {
                 for (url in urls) {
                     list.add(getAddressOfFile(requireContext(), url))
                 }
@@ -430,7 +459,7 @@ class CameraReader(
                 if (isShare)
                     sharingIntent.apply {
                         type = getIntentFileType(fileType)
-                        putExtra(Intent.EXTRA_STREAM, list.toTypedArray())
+                        putExtra(Intent.EXTRA_STREAM, list[0])
                         addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                     }
             }

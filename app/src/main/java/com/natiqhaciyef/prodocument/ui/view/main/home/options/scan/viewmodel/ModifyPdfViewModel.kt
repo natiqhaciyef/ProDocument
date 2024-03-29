@@ -28,7 +28,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ModifyPdfViewModel @Inject constructor(
-    // create file for user
     private val createMaterialByIdUseCase: CreateMaterialByIdUseCase
 ) : BaseViewModel() {
     private val _materialState = MutableLiveData<BaseUIState<CRUDModel>>(BaseUIState())
@@ -54,14 +53,6 @@ class ModifyPdfViewModel @Inject constructor(
         ),
         CategoryItem(
             id = 3,
-            title = context.getString(R.string.share_word),
-            iconId = R.drawable.word_icon,
-            type = DOCX,
-            size = null,
-            sizeType = null
-        ),
-        CategoryItem(
-            id = 4,
             title = context.getString(R.string.share_jpg),
             iconId = R.drawable.image_icon,
             type = JPEG,
@@ -69,7 +60,7 @@ class ModifyPdfViewModel @Inject constructor(
             sizeType = null
         ),
         CategoryItem(
-            id = 5,
+            id = 4,
             title = context.getString(R.string.share_png),
             iconId = R.drawable.image_icon,
             type = PNG,
