@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.viewmodel
+package com.natiqhaciyef.prodocument.ui.view.options.scan.viewmodel
 
 import android.content.Context
 import androidx.lifecycle.LiveData

@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.view.main.home.options.scan
+package com.natiqhaciyef.prodocument.ui.view.options.scan
 
 import android.Manifest
 import android.app.Activity.RESULT_OK
@@ -21,8 +21,8 @@ import com.natiqhaciyef.prodocument.ui.util.CameraReader
 import com.natiqhaciyef.prodocument.databinding.FragmentCaptureImageBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
-import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.behaviour.CameraTypes
-import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.viewmodel.ScanViewModel
+import com.natiqhaciyef.prodocument.ui.view.options.scan.behaviour.CameraTypes
+import com.natiqhaciyef.prodocument.ui.view.options.scan.viewmodel.ScanViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 //val inset = context.convertDpToPixel(16)
@@ -52,8 +52,9 @@ class CaptureImageFragment : BaseFragment<FragmentCaptureImageBinding, ScanViewM
                     )
 
                     val action =
-                        ScanTypeFragmentDirections
-                            .actionScanTypeFragmentToModifyPdfFragment(material)
+                        ScanTypeFragmentDirections.actionScanTypeFragmentToModifyPdfFragment(
+                            material
+                        )
                     navigate(action)
                 }
             }

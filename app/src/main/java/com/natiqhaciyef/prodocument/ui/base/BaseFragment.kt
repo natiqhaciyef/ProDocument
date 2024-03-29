@@ -10,8 +10,6 @@ import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.NavDirections
@@ -19,7 +17,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.snackbar.Snackbar
 import com.natiqhaciyef.prodocument.R
-import com.natiqhaciyef.prodocument.databinding.FragmentHomeBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_MAIN_DEEPLINK
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.ONBOARDING_MAIN_DEEPLINK
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.REGISTER_MAIN_DEEPLINK
@@ -117,7 +114,7 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel>(
         }
 
         BaseNavigationDeepLink.MERGE_ROUTE -> {
-            0
+            R.navigation.merge_nav_graph
         }
 
         BaseNavigationDeepLink.PROTECT_ROUTE -> {
