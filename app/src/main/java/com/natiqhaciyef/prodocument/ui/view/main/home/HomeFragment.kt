@@ -9,6 +9,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.natiqhaciyef.common.R
 import com.natiqhaciyef.prodocument.databinding.FragmentHomeBinding
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.domain.worker.config.PDF
@@ -74,7 +75,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
 
     private fun fileAdapterConfig() {
 //        viewModel?.fileState?.observe(viewLifecycleOwner) { uiState ->
-//        fileAdapter = FileItemAdapter(requireContext(), uiState.list)
+//        fileAdapter = FileItemAdapter(requireContext(), uiState.list, requireContext().getString(R.string.scan_code))
 //        searchFile(uiState.list)
 //
 //        fileAdapter.onClickAction = { materialId ->

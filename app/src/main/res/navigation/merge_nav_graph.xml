@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/merge_nav_graph"
+    app:startDestination="@id/mergePdfsFragment">
+
+    <fragment
+        android:id="@+id/mergePdfsFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.options.merge.MergePdfsFragment"
+        android:label="fragment_merge_pdfs"
+        tools:layout="@layout/fragment_merge_pdfs" />
+</navigation>

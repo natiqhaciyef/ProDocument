@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.view.main.home.options.scan
+package com.natiqhaciyef.prodocument.ui.view.options.scan
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -13,8 +13,8 @@ import androidx.fragment.app.viewModels
 import com.natiqhaciyef.prodocument.databinding.FragmentScanBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
-import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.behaviour.CameraTypes
-import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.viewmodel.ScanViewModel
+import com.natiqhaciyef.prodocument.ui.view.options.scan.behaviour.CameraTypes
+import com.natiqhaciyef.prodocument.ui.view.options.scan.viewmodel.ScanViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @ExperimentalGetImage
@@ -68,13 +68,13 @@ class ScanFragment : BaseFragment<FragmentScanBinding, ScanViewModel>(
         ) { value ->
             value as String
             // logic of qr scan
-            viewModel?.apply {
-                readQrCode(qrCode = value)
-
-                qrCodeLiveData.observe(viewLifecycleOwner) {
-                    // action after scanned success
-                }
-            }
+//            viewModel?.apply {
+//                readQrCode(qrCode = value)
+//
+//                qrCodeLiveData.observe(viewLifecycleOwner) {
+//                    // action after scanned success
+//                }
+//            }
         }
 
         viewModel?.startCamera(

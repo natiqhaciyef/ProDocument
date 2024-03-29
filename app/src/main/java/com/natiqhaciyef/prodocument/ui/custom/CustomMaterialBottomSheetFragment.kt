@@ -9,7 +9,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.api.Distribution.BucketOptions.Linear
 import com.natiqhaciyef.prodocument.databinding.FragmentCustomMaterialBottomSheetBinding
 import com.natiqhaciyef.prodocument.ui.model.CategoryItem
-import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.adapter.ShareCategoryAdapter
+import com.natiqhaciyef.prodocument.ui.view.options.scan.adapter.ShareCategoryAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 

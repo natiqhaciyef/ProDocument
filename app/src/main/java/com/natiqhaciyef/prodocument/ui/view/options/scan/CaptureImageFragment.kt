@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.view.main.home.options.scan
+package com.natiqhaciyef.prodocument.ui.view.options.scan
 
 import android.Manifest
 import android.app.Activity.RESULT_OK
@@ -21,9 +21,8 @@ import com.natiqhaciyef.prodocument.ui.util.CameraReader
 import com.natiqhaciyef.prodocument.databinding.FragmentCaptureImageBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
-import com.natiqhaciyef.prodocument.ui.view.main.choices.scan.ScanTypeFragmentDirections
-import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.behaviour.CameraTypes
-import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.viewmodel.ScanViewModel
+import com.natiqhaciyef.prodocument.ui.view.options.scan.behaviour.CameraTypes
+import com.natiqhaciyef.prodocument.ui.view.options.scan.viewmodel.ScanViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 //val inset = context.convertDpToPixel(16)
@@ -34,7 +33,6 @@ class CaptureImageFragment : BaseFragment<FragmentCaptureImageBinding, ScanViewM
     FragmentCaptureImageBinding::inflate,
     ScanViewModel::class
 ) {
-//    private val viewModel: ScanViewModel by viewModels()
     private var imageUri: Uri? = null
 
     private var scanner =
@@ -50,16 +48,8 @@ class CaptureImageFragment : BaseFragment<FragmentCaptureImageBinding, ScanViewM
                     val material = viewModel?.createMaterial(
                         title = "Scanned file title",
                         uri = resultForPDF.pdf?.uri?.path.toString().toUri(),
-                        image = "${
-                            resultForPDF.pages?.map { it.imageUri.path.toString() }?.first()
-                        }"
+                        image = "${resultForPDF.pages?.map { it.imageUri.path.toString() }?.first()}"
                     )
-
-                    requireActivity().onBackPressedDispatcher.addCallback(object: OnBackPressedCallback(true){
-                        override fun handleOnBackPressed() {
-                            navigateByRouteTitle(HOME_ROUTE)
-                        }
-                    })
 
                     val action =
                         ScanTypeFragmentDirections.actionScanTypeFragmentToModifyPdfFragment(
@@ -101,20 +91,28 @@ class CaptureImageFragment : BaseFragment<FragmentCaptureImageBinding, ScanViewM
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.goBackIcon.setOnClickListener { goBackIconAction() }
-        requireActivity().onBackPressedDispatcher.addCallback(
-            viewLifecycleOwner,
-            object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    navigateByRouteTitle(HOME_ROUTE)
-                }
-            }
-        )
         imagePickFromGalleryAction()
+
+        requireActivity().onBackPressedDispatcher.addCallback(object :
+            OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                navigateByRouteTitle(HOME_ROUTE)
+            }
+        })
     }
 
     override fun onResume() {
         super.onResume()
-        checkCameraPermission()
+        viewModel?.isBackPressed?.value?.let {
+            println(it)
+            if (!it) {
+                checkCameraPermission()
+                viewModel?.isBackPressed?.value = true
+            } else {
+                navigateByRouteTitle(HOME_ROUTE)
+                viewModel?.isBackPressed?.value = false
+            }
+        }
     }
 
     private fun checkCameraPermission() {
