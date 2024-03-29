@@ -31,6 +31,8 @@ class ScanViewModel @Inject constructor(
 ) : BaseViewModel() {
     private val cameraReaderLiveData = MutableLiveData<CameraReader?>(null)
     private val _qrCodeLiveData = MutableLiveData(BaseUIState<String>())
+    var isBackPressed: MutableLiveData<Boolean> = MutableLiveData(false)
+
     val qrCodeLiveData: LiveData<BaseUIState<String>>
         get() = _qrCodeLiveData
 

@@ -33,7 +33,6 @@ class CaptureImageFragment : BaseFragment<FragmentCaptureImageBinding, ScanViewM
     FragmentCaptureImageBinding::inflate,
     ScanViewModel::class
 ) {
-//    private val viewModel: ScanViewModel by viewModels()
     private var imageUri: Uri? = null
 
     private var scanner =
@@ -49,21 +48,12 @@ class CaptureImageFragment : BaseFragment<FragmentCaptureImageBinding, ScanViewM
                     val material = viewModel?.createMaterial(
                         title = "Scanned file title",
                         uri = resultForPDF.pdf?.uri?.path.toString().toUri(),
-                        image = "${
-                            resultForPDF.pages?.map { it.imageUri.path.toString() }?.first()
-                        }"
+                        image = "${resultForPDF.pages?.map { it.imageUri.path.toString() }?.first()}"
                     )
 
-                    requireActivity().onBackPressedDispatcher.addCallback(object: OnBackPressedCallback(true){
-                        override fun handleOnBackPressed() {
-                            navigateByRouteTitle(HOME_ROUTE)
-                        }
-                    })
-
                     val action =
-                        ScanTypeFragmentDirections.actionScanTypeFragmentToModifyPdfFragment(
-                            material
-                        )
+                        ScanTypeFragmentDirections
+                            .actionScanTypeFragmentToModifyPdfFragment(material)
                     navigate(action)
                 }
             }
@@ -100,20 +90,28 @@ class CaptureImageFragment : BaseFragment<FragmentCaptureImageBinding, ScanViewM
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.goBackIcon.setOnClickListener { goBackIconAction() }
-        requireActivity().onBackPressedDispatcher.addCallback(
-            viewLifecycleOwner,
-            object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    navigateByRouteTitle(HOME_ROUTE)
-                }
-            }
-        )
         imagePickFromGalleryAction()
+
+        requireActivity().onBackPressedDispatcher.addCallback(object :
+            OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                navigateByRouteTitle(HOME_ROUTE)
+            }
+        })
     }
 
     override fun onResume() {
         super.onResume()
-        checkCameraPermission()
+        viewModel?.isBackPressed?.value?.let {
+            println(it)
+            if (!it) {
+                checkCameraPermission()
+                viewModel?.isBackPressed?.value = true
+            } else {
+                navigateByRouteTitle(HOME_ROUTE)
+                viewModel?.isBackPressed?.value = false
+            }
+        }
     }
 
     private fun checkCameraPermission() {
