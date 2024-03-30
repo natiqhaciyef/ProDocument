@@ -9,7 +9,7 @@ class QrCodeDataSource(
     private val service: QrCodeService
 ){
 
-    suspend fun readQrCodeResult(qrCode: String): QrCodeResponse? = withContext(Dispatchers.IO){
+    suspend fun readQrCodeResult(qrCode: String) = withContext(Dispatchers.IO){
         service.readQrCodeResult(qrCode)
     }
 }

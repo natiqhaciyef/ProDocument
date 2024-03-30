@@ -1,7 +1,6 @@
-package com.natiqhaciyef.domain.base
+package com.natiqhaciyef.domain.base.usecase
 
 import com.natiqhaciyef.common.model.Resource
-import com.natiqhaciyef.common.model.UIResult
 import kotlinx.coroutines.flow.Flow
 
 interface BaseUseCaseInterface<In, Out> {

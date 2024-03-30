@@ -22,38 +22,38 @@ interface UserService {
         @Field("image_url") imageUrl: String,
         @Field("email") email: String,
         @Field("password") password: String,
-    ): TokenResponse?
+    ): Result<TokenResponse>
 
     @GET("")
     suspend fun getUser(
         @Query("token") token: String,
-    ): UserResponse?
+    ): Result<UserResponse>
 
     @POST("")
     @FormUrlEncoded
     suspend fun signIn(
         @Field("email") email: String,
         @Field("password") password: String,
-    ): TokenResponse?
+    ): Result<TokenResponse>
 
     @GET("")
     suspend fun getOtp(
         @Query("email") email: String
-    ): CRUDResponse?
+    ): Result<CRUDResponse>
 
     @POST("")
     @FormUrlEncoded
     suspend fun sendOtp(
         @Field("otp") otp: String
-    ): CRUDResponse?
+    ): Result<CRUDResponse>
 
     @POST("")
     @FormUrlEncoded
     suspend fun updateUserPasswordByEmail(
         @Field("email") email: String,
         @Field("password") password: String,
-    ): TokenResponse?
+    ): Result<TokenResponse>
 
     @GET("")
-    suspend fun logout(): CRUDResponse?
+    suspend fun logout(): Result<CRUDResponse>
 }

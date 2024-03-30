@@ -2,11 +2,12 @@ package com.natiqhaciyef.domain.usecase.user.remote
 
 import com.natiqhaciyef.common.mapper.toUIResult
 import com.natiqhaciyef.common.model.Resource
-import com.natiqhaciyef.domain.base.BaseUseCase
-import com.natiqhaciyef.domain.base.UseCase
+import com.natiqhaciyef.domain.base.usecase.BaseUseCase
+import com.natiqhaciyef.domain.base.usecase.UseCase
 import com.natiqhaciyef.common.model.UIResult
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
 import com.natiqhaciyef.common.objects.ErrorMessages
+import com.natiqhaciyef.common.objects.ErrorMessages.MAPPED_NULL_DATA
 import com.natiqhaciyef.common.objects.ResultExceptions
 import com.natiqhaciyef.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
@@ -22,12 +23,13 @@ class GetUserByTokenRemoteUseCase @Inject constructor(
         emit(Resource.loading(null))
         val result = repository.getUser(data)
 
-        if (result != null) {
-            val uiResult = result.toUIResult()
-            if (uiResult?.result != null) {
-                if (uiResult.result!!.resultCode in 200..299)
+        result.onSuccess { value ->
+            val uiResult = value.toUIResult()
+
+            if (uiResult != null) {
+                if (uiResult.result!!.resultCode in 200..299) {
                     emit(Resource.success(uiResult))
-                else
+                } else {
                     emit(
                         Resource.error(
                             data = uiResult,
@@ -35,24 +37,29 @@ class GetUserByTokenRemoteUseCase @Inject constructor(
                             exception = Exception(uiResult.result?.message)
                         )
                     )
+                }
             } else {
                 emit(
                     Resource.error(
-                        msg = result.result?.message ?: ErrorMessages.UNKNOWN_ERROR,
                         data = null,
-                        exception = ResultExceptions.CustomIOException(
-                            msg = result.result?.message ?: ErrorMessages.UNKNOWN_ERROR,
-                            errorCode = result.result?.resultCode ?: 500
+                        msg = MAPPED_NULL_DATA,
+                        exception = ResultExceptions.UnknownError(
+                            msg = MAPPED_NULL_DATA,
+                            errorCode = -1
                         )
                     )
                 )
             }
-        } else {
+
+        }.onFailure { exception ->
             emit(
                 Resource.error(
-                    msg = ErrorMessages.SOMETHING_WENT_WRONG,
+                    msg = exception.message ?: ErrorMessages.UNKNOWN_ERROR,
                     data = null,
-                    exception = ResultExceptions.UnknownError()
+                    exception = ResultExceptions.CustomIOException(
+                        msg = exception.message ?: ErrorMessages.UNKNOWN_ERROR,
+                        errorCode = 500
+                    )
                 )
             )
         }

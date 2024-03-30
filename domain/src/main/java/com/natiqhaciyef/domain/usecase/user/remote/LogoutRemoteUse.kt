@@ -5,8 +5,8 @@ import com.natiqhaciyef.common.model.CRUDModel
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.common.objects.ResultExceptions
-import com.natiqhaciyef.domain.base.BaseUseCase
-import com.natiqhaciyef.domain.base.UseCase
+import com.natiqhaciyef.domain.base.usecase.BaseUseCase
+import com.natiqhaciyef.domain.base.usecase.UseCase
 import com.natiqhaciyef.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -21,8 +21,9 @@ class LogoutRemoteUse @Inject constructor(
         emit(Resource.loading(null))
 
         val result = repository.logout()
-        if (result != null){
-            val uiModel = result.toModel()
+
+        result.onSuccess { value ->
+            val uiModel = value.toModel()
 
             if (uiModel.resultCode in 200..299){
                 emit(Resource.success(uiModel))
@@ -33,15 +34,15 @@ class LogoutRemoteUse @Inject constructor(
                     exception = Exception(uiModel.message)
                 ))
             }
-
-        }else{
-            emit(
-                Resource.error(
-                    msg = ErrorMessages.SOMETHING_WENT_WRONG,
-                    data = null,
-                    exception = ResultExceptions.UnknownError()
+        }.onFailure { exception ->
+            emit(Resource.error(
+                msg = exception.message ?: ErrorMessages.UNKNOWN_ERROR,
+                data = null,
+                exception = ResultExceptions.CustomIOException(
+                    msg = exception.message ?: ErrorMessages.UNKNOWN_ERROR,
+                    errorCode = 500
                 )
-            )
+            ))
         }
     }
 }

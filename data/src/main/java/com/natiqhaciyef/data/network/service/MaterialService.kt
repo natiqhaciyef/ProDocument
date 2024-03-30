@@ -15,13 +15,13 @@ interface MaterialService {
     @GET("")
     suspend fun getMaterials(
         @Path("material_token") token: String
-    ): ListMaterialResponse?
+    ): Result<ListMaterialResponse>
 
     @GET("")
     suspend fun getMaterialById(
         @Query("id") materialId: String,
         @Path("material_token") token: String
-    ): MaterialResponse?
+    ): Result<MaterialResponse>
 
     @POST("")
     @FormUrlEncoded
@@ -33,14 +33,14 @@ interface MaterialService {
         @Field("description") description: String,
         @Field("type") type: String,
         @Field("url") url: String,
-    ): CRUDResponse?
+    ): Result<CRUDResponse>
 
     @POST("")
     @FormUrlEncoded
     suspend fun removeMaterialById(
         @Field("material_token") token: String,
         @Field("material_id") id: String,
-    ): CRUDResponse?
+    ): Result<CRUDResponse>
 
     @POST("")
     @FormUrlEncoded
@@ -53,6 +53,6 @@ interface MaterialService {
         @Field("description") description: String,
         @Field("type") type: String,
         @Field("url") url: String,
-    ): CRUDResponse?
+    ): Result<CRUDResponse>
 
 }
