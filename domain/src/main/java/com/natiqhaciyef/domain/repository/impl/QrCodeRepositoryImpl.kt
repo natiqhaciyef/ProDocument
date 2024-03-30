@@ -6,7 +6,7 @@ import com.natiqhaciyef.data.source.QrCodeDataSource
 import com.natiqhaciyef.domain.repository.QrCodeRepository
 
 class QrCodeRepositoryImpl(private val ds: QrCodeDataSource): QrCodeRepository {
-    override suspend fun readQrCodeResult(qrCode: String): QrCodeResponse? =
+    override suspend fun readQrCodeResult(qrCode: String) =
         ds.readQrCodeResult(qrCode)
 
 }

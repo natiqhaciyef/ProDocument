@@ -3,8 +3,8 @@ package com.natiqhaciyef.domain.usecase.user.remote
 import com.natiqhaciyef.common.mapper.toMapped
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.common.model.mapped.MappedTokenModel
-import com.natiqhaciyef.domain.base.BaseUseCase
-import com.natiqhaciyef.domain.base.UseCase
+import com.natiqhaciyef.domain.base.usecase.BaseUseCase
+import com.natiqhaciyef.domain.base.usecase.UseCase
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.common.objects.ResultExceptions
@@ -22,30 +22,32 @@ class CreateUserRemoteUseCase @Inject constructor(
         emit(Resource.loading(null))
         val result = repository.createAccount(data)
 
-        if (result != null) {
-            if (result.uid != null) {
-                emit(Resource.success(result.toMapped()))
+        result.onSuccess { value ->
+            val mapped = value.toMapped()
+
+            if (mapped.uid != null) {
+                emit(Resource.success(mapped))
             } else {
                 emit(
                     Resource.error(
-                        msg = result.result?.message ?: ErrorMessages.UNKNOWN_ERROR,
+                        msg = mapped.result?.message ?: ErrorMessages.UNKNOWN_ERROR,
                         data = null,
                         exception = ResultExceptions.CustomIOException(
-                            msg = result.result?.message ?: ErrorMessages.UNKNOWN_ERROR,
-                            errorCode = result.result?.resultCode ?: 500
+                            msg = mapped.result?.message ?: ErrorMessages.UNKNOWN_ERROR,
+                            errorCode = mapped.result?.resultCode ?: 500
                         )
                     )
                 )
             }
-
-        } else {
-            emit(
-                Resource.error(
-                    msg = ErrorMessages.SOMETHING_WENT_WRONG,
-                    data = null,
-                    exception = ResultExceptions.UnknownError()
+        }.onFailure { exception ->
+            emit(Resource.error(
+                msg = exception.message ?: ErrorMessages.UNKNOWN_ERROR,
+                data = null,
+                exception = ResultExceptions.CustomIOException(
+                    msg = exception.message ?: ErrorMessages.UNKNOWN_ERROR,
+                    errorCode = 500
                 )
-            )
+            ))
         }
     }
 

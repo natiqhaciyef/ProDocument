@@ -5,12 +5,9 @@ import com.natiqhaciyef.common.model.CRUDModel
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.common.objects.ResultExceptions
-import com.natiqhaciyef.data.network.response.CRUDResponse
-import com.natiqhaciyef.domain.base.BaseUseCase
-import com.natiqhaciyef.domain.base.UseCase
+import com.natiqhaciyef.domain.base.usecase.BaseUseCase
+import com.natiqhaciyef.domain.base.usecase.UseCase
 import com.natiqhaciyef.domain.repository.UserRepository
-import com.natiqhaciyef.domain.usecase.USER_EMAIL
-import com.natiqhaciyef.domain.usecase.USER_TOKEN
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -24,8 +21,8 @@ class GetOtpRemoteUseCase @Inject constructor(
         emit(Resource.loading(null))
         val result = repository.getOtp(data)
 
-        if (result != null) {
-            val crudModel = result.toModel()
+        result.onSuccess { value ->
+            val crudModel = value.toModel()
             if (crudModel.resultCode in 200..299)
                 emit(Resource.success(data = crudModel))
             else
@@ -34,16 +31,15 @@ class GetOtpRemoteUseCase @Inject constructor(
                     msg = "${crudModel.resultCode}: ${crudModel.message}",
                     exception = Exception(crudModel.message)
                 ))
-
-        } else {
-            emit(
-                Resource.error(
-                    msg = ErrorMessages.SOMETHING_WENT_WRONG,
-                    data = null,
-                    exception = ResultExceptions.UnknownError()
-                        .copy(msg = ErrorMessages.OTP_REQUEST_FAILED)
+        }.onFailure { exception ->
+            emit(Resource.error(
+                msg = exception.message ?: ErrorMessages.UNKNOWN_ERROR,
+                data = null,
+                exception = ResultExceptions.CustomIOException(
+                    msg = exception.message ?: ErrorMessages.UNKNOWN_ERROR,
+                    errorCode = 500
                 )
-            )
+            ))
         }
 
     }

@@ -11,5 +11,5 @@ interface QrCodeService {
     @FormUrlEncoded
     suspend fun readQrCodeResult(
         @Field("qr_code") qrCode: String
-    ): QrCodeResponse?
+    ): Result<QrCodeResponse>
 }

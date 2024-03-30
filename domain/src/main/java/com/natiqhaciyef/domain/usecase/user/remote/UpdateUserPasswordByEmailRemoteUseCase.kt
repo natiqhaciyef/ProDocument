@@ -5,8 +5,8 @@ import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.common.objects.ResultExceptions
-import com.natiqhaciyef.domain.base.BaseUseCase
-import com.natiqhaciyef.domain.base.UseCase
+import com.natiqhaciyef.domain.base.usecase.BaseUseCase
+import com.natiqhaciyef.domain.base.usecase.UseCase
 import com.natiqhaciyef.domain.repository.UserRepository
 import com.natiqhaciyef.domain.usecase.USER_EMAIL
 import com.natiqhaciyef.domain.usecase.USER_PASSWORD
@@ -21,32 +21,23 @@ class UpdateUserPasswordByEmailRemoteUseCase @Inject constructor(
 
     override fun operate(data: Map<String, String>): Flow<Resource<MappedTokenModel>> = flow {
         emit(Resource.loading(null))
-        val email = data[USER_EMAIL]
-        val password = data[USER_PASSWORD]
+        val email = data[USER_EMAIL].toString()
+        val password = data[USER_PASSWORD].toString()
 
-        if (!email.isNullOrEmpty() && !password.isNullOrEmpty()) {
-            val result = repository.updateUserPasswordByEmail(email, password)
+        val result = repository.updateUserPasswordByEmail(email, password)
 
-            if (result != null) {
-                emit(Resource.success(result.toMapped()))
-            } else {
-                emit(
-                    Resource.error(
-                        msg = ErrorMessages.SOMETHING_WENT_WRONG,
-                        data = null,
-                        exception = ResultExceptions.UnknownError()
-                    )
+        result.onSuccess { value ->
+            val mapped = value.toMapped()
+            emit(Resource.success(mapped))
+        }.onFailure { exception ->
+            emit(Resource.error(
+                msg = exception.message ?: ErrorMessages.UNKNOWN_ERROR,
+                data = null,
+                exception = ResultExceptions.CustomIOException(
+                    msg = exception.message ?: ErrorMessages.UNKNOWN_ERROR,
+                    errorCode = 500
                 )
-            }
-
-        } else {
-            emit(
-                Resource.error(
-                    msg = ErrorMessages.WRONG_FILLED_FIELD,
-                    data = null,
-                    exception = ResultExceptions.FieldsNotFound()
-                )
-            )
+            ))
         }
     }
 }
