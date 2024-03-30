@@ -82,6 +82,7 @@ fun getSavedFileUri(
 }
 
 fun getIntentFileType(type: String) = when (type) {
+    URL -> "text/plain"
     PDF -> "application/pdf"
     DOCX -> "application/docx"
     PNG -> "image/png"

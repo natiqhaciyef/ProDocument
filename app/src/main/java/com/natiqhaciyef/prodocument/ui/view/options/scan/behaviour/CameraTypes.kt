@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.view.scan.behaviour
+package com.natiqhaciyef.prodocument.ui.view.options.scan.behaviour
 
 enum class CameraTypes(val title: String) {
     QR_CODE_SCREEN("QR Code"),

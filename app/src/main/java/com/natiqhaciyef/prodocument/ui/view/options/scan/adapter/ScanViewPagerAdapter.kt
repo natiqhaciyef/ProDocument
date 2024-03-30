@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.view.scan.adapter
+package com.natiqhaciyef.prodocument.ui.view.options.scan.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter

@@ -19,6 +19,7 @@
     <string name="save">Save</string>
     <string name="confirm">Confirm</string>
     <string name="share">Share</string>
+    <string name="merge">Merge</string>
 
 
     <!-- Result -->
@@ -112,6 +113,14 @@
     <string name="scan_live_description">Please set the camera at the view</string>
     <string name="scan_image_description">Please capture and set camera at the Image</string>
     <string name="title_count">Scanned file title %1$s</string>
+
+    <!--  Merge pdf  -->
+    <string name="merge_pdf_title">Merge PDF</string>
+    <string name="merge_pdf_description">%1$s selected files to be merged</string>
+    <string name="file_name_title">File Name</string>
+    <string name="merged_files">Merged files</string>
+    <string name="add_more_files">+ Add More Files</string>
+    <string name="add_files">Add files</string>
 
     <!--  Sharing category titles  -->
     <string name="share_link">Share link</string>

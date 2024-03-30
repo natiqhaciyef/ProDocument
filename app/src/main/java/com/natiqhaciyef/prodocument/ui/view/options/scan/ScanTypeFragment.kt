@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.view.scan
+package com.natiqhaciyef.prodocument.ui.view.options.scan
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,8 +9,8 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.natiqhaciyef.prodocument.databinding.FragmentScanTypeBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
-import com.natiqhaciyef.prodocument.ui.view.scan.adapter.ScanViewPagerAdapter
-import com.natiqhaciyef.prodocument.ui.view.scan.behaviour.CameraTypes
+import com.natiqhaciyef.prodocument.ui.view.options.scan.adapter.ScanViewPagerAdapter
+import com.natiqhaciyef.prodocument.ui.view.options.scan.behaviour.CameraTypes
 import dagger.hilt.android.AndroidEntryPoint
 
 
