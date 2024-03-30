@@ -3,6 +3,7 @@ package com.natiqhaciyef.data.network.service
 import com.natiqhaciyef.data.network.response.CRUDResponse
 import com.natiqhaciyef.data.network.response.TokenResponse
 import com.natiqhaciyef.data.network.response.UserResponse
+import retrofit2.Response
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -22,38 +23,38 @@ interface UserService {
         @Field("image_url") imageUrl: String,
         @Field("email") email: String,
         @Field("password") password: String,
-    ): Result<TokenResponse>
+    ): Response<TokenResponse>
 
     @GET("")
     suspend fun getUser(
         @Query("token") token: String,
-    ): Result<UserResponse>
+    ): Response<UserResponse>
 
     @POST("")
     @FormUrlEncoded
     suspend fun signIn(
         @Field("email") email: String,
         @Field("password") password: String,
-    ): Result<TokenResponse>
+    ): Response<TokenResponse>
 
     @GET("")
     suspend fun getOtp(
         @Query("email") email: String
-    ): Result<CRUDResponse>
+    ): Response<CRUDResponse>
 
     @POST("")
     @FormUrlEncoded
     suspend fun sendOtp(
         @Field("otp") otp: String
-    ): Result<CRUDResponse>
+    ): Response<CRUDResponse>
 
     @POST("")
     @FormUrlEncoded
     suspend fun updateUserPasswordByEmail(
         @Field("email") email: String,
         @Field("password") password: String,
-    ): Result<TokenResponse>
+    ): Response<TokenResponse>
 
     @GET("")
-    suspend fun logout(): Result<CRUDResponse>
+    suspend fun logout(): Response<CRUDResponse>
 }
