@@ -1,5 +1,6 @@
 package com.natiqhaciyef.data.source
 
+import com.natiqhaciyef.data.network.handleNetworkResponse
 import com.natiqhaciyef.data.network.response.QrCodeResponse
 import com.natiqhaciyef.data.network.service.QrCodeService
 import kotlinx.coroutines.Dispatchers
@@ -10,6 +11,6 @@ class QrCodeDataSource(
 ){
 
     suspend fun readQrCodeResult(qrCode: String) = withContext(Dispatchers.IO){
-        service.readQrCodeResult(qrCode)
+        handleNetworkResponse { service.readQrCodeResult(qrCode) }
     }
 }

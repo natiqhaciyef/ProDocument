@@ -1,10 +1,12 @@
 package com.natiqhaciyef.domain.usecase.qrCode
 
 import com.natiqhaciyef.common.mapper.toMapped
+import com.natiqhaciyef.common.mapper.toModel
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.common.model.mapped.MappedQrCodeResultModel
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.common.objects.ResultExceptions
+import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.domain.base.usecase.BaseUseCase
 import com.natiqhaciyef.domain.base.usecase.UseCase
 import com.natiqhaciyef.domain.repository.QrCodeRepository
@@ -21,29 +23,41 @@ class ReadQrCodeResultUseCase @Inject constructor(
         emit(Resource.loading(null))
 
         val result = repository.readQrCodeResult(data)
+        when (result) {
+            is NetworkResult.Success -> {
+                val model = result.data.toMapped()
 
-        result.onSuccess { value ->
-            val mapped = value.toMapped()
-            if (mapped.result!!.resultCode in 200..299) {
-                emit(Resource.success(data = mapped))
-            } else {
+                if (model.result?.resultCode in 200..299)
+                    emit(Resource.success(data = model))
+                else
+                    emit(
+                        Resource.error(
+                            data = model,
+                            msg = "${model.result?.resultCode}: ${model.result?.message}",
+                            exception = Exception(model.result?.message)
+                        )
+                    )
+            }
+
+            is NetworkResult.Error -> {
                 emit(
                     Resource.error(
-                        msg = "${value.result?.resultCode}: ${value.result?.message}",
-                        data = value.toMapped(),
-                        exception = Exception(value.result?.message)
+                        msg = result.message ?: ErrorMessages.UNKNOWN_ERROR,
+                        data = null,
+                        exception = Exception(result.message),
+                        errorCode = result.code
                     )
                 )
             }
-        }.onFailure { exception ->
-            emit(Resource.error(
-                msg = exception.message ?: ErrorMessages.UNKNOWN_ERROR,
-                data = null,
-                exception = ResultExceptions.CustomIOException(
-                    msg = exception.message ?: ErrorMessages.UNKNOWN_ERROR,
-                    errorCode = 500
-                )
-            ))
+
+            is NetworkResult.Exception -> {
+                emit(Resource.error(
+                    msg = result.e.message ?: ErrorMessages.SOMETHING_WENT_WRONG,
+                    data = null,
+                    exception = Exception(result.e),
+                    errorCode = -1
+                ))
+            }
         }
     }
 

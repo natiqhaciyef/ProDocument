@@ -5,6 +5,7 @@ import com.natiqhaciyef.common.mapper.toModel
 import com.natiqhaciyef.common.model.CRUDModel
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.common.objects.ErrorMessages
+import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.domain.base.usecase.BaseUseCase
 import com.natiqhaciyef.domain.base.usecase.UseCase
 import com.natiqhaciyef.domain.repository.MaterialRepository
@@ -30,27 +31,42 @@ class CreateMaterialByIdUseCase @Inject constructor(
 
         val result = repository.createMaterialById(materialModel, token)
 
-        result.onSuccess { value ->
-            val crudModel = value.toModel()
+        when (result) {
+            is NetworkResult.Success -> {
+                val model = result.data.toModel()
 
-            if (crudModel.resultCode in 200..299)
-                emit(Resource.success(data = crudModel))
-            else
+                if (model.resultCode in 200..299)
+                    emit(Resource.success(data = model))
+                else
+                    emit(
+                        Resource.error(
+                            data = model,
+                            msg = "${model.resultCode}: ${model.message}",
+                            exception = Exception(model.message)
+                        )
+                    )
+            }
+
+            is NetworkResult.Error -> {
                 emit(
                     Resource.error(
-                        data = crudModel,
-                        msg = "${crudModel.resultCode}: ${crudModel.message}",
-                        exception = Exception(crudModel.message)
+                        msg = result.message ?: ErrorMessages.UNKNOWN_ERROR,
+                        data = null,
+                        exception = Exception(result.message),
+                        errorCode = result.code
                     )
                 )
-        }.onFailure { exception ->
-            emit(
-                Resource.error(
-                    msg = exception.message ?: ErrorMessages.SOMETHING_WENT_WRONG,
+            }
+
+            is NetworkResult.Exception -> {
+                emit(Resource.error(
+                    msg = result.e.message ?: ErrorMessages.SOMETHING_WENT_WRONG,
                     data = null,
-                    exception = Exception(exception)
-                )
-            )
+                    exception = Exception(result.e),
+                    errorCode = -1
+                ))
+            }
         }
+
     }
 }
