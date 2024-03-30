@@ -20,8 +20,6 @@ class ProScanOnboardingFragment : BaseFragment<FragmentProScanOnboardingBinding,
     FragmentProScanOnboardingBinding::inflate,
     OnboardingViewModel::class
 ) {
-//    private val viewModel: OnboardingViewModel by viewModels()
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // for initial state

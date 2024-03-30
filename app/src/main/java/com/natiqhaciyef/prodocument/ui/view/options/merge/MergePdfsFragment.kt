@@ -37,7 +37,6 @@ class MergePdfsFragment : BaseFragment<FragmentMergePdfsBinding, MergePdfViewMod
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             setFileListEmptyCheckConfig(filesList)
-            setTitleConfiguration()
             setFilesCountConfigurations()
 
             adapter = FileItemAdapter(requireContext(), filesList, requireContext().getString(R.string.merge_pdf))
@@ -56,25 +55,9 @@ class MergePdfsFragment : BaseFragment<FragmentMergePdfsBinding, MergePdfViewMod
         }
     }
 
-    private fun setTitleConfiguration() {
+    private fun getFileTitle() {
         binding.apply {
-            getToken {
-                // get user by token use case from view model
-                usernameMergedTitle.text = getString(R.string.username_file_title, "")
-            }
-        }
-    }
 
-    private fun getToken(onSuccess: (MappedTokenModel) -> Unit = { }) = lifecycleScope.launch {
-        val result = dataStore.readParcelableClassData(
-            context = requireContext(),
-            classType = MappedTokenModel::class.java,
-            key = AppStorePrefKeys.TOKEN_KEY
-        )
-
-        if (result != null) {
-            onSuccess(result)
-            return@launch
         }
     }
 

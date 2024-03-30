@@ -118,7 +118,7 @@
     <string name="merge_pdf_title">Merge PDF</string>
     <string name="merge_pdf_description">%1$s selected files to be merged</string>
     <string name="file_name_title">File Name</string>
-    <string name="username_file_title">%1$s - Merged</string>
+    <string name="merged_files">Merged files</string>
     <string name="add_more_files">+ Add More Files</string>
     <string name="add_files">Add files</string>
 
