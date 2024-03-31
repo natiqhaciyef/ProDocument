@@ -18,7 +18,8 @@ data class Resource<out T>(
         fun <T> error(
             msg: String = ErrorMessages.UNKNOWN_ERROR,
             data: T?,
-            exception: Exception = Exception()
+            exception: Exception = Exception(),
+            errorCode: Int = 0
         ): Resource<T> {
             return Resource(Status.ERROR, data, msg, exception)
         }

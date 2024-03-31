@@ -5,8 +5,9 @@ import com.natiqhaciyef.common.model.CRUDModel
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.common.objects.ResultExceptions
-import com.natiqhaciyef.domain.base.BaseUseCase
-import com.natiqhaciyef.domain.base.UseCase
+import com.natiqhaciyef.data.network.NetworkResult
+import com.natiqhaciyef.domain.base.usecase.BaseUseCase
+import com.natiqhaciyef.domain.base.usecase.UseCase
 import com.natiqhaciyef.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -21,27 +22,41 @@ class LogoutRemoteUse @Inject constructor(
         emit(Resource.loading(null))
 
         val result = repository.logout()
-        if (result != null){
-            val uiModel = result.toModel()
+        when (result) {
+            is NetworkResult.Success -> {
+                val model = result.data.toModel()
 
-            if (uiModel.resultCode in 200..299){
-                emit(Resource.success(uiModel))
-            }else{
-                emit(Resource.error(
-                    data = uiModel,
-                    msg = "${uiModel.resultCode}: ${uiModel.message}",
-                    exception = Exception(uiModel.message)
-                ))
+                if (model.resultCode in 200..299)
+                    emit(Resource.success(data = model))
+                else
+                    emit(
+                        Resource.error(
+                            data = model,
+                            msg = "${model.resultCode}: ${model.message}",
+                            exception = Exception(model.message)
+                        )
+                    )
             }
 
-        }else{
-            emit(
-                Resource.error(
-                    msg = ErrorMessages.SOMETHING_WENT_WRONG,
-                    data = null,
-                    exception = ResultExceptions.UnknownError()
+            is NetworkResult.Error -> {
+                emit(
+                    Resource.error(
+                        msg = result.message ?: ErrorMessages.UNKNOWN_ERROR,
+                        data = null,
+                        exception = Exception(result.message),
+                        errorCode = result.code
+                    )
                 )
-            )
+            }
+
+            is NetworkResult.Exception -> {
+                emit(Resource.error(
+                    msg = result.e.message ?: ErrorMessages.SOMETHING_WENT_WRONG,
+                    data = null,
+                    exception = Exception(result.e),
+                    errorCode = -1
+                ))
+            }
         }
     }
 }

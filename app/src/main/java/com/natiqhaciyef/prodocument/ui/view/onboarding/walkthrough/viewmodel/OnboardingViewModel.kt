@@ -8,6 +8,7 @@ import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
 import com.natiqhaciyef.domain.usecase.user.remote.GetUserByTokenRemoteUseCase
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
+import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.REGISTER_ROUTE
 import com.natiqhaciyef.prodocument.ui.base.BaseUIState
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -37,8 +38,7 @@ class OnboardingViewModel @Inject constructor(
         if (userState.value != null && userState.value?.obj != null) {
             onAction(HOME_ROUTE)
         } else {
-            onAction(HOME_ROUTE)
-//            onAction(REGISTER_ROUTE)
+            onAction(REGISTER_ROUTE)
         }
     }
 

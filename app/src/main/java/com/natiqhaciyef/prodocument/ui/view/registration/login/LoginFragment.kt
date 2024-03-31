@@ -22,7 +22,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
     FragmentLoginBinding::inflate,
     LoginViewModel::class
 ) {
-//    private val viewModel: LoginViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -1,4 +1,4 @@
-package com.natiqhaciyef.domain.base
+package com.natiqhaciyef.domain.base.usecase
 
 
 @Target(AnnotationTarget.CLASS)

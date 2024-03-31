@@ -1,7 +1,7 @@
-package com.natiqhaciyef.domain.base
+package com.natiqhaciyef.domain.base.usecase
 
 import com.natiqhaciyef.common.model.Resource
-import com.natiqhaciyef.common.model.UIResult
+import com.natiqhaciyef.domain.base.repository.BaseRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 

@@ -1,8 +1,8 @@
 package com.natiqhaciyef.domain.usecase.user.local
 
 import com.natiqhaciyef.common.model.Resource
-import com.natiqhaciyef.domain.base.BaseUseCase
-import com.natiqhaciyef.domain.base.UseCase
+import com.natiqhaciyef.domain.base.usecase.BaseUseCase
+import com.natiqhaciyef.domain.base.usecase.UseCase
 import com.natiqhaciyef.common.model.UIResult
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
 import com.natiqhaciyef.common.objects.ErrorMessages

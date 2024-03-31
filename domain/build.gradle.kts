@@ -36,6 +36,8 @@ android {
 dependencies {
     val daggerVersion = "2.46"
     val workManagerVersion = "2.8.1"
+    val retrofitVersion = "2.9.0"
+    val okHttpLoggingInterceptorVersion = "5.0.0-alpha.3"
 
     implementation(project(":data"))
     implementation(project(":common"))
@@ -59,4 +61,10 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
+
+    //Retrofit library
+    implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
+    implementation("com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion")
+    implementation("com.squareup.okhttp3:logging-interceptor:$okHttpLoggingInterceptorVersion")
 }

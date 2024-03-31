@@ -3,6 +3,7 @@ package com.natiqhaciyef.data.network.service
 import com.natiqhaciyef.data.network.response.CRUDResponse
 import com.natiqhaciyef.data.network.response.MaterialResponse
 import com.natiqhaciyef.data.network.response.ListMaterialResponse
+import retrofit2.Response
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -15,13 +16,13 @@ interface MaterialService {
     @GET("")
     suspend fun getMaterials(
         @Path("material_token") token: String
-    ): ListMaterialResponse?
+    ): Response<ListMaterialResponse>
 
     @GET("")
     suspend fun getMaterialById(
         @Query("id") materialId: String,
         @Path("material_token") token: String
-    ): MaterialResponse?
+    ): Response<MaterialResponse>
 
     @POST("")
     @FormUrlEncoded
@@ -33,14 +34,14 @@ interface MaterialService {
         @Field("description") description: String,
         @Field("type") type: String,
         @Field("url") url: String,
-    ): CRUDResponse?
+    ): Response<CRUDResponse>
 
     @POST("")
     @FormUrlEncoded
     suspend fun removeMaterialById(
         @Field("material_token") token: String,
         @Field("material_id") id: String,
-    ): CRUDResponse?
+    ): Response<CRUDResponse>
 
     @POST("")
     @FormUrlEncoded
@@ -53,6 +54,6 @@ interface MaterialService {
         @Field("description") description: String,
         @Field("type") type: String,
         @Field("url") url: String,
-    ): CRUDResponse?
+    ): Response<CRUDResponse>
 
 }
