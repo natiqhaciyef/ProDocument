@@ -11,7 +11,6 @@ import javax.inject.Inject
 class MergePdfViewModel @Inject constructor(
 
 ) : BaseViewModel() {
-    val filesModel = MutableLiveData<MutableList<MappedMaterialModel>>(mutableListOf())
 
     fun getDefaultMockFile() = DefaultImplModels.mappedMaterialModel
 }
