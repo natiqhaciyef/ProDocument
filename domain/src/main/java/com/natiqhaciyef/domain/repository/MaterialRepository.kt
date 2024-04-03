@@ -6,7 +6,6 @@ import com.natiqhaciyef.data.network.response.CRUDResponse
 import com.natiqhaciyef.data.network.response.MaterialResponse
 import com.natiqhaciyef.data.network.response.ListMaterialResponse
 import com.natiqhaciyef.domain.base.repository.BaseRepository
-import retrofit2.Response
 
 interface MaterialRepository : BaseRepository {
 
@@ -14,7 +13,7 @@ interface MaterialRepository : BaseRepository {
 
     suspend fun getMaterialById(materialId: String, token: String): NetworkResult<MaterialResponse>
 
-    suspend fun createMaterialById(
+    suspend fun createMaterial(
         materialModel: MappedMaterialModel,
         materialToken: String
     ): NetworkResult<CRUDResponse>

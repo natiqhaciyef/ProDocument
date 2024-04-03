@@ -15,7 +15,7 @@ class MaterialRepositoryImpl(
     override suspend fun getMaterialById(materialId: String, token: String) =
         ds.getFileById(materialId = materialId, token = token)
 
-    override suspend fun createMaterialById(
+    override suspend fun createMaterial(
         materialModel: MappedMaterialModel,
         materialToken: String
     ) = ds.createMaterialById(

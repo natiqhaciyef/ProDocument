@@ -12,8 +12,7 @@ import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.domain.usecase.MATERIAL_MODEL
 import com.natiqhaciyef.domain.usecase.MATERIAL_TOKEN
-import com.natiqhaciyef.domain.usecase.material.CreateMaterialByIdUseCase
-import com.natiqhaciyef.domain.worker.config.DOCX
+import com.natiqhaciyef.domain.usecase.material.CreateMaterialUseCase
 import com.natiqhaciyef.domain.worker.config.JPEG
 import com.natiqhaciyef.domain.worker.config.PDF
 import com.natiqhaciyef.domain.worker.config.PNG
@@ -28,7 +27,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ModifyPdfViewModel @Inject constructor(
-    private val createMaterialByIdUseCase: CreateMaterialByIdUseCase
+    private val createMaterialByIdUseCase: CreateMaterialUseCase
 ) : BaseViewModel() {
     private val _materialState = MutableLiveData<BaseUIState<CRUDModel>>(BaseUIState())
     val materialState: LiveData<BaseUIState<CRUDModel>>
