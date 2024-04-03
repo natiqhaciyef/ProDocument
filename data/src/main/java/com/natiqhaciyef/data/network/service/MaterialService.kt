@@ -4,6 +4,7 @@ import com.natiqhaciyef.data.network.response.CRUDResponse
 import com.natiqhaciyef.data.network.response.MaterialResponse
 import com.natiqhaciyef.data.network.response.ListMaterialResponse
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -56,4 +57,9 @@ interface MaterialService {
         @Field("url") url: String,
     ): Response<CRUDResponse>
 
+    @POST("")
+    @FormUrlEncoded
+    suspend fun mergeMaterials(
+        @Body materials: List<MaterialResponse>
+    ): Response<MaterialResponse>
 }

@@ -87,7 +87,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="12dp"
         app:layout_constraintVertical_bias="0.0"
         android:background="@color/transparent"
@@ -97,14 +97,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/usernameMergedTitle">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/materialsRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="4"
                 android:layout_marginTop="12dp"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -118,6 +120,7 @@
                 android:layout_margin="24dp"
                 android:background="@drawable/custom_button_background"
                 android:elevation="0dp"
+                android:layout_weight="1"
                 android:fontFamily="@font/urbanist_bold"
                 android:text="@string/add_more_files"
                 android:textAllCaps="false"
@@ -128,7 +131,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/materialsRecyclerView"
                 app:layout_constraintVertical_bias="1.0" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
     </ScrollView>
 

@@ -22,7 +22,7 @@ class FileItemAdapter(
 
     }
 
-    var removeAction: () -> Unit = {
+    var removeAction: (String) -> Unit = {
 
     }
 
@@ -55,7 +55,7 @@ class FileItemAdapter(
         view.fileTitleText.text = file.title
         view.fileDateText.text = file.createdDate
         Glide.with(holder.context).load(file.image).into(view.filePreviewImage)
-        view.fileRemoveIcon.setOnClickListener { removeAction.invoke() }
+        view.fileRemoveIcon.setOnClickListener { removeAction.invoke(file.id) }
         holder.itemView.setOnClickListener { onClickAction.invoke(file.id) }
     }
 

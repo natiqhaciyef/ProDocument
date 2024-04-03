@@ -28,4 +28,6 @@ interface MaterialRepository : BaseRepository {
         materialModel: MappedMaterialModel,
         materialToken: String
     ): NetworkResult<CRUDResponse>
+
+    suspend fun mergeMaterials(list: List<MappedMaterialModel>): NetworkResult<MaterialResponse>
 }

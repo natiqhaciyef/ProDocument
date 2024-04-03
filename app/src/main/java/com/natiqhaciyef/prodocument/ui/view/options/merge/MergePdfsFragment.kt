@@ -25,6 +25,7 @@ import com.natiqhaciyef.prodocument.ui.view.main.home.adapter.FileItemAdapter
 import com.natiqhaciyef.prodocument.ui.view.options.merge.viewmodel.MergePdfViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.util.UUID
 
 @AndroidEntryPoint
 class MergePdfsFragment : BaseFragment<FragmentMergePdfsBinding, MergePdfViewModel>(
@@ -69,6 +70,7 @@ class MergePdfsFragment : BaseFragment<FragmentMergePdfsBinding, MergePdfViewMod
             addMoreFilesButton.setOnClickListener { addFileButtonAction() }
             mergeButton.setOnClickListener { mergeButtonAction() }
             goBackIcon.setOnClickListener { navigateByRouteTitle(BaseNavigationDeepLink.HOME_ROUTE) }
+            adapter?.removeAction = { removeFileButtonClickAction(it) }
         }
     }
 
@@ -90,16 +92,6 @@ class MergePdfsFragment : BaseFragment<FragmentMergePdfsBinding, MergePdfViewMod
             if (filesList.isEmpty()) View.GONE else View.VISIBLE
     }
 
-    private fun addFileButtonAction() {
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-            addCategory(Intent.CATEGORY_OPENABLE)
-            type = "*/*"
-            val uri = Uri.parse("content://com.android.externalstorage.documents/")
-            putExtra(DocumentsContract.EXTRA_INITIAL_URI, uri)
-        }
-        fileRequestLauncher.launch(intent)
-    }
-
     @SuppressLint("Range")
     private fun readAndCreateFile(uri: Uri) {
         val cursor = requireActivity().contentResolver.query(uri, null, null, null, null)
@@ -116,18 +108,18 @@ class MergePdfsFragment : BaseFragment<FragmentMergePdfsBinding, MergePdfViewMod
                     image = uri.toString().removePrefix("content://")
                 )
 
-                configOfAddingFile(file)
+                filesList.add(file)
+                configOfChangeFileList()
             }
         }
     }
 
 
-    private fun configOfAddingFile(file: MappedMaterialModel) {
-        adapter?.list?.add(file)
+    private fun configOfChangeFileList() {
+        adapter?.list = filesList
         setFilesCountConfigurations()
         setFileListEmptyCheckConfig()
         adapter?.notifyDataSetChanged()
-//        adapter?.updateList(filesList)
     }
 
     private fun createFileObject(
@@ -138,6 +130,7 @@ class MergePdfsFragment : BaseFragment<FragmentMergePdfsBinding, MergePdfViewMod
         type: String? = null
     ): MappedMaterialModel {
         val material = viewModel?.getDefaultMockFile()!!
+        material.id = "${UUID.randomUUID()}"
         material.url = uri
         material.title = title ?: ""
         material.description = description
@@ -148,7 +141,23 @@ class MergePdfsFragment : BaseFragment<FragmentMergePdfsBinding, MergePdfViewMod
         return material.copy()
     }
 
-    private fun mergeButtonAction() {
+    private fun addFileButtonAction() {
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "*/*"
+            val uri = Uri.parse("content://com.android.externalstorage.documents/")
+            putExtra(DocumentsContract.EXTRA_INITIAL_URI, uri)
+        }
+        fileRequestLauncher.launch(intent)
+    }
 
+    private fun mergeButtonAction() {
+//        viewModel?.mergeMaterials(filesList)
+    }
+
+    private fun removeFileButtonClickAction(id: String) {
+        filesList.removeIf { it.id == id }
+        adapter?.list = filesList
+        configOfChangeFileList()
     }
 }
