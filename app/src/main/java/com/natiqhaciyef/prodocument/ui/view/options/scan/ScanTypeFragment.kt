@@ -26,7 +26,6 @@ class ScanTypeFragment : BaseFragment<FragmentScanTypeBinding, BaseViewModel>(
         viewPagerInitConfig()
         captureButtonClickAction = { binding.captureImageIcon }
         galleryButtonClickAction = { binding.galleryForeground }
-        fileButtonClickAction = { binding.folderForeground }
     }
 
     private fun viewPagerInitConfig() {
@@ -69,6 +68,5 @@ class ScanTypeFragment : BaseFragment<FragmentScanTypeBinding, BaseViewModel>(
     companion object {
         var captureButtonClickAction: () -> View? = { null }
         var galleryButtonClickAction: () -> View? = { null }
-        var fileButtonClickAction: () -> View? = { null }
     }
 }
