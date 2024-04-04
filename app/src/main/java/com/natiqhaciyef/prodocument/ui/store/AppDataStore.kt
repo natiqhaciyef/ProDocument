@@ -140,5 +140,5 @@ object AppStorePrefKeys {
     val BOOLEAN_KEY = booleanPreferencesKey("BOOLEAN")
 
     val TITLE_COUNT_KEY = intPreferencesKey("TITLE_COUNT_KEY")
-    val TOKEN_KEY = stringPreferencesKey("TOKEN_STORED")
+    val TOKEN_KEY = stringPreferencesKey("TOKEN_STORED_MAPPED_KEY")
 }

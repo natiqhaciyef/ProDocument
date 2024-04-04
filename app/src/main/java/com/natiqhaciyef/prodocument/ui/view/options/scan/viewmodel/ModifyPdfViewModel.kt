@@ -70,12 +70,10 @@ class ModifyPdfViewModel @Inject constructor(
 
 
     fun createMaterial(token: MappedTokenModel, material: MappedMaterialModel) {
-        if (!token.materialToken.isNullOrEmpty()
-            && !token.uid.isNullOrEmpty()
-        ) {
+        if (!token.uid.isNullOrEmpty()) {
             val materialStr = material.toJsonString()
             val requestMap = hashMapOf(
-                MATERIAL_TOKEN to token.materialToken!!,
+                MATERIAL_TOKEN to token.uid!!,
                 MATERIAL_MODEL to materialStr
             )
 
