@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 @UseCase
-class CreateMaterialByIdUseCase @Inject constructor(
+class CreateMaterialUseCase @Inject constructor(
     materialRepository: MaterialRepository
 ) : BaseUseCase<MaterialRepository, Map<String, String>, CRUDModel>(materialRepository) {
 
@@ -29,7 +29,7 @@ class CreateMaterialByIdUseCase @Inject constructor(
             .toMappedMaterial()
 
 
-        val result = repository.createMaterialById(materialModel, token)
+        val result = repository.createMaterial(materialModel, token)
 
         when (result) {
             is NetworkResult.Success -> {

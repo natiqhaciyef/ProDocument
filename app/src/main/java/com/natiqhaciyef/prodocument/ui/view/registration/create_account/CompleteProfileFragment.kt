@@ -134,7 +134,6 @@ class CompleteProfileFragment :
         binding.apply {
             viewModel?.collectDataFromCompleteProfileScreen(
                 data = MappedUserModel(
-                    id= "",
                     name = completeProfileFullNameInput.text.toString(),
                     email = "",
                     phoneNumber = completeProfilePhoneNumberInput.text.toString(),
