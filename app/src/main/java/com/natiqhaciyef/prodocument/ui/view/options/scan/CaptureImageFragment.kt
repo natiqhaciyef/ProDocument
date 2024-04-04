@@ -53,7 +53,8 @@ class CaptureImageFragment : BaseFragment<FragmentCaptureImageBinding, ScanViewM
 
                     val action =
                         ScanTypeFragmentDirections.actionScanTypeFragmentToModifyPdfFragment(
-                            material
+                            material,
+                            CAPTURE_IMAGE_TYPE
                         )
                     navigate(action)
                 }
@@ -208,5 +209,9 @@ class CaptureImageFragment : BaseFragment<FragmentCaptureImageBinding, ScanViewM
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    companion object{
+        const val CAPTURE_IMAGE_TYPE = "capture-image-type"
     }
 }

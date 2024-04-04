@@ -25,7 +25,6 @@ class LiveRecognitionFragment : BaseFragment<FragmentLiveRecognitionBinding, Sca
     FragmentLiveRecognitionBinding::inflate,
     ScanViewModel::class
 ) {
-//    private val viewModel: ScanViewModel by viewModels()
     private val registerForCameraPermissionResult =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
