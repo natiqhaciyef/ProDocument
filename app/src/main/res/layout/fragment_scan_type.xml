@@ -44,35 +44,14 @@
 
 
     <View
-        android:id="@+id/folderBackground"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="24dp"
-        android:background="@drawable/circle_shape_background"
-        app:layout_constraintBottom_toBottomOf="@id/captureView"
-        app:layout_constraintStart_toStartOf="@id/captureView"
-        app:layout_constraintTop_toTopOf="@id/captureView" />
-
-    <ImageView
-        android:id="@+id/folderForeground"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/folder_filled_icon"
-        app:layout_constraintBottom_toBottomOf="@id/folderBackground"
-        app:layout_constraintEnd_toEndOf="@id/folderBackground"
-        app:layout_constraintStart_toStartOf="@id/folderBackground"
-        app:layout_constraintTop_toTopOf="@id/folderBackground" />
-
-    <View
         android:id="@+id/galleryBackground"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginStart="12dp"
         android:background="@drawable/circle_shape_background"
         app:layout_constraintBottom_toBottomOf="@id/captureView"
         app:layout_constraintEnd_toStartOf="@id/captureImageIcon"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@id/folderBackground"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/captureView" />
 
     <ImageView
