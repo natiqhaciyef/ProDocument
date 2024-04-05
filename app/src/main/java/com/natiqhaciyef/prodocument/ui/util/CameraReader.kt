@@ -468,13 +468,14 @@ class CameraReader(
             return list
         }
 
-        fun getAddressOfFile(context: Context, uri: Uri?) = if (uri != null)
+        fun getAddressOfFile(context: Context, uri: Uri?) = if (uri != null) {
             FileProvider.getUriForFile(
                 context,
                 "${BuildConfig.APPLICATION_ID}.provider",
                 File(uri.path.toString())
             )
-        else
+        }else {
             null
+        }
     }
 }

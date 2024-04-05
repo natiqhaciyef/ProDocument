@@ -38,7 +38,8 @@ class OnboardingViewModel @Inject constructor(
         if (userState.value != null && userState.value?.obj != null) {
             onAction(HOME_ROUTE)
         } else {
-            onAction(REGISTER_ROUTE)
+            onAction(HOME_ROUTE)
+//            onAction(REGISTER_ROUTE)
         }
     }
 

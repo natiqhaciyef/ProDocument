@@ -67,4 +67,12 @@ class MaterialDataSource(
         }
     }
 
+    suspend fun mergeMaterials(
+        list: List<MaterialResponse>
+    ) = withContext(Dispatchers.IO) {
+        handleNetworkResponse {
+            service.mergeMaterials(materials = list)
+        }
+    }
+
 }

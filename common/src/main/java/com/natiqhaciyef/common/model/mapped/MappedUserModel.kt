@@ -6,7 +6,6 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class MappedUserModel(
-    var id: String,
     var name: String,
     var email: String,
     var phoneNumber: String,

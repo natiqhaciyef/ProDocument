@@ -7,6 +7,7 @@ import com.natiqhaciyef.common.model.mapped.MappedUserModel
 import com.natiqhaciyef.common.model.mapped.MappedUserWithoutPasswordModel
 import com.natiqhaciyef.data.local.entity.UserEntity
 import com.natiqhaciyef.data.network.response.UserResponse
+import java.util.UUID
 
 
 fun MappedUserModel.toMappedUserWithoutPassword(): MappedUserWithoutPasswordModel {
@@ -33,7 +34,6 @@ fun UserResponse.toUIResult(): UIResult<MappedUserModel>? {
         && this.gender.isNotEmpty()
     ) {
         val mappedUser = MappedUserModel(
-            id = this.id,
             name = this.fullName,
             email = this.email,
             phoneNumber = this.phoneNumber,
@@ -44,7 +44,7 @@ fun UserResponse.toUIResult(): UIResult<MappedUserModel>? {
         )
 
         UIResult(
-            id = this.id,
+            id = UUID.randomUUID().toString(),
             data = mappedUser,
             publishDate = this.publishDate,
             result = this.result?.toModel()
@@ -57,7 +57,6 @@ fun UserResponse.toUIResult(): UIResult<MappedUserModel>? {
 
 fun MappedUserModel.toResponse(): UserResponse =
     UserResponse(
-        id = this.id,
         fullName = this.name,
         phoneNumber = this.phoneNumber,
         gender = this.gender,
@@ -82,7 +81,6 @@ fun UIResult<MappedUserModel>.toResponse(): UserResponse? {
         && this.data.gender.isNotEmpty()
     ) {
         UserResponse(
-            id = this.id,
             fullName = this.data.name,
             phoneNumber = this.data.phoneNumber,
             gender = this.data.gender,
@@ -102,7 +100,6 @@ fun UIResult<MappedUserModel>.toResponse(): UserResponse? {
 // Local db
 fun UserEntity.toUIResult(): UIResult<MappedUserModel> {
     val mappedUser = MappedUserModel(
-        id = this.id.toString(),
         name = this.name,
         email = this.email,
         phoneNumber = this.phoneNumber,

@@ -6,11 +6,13 @@ import android.os.Bundle
 import android.text.InputType
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.camera.core.ExperimentalGetImage
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.natiqhaciyef.common.R
+import com.natiqhaciyef.common.helpers.loadImage
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.prodocument.databinding.FragmentModifyPdfBinding
@@ -27,18 +29,20 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 
-@AndroidEntryPoint
+@ExperimentalGetImage @AndroidEntryPoint
 class ModifyPdfFragment : BaseFragment<FragmentModifyPdfBinding, ModifyPdfViewModel>(
     FragmentModifyPdfBinding::inflate,
     ModifyPdfViewModel::class
 ) {
     private var material: MappedMaterialModel? = null
+    private var type: String? = null
     var uriAddress: Uri? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val data: ModifyPdfFragmentArgs by navArgs()
         material = data.fileMaterial
+        type = data.type
 
 
         binding.apply {
@@ -46,9 +50,21 @@ class ModifyPdfFragment : BaseFragment<FragmentModifyPdfBinding, ModifyPdfViewMo
                 val uri = it.url
                 countTitle()
 
-                uriAddress = getAddressOfFile(requireContext(), uri) ?: "".toUri()
+                when(type){
+                    ScanFragment.SCAN_QR_TYPE -> {
+                        imageView.visibility = View.VISIBLE
+                        pdfView.visibility = View.GONE
 
-                pdfView.createDefaultPdfUriLoader(requireContext(), uriAddress!!)
+                        imageView.loadImage(it.image)
+                    }
+
+                    CaptureImageFragment.CAPTURE_IMAGE_TYPE -> {
+                        pdfView.visibility = View.VISIBLE
+                        imageView.visibility = View.GONE
+                        uriAddress = getAddressOfFile(requireContext(), uri) ?: "".toUri()
+                        pdfView.createDefaultPdfUriLoader(requireContext(), uriAddress!!)
+                    }
+                }
 
                 titleButtonChangeAction()
 
