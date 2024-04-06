@@ -1,6 +1,6 @@
 package com.natiqhaciyef.domain.usecase.material
 
-import com.natiqhaciyef.common.mapper.toUIResult
+import com.natiqhaciyef.domain.mapper.toUIResult
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.domain.base.usecase.BaseUseCase
 import com.natiqhaciyef.domain.base.usecase.UseCase

@@ -1,7 +1,7 @@
 package com.natiqhaciyef.domain.usecase.user.local
 
 import com.natiqhaciyef.common.model.Resource
-import com.natiqhaciyef.common.mapper.toEntity
+import com.natiqhaciyef.domain.mapper.toEntity
 import com.natiqhaciyef.domain.base.usecase.BaseUseCase
 import com.natiqhaciyef.common.objects.ResultCases
 import com.natiqhaciyef.domain.base.usecase.UseCase

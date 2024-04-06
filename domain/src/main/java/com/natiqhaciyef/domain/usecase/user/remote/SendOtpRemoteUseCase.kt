@@ -1,6 +1,6 @@
 package com.natiqhaciyef.domain.usecase.user.remote
 
-import com.natiqhaciyef.common.mapper.toModel
+import com.natiqhaciyef.domain.mapper.toModel
 import com.natiqhaciyef.common.model.CRUDModel
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.common.objects.ErrorMessages

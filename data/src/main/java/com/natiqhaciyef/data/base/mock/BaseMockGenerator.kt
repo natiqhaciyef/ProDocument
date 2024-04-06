@@ -1,40 +1,31 @@
 package com.natiqhaciyef.data.base.mock
 
-import com.natiqhaciyef.data.network.NetworkResult
+import kotlin.reflect.KClass
+import kotlin.reflect.full.primaryConstructor
 
 
-abstract class BaseMockGenerator<In, Out : Any>(
-    var takenRequest: In,
-    var setSuccessKey: String,
-    var setErrorKey: String
-) {
+abstract class BaseMockGenerator<In, Out : Any> {
     abstract var createdMock: Out
+    abstract var takenRequest: In
 
-    companion object {
-        private const val MOCK_NON_CORRECT_REQUEST = "Request not correct"
-        private const val MOCK_INTERNAL_SERVICE_ERROR_REQUEST = "Something went wrong"
-        private const val MOCK_NOT_FOUND_ERROR_REQUEST = "Something went wrong"
-    }
+    abstract fun createInstance(): BaseMockGenerator<In, Out>
 
-
-    fun generateMock(
-        defaultData: String,
+    fun getMock(
         request: In,
-        action: (In) -> NetworkResult<Out>
-    ): NetworkResult<Out> =
-        if (request == takenRequest){
-            when (defaultData) {
-                setSuccessKey -> {
-                    NetworkResult.Success(createdMock)
-                }
+        action: (In) -> Out?
+    ): Out =
+        if (request == takenRequest) { createdMock } else { action.invoke(request) ?: throw MockRequestException() }
 
-                setErrorKey -> {
-                    NetworkResult.Error(code = 500, message = MOCK_INTERNAL_SERVICE_ERROR_REQUEST)
-                }
+    companion object{
+        class MockRequestException: Exception("Not valid request")
+    }
+}
 
-                else -> NetworkResult.Error(code = 404, message = MOCK_NOT_FOUND_ERROR_REQUEST)
-            }
-        }else{
-            action.invoke(request)
-        }
+fun <T : BaseMockGenerator<*, *>, In> generateMockerClass(
+    mockClass: KClass<T>,
+    request: In
+): T {
+    val primaryConstructor = mockClass.primaryConstructor
+        ?: throw IllegalArgumentException("No primary constructor found")
+    return primaryConstructor.call(request)
 }

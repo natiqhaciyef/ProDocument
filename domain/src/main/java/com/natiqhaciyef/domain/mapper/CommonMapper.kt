@@ -1,4 +1,4 @@
-package com.natiqhaciyef.common.mapper
+package com.natiqhaciyef.domain.mapper
 
 import com.natiqhaciyef.common.model.CRUDModel
 import com.natiqhaciyef.data.network.response.CRUDResponse

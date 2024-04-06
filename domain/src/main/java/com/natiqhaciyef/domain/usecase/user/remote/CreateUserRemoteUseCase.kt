@@ -1,7 +1,7 @@
 package com.natiqhaciyef.domain.usecase.user.remote
 
-import com.natiqhaciyef.common.mapper.toMapped
-import com.natiqhaciyef.common.mapper.toModel
+import com.natiqhaciyef.domain.mapper.toMapped
+import com.natiqhaciyef.domain.mapper.toModel
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.domain.base.usecase.BaseUseCase
