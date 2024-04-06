@@ -1,32 +1,28 @@
 package com.natiqhaciyef.prodocument.ui.view.options.scan.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.natiqhaciyef.prodocument.databinding.RecyclerCategoryItemBinding
+import com.natiqhaciyef.prodocument.ui.base.BaseRecyclerViewAdapter
 import com.natiqhaciyef.prodocument.ui.model.CategoryItem
 
 class ShareCategoryAdapter(
-    val list: MutableList<CategoryItem>
-) : RecyclerView.Adapter<ShareCategoryAdapter.ShareCategoryHolder>() {
+    dataList: MutableList<CategoryItem>
+) : BaseRecyclerViewAdapter<CategoryItem, RecyclerCategoryItemBinding>(dataList) {
 
     var onClickAction: (String) -> Unit = {
 
     }
 
-    inner class ShareCategoryHolder(val binding: RecyclerCategoryItemBinding) :
-        RecyclerView.ViewHolder(binding.root)
+    override val binding: (Context, ViewGroup, Boolean) -> RecyclerCategoryItemBinding =
+        { context, viewGroup, b ->
+            RecyclerCategoryItemBinding.inflate(LayoutInflater.from(context), viewGroup, b)
+        }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShareCategoryHolder {
-        val binding =
-            RecyclerCategoryItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ShareCategoryHolder(binding)
-    }
-
-    override fun getItemCount(): Int = list.size
-
-    override fun onBindViewHolder(holder: ShareCategoryHolder, position: Int) {
+    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         val item = list[position]
         with(holder.binding) {
             categoryTitle.text = item.title
@@ -42,12 +38,5 @@ class ShareCategoryAdapter(
         }
 
         holder.itemView.setOnClickListener { onClickAction.invoke(item.type) }
-    }
-
-    fun updateList(list: MutableList<CategoryItem>) {
-        this.list.clear()
-        this.list.addAll(list)
-
-        notifyDataSetChanged()
     }
 }

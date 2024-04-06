@@ -12,11 +12,16 @@ import com.bumptech.glide.Glide
 import com.natiqhaciyef.prodocument.databinding.RecyclerFilesItemViewBinding
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.R
+import com.natiqhaciyef.prodocument.ui.base.BaseRecyclerViewAdapter
 
 class FileItemAdapter(
-    var list: MutableList<MappedMaterialModel>,
+    dataList: MutableList<MappedMaterialModel>,
     private val type: String
-) : RecyclerView.Adapter<FileItemAdapter.FileItemHolder>() {
+) : BaseRecyclerViewAdapter<MappedMaterialModel, RecyclerFilesItemViewBinding>(dataList) {
+    override val binding: (Context, ViewGroup, Boolean) -> RecyclerFilesItemViewBinding =
+        { context, viewGroup, bool ->
+            RecyclerFilesItemViewBinding.inflate(LayoutInflater.from(context), viewGroup, bool)
+        }
 
     var onClickAction: (String) -> Unit = {
 
@@ -26,38 +31,6 @@ class FileItemAdapter(
 
     }
 
-    inner class FileItemHolder(val binding: RecyclerFilesItemViewBinding, val context: Context) :
-        RecyclerView.ViewHolder(binding.root)
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FileItemHolder {
-        val binding =
-            RecyclerFilesItemViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return FileItemHolder(binding, parent.context)
-    }
-
-    override fun getItemCount(): Int = list.size
-
-    override fun onBindViewHolder(holder: FileItemHolder, position: Int) {
-        val view = holder.binding
-        val file = list[position]
-        println(file)
-
-        when (type) {
-            holder.context.getString(R.string.scan_code) -> {
-                configOfHome(view)
-            }
-
-            holder.context.getString(R.string.merge_pdf) -> {
-                configOfMerge(view)
-            }
-        }
-
-        view.fileTitleText.text = file.title
-        view.fileDateText.text = file.createdDate
-        Glide.with(holder.context).load(file.image).into(view.filePreviewImage)
-        view.fileRemoveIcon.setOnClickListener { removeAction.invoke(file.id) }
-        holder.itemView.setOnClickListener { onClickAction.invoke(file.id) }
-    }
 
     private fun configOfMerge(binding: RecyclerFilesItemViewBinding) {
         binding.fileShareIcon.visibility = View.GONE
@@ -83,9 +56,26 @@ class FileItemAdapter(
         paramsDate.endToStart = binding.fileShareIcon.id
     }
 
-    fun updateList(updatedList: List<MappedMaterialModel>) {
-        this.list = updatedList.toMutableList()
-        notifyDataSetChanged()
-    }
 
+    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
+        val view = holder.binding
+        val file = list[position]
+        println(file)
+
+        when (type) {
+            holder.context.getString(R.string.scan_code) -> {
+                configOfHome(view)
+            }
+
+            holder.context.getString(R.string.merge_pdf) -> {
+                configOfMerge(view)
+            }
+        }
+
+        view.fileTitleText.text = file.title
+        view.fileDateText.text = file.createdDate
+        Glide.with(holder.context).load(file.image).into(view.filePreviewImage)
+        view.fileRemoveIcon.setOnClickListener { removeAction.invoke(file.id) }
+        holder.itemView.setOnClickListener { onClickAction.invoke(file.id) }
+    }
 }

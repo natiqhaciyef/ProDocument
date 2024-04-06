@@ -6,7 +6,7 @@ import com.natiqhaciyef.data.network.response.TokenResponse
 fun MappedTokenModel.toResponse(): TokenResponse {
     return TokenResponse(
         uid = this.uid,
-        result = this.result,
+        result = this.result?.toResponse(),
         premiumToken = this.premiumToken,
         premiumTokenExpiryDate = this.premiumTokenExpiryDate
     )
@@ -15,7 +15,7 @@ fun MappedTokenModel.toResponse(): TokenResponse {
 fun TokenResponse.toMapped(): MappedTokenModel {
     return MappedTokenModel(
         uid = uid,
-        result = result,
+        result = result?.toModel(),
         premiumToken = this.premiumToken,
         premiumTokenExpiryDate = this.premiumTokenExpiryDate,
         securityDeviceCode = null
