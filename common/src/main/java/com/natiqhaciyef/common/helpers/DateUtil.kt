@@ -1,5 +1,8 @@
 package com.natiqhaciyef.common.helpers
 
+import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -160,11 +163,13 @@ fun fromStringToMappedDay(date: String): String? {
 }
 
 
+@SuppressLint("NewApi")
 fun getNow(dateTime: LocalDateTime = LocalDateTime.now()): String {
     val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
     return formatter.format(dateTime)
 }
 
+@SuppressLint("NewApi")
 fun String.stringToFormattedLocalDateTime(): LocalDateTime {
     val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
     return LocalDateTime.parse(this, formatter)

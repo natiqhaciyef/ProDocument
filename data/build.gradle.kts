@@ -37,7 +37,10 @@ android {
 dependencies {
     val retrofitVersion = "2.9.0"
     val daggerVersion = "2.46"
+    val roomVersion = "2.5.0"
     val okHttpLoggingInterceptorVersion = "5.0.0-alpha.3"
+
+    implementation(project(":common"))
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -58,7 +61,10 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:$okHttpLoggingInterceptorVersion")
 
     //Room db
-    implementation("androidx.room:room-runtime:2.5.0")
+    implementation("androidx.room:room-runtime:$roomVersion")
     kapt("androidx.room:room-compiler:2.6.1")
-    implementation("androidx.room:room-ktx:2.5.0")
+    implementation("androidx.room:room-ktx:$roomVersion")
+
+    //Reflection
+    implementation(kotlin("reflect"))
 }
