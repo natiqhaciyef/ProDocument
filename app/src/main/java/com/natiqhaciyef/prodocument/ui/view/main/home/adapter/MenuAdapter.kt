@@ -1,30 +1,25 @@
 package com.natiqhaciyef.prodocument.ui.view.main.home.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.natiqhaciyef.common.model.MenuItemModel
 import com.natiqhaciyef.prodocument.databinding.RecyclerMenuItemViewBinding
+import com.natiqhaciyef.prodocument.ui.base.BaseRecyclerViewAdapter
 
 
 class MenuAdapter(
-    private var list: List<MenuItemModel>
-) : RecyclerView.Adapter<MenuAdapter.MenuHolder>() {
+    dataList: MutableList<MenuItemModel>
+) : BaseRecyclerViewAdapter<MenuItemModel, RecyclerMenuItemViewBinding>(dataList) {
 
     var onClickAction: (String) -> Unit = {}
+    override val binding: (Context, ViewGroup, Boolean) -> RecyclerMenuItemViewBinding =
+        { context, viewGroup, b ->
+            RecyclerMenuItemViewBinding.inflate(LayoutInflater.from(context), viewGroup, b)
+        }
 
-    inner class MenuHolder(val binding: RecyclerMenuItemViewBinding) :
-        RecyclerView.ViewHolder(binding.root)
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuHolder {
-        val binding =
-            RecyclerMenuItemViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MenuHolder(binding)
-    }
-
-    override fun getItemCount(): Int = list.size
-
-    override fun onBindViewHolder(holder: MenuHolder, position: Int) {
+    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         val menuItem = list[position]
         val view = holder.binding
 
@@ -32,7 +27,6 @@ class MenuAdapter(
         view.menuItemTitle.text = menuItem.title
 
         holder.itemView.setOnClickListener { onClickAction.invoke(menuItem.routeTitle) }
+
     }
-
-
 }
