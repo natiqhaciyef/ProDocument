@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
+import com.natiqhaciyef.common.objects.MATERIAL_TOKEN_MOCK_KEY
 import com.natiqhaciyef.domain.usecase.material.GetAllMaterialsRemoteUseCase
 import com.natiqhaciyef.prodocument.ui.base.BaseUIState
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
@@ -21,43 +22,46 @@ class HomeViewModel @Inject constructor(
     val fileState: LiveData<BaseUIState<MappedMaterialModel>>
         get() = _fileState
 
-    private fun getAllOwnFiles(token: String) {
-        viewModelScope.launch {
+    init {
+        getAllOwnFiles()
+    }
 
+    fun getAllOwnFiles(token: String = MATERIAL_TOKEN_MOCK_KEY) {
+        viewModelScope.launch {
             getAllMaterialsRemoteUseCase.operate(token).collectLatest { result ->
                 when (result.status) {
                     Status.SUCCESS -> {
                         if (result.data != null) {
-                            _fileState.value?.apply {
-                                obj = result.data!!.first()
-                                list = result.data!!
-                                isLoading = false
-                                isSuccess = true
-                                message = null
+                            _fileState.value = _fileState.value?.copy(
+                                obj = result.data!!.first(),
+                                list = result.data!!,
+                                isLoading = false,
+                                isSuccess = true,
+                                message = null,
                                 failReason = null
-                            }
+                            )
                         }
                     }
 
                     Status.ERROR -> {
-                        _fileState.value?.apply {
-                            obj = null
-                            list = listOf()
-                            isLoading = false
-                            isSuccess = false
-                            message = result.message
+                        _fileState.value = _fileState.value?.copy(
+                            obj = null,
+                            list = listOf(),
+                            isLoading = false,
+                            isSuccess = false,
+                            message = result.message,
                             failReason = result.exception
-                        }
+                        )
                     }
                     Status.LOADING -> {
-                        _fileState.value?.apply {
-                            obj = null
-                            list = listOf()
-                            isLoading = true
-                            isSuccess = false
-                            message = null
+                        _fileState.value = _fileState.value?.copy(
+                            obj = null,
+                            list = listOf(),
+                            isLoading = true,
+                            isSuccess = false,
+                            message = null,
                             failReason = null
-                        }
+                        )
                     }
                 }
             }

@@ -61,11 +61,12 @@ fun MaterialResponse.toMappedModel(): MappedMaterialModel? {
 
 fun ListMaterialResponse.toUIResult(): UIResult<List<MappedMaterialModel>>? {
     val materials = this.materials.map { it.toMappedModel() }
-    return if (this.materials.isNotEmpty() && materials.contains(null)) {
+    return if (this.materials.isNotEmpty() && !materials.contains(null)) {
         UIResult(
             id = this.id,
             publishDate = this.publishDate,
-            data = materials.map { it!! }
+            data = materials.map { it!! },
+            result = this.result?.toModel()
         )
     } else {
         null

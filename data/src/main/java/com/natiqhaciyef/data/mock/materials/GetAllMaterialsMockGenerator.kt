@@ -1,4 +1,4 @@
-package com.natiqhaciyef.data.source.mock
+package com.natiqhaciyef.data.mock.materials
 
 
 import android.annotation.SuppressLint
@@ -8,14 +8,14 @@ import com.natiqhaciyef.data.network.response.CRUDResponse
 import com.natiqhaciyef.data.network.response.ListMaterialResponse
 import com.natiqhaciyef.data.network.response.MaterialResponse
 
-class ListMaterialsMockGenerator(override var takenRequest: String) :
+class GetAllMaterialsMockGenerator(override var takenRequest: String) :
     BaseMockGenerator<String, ListMaterialResponse>() {
 
     @SuppressLint("NewApi")
     override var createdMock: ListMaterialResponse = ListMaterialResponse(
         materials = listOf(
             MaterialResponse(
-                id = "id material",
+                id = "materialId",
                 publishDate = getNow(),
                 image = "image",
                 title = "title",
@@ -23,20 +23,25 @@ class ListMaterialsMockGenerator(override var takenRequest: String) :
                 type = "type",
                 url = "url",
                 result = CRUDResponse(
-                    resultCode = -2,
+                    resultCode = 299,
                     message = "mock material"
                 )
             )
         ),
-        id = "id",
+        id = "listMaterialId",
         result = CRUDResponse(
-            resultCode = -1,
+            resultCode = 299,
             message = "Mock"
         ),
         publishDate = getNow()
     )
 
-    override fun createInstance(): BaseMockGenerator<String, ListMaterialResponse> {
-        return this
+    override fun getMock(
+        request: String,
+        action: (String) -> ListMaterialResponse?
+    ): ListMaterialResponse = if (request == takenRequest) {
+        createdMock
+    } else {
+        action.invoke(request) ?: throw Companion.MockRequestException()
     }
 }
