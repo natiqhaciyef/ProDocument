@@ -1,9 +1,10 @@
 package com.natiqhaciyef.domain.repository.impl
 
-import com.natiqhaciyef.common.mapper.toMaterialResponse
+import com.natiqhaciyef.domain.mapper.toMaterialResponse
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.data.source.MaterialDataSource
+import com.natiqhaciyef.domain.base.usecase.UseCase
 import com.natiqhaciyef.domain.repository.MaterialRepository
 
 class MaterialRepositoryImpl(

@@ -59,7 +59,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
     }
 
     private fun menuAdapterConfig() {
-        menuAdapter = MenuAdapter(list = UiList.generateHomeMenuItemsList(requireContext()))
+        menuAdapter = MenuAdapter(UiList.generateHomeMenuItemsList(requireContext()).toMutableList())
         menuAdapter.onClickAction = { route ->
             navigateByRouteTitle(route)
             (activity as MainActivity).binding.bottomNavBar.visibility = View.GONE
@@ -74,23 +74,26 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
     }
 
     private fun fileAdapterConfig() {
-//        viewModel?.fileState?.observe(viewLifecycleOwner) { uiState ->
-//        fileAdapter = FileItemAdapter(requireContext(), uiState.list, requireContext().getString(R.string.scan_code))
-//        searchFile(uiState.list)
-//
-//        fileAdapter.onClickAction = { materialId ->
-            // navigate to file details screen
-//        }
-//
-//        binding.apply {
-//            filesRecyclerView.adapter = fileAdapter
-//            filesRecyclerView.layoutManager =
-//                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-//        }
-//        }
+        viewModel?.fileState?.observe(viewLifecycleOwner) { uiState ->
+            fileAdapter = FileItemAdapter(
+                uiState.list.toMutableList(),
+                requireContext().getString(R.string.scan_code)
+            )
+            searchFile(uiState.list.toMutableList())
+
+            fileAdapter.onClickAction = { materialId ->
+//                navigate to file details screen
+            }
+
+            binding.apply {
+                filesRecyclerView.adapter = fileAdapter
+                filesRecyclerView.layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            }
+        }
     }
 
-    private fun searchFile(list: List<MappedMaterialModel>) {
+    private fun searchFile(list: MutableList<MappedMaterialModel>) {
         binding.apply {
             topbarSearch.doOnTextChanged { text, start, before, count ->
                 text?.let {

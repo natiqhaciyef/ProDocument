@@ -1,7 +1,7 @@
 package com.natiqhaciyef.domain.usecase.material
 
-import com.natiqhaciyef.common.mapper.toModel
-import com.natiqhaciyef.common.mapper.toUIResult
+import com.natiqhaciyef.domain.mapper.toModel
+import com.natiqhaciyef.domain.mapper.toUIResult
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.domain.base.usecase.BaseUseCase
 import com.natiqhaciyef.domain.base.usecase.UseCase
@@ -22,8 +22,7 @@ class GetAllMaterialsRemoteUseCase @Inject constructor(
     override fun operate(data: String): Flow<Resource<List<MappedMaterialModel>>> = flow {
         emit(Resource.loading(null))
 
-        val result = repository.getAllMaterials(token = data)
-        when (result) {
+        when (val result = repository.getAllMaterials(token = data)) {
             is NetworkResult.Success -> {
                 val model = result.data.toUIResult()
 

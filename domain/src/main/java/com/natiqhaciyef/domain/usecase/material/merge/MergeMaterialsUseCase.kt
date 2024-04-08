@@ -1,6 +1,6 @@
 package com.natiqhaciyef.domain.usecase.material.merge
 
-import com.natiqhaciyef.common.mapper.toMappedModel
+import com.natiqhaciyef.domain.mapper.toMappedModel
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.objects.ErrorMessages
