@@ -40,38 +40,38 @@ class LoginViewModel @Inject constructor(
                     when (result.status) {
                         Status.SUCCESS -> {
                             if (result.data != null) {
-                                _tokenState.value?.apply {
-                                    obj = result.data
-                                    list = listOf()
-                                    isLoading = false
-                                    isSuccess = true
-                                    message = null
+                                _tokenState.value = _tokenState.value?.copy(
+                                    obj = result.data,
+                                    list = listOf(),
+                                    isLoading = false,
+                                    isSuccess = true,
+                                    message = null,
                                     failReason = null
-                                }
+                                )
                                 onSuccess()
                             }
                         }
 
                         Status.ERROR -> {
-                            _tokenState.value?.apply {
-                                obj = null
-                                list = listOf()
-                                isLoading = false
-                                isSuccess = false
-                                message = result.message
+                            _tokenState.value = _tokenState.value?.copy(
+                                obj = null,
+                                list = listOf(),
+                                isLoading = false,
+                                isSuccess = false,
+                                message = result.message,
                                 failReason = result.exception
-                            }
+                            )
                         }
 
                         Status.LOADING -> {
-                            _tokenState.value?.apply {
-                                obj = null
-                                list = listOf()
-                                isLoading = true
-                                isSuccess = false
-                                message = null
+                            _tokenState.value = _tokenState.value?.copy(
+                                obj = null,
+                                list = listOf(),
+                                isLoading = true,
+                                isSuccess = false,
+                                message = null,
                                 failReason = null
-                            }
+                            )
                         }
                     }
                 }

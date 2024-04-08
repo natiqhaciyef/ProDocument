@@ -36,37 +36,37 @@ class ChangePasswordViewModel @Inject constructor(
                         when (result.status) {
                             Status.SUCCESS -> {
                                 if (result.data != null) {
-                                    _updateResultState.value?.apply {
-                                        obj = result.data
-                                        list = listOf()
-                                        isLoading = false
-                                        isSuccess = true
-                                        message = null
+                                    _updateResultState.value = _updateResultState.value?.copy(
+                                        obj = result.data,
+                                        list = listOf(),
+                                        isLoading = false,
+                                        isSuccess = true,
+                                        message = null,
                                         failReason = null
-                                    }
+                                    )
                                 }
                             }
 
                             Status.ERROR -> {
-                                _updateResultState.value?.apply {
-                                    obj = null
-                                    list = listOf()
-                                    isLoading = false
-                                    isSuccess = false
-                                    message = result.message
+                                _updateResultState.value = _updateResultState.value?.copy(
+                                    obj = null,
+                                    list = listOf(),
+                                    isLoading = false,
+                                    isSuccess = false,
+                                    message = result.message,
                                     failReason = result.exception
-                                }
+                                )
                             }
 
                             Status.LOADING -> {
-                                _updateResultState.value?.apply {
-                                    obj = null
-                                    list = listOf()
-                                    isLoading = true
-                                    isSuccess = false
-                                    message = null
+                                _updateResultState.value = _updateResultState.value?.copy(
+                                    obj = null,
+                                    list = listOf(),
+                                    isLoading = true,
+                                    isSuccess = false,
+                                    message = null,
                                     failReason = null
-                                }
+                                )
                             }
                         }
                     }

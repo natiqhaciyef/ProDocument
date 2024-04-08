@@ -27,38 +27,38 @@ class ForgotPasswordViewModel @Inject constructor(
             getOtpRemoteUseCase.operate(email).collectLatest { result ->
                 when (result.status) {
                     Status.LOADING -> {
-                        _otpResultState.value?.apply {
-                            obj = null
-                            list = listOf()
-                            isLoading = true
-                            isSuccess = false
-                            message = null
+                        _otpResultState.value = _otpResultState.value?.copy(
+                            obj = null,
+                            list = listOf(),
+                            isLoading = true,
+                            isSuccess = false,
+                            message = null,
                             failReason = null
-                        }
+                        )
                     }
 
                     Status.SUCCESS -> {
                         if (result.data != null) {
-                            _otpResultState.value?.apply {
-                                obj = result.data
-                                list = listOf()
-                                isLoading = false
-                                isSuccess = true
-                                message = null
+                            _otpResultState.value = _otpResultState.value?.copy(
+                                obj = result.data,
+                                list = listOf(),
+                                isLoading = false,
+                                isSuccess = true,
+                                message = null,
                                 failReason = null
-                            }
+                            )
                         }
                     }
 
                     Status.ERROR -> {
-                        _otpResultState.value?.apply {
-                            obj = null
-                            list = listOf()
-                            isLoading = false
-                            isSuccess = false
-                            message = result.message
+                        _otpResultState.value = _otpResultState.value?.copy(
+                            obj = null,
+                            list = listOf(),
+                            isLoading = false,
+                            isSuccess = false,
+                            message = result.message,
                             failReason = result.exception
-                        }
+                        )
                     }
                 }
             }

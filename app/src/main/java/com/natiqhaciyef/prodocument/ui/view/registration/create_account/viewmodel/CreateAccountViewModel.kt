@@ -63,37 +63,37 @@ class CreateAccountViewModel @Inject constructor(
                 saveUserToLocalUseCase.run(uiResult).collectLatest {
                     when (it.status) {
                         Status.SUCCESS -> {
-                            _localResultState.value?.apply {
-                                obj = it.data
-                                list = listOf()
-                                isLoading = false
-                                isSuccess = true
-                                message = it.message
+                            _localResultState.value = _localResultState.value?.copy(
+                                obj = it.data,
+                                list = listOf(),
+                                isLoading = false,
+                                isSuccess = true,
+                                message = it.message,
                                 failReason = null
-                            }
+                            )
                             onSuccess()
                         }
 
                         Status.ERROR -> {
-                            _localResultState.value?.apply {
-                                obj = null
-                                list = listOf()
-                                isLoading = false
-                                isSuccess = false
-                                message = it.message
+                            _localResultState.value = _localResultState.value?.copy(
+                                obj = null,
+                                list = listOf(),
+                                isLoading = false,
+                                isSuccess = false,
+                                message = it.message,
                                 failReason = it.exception
-                            }
+                            )
                         }
 
                         Status.LOADING -> {
-                            _localResultState.value?.apply {
-                                obj = null
-                                list = listOf()
-                                isLoading = true
-                                isSuccess = false
-                                message = null
+                            _localResultState.value = _localResultState.value?.copy(
+                                obj = null,
+                                list = listOf(),
+                                isLoading = true,
+                                isSuccess = false,
+                                message = null,
                                 failReason = null
-                            }
+                            )
                         }
                     }
                 }

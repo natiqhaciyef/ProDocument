@@ -49,36 +49,36 @@ class OnboardingViewModel @Inject constructor(
                 getUserByTokenRemoteUseCase.operate(token.uid!!).collectLatest { result ->
                     when (result.status) {
                         Status.LOADING -> {
-                            _userState.value?.apply {
-                                isLoading = true
-                                obj = null
-                                isSuccess = false
-                                failReason = null
-                                list = listOf()
+                            _userState.value = _userState.value?.copy(
+                                isLoading = true,
+                                obj = null,
+                                isSuccess = false,
+                                failReason = null,
+                                list = listOf(),
                                 message = null
-                            }
+                            )
                         }
 
                         Status.SUCCESS -> {
-                            _userState.value?.apply {
-                                isLoading = false
-                                obj = result.data
-                                isSuccess = true
-                                failReason = null
-                                list = listOf()
+                            _userState.value = _userState.value?.copy(
+                                isLoading = false,
+                                obj = result.data,
+                                isSuccess = true,
+                                failReason = null,
+                                list = listOf(),
                                 message = null
-                            }
+                            )
                         }
 
                         Status.ERROR -> {
-                            _userState.value?.apply {
-                                isLoading = false
-                                obj = null
-                                isSuccess = false
-                                failReason = result.exception
-                                list = listOf()
+                            _userState.value = _userState.value?.copy(
+                                isLoading = false,
+                                obj = null,
+                                isSuccess = false,
+                                failReason = result.exception,
+                                list = listOf(),
                                 message = result.message
-                            }
+                            )
                         }
                     }
                 }

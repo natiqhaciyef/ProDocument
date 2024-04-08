@@ -53,6 +53,7 @@ class HomeViewModel @Inject constructor(
                             failReason = result.exception
                         )
                     }
+
                     Status.LOADING -> {
                         _fileState.value = _fileState.value?.copy(
                             obj = null,
