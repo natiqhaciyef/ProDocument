@@ -36,10 +36,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
 
         menuAdapterConfig()
         fileAdapterConfig()
-
-        with(binding) {
-            topbarSearchIcon.setOnClickListener { searchIconClickAction() }
-        }
     }
 
     private fun searchIconClickAction() {
