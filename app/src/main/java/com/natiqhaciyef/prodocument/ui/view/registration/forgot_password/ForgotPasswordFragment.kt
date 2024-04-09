@@ -18,15 +18,6 @@ class ForgotPasswordFragment : BaseFragment<FragmentForgotPasswordBinding, Forgo
     FragmentForgotPasswordBinding::inflate,
     ForgotPasswordViewModel::class
 ) {
-//    private val viewModel: ForgotPasswordViewModel by viewModels()
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentForgotPasswordBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

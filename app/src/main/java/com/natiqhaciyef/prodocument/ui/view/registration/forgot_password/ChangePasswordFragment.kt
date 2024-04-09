@@ -29,15 +29,6 @@ class ChangePasswordFragment : BaseFragment<FragmentChangePasswordBinding, Chang
     FragmentChangePasswordBinding::inflate,
     ChangePasswordViewModel::class
 ) {
-//    private val viewModel: ChangePasswordViewModel by viewModels()
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentChangePasswordBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

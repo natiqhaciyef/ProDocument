@@ -30,18 +30,19 @@ import com.natiqhaciyef.prodocument.ui.view.onboarding.OnboardingActivity
 import com.natiqhaciyef.prodocument.ui.view.registration.RegistrationActivity
 import kotlin.reflect.KClass
 
-abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel>(
-    private val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB,
-    private val viewModelClass: KClass<VM>?
-) : Fragment() {
+abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel
+//<State, Event>, State, Event
+ > :
+    Fragment() {
+    abstract val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB
+    abstract val viewModelClass: KClass<VM>
+
     protected var _binding: VB? = null
     val binding: VB
         get() = _binding!!
-    val viewModel: VM?
-        get() {
-            viewModelClass?.let { return ViewModelProvider(this)[viewModelClass.java] }
-            return null
-        }
+
+    val viewModel: VM
+        get() { viewModelClass.let { return ViewModelProvider(this)[viewModelClass.java] } }
 
     val dataStore = AppStorePref
 
@@ -60,6 +61,10 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel>(
 
         else -> Intent(requireContext(), RegistrationActivity::class.java)
     }
+
+//    protected open fun onStateChange(state: State) {
+//        state
+//    }
 
     private fun getDeepLink(title: String) = when (title) {
         BaseNavigationDeepLink.ONBOARDING_ROUTE -> {

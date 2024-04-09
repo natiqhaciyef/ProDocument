@@ -21,7 +21,6 @@ class OTPFragment : BaseFragment<FragmentOTPBinding, OTPViewModel>(
     FragmentOTPBinding::inflate,
     OTPViewModel::class
 ) {
-//    private val viewModel: OTPViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -3,7 +3,9 @@ package com.natiqhaciyef.prodocument.ui.view.main
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupWithNavController
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.ActivityMainBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseActivity
@@ -24,6 +26,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentContainerViewHome) as NavHostFragment
         NavigationUI.setupWithNavController(binding.bottomNavBar, navHostFragment.navController)
+
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.homeFragment,
+                R.id.filesFragment,
+                R.id.premiumFragment,
+                R.id.profileFragment,
+            )
+        )
+        binding.materialToolbar.setupWithNavController(
+            navHostFragment.navController,
+            appBarConfiguration
+        )
     }
 
     override fun onDestroy() {

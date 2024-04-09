@@ -1,18 +1,12 @@
 package com.natiqhaciyef.prodocument.ui.view.main.home
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.core.net.toUri
-import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.prodocument.databinding.FragmentHomeBinding
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
-import com.natiqhaciyef.domain.worker.config.PDF
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.util.UiList
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
@@ -40,18 +34,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
 
     private fun searchIconClickAction() {
         searchIconClick = !searchIconClick
-
-        binding.apply {
-            if (searchIconClick) {
-                topbarImage.visibility = View.GONE
-                topbarTitle.visibility = View.GONE
-                topbarSearch.visibility = View.VISIBLE
-            } else {
-                topbarImage.visibility = View.VISIBLE
-                topbarTitle.visibility = View.VISIBLE
-                topbarSearch.visibility = View.GONE
-            }
-        }
     }
 
     private fun menuAdapterConfig() {
@@ -91,12 +73,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
 
     private fun searchFile(list: MutableList<MappedMaterialModel>) {
         binding.apply {
-            topbarSearch.doOnTextChanged { text, start, before, count ->
-                text?.let {
-                    list.filter { it.title.contains(text.toString()) }
-                    fileAdapter.updateList(list)
-                }
-            }
+//            topbarSearch.doOnTextChanged { text, start, before, count ->
+//                text?.let {
+//                    list.filter { it.title.contains(text.toString()) }
+//                    fileAdapter.updateList(list)
+//                }
+//            }
         }
     }
 }

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.appbar.MaterialToolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/topbarLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="18dp"
+        android:layout_marginTop="21dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingVertical="5dp"
+        android:weightSum="10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/topbarImage"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:src="@drawable/pro_scan_lens_icon" />
+
+        <TextView
+            android:id="@+id/topbarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_weight="7"
+            android:fontFamily="@font/urbanist_bold"
+            android:gravity="center_vertical"
+            android:text="@string/proscan"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/topbarSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_weight="9"
+            android:background="@drawable/custom_search_input_background"
+            android:fontFamily="@font/urbanist_medium"
+            android:paddingStart="16dp"
+            android:searchIcon="@color/transparent"
+            android:textColor="@color/grayscale_900"
+            android:textSize="16sp"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/searchIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:src="@drawable/search_icon"
+            />
+
+        <ImageView
+            android:id="@+id/optionsIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:src="@drawable/options_icon"
+            />
+
+    </LinearLayout>
+
+
+
+</com.google.android.material.appbar.MaterialToolbar>
