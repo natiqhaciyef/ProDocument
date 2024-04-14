@@ -16,15 +16,17 @@ import com.natiqhaciyef.prodocument.databinding.FragmentLiveRecognitionBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink
 import com.natiqhaciyef.prodocument.ui.view.options.scan.behaviour.CameraTypes
+import com.natiqhaciyef.prodocument.ui.view.options.scan.event.ScanEvent
 import com.natiqhaciyef.prodocument.ui.view.options.scan.viewmodel.ScanViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.reflect.KClass
 
 @ExperimentalGetImage
 @AndroidEntryPoint
-class LiveRecognitionFragment : BaseFragment<FragmentLiveRecognitionBinding, ScanViewModel>(
-    FragmentLiveRecognitionBinding::inflate,
-    ScanViewModel::class
-) {
+class LiveRecognitionFragment(
+    override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentLiveRecognitionBinding = FragmentLiveRecognitionBinding::inflate,
+    override val viewModelClass: KClass<ScanViewModel> = ScanViewModel::class
+) : BaseFragment<FragmentLiveRecognitionBinding, ScanViewModel, ScanEvent>() {
     private val registerForCameraPermissionResult =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {

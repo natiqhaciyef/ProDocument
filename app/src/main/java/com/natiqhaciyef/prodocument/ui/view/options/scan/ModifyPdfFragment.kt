@@ -4,7 +4,9 @@ import android.app.Activity
 import android.net.Uri
 import android.os.Bundle
 import android.text.InputType
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.camera.core.ExperimentalGetImage
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -24,16 +26,19 @@ import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.TOKEN_KEY
 import com.natiqhaciyef.prodocument.ui.util.CameraReader.Companion.createAndShareFile
 import com.natiqhaciyef.prodocument.ui.util.CameraReader.Companion.getAddressOfFile
 import com.natiqhaciyef.prodocument.ui.util.PdfReader.createDefaultPdfUriLoader
+import com.natiqhaciyef.prodocument.ui.view.options.scan.event.ModifyPdfEvent
 import com.natiqhaciyef.prodocument.ui.view.options.scan.viewmodel.ModifyPdfViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import kotlin.reflect.KClass
 
 
-@ExperimentalGetImage @AndroidEntryPoint
-class ModifyPdfFragment : BaseFragment<FragmentModifyPdfBinding, ModifyPdfViewModel>(
-    FragmentModifyPdfBinding::inflate,
-    ModifyPdfViewModel::class
-) {
+@ExperimentalGetImage
+@AndroidEntryPoint
+class ModifyPdfFragment(
+    override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentModifyPdfBinding = FragmentModifyPdfBinding::inflate,
+    override val viewModelClass: KClass<ModifyPdfViewModel> = ModifyPdfViewModel::class
+) : BaseFragment<FragmentModifyPdfBinding, ModifyPdfViewModel, ModifyPdfEvent>() {
     private var material: MappedMaterialModel? = null
     private var type: String? = null
     var uriAddress: Uri? = null
@@ -50,7 +55,7 @@ class ModifyPdfFragment : BaseFragment<FragmentModifyPdfBinding, ModifyPdfViewMo
                 val uri = it.url
                 countTitle()
 
-                when(type){
+                when (type) {
                     ScanFragment.SCAN_QR_TYPE -> {
                         imageView.visibility = View.VISIBLE
                         pdfView.visibility = View.GONE

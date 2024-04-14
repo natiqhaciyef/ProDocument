@@ -8,6 +8,9 @@ import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.domain.usecase.user.remote.UpdateUserPasswordByEmailRemoteUseCase
 import com.natiqhaciyef.prodocument.ui.base.BaseUIState
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
+import com.natiqhaciyef.prodocument.ui.base.State
+import com.natiqhaciyef.prodocument.ui.base.TotalUIState
+import com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.event.ChangePasswordEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -16,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ChangePasswordViewModel @Inject constructor(
     private val updateUserPasswordByEmailRemoteUseCase: UpdateUserPasswordByEmailRemoteUseCase
-) : BaseViewModel() {
+) : BaseViewModel<ChangePasswordEvent>() {
     private val _updateResultState = MutableLiveData<BaseUIState<MappedTokenModel>>(BaseUIState())
     val updateResultState: LiveData<BaseUIState<MappedTokenModel>>
         get() = _updateResultState
@@ -73,4 +76,6 @@ class ChangePasswordViewModel @Inject constructor(
             }
         }
     }
+
+    override fun getInitialState(): State = State(TotalUIState.Empty)
 }

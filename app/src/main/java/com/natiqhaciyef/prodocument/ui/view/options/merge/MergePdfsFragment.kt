@@ -22,16 +22,18 @@ import com.natiqhaciyef.prodocument.databinding.FragmentMergePdfsBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink
 import com.natiqhaciyef.prodocument.ui.view.main.home.adapter.FileItemAdapter
+import com.natiqhaciyef.prodocument.ui.view.options.merge.event.MergePdfEvent
 import com.natiqhaciyef.prodocument.ui.view.options.merge.viewmodel.MergePdfViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.UUID
+import kotlin.reflect.KClass
 
 @AndroidEntryPoint
-class MergePdfsFragment : BaseFragment<FragmentMergePdfsBinding, MergePdfViewModel>(
-    FragmentMergePdfsBinding::inflate,
-    MergePdfViewModel::class
-) {
+class MergePdfsFragment(
+    override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentMergePdfsBinding = FragmentMergePdfsBinding::inflate,
+    override val viewModelClass: KClass<MergePdfViewModel> = MergePdfViewModel::class
+) : BaseFragment<FragmentMergePdfsBinding, MergePdfViewModel, MergePdfEvent>() {
     private val filesList = mutableListOf<MappedMaterialModel>()
     private var adapter: FileItemAdapter? = null
 

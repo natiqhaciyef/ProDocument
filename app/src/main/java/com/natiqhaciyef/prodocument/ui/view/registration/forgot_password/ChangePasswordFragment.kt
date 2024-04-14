@@ -19,16 +19,18 @@ import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys
 import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.TOKEN_KEY
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkPasswordAcceptanceCondition
+import com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.event.ChangePasswordEvent
 import com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.viewmodel.ChangePasswordViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import kotlin.reflect.KClass
 
 
 @AndroidEntryPoint
-class ChangePasswordFragment : BaseFragment<FragmentChangePasswordBinding, ChangePasswordViewModel>(
-    FragmentChangePasswordBinding::inflate,
-    ChangePasswordViewModel::class
-) {
+class ChangePasswordFragment(
+    override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentChangePasswordBinding = FragmentChangePasswordBinding::inflate,
+    override val viewModelClass: KClass<ChangePasswordViewModel> = ChangePasswordViewModel::class
+) : BaseFragment<FragmentChangePasswordBinding, ChangePasswordViewModel, ChangePasswordEvent>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -49,7 +51,7 @@ class ChangePasswordFragment : BaseFragment<FragmentChangePasswordBinding, Chang
     }
 
     private fun onClickAction(email: String) {
-        viewModel?.apply {
+        viewModel.apply {
 //            updatePassword(email, binding.newPasswordText.text.toString())
             updateResultState.observe(viewLifecycleOwner) { tokenState ->
                 lifecycleScope.launch {

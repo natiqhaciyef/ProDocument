@@ -7,7 +7,9 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.ExperimentalGetImage
 import androidx.core.app.ActivityCompat
@@ -18,15 +20,17 @@ import com.natiqhaciyef.prodocument.databinding.FragmentScanBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
 import com.natiqhaciyef.prodocument.ui.view.options.scan.behaviour.CameraTypes
+import com.natiqhaciyef.prodocument.ui.view.options.scan.event.ScanEvent
 import com.natiqhaciyef.prodocument.ui.view.options.scan.viewmodel.ScanViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.reflect.KClass
 
 @ExperimentalGetImage
 @AndroidEntryPoint
-class ScanFragment : BaseFragment<FragmentScanBinding, ScanViewModel>(
-    FragmentScanBinding::inflate,
-    ScanViewModel::class
-) {
+class ScanFragment(
+    override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentScanBinding = FragmentScanBinding::inflate,
+    override val viewModelClass: KClass<ScanViewModel> = ScanViewModel::class
+) : BaseFragment<FragmentScanBinding, ScanViewModel, ScanEvent>() {
     private var selectedImage: Uri? = null
     private val registerForCameraPermissionResult =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->

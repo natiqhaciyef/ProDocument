@@ -9,15 +9,17 @@ import androidx.fragment.app.viewModels
 import com.natiqhaciyef.prodocument.databinding.FragmentForgotPasswordBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkEmailAcceptanceCondition
+import com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.event.ForgotPasswordEvent
 import com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.viewmodel.ForgotPasswordViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.reflect.KClass
 
 
 @AndroidEntryPoint
-class ForgotPasswordFragment : BaseFragment<FragmentForgotPasswordBinding, ForgotPasswordViewModel>(
-    FragmentForgotPasswordBinding::inflate,
-    ForgotPasswordViewModel::class
-) {
+class ForgotPasswordFragment(
+    override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentForgotPasswordBinding = FragmentForgotPasswordBinding::inflate,
+    override val viewModelClass: KClass<ForgotPasswordViewModel> = ForgotPasswordViewModel::class
+) : BaseFragment<FragmentForgotPasswordBinding, ForgotPasswordViewModel, ForgotPasswordEvent>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

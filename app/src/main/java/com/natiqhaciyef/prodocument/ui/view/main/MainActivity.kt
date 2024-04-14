@@ -27,14 +27,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             supportFragmentManager.findFragmentById(R.id.fragmentContainerViewHome) as NavHostFragment
         NavigationUI.setupWithNavController(binding.bottomNavBar, navHostFragment.navController)
 
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.homeFragment,
-                R.id.filesFragment,
-                R.id.premiumFragment,
-                R.id.profileFragment,
-            )
-        )
+        val appBarConfiguration = AppBarConfiguration(navGraph = navHostFragment.navController.graph)
         binding.materialToolbar.setupWithNavController(
             navHostFragment.navController,
             appBarConfiguration

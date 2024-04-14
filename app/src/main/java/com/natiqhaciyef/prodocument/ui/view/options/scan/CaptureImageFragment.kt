@@ -7,7 +7,9 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore.Images.Media
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -22,17 +24,19 @@ import com.natiqhaciyef.prodocument.databinding.FragmentCaptureImageBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
 import com.natiqhaciyef.prodocument.ui.view.options.scan.behaviour.CameraTypes
+import com.natiqhaciyef.prodocument.ui.view.options.scan.event.ScanEvent
 import com.natiqhaciyef.prodocument.ui.view.options.scan.viewmodel.ScanViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.reflect.KClass
 
 //val inset = context.convertDpToPixel(16)
 
 @ExperimentalGetImage
 @AndroidEntryPoint
-class CaptureImageFragment : BaseFragment<FragmentCaptureImageBinding, ScanViewModel>(
-    FragmentCaptureImageBinding::inflate,
-    ScanViewModel::class
-) {
+class CaptureImageFragment(
+    override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentCaptureImageBinding = FragmentCaptureImageBinding::inflate,
+    override val viewModelClass: KClass<ScanViewModel> = ScanViewModel::class
+) : BaseFragment<FragmentCaptureImageBinding, ScanViewModel, ScanEvent>() {
     private var imageUri: Uri? = null
 
     private var scanner =
@@ -48,7 +52,9 @@ class CaptureImageFragment : BaseFragment<FragmentCaptureImageBinding, ScanViewM
                     val material = viewModel?.createMaterial(
                         title = "Scanned file title",
                         uri = resultForPDF.pdf?.uri?.path.toString().toUri(),
-                        image = "${resultForPDF.pages?.map { it.imageUri.path.toString() }?.first()}"
+                        image = "${
+                            resultForPDF.pages?.map { it.imageUri.path.toString() }?.first()
+                        }"
                     )
 
                     val action =
@@ -211,7 +217,7 @@ class CaptureImageFragment : BaseFragment<FragmentCaptureImageBinding, ScanViewM
         _binding = null
     }
 
-    companion object{
+    companion object {
         const val CAPTURE_IMAGE_TYPE = "capture-image-type"
     }
 }

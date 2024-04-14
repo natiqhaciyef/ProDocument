@@ -11,15 +11,18 @@ import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
 import com.natiqhaciyef.prodocument.ui.view.options.scan.adapter.ScanViewPagerAdapter
 import com.natiqhaciyef.prodocument.ui.view.options.scan.behaviour.CameraTypes
+import com.natiqhaciyef.prodocument.ui.view.options.scan.event.ScanEvent
+import com.natiqhaciyef.prodocument.ui.view.options.scan.viewmodel.ScanViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.reflect.KClass
 
 
 @ExperimentalGetImage
 @AndroidEntryPoint
-class ScanTypeFragment : BaseFragment<FragmentScanTypeBinding, BaseViewModel>(
-    FragmentScanTypeBinding::inflate,
-    null
-) {
+class ScanTypeFragment(
+    override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentScanTypeBinding = FragmentScanTypeBinding::inflate,
+    override val viewModelClass: KClass<ScanViewModel> = ScanViewModel::class
+) : BaseFragment<FragmentScanTypeBinding, ScanViewModel, ScanEvent>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

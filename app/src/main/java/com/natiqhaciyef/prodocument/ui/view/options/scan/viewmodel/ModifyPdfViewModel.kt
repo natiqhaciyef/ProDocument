@@ -19,7 +19,10 @@ import com.natiqhaciyef.domain.worker.config.PNG
 import com.natiqhaciyef.domain.worker.config.URL
 import com.natiqhaciyef.prodocument.ui.base.BaseUIState
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
+import com.natiqhaciyef.prodocument.ui.base.State
+import com.natiqhaciyef.prodocument.ui.base.TotalUIState
 import com.natiqhaciyef.prodocument.ui.model.CategoryItem
+import com.natiqhaciyef.prodocument.ui.view.options.scan.event.ModifyPdfEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -28,7 +31,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ModifyPdfViewModel @Inject constructor(
     private val createMaterialByIdUseCase: CreateMaterialUseCase
-) : BaseViewModel() {
+) : BaseViewModel<ModifyPdfEvent>() {
     private val _materialState = MutableLiveData<BaseUIState<CRUDModel>>(BaseUIState())
     val materialState: LiveData<BaseUIState<CRUDModel>>
         get() = _materialState
@@ -119,6 +122,8 @@ class ModifyPdfViewModel @Inject constructor(
             }
         }
     }
+
+    override fun getInitialState(): State = State(TotalUIState.Empty)
 
 
 }

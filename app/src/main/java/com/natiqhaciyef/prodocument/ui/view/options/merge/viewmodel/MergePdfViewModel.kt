@@ -8,7 +8,10 @@ import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.domain.usecase.material.merge.MergeMaterialsUseCase
 import com.natiqhaciyef.prodocument.ui.base.BaseUIState
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
+import com.natiqhaciyef.prodocument.ui.base.State
+import com.natiqhaciyef.prodocument.ui.base.TotalUIState
 import com.natiqhaciyef.prodocument.ui.util.DefaultImplModels
+import com.natiqhaciyef.prodocument.ui.view.options.merge.event.MergePdfEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -17,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MergePdfViewModel @Inject constructor(
     private val mergeMaterialsUseCase: MergeMaterialsUseCase
-) : BaseViewModel() {
+) : BaseViewModel<MergePdfEvent>() {
     private val _mergedFileLiveData =
         MutableLiveData<BaseUIState<MappedMaterialModel>>(BaseUIState())
     val mergeFileLiveData: LiveData<BaseUIState<MappedMaterialModel>>
@@ -65,4 +68,6 @@ class MergePdfViewModel @Inject constructor(
             }
         }
     }
+
+    override fun getInitialState(): State = State(TotalUIState.Empty)
 }

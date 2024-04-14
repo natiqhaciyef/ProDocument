@@ -8,19 +8,26 @@ import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.domain.usecase.material.GetAllMaterialsRemoteUseCase
 import com.natiqhaciyef.prodocument.ui.base.BaseUIState
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
+import com.natiqhaciyef.prodocument.ui.base.State
+import com.natiqhaciyef.prodocument.ui.base.TotalUIState
+import com.natiqhaciyef.prodocument.ui.view.main.files.event.FileEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
 class FileViewModel @Inject constructor(
     private val getAllMaterialsRemoteUseCase: GetAllMaterialsRemoteUseCase
-) : BaseViewModel() {
-    private val _materialsLiveData =
-        MutableLiveData<BaseUIState<MappedMaterialModel>>(BaseUIState())
-    val materialsLiveData: LiveData<BaseUIState<MappedMaterialModel>>
-        get() = _materialsLiveData
+) : BaseViewModel<FileEvent>() {
+
+    override fun onEventUpdate(event: FileEvent) {
+        when (event) {
+            is FileEvent.GetAllMaterials -> getAllMaterials(event.token)
+            is FileEvent.GetFileById -> {}
+        }
+    }
 
     private fun getAllMaterials(token: String) {
         viewModelScope.launch {
@@ -28,43 +35,25 @@ class FileViewModel @Inject constructor(
                 when (result.status) {
                     Status.SUCCESS -> {
                         if (result.data != null) {
-                            _materialsLiveData.value = _materialsLiveData.value?.copy(
-                                obj = result.data!!.first(),
-                                list = result.data!!,
-                                isLoading = false,
-                                isSuccess = true,
-                                message = null,
-                                failReason = null
-                            )
-//                            setBaseState()
+                            setBaseState(getCurrentBaseState()
+                                .copy(data = TotalUIState.Success(result.data!!)))
                         }
                     }
 
                     Status.ERROR -> {
-                        _materialsLiveData.value = _materialsLiveData.value?.copy(
-                            obj = null,
-                            list = listOf(),
-                            isLoading = false,
-                            isSuccess = false,
-                            message = result.message,
-                            failReason = result.exception
+                        setBaseState(getCurrentBaseState()
+                            .copy(data = TotalUIState
+                                .Error(error = result.exception, message = result.message))
                         )
                     }
 
                     Status.LOADING -> {
-                        _materialsLiveData.value = _materialsLiveData.value?.copy(
-                            obj = null,
-                            list = listOf(),
-                            isLoading = true,
-                            isSuccess = false,
-                            message = null,
-                            failReason = null
-                        )
+                        getCurrentBaseState().copy(data = TotalUIState.Loading)
                     }
                 }
             }
         }
     }
 
-//    override fun getInitialState(): BaseUIState<MappedMaterialModel> = BaseUIState()
+    override fun getInitialState(): State = State(TotalUIState.Empty)
 }

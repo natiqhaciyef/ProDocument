@@ -15,6 +15,7 @@ import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
@@ -28,11 +29,11 @@ import com.natiqhaciyef.prodocument.ui.store.AppStorePref
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.onboarding.OnboardingActivity
 import com.natiqhaciyef.prodocument.ui.view.registration.RegistrationActivity
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlin.reflect.KClass
 
-abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel
-//<State, Event>, State, Event
- > :
+abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel<State, Event, Effect>, State, Event, Effect> :
     Fragment() {
     abstract val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB
     abstract val viewModelClass: KClass<VM>
@@ -42,7 +43,9 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel
         get() = _binding!!
 
     val viewModel: VM
-        get() { viewModelClass.let { return ViewModelProvider(this)[viewModelClass.java] } }
+        get() {
+            viewModelClass.let { return ViewModelProvider(this)[viewModelClass.java] }
+        }
 
     val dataStore = AppStorePref
 
@@ -62,9 +65,35 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel
         else -> Intent(requireContext(), RegistrationActivity::class.java)
     }
 
-//    protected open fun onStateChange(state: State) {
-//        state
-//    }
+    protected open fun onStateChange(state: State) {}
+
+    protected open fun onEffectUpdate(effect: Effect) {}
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = bindInflater(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        onStateSubscribers()
+    }
+
+    private fun onStateSubscribers() {
+        viewModel.state.onEach {
+            onStateChange(it)
+        }.launchIn(viewModel.viewModelScope)
+    }
+
 
     private fun getDeepLink(title: String) = when (title) {
         BaseNavigationDeepLink.ONBOARDING_ROUTE -> {
@@ -209,27 +238,5 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel
             .createPendingIntent()
 
         pendingIntent.send()
-    }
-
-    fun generateSnackbar(title: String) {
-        Snackbar.make(requireView(), title, Snackbar.LENGTH_LONG).show()
-    }
-
-    fun generateToast(title: String) {
-        Toast.makeText(requireContext(), title, Toast.LENGTH_LONG).show()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = bindInflater(inflater, container, false)
-        return binding.root
     }
 }

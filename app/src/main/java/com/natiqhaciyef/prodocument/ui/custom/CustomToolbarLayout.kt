@@ -4,15 +4,16 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import androidx.appcompat.widget.Toolbar
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doOnTextChanged
 import com.google.android.material.appbar.MaterialToolbar
 import com.natiqhaciyef.prodocument.databinding.CustomToolbarLayoutBinding
 
 class CustomToolbarLayout(
-    context: Context,
+    private val context: Context,
     attributeSet: AttributeSet? = null,
-    defineStyle: Int = 0
-) : MaterialToolbar(context, attributeSet, defineStyle) {
+) : MaterialToolbar(context, attributeSet) {
     private var binding: CustomToolbarLayoutBinding? = null
     private var searchClick = false
 
@@ -38,9 +39,9 @@ class CustomToolbarLayout(
             if (searchClick) {
                 topbarSearch.visibility = View.VISIBLE
                 topbarTitle.visibility = View.GONE
-                topbarImage.visibility = View.GONE
+                toolbarImage.visibility = View.GONE
             } else {
-                topbarImage.visibility = View.VISIBLE
+                toolbarImage.visibility = View.VISIBLE
                 topbarTitle.visibility = View.VISIBLE
                 topbarSearch.visibility = View.GONE
             }
@@ -51,6 +52,10 @@ class CustomToolbarLayout(
         binding?.optionsIcon?.setOnClickListener {
             onClickAction.invoke()
         }
+    }
+
+    fun changeVisibility(visibility: Int){
+        binding?.toolbarImage?.visibility = visibility
     }
 
 

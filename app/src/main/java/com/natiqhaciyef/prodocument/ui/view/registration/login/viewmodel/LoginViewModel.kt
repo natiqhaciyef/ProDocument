@@ -9,6 +9,9 @@ import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.domain.usecase.user.remote.SignInRemoteUseCase
 import com.natiqhaciyef.prodocument.ui.base.BaseUIState
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
+import com.natiqhaciyef.prodocument.ui.base.State
+import com.natiqhaciyef.prodocument.ui.base.TotalUIState
+import com.natiqhaciyef.prodocument.ui.view.registration.login.event.LoginEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -17,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val signInRemoteUseCase: SignInRemoteUseCase
-) : BaseViewModel() {
+) : BaseViewModel<LoginEvent>() {
     private val _tokenState = MutableLiveData<BaseUIState<MappedTokenModel>>(BaseUIState())
     val tokenState: LiveData<BaseUIState<MappedTokenModel>>
         get() = _tokenState
@@ -80,4 +83,6 @@ class LoginViewModel @Inject constructor(
             }
         }
     }
+
+    override fun getInitialState(): State = State(TotalUIState.Empty)
 }

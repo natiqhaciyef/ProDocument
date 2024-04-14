@@ -1,7 +1,9 @@
 package com.natiqhaciyef.prodocument.ui.view.registration.login
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
@@ -13,15 +15,17 @@ import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
 import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.TOKEN_KEY
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkEmailAcceptanceCondition
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkPasswordAcceptanceCondition
+import com.natiqhaciyef.prodocument.ui.view.registration.login.event.LoginEvent
 import com.natiqhaciyef.prodocument.ui.view.registration.login.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import kotlin.reflect.KClass
 
 @AndroidEntryPoint
-class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
-    FragmentLoginBinding::inflate,
-    LoginViewModel::class
-) {
+class LoginFragment(
+    override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentLoginBinding = FragmentLoginBinding::inflate,
+    override val viewModelClass: KClass<LoginViewModel> = LoginViewModel::class
+) : BaseFragment<FragmentLoginBinding, LoginViewModel, LoginEvent>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

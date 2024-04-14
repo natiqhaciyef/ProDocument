@@ -8,6 +8,9 @@ import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.domain.usecase.user.remote.SendOtpRemoteUseCase
 import com.natiqhaciyef.prodocument.ui.base.BaseUIState
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
+import com.natiqhaciyef.prodocument.ui.base.State
+import com.natiqhaciyef.prodocument.ui.base.TotalUIState
+import com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.event.OTPEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -18,7 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class OTPViewModel @Inject constructor(
     private val sendOtpRemoteUseCase: SendOtpRemoteUseCase
-) : BaseViewModel() {
+) : BaseViewModel<OTPEvent>() {
     private val _otpResultState = MutableLiveData<BaseUIState<CRUDModel>>(BaseUIState())
     val otpResultState: LiveData<BaseUIState<CRUDModel>>
         get() = _otpResultState
@@ -75,4 +78,6 @@ class OTPViewModel @Inject constructor(
             }
         }
     }
+
+    override fun getInitialState(): State = State(TotalUIState.Empty)
 }

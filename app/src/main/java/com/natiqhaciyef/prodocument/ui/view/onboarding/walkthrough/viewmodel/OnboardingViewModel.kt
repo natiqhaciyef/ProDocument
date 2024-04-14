@@ -11,6 +11,9 @@ import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.REGISTER_ROUTE
 import com.natiqhaciyef.prodocument.ui.base.BaseUIState
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
+import com.natiqhaciyef.prodocument.ui.base.State
+import com.natiqhaciyef.prodocument.ui.base.TotalUIState
+import com.natiqhaciyef.prodocument.ui.view.onboarding.walkthrough.event.OnBoardingEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -20,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class OnboardingViewModel @Inject constructor(
     private val getUserByTokenRemoteUseCase: GetUserByTokenRemoteUseCase
-) : BaseViewModel() {
+) : BaseViewModel<OnBoardingEvent>() {
     private val _userState = MutableLiveData(BaseUIState<UIResult<MappedUserModel>>())
     val userState: MutableLiveData<BaseUIState<UIResult<MappedUserModel>>>
         get() = _userState
@@ -85,4 +88,6 @@ class OnboardingViewModel @Inject constructor(
             }
         }
     }
+
+    override fun getInitialState(): State = State(TotalUIState.Empty)
 }

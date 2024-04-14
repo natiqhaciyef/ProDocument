@@ -9,16 +9,18 @@ import androidx.lifecycle.lifecycleScope
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.FragmentOnboardSecondBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
+import com.natiqhaciyef.prodocument.ui.view.onboarding.walkthrough.event.OnBoardingEvent
 import com.natiqhaciyef.prodocument.ui.view.onboarding.walkthrough.viewmodel.OnboardingViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import kotlin.reflect.KClass
 
 
 @AndroidEntryPoint
-class OnboardSecondFragment : BaseFragment<FragmentOnboardSecondBinding, OnboardingViewModel>(
-    FragmentOnboardSecondBinding::inflate,
-    OnboardingViewModel::class
-) {
+class OnboardSecondFragment(
+    override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentOnboardSecondBinding = FragmentOnboardSecondBinding::inflate,
+    override val viewModelClass: KClass<OnboardingViewModel> = OnboardingViewModel::class
+) : BaseFragment<FragmentOnboardSecondBinding, OnboardingViewModel, OnBoardingEvent>() {
 //    private val viewModel: OnboardingViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -32,7 +34,7 @@ class OnboardSecondFragment : BaseFragment<FragmentOnboardSecondBinding, Onboard
     private fun onSkipButtonClickAction() {
         lifecycleScope.launch {
             dataStore.saveBoolean(context = requireContext(), enabled = true)
-            viewModel?.actionForOnBoarding { route ->
+            viewModel.actionForOnBoarding { route ->
                 navigateByActivityTitle(route, true)
             }
         }

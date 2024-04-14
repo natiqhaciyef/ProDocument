@@ -11,15 +11,17 @@ import com.natiqhaciyef.prodocument.databinding.FragmentProScanOnboardingBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.WALKTHROUGH_ROUTE
 import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.TOKEN_KEY
+import com.natiqhaciyef.prodocument.ui.view.onboarding.walkthrough.event.OnBoardingEvent
 import com.natiqhaciyef.prodocument.ui.view.onboarding.walkthrough.viewmodel.OnboardingViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import kotlin.reflect.KClass
 
 @AndroidEntryPoint
-class ProScanOnboardingFragment : BaseFragment<FragmentProScanOnboardingBinding, OnboardingViewModel>(
-    FragmentProScanOnboardingBinding::inflate,
-    OnboardingViewModel::class
-) {
+class ProScanOnboardingFragment(
+    override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentProScanOnboardingBinding = FragmentProScanOnboardingBinding::inflate,
+    override val viewModelClass: KClass<OnboardingViewModel> = OnboardingViewModel::class
+) : BaseFragment<FragmentProScanOnboardingBinding, OnboardingViewModel, OnBoardingEvent>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // for initial state
@@ -29,7 +31,7 @@ class ProScanOnboardingFragment : BaseFragment<FragmentProScanOnboardingBinding,
 
     private fun getTokenLocalStored() {
         lifecycleScope.launch {
-            viewModel?.apply {
+            viewModel.apply {
                 val data = dataStore.readString(requireContext(), TOKEN_KEY).toMappedToken()
                 getUserByToken(data)
 
@@ -40,7 +42,7 @@ class ProScanOnboardingFragment : BaseFragment<FragmentProScanOnboardingBinding,
 
 
     private fun observerLiveDataAndHandleAction() {
-        viewModel?.apply {
+        viewModel.apply {
             userState.observe(viewLifecycleOwner) { userState ->
                 onboardingAction { route ->
                     lifecycleScope.launch {

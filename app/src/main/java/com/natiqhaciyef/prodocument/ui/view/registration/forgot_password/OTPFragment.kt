@@ -11,16 +11,18 @@ import androidx.navigation.fragment.navArgs
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.FragmentOTPBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
+import com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.event.OTPEvent
 import com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.viewmodel.OTPViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlin.reflect.KClass
 
 @AndroidEntryPoint
-class OTPFragment : BaseFragment<FragmentOTPBinding, OTPViewModel>(
-    FragmentOTPBinding::inflate,
-    OTPViewModel::class
-) {
+class OTPFragment(
+    override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentOTPBinding = FragmentOTPBinding::inflate,
+    override val viewModelClass: KClass<OTPViewModel> = OTPViewModel::class
+) : BaseFragment<FragmentOTPBinding, OTPViewModel, OTPEvent>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -33,7 +35,10 @@ class OTPFragment : BaseFragment<FragmentOTPBinding, OTPViewModel>(
             confirmButton.setOnClickListener { onClickAction(email) }
 
             resendTimingText.text = Html.fromHtml(
-                requireContext().getString(com.natiqhaciyef.common.R.string.resend_description, "60"),
+                requireContext().getString(
+                    com.natiqhaciyef.common.R.string.resend_description,
+                    "60"
+                ),
                 Html.FROM_HTML_MODE_COMPACT
             )
         }
@@ -58,7 +63,10 @@ class OTPFragment : BaseFragment<FragmentOTPBinding, OTPViewModel>(
             lifecycleScope.launch {
                 viewModel?.timingFlow?.collectLatest {
                     resendTimingText.text = Html.fromHtml(
-                        requireContext().getString(com.natiqhaciyef.common.R.string.resend_description, "$it"),
+                        requireContext().getString(
+                            com.natiqhaciyef.common.R.string.resend_description,
+                            "$it"
+                        ),
                         Html.FROM_HTML_MODE_COMPACT
                     )
                 }

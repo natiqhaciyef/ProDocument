@@ -17,7 +17,10 @@ import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.domain.usecase.qrCode.ReadQrCodeResultUseCase
 import com.natiqhaciyef.prodocument.ui.base.BaseUIState
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
+import com.natiqhaciyef.prodocument.ui.base.State
+import com.natiqhaciyef.prodocument.ui.base.TotalUIState
 import com.natiqhaciyef.prodocument.ui.view.options.scan.behaviour.CameraTypes
+import com.natiqhaciyef.prodocument.ui.view.options.scan.event.ScanEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -28,7 +31,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ScanViewModel @Inject constructor(
     private val readQrCodeResultUseCase: ReadQrCodeResultUseCase
-) : BaseViewModel() {
+) : BaseViewModel<ScanEvent>() {
     private val cameraReaderLiveData = MutableLiveData<CameraReader?>(null)
     private val _qrCodeLiveData = MutableLiveData(BaseUIState<String>())
     var isBackPressed: MutableLiveData<Boolean> = MutableLiveData(false)
@@ -121,4 +124,6 @@ class ScanViewModel @Inject constructor(
             }
         }
     }
+
+    override fun getInitialState(): State = State(TotalUIState.Empty)
 }

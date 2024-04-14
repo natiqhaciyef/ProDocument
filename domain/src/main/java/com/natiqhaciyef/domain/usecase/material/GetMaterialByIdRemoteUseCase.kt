@@ -9,6 +9,7 @@ import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.common.objects.ResultExceptions
 import com.natiqhaciyef.data.network.NetworkResult
+import com.natiqhaciyef.domain.mapper.toMappedModel
 import com.natiqhaciyef.domain.repository.MaterialRepository
 import com.natiqhaciyef.domain.usecase.MATERIAL_ID
 import com.natiqhaciyef.domain.usecase.MATERIAL_TOKEN
@@ -19,11 +20,11 @@ import javax.inject.Inject
 @UseCase
 class GetMaterialByIdRemoteUseCase @Inject constructor(
     materialRepository: MaterialRepository
-) : BaseUseCase<MaterialRepository, Map<String, String>, UIResult<MappedMaterialModel>>(
+) : BaseUseCase<MaterialRepository, Map<String, String>, MappedMaterialModel>(
     materialRepository
 ) {
 
-    override fun operate(data: Map<String, String>): Flow<Resource<UIResult<MappedMaterialModel>>> =
+    override fun operate(data: Map<String, String>): Flow<Resource<MappedMaterialModel>> =
         flow {
             emit(Resource.loading(null))
             val materialId = data[MATERIAL_ID].toString()
@@ -33,7 +34,7 @@ class GetMaterialByIdRemoteUseCase @Inject constructor(
             val result = repository.getMaterialById(materialId = materialId, token = token)
             when (result) {
                 is NetworkResult.Success -> {
-                    val model = result.data.toUIResult()
+                    val model = result.data.toMappedModel()
 
                     if (model?.result?.resultCode in 200..299 && model != null)
                         emit(Resource.success(data = model))
