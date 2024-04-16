@@ -10,6 +10,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/uiLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
         <ImageView
             android:id="@+id/goBackIcon"
             android:layout_width="28dp"
@@ -206,8 +221,8 @@
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="64dp"
             android:layout_marginBottom="24dp"
-            android:enabled="false"
             android:background="@drawable/custom_button_background"
+            android:enabled="false"
             android:fontFamily="@font/urbanist_bold"
             android:text="@string/sign_in"
             android:textAllCaps="false"
@@ -217,6 +232,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/googleSignInButton" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
-import com.natiqhaciyef.common.helpers.toJsonString
+import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.prodocument.databinding.FragmentLoginBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
@@ -15,7 +15,7 @@ import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
 import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.TOKEN_KEY
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkEmailAcceptanceCondition
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkPasswordAcceptanceCondition
-import com.natiqhaciyef.prodocument.ui.view.registration.login.event.LoginEvent
+import com.natiqhaciyef.prodocument.ui.view.registration.login.contract.LoginContract
 import com.natiqhaciyef.prodocument.ui.view.registration.login.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -25,13 +25,48 @@ import kotlin.reflect.KClass
 class LoginFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentLoginBinding = FragmentLoginBinding::inflate,
     override val viewModelClass: KClass<LoginViewModel> = LoginViewModel::class
-) : BaseFragment<FragmentLoginBinding, LoginViewModel, LoginEvent>() {
+) : BaseFragment<FragmentLoginBinding, LoginViewModel, LoginContract.LoginState, LoginContract.LoginEvent, LoginContract.LoginEffect>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         config()
         emailValidation()
         passwordValidation()
+    }
+
+    override fun onStateChange(state: LoginContract.LoginState) {
+        when{
+            state.isLoading -> {
+                changeVisibilityOfProgressBar(true)
+            }
+
+            else -> {
+                changeVisibilityOfProgressBar()
+                if (state.tokenModel != null){
+                    loginButtonClickAction(state.tokenModel!!)
+                }
+            }
+        }
+    }
+
+    override fun onEffectUpdate(effect: LoginContract.LoginEffect) {
+        when(effect){
+            is LoginContract.LoginEffect.LoginFailedEffect -> {
+                Toast.makeText(
+                    requireContext(),
+                    effect.exception?.localizedMessage ?: ErrorMessages.SOMETHING_WENT_WRONG,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            is LoginContract.LoginEffect.EmptyFieldEffect -> {
+                Toast.makeText(
+                    requireContext(),
+                    ErrorMessages.EMPTY_FIELD,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 
     private fun config() {
@@ -51,7 +86,7 @@ class LoginFragment(
 
             rememberMeCheckBoxImage.onClickAction()
 
-            signInButton.setOnClickListener { loginButtonClickAction() }
+            signInButton.setOnClickListener { loginButtonClickEvent() }
             forgotPasswordText.setOnClickListener {
                 val action = LoginFragmentDirections.actionLoginFragmentToForgotPasswordNavGraph()
                 navigate(action)
@@ -59,41 +94,40 @@ class LoginFragment(
         }
     }
 
-    private fun loginButtonClickAction() {
+    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
+        if (isVisible) {
+            binding.apply {
+                uiLayout.visibility = View.GONE
+                progressBar.visibility = View.VISIBLE
+                progressBar.isIndeterminate = true
+            }
+        } else {
+            binding.apply {
+                uiLayout.visibility = View.VISIBLE
+                progressBar.visibility = View.GONE
+                progressBar.isIndeterminate = false
+            }
+        }
+    }
+
+    private fun loginButtonClickEvent() {
         binding.apply {
             val email = loginEmailInput.text.toString()
             val password = loginPasswordInput.text.toString()
 
-            viewModel?.signIn(
-                email = email,
-                password = password,
-                onSuccess = {
-                    observeTokenState()
-                },
-                onFail = { exception ->
-                    Toast.makeText(
-                        requireContext(),
-                        exception?.localizedMessage ?: ErrorMessages.SOMETHING_WENT_WRONG,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            )
+            viewModel.postEvent(LoginContract
+                .LoginEvent.LoginClickEvent(email = email, password = password))
         }
     }
 
-    private fun observeTokenState() {
-        viewModel?.tokenState?.observe(viewLifecycleOwner) { tokenState ->
-            lifecycleScope.launch {
-                if (tokenState.isSuccess && tokenState.obj != null) {
-                    dataStore.saveParcelableClassData(
-                        context = requireContext(),
-                        data = tokenState.obj!!,
-                        key = TOKEN_KEY
-                    )
-
-                    navigateByActivityTitle(HOME_ROUTE, true)
-                }
-            }
+    private fun loginButtonClickAction(token: MappedTokenModel){
+        lifecycleScope.launch {
+            dataStore.saveParcelableClassData(
+                context = requireContext(),
+                data = token,
+                key = TOKEN_KEY
+            )
+            navigateByActivityTitle(HOME_ROUTE, true)
         }
     }
 

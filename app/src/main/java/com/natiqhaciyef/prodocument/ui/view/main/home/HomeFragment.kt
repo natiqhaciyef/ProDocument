@@ -89,7 +89,7 @@ class HomeFragment(
                 FileItemAdapter(list.toMutableList(), requireContext().getString(R.string.scan_code))
 
             fileAdapter.onClickAction = { materialId ->
-//            viewModel.postEvent(HomeEvent.GetMaterialById(id = materialId, token = ""))
+//                viewModel.postEvent(HomeContract.HomeEvent.GetMaterialById(id = materialId, token = ""))
             }
 
             binding.apply {

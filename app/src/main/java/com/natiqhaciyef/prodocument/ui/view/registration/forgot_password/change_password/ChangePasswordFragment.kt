@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
+import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.AlertDialogResultViewBinding
 import com.natiqhaciyef.prodocument.databinding.FragmentChangePasswordBinding
@@ -31,11 +33,11 @@ class ChangePasswordFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        val navData: ChangePasswordFragmentArgs by navArgs()
-//        val email = navData.email
+        val navData: ChangePasswordFragmentArgs by navArgs()
+        val email = navData.email
 
         binding.apply {
-            continueButton.setOnClickListener { onClickAction() }
+            continueButton.setOnClickListener { onClickEvent(email) }
             rememberMeCheckBox.onClickAction()
 
             newPasswordText.changeVisibility()
@@ -48,13 +50,15 @@ class ChangePasswordFragment(
     }
 
     override fun onStateChange(state: ChangePasswordContract.ChangePasswordState) {
-        when{
+        when {
             state.isLoading -> {
-
+                // add progress bar
+                changeVisibilityOfProgressBar(true)
             }
 
             else -> {
-
+                changeVisibilityOfProgressBar()
+                if (state.tokenModel != null){ onClickAction(tokenState = state.tokenModel!!) }
             }
         }
     }
@@ -62,30 +66,46 @@ class ChangePasswordFragment(
     override fun onEffectUpdate(effect: ChangePasswordContract.ChangePasswordEffect) {
         when (effect) {
             is ChangePasswordContract.ChangePasswordEffect.ResultAlertDialog -> {
-                createResultAlertDialog(effect.messageTitle, effect.title)
+                createResultAlertDialog(effect.icon, effect.messageType, effect.messageDescription)
             }
         }
     }
 
-    private fun onClickAction() {
-        viewModel.apply {
-//            updatePassword(email, binding.newPasswordText.text.toString())
-            updateResultState.observe(viewLifecycleOwner) { tokenState ->
-                lifecycleScope.launch {
-                    if (tokenState.isSuccess && tokenState.obj != null) {
-                        dataStore.saveParcelableClassData(
-                            context = requireContext(),
-                            data = tokenState?.obj!!,
-                            key = TOKEN_KEY
-                        )
+    private fun onClickEvent(email: String) {
+        viewModel.postEvent(
+            ChangePasswordContract.ChangePasswordEvent.UpdatePasswordEvent(
+                email = email, password = binding.newPasswordText.text.toString()
+            )
+        )
+    }
 
-                    }
-                }
+    private fun onClickAction(tokenState: MappedTokenModel) {
+        lifecycleScope.launch {
+            dataStore.saveParcelableClassData(
+                context = requireContext(),
+                data = tokenState,
+                key = TOKEN_KEY
+            )
+        }
+    }
+
+    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
+        if (isVisible) {
+            binding.apply {
+                uiLayout.visibility = View.GONE
+                progressBar.visibility = View.VISIBLE
+                progressBar.isIndeterminate = true
+            }
+        } else {
+            binding.apply {
+                uiLayout.visibility = View.VISIBLE
+                progressBar.visibility = View.GONE
+                progressBar.isIndeterminate = false
             }
         }
     }
 
-    private fun createResultAlertDialog(successMsg: String, description: String) {
+    private fun createResultAlertDialog(resultIcon: Int, successMsg: String, description: String) {
         val binding = AlertDialogResultViewBinding.inflate(layoutInflater)
         val dialog = Dialog(requireContext())
         dialog.apply {
@@ -93,6 +113,8 @@ class ChangePasswordFragment(
             setCancelable(true)
             setContentView(binding.root)
 
+            binding.resultIcon.setImageResource(com.natiqhaciyef.common.R.drawable.result_dialog_container_icon)
+            binding.resultTypeImage.setImageResource(resultIcon)
             binding.resultTitle.text = getString(
                 com.natiqhaciyef.common.R.string.change_password_alert_dialog_title,
                 successMsg.lowercase()

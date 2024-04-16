@@ -90,7 +90,8 @@
     <string name="change_password_title">Create new password 🔐</string>
     <string name="change_password_description">Enter your new password. If you forget it, then you have to do forgot password.</string>
     <string name="change_password_alert_dialog_title">Password update %1$s</string>
-    <string name="change_password_alert_success_description">Password successfully changed</string>
+    <string name="change_password_alert_success_description">Your password changed now!</string>
+    <string name="change_password_alert_fail_description">Something went wrong...</string>
 
     <!-- Home -->
     <string name="scan_code">Scan Code</string>
