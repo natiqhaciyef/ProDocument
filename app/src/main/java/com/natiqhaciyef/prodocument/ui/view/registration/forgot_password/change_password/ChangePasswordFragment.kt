@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.view.registration.forgot_password
+package com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.change_password
 
 import android.app.Dialog
 import android.graphics.Color
@@ -9,18 +9,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.natiqhaciyef.common.helpers.toJsonString
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.AlertDialogResultViewBinding
 import com.natiqhaciyef.prodocument.databinding.FragmentChangePasswordBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
-import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys
 import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.TOKEN_KEY
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkPasswordAcceptanceCondition
-import com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.event.ChangePasswordEvent
-import com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.viewmodel.ChangePasswordViewModel
+import com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.change_password.contract.ChangePasswordContract
+import com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.change_password.viewmodel.ChangePasswordViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlin.reflect.KClass
@@ -30,7 +27,7 @@ import kotlin.reflect.KClass
 class ChangePasswordFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentChangePasswordBinding = FragmentChangePasswordBinding::inflate,
     override val viewModelClass: KClass<ChangePasswordViewModel> = ChangePasswordViewModel::class
-) : BaseFragment<FragmentChangePasswordBinding, ChangePasswordViewModel, ChangePasswordEvent>() {
+) : BaseFragment<FragmentChangePasswordBinding, ChangePasswordViewModel, ChangePasswordContract.ChangePasswordState, ChangePasswordContract.ChangePasswordEvent, ChangePasswordContract.ChangePasswordEffect>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,7 +35,7 @@ class ChangePasswordFragment(
 //        val email = navData.email
 
         binding.apply {
-            continueButton.setOnClickListener { onClickAction("") }
+            continueButton.setOnClickListener { onClickAction() }
             rememberMeCheckBox.onClickAction()
 
             newPasswordText.changeVisibility()
@@ -50,7 +47,27 @@ class ChangePasswordFragment(
         confirmPasswordValidation()
     }
 
-    private fun onClickAction(email: String) {
+    override fun onStateChange(state: ChangePasswordContract.ChangePasswordState) {
+        when{
+            state.isLoading -> {
+
+            }
+
+            else -> {
+
+            }
+        }
+    }
+
+    override fun onEffectUpdate(effect: ChangePasswordContract.ChangePasswordEffect) {
+        when (effect) {
+            is ChangePasswordContract.ChangePasswordEffect.ResultAlertDialog -> {
+                createResultAlertDialog(effect.messageTitle, effect.title)
+            }
+        }
+    }
+
+    private fun onClickAction() {
         viewModel.apply {
 //            updatePassword(email, binding.newPasswordText.text.toString())
             updateResultState.observe(viewLifecycleOwner) { tokenState ->
@@ -62,14 +79,13 @@ class ChangePasswordFragment(
                             key = TOKEN_KEY
                         )
 
-                        createResultAlertDialog()
                     }
                 }
             }
         }
     }
 
-    private fun createResultAlertDialog() {
+    private fun createResultAlertDialog(successMsg: String, description: String) {
         val binding = AlertDialogResultViewBinding.inflate(layoutInflater)
         val dialog = Dialog(requireContext())
         dialog.apply {
@@ -77,11 +93,18 @@ class ChangePasswordFragment(
             setCancelable(true)
             setContentView(binding.root)
 
+            binding.resultTitle.text = getString(
+                com.natiqhaciyef.common.R.string.change_password_alert_dialog_title,
+                successMsg.lowercase()
+            )
+
+            binding.resultDescription.text = description
+
             binding.resultButton.setOnClickListener {
                 navigate(R.id.loginFragment)
                 dismiss()
             }
-//            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
             window?.setFlags(
                 WindowManager.LayoutParams.FLAG_DIM_BEHIND,
                 WindowManager.LayoutParams.FLAG_BLUR_BEHIND

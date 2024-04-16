@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.viewmodel
+package com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.change_password.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,9 +8,7 @@ import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.domain.usecase.user.remote.UpdateUserPasswordByEmailRemoteUseCase
 import com.natiqhaciyef.prodocument.ui.base.BaseUIState
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
-import com.natiqhaciyef.prodocument.ui.base.State
-import com.natiqhaciyef.prodocument.ui.base.TotalUIState
-import com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.event.ChangePasswordEvent
+import com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.change_password.contract.ChangePasswordContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -19,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ChangePasswordViewModel @Inject constructor(
     private val updateUserPasswordByEmailRemoteUseCase: UpdateUserPasswordByEmailRemoteUseCase
-) : BaseViewModel<ChangePasswordEvent>() {
+) : BaseViewModel<ChangePasswordContract.ChangePasswordState, ChangePasswordContract.ChangePasswordEvent, ChangePasswordContract.ChangePasswordEffect>() {
     private val _updateResultState = MutableLiveData<BaseUIState<MappedTokenModel>>(BaseUIState())
     val updateResultState: LiveData<BaseUIState<MappedTokenModel>>
         get() = _updateResultState
@@ -77,5 +75,6 @@ class ChangePasswordViewModel @Inject constructor(
         }
     }
 
-    override fun getInitialState(): State = State(TotalUIState.Empty)
+    override fun getInitialState(): ChangePasswordContract.ChangePasswordState =
+        ChangePasswordContract.ChangePasswordState()
 }
