@@ -22,6 +22,7 @@ object DefaultImplModels {
         description = null,
         createdDate = "",
         type = "",
-        url = "".toUri()
+        url = "".toUri(),
+        result = null
     )
 }

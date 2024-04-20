@@ -12,7 +12,7 @@ import retrofit2.Response
 
 interface UserRepository : BaseRepository {
 
-    suspend fun getUser(token: String): NetworkResult<UserResponse>
+    suspend fun getUser(email: String): NetworkResult<UserResponse>
 
     suspend fun createAccount(user: MappedUserModel): NetworkResult<TokenResponse>
 

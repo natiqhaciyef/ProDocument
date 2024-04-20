@@ -5,6 +5,8 @@ package com.natiqhaciyef.domain.usecase
 const val MATERIAL_TOKEN = "materialToken"
 const val MATERIAL_MODEL = "mappedMaterial"
 const val MATERIAL_ID = "materialId"
+const val MATERIAL_LIST = "materialList"
+const val MATERIAL_TITLE = "materialTitle"
 
 // user
 const val USER_TOKEN = "userToken"

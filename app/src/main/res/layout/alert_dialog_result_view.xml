@@ -26,10 +26,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:src="@drawable/sign_up_result_icon"
+                android:src="@drawable/result_dialog_container_icon"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/resultTypeImage"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:visibility="visible"
+                android:tint="@color/white"
+                app:layout_constraintHorizontal_bias="0.51"
+                android:src="@drawable/success_result_type_icon"
+                app:layout_constraintTop_toTopOf="@id/resultIcon"
+                app:layout_constraintStart_toStartOf="@id/resultIcon"
+                app:layout_constraintEnd_toEndOf="@id/resultIcon"
+                app:layout_constraintBottom_toBottomOf="@id/resultIcon"
+                />
 
             <TextView
                 android:id="@+id/resultTitle"

@@ -7,59 +7,6 @@
     android:background="@color/white"
     tools:context=".ui.view.main.home.HomeFragment">
 
-    <LinearLayout
-        android:id="@+id/topbarLinearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="21dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingVertical="5dp"
-        android:weightSum="10"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/topbarImage"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:src="@drawable/pro_scan_lens_icon" />
-
-        <TextView
-            android:id="@+id/topbarTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginStart="16dp"
-            android:layout_weight="8"
-            android:fontFamily="@font/urbanist_bold"
-            android:gravity="center_vertical"
-            android:text="@string/proscan"
-            android:textSize="24sp" />
-
-        <EditText
-            android:id="@+id/topbarSearch"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_weight="9"
-            android:background="@drawable/custom_search_input_background"
-            android:fontFamily="@font/urbanist_medium"
-            android:paddingStart="16dp"
-            android:searchIcon="@color/transparent"
-            android:textColor="@color/grayscale_900"
-            android:textSize="16sp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/topbarSearchIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/search_icon" />
-    </LinearLayout>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/homeRecyclerMenubar"
         android:layout_width="match_parent"
@@ -68,7 +15,7 @@
         android:isScrollContainer="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topbarLinearLayout" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/singleLine"
@@ -109,6 +56,17 @@
         android:id="@+id/filesRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recentFileTitle" />
+
+    <ProgressBar
+        android:id="@+id/progressBarIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/primary_900"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/recentFileTitle" />

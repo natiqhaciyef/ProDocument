@@ -2,6 +2,7 @@ package com.natiqhaciyef.domain.repository
 
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.data.network.NetworkResult
+import com.natiqhaciyef.data.network.request.MergeRequest
 import com.natiqhaciyef.data.network.response.CRUDResponse
 import com.natiqhaciyef.data.network.response.MaterialResponse
 import com.natiqhaciyef.data.network.response.ListMaterialResponse
@@ -28,5 +29,5 @@ interface MaterialRepository : BaseRepository {
         materialToken: String
     ): NetworkResult<CRUDResponse>
 
-    suspend fun mergeMaterials(list: List<MappedMaterialModel>): NetworkResult<MaterialResponse>
+    suspend fun mergeMaterials(data: MergeRequest): NetworkResult<MaterialResponse>
 }

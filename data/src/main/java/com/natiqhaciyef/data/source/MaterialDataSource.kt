@@ -12,6 +12,7 @@ import com.natiqhaciyef.data.mock.materials.GetMaterialByIdMockGenerator
 import com.natiqhaciyef.data.mock.materials.MergeMaterialsMockGenerator
 import com.natiqhaciyef.data.mock.materials.RemoveMaterialMockGenerator
 import com.natiqhaciyef.data.mock.materials.UpdateMaterialMockGenerator
+import com.natiqhaciyef.data.network.request.MergeRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -100,13 +101,13 @@ class MaterialDataSource(
     }
 
     suspend fun mergeMaterials(
-        list: List<MaterialResponse>
+        data: MergeRequest
     ) = withContext(Dispatchers.IO) {
-        val mock = generateMockerClass(MergeMaterialsMockGenerator::class, list)
+        val mock = generateMockerClass(MergeMaterialsMockGenerator::class, data)
             .getMock(MergeMaterialsMockGenerator.customRequest) { null }
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
-            service.mergeMaterials(materials = list)
+            service.mergeMaterials(data = data)
         }
     }
 

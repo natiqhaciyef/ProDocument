@@ -24,12 +24,12 @@ class UserDataSource(
     private val dao: UserDao
 ) {
     // network
-    suspend fun getUserFromNetwork(token: String) = withContext(Dispatchers.IO) {
-        val mock = generateMockerClass(GetUserMockGenerator::class, token)
-            .getMock(USER_TOKEN_MOCK_KEY) { null }
+    suspend fun getUserFromNetwork(email: String) = withContext(Dispatchers.IO) {
+        val mock = generateMockerClass(GetUserMockGenerator::class, email)
+            .getMock(USER_EMAIL_MOCK_KEY) { null }
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
-            service.getUser(token = token)
+            service.getUser(email = email)
         }
     }
 

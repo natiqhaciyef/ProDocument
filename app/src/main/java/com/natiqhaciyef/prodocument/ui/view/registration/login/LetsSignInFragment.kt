@@ -1,21 +1,24 @@
 package com.natiqhaciyef.prodocument.ui.view.registration.login
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.FragmentLetsSignInBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
-import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
+import com.natiqhaciyef.prodocument.ui.view.registration.login.contract.LoginContract
+import com.natiqhaciyef.prodocument.ui.view.registration.login.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.reflect.KClass
 
 
 @AndroidEntryPoint
-class LetsSignInFragment : BaseFragment<FragmentLetsSignInBinding, BaseViewModel>(
-    FragmentLetsSignInBinding::inflate,
-    null
-) {
+class LetsSignInFragment(
+    override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentLetsSignInBinding = FragmentLetsSignInBinding::inflate,
+    override val viewModelClass: KClass<LoginViewModel> = LoginViewModel::class
+) : BaseFragment<FragmentLetsSignInBinding, LoginViewModel, LoginContract.LoginState, LoginContract.LoginEvent, LoginContract.LoginEffect>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -5,19 +5,20 @@ import android.net.Uri
 import android.view.View
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.view.PreviewView
+import androidx.core.net.toUri
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.helpers.getNow
 import com.natiqhaciyef.common.model.Status
-import com.natiqhaciyef.prodocument.ui.util.CameraReader
-import com.natiqhaciyef.domain.worker.config.PDF
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
+import com.natiqhaciyef.prodocument.ui.util.CameraReader
 import com.natiqhaciyef.domain.usecase.qrCode.ReadQrCodeResultUseCase
-import com.natiqhaciyef.prodocument.ui.base.BaseUIState
+import com.natiqhaciyef.domain.worker.config.PDF
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
 import com.natiqhaciyef.prodocument.ui.view.options.scan.behaviour.CameraTypes
+import com.natiqhaciyef.prodocument.ui.view.options.scan.contract.ScanContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -28,15 +29,53 @@ import javax.inject.Inject
 @HiltViewModel
 class ScanViewModel @Inject constructor(
     private val readQrCodeResultUseCase: ReadQrCodeResultUseCase
-) : BaseViewModel() {
+) : BaseViewModel<ScanContract.ScanState, ScanContract.ScanEvent, ScanContract.ScanEffect>() {
     private val cameraReaderLiveData = MutableLiveData<CameraReader?>(null)
-    private val _qrCodeLiveData = MutableLiveData(BaseUIState<String>())
     var isBackPressed: MutableLiveData<Boolean> = MutableLiveData(false)
 
-    val qrCodeLiveData: LiveData<BaseUIState<String>>
-        get() = _qrCodeLiveData
+    override fun onEventUpdate(event: ScanContract.ScanEvent) {
+        when (event) {
+            is ScanContract.ScanEvent.ReadQrCodeEvent -> {
+                readQrCode(event.qrCode)
+            }
 
-    fun startCamera(
+            is ScanContract.ScanEvent.StartCameraEvent -> {
+                startCamera(
+                    event.context,
+                    event.lifecycle,
+                    event.preview,
+                    event.type,
+                    event.view,
+                    event.onSuccess
+                )
+            }
+
+            is ScanContract.ScanEvent.CreateMaterialEvent -> {
+                createMaterial(
+                    title = event.title ?: "",
+                    uri = event.uri ?: "".toUri(),
+                    image = event.image ?: ""
+                )
+            }
+
+            is ScanContract.ScanEvent.StartQrCameraEvent -> {
+                startCamera(
+                    event.context,
+                    event.lifecycle,
+                    event.preview,
+                    event.type,
+                    event.view,
+                    event.onSuccess
+                )
+            }
+
+            is ScanContract.ScanEvent.ClearStateEvent -> {
+                setBaseState(getCurrentBaseState().copy(isLoading = false, result = null, material = null))
+            }
+        }
+    }
+
+    private fun startCamera(
         context: Context,
         lifecycle: LifecycleOwner,
         preview: PreviewView,
@@ -67,58 +106,54 @@ class ScanViewModel @Inject constructor(
         }
     }
 
-    fun createMaterial(
-        title: String,
-        uri: Uri,
-        image: String
-    ) = MappedMaterialModel(
-        id = "${UUID.randomUUID()}",
-        image = image,
-        title = title,
-        description = null,
-        createdDate = getNow(),
-        type = PDF,
-        url = uri,
-        downloadedUri = null,
-        isDownloading = false
-    )
 
-    fun readQrCode(qrCode: String){
+    private fun readQrCode(qrCode: String) {
         viewModelScope.launch {
             readQrCodeResultUseCase.operate(qrCode).collectLatest { result ->
-                when(result.status){
+                when (result.status) {
                     Status.SUCCESS -> {
-                        _qrCodeLiveData.value?.apply {
-                            obj = result.data?.url ?: ""
-                            list = listOf()
-                            isLoading = false
-                            isSuccess = true
-                            message = null
-                            failReason = null
-                        }
+                        if (result.data != null)
+                            setBaseState(getCurrentBaseState().copy(isLoading = false, result = result.data))
                     }
+
                     Status.ERROR -> {
-                        _qrCodeLiveData.value?.apply {
-                            obj = result.data?.url ?: ""
-                            list = listOf()
-                            isLoading = false
-                            isSuccess = false
-                            message = result.message
-                            failReason = result.exception
-                        }
+                        setBaseState(getCurrentBaseState().copy(isLoading = false))
+                        postEffect(ScanContract.ScanEffect.ReadQrCodeFailedEffect(
+                            result.message,
+                            result.exception
+                        ))
                     }
+
                     Status.LOADING -> {
-                        _qrCodeLiveData.value?.apply {
-                            obj = null
-                            list = listOf()
-                            isLoading = true
-                            isSuccess = false
-                            message = null
-                            failReason = null
-                        }
+                        setBaseState(getCurrentBaseState().copy(isLoading = true))
                     }
                 }
             }
         }
     }
+
+    private fun createMaterial(
+        title: String,
+        uri: Uri,
+        image: String
+    ){
+        setBaseState(getCurrentBaseState().copy(
+            material = MappedMaterialModel(
+                id = "${UUID.randomUUID()}",
+                image = image,
+                title = title,
+                description = null,
+                createdDate = getNow(),
+                type = PDF,
+                url = uri,
+                downloadedUri = null,
+                isDownloading = false
+            ),
+            isLoading = false,
+            result = null
+        ))
+    }
+
+
+    override fun getInitialState(): ScanContract.ScanState = ScanContract.ScanState()
 }

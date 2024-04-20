@@ -2,12 +2,16 @@ package com.natiqhaciyef.prodocument.ui.view.registration.create_account
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.natiqhaciyef.common.helpers.toJsonString
+import androidx.navigation.fragment.navArgs
+import com.natiqhaciyef.common.model.mapped.MappedTokenModel
+import com.natiqhaciyef.common.model.mapped.MappedUserModel
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.AlertDialogResultViewBinding
 import com.natiqhaciyef.prodocument.databinding.FragmentCreateAccountBinding
@@ -15,28 +19,78 @@ import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.TOKEN_KEY
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkEmailAcceptanceCondition
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkPasswordAcceptanceCondition
-import com.natiqhaciyef.prodocument.ui.view.registration.create_account.viewmodel.CompleteProfileViewModel
+import com.natiqhaciyef.prodocument.ui.view.registration.create_account.contract.CompleteProfileContract
+import com.natiqhaciyef.prodocument.ui.view.registration.create_account.contract.CreateAccountContract
 import com.natiqhaciyef.prodocument.ui.view.registration.create_account.viewmodel.CreateAccountViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import kotlin.reflect.KClass
 
 @AndroidEntryPoint
-class CreateAccountFragment : BaseFragment<FragmentCreateAccountBinding, CompleteProfileViewModel>(
-    FragmentCreateAccountBinding::inflate,
-    CompleteProfileViewModel::class
-) {
-    private val createAccountViewModel: CreateAccountViewModel by viewModels()
+class CreateAccountFragment(
+    override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentCreateAccountBinding = FragmentCreateAccountBinding::inflate,
+    override val viewModelClass: KClass<CreateAccountViewModel> = CreateAccountViewModel::class
+) : BaseFragment<FragmentCreateAccountBinding, CreateAccountViewModel, CreateAccountContract.CreateAccountState, CreateAccountContract.CreateAccountEvent, CreateAccountContract.CreateAccountEffect>() {
     private var isRemembered: Boolean = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val data: CreateAccountFragmentArgs by navArgs()
         config()
         with(binding) {
             emailValidation()
             passwordValidation()
 
             goBackIcon.setOnClickListener { navigateBack() }
-            finishButton.setOnClickListener { finishButtonClickAction() }
+            finishButton.setOnClickListener { finishButtonClickAction(data.user) }
+        }
+    }
+
+    override fun onStateChange(state: CreateAccountContract.CreateAccountState) {
+        when {
+            state.isLoading -> {
+                changeVisibilityOfProgressBar(true)
+            }
+
+            else -> {
+                changeVisibilityOfProgressBar(false)
+            }
+        }
+    }
+
+    override fun onEffectUpdate(effect: CreateAccountContract.CreateAccountEffect) {
+        when (effect) {
+            is CreateAccountContract.CreateAccountEffect.FieldNotCorrectlyFilledEffect -> {
+                Toast.makeText(requireContext(), effect.message, Toast.LENGTH_SHORT)
+                    .show()
+            }
+
+            is CreateAccountContract.CreateAccountEffect.UserCreationFailedEffect -> {
+                Toast.makeText(requireContext(), effect.message, Toast.LENGTH_SHORT)
+                    .show()
+            }
+
+            is CreateAccountContract.CreateAccountEffect.UserCreationSucceedEffect -> {
+                createResultAlertDialog()
+            }
+
+            else -> {}
+        }
+    }
+
+    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
+        if (isVisible) {
+            binding.apply {
+                uiLayout.visibility = View.GONE
+                progressBar.visibility = View.VISIBLE
+                progressBar.isIndeterminate = true
+            }
+        } else {
+            binding.apply {
+                uiLayout.visibility = View.VISIBLE
+                progressBar.visibility = View.GONE
+                progressBar.isIndeterminate = false
+            }
         }
     }
 
@@ -52,48 +106,34 @@ class CreateAccountFragment : BaseFragment<FragmentCreateAccountBinding, Complet
         }
     }
 
-    private fun finishButtonClickAction() {
-        binding.apply {
-            val email = createAccountEmailInput.text.toString()
-            val password = createAccountPasswordInput.getPasswordText().toString()
+    private fun finishButtonClickAction(userModel: MappedUserModel?) {
+        userModel?.let {
+            binding.apply {
+                val email = createAccountEmailInput.text.toString()
+                val password = createAccountPasswordInput.getPasswordText().toString()
+                userModel.email = email
+                userModel.password = password
 
-            viewModel?.userState?.observe(viewLifecycleOwner) { baseUiState ->
-                baseUiState?.email = email
-                baseUiState?.password = password
-
-                createAccountViewModel.clickButtonAction(
-                    mappedUserModel = baseUiState,
-                    onSuccess = {
-                        if (isRemembered) {
-                            createAccountViewModel.saveToDatabase(baseUiState) { tokenObserving() }
-                        } else {
-                            tokenObserving()
-                        }
-                    },
-                    onFail = { exception ->
-                        Toast.makeText(
-                            requireContext(),
-                            "Error: ${exception?.localizedMessage}",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                )
+                finishButtonClickEvent(userModel)
             }
         }
     }
 
-    private fun tokenObserving() {
-        createAccountViewModel.tokenState.observe(viewLifecycleOwner) { tokenState ->
-            lifecycleScope.launch {
-                if (tokenState.obj != null && tokenState.isSuccess) {
-                    dataStore.saveParcelableClassData(
-                        context = requireContext(),
-                        data = tokenState.obj!!,
-                        key = TOKEN_KEY
-                    )
+    private fun finishButtonClickEvent(userModel: MappedUserModel) {
+        viewModel.postEvent(
+            CreateAccountContract
+                .CreateAccountEvent.FinishButtonClickEvent(user = userModel)
+        )
+    }
 
-                    createResultAlertDialog()
-                }
+    private fun tokenObserving(tokenModel: MappedTokenModel?) {
+        lifecycleScope.launch {
+            if (tokenModel != null) {
+                dataStore.saveParcelableClassData(
+                    context = requireContext(),
+                    data = tokenModel,
+                    key = TOKEN_KEY
+                )
             }
         }
     }

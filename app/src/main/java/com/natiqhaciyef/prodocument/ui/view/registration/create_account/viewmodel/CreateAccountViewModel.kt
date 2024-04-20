@@ -1,5 +1,6 @@
 package com.natiqhaciyef.prodocument.ui.view.registration.create_account.viewmodel
 
+import android.media.effect.Effect
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -13,6 +14,7 @@ import com.natiqhaciyef.domain.usecase.user.remote.CreateUserRemoteUseCase
 import com.natiqhaciyef.domain.usecase.user.local.InsertUserLocalUseCase
 import com.natiqhaciyef.prodocument.ui.base.BaseUIState
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
+import com.natiqhaciyef.prodocument.ui.view.registration.create_account.contract.CreateAccountContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -22,16 +24,19 @@ import javax.inject.Inject
 class CreateAccountViewModel @Inject constructor(
     private val saveUserToLocalUseCase: InsertUserLocalUseCase,
     private val createUserRemoteUseCase: CreateUserRemoteUseCase,
-) : BaseViewModel() {
+) : BaseViewModel<CreateAccountContract.CreateAccountState, CreateAccountContract.CreateAccountEvent, CreateAccountContract.CreateAccountEffect>() {
     private val _localResultState =
         MutableLiveData(BaseUIState<Boolean>())
     val localResultState: LiveData<BaseUIState<Boolean>>
         get() = _localResultState
 
-    private val _tokenState =
-        MutableLiveData(BaseUIState<MappedTokenModel>())
-    val tokenState: LiveData<BaseUIState<MappedTokenModel>>
-        get() = _tokenState
+    override fun onEventUpdate(event: CreateAccountContract.CreateAccountEvent) {
+        when (event) {
+            is CreateAccountContract.CreateAccountEvent.FinishButtonClickEvent -> {
+                createUser(event.user)
+            }
+        }
+    }
 
     private fun collectDataFromCreateAccountScreen(
         model: MappedUserModel,
@@ -63,37 +68,37 @@ class CreateAccountViewModel @Inject constructor(
                 saveUserToLocalUseCase.run(uiResult).collectLatest {
                     when (it.status) {
                         Status.SUCCESS -> {
-                            _localResultState.value?.apply {
-                                obj = it.data
-                                list = listOf()
-                                isLoading = false
-                                isSuccess = true
-                                message = it.message
+                            _localResultState.value = _localResultState.value?.copy(
+                                obj = it.data,
+                                list = listOf(),
+                                isLoading = false,
+                                isSuccess = true,
+                                message = it.message,
                                 failReason = null
-                            }
+                            )
                             onSuccess()
                         }
 
                         Status.ERROR -> {
-                            _localResultState.value?.apply {
-                                obj = null
-                                list = listOf()
-                                isLoading = false
-                                isSuccess = false
-                                message = it.message
+                            _localResultState.value = _localResultState.value?.copy(
+                                obj = null,
+                                list = listOf(),
+                                isLoading = false,
+                                isSuccess = false,
+                                message = it.message,
                                 failReason = it.exception
-                            }
+                            )
                         }
 
                         Status.LOADING -> {
-                            _localResultState.value?.apply {
-                                obj = null
-                                list = listOf()
-                                isLoading = true
-                                isSuccess = false
-                                message = null
+                            _localResultState.value = _localResultState.value?.copy(
+                                obj = null,
+                                list = listOf(),
+                                isLoading = true,
+                                isSuccess = false,
+                                message = null,
                                 failReason = null
-                            }
+                            )
                         }
                     }
                 }
@@ -102,48 +107,33 @@ class CreateAccountViewModel @Inject constructor(
     }
 
     private fun createAccountNetwork(
-        model: MappedUserModel?,
-        onSuccess: () -> Unit = {}
+        model: MappedUserModel?
     ) {
         viewModelScope.launch {
             model?.let {
                 createUserRemoteUseCase.operate(model).collectLatest { result ->
                     when (result.status) {
                         Status.SUCCESS -> {
-                            if (result.data != null) {
-                                _tokenState.value?.apply {
-                                    obj = result.data
-                                    list = listOf()
-                                    isLoading = false
-                                    isSuccess = true
-                                    message = null
-                                    failReason = null
-                                }
-
-                                onSuccess()
-                            }
+                            setBaseState(
+                                getCurrentBaseState().copy(
+                                    isLoading = false,
+                                    token = result.data
+                                )
+                            )
+                            postEffect(CreateAccountContract.CreateAccountEffect.UserCreationSucceedEffect)
                         }
 
                         Status.ERROR -> {
-                            _tokenState.value?.apply {
-                                obj = null
-                                list = listOf()
-                                isLoading = false
-                                isSuccess = false
-                                message = result.message
-                                failReason = result.exception
-                            }
+                            postEffect(
+                                CreateAccountContract.CreateAccountEffect.UserCreationFailedEffect(
+                                    message = result.message,
+                                    error = result.exception
+                                )
+                            )
                         }
 
                         Status.LOADING -> {
-                            _tokenState.value?.apply {
-                                obj = null
-                                list = listOf()
-                                isLoading = true
-                                isSuccess = false
-                                message = null
-                                failReason = null
-                            }
+                            setBaseState(getCurrentBaseState().copy(isLoading = true))
                         }
                     }
                 }
@@ -151,23 +141,28 @@ class CreateAccountViewModel @Inject constructor(
         }
     }
 
-    fun clickButtonAction(
-        mappedUserModel: MappedUserModel?,
-        onSuccess: () -> Unit = { },
-        onFail: (Exception?) -> Unit = {}
-    ) {
+    private fun createUser(mappedUserModel: MappedUserModel?) {
         viewModelScope.launch {
             mappedUserModel?.let {
                 collectDataFromCreateAccountScreen(
                     model = mappedUserModel,
                     onSuccess = {
-//                        createAccountNetwork(mappedUserModel, onSuccess)
-                        onSuccess()
+                        createAccountNetwork(mappedUserModel)
                     },
-                    onFail = onFail
+                    onFail = { exception ->
+                        postEffect(
+                            CreateAccountContract.CreateAccountEffect.UserCreationFailedEffect(
+                                message = exception?.message,
+                                error = exception
+                            )
+                        )
+                    }
                 )
             }
         }
     }
+
+    override fun getInitialState(): CreateAccountContract.CreateAccountState =
+        CreateAccountContract.CreateAccountState()
 
 }
