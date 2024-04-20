@@ -21,8 +21,9 @@ import com.natiqhaciyef.domain.worker.config.PDF
 import com.natiqhaciyef.prodocument.databinding.FragmentMergePdfsBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink
+import com.natiqhaciyef.prodocument.ui.util.DefaultImplModels
 import com.natiqhaciyef.prodocument.ui.view.main.home.adapter.FileItemAdapter
-import com.natiqhaciyef.prodocument.ui.view.options.merge.event.MergePdfEvent
+import com.natiqhaciyef.prodocument.ui.view.options.merge.contract.MergePdfContract
 import com.natiqhaciyef.prodocument.ui.view.options.merge.viewmodel.MergePdfViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -33,7 +34,7 @@ import kotlin.reflect.KClass
 class MergePdfsFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentMergePdfsBinding = FragmentMergePdfsBinding::inflate,
     override val viewModelClass: KClass<MergePdfViewModel> = MergePdfViewModel::class
-) : BaseFragment<FragmentMergePdfsBinding, MergePdfViewModel, MergePdfEvent>() {
+) : BaseFragment<FragmentMergePdfsBinding, MergePdfViewModel, MergePdfContract.MergePdfState, MergePdfContract.MergePdfEvent, MergePdfContract.MergePdfEffect>() {
     private val filesList = mutableListOf<MappedMaterialModel>()
     private var adapter: FileItemAdapter? = null
 
@@ -62,9 +63,46 @@ class MergePdfsFragment(
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
             addMoreFilesButton.setOnClickListener { addFileButtonAction() }
-            mergeButton.setOnClickListener { mergeButtonAction() }
+            mergeButton.setOnClickListener { mergeButtonEvent(filesList) }
             goBackIcon.setOnClickListener { navigateByRouteTitle(BaseNavigationDeepLink.HOME_ROUTE) }
             adapter?.removeAction = { removeFileButtonClickAction(it) }
+        }
+    }
+
+    override fun onStateChange(state: MergePdfContract.MergePdfState) {
+        when {
+            state.isLoading -> {
+                changeVisibilityOfProgressBar(true)
+            }
+
+            else -> {
+                changeVisibilityOfProgressBar(false)
+                if (state.mappedMaterialModel != null) {
+                    mergeButtonAction(state.mappedMaterialModel!!)
+                }
+            }
+        }
+    }
+
+    override fun onEffectUpdate(effect: MergePdfContract.MergePdfEffect) {
+        when (effect) {
+            is MergePdfContract.MergePdfEffect.MergeFailedEffect -> {}
+        }
+    }
+
+    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
+        if (isVisible) {
+            binding.apply {
+                uiLayout.visibility = View.GONE
+                progressBar.visibility = View.VISIBLE
+                progressBar.isIndeterminate = true
+            }
+        } else {
+            binding.apply {
+                uiLayout.visibility = View.VISIBLE
+                progressBar.visibility = View.GONE
+                progressBar.isIndeterminate = false
+            }
         }
     }
 
@@ -72,12 +110,6 @@ class MergePdfsFragment(
         lifecycleScope.launch {
             binding.mergeDescriptionText.text =
                 getString(R.string.merge_pdf_description, "${filesList.size}")
-        }
-    }
-
-    private fun getMergedFileTitle() {
-        binding.apply {
-
         }
     }
 
@@ -123,7 +155,7 @@ class MergePdfsFragment(
         image: String? = null,
         type: String? = null
     ): MappedMaterialModel {
-        val material = viewModel?.getDefaultMockFile()!!
+        val material = getDefaultMockFile()
         material.id = "${UUID.randomUUID()}"
         material.url = uri
         material.title = title ?: ""
@@ -145,8 +177,13 @@ class MergePdfsFragment(
         fileRequestLauncher.launch(intent)
     }
 
-    private fun mergeButtonAction() {
-//        viewModel?.mergeMaterials(filesList)
+    private fun mergeButtonEvent(list: List<MappedMaterialModel>) {
+        val title = binding.usernameMergedTitle.text.toString()
+        viewModel.postEvent(MergePdfContract.MergePdfEvent.MergeMaterialsEvent(title, list))
+    }
+
+    private fun mergeButtonAction(mappedMaterialModel: MappedMaterialModel) {
+        // navigation to success page
     }
 
     private fun removeFileButtonClickAction(id: String) {
@@ -154,4 +191,6 @@ class MergePdfsFragment(
         adapter?.list = filesList
         configOfChangeFileList()
     }
+
+    private fun getDefaultMockFile() = DefaultImplModels.mappedMaterialModel
 }

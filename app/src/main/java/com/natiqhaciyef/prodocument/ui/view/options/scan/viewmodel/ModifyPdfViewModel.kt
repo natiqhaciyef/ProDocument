@@ -19,10 +19,8 @@ import com.natiqhaciyef.domain.worker.config.PNG
 import com.natiqhaciyef.domain.worker.config.URL
 import com.natiqhaciyef.prodocument.ui.base.BaseUIState
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
-import com.natiqhaciyef.prodocument.ui.base.State
-import com.natiqhaciyef.prodocument.ui.base.TotalUIState
 import com.natiqhaciyef.prodocument.ui.model.CategoryItem
-import com.natiqhaciyef.prodocument.ui.view.options.scan.event.ModifyPdfEvent
+import com.natiqhaciyef.prodocument.ui.view.options.scan.contract.ModifyPdfContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -31,48 +29,60 @@ import javax.inject.Inject
 @HiltViewModel
 class ModifyPdfViewModel @Inject constructor(
     private val createMaterialByIdUseCase: CreateMaterialUseCase
-) : BaseViewModel<ModifyPdfEvent>() {
-    private val _materialState = MutableLiveData<BaseUIState<CRUDModel>>(BaseUIState())
-    val materialState: LiveData<BaseUIState<CRUDModel>>
-        get() = _materialState
+) : BaseViewModel<ModifyPdfContract.ModifyPdfState, ModifyPdfContract.ModifyPdfEvent, ModifyPdfContract.ModifyPdfEffect>() {
 
-    fun getShareOptions(context: Context) = listOf(
-        CategoryItem(
-            id = 1,
-            title = context.getString(R.string.share_link),
-            iconId = R.drawable.link_icon,
-            size = null,
-            type = URL,
-            sizeType = null
-        ),
-        CategoryItem(
-            id = 2,
-            title = context.getString(R.string.share_pdf),
-            iconId = R.drawable.pdf_icon,
-            type = PDF,
-            size = null,
-            sizeType = null
-        ),
-        CategoryItem(
-            id = 3,
-            title = context.getString(R.string.share_jpg),
-            iconId = R.drawable.image_icon,
-            type = JPEG,
-            size = null,
-            sizeType = null
-        ),
-        CategoryItem(
-            id = 4,
-            title = context.getString(R.string.share_png),
-            iconId = R.drawable.image_icon,
-            type = PNG,
-            size = null,
-            sizeType = null
-        ),
-    )
+    override fun onEventUpdate(event: ModifyPdfContract.ModifyPdfEvent) {
+        when(event){
+            is ModifyPdfContract.ModifyPdfEvent.CreateMaterialEvent -> {
+                createMaterial(event.token, event.material)
+            }
 
+            is ModifyPdfContract.ModifyPdfEvent.GetShareOptions -> {
+                getShareOptions(context = event.context)
+            }
 
-    fun createMaterial(token: MappedTokenModel, material: MappedMaterialModel) {
+            else -> {}
+        }
+    }
+
+    private fun getShareOptions(context: Context){
+        setBaseState(getCurrentBaseState().copy(isLoading = false, optionsList = listOf(
+            CategoryItem(
+                id = 1,
+                title = context.getString(R.string.share_link),
+                iconId = R.drawable.link_icon,
+                size = null,
+                type = URL,
+                sizeType = null
+            ),
+            CategoryItem(
+                id = 2,
+                title = context.getString(R.string.share_pdf),
+                iconId = R.drawable.pdf_icon,
+                type = PDF,
+                size = null,
+                sizeType = null
+            ),
+            CategoryItem(
+                id = 3,
+                title = context.getString(R.string.share_jpg),
+                iconId = R.drawable.image_icon,
+                type = JPEG,
+                size = null,
+                sizeType = null
+            ),
+            CategoryItem(
+                id = 4,
+                title = context.getString(R.string.share_png),
+                iconId = R.drawable.image_icon,
+                type = PNG,
+                size = null,
+                sizeType = null
+            ),
+        )))
+    }
+
+    private fun createMaterial(token: MappedTokenModel, material: MappedMaterialModel) {
         if (!token.uid.isNullOrEmpty()) {
             val materialStr = material.toJsonString()
             val requestMap = hashMapOf(
@@ -85,37 +95,24 @@ class ModifyPdfViewModel @Inject constructor(
                     when (result.status) {
                         Status.SUCCESS -> {
                             result.data?.let { data ->
-                                _materialState.value?.apply {
-                                    obj = data
-                                    list = listOf(data)
-                                    isLoading = false
-                                    isSuccess = true
-                                    message = result.message
-                                    failReason = null
-                                }
+                                setBaseState(getCurrentBaseState().copy(
+                                    isLoading = false,
+                                    result = data,
+                                    optionsList = null
+                                ))
                             }
                         }
 
                         Status.ERROR -> {
-                            _materialState.value?.apply {
-                                obj = null
-                                list = listOf()
-                                isLoading = false
-                                isSuccess = false
-                                message = result.message
-                                failReason = result.exception
-                            }
+                            setBaseState(getCurrentBaseState().copy(isLoading = false, result = null, optionsList = null))
+                            postEffect(ModifyPdfContract.ModifyPdfEffect.CreateMaterialFailEffect(
+                                message = result.message,
+                                exception = result.exception
+                            ))
                         }
 
                         Status.LOADING -> {
-                            _materialState.value?.apply {
-                                obj = null
-                                list = listOf()
-                                isLoading = true
-                                isSuccess = false
-                                message = null
-                                failReason = null
-                            }
+                            setBaseState(getCurrentBaseState().copy(isLoading = true, optionsList = null))
                         }
                     }
                 }
@@ -123,7 +120,5 @@ class ModifyPdfViewModel @Inject constructor(
         }
     }
 
-    override fun getInitialState(): State = State(TotalUIState.Empty)
-
-
+    override fun getInitialState(): ModifyPdfContract.ModifyPdfState = ModifyPdfContract.ModifyPdfState()
 }

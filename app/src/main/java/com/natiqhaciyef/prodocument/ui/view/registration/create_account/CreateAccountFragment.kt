@@ -73,10 +73,12 @@ class CreateAccountFragment(
             is CreateAccountContract.CreateAccountEffect.UserCreationSucceedEffect -> {
                 createResultAlertDialog()
             }
+
+            else -> {}
         }
     }
 
-    private fun changeVisibilityOfProgressBar(isVisible: Boolean) {
+    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
         if (isVisible) {
             binding.apply {
                 uiLayout.visibility = View.GONE

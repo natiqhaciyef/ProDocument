@@ -13,6 +13,7 @@ import com.natiqhaciyef.domain.mapper.toMappedModel
 import com.natiqhaciyef.domain.repository.MaterialRepository
 import com.natiqhaciyef.domain.usecase.MATERIAL_ID
 import com.natiqhaciyef.domain.usecase.MATERIAL_TOKEN
+import com.natiqhaciyef.domain.usecase.USER_EMAIL
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -28,11 +29,10 @@ class GetMaterialByIdRemoteUseCase @Inject constructor(
         flow {
             emit(Resource.loading(null))
             val materialId = data[MATERIAL_ID].toString()
-            val token = data[MATERIAL_TOKEN].toString()
+            val token = data[USER_EMAIL].toString()
 
 
-            val result = repository.getMaterialById(materialId = materialId, token = token)
-            when (result) {
+            when (val result = repository.getMaterialById(materialId = materialId, token = token)) {
                 is NetworkResult.Success -> {
                     val model = result.data.toMappedModel()
 

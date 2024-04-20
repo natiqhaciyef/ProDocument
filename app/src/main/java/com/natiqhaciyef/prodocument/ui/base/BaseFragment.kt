@@ -15,25 +15,29 @@ import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.snackbar.Snackbar
+import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_MAIN_DEEPLINK
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.ONBOARDING_MAIN_DEEPLINK
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.REGISTER_MAIN_DEEPLINK
 import com.natiqhaciyef.prodocument.ui.store.AppStorePref
+import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.onboarding.OnboardingActivity
 import com.natiqhaciyef.prodocument.ui.view.registration.RegistrationActivity
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import kotlin.reflect.KClass
 
-abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel<State, Event, Effect>, State, Event, Effect> :
+abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel<State, Event, Effect>, State: UiState, Event: UiEvent, Effect: UiEffect> :
     Fragment() {
     abstract val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB
     abstract val viewModelClass: KClass<VM>
@@ -238,5 +242,18 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel<State, Event, E
             .createPendingIntent()
 
         pendingIntent.send()
+    }
+
+    protected fun getToken(onSuccess: (MappedTokenModel) -> Unit = { }) = lifecycleScope.launch {
+        val result = dataStore.readParcelableClassData(
+            context = requireContext(),
+            classType = MappedTokenModel::class.java,
+            key = AppStorePrefKeys.TOKEN_KEY
+        )
+
+        if (result != null) {
+            onSuccess(result)
+            return@launch
+        }
     }
 }

@@ -5,9 +5,14 @@ import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.data.network.NetworkResult
+import com.natiqhaciyef.data.network.request.MergeRequest
 import com.natiqhaciyef.domain.base.usecase.BaseUseCase
 import com.natiqhaciyef.domain.base.usecase.UseCase
+import com.natiqhaciyef.domain.mapper.toMaterialResponse
 import com.natiqhaciyef.domain.repository.MaterialRepository
+import com.natiqhaciyef.domain.usecase.MATERIAL_LIST
+import com.natiqhaciyef.domain.usecase.MATERIAL_TITLE
+import com.natiqhaciyef.domain.usecase.MATERIAL_TOKEN
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -17,14 +22,19 @@ class MergeMaterialsUseCase @Inject constructor(
     materialRepository: MaterialRepository
 ) : BaseUseCase<
         MaterialRepository,
-        List<MappedMaterialModel>,
+        Map<String, Any>,
         MappedMaterialModel>(materialRepository) {
 
-    override fun operate(data: List<MappedMaterialModel>): Flow<Resource<MappedMaterialModel>> =
+    override fun operate(data: Map<String, Any>): Flow<Resource<MappedMaterialModel>> =
         flow {
             emit(Resource.loading(null))
 
-            when (val result = repository.mergeMaterials(data)) {
+            val title = data[MATERIAL_TITLE].toString()
+            val list = (data[MATERIAL_LIST] as List<MappedMaterialModel>).map { it.toMaterialResponse() }
+
+            val request = MergeRequest(title = title, list = list)
+
+            when (val result = repository.mergeMaterials(request)) {
                 is NetworkResult.Success -> {
                     val mapped = result.data.toMappedModel()
                     if (mapped != null && mapped.result?.resultCode in 200..299) {
@@ -52,13 +62,17 @@ class MergeMaterialsUseCase @Inject constructor(
                 }
 
                 is NetworkResult.Exception -> {
-                    emit(Resource.error(
-                        msg = result.e.message ?: ErrorMessages.SOMETHING_WENT_WRONG,
-                        data = null,
-                        exception = Exception(result.e),
-                        errorCode = -1
-                    ))
+                    emit(
+                        Resource.error(
+                            msg = result.e.message ?: ErrorMessages.SOMETHING_WENT_WRONG,
+                            data = null,
+                            exception = Exception(result.e),
+                            errorCode = -1
+                        )
+                    )
                 }
+
+                else -> {}
             }
         }
 }

@@ -141,4 +141,5 @@ object AppStorePrefKeys {
 
     val TITLE_COUNT_KEY = intPreferencesKey("TITLE_COUNT_KEY")
     val TOKEN_KEY = stringPreferencesKey("TOKEN_STORED_MAPPED_KEY")
+    val EMAIL_KEY = stringPreferencesKey("EMAIL_STORED_MAPPED_KEY")
 }

@@ -15,18 +15,17 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.helpers.loadImage
+import com.natiqhaciyef.common.model.CRUDModel
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
-import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.prodocument.databinding.FragmentModifyPdfBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.custom.CustomMaterialBottomSheetFragment
 import com.natiqhaciyef.prodocument.ui.model.CategoryItem
 import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.TITLE_COUNT_KEY
-import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.TOKEN_KEY
 import com.natiqhaciyef.prodocument.ui.util.CameraReader.Companion.createAndShareFile
 import com.natiqhaciyef.prodocument.ui.util.CameraReader.Companion.getAddressOfFile
 import com.natiqhaciyef.prodocument.ui.util.PdfReader.createDefaultPdfUriLoader
-import com.natiqhaciyef.prodocument.ui.view.options.scan.event.ModifyPdfEvent
+import com.natiqhaciyef.prodocument.ui.view.options.scan.contract.ModifyPdfContract
 import com.natiqhaciyef.prodocument.ui.view.options.scan.viewmodel.ModifyPdfViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -38,7 +37,7 @@ import kotlin.reflect.KClass
 class ModifyPdfFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentModifyPdfBinding = FragmentModifyPdfBinding::inflate,
     override val viewModelClass: KClass<ModifyPdfViewModel> = ModifyPdfViewModel::class
-) : BaseFragment<FragmentModifyPdfBinding, ModifyPdfViewModel, ModifyPdfEvent>() {
+) : BaseFragment<FragmentModifyPdfBinding, ModifyPdfViewModel, ModifyPdfContract.ModifyPdfState, ModifyPdfContract.ModifyPdfEvent, ModifyPdfContract.ModifyPdfEffect>() {
     private var material: MappedMaterialModel? = null
     private var type: String? = null
     var uriAddress: Uri? = null
@@ -73,12 +72,59 @@ class ModifyPdfFragment(
 
                 titleButtonChangeAction()
 
-                saveButton.setOnClickListener { saveButtonClickAction(materialModel = material!!) }
+                saveButton.setOnClickListener {
+                    saveButtonClickEvent(material)
+                }
                 optionsIconButton.setOnClickListener {
-                    showBottomSheetDialog(viewModel?.getShareOptions(requireActivity())!!)
+                    getOptionsEvent()
                 }
             }
         }
+    }
+
+    override fun onStateChange(state: ModifyPdfContract.ModifyPdfState) {
+        when {
+            state.isLoading -> {
+                changeVisibilityOfProgressBar()
+            }
+
+            else -> {
+                changeVisibilityOfProgressBar(false)
+                if (state.optionsList != null)
+                    showBottomSheetDialog(state.optionsList!!)
+
+                if (state.result != null)
+                    saveButtonClickAction(state.result!!)
+            }
+        }
+    }
+
+    override fun onEffectUpdate(effect: ModifyPdfContract.ModifyPdfEffect) {
+        when (effect) {
+            is ModifyPdfContract.ModifyPdfEffect.CreateMaterialFailEffect -> {
+
+            }
+        }
+    }
+
+    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
+        if (isVisible) {
+            binding.apply {
+                uiLayout.visibility = View.GONE
+                progressBar.visibility = View.VISIBLE
+                progressBar.isIndeterminate = true
+            }
+        } else {
+            binding.apply {
+                uiLayout.visibility = View.VISIBLE
+                progressBar.visibility = View.GONE
+                progressBar.isIndeterminate = false
+            }
+        }
+    }
+
+    private fun getOptionsEvent() {
+        viewModel.postEvent(ModifyPdfContract.ModifyPdfEvent.GetShareOptions(requireContext()))
     }
 
     private fun showBottomSheetDialog(shareOptions: List<CategoryItem>) {
@@ -93,27 +139,15 @@ class ModifyPdfFragment(
         )
     }
 
-    private fun saveButtonClickAction(materialModel: MappedMaterialModel) {
-        binding.saveButton.setOnClickListener {
-//            getToken { token ->
-//                viewModel?.createMaterial(
-//                    token = token,
-//                    material = materialModel
-//                )
-//            }
-        }
+    private fun saveButtonClickAction(result: CRUDModel) {
+        // action after save file
     }
 
-    private fun getToken(onSuccess: (MappedTokenModel) -> Unit = { }) = lifecycleScope.launch {
-        val result = dataStore.readParcelableClassData(
-            context = requireContext(),
-            classType = MappedTokenModel::class.java,
-            key = TOKEN_KEY
-        )
-
-        if (result != null) {
-            onSuccess(result)
-            return@launch
+    private fun saveButtonClickEvent(materialModel: MappedMaterialModel?) {
+        materialModel?.let {
+            getToken {
+                viewModel.postEvent(ModifyPdfContract.ModifyPdfEvent.CreateMaterialEvent(token = it, material = materialModel))
+            }
         }
     }
 

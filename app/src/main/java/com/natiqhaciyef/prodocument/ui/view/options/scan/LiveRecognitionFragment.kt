@@ -10,13 +10,12 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.ExperimentalGetImage
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.viewModels
 import com.natiqhaciyef.common.helpers.loadImage
 import com.natiqhaciyef.prodocument.databinding.FragmentLiveRecognitionBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink
 import com.natiqhaciyef.prodocument.ui.view.options.scan.behaviour.CameraTypes
-import com.natiqhaciyef.prodocument.ui.view.options.scan.event.ScanEvent
+import com.natiqhaciyef.prodocument.ui.view.options.scan.contract.ScanContract
 import com.natiqhaciyef.prodocument.ui.view.options.scan.viewmodel.ScanViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.KClass
@@ -26,17 +25,18 @@ import kotlin.reflect.KClass
 class LiveRecognitionFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentLiveRecognitionBinding = FragmentLiveRecognitionBinding::inflate,
     override val viewModelClass: KClass<ScanViewModel> = ScanViewModel::class
-) : BaseFragment<FragmentLiveRecognitionBinding, ScanViewModel, ScanEvent>() {
+) : BaseFragment<FragmentLiveRecognitionBinding, ScanViewModel, ScanContract.ScanState, ScanContract.ScanEvent, ScanContract.ScanEffect>() {
     private val registerForCameraPermissionResult =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
-                startCamera()
+                startCameraEvent()
                 captureImageAction()
             }
         }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.postEvent(ScanContract.ScanEvent.ClearStateEvent)
         binding.goBackIcon.setOnClickListener { goBackIconAction() }
     }
 
@@ -61,7 +61,7 @@ class LiveRecognitionFragment(
     // capturing image
     private fun captureImageAction() {
         val view = ScanTypeFragment.captureButtonClickAction()
-        startCamera(view)
+        startCameraEvent(view)
     }
 
     private fun checkCameraPermission() {
@@ -76,19 +76,22 @@ class LiveRecognitionFragment(
         }
     }
 
-    private fun startCamera(
+    private fun startCameraEvent(
         view: View? = null,
     ) {
-        viewModel?.startCamera(
-            requireContext(),
-            viewLifecycleOwner,
-            binding.cameraXPreviewHolder,
-            CameraTypes.LIVE_SCANNER,
-            view,
-        ) { uri ->
-            uri as Uri
-            imageLoadingAction(uri)
-        }
+        viewModel.postEvent(
+            ScanContract.ScanEvent.StartCameraEvent(
+                requireContext(),
+                viewLifecycleOwner,
+                binding.cameraXPreviewHolder,
+                CameraTypes.LIVE_SCANNER,
+                view
+            ){ uri ->
+                uri as Uri
+                imageLoadingAction(uri)
+//                after live recognition
+            }
+        )
     }
 
     private fun imageLoadingAction(uri: Uri?) {

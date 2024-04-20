@@ -42,16 +42,17 @@ class HomeFragment(
     override fun onStateChange(state: HomeContract.HomeUiState) {
         when {
             state.isLoading -> {
-                binding.progressBarIndicator.visibility = View.VISIBLE
-                binding.progressBarIndicator.isIndeterminate = true
+                changeVisibilityOfProgressBar(true)
             }
 
             else -> {
-                binding.progressBarIndicator.visibility = View.GONE
-                binding.progressBarIndicator.isIndeterminate = false
-
+                changeVisibilityOfProgressBar()
 
                 fileAdapterConfig(state.list)
+
+                if (state.material != null){
+                    // navigate to single file action
+                }
             }
         }
     }
@@ -60,6 +61,20 @@ class HomeFragment(
         when(effect) {
             is HomeContract.HomeEffect.FindMaterialByIdFailedEffect -> { }
             is HomeContract.HomeEffect.MaterialListLoadingFailedEffect -> { }
+        }
+    }
+
+    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
+        if (isVisible) {
+            binding.apply {
+                progressBarIndicator.visibility = View.VISIBLE
+                progressBarIndicator.isIndeterminate = true
+            }
+        } else {
+            binding.apply {
+                progressBarIndicator.visibility = View.GONE
+                progressBarIndicator.isIndeterminate = false
+            }
         }
     }
 

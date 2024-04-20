@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-abstract class BaseViewModel<State, Event, Effect> : ViewModel(), CoroutineScope {
+abstract class BaseViewModel<State: UiState, Event: UiEvent, Effect: UiEffect> : ViewModel(), CoroutineScope {
     private val job = Job()
 
     private val currentState: State by lazy { getInitialState() }

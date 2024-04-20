@@ -16,11 +16,12 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 import com.natiqhaciyef.common.R
+import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.databinding.FragmentScanBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
 import com.natiqhaciyef.prodocument.ui.view.options.scan.behaviour.CameraTypes
-import com.natiqhaciyef.prodocument.ui.view.options.scan.event.ScanEvent
+import com.natiqhaciyef.prodocument.ui.view.options.scan.contract.ScanContract
 import com.natiqhaciyef.prodocument.ui.view.options.scan.viewmodel.ScanViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.KClass
@@ -30,7 +31,7 @@ import kotlin.reflect.KClass
 class ScanFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentScanBinding = FragmentScanBinding::inflate,
     override val viewModelClass: KClass<ScanViewModel> = ScanViewModel::class
-) : BaseFragment<FragmentScanBinding, ScanViewModel, ScanEvent>() {
+) : BaseFragment<FragmentScanBinding, ScanViewModel, ScanContract.ScanState, ScanContract.ScanEvent, ScanContract.ScanEffect>() {
     private var selectedImage: Uri? = null
     private val registerForCameraPermissionResult =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
@@ -48,7 +49,7 @@ class ScanFragment(
             if (result.resultCode == RESULT_OK) {
                 result.data?.data?.let {
                     selectedImage = it
-                    navigateToModifyPdf()
+                    createMaterialEvent()
                 }
             }
         }
@@ -56,10 +57,51 @@ class ScanFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.goBackIcon.setOnClickListener { navigateByRouteTitle(HOME_ROUTE) }
+        viewModel.postEvent(ScanContract.ScanEvent.ClearStateEvent)
 
+        binding.goBackIcon.setOnClickListener { navigateByRouteTitle(HOME_ROUTE) }
         ScanTypeFragment.galleryButtonClickAction.invoke()?.setOnClickListener {
             checkGalleryPermission()
+        }
+    }
+
+    override fun onStateChange(state: ScanContract.ScanState) {
+        when {
+            state.isLoading -> {
+                changeVisibilityOfProgressBar(true)
+            }
+
+            else -> {
+                changeVisibilityOfProgressBar()
+
+                if (state.result != null) {
+                    // handle qr reading result
+                }
+
+                if (state.material != null) {
+                    navigateToModifyPdf(state.material!!)
+                }
+            }
+        }
+    }
+
+    override fun onEffectUpdate(effect: ScanContract.ScanEffect) {
+
+    }
+
+    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
+        if (isVisible) {
+            binding.apply {
+                uiLayout.visibility = View.GONE
+                progressBar.visibility = View.VISIBLE
+                progressBar.isIndeterminate = true
+            }
+        } else {
+            binding.apply {
+                uiLayout.visibility = View.VISIBLE
+                progressBar.visibility = View.GONE
+                progressBar.isIndeterminate = false
+            }
         }
     }
 
@@ -82,28 +124,25 @@ class ScanFragment(
 
 
     private fun startCameraConfig() {
-        viewModel?.startCamera(
-            requireContext(),
-            viewLifecycleOwner,
-            binding.cameraXPreviewHolder,
-            CameraTypes.QR_CODE_SCREEN,
-        ) { value ->
-            value as String
-            // logic of qr scan
-//            viewModel?.apply {
-//                readQrCode(qrCode = value)
-//
-//                qrCodeLiveData.observe(viewLifecycleOwner) {
-//                    // action after scanned success
-//                }
-//            }
-        }
+        viewModel.postEvent(
+            ScanContract.ScanEvent.StartQrCameraEvent(
+                requireContext(),
+                viewLifecycleOwner,
+                binding.cameraXPreviewHolder,
+                CameraTypes.QR_CODE_SCREEN,
+            ) { value ->
+                value as String
+                viewModel.postEvent(ScanContract.ScanEvent.ReadQrCodeEvent(qrCode = value))
+            }
+        )
 
-        viewModel?.startCamera(
-            requireContext(),
-            viewLifecycleOwner,
-            binding.cameraXPreviewHolderBackground,
-            CameraTypes.QR_CODE_SCREEN,
+        viewModel.postEvent(
+            ScanContract.ScanEvent.StartCameraEvent(
+                requireContext(),
+                viewLifecycleOwner,
+                binding.cameraXPreviewHolderBackground,
+                CameraTypes.QR_CODE_SCREEN
+            )
         )
     }
 
@@ -144,20 +183,22 @@ class ScanFragment(
         launchGallerySelection.launch(intent)
     }
 
-    private fun navigateToModifyPdf() {
-        selectedImage?.let {
-            val material = viewModel?.createMaterial(
-                title = "Selected image",
-                uri = it,
-                image = it.toString()
-            )?.copy()
+    private fun navigateToModifyPdf(material: MappedMaterialModel) {
+        val action =
+            ScanTypeFragmentDirections
+                .actionScanTypeFragmentToModifyPdfFragment(material, SCAN_QR_TYPE)
+        navigate(action)
+    }
 
-            val action =
-                ScanTypeFragmentDirections.actionScanTypeFragmentToModifyPdfFragment(
-                    material,
-                    SCAN_QR_TYPE
+    private fun createMaterialEvent() {
+        selectedImage?.let {
+            viewModel.postEvent(
+                ScanContract.ScanEvent.CreateMaterialEvent(
+                    title = "Selected image",
+                    uri = it,
+                    image = it.toString()
                 )
-            navigate(action)
+            )
         }
     }
 

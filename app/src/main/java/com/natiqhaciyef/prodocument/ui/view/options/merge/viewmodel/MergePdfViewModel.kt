@@ -1,17 +1,14 @@
 package com.natiqhaciyef.prodocument.ui.view.options.merge.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
+import com.natiqhaciyef.domain.usecase.MATERIAL_LIST
+import com.natiqhaciyef.domain.usecase.MATERIAL_TITLE
 import com.natiqhaciyef.domain.usecase.material.merge.MergeMaterialsUseCase
-import com.natiqhaciyef.prodocument.ui.base.BaseUIState
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
-import com.natiqhaciyef.prodocument.ui.base.State
-import com.natiqhaciyef.prodocument.ui.base.TotalUIState
 import com.natiqhaciyef.prodocument.ui.util.DefaultImplModels
-import com.natiqhaciyef.prodocument.ui.view.options.merge.event.MergePdfEvent
+import com.natiqhaciyef.prodocument.ui.view.options.merge.contract.MergePdfContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -20,54 +17,38 @@ import javax.inject.Inject
 @HiltViewModel
 class MergePdfViewModel @Inject constructor(
     private val mergeMaterialsUseCase: MergeMaterialsUseCase
-) : BaseViewModel<MergePdfEvent>() {
-    private val _mergedFileLiveData =
-        MutableLiveData<BaseUIState<MappedMaterialModel>>(BaseUIState())
-    val mergeFileLiveData: LiveData<BaseUIState<MappedMaterialModel>>
-        get() = _mergedFileLiveData
+) : BaseViewModel<MergePdfContract.MergePdfState, MergePdfContract.MergePdfEvent, MergePdfContract.MergePdfEffect>() {
 
-    fun getDefaultMockFile() = DefaultImplModels.mappedMaterialModel
+    override fun onEventUpdate(event: MergePdfContract.MergePdfEvent) {
+        when(event){
+            is MergePdfContract.MergePdfEvent.MergeMaterialsEvent -> mergeMaterials(event.title, event.list)
+        }
+    }
 
-    fun mergeMaterials(list: List<MappedMaterialModel>) {
+    private fun mergeMaterials(title: String, list: List<MappedMaterialModel>) {
+        val map = mapOf(MATERIAL_TITLE to title, MATERIAL_LIST to list)
         viewModelScope.launch {
-            mergeMaterialsUseCase.operate(list).collectLatest { result ->
+            mergeMaterialsUseCase.operate(map).collectLatest { result ->
                 when (result.status) {
                     Status.SUCCESS -> {
                         if (result.data != null)
-                            _mergedFileLiveData.value = _mergedFileLiveData.value?.copy(
-                                obj = result.data!!,
-                                list = listOf(result.data!!),
-                                isLoading = false,
-                                isSuccess = true,
-                                message = null,
-                                failReason = null
-                            )
+                            setBaseState(getCurrentBaseState().copy(isLoading = false, mappedMaterialModel = result.data))
                     }
 
                     Status.ERROR -> {
-                        _mergedFileLiveData.value = _mergedFileLiveData.value?.copy(
-                            obj = null,
-                            list = listOf(),
-                            isLoading = false,
-                            isSuccess = false,
+                        setBaseState(getCurrentBaseState().copy(isLoading = false))
+                        postEffect(MergePdfContract.MergePdfEffect.MergeFailedEffect(
                             message = result.message,
-                            failReason = result.exception
-                        )
+                            exception = result.exception
+                        ))
                     }
                     Status.LOADING -> {
-                        _mergedFileLiveData.value = _mergedFileLiveData.value?.copy(
-                            obj = null,
-                            list = listOf(),
-                            isLoading = true,
-                            isSuccess = false,
-                            message = null,
-                            failReason = null
-                        )
+                        setBaseState(getCurrentBaseState().copy(isLoading = true))
                     }
                 }
             }
         }
     }
 
-    override fun getInitialState(): State = State(TotalUIState.Empty)
+    override fun getInitialState(): MergePdfContract.MergePdfState = MergePdfContract.MergePdfState()
 }

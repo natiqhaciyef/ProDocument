@@ -2,12 +2,13 @@ package com.natiqhaciyef.data.mock.materials
 
 import com.natiqhaciyef.common.helpers.getNow
 import com.natiqhaciyef.data.base.mock.BaseMockGenerator
+import com.natiqhaciyef.data.network.request.MergeRequest
 import com.natiqhaciyef.data.network.response.CRUDResponse
 import com.natiqhaciyef.data.network.response.MaterialResponse
 
 class MergeMaterialsMockGenerator(
-    override var takenRequest: List<MaterialResponse>
-) : BaseMockGenerator<List<MaterialResponse>, MaterialResponse>() {
+    override var takenRequest: MergeRequest
+) : BaseMockGenerator<MergeRequest, MaterialResponse>() {
     override var createdMock: MaterialResponse = MaterialResponse(
         id = "materialId",
         publishDate = getNow(),
@@ -23,8 +24,8 @@ class MergeMaterialsMockGenerator(
     )
 
     override fun getMock(
-        request: List<MaterialResponse>,
-        action: (List<MaterialResponse>) -> MaterialResponse?
+        request: MergeRequest,
+        action: (MergeRequest) -> MaterialResponse?
     ): MaterialResponse {
         return if (request == takenRequest) {
             createdMock
@@ -44,6 +45,9 @@ class MergeMaterialsMockGenerator(
             url = "",
             result = null
         )
-        val customRequest = listOf(materialResponse, materialResponse)
+        val customRequest = MergeRequest(
+            title = "",
+            list = listOf(materialResponse, materialResponse)
+        )
     }
 }

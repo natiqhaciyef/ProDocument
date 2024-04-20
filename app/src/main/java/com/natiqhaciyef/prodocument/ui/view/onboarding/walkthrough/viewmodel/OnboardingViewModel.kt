@@ -4,16 +4,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.common.model.UIResult
-import com.natiqhaciyef.common.model.mapped.MappedTokenModel
-import com.natiqhaciyef.common.model.mapped.MappedUserModel
+import com.natiqhaciyef.common.model.mapped.MappedUserWithoutPasswordModel
 import com.natiqhaciyef.domain.usecase.user.remote.GetUserByTokenRemoteUseCase
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
-import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.REGISTER_ROUTE
 import com.natiqhaciyef.prodocument.ui.base.BaseUIState
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
-import com.natiqhaciyef.prodocument.ui.base.State
-import com.natiqhaciyef.prodocument.ui.base.TotalUIState
-import com.natiqhaciyef.prodocument.ui.view.onboarding.walkthrough.event.OnBoardingEvent
+import com.natiqhaciyef.prodocument.ui.view.onboarding.walkthrough.contract.OnBoardingContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -23,12 +19,21 @@ import javax.inject.Inject
 @HiltViewModel
 class OnboardingViewModel @Inject constructor(
     private val getUserByTokenRemoteUseCase: GetUserByTokenRemoteUseCase
-) : BaseViewModel<OnBoardingEvent>() {
-    private val _userState = MutableLiveData(BaseUIState<UIResult<MappedUserModel>>())
-    val userState: MutableLiveData<BaseUIState<UIResult<MappedUserModel>>>
+) : BaseViewModel<OnBoardingContract.OnboardingState, OnBoardingContract.OnBoardingEvent, OnBoardingContract.OnboardingEffect>() {
+    private val _userState =
+        MutableLiveData(BaseUIState<UIResult<MappedUserWithoutPasswordModel>>())
+    val userState: MutableLiveData<BaseUIState<UIResult<MappedUserWithoutPasswordModel>>>
         get() = _userState
 
-    fun onboardingAction(
+    override fun onEventUpdate(event: OnBoardingContract.OnBoardingEvent) {
+        when(event){
+            is OnBoardingContract.OnBoardingEvent.GetUserByEmailEvent -> {getUserByEmail(event.email)}
+            is OnBoardingContract.OnBoardingEvent.SkipButtonClickEvent -> {actionForOnBoarding(event.onAction)}
+            is OnBoardingContract.OnBoardingEvent.OnboardingEvent -> {onboardingAction(event.onAction)}
+        }
+    }
+
+    private fun onboardingAction(
         onAction: (String) -> Unit = {},
     ) {
         viewModelScope.launch {
@@ -37,7 +42,7 @@ class OnboardingViewModel @Inject constructor(
         }
     }
 
-    fun actionForOnBoarding(onAction: (String) -> Unit) {
+    private fun actionForOnBoarding(onAction: (String) -> Unit) {
         if (userState.value != null && userState.value?.obj != null) {
             onAction(HOME_ROUTE)
         } else {
@@ -46,48 +51,31 @@ class OnboardingViewModel @Inject constructor(
         }
     }
 
-    fun getUserByToken(token: MappedTokenModel) {
+    private fun getUserByEmail(email: String = "") {
         viewModelScope.launch {
-            if (!token.uid.isNullOrEmpty()) {
-                getUserByTokenRemoteUseCase.operate(token.uid!!).collectLatest { result ->
-                    when (result.status) {
-                        Status.LOADING -> {
-                            _userState.value = _userState.value?.copy(
-                                isLoading = true,
-                                obj = null,
-                                isSuccess = false,
-                                failReason = null,
-                                list = listOf(),
-                                message = null
-                            )
-                        }
+            getUserByTokenRemoteUseCase.operate(email).collectLatest { result ->
+                when (result.status) {
+                    Status.LOADING -> {
+                        setBaseState(getCurrentBaseState().copy(isLoading = true))
+                    }
 
-                        Status.SUCCESS -> {
-                            _userState.value = _userState.value?.copy(
+                    Status.SUCCESS -> {
+                        setBaseState(
+                            getCurrentBaseState().copy(
                                 isLoading = false,
-                                obj = result.data,
-                                isSuccess = true,
-                                failReason = null,
-                                list = listOf(),
-                                message = null
+                                user = result.data
                             )
-                        }
+                        )
+                    }
 
-                        Status.ERROR -> {
-                            _userState.value = _userState.value?.copy(
-                                isLoading = false,
-                                obj = null,
-                                isSuccess = false,
-                                failReason = result.exception,
-                                list = listOf(),
-                                message = result.message
-                            )
-                        }
+                    Status.ERROR -> {
+//                            setBaseState(getCurrentBaseState().copy(isLoading = false, user = result.data?.data))
                     }
                 }
             }
         }
     }
 
-    override fun getInitialState(): State = State(TotalUIState.Empty)
+    override fun getInitialState(): OnBoardingContract.OnboardingState =
+        OnBoardingContract.OnboardingState()
 }
