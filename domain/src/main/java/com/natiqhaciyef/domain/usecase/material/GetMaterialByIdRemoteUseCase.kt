@@ -1,10 +1,8 @@
 package com.natiqhaciyef.domain.usecase.material
 
-import com.natiqhaciyef.domain.mapper.toUIResult
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.domain.base.usecase.BaseUseCase
 import com.natiqhaciyef.domain.base.usecase.UseCase
-import com.natiqhaciyef.common.model.UIResult
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.common.objects.ResultExceptions
@@ -12,7 +10,6 @@ import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.domain.mapper.toMappedModel
 import com.natiqhaciyef.domain.repository.MaterialRepository
 import com.natiqhaciyef.domain.usecase.MATERIAL_ID
-import com.natiqhaciyef.domain.usecase.MATERIAL_TOKEN
 import com.natiqhaciyef.domain.usecase.USER_EMAIL
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -29,10 +26,10 @@ class GetMaterialByIdRemoteUseCase @Inject constructor(
         flow {
             emit(Resource.loading(null))
             val materialId = data[MATERIAL_ID].toString()
-            val token = data[USER_EMAIL].toString()
+            val email = data[USER_EMAIL].toString()
 
 
-            when (val result = repository.getMaterialById(materialId = materialId, token = token)) {
+            when (val result = repository.getMaterialById(materialId = materialId, email = email)) {
                 is NetworkResult.Success -> {
                     val model = result.data.toMappedModel()
 

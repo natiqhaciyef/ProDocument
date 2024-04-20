@@ -8,9 +8,9 @@ import com.natiqhaciyef.prodocument.ui.base.UiState
 object HomeContract {
 
     sealed class HomeEvent: UiEvent {
-        class GetAllMaterials(val token: String) : HomeEvent()
+        class GetAllMaterials(val email: String) : HomeEvent()
 
-        class GetMaterialById(val id: String, val token: String) : HomeEvent()
+        class GetMaterialById(val id: String, val email: String) : HomeEvent()
     }
 
     sealed class HomeEffect: UiEffect{

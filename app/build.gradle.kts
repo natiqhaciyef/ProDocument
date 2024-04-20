@@ -161,6 +161,9 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
 
+    //Reflection
+    implementation(kotlin("reflect"))
+
     // TestImplementations
     implementation("androidx.test:core:1.5.0")
     testImplementation("junit:junit:4.13.2")

@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.natiqhaciyef.common.model.mapped.MappedTokenModel
@@ -19,7 +18,6 @@ import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.TOKEN_KEY
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkEmailAcceptanceCondition
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkPasswordAcceptanceCondition
-import com.natiqhaciyef.prodocument.ui.view.registration.create_account.contract.CompleteProfileContract
 import com.natiqhaciyef.prodocument.ui.view.registration.create_account.contract.CreateAccountContract
 import com.natiqhaciyef.prodocument.ui.view.registration.create_account.viewmodel.CreateAccountViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,6 +52,10 @@ class CreateAccountFragment(
 
             else -> {
                 changeVisibilityOfProgressBar(false)
+
+                if (state.token != null) {
+                    tokenStoring(state.token)
+                }
             }
         }
     }
@@ -73,8 +75,6 @@ class CreateAccountFragment(
             is CreateAccountContract.CreateAccountEffect.UserCreationSucceedEffect -> {
                 createResultAlertDialog()
             }
-
-            else -> {}
         }
     }
 
@@ -126,7 +126,7 @@ class CreateAccountFragment(
         )
     }
 
-    private fun tokenObserving(tokenModel: MappedTokenModel?) {
+    private fun tokenStoring(tokenModel: MappedTokenModel?) {
         lifecycleScope.launch {
             if (tokenModel != null) {
                 dataStore.saveParcelableClassData(

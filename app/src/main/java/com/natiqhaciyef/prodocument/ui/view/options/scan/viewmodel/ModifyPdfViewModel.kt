@@ -12,6 +12,7 @@ import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.domain.usecase.MATERIAL_MODEL
 import com.natiqhaciyef.domain.usecase.MATERIAL_TOKEN
+import com.natiqhaciyef.domain.usecase.USER_EMAIL
 import com.natiqhaciyef.domain.usecase.material.CreateMaterialUseCase
 import com.natiqhaciyef.domain.worker.config.JPEG
 import com.natiqhaciyef.domain.worker.config.PDF
@@ -34,7 +35,7 @@ class ModifyPdfViewModel @Inject constructor(
     override fun onEventUpdate(event: ModifyPdfContract.ModifyPdfEvent) {
         when(event){
             is ModifyPdfContract.ModifyPdfEvent.CreateMaterialEvent -> {
-                createMaterial(event.token, event.material)
+                createMaterial(event.email, event.material)
             }
 
             is ModifyPdfContract.ModifyPdfEvent.GetShareOptions -> {
@@ -82,11 +83,11 @@ class ModifyPdfViewModel @Inject constructor(
         )))
     }
 
-    private fun createMaterial(token: MappedTokenModel, material: MappedMaterialModel) {
-        if (!token.uid.isNullOrEmpty()) {
+    private fun createMaterial(email: String, material: MappedMaterialModel) {
+        if (email.isNotEmpty()) {
             val materialStr = material.toJsonString()
             val requestMap = hashMapOf(
-                MATERIAL_TOKEN to token.uid!!,
+                USER_EMAIL to email,
                 MATERIAL_MODEL to materialStr
             )
 

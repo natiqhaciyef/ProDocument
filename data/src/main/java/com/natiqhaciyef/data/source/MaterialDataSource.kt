@@ -20,38 +20,39 @@ class MaterialDataSource(
     private val service: MaterialService
 ) {
 
-    suspend fun getAllFiles(token: String) = withContext(Dispatchers.IO) {
-        val mock = generateMockerClass(GetAllMaterialsMockGenerator::class, token)
-            .getMock(MATERIAL_TOKEN_MOCK_KEY) { null }
+    suspend fun getAllFiles(email: String) = withContext(Dispatchers.IO) {
+        val mock = generateMockerClass(GetAllMaterialsMockGenerator::class, email)
+            .getMock(USER_EMAIL_MOCK_KEY) { null }
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
-            service.getMaterials(token = token)
+            service.getMaterials(email = email)
         }
     }
 
-    suspend fun getFileById(materialId: String, token: String) = withContext(Dispatchers.IO) {
-        val map = mapOf(MATERIAL_TOKEN_MOCK_KEY to token, MATERIAL_ID_MOCK_KEY to materialId)
+    suspend fun getFileById(materialId: String, email: String) = withContext(Dispatchers.IO) {
+        val map = mapOf(USER_EMAIL_MOCK_KEY to email, MATERIAL_ID_MOCK_KEY to materialId)
         val mock = generateMockerClass(GetMaterialByIdMockGenerator::class, map)
             .getMock(GetMaterialByIdMockGenerator.customRequest) { null }
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.getMaterialById(
                 materialId = materialId,
-                token = token
+                email = email
             )
         }
     }
 
-    suspend fun createMaterialById(materialModel: MaterialResponse, materialToken: String) =
+    suspend fun createMaterialById(materialModel: MaterialResponse, email: String) =
         withContext(Dispatchers.IO) {
             val map =
-                mapOf(MATERIAL_MOCK_KEY to materialModel, MATERIAL_TOKEN_MOCK_KEY to materialToken)
+                mapOf(MATERIAL_MOCK_KEY to materialModel, USER_EMAIL_MOCK_KEY to email)
+
             val mock = generateMockerClass(CreateMaterialMockGenerator::class, map)
                 .getMock(CreateMaterialMockGenerator.customRequest) { null }
 
             handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
                 service.createMaterialById(
-                    token = materialToken,
+                    email = email,
                     publishDate = materialModel.publishDate,
                     image = materialModel.image,
                     title = materialModel.title ?: "",
@@ -62,33 +63,33 @@ class MaterialDataSource(
             }
         }
 
-    suspend fun removeMaterialById(materialToken: String, materialId: String) =
+    suspend fun removeMaterialById(email: String, materialId: String) =
         withContext(Dispatchers.IO) {
             val map =
-                mapOf(MATERIAL_TOKEN_MOCK_KEY to materialToken, MATERIAL_ID_MOCK_KEY to materialId)
+                mapOf(USER_EMAIL_MOCK_KEY to email, MATERIAL_ID_MOCK_KEY to materialId)
             val mock = generateMockerClass(RemoveMaterialMockGenerator::class, map)
                 .getMock(RemoveMaterialMockGenerator.customRequest) { null }
 
             handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
                 service.removeMaterialById(
-                    token = materialToken,
+                    email = email,
                     id = materialId
                 )
             }
         }
 
     suspend fun updateMaterialById(
-        materialToken: String,
+        email: String,
         materialModel: MaterialResponse
     ) = withContext(Dispatchers.IO) {
         val map =
-            mapOf(MATERIAL_MOCK_KEY to materialModel, MATERIAL_TOKEN_MOCK_KEY to materialToken)
+            mapOf(MATERIAL_MOCK_KEY to materialModel, USER_EMAIL_MOCK_KEY to email)
         val mock = generateMockerClass(UpdateMaterialMockGenerator::class, map)
             .getMock(UpdateMaterialMockGenerator.customRequest) { null }
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.updateMaterialById(
-                token = materialToken,
+                email = email,
                 id = materialModel.id,
                 publishDate = materialModel.publishDate,
                 image = materialModel.image,

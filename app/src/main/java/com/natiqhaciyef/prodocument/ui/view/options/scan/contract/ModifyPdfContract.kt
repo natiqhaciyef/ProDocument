@@ -13,7 +13,7 @@ object ModifyPdfContract {
 
     sealed class ModifyPdfEvent : UiEvent {
         data class CreateMaterialEvent(
-            var token: MappedTokenModel,
+            var email: String,
             var material: MappedMaterialModel
         ) : ModifyPdfEvent()
 
