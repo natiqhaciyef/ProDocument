@@ -27,11 +27,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             supportFragmentManager.findFragmentById(R.id.fragmentContainerViewHome) as NavHostFragment
         NavigationUI.setupWithNavController(binding.bottomNavBar, navHostFragment.navController)
 
-        val appBarConfiguration = AppBarConfiguration(navGraph = navHostFragment.navController.graph)
+        val appBarConfiguration = AppBarConfiguration(setOf(
+            R.id.homeFragment,
+            R.id.filesFragment,
+            R.id.premiumFragment,
+            R.id.profileFragment
+        ))
         binding.materialToolbar.setupWithNavController(
             navHostFragment.navController,
             appBarConfiguration
         )
+        actionBar?.setDisplayShowHomeEnabled(false)
     }
 
     override fun onDestroy() {
