@@ -1,12 +1,11 @@
 package com.natiqhaciyef.prodocument.ui.view.registration.create_account.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
 import com.natiqhaciyef.prodocument.ui.util.DefaultImplModels
+import com.natiqhaciyef.prodocument.ui.view.registration.create_account.contract.CompleteProfileContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -14,18 +13,18 @@ import javax.inject.Inject
 // zxing
 
 @HiltViewModel
-class CompleteProfileViewModel @Inject constructor() : BaseViewModel() {
-    private val _userState =
-        MutableLiveData(DefaultImplModels.mappedUserModel)
-    val userState: LiveData<MappedUserModel>
-        get() = _userState
+class CompleteProfileViewModel @Inject constructor() :
+    BaseViewModel<CompleteProfileContract.CompleteUiState, CompleteProfileContract.CompleteUiEvent, CompleteProfileContract.CompleteUiEffect>() {
 
+    override fun onEventUpdate(event: CompleteProfileContract.CompleteUiEvent) {
+        when (event) {
+            is CompleteProfileContract.CompleteUiEvent.CollectUserData -> {
+                collectDataFromCompleteProfileScreen(event.user)
+            }
+        }
+    }
 
-    fun collectDataFromCompleteProfileScreen(
-        data: MappedUserModel,
-        onSuccess: () -> Unit = { },
-        onFail: (Exception?) -> Unit = {}
-    ) {
+    private fun collectDataFromCompleteProfileScreen(data: MappedUserModel) {
         viewModelScope.launch {
             if (
                 data.name.isNotEmpty()
@@ -35,19 +34,26 @@ class CompleteProfileViewModel @Inject constructor() : BaseViewModel() {
                 && data.birthDate.isNotEmpty()
                 && data.gender.isNotEmpty()
             ) {
-                _userState.value?.let {
-                    it.name = data.name
-                    it.phoneNumber = data.phoneNumber
-                    it.imageUrl = data.imageUrl
-                    it.birthDate = data.birthDate
-                    it.gender = data.gender
+                val mappedUserModel = DefaultImplModels.mappedUserModel.apply {
+                    name = data.name
+                    phoneNumber = data.phoneNumber
+                    imageUrl = data.imageUrl
+                    birthDate = data.birthDate
+                    gender = data.gender
                 }
 
-                onSuccess()
+                setBaseState(getCurrentBaseState().copy(user = mappedUserModel))
             } else {
-                onFail(Exception(ErrorMessages.EMPTY_FIELD))
+                postEffect(
+                    CompleteProfileContract.CompleteUiEffect.FieldNotCorrectlyFilledEffect(
+                        error = Exception(ErrorMessages.EMPTY_FIELD),
+                        message = ErrorMessages.EMPTY_FIELD
+                    )
+                )
             }
         }
     }
 
+    override fun getInitialState(): CompleteProfileContract.CompleteUiState =
+        CompleteProfileContract.CompleteUiState()
 }

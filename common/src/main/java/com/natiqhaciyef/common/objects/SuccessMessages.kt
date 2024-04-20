@@ -11,4 +11,6 @@ object SuccessMessages {
     const val USER_FOUND_SUCCESS = "User successfully found"
     const val DATA_LOADED_SUCCESSFULLY = "Data loaded successfully"
     const val SUCCESS = "Success"
+
+    const val CHANGE_PASSWORD_SUCCESS = "Your password changed now!"
 }

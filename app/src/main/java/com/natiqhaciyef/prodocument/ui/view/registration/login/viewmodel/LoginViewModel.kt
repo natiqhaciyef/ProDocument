@@ -9,6 +9,8 @@ import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.domain.usecase.user.remote.SignInRemoteUseCase
 import com.natiqhaciyef.prodocument.ui.base.BaseUIState
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
+import com.natiqhaciyef.prodocument.ui.base.State
+import com.natiqhaciyef.prodocument.ui.view.registration.login.contract.LoginContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -17,17 +19,26 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val signInRemoteUseCase: SignInRemoteUseCase
-) : BaseViewModel() {
-    private val _tokenState = MutableLiveData<BaseUIState<MappedTokenModel>>(BaseUIState())
-    val tokenState: LiveData<BaseUIState<MappedTokenModel>>
-        get() = _tokenState
+) : BaseViewModel<LoginContract.LoginState, LoginContract.LoginEvent, LoginContract.LoginEffect>() {
 
+    override fun onEventUpdate(event: LoginContract.LoginEvent) {
+        when(event) {
+            is LoginContract.LoginEvent.LoginClickEvent -> signIn(event.email, event.password)
+            is LoginContract.LoginEvent.GoogleSignInClickEvent -> signInWithGoogle()
+            is LoginContract.LoginEvent.AppleSignInClickEvent -> signInWithApple()
+            is LoginContract.LoginEvent.FacebookSignInClickEvent -> signInWithFacebook()
+        }
+    }
 
-    fun signIn(
+    private fun signInWithGoogle(){}
+
+    private fun signInWithApple(){}
+
+    private fun signInWithFacebook(){}
+
+    private fun signIn(
         email: String,
-        password: String,
-        onSuccess: () -> Unit = {},
-        onFail: (Exception?) -> Unit = {}
+        password: String
     ) {
         val map = mapOf("email" to email, "password" to password)
         viewModelScope.launch {
@@ -40,44 +51,29 @@ class LoginViewModel @Inject constructor(
                     when (result.status) {
                         Status.SUCCESS -> {
                             if (result.data != null) {
-                                _tokenState.value?.apply {
-                                    obj = result.data
-                                    list = listOf()
-                                    isLoading = false
-                                    isSuccess = true
-                                    message = null
-                                    failReason = null
-                                }
-                                onSuccess()
+                                setBaseState(getCurrentBaseState().copy(isLoading = false, tokenModel = result.data))
                             }
                         }
 
                         Status.ERROR -> {
-                            _tokenState.value?.apply {
-                                obj = null
-                                list = listOf()
-                                isLoading = false
-                                isSuccess = false
-                                message = result.message
-                                failReason = result.exception
-                            }
+                            postEffect(LoginContract.LoginEffect.LoginFailedEffect(
+                                message = result.message,
+                                exception = result.exception
+                            ))
+                            setBaseState(getCurrentBaseState().copy(isLoading = false))
                         }
 
                         Status.LOADING -> {
-                            _tokenState.value?.apply {
-                                obj = null
-                                list = listOf()
-                                isLoading = true
-                                isSuccess = false
-                                message = null
-                                failReason = null
-                            }
+                            setBaseState(getCurrentBaseState().copy(isLoading = true))
                         }
                     }
                 }
             } else {
-                onFail(Exception(ErrorMessages.EMPTY_FIELD))
+                postEffect(LoginContract.LoginEffect.EmptyFieldEffect)
+//                Exception(ErrorMessages.EMPTY_FIELD)
             }
         }
     }
+
+    override fun getInitialState(): LoginContract.LoginState = LoginContract.LoginState()
 }

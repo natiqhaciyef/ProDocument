@@ -1,7 +1,18 @@
 package com.natiqhaciyef.data.source
 
+import com.natiqhaciyef.common.objects.OTP_MOCK_KEY
+import com.natiqhaciyef.common.objects.USER_EMAIL_MOCK_KEY
+import com.natiqhaciyef.common.objects.USER_PASSWORD_MOCK_KEY
+import com.natiqhaciyef.common.objects.USER_TOKEN_MOCK_KEY
+import com.natiqhaciyef.data.base.mock.generateMockerClass
 import com.natiqhaciyef.data.local.dao.UserDao
 import com.natiqhaciyef.data.local.entity.UserEntity
+import com.natiqhaciyef.data.mock.users.AccountMockGenerator
+import com.natiqhaciyef.data.mock.users.OtpMockGenerator
+import com.natiqhaciyef.data.mock.users.GetUserMockGenerator
+import com.natiqhaciyef.data.mock.users.LogOutMockGenerator
+import com.natiqhaciyef.data.mock.users.SignInMockGenerator
+import com.natiqhaciyef.data.network.LoadType
 import com.natiqhaciyef.data.network.handleNetworkResponse
 import com.natiqhaciyef.data.network.response.UserResponse
 import com.natiqhaciyef.data.network.service.UserService
@@ -13,14 +24,22 @@ class UserDataSource(
     private val dao: UserDao
 ) {
     // network
-    suspend fun getUserFromNetwork(
-        token: String,
-    ) = withContext(Dispatchers.IO) { handleNetworkResponse { service.getUser(token = token) } }
+    suspend fun getUserFromNetwork(email: String) = withContext(Dispatchers.IO) {
+        val mock = generateMockerClass(GetUserMockGenerator::class, email)
+            .getMock(USER_EMAIL_MOCK_KEY) { null }
+
+        handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
+            service.getUser(email = email)
+        }
+    }
 
     suspend fun createAccountFromNetwork(
         userModel: UserResponse
     ) = withContext(Dispatchers.IO) {
-        handleNetworkResponse {
+        val mock = generateMockerClass(AccountMockGenerator::class, userModel)
+            .getMock(AccountMockGenerator.customRequest) { null }
+
+        handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.createAccount(
                 fullName = userModel.fullName,
                 phoneNumber = userModel.phoneNumber,
@@ -36,22 +55,54 @@ class UserDataSource(
     suspend fun signInFromNetwork(
         email: String,
         password: String
-    ) = withContext(Dispatchers.IO) { handleNetworkResponse { service.signIn(email, password) } }
+    ) = withContext(Dispatchers.IO) {
+        val map = mapOf(USER_EMAIL_MOCK_KEY to email, USER_PASSWORD_MOCK_KEY to password)
+        val mock = generateMockerClass(SignInMockGenerator::class, map)
+            .getMock(SignInMockGenerator.customRequest) { null }
 
-    suspend fun getOtpFromNetwork(
-        email: String,
-    ) = withContext(Dispatchers.IO) { handleNetworkResponse { service.getOtp(email) } }
+        handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
+            service.signIn(email, password)
+        }
+    }
 
-    suspend fun sendOtpToNetwork(
-        otp: String,
-    ) = withContext(Dispatchers.IO) { handleNetworkResponse { service.sendOtp(otp) } }
+    suspend fun getOtpFromNetwork(email: String) = withContext(Dispatchers.IO) {
+        val mock = generateMockerClass(OtpMockGenerator::class, email)
+            .getMock(USER_TOKEN_MOCK_KEY) { null }
+
+        handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
+            service.getOtp(email)
+        }
+    }
+
+    suspend fun sendOtpToNetwork(otp: String) = withContext(Dispatchers.IO) {
+        val mock = generateMockerClass(OtpMockGenerator::class, otp)
+            .getMock(OTP_MOCK_KEY) { null }
+
+        handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
+            service.sendOtp(otp)
+        }
+    }
 
     suspend fun updateUserPasswordByEmailFromNetwork(
         email: String,
         password: String
-    ) = withContext(Dispatchers.IO) { handleNetworkResponse { service.updateUserPasswordByEmail(email, password) } }
+    ) = withContext(Dispatchers.IO) {
+        val map = mapOf(USER_EMAIL_MOCK_KEY to email, USER_PASSWORD_MOCK_KEY to password)
+        val mock = generateMockerClass(AccountMockGenerator::class, map)
+            .getMock(AccountMockGenerator.customRequest) { null }
 
-    suspend fun logout() = withContext(Dispatchers.IO) { handleNetworkResponse { service.logout() } }
+        handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
+            service.updateUserPasswordByEmail(email, password)
+        }
+    }
+
+    suspend fun logout() = withContext(Dispatchers.IO) {
+        val mock = generateMockerClass(LogOutMockGenerator::class, null)
+            .getMock(null) { null }
+        handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
+            service.logout()
+        }
+    }
 
     // local
     suspend fun getUserFromLocal() = withContext(Dispatchers.IO) {

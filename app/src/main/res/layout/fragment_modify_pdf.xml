@@ -7,6 +7,24 @@
     android:background="@color/black"
     tools:context=".ui.view.options.scan.ModifyPdfFragment">
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/primary_900"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/uiLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
     <EditText
         android:id="@+id/pdfTitleText"
         android:layout_width="0dp"
@@ -112,4 +130,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintVertical_bias="1" />
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

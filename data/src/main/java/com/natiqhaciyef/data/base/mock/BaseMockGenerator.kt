@@ -8,13 +8,13 @@ abstract class BaseMockGenerator<In, Out : Any> {
     abstract var createdMock: Out
     abstract var takenRequest: In
 
-    abstract fun createInstance(): BaseMockGenerator<In, Out>
+    fun createInstance(): BaseMockGenerator<In, Out> = this
 
-    fun getMock(
+    abstract fun getMock(
         request: In,
         action: (In) -> Out?
-    ): Out =
-        if (request == takenRequest) { createdMock } else { action.invoke(request) ?: throw MockRequestException() }
+    ): Out
+
 
     companion object{
         class MockRequestException: Exception("Not valid request")

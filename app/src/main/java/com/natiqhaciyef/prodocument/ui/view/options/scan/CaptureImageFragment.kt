@@ -7,7 +7,9 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore.Images.Media
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -17,22 +19,25 @@ import androidx.core.net.toUri
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanning
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanningResult
 import com.natiqhaciyef.common.helpers.loadImage
+import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.ui.util.CameraReader
 import com.natiqhaciyef.prodocument.databinding.FragmentCaptureImageBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
 import com.natiqhaciyef.prodocument.ui.view.options.scan.behaviour.CameraTypes
+import com.natiqhaciyef.prodocument.ui.view.options.scan.contract.ScanContract
 import com.natiqhaciyef.prodocument.ui.view.options.scan.viewmodel.ScanViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.reflect.KClass
 
 //val inset = context.convertDpToPixel(16)
 
 @ExperimentalGetImage
 @AndroidEntryPoint
-class CaptureImageFragment : BaseFragment<FragmentCaptureImageBinding, ScanViewModel>(
-    FragmentCaptureImageBinding::inflate,
-    ScanViewModel::class
-) {
+class CaptureImageFragment(
+    override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentCaptureImageBinding = FragmentCaptureImageBinding::inflate,
+    override val viewModelClass: KClass<ScanViewModel> = ScanViewModel::class
+) : BaseFragment<FragmentCaptureImageBinding, ScanViewModel, ScanContract.ScanState, ScanContract.ScanEvent, ScanContract.ScanEffect>() {
     private var imageUri: Uri? = null
 
     private var scanner =
@@ -45,18 +50,13 @@ class CaptureImageFragment : BaseFragment<FragmentCaptureImageBinding, ScanViewM
                     GmsDocumentScanningResult.fromActivityResultIntent(result.data)
 
                 if (resultForPDF != null) {
-                    val material = viewModel?.createMaterial(
+                    viewModel.postEvent(ScanContract.ScanEvent.CreateMaterialEvent(
                         title = "Scanned file title",
                         uri = resultForPDF.pdf?.uri?.path.toString().toUri(),
-                        image = "${resultForPDF.pages?.map { it.imageUri.path.toString() }?.first()}"
-                    )
-
-                    val action =
-                        ScanTypeFragmentDirections.actionScanTypeFragmentToModifyPdfFragment(
-                            material,
-                            CAPTURE_IMAGE_TYPE
-                        )
-                    navigate(action)
+                        image = "${
+                            resultForPDF.pages?.map { it.imageUri.path.toString() }?.first()
+                        }"
+                    ))
                 }
             }
         }
@@ -64,7 +64,7 @@ class CaptureImageFragment : BaseFragment<FragmentCaptureImageBinding, ScanViewM
     private val registerForCameraPermissionResult =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
-                startCamera()
+                startCameraEvent()
                 imageScanningAction()
             }
         }
@@ -91,6 +91,8 @@ class CaptureImageFragment : BaseFragment<FragmentCaptureImageBinding, ScanViewM
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.postEvent(ScanContract.ScanEvent.ClearStateEvent)
+
         binding.goBackIcon.setOnClickListener { goBackIconAction() }
         imagePickFromGalleryAction()
 
@@ -102,16 +104,56 @@ class CaptureImageFragment : BaseFragment<FragmentCaptureImageBinding, ScanViewM
         })
     }
 
+    override fun onStateChange(state: ScanContract.ScanState) {
+        when{
+            state.isLoading -> {
+                changeVisibilityOfProgressBar()
+            }
+
+            else ->{
+                changeVisibilityOfProgressBar(false)
+                if (state.result != null){
+
+                }
+
+                if (state.material != null){
+                    imageResultAction(state.material!!)
+                }
+            }
+        }
+    }
+
+    override fun onEffectUpdate(effect: ScanContract.ScanEffect) {
+//        when(effect){
+//
+//        }
+    }
+
+    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
+        if (isVisible) {
+            binding.apply {
+                uiLayout.visibility = View.GONE
+                progressBar.visibility = View.VISIBLE
+                progressBar.isIndeterminate = true
+            }
+        } else {
+            binding.apply {
+                uiLayout.visibility = View.VISIBLE
+                progressBar.visibility = View.GONE
+                progressBar.isIndeterminate = false
+            }
+        }
+    }
+
     override fun onResume() {
         super.onResume()
-        viewModel?.isBackPressed?.value?.let {
-            println(it)
+        viewModel.isBackPressed.value?.let {
             if (!it) {
                 checkCameraPermission()
-                viewModel?.isBackPressed?.value = true
+                viewModel.isBackPressed.value = true
             } else {
                 navigateByRouteTitle(HOME_ROUTE)
-                viewModel?.isBackPressed?.value = false
+                viewModel.isBackPressed.value = false
             }
         }
     }
@@ -140,20 +182,19 @@ class CaptureImageFragment : BaseFragment<FragmentCaptureImageBinding, ScanViewM
         }
     }
 
-    private fun startCamera(
+    private fun startCameraEvent(
         view: View? = null,
     ) {
-        viewModel?.startCamera(
+        viewModel.postEvent(ScanContract.ScanEvent.StartCameraEvent(
             requireContext(),
             viewLifecycleOwner,
             binding.cameraXPreviewHolder,
             CameraTypes.CAPTURE_IMAGE_SCREEN,
-            view,
+            view
         ) { uri ->
             uri as Uri
-            println(uri)
             imageLoadingAction(uri)
-        }
+        })
     }
 
     private fun imageLoadingAction(uri: Uri?) {
@@ -201,8 +242,14 @@ class CaptureImageFragment : BaseFragment<FragmentCaptureImageBinding, ScanViewM
                 scannerLauncher.launch(IntentSenderRequest.Builder(intentSender).build())
             }
             .addOnFailureListener {
-                println(it.localizedMessage)
+
             }
+    }
+
+    private fun imageResultAction(material: MappedMaterialModel) {
+        val action =
+            ScanTypeFragmentDirections.actionScanTypeFragmentToModifyPdfFragment(material, CAPTURE_IMAGE_TYPE)
+        navigate(action)
     }
 
 
@@ -211,7 +258,7 @@ class CaptureImageFragment : BaseFragment<FragmentCaptureImageBinding, ScanViewM
         _binding = null
     }
 
-    companion object{
+    companion object {
         const val CAPTURE_IMAGE_TYPE = "capture-image-type"
     }
 }

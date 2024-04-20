@@ -9,9 +9,11 @@ import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.common.objects.ResultExceptions
 import com.natiqhaciyef.data.network.NetworkResult
+import com.natiqhaciyef.domain.mapper.toMappedModel
 import com.natiqhaciyef.domain.repository.MaterialRepository
 import com.natiqhaciyef.domain.usecase.MATERIAL_ID
 import com.natiqhaciyef.domain.usecase.MATERIAL_TOKEN
+import com.natiqhaciyef.domain.usecase.USER_EMAIL
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -19,21 +21,20 @@ import javax.inject.Inject
 @UseCase
 class GetMaterialByIdRemoteUseCase @Inject constructor(
     materialRepository: MaterialRepository
-) : BaseUseCase<MaterialRepository, Map<String, String>, UIResult<MappedMaterialModel>>(
+) : BaseUseCase<MaterialRepository, Map<String, String>, MappedMaterialModel>(
     materialRepository
 ) {
 
-    override fun operate(data: Map<String, String>): Flow<Resource<UIResult<MappedMaterialModel>>> =
+    override fun operate(data: Map<String, String>): Flow<Resource<MappedMaterialModel>> =
         flow {
             emit(Resource.loading(null))
             val materialId = data[MATERIAL_ID].toString()
-            val token = data[MATERIAL_TOKEN].toString()
+            val token = data[USER_EMAIL].toString()
 
 
-            val result = repository.getMaterialById(materialId = materialId, token = token)
-            when (result) {
+            when (val result = repository.getMaterialById(materialId = materialId, token = token)) {
                 is NetworkResult.Success -> {
-                    val model = result.data.toUIResult()
+                    val model = result.data.toMappedModel()
 
                     if (model?.result?.resultCode in 200..299 && model != null)
                         emit(Resource.success(data = model))

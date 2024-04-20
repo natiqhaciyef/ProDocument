@@ -27,7 +27,7 @@ interface UserService {
 
     @GET("")
     suspend fun getUser(
-        @Query("token") token: String,
+        @Query("email") email: String,
     ): Response<UserResponse>
 
     @POST("")

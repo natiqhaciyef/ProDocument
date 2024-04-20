@@ -29,9 +29,7 @@ class CreateMaterialUseCase @Inject constructor(
             .toMappedMaterial()
 
 
-        val result = repository.createMaterial(materialModel, token)
-
-        when (result) {
+        when (val result = repository.createMaterial(materialModel, token)) {
             is NetworkResult.Success -> {
                 val model = result.data.toModel()
 

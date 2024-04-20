@@ -20,7 +20,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.common.objects.ErrorMessages
@@ -31,26 +30,26 @@ import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkFullN
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkGenderAcceptanceCondition
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkPhoneAcceptanceCondition
 import com.natiqhaciyef.prodocument.ui.util.formatPhoneNumber
+import com.natiqhaciyef.prodocument.ui.view.registration.create_account.contract.CompleteProfileContract
 import com.natiqhaciyef.prodocument.ui.view.registration.create_account.viewmodel.CompleteProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import kotlin.reflect.KClass
 
 
 @AndroidEntryPoint
-class CompleteProfileFragment :
-    BaseFragment<FragmentCompleteProfileBinding, CompleteProfileViewModel>(
-        FragmentCompleteProfileBinding::inflate,
-        CompleteProfileViewModel::class
-    ) {
+class CompleteProfileFragment(
+    override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentCompleteProfileBinding = FragmentCompleteProfileBinding::inflate,
+    override val viewModelClass: KClass<CompleteProfileViewModel> = CompleteProfileViewModel::class
+) : BaseFragment<FragmentCompleteProfileBinding, CompleteProfileViewModel, CompleteProfileContract.CompleteUiState, CompleteProfileContract.CompleteUiEvent, CompleteProfileContract.CompleteUiEffect>() {
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
     private lateinit var activityLauncher: ActivityResultLauncher<Intent>
     private var currentSelectedTime: Long = 0L
     private var imageData: Uri? = null
     private var genderSelection: String = "Not-selected"
     private val genderList = listOf("Male", "Female")
-//    private val viewModel: CompleteProfileViewModel by viewModels()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -61,6 +60,7 @@ class CompleteProfileFragment :
         binding.apply {
             datePickerDialog(calendar)
             genderDropDownConfig()
+            changeVisibilityOfProgressBar(true)
 
             // validations
             fullNameValidation()
@@ -68,8 +68,46 @@ class CompleteProfileFragment :
             genderValidation()
 
             goBackIcon.setOnClickListener { navigateBack() }
-            continueButton.setOnClickListener { continueButtonClickAction() }
+            continueButton.setOnClickListener { continueButtonClickEvent() }
             completeProfileAccountImageEditIcon.setOnClickListener { selectImage() }
+        }
+    }
+
+    override fun onStateChange(state: CompleteProfileContract.CompleteUiState) {
+        when {
+            state.isLoading -> {
+                changeVisibilityOfProgressBar(false)
+            }
+
+            else -> {
+                changeVisibilityOfProgressBar(true)
+                continueButtonClickAction(state.user)
+            }
+        }
+    }
+
+    override fun onEffectUpdate(effect: CompleteProfileContract.CompleteUiEffect) {
+        when (effect) {
+            is CompleteProfileContract.CompleteUiEffect.FieldNotCorrectlyFilledEffect -> {
+                Toast.makeText(requireContext(), "${effect.message}", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+    }
+
+    private fun changeVisibilityOfProgressBar(isVisible: Boolean) {
+        if (isVisible) {
+            binding.apply {
+                uiLayout.visibility = View.GONE
+                progressBar.visibility = View.VISIBLE
+                progressBar.isIndeterminate = true
+            }
+        } else {
+            binding.apply {
+                uiLayout.visibility = View.VISIBLE
+                progressBar.visibility = View.GONE
+                progressBar.isIndeterminate = false
+            }
         }
     }
 
@@ -130,26 +168,32 @@ class CompleteProfileFragment :
         }
     }
 
-    private fun continueButtonClickAction() {
+    private fun continueButtonClickEvent() {
         binding.apply {
-            viewModel?.collectDataFromCompleteProfileScreen(
-                data = MappedUserModel(
-                    name = completeProfileFullNameInput.text.toString(),
-                    email = "",
-                    phoneNumber = completeProfilePhoneNumberInput.text.toString(),
-                    gender = genderSelection,
-                    birthDate = completeProfileDOBInput.text.toString(),
-                    imageUrl = imageData.toString(),
-                    password = ""
-                ),
-                onSuccess = {
-                    navigate(R.id.createAccountFragment)
-                },
-                onFail = {
-                    Toast.makeText(requireContext(), "${it?.localizedMessage}", Toast.LENGTH_SHORT)
-                        .show()
-                }
+            viewModel.postEvent(
+                CompleteProfileContract.CompleteUiEvent.CollectUserData(
+                    MappedUserModel(
+                        name = completeProfileFullNameInput.text.toString(),
+                        email = "",
+                        phoneNumber = completeProfilePhoneNumberInput.text.toString(),
+                        gender = genderSelection,
+                        birthDate = completeProfileDOBInput.text.toString(),
+                        imageUrl = imageData.toString(),
+                        password = ""
+                    )
+                )
             )
+        }
+    }
+
+    private fun continueButtonClickAction(userModel: MappedUserModel?) {
+        binding.continueButton.setOnClickListener {
+            userModel?.let {
+                val action =
+                    CompleteProfileFragmentDirections
+                        .actionCompleteProfileFragmentToCreateAccountFragment(userModel)
+                navigate(action)
+            }
         }
     }
 
@@ -201,11 +245,11 @@ class CompleteProfileFragment :
         if (calendar.time.time < System.currentTimeMillis())
             binding.completeProfileDOBInput.text = date
         else
-            binding?.completeProfileDOBInput?.text = ErrorMessages.DATE_OVER_FLOW_ERROR
+            binding.completeProfileDOBInput.text = ErrorMessages.DATE_OVER_FLOW_ERROR
     }
 
     private fun fullNameValidation() {
-        binding?.apply {
+        binding.apply {
             completeProfileFullNameInput.doOnTextChanged { text, start, before, count ->
                 continueButton.isEnabled = checkFullNameAcceptanceCondition(text)
                         && checkPhoneAcceptanceCondition(completeProfilePhoneNumberInput.text)

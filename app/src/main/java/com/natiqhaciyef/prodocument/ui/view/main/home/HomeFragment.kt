@@ -4,65 +4,90 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.net.toUri
-import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.prodocument.databinding.FragmentHomeBinding
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
-import com.natiqhaciyef.domain.worker.config.PDF
+import com.natiqhaciyef.common.objects.MATERIAL_TOKEN_MOCK_KEY
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.util.UiList
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.home.adapter.FileItemAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.home.adapter.MenuAdapter
+import com.natiqhaciyef.prodocument.ui.view.main.home.contract.HomeContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.reflect.KClass
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
-    FragmentHomeBinding::inflate,
-    HomeViewModel::class
-) {
-    private var searchIconClick = false
+class HomeFragment(
+    override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentHomeBinding = FragmentHomeBinding::inflate,
+    override val viewModelClass: KClass<HomeViewModel> = HomeViewModel::class
+) : BaseFragment<FragmentHomeBinding, HomeViewModel, HomeContract.HomeUiState, HomeContract.HomeEvent, HomeContract.HomeEffect>() {
     private lateinit var menuAdapter: MenuAdapter
     private lateinit var fileAdapter: FileItemAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as MainActivity).binding.bottomNavBar.visibility = View.VISIBLE
-
-        menuAdapterConfig()
-        fileAdapterConfig()
-
-        with(binding) {
-            topbarSearchIcon.setOnClickListener { searchIconClickAction() }
+        (activity as MainActivity).also {
+            it.binding.bottomNavBar.visibility = View.VISIBLE
+            it.binding.materialToolbar.setTitleToolbar(getString(R.string.proscan))
+            it.binding.materialToolbar.changeVisibility(View.VISIBLE)
         }
+        viewModel.postEvent(HomeContract.HomeEvent.GetAllMaterials(MATERIAL_TOKEN_MOCK_KEY))
+        menuAdapterConfig()
     }
 
-    private fun searchIconClickAction() {
-        searchIconClick = !searchIconClick
+    override fun onStateChange(state: HomeContract.HomeUiState) {
+        when {
+            state.isLoading -> {
+                changeVisibilityOfProgressBar(true)
+            }
 
-        binding.apply {
-            if (searchIconClick) {
-                topbarImage.visibility = View.GONE
-                topbarTitle.visibility = View.GONE
-                topbarSearch.visibility = View.VISIBLE
-            } else {
-                topbarImage.visibility = View.VISIBLE
-                topbarTitle.visibility = View.VISIBLE
-                topbarSearch.visibility = View.GONE
+            else -> {
+                changeVisibilityOfProgressBar()
+
+                fileAdapterConfig(state.list)
+
+                if (state.material != null){
+                    // navigate to single file action
+                }
             }
         }
     }
 
+    override fun onEffectUpdate(effect: HomeContract.HomeEffect) {
+        when(effect) {
+            is HomeContract.HomeEffect.FindMaterialByIdFailedEffect -> { }
+            is HomeContract.HomeEffect.MaterialListLoadingFailedEffect -> { }
+        }
+    }
+
+    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
+        if (isVisible) {
+            binding.apply {
+                progressBarIndicator.visibility = View.VISIBLE
+                progressBarIndicator.isIndeterminate = true
+            }
+        } else {
+            binding.apply {
+                progressBarIndicator.visibility = View.GONE
+                progressBarIndicator.isIndeterminate = false
+            }
+        }
+    }
+
+
     private fun menuAdapterConfig() {
-        menuAdapter = MenuAdapter(list = UiList.generateHomeMenuItemsList(requireContext()))
+        menuAdapter =
+            MenuAdapter(UiList.generateHomeMenuItemsList(requireContext()).toMutableList())
         menuAdapter.onClickAction = { route ->
             navigateByRouteTitle(route)
-            (activity as MainActivity).binding.bottomNavBar.visibility = View.GONE
+            (activity as MainActivity).apply {
+                binding.bottomNavBar.visibility = View.GONE
+                binding.appbarLayout.visibility = View.GONE
+            }
         }
 
         binding.apply {
@@ -73,30 +98,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
         }
     }
 
-    private fun fileAdapterConfig() {
-//        viewModel?.fileState?.observe(viewLifecycleOwner) { uiState ->
-//        fileAdapter = FileItemAdapter(requireContext(), uiState.list, requireContext().getString(R.string.scan_code))
-//        searchFile(uiState.list)
-//
-//        fileAdapter.onClickAction = { materialId ->
-            // navigate to file details screen
-//        }
-//
-//        binding.apply {
-//            filesRecyclerView.adapter = fileAdapter
-//            filesRecyclerView.layoutManager =
-//                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-//        }
-//        }
-    }
+    private fun fileAdapterConfig(list: List<MappedMaterialModel>?) {
+        list?.let {
+            fileAdapter =
+                FileItemAdapter(list.toMutableList(), requireContext().getString(R.string.scan_code))
 
-    private fun searchFile(list: List<MappedMaterialModel>) {
-        binding.apply {
-            topbarSearch.doOnTextChanged { text, start, before, count ->
-                text?.let {
-                    list.filter { it.title.contains(text.toString()) }
-                    fileAdapter.updateList(list)
-                }
+            fileAdapter.onClickAction = { materialId ->
+//                viewModel.postEvent(HomeContract.HomeEvent.GetMaterialById(id = materialId, token = ""))
+            }
+
+            binding.apply {
+                filesRecyclerView.adapter = fileAdapter
+                filesRecyclerView.layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             }
         }
     }
