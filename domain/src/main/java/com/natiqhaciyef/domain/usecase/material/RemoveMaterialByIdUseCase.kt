@@ -11,6 +11,7 @@ import com.natiqhaciyef.domain.base.usecase.UseCase
 import com.natiqhaciyef.domain.repository.MaterialRepository
 import com.natiqhaciyef.domain.usecase.MATERIAL_ID
 import com.natiqhaciyef.domain.usecase.MATERIAL_TOKEN
+import com.natiqhaciyef.domain.usecase.USER_EMAIL
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -23,10 +24,10 @@ class RemoveMaterialByIdUseCase @Inject constructor(
     override fun operate(data: Map<String, String>): Flow<Resource<CRUDModel>> = flow {
         emit(Resource.loading(null))
         val materialId = data[MATERIAL_ID].toString()
-        val materialToken = data[MATERIAL_TOKEN].toString()
+        val email = data[USER_EMAIL].toString()
 
         val result =
-            repository.removeMaterialById(materialId = materialId, materialToken = materialToken)
+            repository.removeMaterialById(materialId = materialId, email = email)
 
         when (result) {
             is NetworkResult.Success -> {

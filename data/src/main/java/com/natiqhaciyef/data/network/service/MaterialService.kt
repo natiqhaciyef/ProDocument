@@ -17,19 +17,19 @@ interface MaterialService {
 
     @GET("")
     suspend fun getMaterials(
-        @Path("material_token") token: String
+        @Path("email") email: String
     ): Response<ListMaterialResponse>
 
     @GET("")
     suspend fun getMaterialById(
         @Query("id") materialId: String,
-        @Path("material_token") token: String
+        @Path("email") email: String
     ): Response<MaterialResponse>
 
     @POST("")
     @FormUrlEncoded
     suspend fun createMaterialById(
-        @Field("material_token") token: String,
+        @Field("email") email: String,
         @Field("publish_date") publishDate: String,
         @Field("image") image: String,
         @Field("title") title: String,
@@ -41,14 +41,14 @@ interface MaterialService {
     @POST("")
     @FormUrlEncoded
     suspend fun removeMaterialById(
-        @Field("material_token") token: String,
+        @Field("email") email: String,
         @Field("material_id") id: String,
     ): Response<CRUDResponse>
 
     @POST("")
     @FormUrlEncoded
     suspend fun updateMaterialById(
-        @Field("material_token") token: String,
+        @Field("email") email: String,
         @Field("material_id") id: String,
         @Field("publish_date") publishDate: String,
         @Field("image") image: String,

@@ -58,7 +58,7 @@ class ChangePasswordFragment(
 
             else -> {
                 changeVisibilityOfProgressBar()
-                if (state.tokenModel != null){ onClickAction(tokenState = state.tokenModel!!) }
+                if (state.tokenModel != null){ tokenStoring(tokenState = state.tokenModel!!) }
             }
         }
     }
@@ -79,7 +79,7 @@ class ChangePasswordFragment(
         )
     }
 
-    private fun onClickAction(tokenState: MappedTokenModel) {
+    private fun tokenStoring(tokenState: MappedTokenModel) {
         lifecycleScope.launch {
             dataStore.saveParcelableClassData(
                 context = requireContext(),

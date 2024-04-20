@@ -12,7 +12,7 @@ import com.natiqhaciyef.domain.base.usecase.BaseUseCase
 import com.natiqhaciyef.domain.base.usecase.UseCase
 import com.natiqhaciyef.domain.repository.MaterialRepository
 import com.natiqhaciyef.domain.usecase.MATERIAL_MODEL
-import com.natiqhaciyef.domain.usecase.MATERIAL_TOKEN
+import com.natiqhaciyef.domain.usecase.USER_EMAIL
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -25,14 +25,14 @@ class UpdateMaterialByIdUseCase @Inject constructor(
     override fun operate(data: Map<String, String>): Flow<Resource<CRUDModel>> = flow {
         emit(Resource.loading(null))
 
-        val materialToken = data[MATERIAL_TOKEN].toString()
+        val email = data[USER_EMAIL].toString()
         val materialModel = data[MATERIAL_MODEL]
             .toString()
             .toMappedMaterial()
 
         val result = repository.updateMaterialById(
             materialModel = materialModel,
-            materialToken = materialToken
+            email = email
         )
 
         when (result) {

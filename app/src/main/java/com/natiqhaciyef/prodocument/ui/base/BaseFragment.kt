@@ -6,11 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.annotation.DrawableRes
-import androidx.annotation.NavigationRes
-import androidx.annotation.StringRes
-import androidx.annotation.StyleRes
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -21,7 +16,6 @@ import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
-import com.google.android.material.snackbar.Snackbar
 import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_MAIN_DEEPLINK
@@ -37,7 +31,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlin.reflect.KClass
 
-abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel<State, Event, Effect>, State: UiState, Event: UiEvent, Effect: UiEffect> :
+abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel<State, Event, Effect>, State : UiState, Event : UiEvent, Effect : UiEffect> :
     Fragment() {
     abstract val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB
     abstract val viewModelClass: KClass<VM>
@@ -244,16 +238,13 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel<State, Event, E
         pendingIntent.send()
     }
 
-    protected fun getToken(onSuccess: (MappedTokenModel) -> Unit = { }) = lifecycleScope.launch {
-        val result = dataStore.readParcelableClassData(
+    protected fun getEmail(onSuccess: (String) -> Unit = { }) = lifecycleScope.launch {
+        val result = dataStore.readString(
             context = requireContext(),
-            classType = MappedTokenModel::class.java,
-            key = AppStorePrefKeys.TOKEN_KEY
+            key = AppStorePrefKeys.EMAIL_KEY
         )
 
-        if (result != null) {
-            onSuccess(result)
-            return@launch
-        }
+        onSuccess(result)
+        return@launch
     }
 }
