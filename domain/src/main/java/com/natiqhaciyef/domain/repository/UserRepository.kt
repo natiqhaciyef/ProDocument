@@ -1,0 +1,38 @@
+package com.natiqhaciyef.domain.repository
+
+import com.natiqhaciyef.domain.base.repository.BaseRepository
+import com.natiqhaciyef.common.model.UIResult
+import com.natiqhaciyef.common.model.mapped.MappedUserModel
+import com.natiqhaciyef.data.local.entity.UserEntity
+import com.natiqhaciyef.data.network.NetworkResult
+import com.natiqhaciyef.data.network.response.CRUDResponse
+import com.natiqhaciyef.data.network.response.TokenResponse
+import com.natiqhaciyef.data.network.response.UserResponse
+import retrofit2.Response
+
+interface UserRepository : BaseRepository {
+
+    suspend fun getUser(email: String): NetworkResult<UserResponse>
+
+    suspend fun createAccount(user: MappedUserModel): NetworkResult<TokenResponse>
+
+    suspend fun signIn(email: String, password: String): NetworkResult<TokenResponse>
+
+    suspend fun getOtp(email: String): NetworkResult<CRUDResponse>
+
+    suspend fun sendOtp(otp: String): NetworkResult<CRUDResponse>
+
+    suspend fun updateUserPasswordByEmail(email: String, password: String): NetworkResult<TokenResponse>
+
+    suspend fun logout(): NetworkResult<CRUDResponse>
+
+
+    suspend fun getUserFromLocal(): List<UIResult<MappedUserModel>>?
+
+    suspend fun insertToLocal(userEntity: UserEntity)
+
+    suspend fun removeFromLocal(userEntity: UserEntity)
+
+    suspend fun updateFromLocal(userEntity: UserEntity)
+
+}

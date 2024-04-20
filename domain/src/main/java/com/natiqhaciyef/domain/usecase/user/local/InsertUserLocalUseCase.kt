@@ -1,0 +1,30 @@
+package com.natiqhaciyef.domain.usecase.user.local
+
+import com.natiqhaciyef.common.model.Resource
+import com.natiqhaciyef.domain.mapper.toEntity
+import com.natiqhaciyef.domain.base.usecase.BaseUseCase
+import com.natiqhaciyef.common.objects.ResultCases
+import com.natiqhaciyef.domain.base.usecase.UseCase
+import com.natiqhaciyef.common.model.UIResult
+import com.natiqhaciyef.common.model.mapped.MappedUserModel
+import com.natiqhaciyef.domain.repository.UserRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
+
+@UseCase
+class InsertUserLocalUseCase @Inject constructor(
+    userRepository: UserRepository
+) : BaseUseCase<UserRepository, UIResult<MappedUserModel>, Nothing>(userRepository) {
+
+    override fun run(data: UIResult<MappedUserModel>): Flow<Resource<Boolean>> = flow {
+        emit(Resource.loading(null))
+        repository.insertToLocal(data.toEntity())
+        emit(
+            Resource.success(
+                data = true,
+                message = ResultCases.INSERT_SUCCESS
+            )
+        )
+    }
+}

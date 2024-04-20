@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".ui.view.options.scan.ScanTypeFragment">
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/scanViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/scanTabLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/scanTabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintBottom_toTopOf="@+id/captureView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/scanViewPager"
+        app:tabIndicatorColor="@color/primary_900"
+        app:tabIndicatorFullWidth="true"
+        app:tabIndicatorHeight="10dp"
+        app:tabTextColor="@color/white" />
+
+    <View
+        android:id="@+id/captureView"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:elevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/scanTabLayout" />
+
+
+    <View
+        android:id="@+id/galleryBackground"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/circle_shape_background"
+        app:layout_constraintBottom_toBottomOf="@id/captureView"
+        app:layout_constraintEnd_toStartOf="@id/captureImageIcon"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/captureView" />
+
+    <ImageView
+        android:id="@+id/galleryForeground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/image_icon"
+        app:layout_constraintBottom_toBottomOf="@id/galleryBackground"
+        app:layout_constraintEnd_toEndOf="@id/galleryBackground"
+        app:layout_constraintStart_toStartOf="@id/galleryBackground"
+        app:layout_constraintTop_toTopOf="@id/galleryBackground"
+        app:tint="@color/primary_900" />
+
+    <ImageView
+        android:id="@+id/captureImageIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/capture_image_circle_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scanTabLayout"
+        app:tint="@color/primary_900" />
+
+    <!--    <ProgressBar-->
+    <!--        android:id="@+id/progressBar"-->
+    <!--        style="@style/RoundedCornerImage"-->
+    <!--        android:layout_width="108dp"-->
+    <!--        android:layout_height="108dp"-->
+    <!--        android:scaleX="-1"-->
+    <!--        android:progress="1"-->
+    <!--        android:indeterminateTint="@color/primary_900"-->
+    <!--        app:layout_constraintTop_toTopOf="@id/captureImageIcon"-->
+    <!--        app:layout_constraintStart_toStartOf="@id/captureImageIcon"-->
+    <!--        app:layout_constraintEnd_toEndOf="@id/captureImageIcon"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@id/captureImageIcon"-->
+    <!--        />-->
+
+    <ImageView
+        android:id="@+id/capturePreviewImage"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@color/white"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/captureImageIcon"
+        app:layout_constraintTop_toTopOf="@id/captureView" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
