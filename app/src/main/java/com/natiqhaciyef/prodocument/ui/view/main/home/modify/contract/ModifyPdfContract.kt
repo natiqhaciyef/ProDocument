@@ -3,10 +3,12 @@ package com.natiqhaciyef.prodocument.ui.view.main.home.modify.contract
 import android.content.Context
 import com.natiqhaciyef.common.model.CRUDModel
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
+import com.natiqhaciyef.prodocument.ui.base.BaseActivity
 import com.natiqhaciyef.prodocument.ui.base.UiEffect
 import com.natiqhaciyef.prodocument.ui.base.UiEvent
 import com.natiqhaciyef.prodocument.ui.base.UiState
 import com.natiqhaciyef.prodocument.ui.model.CategoryItem
+import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 
 object ModifyPdfContract {
 
@@ -16,7 +18,8 @@ object ModifyPdfContract {
             var material: MappedMaterialModel
         ) : ModifyPdfEvent()
 
-        data class GetShareOptions(val context: Context): ModifyPdfEvent()
+        data class GetShareOptions(val context: Context,
+                                   var activity: BaseActivity<*>): ModifyPdfEvent()
     }
 
     sealed class ModifyPdfEffect : UiEffect {

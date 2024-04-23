@@ -12,6 +12,8 @@ import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.objects.MATERIAL_TOKEN_MOCK_KEY
 import com.natiqhaciyef.common.objects.USER_EMAIL_MOCK_KEY
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
+import com.natiqhaciyef.prodocument.ui.custom.CustomMaterialBottomSheetFragment
+import com.natiqhaciyef.prodocument.ui.model.CategoryItem
 import com.natiqhaciyef.prodocument.ui.util.UiList
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.home.adapter.FileItemAdapter
@@ -105,11 +107,7 @@ class HomeFragment(
 
     private fun fileAdapterConfig(list: List<MappedMaterialModel>?) {
         list?.let {
-            fileAdapter =
-                FileItemAdapter(
-                    list.toMutableList(),
-                    requireContext().getString(R.string.scan_code)
-                )
+            fileAdapter = FileItemAdapter(list.toMutableList(), requireContext().getString(R.string.scan_code), this, requireContext())
 
             fileAdapter.onClickAction = { materialId ->
                 fileClickEvent(materialId)

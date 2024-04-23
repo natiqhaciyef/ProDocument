@@ -25,6 +25,7 @@ import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.TITLE_COUNT_KEY
 import com.natiqhaciyef.prodocument.ui.util.CameraReader.Companion.createAndShareFile
 import com.natiqhaciyef.prodocument.ui.util.CameraReader.Companion.getAddressOfFile
 import com.natiqhaciyef.prodocument.ui.util.PdfReader.createDefaultPdfUriLoader
+import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.home.HomeFragment
 import com.natiqhaciyef.prodocument.ui.view.main.home.modify.contract.ModifyPdfContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.modify.viewmodel.ModifyPdfViewModel
@@ -70,7 +71,8 @@ class ModifyPdfFragment(
                         previewImageConfig(it)
                     }
 
-                    null -> { /* create effect */ }
+                    null -> { /* create effect */
+                    }
 
                     else -> {}
                 }
@@ -128,16 +130,16 @@ class ModifyPdfFragment(
         }
     }
 
-    private fun scanQrConfig(material: MappedMaterialModel){
-        with(binding){
+    private fun scanQrConfig(material: MappedMaterialModel) {
+        with(binding) {
             imageView.visibility = View.VISIBLE
             pdfView.visibility = View.GONE
             imageView.loadImage(material.image)
         }
     }
 
-    private fun captureImageConfig(material: MappedMaterialModel){
-        with(binding){
+    private fun captureImageConfig(material: MappedMaterialModel) {
+        with(binding) {
             pdfView.visibility = View.VISIBLE
             imageView.visibility = View.GONE
             uriAddress = getAddressOfFile(requireContext(), material.url) ?: "".toUri()
@@ -145,14 +147,14 @@ class ModifyPdfFragment(
         }
     }
 
-    private fun previewImageConfig(mappedMaterialModel: MappedMaterialModel){
-        with(binding){
+    private fun previewImageConfig(mappedMaterialModel: MappedMaterialModel) {
+        with(binding) {
             pdfView.visibility = View.VISIBLE
             imageView.visibility = View.GONE
             uriAddress = getAddressOfFile(requireContext(), mappedMaterialModel.url) ?: "".toUri()
             pdfView.createDefaultPdfUriLoader(requireContext(), uriAddress!!)
 
-            with(binding){
+            with(binding) {
                 val params = pdfTitleText.layoutParams as ConstraintLayout.LayoutParams
                 params.endToStart = optionsIconButton.id
 
@@ -164,7 +166,12 @@ class ModifyPdfFragment(
     }
 
     private fun getOptionsEvent() {
-        viewModel.postEvent(ModifyPdfContract.ModifyPdfEvent.GetShareOptions(requireContext()))
+        viewModel.postEvent(
+            ModifyPdfContract.ModifyPdfEvent.GetShareOptions(
+                requireContext(),
+                (requireActivity() as MainActivity)
+            )
+        )
     }
 
     private fun showBottomSheetDialog(shareOptions: List<CategoryItem>) {
@@ -254,7 +261,7 @@ class ModifyPdfFragment(
     }
 
 
-    companion object{
+    companion object {
         const val PREVIEW_IMAGE = "PreviewImage"
     }
 }
