@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.view.options.merge
+package com.natiqhaciyef.prodocument.ui.view.main.home.options.merge
 
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
@@ -23,8 +23,8 @@ import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink
 import com.natiqhaciyef.prodocument.ui.util.DefaultImplModels
 import com.natiqhaciyef.prodocument.ui.view.main.home.adapter.FileItemAdapter
-import com.natiqhaciyef.prodocument.ui.view.options.merge.contract.MergePdfContract
-import com.natiqhaciyef.prodocument.ui.view.options.merge.viewmodel.MergePdfViewModel
+import com.natiqhaciyef.prodocument.ui.view.main.home.options.merge.contract.MergePdfContract
+import com.natiqhaciyef.prodocument.ui.view.main.home.options.merge.viewmodel.MergePdfViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.UUID

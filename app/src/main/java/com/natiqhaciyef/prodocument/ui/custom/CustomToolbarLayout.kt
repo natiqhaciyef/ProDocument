@@ -23,6 +23,7 @@ class CustomToolbarLayout(
 
     private fun initBinding() {
         binding = CustomToolbarLayoutBinding.inflate(LayoutInflater.from(context), this, true)
+        searchSetOnClickListener()
     }
 
     fun setTitleToolbar(title: String) { binding?.topbarTitle?.text = title }
@@ -33,17 +34,17 @@ class CustomToolbarLayout(
 
     fun listenSearchText(action: (CharSequence?, Int, Int, Int) -> Unit) { binding?.topbarSearch?.doOnTextChanged(action) }
 
-    fun searchSetOnClickListener() {
+    private fun searchSetOnClickListener() {
         searchClick = !searchClick
         binding?.apply {
-            if (searchClick) {
-                topbarSearch.visibility = View.VISIBLE
-                topbarTitle.visibility = View.GONE
-                toolbarImage.visibility = View.GONE
-            } else {
-                toolbarImage.visibility = View.VISIBLE
-                topbarTitle.visibility = View.VISIBLE
-                topbarSearch.visibility = View.GONE
+            searchIcon.setOnClickListener {
+                if (searchClick) {
+                    topbarLinearLayout.visibility = View.GONE
+                    searchbarLayout.visibility = View.VISIBLE
+                } else {
+                    topbarLinearLayout.visibility = View.VISIBLE
+                    searchbarLayout.visibility = View.GONE
+                }
             }
         }
     }
@@ -56,8 +57,8 @@ class CustomToolbarLayout(
 
     fun changeVisibility(visibility: Int){
         binding?.toolbarImage?.visibility = visibility
+        binding?.topbarTitle?.visibility = visibility
     }
-
 
 //    if (searchIconClick) {
 //        topbarImage.visibility = View.GONE

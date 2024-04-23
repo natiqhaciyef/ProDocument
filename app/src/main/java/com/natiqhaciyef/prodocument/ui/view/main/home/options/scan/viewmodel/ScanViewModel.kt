@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.view.options.scan.viewmodel
+package com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.viewmodel
 
 import android.content.Context
 import android.net.Uri
@@ -17,8 +17,8 @@ import com.natiqhaciyef.prodocument.ui.util.CameraReader
 import com.natiqhaciyef.domain.usecase.qrCode.ReadQrCodeResultUseCase
 import com.natiqhaciyef.domain.worker.config.PDF
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
-import com.natiqhaciyef.prodocument.ui.view.options.scan.behaviour.CameraTypes
-import com.natiqhaciyef.prodocument.ui.view.options.scan.contract.ScanContract
+import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.behaviour.CameraTypes
+import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.contract.ScanContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -118,7 +118,8 @@ class ScanViewModel @Inject constructor(
 
                     Status.ERROR -> {
                         setBaseState(getCurrentBaseState().copy(isLoading = false))
-                        postEffect(ScanContract.ScanEffect.ReadQrCodeFailedEffect(
+                        postEffect(
+                            ScanContract.ScanEffect.ReadQrCodeFailedEffect(
                             result.message,
                             result.exception
                         ))

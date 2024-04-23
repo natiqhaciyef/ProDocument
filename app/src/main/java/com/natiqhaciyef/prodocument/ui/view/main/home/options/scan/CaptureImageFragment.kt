@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.view.options.scan
+package com.natiqhaciyef.prodocument.ui.view.main.home.options.scan
 
 import android.Manifest
 import android.app.Activity.RESULT_OK
@@ -24,9 +24,9 @@ import com.natiqhaciyef.prodocument.ui.util.CameraReader
 import com.natiqhaciyef.prodocument.databinding.FragmentCaptureImageBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
-import com.natiqhaciyef.prodocument.ui.view.options.scan.behaviour.CameraTypes
-import com.natiqhaciyef.prodocument.ui.view.options.scan.contract.ScanContract
-import com.natiqhaciyef.prodocument.ui.view.options.scan.viewmodel.ScanViewModel
+import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.behaviour.CameraTypes
+import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.contract.ScanContract
+import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.viewmodel.ScanViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.KClass
 
@@ -50,7 +50,8 @@ class CaptureImageFragment(
                     GmsDocumentScanningResult.fromActivityResultIntent(result.data)
 
                 if (resultForPDF != null) {
-                    viewModel.postEvent(ScanContract.ScanEvent.CreateMaterialEvent(
+                    viewModel.postEvent(
+                        ScanContract.ScanEvent.CreateMaterialEvent(
                         title = "Scanned file title",
                         uri = resultForPDF.pdf?.uri?.path.toString().toUri(),
                         image = "${
@@ -185,7 +186,8 @@ class CaptureImageFragment(
     private fun startCameraEvent(
         view: View? = null,
     ) {
-        viewModel.postEvent(ScanContract.ScanEvent.StartCameraEvent(
+        viewModel.postEvent(
+            ScanContract.ScanEvent.StartCameraEvent(
             requireContext(),
             viewLifecycleOwner,
             binding.cameraXPreviewHolder,
@@ -248,7 +250,7 @@ class CaptureImageFragment(
 
     private fun imageResultAction(material: MappedMaterialModel) {
         val action =
-            ScanTypeFragmentDirections.actionScanTypeFragmentToModifyPdfFragment(material, CAPTURE_IMAGE_TYPE)
+            ScanTypeFragmentDirections.actionScanTypeFragmentToPreviewMaterialNavGraph(material, CAPTURE_IMAGE_TYPE)
         navigate(action)
     }
 

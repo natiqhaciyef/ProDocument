@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.view.options.scan.contract
+package com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.contract
 
 import android.content.Context
 import android.net.Uri
@@ -11,7 +11,7 @@ import com.natiqhaciyef.common.model.mapped.MappedQrCodeResultModel
 import com.natiqhaciyef.prodocument.ui.base.UiEffect
 import com.natiqhaciyef.prodocument.ui.base.UiEvent
 import com.natiqhaciyef.prodocument.ui.base.UiState
-import com.natiqhaciyef.prodocument.ui.view.options.scan.behaviour.CameraTypes
+import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.behaviour.CameraTypes
 
 object ScanContract {
 

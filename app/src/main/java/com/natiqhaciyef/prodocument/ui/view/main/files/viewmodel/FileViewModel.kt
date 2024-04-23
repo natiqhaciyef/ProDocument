@@ -2,8 +2,8 @@ package com.natiqhaciyef.prodocument.ui.view.main.files.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.model.Status
+import com.natiqhaciyef.common.objects.USER_EMAIL_MOCK_KEY
 import com.natiqhaciyef.domain.usecase.MATERIAL_ID
-import com.natiqhaciyef.domain.usecase.MATERIAL_TOKEN
 import com.natiqhaciyef.domain.usecase.USER_EMAIL
 import com.natiqhaciyef.domain.usecase.material.GetAllMaterialsRemoteUseCase
 import com.natiqhaciyef.domain.usecase.material.GetMaterialByIdRemoteUseCase
@@ -22,12 +22,12 @@ class FileViewModel @Inject constructor(
 
     override fun onEventUpdate(event: FileContract.FileEvent) {
         when (event) {
-            is FileContract.FileEvent.GetAllMaterials -> getAllMaterials(event.token)
-            is FileContract.FileEvent.GetFileById -> { getMaterialById(event.email, event.id) }
+            is FileContract.FileEvent.GetAllMaterials -> getAllMaterials() /* event.email */
+            is FileContract.FileEvent.GetMaterialById -> { getMaterialById(event.email, event.id) }
         }
     }
 
-    private fun getAllMaterials(email: String) {
+    private fun getAllMaterials(email: String = USER_EMAIL_MOCK_KEY) {
         viewModelScope.launch {
             getAllMaterialsRemoteUseCase.operate(email).collectLatest { result ->
                 when (result.status) {
@@ -49,8 +49,8 @@ class FileViewModel @Inject constructor(
         }
     }
 
-    private fun getMaterialById(token: String, id: String) {
-        val request = mapOf(MATERIAL_ID to id, USER_EMAIL to token)
+    private fun getMaterialById(email: String, id: String) {
+        val request = mapOf(MATERIAL_ID to id, USER_EMAIL to email)
         viewModelScope.launch {
             getMaterialByIdRemoteUseCase.operate(request).collectLatest { result ->
                 when (result.status) {

@@ -69,7 +69,7 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel<State, Event, E
 
     override fun onDestroy() {
         super.onDestroy()
-        _binding = null
+//        _binding = null
     }
 
     override fun onCreateView(

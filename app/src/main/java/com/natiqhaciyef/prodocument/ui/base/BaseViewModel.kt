@@ -1,7 +1,14 @@
 package com.natiqhaciyef.prodocument.ui.base
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.natiqhaciyef.common.R
+import com.natiqhaciyef.domain.worker.config.JPEG
+import com.natiqhaciyef.domain.worker.config.PDF
+import com.natiqhaciyef.domain.worker.config.PNG
+import com.natiqhaciyef.domain.worker.config.URL
+import com.natiqhaciyef.prodocument.ui.model.CategoryItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -20,7 +27,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-abstract class BaseViewModel<State: UiState, Event: UiEvent, Effect: UiEffect> : ViewModel(), CoroutineScope {
+abstract class BaseViewModel<State : UiState, Event : UiEvent, Effect : UiEffect> : ViewModel(),
+    CoroutineScope {
     private val job = Job()
 
     private val currentState: State by lazy { getInitialState() }
@@ -37,12 +45,14 @@ abstract class BaseViewModel<State: UiState, Event: UiEvent, Effect: UiEffect> :
         initEventSubscribers()
     }
 
-    private fun initEventSubscribers() { event.onEach {
-        onEventUpdate(it)
-    }.launchIn(viewModelScope) }
+    private fun initEventSubscribers() {
+        event.onEach {
+            onEventUpdate(it)
+        }.launchIn(viewModelScope)
+    }
 
 
-    protected open fun onEventUpdate(event: Event){}
+    protected open fun onEventUpdate(event: Event) {}
 
 
     abstract fun getInitialState(): State
@@ -59,7 +69,7 @@ abstract class BaseViewModel<State: UiState, Event: UiEvent, Effect: UiEffect> :
         viewModelScope.launch { _event.emit(event) }
     }
 
-    fun postEffect(effect: Effect){
+    fun postEffect(effect: Effect) {
         viewModelScope.launch { _effect.send(effect) }
     }
 
