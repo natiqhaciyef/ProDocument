@@ -8,9 +8,9 @@ import com.natiqhaciyef.prodocument.ui.base.UiState
 object FileContract {
     sealed class FileEvent : UiEvent {
 
-        data class GetFileById(val id: String, val email: String) : FileEvent()
+        data class GetMaterialById(val id: String, val email: String) : FileEvent()
 
-        data class GetAllMaterials(val token: String) : FileEvent()
+        data class GetAllMaterials(val email: String) : FileEvent()
 
     }
 

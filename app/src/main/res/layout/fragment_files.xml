@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.view.main.files.FilesFragment">
 
@@ -22,6 +23,53 @@
         android:id="@+id/uiLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/fileTotalAmountTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/total_file_amount_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@color/grayscale_900"
+            android:textSize="20sp"
+            android:fontFamily="@font/urbanist_bold"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="24dp"
+            />
+
+        <ImageView
+            android:id="@+id/sortIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/sharp_sort_icon"
+            app:layout_constraintTop_toTopOf="@id/fileTotalAmountTitle"
+            app:layout_constraintBottom_toBottomOf="@id/fileTotalAmountTitle"
+            app:layout_constraintEnd_toStartOf="@id/folderIcon"
+            android:layout_marginEnd="16dp"
+            />
+
+        <ImageView
+            android:id="@+id/folderIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/sharp_folder_icon"
+            app:layout_constraintTop_toTopOf="@id/fileTotalAmountTitle"
+            app:layout_constraintBottom_toBottomOf="@id/fileTotalAmountTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="24dp"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/filesRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fileTotalAmountTitle"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

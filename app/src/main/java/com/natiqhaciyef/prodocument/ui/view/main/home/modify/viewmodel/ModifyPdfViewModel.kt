@@ -1,27 +1,21 @@
-package com.natiqhaciyef.prodocument.ui.view.options.scan.viewmodel
+package com.natiqhaciyef.prodocument.ui.view.main.home.modify.viewmodel
 
 import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.helpers.toJsonString
-import com.natiqhaciyef.common.model.CRUDModel
 import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
-import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.domain.usecase.MATERIAL_MODEL
-import com.natiqhaciyef.domain.usecase.MATERIAL_TOKEN
 import com.natiqhaciyef.domain.usecase.USER_EMAIL
 import com.natiqhaciyef.domain.usecase.material.CreateMaterialUseCase
 import com.natiqhaciyef.domain.worker.config.JPEG
 import com.natiqhaciyef.domain.worker.config.PDF
 import com.natiqhaciyef.domain.worker.config.PNG
 import com.natiqhaciyef.domain.worker.config.URL
-import com.natiqhaciyef.prodocument.ui.base.BaseUIState
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
 import com.natiqhaciyef.prodocument.ui.model.CategoryItem
-import com.natiqhaciyef.prodocument.ui.view.options.scan.contract.ModifyPdfContract
+import com.natiqhaciyef.prodocument.ui.view.main.home.modify.contract.ModifyPdfContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -106,10 +100,12 @@ class ModifyPdfViewModel @Inject constructor(
 
                         Status.ERROR -> {
                             setBaseState(getCurrentBaseState().copy(isLoading = false, result = null, optionsList = null))
-                            postEffect(ModifyPdfContract.ModifyPdfEffect.CreateMaterialFailEffect(
-                                message = result.message,
-                                exception = result.exception
-                            ))
+                            postEffect(
+                                ModifyPdfContract.ModifyPdfEffect.CreateMaterialFailEffect(
+                                    message = result.message,
+                                    exception = result.exception
+                                )
+                            )
                         }
 
                         Status.LOADING -> {
@@ -121,5 +117,6 @@ class ModifyPdfViewModel @Inject constructor(
         }
     }
 
-    override fun getInitialState(): ModifyPdfContract.ModifyPdfState = ModifyPdfContract.ModifyPdfState()
+    override fun getInitialState(): ModifyPdfContract.ModifyPdfState =
+        ModifyPdfContract.ModifyPdfState()
 }

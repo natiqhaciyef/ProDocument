@@ -30,11 +30,11 @@ class GetMaterialByIdMockGenerator(
         action: (Map<String, String>) -> MaterialResponse?
     ): MaterialResponse {
         val materialId = request[MATERIAL_ID_MOCK_KEY]
-        val materialToken = request[USER_EMAIL_MOCK_KEY]
+        val email = request[USER_EMAIL_MOCK_KEY]
 
         return if (
             materialId == takenRequest[MATERIAL_ID_MOCK_KEY]
-            && materialToken == takenRequest[USER_EMAIL_MOCK_KEY]
+            && email == takenRequest[USER_EMAIL_MOCK_KEY]
         ) {
             createdMock
         } else {

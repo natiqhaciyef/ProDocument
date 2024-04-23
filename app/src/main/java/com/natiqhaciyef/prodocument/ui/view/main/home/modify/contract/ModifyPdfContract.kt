@@ -1,9 +1,8 @@
-package com.natiqhaciyef.prodocument.ui.view.options.scan.contract
+package com.natiqhaciyef.prodocument.ui.view.main.home.modify.contract
 
 import android.content.Context
 import com.natiqhaciyef.common.model.CRUDModel
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
-import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.prodocument.ui.base.UiEffect
 import com.natiqhaciyef.prodocument.ui.base.UiEvent
 import com.natiqhaciyef.prodocument.ui.base.UiState
