@@ -2,12 +2,14 @@ package com.natiqhaciyef.prodocument.ui.view.main.files.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.model.Status
+import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.objects.USER_EMAIL_MOCK_KEY
 import com.natiqhaciyef.domain.usecase.MATERIAL_ID
 import com.natiqhaciyef.domain.usecase.USER_EMAIL
 import com.natiqhaciyef.domain.usecase.material.GetAllMaterialsRemoteUseCase
 import com.natiqhaciyef.domain.usecase.material.GetMaterialByIdRemoteUseCase
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
+import com.natiqhaciyef.prodocument.ui.view.main.files.FilesFragment
 import com.natiqhaciyef.prodocument.ui.view.main.files.contract.FileContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -24,6 +26,7 @@ class FileViewModel @Inject constructor(
         when (event) {
             is FileContract.FileEvent.GetAllMaterials -> getAllMaterials() /* event.email */
             is FileContract.FileEvent.GetMaterialById -> { getMaterialById(event.email, event.id) }
+            is FileContract.FileEvent.SortMaterials -> { sortMaterials(event.list, event.type) }
         }
     }
 
@@ -69,6 +72,7 @@ class FileViewModel @Inject constructor(
                             FileContract.FileEffect
                                 .FindMaterialByIdFailedEffect(result.message, result.exception)
                         )
+                        setBaseState(getCurrentBaseState().copy(isLoading = false))
                     }
 
                     Status.LOADING -> {
@@ -77,6 +81,21 @@ class FileViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun sortMaterials(
+        list: MutableList<MappedMaterialModel>,
+        type: String
+    ){
+        when (type) {
+            FilesFragment.A2Z -> list.sortBy { it.title }
+            FilesFragment.Z2A -> list.sortByDescending { it.title }
+            else -> mutableListOf<MappedMaterialModel>()
+        }
+        setBaseState(getCurrentBaseState().copy(
+            isLoading = false,
+            list = list
+        ))
     }
 
     override fun getInitialState(): FileContract.FileState = FileContract.FileState()
