@@ -12,7 +12,6 @@ import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.files.contract.FileContract
 import com.natiqhaciyef.prodocument.ui.view.main.files.viewmodel.FileViewModel
-import com.natiqhaciyef.prodocument.ui.view.main.home.HomeFragment
 import com.natiqhaciyef.prodocument.ui.view.main.home.adapter.FileItemAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.KClass
@@ -31,6 +30,7 @@ class FilesFragment(
         // collect state
         config()
         getFilesEvent()
+        fileFilter()
     }
 
     override fun onStateChange(state: FileContract.FileState) {
@@ -80,6 +80,15 @@ class FilesFragment(
         }
     }
 
+    private fun fileFilter() {
+        (activity as MainActivity).binding.materialToolbar.listenSearchText { charSequence, i, i2, i3 ->
+            if (!charSequence.isNullOrEmpty())
+                viewModel.postEvent(FileContract.FileEvent.FileFilterEvent(list, charSequence.toString()))
+            else
+                getFilesEvent()
+        }
+    }
+
     private fun recyclerViewConfig(list: MutableList<MappedMaterialModel>) {
         with(binding) {
             fileTotalAmountTitle.text =
@@ -90,9 +99,7 @@ class FilesFragment(
             filesRecyclerView.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             filesRecyclerView.adapter = fileAdapter
-            fileAdapter.onClickAction = {
-                fileClickEvent(it)
-            }
+            fileAdapter.onClickAction = { fileClickEvent(it) }
         }
     }
 
@@ -103,10 +110,6 @@ class FilesFragment(
             it.binding.materialToolbar.changeVisibility(View.VISIBLE)
             it.binding.materialToolbar.setVisibilityOptionsMenu(View.VISIBLE)
             it.binding.materialToolbar.setVisibilitySearch(View.VISIBLE)
-            it.binding.materialToolbar.listenSearchText { charSequence, i, i2, i3 ->
-                list.filter { file -> file.title.contains(charSequence.toString()) }
-                fileAdapter.updateList(list.toMutableList())
-            }
         }
 
         with(binding) {
@@ -117,9 +120,6 @@ class FilesFragment(
 
     private fun fileClickEvent(id: String) {
         getEmail { email ->
-//            if (email.isNotEmpty())
-//                viewModel.postEvent(FileContract.FileEvent.GetMaterialById(id = id, email = email))
-//            else
             viewModel.postEvent(
                 FileContract.FileEvent.GetMaterialById(
                     id = id,

@@ -139,4 +139,6 @@
 
     <!--  Files titles  -->
     <string name="total_file_amount_title">Total: %1$s file(s)</string>
+    <string name="search_file">Search file...</string>
+
 </resources>
