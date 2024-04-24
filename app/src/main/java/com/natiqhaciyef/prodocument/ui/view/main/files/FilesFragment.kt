@@ -24,6 +24,7 @@ class FilesFragment(
 ) : BaseFragment<FragmentFilesBinding, FileViewModel, FileContract.FileState, FileContract.FileEvent, FileContract.FileEffect>() {
     private lateinit var fileAdapter: FileItemAdapter
     private var list: MutableList<MappedMaterialModel> = mutableListOf()
+    private var sortingTypeClick: Boolean = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -95,20 +96,6 @@ class FilesFragment(
         }
     }
 
-    private fun fileClickEvent(id: String) {
-        getEmail { email ->
-//            if (email.isNotEmpty())
-//                viewModel.postEvent(FileContract.FileEvent.GetMaterialById(id = id, email = email))
-//            else
-                viewModel.postEvent(FileContract.FileEvent.GetMaterialById(id = id, email = "userEmail"))
-        }
-    }
-
-    private fun fileClickAction(material: MappedMaterialModel) {
-        val action = FilesFragmentDirections.actionFilesFragmentToPreviewMaterialNavGraph(material)
-        navigate(action)
-    }
-
     private fun config() {
         (activity as MainActivity).also {
             it.binding.bottomNavBar.visibility = View.VISIBLE
@@ -121,7 +108,42 @@ class FilesFragment(
                 fileAdapter.updateList(list.toMutableList())
             }
         }
+
+        with(binding) {
+            sortIcon.setOnClickListener { sortFilesClickEvent() }
+        }
     }
 
 
+    private fun fileClickEvent(id: String) {
+        getEmail { email ->
+//            if (email.isNotEmpty())
+//                viewModel.postEvent(FileContract.FileEvent.GetMaterialById(id = id, email = email))
+//            else
+            viewModel.postEvent(
+                FileContract.FileEvent.GetMaterialById(
+                    id = id,
+                    email = "userEmail"
+                )
+            )
+        }
+    }
+
+    private fun fileClickAction(material: MappedMaterialModel) {
+        val action = FilesFragmentDirections.actionFilesFragmentToPreviewMaterialNavGraph(material)
+        navigate(action)
+    }
+
+    private fun sortFilesClickEvent() {
+        sortingTypeClick = !sortingTypeClick
+        if (sortingTypeClick)
+            viewModel.postEvent(FileContract.FileEvent.SortMaterials(list = list, type = A2Z))
+        else
+            viewModel.postEvent(FileContract.FileEvent.SortMaterials(list = list, type = Z2A))
+    }
+
+    companion object {
+        const val A2Z = "Ascending"
+        const val Z2A = "Descending"
+    }
 }

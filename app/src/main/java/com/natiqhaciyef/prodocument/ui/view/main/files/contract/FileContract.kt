@@ -12,13 +12,18 @@ object FileContract {
 
         data class GetAllMaterials(val email: String) : FileEvent()
 
+        data class SortMaterials(
+            var list: MutableList<MappedMaterialModel>,
+            var type: String
+        ) : FileEvent()
+
     }
 
     sealed class FileEffect : UiEffect {
         data class FindMaterialByIdFailedEffect(
             var message: String? = null,
             var error: Exception? = null
-        ): FileEffect()
+        ) : FileEffect()
     }
 
     data class FileState(
