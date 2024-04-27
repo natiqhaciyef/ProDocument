@@ -36,6 +36,7 @@ class HomeFragment(
         (activity as MainActivity).also {
             it.binding.bottomNavBar.visibility = View.VISIBLE
             it.binding.materialToolbar.visibility = View.VISIBLE
+            it.binding.appbarLayout.visibility = View.VISIBLE
             it.binding.materialToolbar.setTitleToolbar(getString(R.string.proscan))
             it.binding.materialToolbar.changeVisibility(View.VISIBLE)
             it.binding.materialToolbar.setVisibilityOptionsMenu(View.GONE)
