@@ -17,6 +17,10 @@ object FileContract {
             var type: String
         ) : FileEvent()
 
+        data class FileFilterEvent(
+            var list: MutableList<MappedMaterialModel>,
+            var text: String
+        ): FileEvent()
     }
 
     sealed class FileEffect : UiEffect {

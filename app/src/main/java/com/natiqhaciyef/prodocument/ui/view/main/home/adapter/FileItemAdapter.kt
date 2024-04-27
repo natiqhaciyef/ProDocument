@@ -9,10 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.bumptech.glide.Glide
 import com.natiqhaciyef.prodocument.databinding.RecyclerFilesItemViewBinding
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.R
+import com.natiqhaciyef.common.helpers.loadImage
 import com.natiqhaciyef.prodocument.ui.base.BaseRecyclerViewAdapter
 import com.natiqhaciyef.prodocument.ui.custom.CustomMaterialBottomSheetFragment
 import com.natiqhaciyef.prodocument.ui.model.CategoryItem
@@ -96,7 +98,7 @@ class FileItemAdapter(
 
         view.fileTitleText.text = file.title
         view.fileDateText.text = file.createdDate
-        Glide.with(holder.context).load(file.image).into(view.filePreviewImage)
+        view.filePreviewImage.load(file.image)
         view.fileRemoveIcon.setOnClickListener { removeAction.invoke(file.id) }
         holder.itemView.setOnClickListener { onClickAction.invoke(file.id) }
         view.fileShareIcon.setOnClickListener {

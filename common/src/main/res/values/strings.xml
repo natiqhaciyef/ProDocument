@@ -119,7 +119,7 @@
     <string name="scan_qr_description">Please point the camera at the QR Code</string>
     <string name="scan_live_description">Please set the camera at the view</string>
     <string name="scan_image_description">Please capture and set camera at the Image</string>
-    <string name="title_count">Scanned file title %1$s</string>
+    <string name="title_count">Scanned file %1$s</string>
 
     <!--  Merge pdf  -->
     <string name="merge_pdf_title">Merge PDF</string>
@@ -139,4 +139,6 @@
 
     <!--  Files titles  -->
     <string name="total_file_amount_title">Total: %1$s file(s)</string>
+    <string name="search_file">Search file...</string>
+
 </resources>

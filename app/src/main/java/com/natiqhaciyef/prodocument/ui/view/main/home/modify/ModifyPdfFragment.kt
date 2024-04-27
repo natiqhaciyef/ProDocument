@@ -13,8 +13,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
-import com.natiqhaciyef.common.R
-import com.natiqhaciyef.common.helpers.loadImage
+import coil.load
+import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.common.model.CRUDModel
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.databinding.FragmentModifyPdfBinding
@@ -26,7 +26,6 @@ import com.natiqhaciyef.prodocument.ui.util.CameraReader.Companion.createAndShar
 import com.natiqhaciyef.prodocument.ui.util.CameraReader.Companion.getAddressOfFile
 import com.natiqhaciyef.prodocument.ui.util.PdfReader.createDefaultPdfUriLoader
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
-import com.natiqhaciyef.prodocument.ui.view.main.home.HomeFragment
 import com.natiqhaciyef.prodocument.ui.view.main.home.modify.contract.ModifyPdfContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.modify.viewmodel.ModifyPdfViewModel
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.CaptureImageFragment
@@ -44,18 +43,18 @@ class ModifyPdfFragment(
 ) : BaseFragment<FragmentModifyPdfBinding, ModifyPdfViewModel, ModifyPdfContract.ModifyPdfState, ModifyPdfContract.ModifyPdfEvent, ModifyPdfContract.ModifyPdfEffect>() {
     private var material: MappedMaterialModel? = null
     private var type: String? = null
-    var uriAddress: Uri? = null
+    private var uriAddress: Uri? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val data: ModifyPdfFragmentArgs by navArgs()
         material = data.fileMaterial
         type = data.type
+        config()
 
 
         binding.apply {
             material?.let {
-                val uri = it.url
                 countTitle()
 
                 when (type) {
@@ -134,7 +133,7 @@ class ModifyPdfFragment(
         with(binding) {
             imageView.visibility = View.VISIBLE
             pdfView.visibility = View.GONE
-            imageView.loadImage(material.image)
+            imageView.load(material.image)
         }
     }
 
@@ -163,6 +162,15 @@ class ModifyPdfFragment(
                 modifyIconButton.visibility = View.GONE
             }
         }
+    }
+
+    private fun config(){
+        (activity as MainActivity).binding.apply {
+            appbarLayout.visibility = View.GONE
+            bottomNavBar.visibility = View.GONE
+        }
+
+        binding.goBackIcon.setOnClickListener { navigate(R.id.filesFragment) }
     }
 
     private fun getOptionsEvent() {
@@ -245,7 +253,7 @@ class ModifyPdfFragment(
         lifecycleScope.launch {
             var number = dataStore.readInt(requireContext(), TITLE_COUNT_KEY)
             dataStore.saveInt(requireContext(), ++number, TITLE_COUNT_KEY)
-            binding.pdfTitleText.setText(getString(R.string.title_count, number.toString()))
+            binding.pdfTitleText.setText(getString(com.natiqhaciyef.common.R.string.title_count, number.toString()))
         }
     }
 

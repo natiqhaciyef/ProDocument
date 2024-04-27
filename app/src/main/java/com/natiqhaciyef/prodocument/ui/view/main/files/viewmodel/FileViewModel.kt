@@ -25,8 +25,17 @@ class FileViewModel @Inject constructor(
     override fun onEventUpdate(event: FileContract.FileEvent) {
         when (event) {
             is FileContract.FileEvent.GetAllMaterials -> getAllMaterials() /* event.email */
-            is FileContract.FileEvent.GetMaterialById -> { getMaterialById(event.email, event.id) }
-            is FileContract.FileEvent.SortMaterials -> { sortMaterials(event.list, event.type) }
+            is FileContract.FileEvent.GetMaterialById -> {
+                getMaterialById(event.email, event.id)
+            }
+
+            is FileContract.FileEvent.SortMaterials -> {
+                sortMaterials(event.list, event.type)
+            }
+
+            is FileContract.FileEvent.FileFilterEvent -> {
+                filterList(event.list, event.text)
+            }
         }
     }
 
@@ -86,16 +95,22 @@ class FileViewModel @Inject constructor(
     private fun sortMaterials(
         list: MutableList<MappedMaterialModel>,
         type: String
-    ){
+    ) {
         when (type) {
             FilesFragment.A2Z -> list.sortBy { it.title }
             FilesFragment.Z2A -> list.sortByDescending { it.title }
             else -> mutableListOf<MappedMaterialModel>()
         }
-        setBaseState(getCurrentBaseState().copy(
-            isLoading = false,
-            list = list
-        ))
+        setBaseState(
+            getCurrentBaseState().copy(
+                isLoading = false,
+                list = list
+            )
+        )
+    }
+
+    private fun filterList(list: MutableList<MappedMaterialModel>, text: String) {
+        setBaseState(getCurrentBaseState().copy(isLoading = false, list = list.filter { it.title.startsWith(text) }))
     }
 
     override fun getInitialState(): FileContract.FileState = FileContract.FileState()

@@ -28,5 +28,7 @@ object BaseNavigationDeepLink {
     const val ERROR_ROUTE = "Error"
     const val CUSTOM_ROUTE = "Custom"
 
+    const val MODIFY_PDF_ROUTE = "Modify PDF"
+
     // NavParams
 }

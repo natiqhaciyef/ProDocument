@@ -178,6 +178,11 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel<State, Event, E
             0
         }
 
+        // External Routes
+        BaseNavigationDeepLink.MODIFY_PDF_ROUTE -> {
+            R.navigation.preview_material_nav_graph
+        }
+
         else -> 0
     }
 

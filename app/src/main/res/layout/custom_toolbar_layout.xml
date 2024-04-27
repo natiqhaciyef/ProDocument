@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.appbar.MaterialToolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@color/white">
 
     <LinearLayout
         android:id="@+id/topbarLinearLayout"
@@ -45,19 +45,18 @@
             android:id="@+id/searchIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/search_icon"
-            android:visibility="visible"
+            android:layout_marginStart="20dp"
             android:layout_weight="1"
-            android:layout_marginStart="20dp" />
+            android:src="@drawable/search_icon"
+            android:visibility="visible" />
 
         <ImageView
             android:id="@+id/optionsIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/options_icon"
-            android:visibility="visible"
             android:layout_weight="1"
-            />
+            android:src="@drawable/options_icon"
+            android:visibility="visible" />
 
     </LinearLayout>
 
@@ -66,42 +65,39 @@
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="16dp"
-        android:visibility="visible"
-        >
+        android:layout_marginEnd="32dp"
+        android:visibility="gone">
 
-        <EditText
-            android:id="@+id/topbarSearch"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/topbarSearchLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="9"
-            android:background="@drawable/custom_search_input_background"
-            android:fontFamily="@font/urbanist_medium"
-            android:paddingStart="16dp"
-            android:searchIcon="@color/transparent"
-            android:textColor="@color/grayscale_900"
-            android:textSize="16sp"
-            android:visibility="visible"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
+            android:drawablePadding="16dp"
+            app:startIconDrawable="@drawable/search_icon"
+            app:endIconDrawable="@drawable/close_icon"
+            >
 
-        <ImageView
-            android:id="@+id/searchIconToolbar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/search_icon"
-            android:visibility="visible"
-            android:layout_marginStart="20dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
+            <EditText
+                android:id="@+id/topbarSearch"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="9"
+                android:background="@drawable/custom_search_input_background"
+                android:fontFamily="@font/urbanist_medium"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:searchIcon="@color/transparent"
+                android:singleLine="true"
+                android:textColor="@color/grayscale_900"
+                android:textSize="16sp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </com.google.android.material.textfield.TextInputLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
 </com.google.android.material.appbar.MaterialToolbar>
