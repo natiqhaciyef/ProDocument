@@ -26,6 +26,19 @@ class GetAllMaterialsMockGenerator(override var takenRequest: String) :
                     resultCode = 299,
                     message = "mock material"
                 )
+            ),
+            MaterialResponse(
+                id = "materialId",
+                publishDate = getNow(),
+                image = "image2",
+                title = "title2",
+                description = "description2",
+                type = "type2",
+                url = "url2",
+                result = CRUDResponse(
+                    resultCode = 299,
+                    message = "mock material 2"
+                )
             )
         ),
         id = "listMaterialId",

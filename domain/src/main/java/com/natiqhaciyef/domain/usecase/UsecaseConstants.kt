@@ -11,4 +11,5 @@ const val MATERIAL_TITLE = "materialTitle"
 // user
 const val USER_TOKEN = "userToken"
 const val USER_EMAIL = "userEmail"
+const val USER_NAME = "username"
 const val USER_PASSWORD = "userPassword"

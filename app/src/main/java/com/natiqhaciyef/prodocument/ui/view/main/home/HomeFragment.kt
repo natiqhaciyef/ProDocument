@@ -10,7 +10,10 @@ import com.natiqhaciyef.common.R
 import com.natiqhaciyef.prodocument.databinding.FragmentHomeBinding
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.objects.MATERIAL_TOKEN_MOCK_KEY
+import com.natiqhaciyef.common.objects.USER_EMAIL_MOCK_KEY
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
+import com.natiqhaciyef.prodocument.ui.custom.CustomMaterialBottomSheetFragment
+import com.natiqhaciyef.prodocument.ui.model.CategoryItem
 import com.natiqhaciyef.prodocument.ui.util.UiList
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.home.adapter.FileItemAdapter
@@ -32,10 +35,13 @@ class HomeFragment(
         super.onViewCreated(view, savedInstanceState)
         (activity as MainActivity).also {
             it.binding.bottomNavBar.visibility = View.VISIBLE
+            it.binding.materialToolbar.visibility = View.VISIBLE
             it.binding.materialToolbar.setTitleToolbar(getString(R.string.proscan))
             it.binding.materialToolbar.changeVisibility(View.VISIBLE)
+            it.binding.materialToolbar.setVisibilityOptionsMenu(View.GONE)
+            it.binding.materialToolbar.setVisibilitySearch(View.GONE)
         }
-        viewModel.postEvent(HomeContract.HomeEvent.GetAllMaterials(MATERIAL_TOKEN_MOCK_KEY))
+        viewModel.postEvent(HomeContract.HomeEvent.GetAllMaterials(USER_EMAIL_MOCK_KEY))
         menuAdapterConfig()
     }
 
@@ -50,17 +56,18 @@ class HomeFragment(
 
                 fileAdapterConfig(state.list)
 
-                if (state.material != null){
+                if (state.material != null) {
                     // navigate to single file action
+                    fileClickAction(state.material!!)
                 }
             }
         }
     }
 
     override fun onEffectUpdate(effect: HomeContract.HomeEffect) {
-        when(effect) {
-            is HomeContract.HomeEffect.FindMaterialByIdFailedEffect -> { }
-            is HomeContract.HomeEffect.MaterialListLoadingFailedEffect -> { }
+        when (effect) {
+            is HomeContract.HomeEffect.FindMaterialByIdFailedEffect -> {}
+            is HomeContract.HomeEffect.MaterialListLoadingFailedEffect -> {}
         }
     }
 
@@ -100,11 +107,10 @@ class HomeFragment(
 
     private fun fileAdapterConfig(list: List<MappedMaterialModel>?) {
         list?.let {
-            fileAdapter =
-                FileItemAdapter(list.toMutableList(), requireContext().getString(R.string.scan_code))
+            fileAdapter = FileItemAdapter(list.toMutableList(), requireContext().getString(R.string.scan_code), this, requireContext())
 
             fileAdapter.onClickAction = { materialId ->
-//                viewModel.postEvent(HomeContract.HomeEvent.GetMaterialById(id = materialId, token = ""))
+                fileClickEvent(materialId)
             }
 
             binding.apply {
@@ -113,5 +119,19 @@ class HomeFragment(
                     LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             }
         }
+    }
+
+    private fun fileClickEvent(materialId: String) {
+        getEmail { email ->
+//            if (email.isNotEmpty())
+//                viewModel.postEvent(HomeContract.HomeEvent.GetMaterialById(id = materialId, email = email))
+//            else
+                viewModel.postEvent(HomeContract.HomeEvent.GetMaterialById(id = materialId, email = "userEmail"))
+        }
+    }
+
+    private fun fileClickAction(material: MappedMaterialModel) {
+        val action = HomeFragmentDirections.actionHomeFragmentToPreviewMaterialNavGraph(material)
+        navigate(action)
     }
 }

@@ -4,9 +4,7 @@ import com.natiqhaciyef.common.model.CRUDModel
 
 
 data class MappedTokenModel(
-    var uid: String?,
-    var result: CRUDModel?,
-    var premiumToken: String?,
-    var premiumTokenExpiryDate: String?,
-    var securityDeviceCode: String?,
+    var uid: String,
+    var email: String,
+    var result: CRUDModel?
 )

@@ -66,6 +66,8 @@ class GetUserByTokenRemoteUseCase @Inject constructor(
                     )
                 )
             }
+
+            else -> {}
         }
     }
 

@@ -10,23 +10,23 @@ import com.natiqhaciyef.domain.base.repository.BaseRepository
 
 interface MaterialRepository : BaseRepository {
 
-    suspend fun getAllMaterials(token: String): NetworkResult<ListMaterialResponse>
+    suspend fun getAllMaterials(email: String): NetworkResult<ListMaterialResponse>
 
-    suspend fun getMaterialById(materialId: String, token: String): NetworkResult<MaterialResponse>
+    suspend fun getMaterialById(materialId: String, email: String): NetworkResult<MaterialResponse>
 
     suspend fun createMaterial(
         materialModel: MappedMaterialModel,
-        materialToken: String
+        email: String
     ): NetworkResult<CRUDResponse>
 
     suspend fun removeMaterialById(
         materialId: String,
-        materialToken: String
+        email: String
     ): NetworkResult<CRUDResponse>
 
     suspend fun updateMaterialById(
         materialModel: MappedMaterialModel,
-        materialToken: String
+        email: String
     ): NetworkResult<CRUDResponse>
 
     suspend fun mergeMaterials(data: MergeRequest): NetworkResult<MaterialResponse>

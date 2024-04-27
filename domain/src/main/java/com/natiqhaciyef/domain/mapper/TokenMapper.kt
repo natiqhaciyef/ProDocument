@@ -7,8 +7,7 @@ fun MappedTokenModel.toResponse(): TokenResponse {
     return TokenResponse(
         uid = this.uid,
         result = this.result?.toResponse(),
-        premiumToken = this.premiumToken,
-        premiumTokenExpiryDate = this.premiumTokenExpiryDate
+        email = this.email,
     )
 }
 
@@ -16,8 +15,6 @@ fun TokenResponse.toMapped(): MappedTokenModel {
     return MappedTokenModel(
         uid = uid,
         result = result?.toModel(),
-        premiumToken = this.premiumToken,
-        premiumTokenExpiryDate = this.premiumTokenExpiryDate,
-        securityDeviceCode = null
+        email = this.email,
     )
 }

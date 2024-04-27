@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.view.options.scan
+package com.natiqhaciyef.prodocument.ui.view.main.home.options.scan
 
 import android.Manifest
 import android.app.Activity.RESULT_OK
@@ -20,9 +20,10 @@ import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.databinding.FragmentScanBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
-import com.natiqhaciyef.prodocument.ui.view.options.scan.behaviour.CameraTypes
-import com.natiqhaciyef.prodocument.ui.view.options.scan.contract.ScanContract
-import com.natiqhaciyef.prodocument.ui.view.options.scan.viewmodel.ScanViewModel
+import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
+import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.behaviour.CameraTypes
+import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.contract.ScanContract
+import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.viewmodel.ScanViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.KClass
 
@@ -59,7 +60,7 @@ class ScanFragment(
         super.onViewCreated(view, savedInstanceState)
         viewModel.postEvent(ScanContract.ScanEvent.ClearStateEvent)
 
-        binding.goBackIcon.setOnClickListener { navigateByRouteTitle(HOME_ROUTE) }
+        binding.goBackIcon.setOnClickListener { goBackAction() }
         ScanTypeFragment.galleryButtonClickAction.invoke()?.setOnClickListener {
             checkGalleryPermission()
         }
@@ -185,8 +186,7 @@ class ScanFragment(
 
     private fun navigateToModifyPdf(material: MappedMaterialModel) {
         val action =
-            ScanTypeFragmentDirections
-                .actionScanTypeFragmentToModifyPdfFragment(material, SCAN_QR_TYPE)
+            ScanTypeFragmentDirections.actionScanTypeFragmentToPreviewMaterialNavGraph(material, SCAN_QR_TYPE)
         navigate(action)
     }
 
@@ -200,6 +200,14 @@ class ScanFragment(
                 )
             )
         }
+    }
+
+    private fun goBackAction(){
+        (activity as MainActivity).apply {
+            binding.bottomNavBar.visibility = View.VISIBLE
+            binding.appbarLayout.visibility = View.VISIBLE
+        }
+        navigateByRouteTitle(HOME_ROUTE)
     }
 
     override fun onDestroy() {

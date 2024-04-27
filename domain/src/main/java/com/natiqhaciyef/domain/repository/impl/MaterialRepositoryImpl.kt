@@ -2,39 +2,37 @@ package com.natiqhaciyef.domain.repository.impl
 
 import com.natiqhaciyef.domain.mapper.toMaterialResponse
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
-import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.data.network.request.MergeRequest
 import com.natiqhaciyef.data.source.MaterialDataSource
-import com.natiqhaciyef.domain.base.usecase.UseCase
 import com.natiqhaciyef.domain.repository.MaterialRepository
 
 class MaterialRepositoryImpl(
     private val ds: MaterialDataSource
 ) : MaterialRepository {
-    override suspend fun getAllMaterials(token: String) =
-        ds.getAllFiles(token = token)
+    override suspend fun getAllMaterials(email: String) =
+        ds.getAllFiles(email = email)
 
-    override suspend fun getMaterialById(materialId: String, token: String) =
-        ds.getFileById(materialId = materialId, token = token)
+    override suspend fun getMaterialById(materialId: String, email: String) =
+        ds.getFileById(materialId = materialId, email = email)
 
     override suspend fun createMaterial(
         materialModel: MappedMaterialModel,
-        materialToken: String
+        email: String,
     ) = ds.createMaterialById(
-        materialToken = materialToken,
+        email = email,
         materialModel = materialModel.toMaterialResponse()
     )
 
     override suspend fun removeMaterialById(
         materialId: String,
-        materialToken: String
-    ) = ds.removeMaterialById(materialToken = materialToken, materialId = materialId)
+        email: String
+    ) = ds.removeMaterialById(email = email, materialId = materialId)
 
     override suspend fun updateMaterialById(
         materialModel: MappedMaterialModel,
-        materialToken: String
+        email: String
     ) = ds.updateMaterialById(
-        materialToken = materialToken,
+        email = email,
         materialModel = materialModel.toMaterialResponse()
     )
 

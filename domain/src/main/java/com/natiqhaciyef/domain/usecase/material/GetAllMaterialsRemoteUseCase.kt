@@ -22,7 +22,7 @@ class GetAllMaterialsRemoteUseCase @Inject constructor(
     override fun operate(data: String): Flow<Resource<List<MappedMaterialModel>>> = flow {
         emit(Resource.loading(null))
 
-        when (val result = repository.getAllMaterials(token = data)) {
+        when (val result = repository.getAllMaterials(email = data)) {
             is NetworkResult.Success -> {
                 val model = result.data.toUIResult()
 

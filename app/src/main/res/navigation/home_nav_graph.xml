@@ -14,6 +14,21 @@
             android:id="@+id/action_homeFragment_to_scan_nav_graph"
             app:destination="@id/scan_nav_graph"
             app:popUpTo="@id/homeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_merge_nav_graph"
+            app:destination="@id/merge_nav_graph" />
+        <action
+            android:id="@+id/action_homeFragment_to_preview_material_nav_graph"
+            app:destination="@id/preview_material_nav_graph" >
+            <argument
+                android:name="fileMaterial"
+                app:argType="com.natiqhaciyef.common.model.mapped.MappedMaterialModel"
+                app:nullable="true" />
+            <argument
+                android:name="type"
+                app:argType="string"
+                android:defaultValue="PreviewImage"/>
+        </action>
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -24,11 +39,26 @@
         android:id="@+id/filesFragment"
         android:name="com.natiqhaciyef.prodocument.ui.view.main.files.FilesFragment"
         android:label="fragment_files"
-        tools:layout="@layout/fragment_files" />
+        tools:layout="@layout/fragment_files" >
+        <action
+            android:id="@+id/action_filesFragment_to_preview_material_nav_graph"
+            app:destination="@id/preview_material_nav_graph" >
+            <argument
+                android:name="fileMaterial"
+                app:argType="com.natiqhaciyef.common.model.mapped.MappedMaterialModel"
+                app:nullable="true" />
+            <argument
+                android:name="type"
+                app:argType="string"
+                android:defaultValue="PreviewImage"/>
+        </action>
+    </fragment>
     <fragment
         android:id="@+id/premiumFragment"
         android:name="com.natiqhaciyef.prodocument.ui.view.main.premium.PremiumFragment"
         android:label="fragment_premium"
         tools:layout="@layout/fragment_premium" />
     <include app:graph="@navigation/scan_nav_graph" />
+    <include app:graph="@navigation/merge_nav_graph" />
+    <include app:graph="@navigation/preview_material_nav_graph" />
 </navigation>

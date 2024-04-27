@@ -1,7 +1,7 @@
 package com.natiqhaciyef.data.mock.materials
 
 import com.natiqhaciyef.common.objects.MATERIAL_MOCK_KEY
-import com.natiqhaciyef.common.objects.MATERIAL_TOKEN_MOCK_KEY
+import com.natiqhaciyef.common.objects.USER_EMAIL_MOCK_KEY
 import com.natiqhaciyef.data.base.mock.BaseMockGenerator
 import com.natiqhaciyef.data.network.response.CRUDResponse
 import com.natiqhaciyef.data.network.response.MaterialResponse
@@ -18,11 +18,11 @@ class CreateMaterialMockGenerator(
         request: Map<String, Any>,
         action: (Map<String, Any>) -> CRUDResponse?
     ): CRUDResponse {
-        val token = request[MATERIAL_TOKEN_MOCK_KEY]
+        val material = request[USER_EMAIL_MOCK_KEY]
         val model = request[MATERIAL_MOCK_KEY]
 
         return if (
-            token == takenRequest[MATERIAL_TOKEN_MOCK_KEY]
+            material == takenRequest[USER_EMAIL_MOCK_KEY]
             && model == takenRequest[MATERIAL_MOCK_KEY]
         ){
             createdMock
@@ -45,7 +45,7 @@ class CreateMaterialMockGenerator(
 
         val customRequest = mapOf(
             MATERIAL_MOCK_KEY to materialResponse,
-            MATERIAL_TOKEN_MOCK_KEY to MATERIAL_TOKEN_MOCK_KEY
+            USER_EMAIL_MOCK_KEY to USER_EMAIL_MOCK_KEY
         )
     }
 }

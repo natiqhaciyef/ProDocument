@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.view.options.merge.contract
+package com.natiqhaciyef.prodocument.ui.view.main.home.options.merge.contract
 
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.ui.base.UiEffect

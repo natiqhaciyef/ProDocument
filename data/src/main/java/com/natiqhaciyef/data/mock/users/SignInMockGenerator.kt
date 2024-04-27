@@ -12,12 +12,11 @@ class SignInMockGenerator(
 ) : BaseMockGenerator<Map<String, String>, TokenResponse>() {
     override var createdMock: TokenResponse = TokenResponse(
         uid = "${UUID.randomUUID()}",
-        premiumToken = null,
-        premiumTokenExpiryDate = null,
         result = CRUDResponse(
             resultCode = 299,
             message = "Mock token"
-        )
+        ),
+        email = "email@gmail.com"
     )
 
     override fun getMock(

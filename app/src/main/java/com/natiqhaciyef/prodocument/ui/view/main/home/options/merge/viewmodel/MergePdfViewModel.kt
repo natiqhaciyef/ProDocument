@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.view.options.merge.viewmodel
+package com.natiqhaciyef.prodocument.ui.view.main.home.options.merge.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.model.Status
@@ -8,7 +8,7 @@ import com.natiqhaciyef.domain.usecase.MATERIAL_TITLE
 import com.natiqhaciyef.domain.usecase.material.merge.MergeMaterialsUseCase
 import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
 import com.natiqhaciyef.prodocument.ui.util.DefaultImplModels
-import com.natiqhaciyef.prodocument.ui.view.options.merge.contract.MergePdfContract
+import com.natiqhaciyef.prodocument.ui.view.main.home.options.merge.contract.MergePdfContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -37,7 +37,8 @@ class MergePdfViewModel @Inject constructor(
 
                     Status.ERROR -> {
                         setBaseState(getCurrentBaseState().copy(isLoading = false))
-                        postEffect(MergePdfContract.MergePdfEffect.MergeFailedEffect(
+                        postEffect(
+                            MergePdfContract.MergePdfEffect.MergeFailedEffect(
                             message = result.message,
                             exception = result.exception
                         ))
