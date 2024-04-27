@@ -13,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import coil.load
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.helpers.loadImage
 import com.natiqhaciyef.common.model.CRUDModel
@@ -55,7 +56,6 @@ class ModifyPdfFragment(
 
         binding.apply {
             material?.let {
-                val uri = it.url
                 countTitle()
 
                 when (type) {
@@ -134,7 +134,7 @@ class ModifyPdfFragment(
         with(binding) {
             imageView.visibility = View.VISIBLE
             pdfView.visibility = View.GONE
-            imageView.loadImage(material.image)
+            imageView.load(material.image)
         }
     }
 
