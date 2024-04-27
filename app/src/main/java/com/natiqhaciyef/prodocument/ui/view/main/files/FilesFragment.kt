@@ -106,6 +106,7 @@ class FilesFragment(
     private fun config() {
         (activity as MainActivity).also {
             it.binding.bottomNavBar.visibility = View.VISIBLE
+            it.binding.appbarLayout.visibility = View.VISIBLE
             it.binding.materialToolbar.setTitleToolbar(getString(R.string.files))
             it.binding.materialToolbar.changeVisibility(View.VISIBLE)
             it.binding.materialToolbar.setVisibilityOptionsMenu(View.VISIBLE)
