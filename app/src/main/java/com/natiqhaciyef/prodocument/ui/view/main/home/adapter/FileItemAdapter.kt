@@ -6,17 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.bumptech.glide.Glide
 import com.natiqhaciyef.prodocument.databinding.RecyclerFilesItemViewBinding
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.R
-import com.natiqhaciyef.common.helpers.loadImage
 import com.natiqhaciyef.prodocument.ui.base.BaseRecyclerViewAdapter
-import com.natiqhaciyef.prodocument.ui.custom.CustomMaterialBottomSheetFragment
+import com.natiqhaciyef.prodocument.ui.custom.CustomMaterialOptionsBottomSheetFragment
 import com.natiqhaciyef.prodocument.ui.model.CategoryItem
 import com.natiqhaciyef.prodocument.ui.util.CameraReader.Companion.createAndShareFile
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
@@ -45,12 +40,12 @@ class FileItemAdapter(
         shareOptions: List<CategoryItem>
     ) {
         if (fragment != null) {
-            CustomMaterialBottomSheetFragment.list = shareOptions.toMutableList()
-            CustomMaterialBottomSheetFragment { type ->
+            CustomMaterialOptionsBottomSheetFragment.list = shareOptions.toMutableList()
+            CustomMaterialOptionsBottomSheetFragment { type ->
                 shareFile(material.copy(type = type))
             }.show(
                 fragment!!.childFragmentManager,
-                CustomMaterialBottomSheetFragment::class.simpleName
+                CustomMaterialOptionsBottomSheetFragment::class.simpleName
             )
         }
     }

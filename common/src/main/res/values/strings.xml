@@ -12,6 +12,7 @@
     <string name="next">Next</string>
     <string name="select">Select</string>
     <string name="continue_">Continue</string>
+    <string name="cancel">Cancel</string>
     <string name="finish">Finish</string>
     <string name="go_to_login">Go to Login</string>
     <string name="sign_in">Sign in</string>
@@ -135,6 +136,11 @@
     <string name="share_word">Share Word</string>
     <string name="share_jpg">Share JPG</string>
     <string name="share_png">Share PNG</string>
+
+    <!-- Watermark -->
+    <string name="add_watermark">Add Watermark</string>
+    <string name="watermark_input">Insert tag</string>
+    <string name="watermark_add_image">+ Add Image</string>
 
 
     <!--  Files titles  -->
