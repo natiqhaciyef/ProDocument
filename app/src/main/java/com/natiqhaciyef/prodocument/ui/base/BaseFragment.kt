@@ -138,7 +138,7 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel<State, Event, E
         }
 
         BaseNavigationDeepLink.WATERMARK_ROUTE -> {
-            0
+            R.navigation.watermark_nav_graph
         }
 
         BaseNavigationDeepLink.E_SIGN_ROUTE -> {

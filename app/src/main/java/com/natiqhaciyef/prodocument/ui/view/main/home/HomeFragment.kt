@@ -9,11 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.prodocument.databinding.FragmentHomeBinding
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
-import com.natiqhaciyef.common.objects.MATERIAL_TOKEN_MOCK_KEY
 import com.natiqhaciyef.common.objects.USER_EMAIL_MOCK_KEY
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
-import com.natiqhaciyef.prodocument.ui.custom.CustomMaterialBottomSheetFragment
-import com.natiqhaciyef.prodocument.ui.model.CategoryItem
 import com.natiqhaciyef.prodocument.ui.util.UiList
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.home.adapter.FileItemAdapter
@@ -36,6 +33,7 @@ class HomeFragment(
         (activity as MainActivity).also {
             it.binding.bottomNavBar.visibility = View.VISIBLE
             it.binding.materialToolbar.visibility = View.VISIBLE
+            it.binding.appbarLayout.visibility = View.VISIBLE
             it.binding.materialToolbar.setTitleToolbar(getString(R.string.proscan))
             it.binding.materialToolbar.changeVisibility(View.VISIBLE)
             it.binding.materialToolbar.setVisibilityOptionsMenu(View.GONE)
