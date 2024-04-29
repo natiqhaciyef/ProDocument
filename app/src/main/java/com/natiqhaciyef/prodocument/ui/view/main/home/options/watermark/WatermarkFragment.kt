@@ -12,12 +12,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.MimeTypeMap
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.net.toUri
 import coil.load
 import com.natiqhaciyef.common.helpers.getNow
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.domain.worker.config.PDF
 import com.natiqhaciyef.prodocument.databinding.FragmentWatermarkBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
+import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
 import com.natiqhaciyef.prodocument.ui.util.DefaultImplModels
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.contract.WatermarkContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.viewmodel.WatermarkViewModel
@@ -47,26 +49,30 @@ class WatermarkFragment(
         config()
     }
 
-    private fun config(){
-        with(binding){
+    private fun config() {
+        with(binding) {
             addFileButton.setOnClickListener { addFileButtonAction() }
+            goBackIcon.setOnClickListener { goBackIconClickAction() }
         }
     }
 
     @SuppressLint("Range")
     private fun readAndCreateFile(uri: Uri) {
-        val cursor = requireActivity().contentResolver.query(uri, null, null, null, null)
+        val cursor = requireActivity()
+            .contentResolver.query(uri, null, null, null, null)
         cursor?.use {
             if (it.moveToFirst()) {
                 val displayName = it.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
                 val fileType = MimeTypeMap.getSingleton()
                     .getExtensionFromMimeType(requireContext().contentResolver.getType(uri))
 
+                var customUri = uri.toString()
+//                customUri += ".pdf"
                 val file = createFileObject(
-                    uri = uri,
+                    uri = customUri.toUri(),
                     title = displayName,
                     type = fileType,
-                    image = uri.toString().removePrefix("content://")
+//                    image = uri.toString().removePrefix("content://")
                 )
 
                 fileConfig(file)
@@ -76,14 +82,15 @@ class WatermarkFragment(
         }
     }
 
-    private fun fileConfig(file: MappedMaterialModel){
-        with(binding){
+    private fun fileConfig(file: MappedMaterialModel) {
+        with(binding) {
             filePreviewImage.load(file.image)
             fileTitleText.text = file.title
             fileDateText.text = file.createdDate
 
-            fileRemoveIcon.setOnClickListener {  }
-            filePreviewObject.visibility =View.VISIBLE
+            fileRemoveIcon.setOnClickListener { fileRemoveClickAction() }
+            filePreviewObject.visibility = View.VISIBLE
+            addFileButton.visibility = View.GONE
         }
     }
 
@@ -116,14 +123,26 @@ class WatermarkFragment(
         fileRequestLauncher.launch(intent)
     }
 
-    private fun continueButtonAction(materialModel: MappedMaterialModel){
+    private fun continueButtonAction(materialModel: MappedMaterialModel) {
         val action = WatermarkFragmentDirections.actionWatermarkFragmentToPreviewMaterialNavGraph(materialModel, WATERMARK_TYPE)
         navigate(action)
     }
 
+    private fun fileRemoveClickAction() {
+        binding.apply {
+            filePreviewObject.visibility = View.GONE
+            continueButton.isEnabled = false
+            addFileButton.visibility = View.VISIBLE
+        }
+    }
+
+    private fun goBackIconClickAction(){
+        navigateByRouteTitle(HOME_ROUTE)
+    }
+
     private fun getDefaultMockFile() = DefaultImplModels.mappedMaterialModel
 
-    companion object{
+    companion object {
         const val WATERMARK_TYPE = "Watermark"
     }
 }
