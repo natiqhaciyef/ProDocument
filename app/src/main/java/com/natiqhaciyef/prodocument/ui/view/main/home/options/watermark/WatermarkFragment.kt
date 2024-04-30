@@ -65,11 +65,8 @@ class WatermarkFragment(
                 val displayName = it.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
                 val fileType = MimeTypeMap.getSingleton()
                     .getExtensionFromMimeType(requireContext().contentResolver.getType(uri))
-
-                var customUri = uri.toString()
-//                customUri += ".pdf"
                 val file = createFileObject(
-                    uri = customUri.toUri(),
+                    uri = uri,
                     title = displayName,
                     type = fileType,
 //                    image = uri.toString().removePrefix("content://")
