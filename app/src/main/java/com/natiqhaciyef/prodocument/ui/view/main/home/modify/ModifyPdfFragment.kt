@@ -14,6 +14,7 @@ import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import coil.load
+import com.google.android.material.color.utilities.Contrast
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.common.model.CRUDModel
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
@@ -167,6 +168,8 @@ class ModifyPdfFragment(
             uriAddress = getAddressOfFile(requireContext(), mappedMaterialModel.url) ?: "".toUri()
             pdfView.createDefaultPdfUriLoader(uriAddress!!)
 
+            val pdfParams = pdfView.layoutParams as ConstraintLayout.LayoutParams
+            pdfParams.bottomMargin = 0
             val params = pdfTitleText.layoutParams as ConstraintLayout.LayoutParams
             params.endToStart = optionsIconButton.id
 
