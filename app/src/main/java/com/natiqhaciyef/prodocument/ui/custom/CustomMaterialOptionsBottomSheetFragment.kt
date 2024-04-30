@@ -6,15 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.api.Distribution.BucketOptions.Linear
 import com.natiqhaciyef.prodocument.databinding.FragmentCustomMaterialBottomSheetBinding
 import com.natiqhaciyef.prodocument.ui.model.CategoryItem
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.adapter.ShareCategoryAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
-class CustomMaterialBottomSheetFragment(
+class CustomMaterialOptionsBottomSheetFragment(
     val onClickAction: (String) -> Unit
 ) : BottomSheetDialogFragment() {
     private var _binding: FragmentCustomMaterialBottomSheetBinding? = null

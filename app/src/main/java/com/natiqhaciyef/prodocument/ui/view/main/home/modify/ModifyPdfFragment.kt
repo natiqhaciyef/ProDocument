@@ -19,7 +19,9 @@ import com.natiqhaciyef.common.model.CRUDModel
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.databinding.FragmentModifyPdfBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
-import com.natiqhaciyef.prodocument.ui.custom.CustomMaterialBottomSheetFragment
+import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
+import com.natiqhaciyef.prodocument.ui.custom.CustomMaterialOptionsBottomSheetFragment
+import com.natiqhaciyef.prodocument.ui.custom.CustomWatermarkAdderBottomSheetFragment
 import com.natiqhaciyef.prodocument.ui.model.CategoryItem
 import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.TITLE_COUNT_KEY
 import com.natiqhaciyef.prodocument.ui.util.CameraReader.Companion.createAndShareFile
@@ -30,6 +32,7 @@ import com.natiqhaciyef.prodocument.ui.view.main.home.modify.contract.ModifyPdfC
 import com.natiqhaciyef.prodocument.ui.view.main.home.modify.viewmodel.ModifyPdfViewModel
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.CaptureImageFragment
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.ScanFragment
+import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.WatermarkFragment.Companion.WATERMARK_TYPE
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlin.reflect.KClass
@@ -60,14 +63,25 @@ class ModifyPdfFragment(
                 when (type) {
                     ScanFragment.SCAN_QR_TYPE -> {
                         scanQrConfig(it)
+
+                        optionsIconButton.setOnClickListener { getOptionsEvent() }
                     }
 
                     CaptureImageFragment.CAPTURE_IMAGE_TYPE -> {
+                        println(it)
                         captureImageConfig(it)
+                        optionsIconButton.setOnClickListener { getOptionsEvent() }
                     }
 
                     PREVIEW_IMAGE -> {
                         previewImageConfig(it)
+                        optionsIconButton.setOnClickListener { getOptionsEvent() }
+                    }
+
+                    WATERMARK_TYPE -> {
+                        println(it)
+                        watermarkConfig(it)
+                        optionsIconButton.setOnClickListener { showWatermarkBottomSheetDialog() }
                     }
 
                     null -> { /* create effect */
@@ -77,13 +91,6 @@ class ModifyPdfFragment(
                 }
 
                 titleButtonChangeAction()
-
-                saveButton.setOnClickListener {
-                    saveButtonClickEvent(material)
-                }
-                optionsIconButton.setOnClickListener {
-                    getOptionsEvent()
-                }
             }
         }
     }
@@ -110,6 +117,7 @@ class ModifyPdfFragment(
             is ModifyPdfContract.ModifyPdfEffect.CreateMaterialFailEffect -> {
 
             }
+            else -> {}
         }
     }
 
@@ -134,6 +142,9 @@ class ModifyPdfFragment(
             imageView.visibility = View.VISIBLE
             pdfView.visibility = View.GONE
             imageView.load(material.image)
+            saveButton.setOnClickListener {
+                saveButtonClickEvent(material)
+            }
         }
     }
 
@@ -142,7 +153,10 @@ class ModifyPdfFragment(
             pdfView.visibility = View.VISIBLE
             imageView.visibility = View.GONE
             uriAddress = getAddressOfFile(requireContext(), material.url) ?: "".toUri()
-            pdfView.createDefaultPdfUriLoader(requireContext(), uriAddress!!)
+            pdfView.createDefaultPdfUriLoader(uriAddress!!)
+            saveButton.setOnClickListener {
+                saveButtonClickEvent(material)
+            }
         }
     }
 
@@ -151,26 +165,47 @@ class ModifyPdfFragment(
             pdfView.visibility = View.VISIBLE
             imageView.visibility = View.GONE
             uriAddress = getAddressOfFile(requireContext(), mappedMaterialModel.url) ?: "".toUri()
-            pdfView.createDefaultPdfUriLoader(requireContext(), uriAddress!!)
+            pdfView.createDefaultPdfUriLoader(uriAddress!!)
 
-            with(binding) {
-                val params = pdfTitleText.layoutParams as ConstraintLayout.LayoutParams
-                params.endToStart = optionsIconButton.id
+            val params = pdfTitleText.layoutParams as ConstraintLayout.LayoutParams
+            params.endToStart = optionsIconButton.id
 
-                saveButton.visibility = View.GONE
-                pdfTitleText.setText(material?.title ?: "")
-                modifyIconButton.visibility = View.GONE
+            saveButton.visibility = View.GONE
+            pdfTitleText.setText(material?.title ?: "")
+            modifyIconButton.visibility = View.GONE
+            saveButton.setOnClickListener {
+                saveButtonClickEvent(material)
             }
         }
     }
 
-    private fun config(){
+    private fun watermarkConfig(material: MappedMaterialModel) {
+        with(binding) {
+            println(material)
+            pdfView.visibility = View.VISIBLE
+            imageView.visibility = View.GONE
+            pdfView.createDefaultPdfUriLoader(material.url)
+
+            val params = pdfTitleText.layoutParams as ConstraintLayout.LayoutParams
+            params.endToStart = optionsIconButton.id
+
+
+            saveButton.text = getString(com.natiqhaciyef.common.R.string.continue_)
+            pdfTitleText.setText(material.title)
+            modifyIconButton.visibility = View.GONE
+            saveButton.setOnClickListener {
+                // continue button event
+            }
+        }
+    }
+
+    private fun config() {
         (activity as MainActivity).binding.apply {
             appbarLayout.visibility = View.GONE
             bottomNavBar.visibility = View.GONE
         }
 
-        binding.goBackIcon.setOnClickListener { navigate(R.id.filesFragment) }
+        binding.goBackIcon.setOnClickListener { navigateByRouteTitle(HOME_ROUTE) }
     }
 
     private fun getOptionsEvent() {
@@ -183,14 +218,26 @@ class ModifyPdfFragment(
     }
 
     private fun showBottomSheetDialog(shareOptions: List<CategoryItem>) {
-        CustomMaterialBottomSheetFragment.list = shareOptions.toMutableList()
-        CustomMaterialBottomSheetFragment { type ->
+        CustomMaterialOptionsBottomSheetFragment.list = shareOptions.toMutableList()
+        CustomMaterialOptionsBottomSheetFragment { type ->
             material?.let {
                 shareFile(it.copy(type = type))
             }
         }.show(
             childFragmentManager,
-            CustomMaterialBottomSheetFragment::class.simpleName
+            CustomMaterialOptionsBottomSheetFragment::class.simpleName
+        )
+    }
+
+    private fun showWatermarkBottomSheetDialog() {
+        CustomWatermarkAdderBottomSheetFragment(
+            cancelButtonCLickAction = {},
+            continueButtonCLickAction = {
+                println(it)
+            }
+        ).show(
+            childFragmentManager,
+            CustomWatermarkAdderBottomSheetFragment::class.simpleName
         )
     }
 
@@ -253,7 +300,12 @@ class ModifyPdfFragment(
         lifecycleScope.launch {
             var number = dataStore.readInt(requireContext(), TITLE_COUNT_KEY)
             dataStore.saveInt(requireContext(), ++number, TITLE_COUNT_KEY)
-            binding.pdfTitleText.setText(getString(com.natiqhaciyef.common.R.string.title_count, number.toString()))
+            binding.pdfTitleText.setText(
+                getString(
+                    com.natiqhaciyef.common.R.string.title_count,
+                    number.toString()
+                )
+            )
         }
     }
 
