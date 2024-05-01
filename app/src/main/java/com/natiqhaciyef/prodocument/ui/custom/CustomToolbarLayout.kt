@@ -34,7 +34,12 @@ class CustomToolbarLayout(
     }
 
     fun setVisibilitySearch(visibility: Int) {
+        binding?.searchbarLayout?.visibility = visibility
         binding?.searchIcon?.visibility = visibility
+    }
+
+    fun setVisibilityToolbar(visibility: Int){
+        binding?.topbarLinearLayout?.visibility = visibility
     }
 
     fun listenSearchText(action: (CharSequence?, Int, Int, Int) -> Unit) {
