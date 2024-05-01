@@ -136,6 +136,7 @@ class MergePdfsFragment(
 
                 filesList.add(file)
                 configOfChangeFileList()
+                continueButtonEnabled()
             }
         }
     }
@@ -190,6 +191,10 @@ class MergePdfsFragment(
         filesList.removeIf { it.id == id }
         adapter?.list = filesList
         configOfChangeFileList()
+    }
+
+    private fun continueButtonEnabled(){
+        binding.mergeButton.isEnabled = filesList.size >= 2
     }
 
     private fun getDefaultMockFile() = DefaultImplModels.mappedMaterialModel
