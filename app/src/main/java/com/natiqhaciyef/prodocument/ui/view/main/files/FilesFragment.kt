@@ -55,7 +55,11 @@ class FilesFragment(
     }
 
     override fun onEffectUpdate(effect: FileContract.FileEffect) {
-
+        when(effect){
+            is FileContract.FileEffect.FilteredFileNotFoundEffect -> { notFoundResult() }
+            is FileContract.FileEffect.FindMaterialByIdFailedEffect -> {}
+            else -> {}
+        }
     }
 
     private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
@@ -64,12 +68,14 @@ class FilesFragment(
                 uiLayout.visibility = View.GONE
                 progressBar.visibility = View.VISIBLE
                 progressBar.isIndeterminate = true
+                notFoundLayout.visibility = View.GONE
             }
         } else {
             binding.apply {
                 uiLayout.visibility = View.VISIBLE
                 progressBar.visibility = View.GONE
                 progressBar.isIndeterminate = false
+                notFoundLayout.visibility = View.GONE
             }
         }
     }
@@ -141,6 +147,14 @@ class FilesFragment(
             viewModel.postEvent(FileContract.FileEvent.SortMaterials(list = list, type = A2Z))
         else
             viewModel.postEvent(FileContract.FileEvent.SortMaterials(list = list, type = Z2A))
+    }
+
+    private fun notFoundResult(){
+        with(binding){
+            progressBar.visibility = View.GONE
+            uiLayout.visibility = View.GONE
+            notFoundLayout.visibility = View.VISIBLE
+        }
     }
 
     companion object {

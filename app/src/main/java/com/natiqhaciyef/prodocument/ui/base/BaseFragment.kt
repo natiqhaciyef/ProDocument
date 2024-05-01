@@ -90,6 +90,10 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel<State, Event, E
         viewModel.state.onEach {
             onStateChange(it)
         }.launchIn(viewModel.viewModelScope)
+
+        viewModel.effect.onEach {
+            onEffectUpdate(it)
+        }.launchIn(viewModel.viewModelScope)
     }
 
 

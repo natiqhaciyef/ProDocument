@@ -14,11 +14,13 @@ import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import coil.load
+import com.google.android.material.color.utilities.Contrast
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.common.model.CRUDModel
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.databinding.FragmentModifyPdfBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
+import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
 import com.natiqhaciyef.prodocument.ui.custom.CustomMaterialOptionsBottomSheetFragment
 import com.natiqhaciyef.prodocument.ui.custom.CustomWatermarkAdderBottomSheetFragment
 import com.natiqhaciyef.prodocument.ui.model.CategoryItem
@@ -67,6 +69,7 @@ class ModifyPdfFragment(
                     }
 
                     CaptureImageFragment.CAPTURE_IMAGE_TYPE -> {
+                        println(it)
                         captureImageConfig(it)
                         optionsIconButton.setOnClickListener { getOptionsEvent() }
                     }
@@ -77,6 +80,7 @@ class ModifyPdfFragment(
                     }
 
                     WATERMARK_TYPE -> {
+                        println(it)
                         watermarkConfig(it)
                         optionsIconButton.setOnClickListener { showWatermarkBottomSheetDialog() }
                     }
@@ -88,10 +92,6 @@ class ModifyPdfFragment(
                 }
 
                 titleButtonChangeAction()
-
-                saveButton.setOnClickListener {
-                    saveButtonClickEvent(material)
-                }
             }
         }
     }
@@ -143,6 +143,9 @@ class ModifyPdfFragment(
             imageView.visibility = View.VISIBLE
             pdfView.visibility = View.GONE
             imageView.load(material.image)
+            saveButton.setOnClickListener {
+                saveButtonClickEvent(material)
+            }
         }
     }
 
@@ -151,7 +154,10 @@ class ModifyPdfFragment(
             pdfView.visibility = View.VISIBLE
             imageView.visibility = View.GONE
             uriAddress = getAddressOfFile(requireContext(), material.url) ?: "".toUri()
-            pdfView.createDefaultPdfUriLoader(requireContext(), uriAddress!!)
+            pdfView.createDefaultPdfUriLoader(uriAddress!!)
+            saveButton.setOnClickListener {
+                saveButtonClickEvent(material)
+            }
         }
     }
 
@@ -160,31 +166,39 @@ class ModifyPdfFragment(
             pdfView.visibility = View.VISIBLE
             imageView.visibility = View.GONE
             uriAddress = getAddressOfFile(requireContext(), mappedMaterialModel.url) ?: "".toUri()
-            pdfView.createDefaultPdfUriLoader(requireContext(), uriAddress!!)
+            pdfView.createDefaultPdfUriLoader(uriAddress!!)
 
+            val pdfParams = pdfView.layoutParams as ConstraintLayout.LayoutParams
+            pdfParams.bottomMargin = 0
             val params = pdfTitleText.layoutParams as ConstraintLayout.LayoutParams
             params.endToStart = optionsIconButton.id
 
             saveButton.visibility = View.GONE
             pdfTitleText.setText(material?.title ?: "")
             modifyIconButton.visibility = View.GONE
+            saveButton.setOnClickListener {
+                saveButtonClickEvent(material)
+            }
         }
     }
 
     private fun watermarkConfig(material: MappedMaterialModel) {
         with(binding) {
+            println(material)
             pdfView.visibility = View.VISIBLE
             imageView.visibility = View.GONE
-            uriAddress = getAddressOfFile(requireContext(), material.url) ?: "".toUri()
-            pdfView.createDefaultPdfUriLoader(requireContext(), uriAddress!!)
+            pdfView.createDefaultPdfUriLoader(material.url)
 
             val params = pdfTitleText.layoutParams as ConstraintLayout.LayoutParams
             params.endToStart = optionsIconButton.id
 
-            saveButton.visibility = View.GONE
-            continueButton.visibility = View.VISIBLE
+
+            saveButton.text = getString(com.natiqhaciyef.common.R.string.continue_)
             pdfTitleText.setText(material.title)
             modifyIconButton.visibility = View.GONE
+            saveButton.setOnClickListener {
+                // continue button event
+            }
         }
     }
 
@@ -194,7 +208,7 @@ class ModifyPdfFragment(
             bottomNavBar.visibility = View.GONE
         }
 
-        binding.goBackIcon.setOnClickListener { navigate(R.id.filesFragment) }
+        binding.goBackIcon.setOnClickListener { navigateByRouteTitle(HOME_ROUTE) }
     }
 
     private fun getOptionsEvent() {

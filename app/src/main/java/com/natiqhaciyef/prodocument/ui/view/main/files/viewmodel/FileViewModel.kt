@@ -110,7 +110,15 @@ class FileViewModel @Inject constructor(
     }
 
     private fun filterList(list: MutableList<MappedMaterialModel>, text: String) {
-        setBaseState(getCurrentBaseState().copy(isLoading = false, list = list.filter { it.title.startsWith(text) }))
+        if (list.any { it.title.startsWith(text) }) {
+            setBaseState(
+                getCurrentBaseState().copy(
+                    isLoading = false,
+                    list = list.filter { it.title.startsWith(text) })
+            )
+        }else{
+            postEffect(FileContract.FileEffect.FilteredFileNotFoundEffect)
+        }
     }
 
     override fun getInitialState(): FileContract.FileState = FileContract.FileState()

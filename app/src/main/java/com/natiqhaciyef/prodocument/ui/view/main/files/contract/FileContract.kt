@@ -28,6 +28,8 @@ object FileContract {
             var message: String? = null,
             var error: Exception? = null
         ) : FileEffect()
+
+        data object FilteredFileNotFoundEffect : FileEffect()
     }
 
     data class FileState(

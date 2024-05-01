@@ -38,6 +38,7 @@ class HomeFragment(
             it.binding.materialToolbar.changeVisibility(View.VISIBLE)
             it.binding.materialToolbar.setVisibilityOptionsMenu(View.GONE)
             it.binding.materialToolbar.setVisibilitySearch(View.GONE)
+            it.binding.materialToolbar.setVisibilityToolbar(View.VISIBLE)
         }
         viewModel.postEvent(HomeContract.HomeEvent.GetAllMaterials(USER_EMAIL_MOCK_KEY))
         menuAdapterConfig()

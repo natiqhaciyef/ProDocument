@@ -69,7 +69,7 @@ object PdfReader {
     fun getPdfName(title: String) =
         String.format("%s %s / %s", title, pageNumber + 1, pageTotalCount)
 
-    fun PDFView.createDefaultPdfUriLoader(ctx: Context, uri: Uri) =
+    fun PDFView.createDefaultPdfUriLoader(uri: Uri) =
         this.fromUri(uri)
             .pages(0, 2, 1, 3, 3, 3) // all pages are displayed by default
             .enableSwipe(true) // allows to block changing pages using swipe

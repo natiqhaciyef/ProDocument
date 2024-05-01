@@ -31,6 +31,8 @@
     <!-- Result -->
     <string name="sign_up_successful_result">Sign Up Successful!</string>
     <string name="your_account_has_been_created">Your account has been created</string>
+    <string name="not_found_result_title">Not found</string>
+    <string name="not_found_result_description">We\'re sorry, the keyword you were looking for could not be found. Please search with another keywords.</string>
 
 
     <!-- Onboarding & Walkthrough -->
