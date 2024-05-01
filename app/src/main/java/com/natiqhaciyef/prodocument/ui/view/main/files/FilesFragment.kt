@@ -100,7 +100,7 @@ class FilesFragment(
             fileTotalAmountTitle.text =
                 getString(R.string.total_file_amount_title, "${list.size}")
             fileAdapter =
-                FileItemAdapter(list, requireContext().getString(R.string.scan_code))
+                FileItemAdapter(list, requireContext().getString(R.string.scan_code), this@FilesFragment, requireContext())
 
             filesRecyclerView.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
