@@ -144,6 +144,9 @@
     <string name="watermark_input">Insert tag</string>
     <string name="watermark_add_image">+ Add Image</string>
 
+    <!--  Split  -->
+    <string name="split_file">Split file</string>
+
 
     <!--  Files titles  -->
     <string name="total_file_amount_title">Total: %1$s file(s)</string>

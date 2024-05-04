@@ -18,5 +18,9 @@
             android:name="type"
             app:argType="string"
             android:defaultValue="PreviewImage"/>
+        <argument
+            android:name="title"
+            app:argType="string"
+            android:defaultValue="title is empty"/>
     </fragment>
 </navigation>

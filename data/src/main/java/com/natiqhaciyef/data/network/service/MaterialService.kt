@@ -1,6 +1,7 @@
 package com.natiqhaciyef.data.network.service
 
 import com.natiqhaciyef.data.network.request.MergeRequest
+import com.natiqhaciyef.data.network.request.WatermarkRequest
 import com.natiqhaciyef.data.network.response.CRUDResponse
 import com.natiqhaciyef.data.network.response.MaterialResponse
 import com.natiqhaciyef.data.network.response.ListMaterialResponse
@@ -62,5 +63,11 @@ interface MaterialService {
     @FormUrlEncoded
     suspend fun mergeMaterials(
         @Body data: MergeRequest
+    ): Response<MaterialResponse>
+
+    @POST("")
+    @FormUrlEncoded
+    suspend fun watermarkMaterial(
+        @Body data: WatermarkRequest
     ): Response<MaterialResponse>
 }

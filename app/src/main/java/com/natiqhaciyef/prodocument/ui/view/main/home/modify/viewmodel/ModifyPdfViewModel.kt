@@ -3,13 +3,17 @@ package com.natiqhaciyef.prodocument.ui.view.main.home.modify.viewmodel
 import android.app.Activity
 import android.content.Context
 import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.helpers.toJsonString
 import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.domain.usecase.MATERIAL_MODEL
+import com.natiqhaciyef.domain.usecase.MATERIAL_TITLE
+import com.natiqhaciyef.domain.usecase.MATERIAL_WATERMARK
 import com.natiqhaciyef.domain.usecase.USER_EMAIL
 import com.natiqhaciyef.domain.usecase.material.CreateMaterialUseCase
+import com.natiqhaciyef.domain.usecase.material.watermark.WatermarkMaterialUseCase
 import com.natiqhaciyef.domain.worker.config.JPEG
 import com.natiqhaciyef.domain.worker.config.PDF
 import com.natiqhaciyef.domain.worker.config.PNG
@@ -26,7 +30,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ModifyPdfViewModel @Inject constructor(
-    private val createMaterialByIdUseCase: CreateMaterialUseCase
+    private val createMaterialByIdUseCase: CreateMaterialUseCase,
+    private val watermarkMaterialUseCase: WatermarkMaterialUseCase
 ) : BaseViewModel<ModifyPdfContract.ModifyPdfState, ModifyPdfContract.ModifyPdfEvent, ModifyPdfContract.ModifyPdfEffect>() {
 
     override fun onEventUpdate(event: ModifyPdfContract.ModifyPdfEvent) {
@@ -37,6 +42,10 @@ class ModifyPdfViewModel @Inject constructor(
 
             is ModifyPdfContract.ModifyPdfEvent.GetShareOptions -> {
                 getShareOptionsState(context = event.context, activity = event.activity)
+            }
+
+            is ModifyPdfContract.ModifyPdfEvent.WatermarkMaterialEvent -> {
+                watermarkMaterial(title = event.title, watermark = event.watermark, material = event.mappedMaterialModel)
             }
         }
     }
@@ -67,6 +76,58 @@ class ModifyPdfViewModel @Inject constructor(
                                     getCurrentBaseState().copy(
                                         isLoading = false,
                                         result = data,
+                                        optionsList = null
+                                    )
+                                )
+                            }
+                        }
+
+                        Status.ERROR -> {
+                            setBaseState(
+                                getCurrentBaseState().copy(
+                                    isLoading = false,
+                                    result = null,
+                                    optionsList = null
+                                )
+                            )
+                            postEffect(
+                                ModifyPdfContract.ModifyPdfEffect.CreateMaterialFailEffect(
+                                    message = result.message,
+                                    exception = result.exception
+                                )
+                            )
+                        }
+
+                        Status.LOADING -> {
+                            setBaseState(
+                                getCurrentBaseState().copy(
+                                    isLoading = true,
+                                    optionsList = null
+                                )
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun watermarkMaterial(title: String, material: MappedMaterialModel, watermark: String) {
+        val map = mutableMapOf<String, Any>()
+        map[MATERIAL_TITLE] = title
+        map[MATERIAL_WATERMARK] = watermark
+        map[MATERIAL_MODEL] = material
+
+        if (title.isNotEmpty() && watermark.isNotEmpty()) {
+            viewModelScope.launch {
+                watermarkMaterialUseCase.operate(map).collectLatest { result ->
+                    when(result.status){
+                        Status.SUCCESS -> {
+                            result.data?.let { data ->
+                                setBaseState(
+                                    getCurrentBaseState().copy(
+                                        isLoading = false,
+                                        material = data,
                                         optionsList = null
                                     )
                                 )

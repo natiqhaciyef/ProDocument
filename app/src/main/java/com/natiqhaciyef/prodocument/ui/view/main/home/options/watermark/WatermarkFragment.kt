@@ -12,8 +12,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.MimeTypeMap
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.net.toUri
 import coil.load
+import com.google.gson.Gson
 import com.natiqhaciyef.common.helpers.getNow
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.domain.worker.config.PDF
@@ -71,10 +71,11 @@ class WatermarkFragment(
                     type = fileType,
 //                    image = uri.toString().removePrefix("content://")
                 )
+                val title = binding.usernameWatermarkTitle.text.toString()
 
                 fileConfig(file)
                 binding.continueButton.isEnabled = true
-                binding.continueButton.setOnClickListener { continueButtonAction(file) }
+                binding.continueButton.setOnClickListener { continueButtonAction(file, title) }
             }
         }
     }
@@ -120,8 +121,8 @@ class WatermarkFragment(
         fileRequestLauncher.launch(intent)
     }
 
-    private fun continueButtonAction(materialModel: MappedMaterialModel) {
-        val action = WatermarkFragmentDirections.actionWatermarkFragmentToPreviewMaterialNavGraph(materialModel, WATERMARK_TYPE)
+    private fun continueButtonAction(materialModel: MappedMaterialModel, title: String) {
+        val action = WatermarkFragmentDirections.actionWatermarkFragmentToPreviewMaterialNavGraph(materialModel, WATERMARK_TYPE, title)
         navigate(action)
     }
 
