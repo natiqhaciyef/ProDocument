@@ -146,6 +146,12 @@
 
     <!--  Split  -->
     <string name="split_file">Split file</string>
+    <string name="add_more_information">Add More Information</string>
+    <string name="from_here">From here</string>
+    <string name="until_here">Until here</string>
+    <string name="write_sentence">Write sentence</string>
+    <string name="addition_information_about_split">You have to insert first line of split pdf. Then you ought to select second line which will end line of split pdf. This part will be removed from pdf and new file will be generated.</string>
+    <string name="until_the_last_line">Until the last line</string>
 
 
     <!--  Files titles  -->
