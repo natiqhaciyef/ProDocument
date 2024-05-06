@@ -51,10 +51,9 @@ class ModifyPdfFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val data: ModifyPdfFragmentArgs by navArgs()
-        material = data.fileMaterial
-        type = data.type
-        title = data.title
-
+        material = data.resourceBundle.getParcelable(BUNDLE_MATERIAL)
+        type = data.resourceBundle.getString(BUNDLE_TYPE)
+        title = data.resourceBundle.getString(BUNDLE_TITLE)
         config()
 
 
@@ -86,8 +85,7 @@ class ModifyPdfFragment(
                         }
                     }
 
-                    null -> { /* create effect */
-                    }
+                    null -> { /* create effect */ }
 
                     else -> {}
                 }
@@ -333,5 +331,9 @@ class ModifyPdfFragment(
 
     companion object {
         const val PREVIEW_IMAGE = "PreviewImage"
+
+        const val BUNDLE_MATERIAL = "BundleMaterial"
+        const val BUNDLE_TYPE = "BundleType"
+        const val BUNDLE_TITLE = "BundleTitle"
     }
 }

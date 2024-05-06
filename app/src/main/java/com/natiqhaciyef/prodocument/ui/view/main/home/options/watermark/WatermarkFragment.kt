@@ -12,6 +12,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.MimeTypeMap
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.camera.core.ExperimentalGetImage
+import androidx.core.os.bundleOf
 import coil.load
 import com.google.gson.Gson
 import com.natiqhaciyef.common.helpers.getNow
@@ -21,6 +23,9 @@ import com.natiqhaciyef.prodocument.databinding.FragmentWatermarkBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
 import com.natiqhaciyef.prodocument.ui.util.DefaultImplModels
+import com.natiqhaciyef.prodocument.ui.view.main.home.modify.ModifyPdfFragment.Companion.BUNDLE_MATERIAL
+import com.natiqhaciyef.prodocument.ui.view.main.home.modify.ModifyPdfFragment.Companion.BUNDLE_TITLE
+import com.natiqhaciyef.prodocument.ui.view.main.home.modify.ModifyPdfFragment.Companion.BUNDLE_TYPE
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.contract.WatermarkContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.viewmodel.WatermarkViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,12 +33,13 @@ import java.util.UUID
 import kotlin.reflect.KClass
 
 
+@ExperimentalGetImage
 @AndroidEntryPoint
 class WatermarkFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentWatermarkBinding = FragmentWatermarkBinding::inflate,
     override val viewModelClass: KClass<WatermarkViewModel> = WatermarkViewModel::class
 ) : BaseFragment<FragmentWatermarkBinding, WatermarkViewModel, WatermarkContract.WatermarkState, WatermarkContract.WatermarkEvent, WatermarkContract.WatermarkEffect>() {
-
+    private var bundle = bundleOf()
     private val fileRequestLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -122,7 +128,10 @@ class WatermarkFragment(
     }
 
     private fun continueButtonAction(materialModel: MappedMaterialModel, title: String) {
-        val action = WatermarkFragmentDirections.actionWatermarkFragmentToPreviewMaterialNavGraph(materialModel, WATERMARK_TYPE, title)
+        bundle.putParcelable(BUNDLE_MATERIAL, materialModel)
+        bundle.putString(BUNDLE_TYPE, WATERMARK_TYPE)
+        bundle.putString(BUNDLE_TITLE, title)
+        val action = WatermarkFragmentDirections.actionWatermarkFragmentToPreviewMaterialNavGraph(bundle)
         navigate(action)
     }
 

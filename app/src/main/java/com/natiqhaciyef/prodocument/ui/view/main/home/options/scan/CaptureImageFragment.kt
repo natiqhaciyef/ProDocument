@@ -16,6 +16,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.ExperimentalGetImage
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.core.os.bundleOf
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanning
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanningResult
 import com.natiqhaciyef.common.helpers.loadImage
@@ -24,6 +25,8 @@ import com.natiqhaciyef.prodocument.ui.util.CameraReader
 import com.natiqhaciyef.prodocument.databinding.FragmentCaptureImageBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
+import com.natiqhaciyef.prodocument.ui.view.main.home.modify.ModifyPdfFragment.Companion.BUNDLE_MATERIAL
+import com.natiqhaciyef.prodocument.ui.view.main.home.modify.ModifyPdfFragment.Companion.BUNDLE_TYPE
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.behaviour.CameraTypes
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.contract.ScanContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.viewmodel.ScanViewModel
@@ -38,8 +41,8 @@ class CaptureImageFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentCaptureImageBinding = FragmentCaptureImageBinding::inflate,
     override val viewModelClass: KClass<ScanViewModel> = ScanViewModel::class
 ) : BaseFragment<FragmentCaptureImageBinding, ScanViewModel, ScanContract.ScanState, ScanContract.ScanEvent, ScanContract.ScanEffect>() {
+    private var bundle = bundleOf()
     private var imageUri: Uri? = null
-
     private var scanner =
         GmsDocumentScanning.getClient(CameraReader.cameraScannerDefaultOptions)
 
@@ -249,8 +252,10 @@ class CaptureImageFragment(
     }
 
     private fun imageResultAction(material: MappedMaterialModel) {
+        bundle.putParcelable(BUNDLE_MATERIAL, material)
+        bundle.putString(BUNDLE_TYPE, CAPTURE_IMAGE_TYPE)
         val action =
-            ScanTypeFragmentDirections.actionScanTypeFragmentToPreviewMaterialNavGraph(material, CAPTURE_IMAGE_TYPE)
+            ScanTypeFragmentDirections.actionScanTypeFragmentToPreviewMaterialNavGraph(bundle)
         navigate(action)
     }
 
