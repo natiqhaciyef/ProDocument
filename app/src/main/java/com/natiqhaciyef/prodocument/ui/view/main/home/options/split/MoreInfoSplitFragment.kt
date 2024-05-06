@@ -11,7 +11,11 @@ import androidx.navigation.fragment.navArgs
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.databinding.FragmentMoreInfoSplitBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
-import com.natiqhaciyef.prodocument.ui.view.main.home.options.split.SplitFragment.Companion.SPLIT_MATERIAL_MODEL
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_LIST_MATERIAL
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TITLE
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TYPE
+import com.natiqhaciyef.prodocument.ui.view.main.home.options.split.SplitFragment.Companion.SPLIT_TYPE
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.split.contract.SplitContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.split.viewmodel.SplitViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,7 +40,10 @@ class MoreInfoSplitFragment(
     override fun onStateChange(state: SplitContract.SplitState) {
         when {
             state.isLoading -> {}
-            else -> {}
+            else -> {
+                if (state.materialList != null)
+                    continueButtonClickAction(state.materialList!!)
+            }
         }
     }
 
@@ -48,20 +55,32 @@ class MoreInfoSplitFragment(
     private fun config() {
         with(binding) {
             buttonEnableCheck()
-            continueButton.setOnClickListener { continueButtonClickAction() }
+            continueButton.setOnClickListener { continueButtonClickEvent() }
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    private fun continueButtonClickAction() {
-        with(binding) {
+    private fun continueButtonClickAction(list: List<MappedMaterialModel>) {
+        // split pdf and get result
+        // navigate to modify pdf screen
+        bundle.putParcelableArray(BUNDLE_LIST_MATERIAL, list.toTypedArray())
+        val action = MoreInfoSplitFragmentDirections.actionMoreInfoSplitFragmentToPreviewMaterialNavGraph(bundle)
+        navigate(action)
+    }
+
+    private fun continueButtonClickEvent(){
+        with(binding){
             val firstLine = fromInput.text.toString()
             val lastLine =
                 if (isLastLineOfFile.isChecked) LAST_LINE_NOT_SELECTED else untilToInput.text.toString()
-            bundle.putString(FIRST_LINE_TITLE, firstLine)
-            bundle.putString(LAST_LINE_TITLE, lastLine)
+            val title = bundle.getString(BUNDLE_TITLE)
+            val material = bundle.getParcelable<MappedMaterialModel>(BUNDLE_MATERIAL)!!
 
-            // navigate to modify pdf screen
+            viewModel.postEvent(SplitContract.SplitEvent.SplitPdfByLinesEvent(
+                firstLine = firstLine,
+                lastLine = lastLine,
+                title = title ?: "",
+                material = material
+            ))
         }
     }
 
@@ -89,7 +108,5 @@ class MoreInfoSplitFragment(
 
     companion object {
         const val LAST_LINE_NOT_SELECTED = "LastLineNotSelected"
-        const val FIRST_LINE_TITLE = "FirstLineTitle"
-        const val LAST_LINE_TITLE = "LastLineTitle"
     }
 }

@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.MimeTypeMap
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.camera.core.ExperimentalGetImage
 import androidx.core.os.bundleOf
 import coil.load
 import com.natiqhaciyef.common.helpers.getNow
@@ -20,6 +21,9 @@ import com.natiqhaciyef.domain.worker.config.PDF
 import com.natiqhaciyef.prodocument.databinding.FragmentSplitBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TITLE
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TYPE
 import com.natiqhaciyef.prodocument.ui.util.DefaultImplModels
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.split.contract.SplitContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.split.viewmodel.SplitViewModel
@@ -127,7 +131,10 @@ class SplitFragment(
     }
 
     private fun continueButtonAction(materialModel: MappedMaterialModel) {
-        bundle.putParcelable(SPLIT_MATERIAL_MODEL, materialModel)
+        val title = binding.usernameSplitInput.text.toString()
+        bundle.putParcelable(BUNDLE_MATERIAL, materialModel)
+        bundle.putString(BUNDLE_TYPE, SPLIT_TYPE)
+        bundle.putString(BUNDLE_TITLE, title)
         val action = SplitFragmentDirections.actionSplitFragmentToMoreInfoSplitFragment(bundle)
         navigate(action)
     }
@@ -146,7 +153,5 @@ class SplitFragment(
 
     private fun getDefaultMockFile() = DefaultImplModels.mappedMaterialModel
 
-    companion object{
-        const val SPLIT_MATERIAL_MODEL = "SplitMaterialTitle"
-    }
+    companion object{ const val SPLIT_TYPE = "SplitType" }
 }

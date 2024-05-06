@@ -22,5 +22,13 @@
         <argument
             android:name="resourceBundle"
             app:argType="android.os.Bundle" />
+        <action
+            android:id="@+id/action_moreInfoSplitFragment_to_preview_material_nav_graph"
+            app:destination="@id/preview_material_nav_graph" >
+            <argument
+                android:name="resourceBundle"
+                app:argType="android.os.Bundle" />
+        </action>
     </fragment>
+    <include app:graph="@navigation/preview_material_nav_graph" />
 </navigation>

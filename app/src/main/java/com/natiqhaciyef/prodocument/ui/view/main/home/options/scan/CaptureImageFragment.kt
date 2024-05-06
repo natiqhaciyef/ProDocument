@@ -25,8 +25,8 @@ import com.natiqhaciyef.prodocument.ui.util.CameraReader
 import com.natiqhaciyef.prodocument.databinding.FragmentCaptureImageBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
-import com.natiqhaciyef.prodocument.ui.view.main.home.modify.ModifyPdfFragment.Companion.BUNDLE_MATERIAL
-import com.natiqhaciyef.prodocument.ui.view.main.home.modify.ModifyPdfFragment.Companion.BUNDLE_TYPE
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TYPE
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.behaviour.CameraTypes
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.contract.ScanContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.viewmodel.ScanViewModel
@@ -35,7 +35,6 @@ import kotlin.reflect.KClass
 
 //val inset = context.convertDpToPixel(16)
 
-@ExperimentalGetImage
 @AndroidEntryPoint
 class CaptureImageFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentCaptureImageBinding = FragmentCaptureImageBinding::inflate,

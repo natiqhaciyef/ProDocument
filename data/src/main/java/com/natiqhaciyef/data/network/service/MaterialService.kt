@@ -1,6 +1,7 @@
 package com.natiqhaciyef.data.network.service
 
 import com.natiqhaciyef.data.network.request.MergeRequest
+import com.natiqhaciyef.data.network.request.SplitRequest
 import com.natiqhaciyef.data.network.request.WatermarkRequest
 import com.natiqhaciyef.data.network.response.CRUDResponse
 import com.natiqhaciyef.data.network.response.MaterialResponse
@@ -14,7 +15,8 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface MaterialService {
+interface
+MaterialService {
 
     @GET("")
     suspend fun getMaterials(
@@ -70,4 +72,10 @@ interface MaterialService {
     suspend fun watermarkMaterial(
         @Body data: WatermarkRequest
     ): Response<MaterialResponse>
+
+    @POST("")
+    @FormUrlEncoded
+    suspend fun splitMaterial(
+        @Body data: SplitRequest
+    ): Response<List<MaterialResponse>>
 }

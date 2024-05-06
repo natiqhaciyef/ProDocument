@@ -23,6 +23,10 @@ import com.natiqhaciyef.prodocument.ui.custom.CustomMaterialOptionsBottomSheetFr
 import com.natiqhaciyef.prodocument.ui.custom.CustomWatermarkAdderBottomSheetFragment
 import com.natiqhaciyef.prodocument.ui.model.CategoryItem
 import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.TITLE_COUNT_KEY
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_LIST_MATERIAL
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TITLE
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TYPE
 import com.natiqhaciyef.prodocument.ui.util.CameraReader.Companion.createAndShareFile
 import com.natiqhaciyef.prodocument.ui.util.CameraReader.Companion.getAddressOfFile
 import com.natiqhaciyef.prodocument.ui.util.PdfReader.createDefaultPdfUriLoader
@@ -31,6 +35,7 @@ import com.natiqhaciyef.prodocument.ui.view.main.home.modify.contract.ModifyPdfC
 import com.natiqhaciyef.prodocument.ui.view.main.home.modify.viewmodel.ModifyPdfViewModel
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.CaptureImageFragment
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.ScanFragment
+import com.natiqhaciyef.prodocument.ui.view.main.home.options.split.SplitFragment.Companion.SPLIT_TYPE
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.WatermarkFragment.Companion.WATERMARK_TYPE
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -64,25 +69,23 @@ class ModifyPdfFragment(
                 when (type) {
                     ScanFragment.SCAN_QR_TYPE -> {
                         scanQrConfig(file)
-
-                        optionsIconButton.setOnClickListener { getOptionsEvent() }
                     }
 
                     CaptureImageFragment.CAPTURE_IMAGE_TYPE -> {
                         captureImageConfig(file)
-                        optionsIconButton.setOnClickListener { getOptionsEvent() }
                     }
 
                     PREVIEW_IMAGE -> {
                         previewImageConfig(file)
-                        optionsIconButton.setOnClickListener { getOptionsEvent() }
                     }
 
                     WATERMARK_TYPE -> {
                         watermarkConfig(file)
-                        optionsIconButton.setOnClickListener {
-                            showWatermarkBottomSheetDialog(material = file, title = title ?: "")
-                        }
+                    }
+
+                    SPLIT_TYPE ->{
+                        val list = (data.resourceBundle.getParcelableArray(BUNDLE_LIST_MATERIAL) as Array<MappedMaterialModel>).toList()
+                        splitConfig(list)
                     }
 
                     null -> { /* create effect */ }
@@ -144,6 +147,8 @@ class ModifyPdfFragment(
             saveButton.setOnClickListener {
                 saveButtonClickEvent(material)
             }
+
+            optionsIconButton.setOnClickListener { getOptionsEvent() }
         }
     }
 
@@ -156,6 +161,8 @@ class ModifyPdfFragment(
             saveButton.setOnClickListener {
                 saveButtonClickEvent(material)
             }
+
+            optionsIconButton.setOnClickListener { getOptionsEvent() }
         }
     }
 
@@ -177,6 +184,8 @@ class ModifyPdfFragment(
             saveButton.setOnClickListener {
                 saveButtonClickEvent(material)
             }
+
+            optionsIconButton.setOnClickListener { getOptionsEvent() }
         }
     }
 
@@ -191,11 +200,33 @@ class ModifyPdfFragment(
 
 
             saveButton.text = getString(com.natiqhaciyef.common.R.string.continue_)
-            pdfTitleText.setText(material.title)
+            pdfTitleText.setText(title ?: material.title)
             modifyIconButton.visibility = View.GONE
             saveButton.setOnClickListener {
                 // continue button event
             }
+
+            optionsIconButton.setOnClickListener { showWatermarkBottomSheetDialog(material = material, title = title ?: "") }
+        }
+    }
+
+    private fun splitConfig(materials: List<MappedMaterialModel>){
+        with(binding) {
+            pdfView.visibility = View.VISIBLE
+            imageView.visibility = View.GONE
+            pdfView.createDefaultPdfUriLoader(materials.first().url)
+
+            val params = pdfTitleText.layoutParams as ConstraintLayout.LayoutParams
+            params.endToStart = optionsIconButton.id
+
+            saveButton.text = getString(com.natiqhaciyef.common.R.string.continue_)
+            pdfTitleText.setText(title ?: materials.first().title)
+            modifyIconButton.visibility = View.GONE
+            saveButton.setOnClickListener {
+                // continue button event
+            }
+
+            optionsIconButton.setOnClickListener { getOptionsEvent() }
         }
     }
 
@@ -331,9 +362,5 @@ class ModifyPdfFragment(
 
     companion object {
         const val PREVIEW_IMAGE = "PreviewImage"
-
-        const val BUNDLE_MATERIAL = "BundleMaterial"
-        const val BUNDLE_TYPE = "BundleType"
-        const val BUNDLE_TITLE = "BundleTitle"
     }
 }

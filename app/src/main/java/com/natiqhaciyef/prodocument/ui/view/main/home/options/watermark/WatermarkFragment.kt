@@ -12,20 +12,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.MimeTypeMap
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.camera.core.ExperimentalGetImage
 import androidx.core.os.bundleOf
 import coil.load
-import com.google.gson.Gson
 import com.natiqhaciyef.common.helpers.getNow
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.domain.worker.config.PDF
 import com.natiqhaciyef.prodocument.databinding.FragmentWatermarkBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TITLE
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TYPE
 import com.natiqhaciyef.prodocument.ui.util.DefaultImplModels
-import com.natiqhaciyef.prodocument.ui.view.main.home.modify.ModifyPdfFragment.Companion.BUNDLE_MATERIAL
-import com.natiqhaciyef.prodocument.ui.view.main.home.modify.ModifyPdfFragment.Companion.BUNDLE_TITLE
-import com.natiqhaciyef.prodocument.ui.view.main.home.modify.ModifyPdfFragment.Companion.BUNDLE_TYPE
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.contract.WatermarkContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.viewmodel.WatermarkViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,7 +31,6 @@ import java.util.UUID
 import kotlin.reflect.KClass
 
 
-@ExperimentalGetImage
 @AndroidEntryPoint
 class WatermarkFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentWatermarkBinding = FragmentWatermarkBinding::inflate,
