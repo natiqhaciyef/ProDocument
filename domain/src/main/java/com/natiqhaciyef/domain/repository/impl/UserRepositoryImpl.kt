@@ -1,10 +1,10 @@
 package com.natiqhaciyef.domain.repository.impl
 
-import com.natiqhaciyef.domain.mapper.toResponse
-import com.natiqhaciyef.domain.mapper.toUIResult
 import com.natiqhaciyef.common.model.UIResult
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
 import com.natiqhaciyef.data.local.entity.UserEntity
+import com.natiqhaciyef.data.mapper.toResponse
+import com.natiqhaciyef.data.mapper.toUIResult
 import com.natiqhaciyef.data.source.UserDataSource
 import com.natiqhaciyef.domain.repository.UserRepository
 

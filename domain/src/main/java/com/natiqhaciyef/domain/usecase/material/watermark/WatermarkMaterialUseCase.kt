@@ -1,16 +1,14 @@
 package com.natiqhaciyef.domain.usecase.material.watermark
 
-import com.google.gson.Gson
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.data.network.request.WatermarkRequest
-import com.natiqhaciyef.data.network.response.MaterialResponse
 import com.natiqhaciyef.domain.base.usecase.BaseUseCase
 import com.natiqhaciyef.domain.base.usecase.UseCase
-import com.natiqhaciyef.domain.mapper.toMappedModel
-import com.natiqhaciyef.domain.mapper.toMaterialResponse
+import com.natiqhaciyef.data.mapper.toMappedModel
+import com.natiqhaciyef.data.mapper.toMaterialResponse
 import com.natiqhaciyef.domain.repository.MaterialRepository
 import com.natiqhaciyef.domain.usecase.MATERIAL_MODEL
 import com.natiqhaciyef.domain.usecase.MATERIAL_TITLE

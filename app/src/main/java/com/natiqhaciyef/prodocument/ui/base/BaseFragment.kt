@@ -16,13 +16,11 @@ import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
-import com.natiqhaciyef.common.model.mapped.MappedTokenModel
-import com.natiqhaciyef.prodocument.R
+import com.natiqhaciyef.core.store.AppStorePref
+import com.natiqhaciyef.core.store.AppStorePrefKeys
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_MAIN_DEEPLINK
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.ONBOARDING_MAIN_DEEPLINK
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.REGISTER_MAIN_DEEPLINK
-import com.natiqhaciyef.prodocument.ui.store.AppStorePref
-import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.onboarding.OnboardingActivity
 import com.natiqhaciyef.prodocument.ui.view.registration.RegistrationActivity

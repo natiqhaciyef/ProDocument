@@ -7,8 +7,8 @@ import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.data.network.request.SplitRequest
 import com.natiqhaciyef.domain.base.usecase.BaseUseCase
 import com.natiqhaciyef.domain.base.usecase.UseCase
-import com.natiqhaciyef.domain.mapper.toMappedModel
-import com.natiqhaciyef.domain.mapper.toMaterialResponse
+import com.natiqhaciyef.data.mapper.toMappedModel
+import com.natiqhaciyef.data.mapper.toMaterialResponse
 import com.natiqhaciyef.domain.repository.MaterialRepository
 import com.natiqhaciyef.domain.usecase.MATERIAL_FIRST_LINE
 import com.natiqhaciyef.domain.usecase.MATERIAL_LAST_LINE

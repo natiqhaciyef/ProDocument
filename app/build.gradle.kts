@@ -71,6 +71,7 @@ dependencies {
 
 
     implementation(project(":common"))
+    implementation(project(":core"))
     implementation(project(":domain"))
 
     implementation("com.google.ar:core:1.30.0")

@@ -1,7 +1,6 @@
-package com.natiqhaciyef.prodocument.ui.store
+package com.natiqhaciyef.core.store
 
 import android.content.Context
-import android.os.Parcelable
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -10,12 +9,11 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.google.gson.Gson
-import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.BOOLEAN_KEY
-import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.INT_KEY
-import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.STR_KEY
-import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.PARCELABLE_KEY
+import com.natiqhaciyef.core.store.AppStorePrefKeys.BOOLEAN_KEY
+import com.natiqhaciyef.core.store.AppStorePrefKeys.INT_KEY
+import com.natiqhaciyef.core.store.AppStorePrefKeys.PARCELABLE_KEY
+import com.natiqhaciyef.core.store.AppStorePrefKeys.STR_KEY
 import kotlinx.coroutines.flow.first
-import kotlin.reflect.KClass
 
 
 /**

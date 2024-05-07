@@ -1,7 +1,7 @@
 package com.natiqhaciyef.domain.repository.impl
 
-import com.natiqhaciyef.domain.mapper.toMaterialResponse
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
+import com.natiqhaciyef.data.mapper.toMaterialResponse
 import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.data.network.request.MergeRequest
 import com.natiqhaciyef.data.network.request.SplitRequest

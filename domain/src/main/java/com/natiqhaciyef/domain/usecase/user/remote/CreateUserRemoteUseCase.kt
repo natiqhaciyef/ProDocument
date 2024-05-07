@@ -1,14 +1,12 @@
 package com.natiqhaciyef.domain.usecase.user.remote
 
-import com.natiqhaciyef.domain.mapper.toMapped
-import com.natiqhaciyef.domain.mapper.toModel
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.domain.base.usecase.BaseUseCase
 import com.natiqhaciyef.domain.base.usecase.UseCase
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
 import com.natiqhaciyef.common.objects.ErrorMessages
-import com.natiqhaciyef.common.objects.ResultExceptions
+import com.natiqhaciyef.data.mapper.toMapped
 import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
@@ -22,9 +20,8 @@ class CreateUserRemoteUseCase @Inject constructor(
 
     override fun operate(data: MappedUserModel): Flow<Resource<MappedTokenModel?>> = flow {
         emit(Resource.loading(null))
-        val result = repository.createAccount(data)
 
-        when (result) {
+        when (val result = repository.createAccount(data)) {
             is NetworkResult.Success -> {
                 val model = result.data.toMapped()
 

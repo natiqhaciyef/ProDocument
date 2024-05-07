@@ -1,25 +1,39 @@
 package com.natiqhaciyef.data.network
 
+import com.natiqhaciyef.data.mapper.toMapped
+import com.natiqhaciyef.data.network.manager.TokenManager
+import com.natiqhaciyef.data.network.service.TokenService
+import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
 
-//class TokenAuthenticator: Authenticator {
-//    override fun authenticate(route: Route?, response: Response): Request? {
-//        val updatedToken = getUpdatedToken()
-//        return response.request().newBuilder()
-//            .header(ApiClient.HEADER_AUTHORIZATION, updatedToken)
-//            .build()
-//    }
-//
-//    private fun getUpdatedToken(): String {
-//        val requestParams = HashMap<String, String>()
-//
-//        val authTokenResponse = ApiClient.userApiService.getAuthenticationToken(requestParams).execute().body()!!
-//
-//        val newToken = "${authTokenResponse.tokenType} ${authTokenResponse.accessToken}"
-//        SharedPreferenceUtils.saveString(Constants.PreferenceKeys.USER_ACCESS_TOKEN, newToken)
-//        return newToken
-//    }
-//}
+class TokenAuthenticator(
+    private val service: TokenService,
+    private val manager: TokenManager
+) : Authenticator {
+
+    override fun authenticate(route: Route?, response: Response): Request? {
+        synchronized(this) {
+            return runBlocking {
+                val storedToken = manager.getTokens()?.refreshToken ?: ""
+                try {
+                    val updatedToken = service.updateAccessToken(storedToken)
+                    manager.saveTokens(updatedToken.toMapped())
+
+                    response.request.newBuilder()
+                        .header(NetworkConfig.HEADER_AUTHORIZATION, getUpdatedAccessToken(updatedToken.accessToken ?: ""))
+                        .build()
+                }catch (e: Exception){
+                    manager.removeToken()
+                    throw e
+                }
+            }
+        }
+    }
+
+    private fun getUpdatedAccessToken(refreshToken: String): String {
+        return NetworkConfig.HEADER_AUTHORIZATION_TYPE + refreshToken
+    }
+}

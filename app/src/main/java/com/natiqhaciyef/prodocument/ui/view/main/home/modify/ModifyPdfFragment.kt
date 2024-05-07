@@ -16,13 +16,13 @@ import androidx.navigation.fragment.navArgs
 import coil.load
 import com.natiqhaciyef.common.model.CRUDModel
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
+import com.natiqhaciyef.core.store.AppStorePrefKeys.TITLE_COUNT_KEY
 import com.natiqhaciyef.prodocument.databinding.FragmentModifyPdfBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
 import com.natiqhaciyef.prodocument.ui.custom.CustomMaterialOptionsBottomSheetFragment
 import com.natiqhaciyef.prodocument.ui.custom.CustomWatermarkAdderBottomSheetFragment
 import com.natiqhaciyef.prodocument.ui.model.CategoryItem
-import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.TITLE_COUNT_KEY
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_LIST_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TITLE
