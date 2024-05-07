@@ -31,6 +31,8 @@
     <!-- Result -->
     <string name="sign_up_successful_result">Sign Up Successful!</string>
     <string name="your_account_has_been_created">Your account has been created</string>
+    <string name="not_found_result_title">Not found</string>
+    <string name="not_found_result_description">We\'re sorry, the keyword you were looking for could not be found. Please search with another keywords.</string>
 
 
     <!-- Onboarding & Walkthrough -->
@@ -141,6 +143,15 @@
     <string name="add_watermark">Add Watermark</string>
     <string name="watermark_input">Insert tag</string>
     <string name="watermark_add_image">+ Add Image</string>
+
+    <!--  Split  -->
+    <string name="split_file">Split file</string>
+    <string name="add_more_information">Add More Information</string>
+    <string name="from_here">From here</string>
+    <string name="until_here">Until here</string>
+    <string name="write_sentence">Write sentence</string>
+    <string name="addition_information_about_split">You have to insert first line of split pdf. Then you ought to select second line which will end line of split pdf. This part will be removed from pdf and new file will be generated.</string>
+    <string name="until_the_last_line">Until the last line</string>
 
 
     <!--  Files titles  -->

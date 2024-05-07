@@ -1,13 +1,12 @@
 package com.natiqhaciyef.domain.usecase.material
 
-import com.natiqhaciyef.domain.mapper.toModel
-import com.natiqhaciyef.domain.mapper.toUIResult
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.domain.base.usecase.BaseUseCase
 import com.natiqhaciyef.domain.base.usecase.UseCase
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.common.objects.ResultExceptions
+import com.natiqhaciyef.data.mapper.toUIResult
 import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.domain.repository.MaterialRepository
 import kotlinx.coroutines.flow.Flow

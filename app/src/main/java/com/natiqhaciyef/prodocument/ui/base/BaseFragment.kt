@@ -16,13 +16,11 @@ import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
-import com.natiqhaciyef.common.model.mapped.MappedTokenModel
-import com.natiqhaciyef.prodocument.R
+import com.natiqhaciyef.core.store.AppStorePref
+import com.natiqhaciyef.core.store.AppStorePrefKeys
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_MAIN_DEEPLINK
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.ONBOARDING_MAIN_DEEPLINK
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.REGISTER_MAIN_DEEPLINK
-import com.natiqhaciyef.prodocument.ui.store.AppStorePref
-import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.onboarding.OnboardingActivity
 import com.natiqhaciyef.prodocument.ui.view.registration.RegistrationActivity
@@ -90,6 +88,10 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel<State, Event, E
         viewModel.state.onEach {
             onStateChange(it)
         }.launchIn(viewModel.viewModelScope)
+
+        viewModel.effect.onEach {
+            onEffectUpdate(it)
+        }.launchIn(viewModel.viewModelScope)
     }
 
 
@@ -109,82 +111,7 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel<State, Event, E
         else -> Intent(Intent.ACTION_VIEW, REGISTER_MAIN_DEEPLINK.toUri())
     }
 
-    private fun getNavGraph(title: String) = when (title) {
-        // Main route
-        BaseNavigationDeepLink.REGISTER_ROUTE -> {
-            R.navigation.registration_nav_graph
-        }
-
-        BaseNavigationDeepLink.HOME_ROUTE -> {
-            R.navigation.home_nav_graph
-        }
-
-        // Registration route
-        BaseNavigationDeepLink.ONBOARDING_ROUTE -> {
-            R.navigation.onboarding_nav_graph
-        }
-
-        BaseNavigationDeepLink.WALKTHROUGH_ROUTE -> {
-            R.navigation.walkthrough_nav_graph
-        }
-
-        BaseNavigationDeepLink.FORGOT_PASSWORD_ROUTE -> {
-            R.navigation.forgot_password_nav_graph
-        }
-
-        // Home -> Details route
-        BaseNavigationDeepLink.SCAN_ROUTE -> {
-            R.navigation.scan_nav_graph
-        }
-
-        BaseNavigationDeepLink.WATERMARK_ROUTE -> {
-            R.navigation.watermark_nav_graph
-        }
-
-        BaseNavigationDeepLink.E_SIGN_ROUTE -> {
-            0
-        }
-
-        BaseNavigationDeepLink.SPLIT_ROUTE -> {
-            0
-        }
-
-        BaseNavigationDeepLink.MERGE_ROUTE -> {
-            R.navigation.merge_nav_graph
-        }
-
-        BaseNavigationDeepLink.PROTECT_ROUTE -> {
-            0
-        }
-
-        BaseNavigationDeepLink.COMPRESS_ROUTE -> {
-            0
-        }
-
-        BaseNavigationDeepLink.ALL_TOOLS_ROUTE -> {
-            0
-        }
-
-        // Result Route
-        BaseNavigationDeepLink.SUCCESS_ROUTE -> {
-            0
-        }
-
-        BaseNavigationDeepLink.ERROR_ROUTE -> {
-            0
-        }
-
-        BaseNavigationDeepLink.CUSTOM_ROUTE -> {
-            0
-        }
-
-        // External Routes
-        BaseNavigationDeepLink.MODIFY_PDF_ROUTE -> {
-            R.navigation.preview_material_nav_graph
-        }
-
-        else -> 0
-    }
+    private fun getNavGraph(title: String) = BaseNavigationDeepLink.generateNavGraphs(title)
 
     fun navigateBack() {
         findNavController().popBackStack()

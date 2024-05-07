@@ -1,10 +1,9 @@
 package com.natiqhaciyef.domain.usecase.user.remote
 
-import com.natiqhaciyef.domain.mapper.toModel
 import com.natiqhaciyef.common.model.CRUDModel
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.common.objects.ErrorMessages
-import com.natiqhaciyef.common.objects.ResultExceptions
+import com.natiqhaciyef.data.mapper.toModel
 import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.domain.base.usecase.BaseUseCase
 import com.natiqhaciyef.domain.base.usecase.UseCase

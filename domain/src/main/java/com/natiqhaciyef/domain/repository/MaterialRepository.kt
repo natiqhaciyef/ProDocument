@@ -3,6 +3,8 @@ package com.natiqhaciyef.domain.repository
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.data.network.request.MergeRequest
+import com.natiqhaciyef.data.network.request.SplitRequest
+import com.natiqhaciyef.data.network.request.WatermarkRequest
 import com.natiqhaciyef.data.network.response.CRUDResponse
 import com.natiqhaciyef.data.network.response.MaterialResponse
 import com.natiqhaciyef.data.network.response.ListMaterialResponse
@@ -30,4 +32,8 @@ interface MaterialRepository : BaseRepository {
     ): NetworkResult<CRUDResponse>
 
     suspend fun mergeMaterials(data: MergeRequest): NetworkResult<MaterialResponse>
+
+    suspend fun watermarkMaterial(data: WatermarkRequest): NetworkResult<MaterialResponse>
+
+    suspend fun splitMaterial(data: SplitRequest): NetworkResult<List<MaterialResponse>>
 }

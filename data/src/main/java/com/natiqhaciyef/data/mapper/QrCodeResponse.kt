@@ -1,4 +1,4 @@
-package com.natiqhaciyef.domain.mapper
+package com.natiqhaciyef.data.mapper
 
 import com.natiqhaciyef.common.model.mapped.MappedQrCodeResultModel
 import com.natiqhaciyef.data.network.response.QrCodeResponse

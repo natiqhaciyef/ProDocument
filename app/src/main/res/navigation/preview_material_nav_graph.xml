@@ -11,12 +11,7 @@
         android:label="fragment_modify_pdf"
         tools:layout="@layout/fragment_modify_pdf">
         <argument
-            android:name="fileMaterial"
-            app:argType="com.natiqhaciyef.common.model.mapped.MappedMaterialModel"
-            app:nullable="true" />
-        <argument
-            android:name="type"
-            app:argType="string"
-            android:defaultValue="PreviewImage"/>
+            android:name="resourceBundle"
+            app:argType="android.os.Bundle" />
     </fragment>
 </navigation>

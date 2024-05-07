@@ -11,11 +11,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
+import com.natiqhaciyef.core.store.AppStorePrefKeys.TOKEN_KEY
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.AlertDialogResultViewBinding
 import com.natiqhaciyef.prodocument.databinding.FragmentCreateAccountBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
-import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.TOKEN_KEY
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkEmailAcceptanceCondition
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkPasswordAcceptanceCondition
 import com.natiqhaciyef.prodocument.ui.view.registration.create_account.contract.CreateAccountContract

@@ -14,12 +14,15 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.ExperimentalGetImage
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import com.google.android.material.snackbar.Snackbar
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.databinding.FragmentScanBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TYPE
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.behaviour.CameraTypes
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.contract.ScanContract
@@ -27,12 +30,12 @@ import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.viewmodel.Sca
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.KClass
 
-@ExperimentalGetImage
 @AndroidEntryPoint
 class ScanFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentScanBinding = FragmentScanBinding::inflate,
     override val viewModelClass: KClass<ScanViewModel> = ScanViewModel::class
 ) : BaseFragment<FragmentScanBinding, ScanViewModel, ScanContract.ScanState, ScanContract.ScanEvent, ScanContract.ScanEffect>() {
+    private var bundle = bundleOf()
     private var selectedImage: Uri? = null
     private val registerForCameraPermissionResult =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
@@ -185,8 +188,11 @@ class ScanFragment(
     }
 
     private fun navigateToModifyPdf(material: MappedMaterialModel) {
+        bundle.putString(BUNDLE_TYPE, SCAN_QR_TYPE)
+        bundle.putParcelable(BUNDLE_MATERIAL, material)
+
         val action =
-            ScanTypeFragmentDirections.actionScanTypeFragmentToPreviewMaterialNavGraph(material, SCAN_QR_TYPE)
+            ScanTypeFragmentDirections.actionScanTypeFragmentToPreviewMaterialNavGraph(bundle)
         navigate(action)
     }
 

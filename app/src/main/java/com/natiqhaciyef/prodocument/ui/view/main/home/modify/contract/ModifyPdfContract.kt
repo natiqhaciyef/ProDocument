@@ -20,6 +20,10 @@ object ModifyPdfContract {
 
         data class GetShareOptions(val context: Context,
                                    var activity: BaseActivity<*>): ModifyPdfEvent()
+
+        data class WatermarkMaterialEvent(var title: String,
+                                          var mappedMaterialModel: MappedMaterialModel,
+                                          var watermark: String): ModifyPdfEvent()
     }
 
     sealed class ModifyPdfEffect : UiEffect {
@@ -33,6 +37,7 @@ object ModifyPdfContract {
     data class ModifyPdfState(
         override var isLoading: Boolean = false,
         var result: CRUDModel? = null,
+        var material: MappedMaterialModel? = null,
         var optionsList: List<CategoryItem>? = null
     ) : UiState
 }

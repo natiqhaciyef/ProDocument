@@ -7,7 +7,7 @@ import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.common.objects.ResultExceptions
 import com.natiqhaciyef.data.network.NetworkResult
-import com.natiqhaciyef.domain.mapper.toMappedModel
+import com.natiqhaciyef.data.mapper.toMappedModel
 import com.natiqhaciyef.domain.repository.MaterialRepository
 import com.natiqhaciyef.domain.usecase.MATERIAL_ID
 import com.natiqhaciyef.domain.usecase.USER_EMAIL

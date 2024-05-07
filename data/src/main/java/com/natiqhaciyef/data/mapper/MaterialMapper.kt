@@ -1,4 +1,4 @@
-package com.natiqhaciyef.domain.mapper
+package com.natiqhaciyef.data.mapper
 
 import androidx.core.net.toUri
 import com.natiqhaciyef.common.model.UIResult

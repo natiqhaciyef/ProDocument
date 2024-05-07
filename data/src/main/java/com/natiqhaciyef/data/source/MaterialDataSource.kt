@@ -11,8 +11,12 @@ import com.natiqhaciyef.data.mock.materials.GetAllMaterialsMockGenerator
 import com.natiqhaciyef.data.mock.materials.GetMaterialByIdMockGenerator
 import com.natiqhaciyef.data.mock.materials.MergeMaterialsMockGenerator
 import com.natiqhaciyef.data.mock.materials.RemoveMaterialMockGenerator
+import com.natiqhaciyef.data.mock.materials.SplitMaterialMockGenerator
 import com.natiqhaciyef.data.mock.materials.UpdateMaterialMockGenerator
+import com.natiqhaciyef.data.mock.materials.WatermarkMaterialMockGenerator
 import com.natiqhaciyef.data.network.request.MergeRequest
+import com.natiqhaciyef.data.network.request.SplitRequest
+import com.natiqhaciyef.data.network.request.WatermarkRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -109,6 +113,28 @@ class MaterialDataSource(
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.mergeMaterials(data = data)
+        }
+    }
+
+    suspend fun watermarkMaterial(
+        data: WatermarkRequest
+    ) = withContext(Dispatchers.IO) {
+        val mock = generateMockerClass(WatermarkMaterialMockGenerator::class, data)
+            .getMock(WatermarkMaterialMockGenerator.customRequest) { null }
+
+        handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
+            service.watermarkMaterial(data = data)
+        }
+    }
+
+    suspend fun splitMaterial(
+        data: SplitRequest
+    ) = withContext(Dispatchers.IO){
+        val mock = generateMockerClass(SplitMaterialMockGenerator::class, data)
+            .getMock(SplitMaterialMockGenerator.customRequest) { null }
+
+        handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
+            service.splitMaterial(data = data)
         }
     }
 

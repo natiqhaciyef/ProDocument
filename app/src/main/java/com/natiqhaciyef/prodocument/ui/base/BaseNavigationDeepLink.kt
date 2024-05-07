@@ -1,5 +1,7 @@
 package com.natiqhaciyef.prodocument.ui.base
 
+import com.natiqhaciyef.prodocument.R
+
 
 object BaseNavigationDeepLink {
     // Deep links
@@ -31,4 +33,81 @@ object BaseNavigationDeepLink {
     const val MODIFY_PDF_ROUTE = "Modify PDF"
 
     // NavParams
+
+    fun generateNavGraphs(title: String) = when (title) {
+        // Main route
+        REGISTER_ROUTE -> {
+            R.navigation.registration_nav_graph
+        }
+
+        HOME_ROUTE -> {
+            R.navigation.home_nav_graph
+        }
+
+        // Registration route
+        ONBOARDING_ROUTE -> {
+            R.navigation.onboarding_nav_graph
+        }
+
+        WALKTHROUGH_ROUTE -> {
+            R.navigation.walkthrough_nav_graph
+        }
+
+        FORGOT_PASSWORD_ROUTE -> {
+            R.navigation.forgot_password_nav_graph
+        }
+
+        // Home -> Details route
+        SCAN_ROUTE -> {
+            R.navigation.scan_nav_graph
+        }
+
+        WATERMARK_ROUTE -> {
+            R.navigation.watermark_nav_graph
+        }
+
+        E_SIGN_ROUTE -> {
+            0
+        }
+
+        SPLIT_ROUTE -> {
+            R.navigation.split_nav_graph
+        }
+
+        MERGE_ROUTE -> {
+            R.navigation.merge_nav_graph
+        }
+
+        PROTECT_ROUTE -> {
+            0
+        }
+
+        COMPRESS_ROUTE -> {
+            0
+        }
+
+        ALL_TOOLS_ROUTE -> {
+            0
+        }
+
+        // Result Route
+        SUCCESS_ROUTE -> {
+            0
+        }
+
+        ERROR_ROUTE -> {
+            0
+        }
+
+        CUSTOM_ROUTE -> {
+            0
+        }
+
+        // External Routes
+        MODIFY_PDF_ROUTE -> {
+            R.navigation.preview_material_nav_graph
+        }
+
+        else -> 0
+    }
 }

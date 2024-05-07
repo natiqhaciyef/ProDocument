@@ -14,17 +14,19 @@ import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import coil.load
-import com.google.android.material.color.utilities.Contrast
-import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.common.model.CRUDModel
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
+import com.natiqhaciyef.core.store.AppStorePrefKeys.TITLE_COUNT_KEY
 import com.natiqhaciyef.prodocument.databinding.FragmentModifyPdfBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
 import com.natiqhaciyef.prodocument.ui.custom.CustomMaterialOptionsBottomSheetFragment
 import com.natiqhaciyef.prodocument.ui.custom.CustomWatermarkAdderBottomSheetFragment
 import com.natiqhaciyef.prodocument.ui.model.CategoryItem
-import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.TITLE_COUNT_KEY
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_LIST_MATERIAL
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TITLE
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TYPE
 import com.natiqhaciyef.prodocument.ui.util.CameraReader.Companion.createAndShareFile
 import com.natiqhaciyef.prodocument.ui.util.CameraReader.Companion.getAddressOfFile
 import com.natiqhaciyef.prodocument.ui.util.PdfReader.createDefaultPdfUriLoader
@@ -33,6 +35,7 @@ import com.natiqhaciyef.prodocument.ui.view.main.home.modify.contract.ModifyPdfC
 import com.natiqhaciyef.prodocument.ui.view.main.home.modify.viewmodel.ModifyPdfViewModel
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.CaptureImageFragment
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.ScanFragment
+import com.natiqhaciyef.prodocument.ui.view.main.home.options.split.SplitFragment.Companion.SPLIT_TYPE
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.WatermarkFragment.Companion.WATERMARK_TYPE
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -47,46 +50,45 @@ class ModifyPdfFragment(
 ) : BaseFragment<FragmentModifyPdfBinding, ModifyPdfViewModel, ModifyPdfContract.ModifyPdfState, ModifyPdfContract.ModifyPdfEvent, ModifyPdfContract.ModifyPdfEffect>() {
     private var material: MappedMaterialModel? = null
     private var type: String? = null
+    private var title: String? = null
     private var uriAddress: Uri? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val data: ModifyPdfFragmentArgs by navArgs()
-        material = data.fileMaterial
-        type = data.type
+        material = data.resourceBundle.getParcelable(BUNDLE_MATERIAL)
+        type = data.resourceBundle.getString(BUNDLE_TYPE)
+        title = data.resourceBundle.getString(BUNDLE_TITLE)
         config()
 
 
         binding.apply {
-            material?.let {
+            material?.let { file ->
                 countTitle()
 
                 when (type) {
                     ScanFragment.SCAN_QR_TYPE -> {
-                        scanQrConfig(it)
-
-                        optionsIconButton.setOnClickListener { getOptionsEvent() }
+                        scanQrConfig(file)
                     }
 
                     CaptureImageFragment.CAPTURE_IMAGE_TYPE -> {
-                        println(it)
-                        captureImageConfig(it)
-                        optionsIconButton.setOnClickListener { getOptionsEvent() }
+                        captureImageConfig(file)
                     }
 
                     PREVIEW_IMAGE -> {
-                        previewImageConfig(it)
-                        optionsIconButton.setOnClickListener { getOptionsEvent() }
+                        previewImageConfig(file)
                     }
 
                     WATERMARK_TYPE -> {
-                        println(it)
-                        watermarkConfig(it)
-                        optionsIconButton.setOnClickListener { showWatermarkBottomSheetDialog() }
+                        watermarkConfig(file)
                     }
 
-                    null -> { /* create effect */
+                    SPLIT_TYPE ->{
+                        val list = (data.resourceBundle.getParcelableArray(BUNDLE_LIST_MATERIAL) as Array<MappedMaterialModel>).toList()
+                        splitConfig(list)
                     }
+
+                    null -> { /* create effect */ }
 
                     else -> {}
                 }
@@ -107,8 +109,7 @@ class ModifyPdfFragment(
                 if (state.optionsList != null)
                     showBottomSheetDialog(state.optionsList!!)
 
-                if (state.result != null)
-                    saveButtonClickAction(state.result!!)
+                saveButtonClickAction(material = state.material, result = state.result)
             }
         }
     }
@@ -146,6 +147,8 @@ class ModifyPdfFragment(
             saveButton.setOnClickListener {
                 saveButtonClickEvent(material)
             }
+
+            optionsIconButton.setOnClickListener { getOptionsEvent() }
         }
     }
 
@@ -158,6 +161,8 @@ class ModifyPdfFragment(
             saveButton.setOnClickListener {
                 saveButtonClickEvent(material)
             }
+
+            optionsIconButton.setOnClickListener { getOptionsEvent() }
         }
     }
 
@@ -179,12 +184,13 @@ class ModifyPdfFragment(
             saveButton.setOnClickListener {
                 saveButtonClickEvent(material)
             }
+
+            optionsIconButton.setOnClickListener { getOptionsEvent() }
         }
     }
 
     private fun watermarkConfig(material: MappedMaterialModel) {
         with(binding) {
-            println(material)
             pdfView.visibility = View.VISIBLE
             imageView.visibility = View.GONE
             pdfView.createDefaultPdfUriLoader(material.url)
@@ -194,11 +200,33 @@ class ModifyPdfFragment(
 
 
             saveButton.text = getString(com.natiqhaciyef.common.R.string.continue_)
-            pdfTitleText.setText(material.title)
+            pdfTitleText.setText(title ?: material.title)
             modifyIconButton.visibility = View.GONE
             saveButton.setOnClickListener {
                 // continue button event
             }
+
+            optionsIconButton.setOnClickListener { showWatermarkBottomSheetDialog(material = material, title = title ?: "") }
+        }
+    }
+
+    private fun splitConfig(materials: List<MappedMaterialModel>){
+        with(binding) {
+            pdfView.visibility = View.VISIBLE
+            imageView.visibility = View.GONE
+            pdfView.createDefaultPdfUriLoader(materials.first().url)
+
+            val params = pdfTitleText.layoutParams as ConstraintLayout.LayoutParams
+            params.endToStart = optionsIconButton.id
+
+            saveButton.text = getString(com.natiqhaciyef.common.R.string.continue_)
+            pdfTitleText.setText(title ?: materials.first().title)
+            modifyIconButton.visibility = View.GONE
+            saveButton.setOnClickListener {
+                // continue button event
+            }
+
+            optionsIconButton.setOnClickListener { getOptionsEvent() }
         }
     }
 
@@ -232,11 +260,18 @@ class ModifyPdfFragment(
         )
     }
 
-    private fun showWatermarkBottomSheetDialog() {
+    private fun showWatermarkBottomSheetDialog(title: String, material: MappedMaterialModel) {
         CustomWatermarkAdderBottomSheetFragment(
             cancelButtonCLickAction = {},
-            continueButtonCLickAction = {
-                println(it)
+            continueButtonCLickAction = { watermark ->
+                // watermark event
+                viewModel.postEvent(
+                    ModifyPdfContract.ModifyPdfEvent.WatermarkMaterialEvent(
+                        title = title,
+                        mappedMaterialModel = material,
+                        watermark = watermark
+                    )
+                )
             }
         ).show(
             childFragmentManager,
@@ -244,8 +279,9 @@ class ModifyPdfFragment(
         )
     }
 
-    private fun saveButtonClickAction(result: CRUDModel) {
+    private fun saveButtonClickAction(result: CRUDModel? = null, material: MappedMaterialModel? = null) {
         // action after save file
+        println(material)
     }
 
     private fun saveButtonClickEvent(materialModel: MappedMaterialModel?) {

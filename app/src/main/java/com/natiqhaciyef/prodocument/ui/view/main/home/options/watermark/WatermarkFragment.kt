@@ -12,7 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.MimeTypeMap
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.net.toUri
+import androidx.core.os.bundleOf
 import coil.load
 import com.natiqhaciyef.common.helpers.getNow
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
@@ -20,6 +20,9 @@ import com.natiqhaciyef.domain.worker.config.PDF
 import com.natiqhaciyef.prodocument.databinding.FragmentWatermarkBinding
 import com.natiqhaciyef.prodocument.ui.base.BaseFragment
 import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TITLE
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TYPE
 import com.natiqhaciyef.prodocument.ui.util.DefaultImplModels
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.contract.WatermarkContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.viewmodel.WatermarkViewModel
@@ -33,7 +36,7 @@ class WatermarkFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentWatermarkBinding = FragmentWatermarkBinding::inflate,
     override val viewModelClass: KClass<WatermarkViewModel> = WatermarkViewModel::class
 ) : BaseFragment<FragmentWatermarkBinding, WatermarkViewModel, WatermarkContract.WatermarkState, WatermarkContract.WatermarkEvent, WatermarkContract.WatermarkEffect>() {
-
+    private var bundle = bundleOf()
     private val fileRequestLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -65,19 +68,17 @@ class WatermarkFragment(
                 val displayName = it.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
                 val fileType = MimeTypeMap.getSingleton()
                     .getExtensionFromMimeType(requireContext().contentResolver.getType(uri))
-
-                var customUri = uri.toString()
-//                customUri += ".pdf"
                 val file = createFileObject(
-                    uri = customUri.toUri(),
+                    uri = uri,
                     title = displayName,
                     type = fileType,
 //                    image = uri.toString().removePrefix("content://")
                 )
+                val title = binding.usernameWatermarkTitle.text.toString()
 
                 fileConfig(file)
                 binding.continueButton.isEnabled = true
-                binding.continueButton.setOnClickListener { continueButtonAction(file) }
+                binding.continueButton.setOnClickListener { continueButtonAction(file, title) }
             }
         }
     }
@@ -123,8 +124,11 @@ class WatermarkFragment(
         fileRequestLauncher.launch(intent)
     }
 
-    private fun continueButtonAction(materialModel: MappedMaterialModel) {
-        val action = WatermarkFragmentDirections.actionWatermarkFragmentToPreviewMaterialNavGraph(materialModel, WATERMARK_TYPE)
+    private fun continueButtonAction(materialModel: MappedMaterialModel, title: String) {
+        bundle.putParcelable(BUNDLE_MATERIAL, materialModel)
+        bundle.putString(BUNDLE_TYPE, WATERMARK_TYPE)
+        bundle.putString(BUNDLE_TITLE, title)
+        val action = WatermarkFragmentDirections.actionWatermarkFragmentToPreviewMaterialNavGraph(bundle)
         navigate(action)
     }
 
