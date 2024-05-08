@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.model
+package com.natiqhaciyef.core.model
 
 data class CategoryItem(
     val id: Int,

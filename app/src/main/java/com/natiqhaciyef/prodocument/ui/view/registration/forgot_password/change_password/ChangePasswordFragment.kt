@@ -16,7 +16,7 @@ import com.natiqhaciyef.core.store.AppStorePrefKeys.TOKEN_KEY
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.AlertDialogResultViewBinding
 import com.natiqhaciyef.prodocument.databinding.FragmentChangePasswordBinding
-import com.natiqhaciyef.prodocument.ui.base.BaseFragment
+import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkPasswordAcceptanceCondition
 import com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.change_password.contract.ChangePasswordContract
 import com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.change_password.viewmodel.ChangePasswordViewModel

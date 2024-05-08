@@ -1,15 +1,8 @@
-package com.natiqhaciyef.prodocument.ui.base
+package com.natiqhaciyef.core.base.ui
 
-import android.content.Context
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.natiqhaciyef.common.R
-import com.natiqhaciyef.domain.worker.config.JPEG
-import com.natiqhaciyef.domain.worker.config.PDF
-import com.natiqhaciyef.domain.worker.config.PNG
-import com.natiqhaciyef.domain.worker.config.URL
-import com.natiqhaciyef.prodocument.ui.model.CategoryItem
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -18,13 +11,10 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onSubscription
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 abstract class BaseViewModel<State : UiState, Event : UiEvent, Effect : UiEffect> : ViewModel(),

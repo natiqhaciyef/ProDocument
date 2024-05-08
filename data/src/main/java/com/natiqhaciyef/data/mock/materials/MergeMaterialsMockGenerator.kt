@@ -1,9 +1,9 @@
 package com.natiqhaciyef.data.mock.materials
 
 import com.natiqhaciyef.common.helpers.getNow
-import com.natiqhaciyef.data.base.mock.BaseMockGenerator
 import com.natiqhaciyef.data.network.request.MergeRequest
-import com.natiqhaciyef.data.network.response.CRUDResponse
+import com.natiqhaciyef.core.CRUDResponse
+import com.natiqhaciyef.core.base.mock.BaseMockGenerator
 import com.natiqhaciyef.data.network.response.MaterialResponse
 
 class MergeMaterialsMockGenerator(

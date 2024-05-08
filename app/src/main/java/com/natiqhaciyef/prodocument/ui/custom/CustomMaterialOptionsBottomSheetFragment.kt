@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.natiqhaciyef.prodocument.databinding.FragmentCustomMaterialBottomSheetBinding
-import com.natiqhaciyef.prodocument.ui.model.CategoryItem
+import com.natiqhaciyef.core.model.CategoryItem
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.adapter.ShareCategoryAdapter
 import dagger.hilt.android.AndroidEntryPoint
 

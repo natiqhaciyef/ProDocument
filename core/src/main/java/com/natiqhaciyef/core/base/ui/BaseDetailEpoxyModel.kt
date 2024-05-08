@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.base
+package com.natiqhaciyef.core.base.ui
 
 import com.natiqhaciyef.common.model.UIResult
 

@@ -4,7 +4,7 @@ import com.natiqhaciyef.common.objects.OTP_MOCK_KEY
 import com.natiqhaciyef.common.objects.USER_EMAIL_MOCK_KEY
 import com.natiqhaciyef.common.objects.USER_PASSWORD_MOCK_KEY
 import com.natiqhaciyef.common.objects.USER_TOKEN_MOCK_KEY
-import com.natiqhaciyef.data.base.mock.generateMockerClass
+import com.natiqhaciyef.core.base.mock.generateMockerClass
 import com.natiqhaciyef.data.local.dao.UserDao
 import com.natiqhaciyef.data.local.entity.UserEntity
 import com.natiqhaciyef.data.mock.users.AccountMockGenerator

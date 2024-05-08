@@ -3,12 +3,11 @@ package com.natiqhaciyef.prodocument.ui.view.main.home.modify.contract
 import android.content.Context
 import com.natiqhaciyef.common.model.CRUDModel
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
-import com.natiqhaciyef.prodocument.ui.base.BaseActivity
-import com.natiqhaciyef.prodocument.ui.base.UiEffect
-import com.natiqhaciyef.prodocument.ui.base.UiEvent
-import com.natiqhaciyef.prodocument.ui.base.UiState
-import com.natiqhaciyef.prodocument.ui.model.CategoryItem
-import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
+import com.natiqhaciyef.core.base.ui.BaseActivity
+import com.natiqhaciyef.core.base.ui.UiEffect
+import com.natiqhaciyef.core.base.ui.UiEvent
+import com.natiqhaciyef.core.base.ui.UiState
+import com.natiqhaciyef.core.model.CategoryItem
 
 object ModifyPdfContract {
 
@@ -19,7 +18,8 @@ object ModifyPdfContract {
         ) : ModifyPdfEvent()
 
         data class GetShareOptions(val context: Context,
-                                   var activity: BaseActivity<*>): ModifyPdfEvent()
+                                   var activity: BaseActivity<*>
+        ): ModifyPdfEvent()
 
         data class WatermarkMaterialEvent(var title: String,
                                           var mappedMaterialModel: MappedMaterialModel,

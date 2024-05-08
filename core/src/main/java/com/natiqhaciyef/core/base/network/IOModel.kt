@@ -1,4 +1,4 @@
-package com.natiqhaciyef.data.base
+package com.natiqhaciyef.core.base.network
 
 
 

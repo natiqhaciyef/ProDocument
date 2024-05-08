@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.base
+package com.natiqhaciyef.core.base.ui
 
 import android.content.Intent
 import android.net.Uri
@@ -18,12 +18,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.natiqhaciyef.core.store.AppStorePref
 import com.natiqhaciyef.core.store.AppStorePrefKeys
-import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_MAIN_DEEPLINK
-import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.ONBOARDING_MAIN_DEEPLINK
-import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.REGISTER_MAIN_DEEPLINK
-import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
-import com.natiqhaciyef.prodocument.ui.view.onboarding.OnboardingActivity
-import com.natiqhaciyef.prodocument.ui.view.registration.RegistrationActivity
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -44,22 +38,6 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel<State, Event, E
         }
 
     val dataStore = AppStorePref
-
-    private fun setNavigationWithActivity(title: String) = when (title) {
-        BaseNavigationDeepLink.ONBOARDING_ROUTE -> {
-            Intent(requireContext(), OnboardingActivity::class.java)
-        }
-
-        BaseNavigationDeepLink.REGISTER_ROUTE -> {
-            Intent(requireContext(), RegistrationActivity::class.java)
-        }
-
-        BaseNavigationDeepLink.HOME_ROUTE -> {
-            Intent(requireContext(), MainActivity::class.java)
-        }
-
-        else -> Intent(requireContext(), RegistrationActivity::class.java)
-    }
 
     protected open fun onStateChange(state: State) {}
 
@@ -95,23 +73,6 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel<State, Event, E
     }
 
 
-    private fun getDeepLink(title: String) = when (title) {
-        BaseNavigationDeepLink.ONBOARDING_ROUTE -> {
-            Intent(Intent.ACTION_VIEW, ONBOARDING_MAIN_DEEPLINK.toUri())
-        }
-
-        BaseNavigationDeepLink.REGISTER_ROUTE -> {
-            Intent(Intent.ACTION_VIEW, REGISTER_MAIN_DEEPLINK.toUri())
-        }
-
-        BaseNavigationDeepLink.HOME_ROUTE -> {
-            Intent(Intent.ACTION_VIEW, HOME_MAIN_DEEPLINK.toUri())
-        }
-
-        else -> Intent(Intent.ACTION_VIEW, REGISTER_MAIN_DEEPLINK.toUri())
-    }
-
-    private fun getNavGraph(title: String) = BaseNavigationDeepLink.generateNavGraphs(title)
 
     fun navigateBack() {
         findNavController().popBackStack()
@@ -127,29 +88,6 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel<State, Event, E
 
     fun navigateByDeepLink(deepLink: Uri) {
         requireActivity().startActivity(Intent(Intent.ACTION_VIEW, deepLink))
-    }
-
-    fun navigateByDeepLink(title: String) {
-        val deepLink = getDeepLink(title)
-        requireActivity().startActivity(deepLink)
-    }
-
-    fun navigateByRouteTitle(title: String) {
-        val destinationId = getNavGraph(title)
-        destinationId.let { findNavController().setGraph(destinationId) }
-    }
-
-    fun navigateByActivityTitle(title: String, isFinished: Boolean = false) {
-        val destinationIntent = setNavigationWithActivity(title)
-        destinationIntent.let {
-            requireActivity().startActivity(destinationIntent)
-            requireActivity().overridePendingTransition(
-                com.natiqhaciyef.common.R.anim.slide_in_right,
-                com.natiqhaciyef.common.R.anim.slide_out_left
-            )
-            if (isFinished)
-                requireActivity().finish()
-        }
     }
 
     fun navigate(

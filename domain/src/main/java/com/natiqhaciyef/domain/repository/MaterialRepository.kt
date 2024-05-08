@@ -5,10 +5,10 @@ import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.data.network.request.MergeRequest
 import com.natiqhaciyef.data.network.request.SplitRequest
 import com.natiqhaciyef.data.network.request.WatermarkRequest
-import com.natiqhaciyef.data.network.response.CRUDResponse
+import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.data.network.response.MaterialResponse
 import com.natiqhaciyef.data.network.response.ListMaterialResponse
-import com.natiqhaciyef.domain.base.repository.BaseRepository
+import com.natiqhaciyef.core.base.repository.BaseRepository
 
 interface MaterialRepository : BaseRepository {
 

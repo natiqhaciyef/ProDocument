@@ -2,8 +2,8 @@ package com.natiqhaciyef.data.mock.materials
 
 import com.natiqhaciyef.common.objects.MATERIAL_MOCK_KEY
 import com.natiqhaciyef.common.objects.USER_EMAIL_MOCK_KEY
-import com.natiqhaciyef.data.base.mock.BaseMockGenerator
-import com.natiqhaciyef.data.network.response.CRUDResponse
+import com.natiqhaciyef.core.CRUDResponse
+import com.natiqhaciyef.core.base.mock.BaseMockGenerator
 import com.natiqhaciyef.data.network.response.MaterialResponse
 
 class UpdateMaterialMockGenerator(

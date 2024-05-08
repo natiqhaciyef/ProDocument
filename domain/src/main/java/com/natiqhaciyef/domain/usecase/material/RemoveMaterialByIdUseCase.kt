@@ -5,8 +5,8 @@ import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.data.mapper.toModel
 import com.natiqhaciyef.data.network.NetworkResult
-import com.natiqhaciyef.domain.base.usecase.BaseUseCase
-import com.natiqhaciyef.domain.base.usecase.UseCase
+import com.natiqhaciyef.core.base.usecase.BaseUseCase
+import com.natiqhaciyef.core.base.usecase.UseCase
 import com.natiqhaciyef.domain.repository.MaterialRepository
 import com.natiqhaciyef.domain.usecase.MATERIAL_ID
 import com.natiqhaciyef.domain.usecase.USER_EMAIL

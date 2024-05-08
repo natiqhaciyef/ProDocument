@@ -1,11 +1,10 @@
 package com.natiqhaciyef.data.source
 
 import com.natiqhaciyef.common.objects.QR_CODE_MOCK_KEY
-import com.natiqhaciyef.data.base.mock.generateMockerClass
+import com.natiqhaciyef.core.base.mock.generateMockerClass
 import com.natiqhaciyef.data.mock.qrcodes.QrCodeMockGenerator
 import com.natiqhaciyef.data.network.LoadType
 import com.natiqhaciyef.data.network.handleNetworkResponse
-import com.natiqhaciyef.data.network.response.QrCodeResponse
 import com.natiqhaciyef.data.network.service.QrCodeService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

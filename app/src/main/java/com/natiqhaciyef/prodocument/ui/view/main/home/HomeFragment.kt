@@ -4,13 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.prodocument.databinding.FragmentHomeBinding
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.objects.USER_EMAIL_MOCK_KEY
-import com.natiqhaciyef.prodocument.ui.base.BaseFragment
+import com.natiqhaciyef.core.base.ui.BaseFragment
+import com.natiqhaciyef.prodocument.ui.BaseNavigationDeepLink.navigateByRouteTitle
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.UiList
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.home.adapter.FileItemAdapter
@@ -25,6 +28,7 @@ class HomeFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentHomeBinding = FragmentHomeBinding::inflate,
     override val viewModelClass: KClass<HomeViewModel> = HomeViewModel::class
 ) : BaseFragment<FragmentHomeBinding, HomeViewModel, HomeContract.HomeUiState, HomeContract.HomeEvent, HomeContract.HomeEffect>() {
+    private var bundle = bundleOf()
     private lateinit var menuAdapter: MenuAdapter
     private lateinit var fileAdapter: FileItemAdapter
 
@@ -89,7 +93,7 @@ class HomeFragment(
         menuAdapter =
             MenuAdapter(UiList.generateHomeMenuItemsList(requireContext()).toMutableList())
         menuAdapter.onClickAction = { route ->
-            navigateByRouteTitle(route)
+            navigateByRouteTitle(this@HomeFragment,route)
             (activity as MainActivity).apply {
                 binding.bottomNavBar.visibility = View.GONE
                 binding.appbarLayout.visibility = View.GONE
@@ -130,7 +134,8 @@ class HomeFragment(
     }
 
     private fun fileClickAction(material: MappedMaterialModel) {
-        val action = HomeFragmentDirections.actionHomeFragmentToPreviewMaterialNavGraph(material)
+        bundle.putParcelable(BUNDLE_MATERIAL, material)
+        val action = HomeFragmentDirections.actionHomeFragmentToPreviewMaterialNavGraph(bundle)
         navigate(action)
     }
 }

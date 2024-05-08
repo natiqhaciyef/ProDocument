@@ -5,10 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.common.model.UIResult
 import com.natiqhaciyef.common.model.mapped.MappedUserWithoutPasswordModel
+import com.natiqhaciyef.core.base.ui.BaseUIState
+import com.natiqhaciyef.core.base.ui.BaseViewModel
 import com.natiqhaciyef.domain.usecase.user.remote.GetUserByTokenRemoteUseCase
-import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
-import com.natiqhaciyef.prodocument.ui.base.BaseUIState
-import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
+import com.natiqhaciyef.prodocument.ui.BaseNavigationDeepLink.HOME_ROUTE
 import com.natiqhaciyef.prodocument.ui.view.onboarding.walkthrough.contract.OnBoardingContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay

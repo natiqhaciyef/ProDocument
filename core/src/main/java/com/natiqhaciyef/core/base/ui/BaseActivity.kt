@@ -1,14 +1,14 @@
-package com.natiqhaciyef.prodocument.ui.base
+package com.natiqhaciyef.core.base.ui
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.natiqhaciyef.common.R
-import com.natiqhaciyef.domain.worker.config.JPEG
-import com.natiqhaciyef.domain.worker.config.PDF
-import com.natiqhaciyef.domain.worker.config.PNG
-import com.natiqhaciyef.domain.worker.config.URL
-import com.natiqhaciyef.prodocument.ui.model.CategoryItem
+import com.natiqhaciyef.core.model.CategoryItem
+import com.natiqhaciyef.core.model.FileTypes.JPEG
+import com.natiqhaciyef.core.model.FileTypes.PDF
+import com.natiqhaciyef.core.model.FileTypes.PNG
+import com.natiqhaciyef.core.model.FileTypes.URL
 
 open class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     protected var _binding: VB? = null

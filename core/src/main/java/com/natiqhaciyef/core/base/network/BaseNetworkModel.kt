@@ -1,8 +1,7 @@
-package com.natiqhaciyef.data.base
+package com.natiqhaciyef.core.base.network
 
 import android.os.Parcelable
-import com.natiqhaciyef.data.network.response.CRUDResponse
-
+import com.natiqhaciyef.core.CRUDResponse
 
 interface BaseNetworkModel: Parcelable {
     var result: CRUDResponse?

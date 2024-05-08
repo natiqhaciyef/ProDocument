@@ -3,7 +3,7 @@ package com.natiqhaciyef.prodocument.ui.view.registration.create_account.viewmod
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
-import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
+import com.natiqhaciyef.core.base.ui.BaseViewModel
 import com.natiqhaciyef.prodocument.ui.util.DefaultImplModels
 import com.natiqhaciyef.prodocument.ui.view.registration.create_account.contract.CompleteProfileContract
 import dagger.hilt.android.lifecycle.HiltViewModel

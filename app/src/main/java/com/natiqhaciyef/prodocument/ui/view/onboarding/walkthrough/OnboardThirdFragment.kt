@@ -6,7 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import com.natiqhaciyef.prodocument.databinding.FragmentOnboardThirdBinding
-import com.natiqhaciyef.prodocument.ui.base.BaseFragment
+import com.natiqhaciyef.core.base.ui.BaseFragment
+import com.natiqhaciyef.prodocument.ui.BaseNavigationDeepLink.navigateByActivityTitle
 import com.natiqhaciyef.prodocument.ui.view.onboarding.walkthrough.contract.OnBoardingContract
 import com.natiqhaciyef.prodocument.ui.view.onboarding.walkthrough.viewmodel.OnboardingViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,7 +34,7 @@ class OnboardThirdFragment(
             dataStore.saveBoolean(context = requireContext(), enabled = true)
 
             viewModel.postEvent(OnBoardingContract.OnBoardingEvent.SkipButtonClickEvent{ route ->
-                navigateByActivityTitle(route, true)
+                navigateByActivityTitle(route, requireActivity(), true)
             })
         }
     }

@@ -13,7 +13,6 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.camera.core.ExperimentalGetImage
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
@@ -23,8 +22,9 @@ import com.natiqhaciyef.common.helpers.loadImage
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.ui.util.CameraReader
 import com.natiqhaciyef.prodocument.databinding.FragmentCaptureImageBinding
-import com.natiqhaciyef.prodocument.ui.base.BaseFragment
-import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
+import com.natiqhaciyef.core.base.ui.BaseFragment
+import com.natiqhaciyef.prodocument.ui.BaseNavigationDeepLink.HOME_ROUTE
+import com.natiqhaciyef.prodocument.ui.BaseNavigationDeepLink.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TYPE
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.behaviour.CameraTypes
@@ -102,7 +102,7 @@ class CaptureImageFragment(
         requireActivity().onBackPressedDispatcher.addCallback(object :
             OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                navigateByRouteTitle(HOME_ROUTE)
+                navigateByRouteTitle(this@CaptureImageFragment,HOME_ROUTE)
             }
         })
     }
@@ -155,7 +155,7 @@ class CaptureImageFragment(
                 checkCameraPermission()
                 viewModel.isBackPressed.value = true
             } else {
-                navigateByRouteTitle(HOME_ROUTE)
+                navigateByRouteTitle(this@CaptureImageFragment,HOME_ROUTE)
                 viewModel.isBackPressed.value = false
             }
         }
@@ -180,7 +180,7 @@ class CaptureImageFragment(
                 scanTitle.visibility = View.VISIBLE
                 scanDescription.visibility = View.VISIBLE
             } else {
-                navigateByRouteTitle(HOME_ROUTE)
+                navigateByRouteTitle(this@CaptureImageFragment,HOME_ROUTE)
             }
         }
     }

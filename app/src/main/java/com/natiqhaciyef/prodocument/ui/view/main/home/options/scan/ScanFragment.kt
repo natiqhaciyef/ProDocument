@@ -19,8 +19,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.databinding.FragmentScanBinding
-import com.natiqhaciyef.prodocument.ui.base.BaseFragment
-import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
+import com.natiqhaciyef.core.base.ui.BaseFragment
+import com.natiqhaciyef.prodocument.ui.BaseNavigationDeepLink.HOME_ROUTE
+import com.natiqhaciyef.prodocument.ui.BaseNavigationDeepLink.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TYPE
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
@@ -30,6 +31,7 @@ import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.viewmodel.Sca
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.KClass
 
+@ExperimentalGetImage
 @AndroidEntryPoint
 class ScanFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentScanBinding = FragmentScanBinding::inflate,
@@ -213,7 +215,7 @@ class ScanFragment(
             binding.bottomNavBar.visibility = View.VISIBLE
             binding.appbarLayout.visibility = View.VISIBLE
         }
-        navigateByRouteTitle(HOME_ROUTE)
+        navigateByRouteTitle(this@ScanFragment,HOME_ROUTE)
     }
 
     override fun onDestroy() {

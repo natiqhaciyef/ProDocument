@@ -1,7 +1,7 @@
 package com.natiqhaciyef.data.mock.users
 
-import com.natiqhaciyef.data.base.mock.BaseMockGenerator
-import com.natiqhaciyef.data.network.response.CRUDResponse
+import com.natiqhaciyef.core.CRUDResponse
+import com.natiqhaciyef.core.base.mock.BaseMockGenerator
 
 class LogOutMockGenerator(
     override var takenRequest: Any? = null

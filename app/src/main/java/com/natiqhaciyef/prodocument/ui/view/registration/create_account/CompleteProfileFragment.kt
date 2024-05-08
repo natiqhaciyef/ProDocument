@@ -25,7 +25,7 @@ import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.prodocument.databinding.FragmentCompleteProfileBinding
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
-import com.natiqhaciyef.prodocument.ui.base.BaseFragment
+import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkFullNameAcceptanceCondition
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkGenderAcceptanceCondition
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkPhoneAcceptanceCondition

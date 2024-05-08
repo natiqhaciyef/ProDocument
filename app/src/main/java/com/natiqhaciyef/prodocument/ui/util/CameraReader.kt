@@ -20,7 +20,6 @@ import androidx.camera.core.ImageProxy
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
-import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
@@ -39,11 +38,11 @@ import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
-import com.natiqhaciyef.domain.worker.config.DOCX
-import com.natiqhaciyef.domain.worker.config.JPEG
-import com.natiqhaciyef.domain.worker.config.PDF
-import com.natiqhaciyef.domain.worker.config.PNG
-import com.natiqhaciyef.domain.worker.config.URL
+import com.natiqhaciyef.core.model.FileTypes.DOCX
+import com.natiqhaciyef.core.model.FileTypes.JPEG
+import com.natiqhaciyef.core.model.FileTypes.PDF
+import com.natiqhaciyef.core.model.FileTypes.PNG
+import com.natiqhaciyef.core.model.FileTypes.URL
 import com.natiqhaciyef.domain.worker.config.getIntentFileType
 import java.io.File
 import java.util.Locale

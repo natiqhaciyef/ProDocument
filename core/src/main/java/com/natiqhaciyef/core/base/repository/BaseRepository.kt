@@ -1,4 +1,4 @@
-package com.natiqhaciyef.domain.base.repository
+package com.natiqhaciyef.core.base.repository
 
 import java.io.Serializable
 

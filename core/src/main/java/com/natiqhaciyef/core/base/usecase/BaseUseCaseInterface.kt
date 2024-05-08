@@ -1,4 +1,4 @@
-package com.natiqhaciyef.domain.base.usecase
+package com.natiqhaciyef.core.base.usecase
 
 import com.natiqhaciyef.common.model.Resource
 import kotlinx.coroutines.flow.Flow

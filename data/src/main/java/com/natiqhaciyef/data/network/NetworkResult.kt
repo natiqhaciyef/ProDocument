@@ -1,6 +1,5 @@
 package com.natiqhaciyef.data.network
 
-import com.natiqhaciyef.data.base.mock.BaseMockGenerator
 import retrofit2.HttpException
 import retrofit2.Response
 

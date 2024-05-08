@@ -2,8 +2,8 @@ package com.natiqhaciyef.domain.usecase.user.remote
 
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.common.model.mapped.MappedTokenModel
-import com.natiqhaciyef.domain.base.usecase.BaseUseCase
-import com.natiqhaciyef.domain.base.usecase.UseCase
+import com.natiqhaciyef.core.base.usecase.BaseUseCase
+import com.natiqhaciyef.core.base.usecase.UseCase
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.data.mapper.toMapped

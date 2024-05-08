@@ -2,13 +2,12 @@ package com.natiqhaciyef.prodocument.ui.view.main.home.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.model.Status
-import com.natiqhaciyef.common.objects.MATERIAL_TOKEN_MOCK_KEY
 import com.natiqhaciyef.common.objects.USER_EMAIL_MOCK_KEY
+import com.natiqhaciyef.core.base.ui.BaseViewModel
 import com.natiqhaciyef.domain.usecase.MATERIAL_ID
 import com.natiqhaciyef.domain.usecase.USER_EMAIL
 import com.natiqhaciyef.domain.usecase.material.GetAllMaterialsRemoteUseCase
 import com.natiqhaciyef.domain.usecase.material.GetMaterialByIdRemoteUseCase
-import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
 import com.natiqhaciyef.prodocument.ui.view.main.home.contract.HomeContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest

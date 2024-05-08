@@ -1,6 +1,6 @@
 package com.natiqhaciyef.data.network.service
 
-import com.natiqhaciyef.data.network.response.CRUDResponse
+import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.data.network.response.TokenResponse
 import com.natiqhaciyef.data.network.response.UserResponse
 import retrofit2.Response

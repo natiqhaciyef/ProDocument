@@ -5,8 +5,8 @@ import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.data.mapper.toMapped
 import com.natiqhaciyef.data.network.NetworkResult
-import com.natiqhaciyef.domain.base.usecase.BaseUseCase
-import com.natiqhaciyef.domain.base.usecase.UseCase
+import com.natiqhaciyef.core.base.usecase.BaseUseCase
+import com.natiqhaciyef.core.base.usecase.UseCase
 import com.natiqhaciyef.domain.repository.UserRepository
 import com.natiqhaciyef.domain.usecase.USER_EMAIL
 import com.natiqhaciyef.domain.usecase.USER_PASSWORD

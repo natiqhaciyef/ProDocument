@@ -1,4 +1,4 @@
-package com.natiqhaciyef.data.base.mock
+package com.natiqhaciyef.core.base.mock
 
 import kotlin.reflect.KClass
 import kotlin.reflect.full.primaryConstructor

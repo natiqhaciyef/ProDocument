@@ -2,8 +2,9 @@ package com.natiqhaciyef.data.network.response
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import com.natiqhaciyef.data.base.BaseNetworkModel
-import com.natiqhaciyef.data.base.IOModel
+import com.natiqhaciyef.core.CRUDResponse
+import com.natiqhaciyef.core.base.network.BaseNetworkModel
+import com.natiqhaciyef.core.base.network.IOModel
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

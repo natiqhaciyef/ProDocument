@@ -1,7 +1,7 @@
 package com.natiqhaciyef.data.source
 
 import com.natiqhaciyef.common.objects.*
-import com.natiqhaciyef.data.base.mock.generateMockerClass
+import com.natiqhaciyef.core.base.mock.generateMockerClass
 import com.natiqhaciyef.data.mock.materials.CreateMaterialMockGenerator
 import com.natiqhaciyef.data.network.LoadType
 import com.natiqhaciyef.data.network.handleNetworkResponse

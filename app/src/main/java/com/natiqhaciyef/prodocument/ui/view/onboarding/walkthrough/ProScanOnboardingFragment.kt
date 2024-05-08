@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import com.natiqhaciyef.core.store.AppStorePrefKeys.EMAIL_KEY
 import com.natiqhaciyef.prodocument.databinding.FragmentProScanOnboardingBinding
-import com.natiqhaciyef.prodocument.ui.base.BaseFragment
-import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.WALKTHROUGH_ROUTE
+import com.natiqhaciyef.core.base.ui.BaseFragment
+import com.natiqhaciyef.prodocument.ui.BaseNavigationDeepLink.WALKTHROUGH_ROUTE
+import com.natiqhaciyef.prodocument.ui.BaseNavigationDeepLink.navigateByActivityTitle
+import com.natiqhaciyef.prodocument.ui.BaseNavigationDeepLink.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.view.onboarding.walkthrough.contract.OnBoardingContract
 import com.natiqhaciyef.prodocument.ui.view.onboarding.walkthrough.viewmodel.OnboardingViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,9 +52,9 @@ class ProScanOnboardingFragment(
         viewModel.postEvent(OnBoardingContract.OnBoardingEvent.OnboardingEvent{ route ->
             lifecycleScope.launch {
                 if (dataStore.readBoolean(requireContext()))
-                    navigateByActivityTitle(route, true)
+                    navigateByActivityTitle(route, requireActivity(),true)
                 else
-                    navigateByRouteTitle(WALKTHROUGH_ROUTE)
+                    navigateByRouteTitle(this@ProScanOnboardingFragment,WALKTHROUGH_ROUTE)
             }
         })
     }

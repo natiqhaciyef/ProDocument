@@ -1,4 +1,4 @@
-package com.natiqhaciyef.data.network.response
+package com.natiqhaciyef.core
 
 import android.os.Parcelable
 import com.google.gson.annotations.Expose

@@ -1,6 +1,16 @@
-package com.natiqhaciyef.prodocument.ui.base
+package com.natiqhaciyef.prodocument.ui
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.net.toUri
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.natiqhaciyef.prodocument.R
+import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
+import com.natiqhaciyef.prodocument.ui.view.onboarding.OnboardingActivity
+import com.natiqhaciyef.prodocument.ui.view.registration.RegistrationActivity
 
 
 object BaseNavigationDeepLink {
@@ -110,4 +120,64 @@ object BaseNavigationDeepLink {
 
         else -> 0
     }
+
+    fun getNavigationByTitleActivity(title: String, context: Context) = when (title) {
+        ONBOARDING_ROUTE -> {
+            Intent(context, OnboardingActivity::class.java)
+        }
+
+        REGISTER_ROUTE -> {
+            Intent(context, RegistrationActivity::class.java)
+        }
+
+        HOME_ROUTE -> {
+            Intent(context, MainActivity::class.java)
+        }
+
+        else -> Intent(context, RegistrationActivity::class.java)
+    }
+
+
+    fun navigateByActivityTitle(title: String, activity: Activity, isFinished: Boolean = false) {
+        val destinationIntent = getNavigationByTitleActivity(title, activity)
+        destinationIntent.let {
+            activity.startActivity(destinationIntent)
+            activity.overridePendingTransition(
+                com.natiqhaciyef.common.R.anim.slide_in_right,
+                com.natiqhaciyef.common.R.anim.slide_out_left
+            )
+            if (isFinished)
+                activity.finish()
+        }
+    }
+
+    private fun getDeepLink(title: String) = when (title) {
+        ONBOARDING_ROUTE -> {
+            Intent(Intent.ACTION_VIEW, ONBOARDING_MAIN_DEEPLINK.toUri())
+        }
+
+        REGISTER_ROUTE -> {
+            Intent(Intent.ACTION_VIEW, REGISTER_MAIN_DEEPLINK.toUri())
+        }
+
+        HOME_ROUTE -> {
+            Intent(Intent.ACTION_VIEW, HOME_MAIN_DEEPLINK.toUri())
+        }
+
+        else -> Intent(Intent.ACTION_VIEW, REGISTER_MAIN_DEEPLINK.toUri())
+    }
+
+    private fun getNavGraph(title: String) = generateNavGraphs(title)
+
+
+    fun navigateByDeepLink(activity: Activity, title: String) {
+        val deepLink = getDeepLink(title)
+        activity.startActivity(deepLink)
+    }
+
+    fun navigateByRouteTitle(fragment: Fragment, title: String) {
+        val destinationId = getNavGraph(title)
+        destinationId.let { fragment.findNavController().setGraph(destinationId) }
+    }
+
 }

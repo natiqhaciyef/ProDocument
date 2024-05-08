@@ -1,10 +1,10 @@
-package com.natiqhaciyef.prodocument.ui.base
+package com.natiqhaciyef.core.base
 
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.viewbinding.ViewBinding
 import com.airbnb.epoxy.EpoxyModel
-import com.natiqhaciyef.prodocument.R
+import com.natiqhaciyef.core.R
 import java.lang.reflect.Method
 import java.lang.reflect.ParameterizedType
 import java.util.concurrent.ConcurrentHashMap
