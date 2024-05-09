@@ -9,14 +9,16 @@ object OnBoardingContract {
 
     sealed class OnBoardingEvent : UiEvent {
         data class SkipButtonClickEvent(
+            var user: MappedUserWithoutPasswordModel?,
             var onAction: (String) -> Unit
         ): OnBoardingEvent()
 
         data class OnboardingEvent(
+            var user: MappedUserWithoutPasswordModel?,
             var onAction: (String) -> Unit
         ): OnBoardingEvent()
 
-        data class GetUserByEmailEvent(var email: String) : OnBoardingEvent()
+        data object GetUserByTokenEvent : OnBoardingEvent()
     }
 
     sealed class OnboardingEffect : UiEffect {

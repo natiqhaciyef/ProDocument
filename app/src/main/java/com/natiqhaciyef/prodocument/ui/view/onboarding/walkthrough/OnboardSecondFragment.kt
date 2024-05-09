@@ -35,7 +35,7 @@ class OnboardSecondFragment(
         lifecycleScope.launch {
             dataStore.saveBoolean(context = requireContext(), enabled = true)
 
-            viewModel.postEvent(OnBoardingContract.OnBoardingEvent.SkipButtonClickEvent{ route ->
+            viewModel.postEvent(OnBoardingContract.OnBoardingEvent.SkipButtonClickEvent(viewModel.state.value.user){ route ->
                 navigateByActivityTitle(route, requireActivity(),true)
             })
         }

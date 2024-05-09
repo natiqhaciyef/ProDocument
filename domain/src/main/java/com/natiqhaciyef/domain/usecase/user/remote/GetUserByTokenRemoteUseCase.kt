@@ -18,12 +18,12 @@ import javax.inject.Inject
 @UseCase
 class GetUserByTokenRemoteUseCase @Inject constructor(
     userRepository: UserRepository
-) : BaseUseCase<UserRepository, String, MappedUserWithoutPasswordModel>(userRepository) {
+) : BaseUseCase<UserRepository, Unit, MappedUserWithoutPasswordModel>(userRepository) {
 
-    override fun operate(data: String): Flow<Resource<MappedUserWithoutPasswordModel>> = flow {
+    override fun invoke(): Flow<Resource<MappedUserWithoutPasswordModel>> = flow {
         emit(Resource.loading(null))
 
-        when (val result = repository.getUser(data)) {
+        when (val result = repository.getUser()) {
             is NetworkResult.Success -> {
                 val model = result.data.toUIResult()
 

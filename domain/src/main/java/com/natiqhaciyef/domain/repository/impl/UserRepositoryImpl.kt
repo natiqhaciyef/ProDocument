@@ -12,9 +12,7 @@ class UserRepositoryImpl(
     private val ds: UserDataSource
 ) : UserRepository {
 
-    override suspend fun getUser(
-        email: String,
-    ) = ds.getUserFromNetwork(email = email)
+    override suspend fun getUser() = ds.getUserFromNetwork()
 
     override suspend fun createAccount(user: MappedUserModel) =
         ds.createAccountFromNetwork(userModel = user.toResponse())

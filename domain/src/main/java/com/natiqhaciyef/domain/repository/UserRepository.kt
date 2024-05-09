@@ -11,7 +11,7 @@ import com.natiqhaciyef.data.network.response.UserResponse
 
 interface UserRepository : BaseRepository {
 
-    suspend fun getUser(email: String): NetworkResult<UserResponse>
+    suspend fun getUser(): NetworkResult<UserResponse>
 
     suspend fun createAccount(user: MappedUserModel): NetworkResult<TokenResponse>
 

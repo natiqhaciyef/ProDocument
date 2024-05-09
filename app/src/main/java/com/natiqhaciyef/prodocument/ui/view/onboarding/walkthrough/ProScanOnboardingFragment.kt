@@ -5,9 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
-import com.natiqhaciyef.core.store.AppStorePrefKeys.EMAIL_KEY
+import com.natiqhaciyef.common.model.mapped.MappedTokenModel
+import com.natiqhaciyef.common.model.mapped.MappedUserWithoutPasswordModel
 import com.natiqhaciyef.prodocument.databinding.FragmentProScanOnboardingBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
+import com.natiqhaciyef.core.store.AppStorePrefKeys.TOKEN_KEY
 import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.WALKTHROUGH_ROUTE
 import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.navigateByActivityTitle
 import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.navigateByRouteTitle
@@ -25,14 +27,16 @@ class ProScanOnboardingFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // for initial state
-        onBoardingEvent()
-        // getTokenLocalStored()
+        onBoardingEvent(null)
+//         getTokenLocalStored()
     }
 
     override fun onStateChange(state: OnBoardingContract.OnboardingState) {
         when{
             state.isLoading -> {}
-            else -> {}
+            else -> {
+                onBoardingEvent(user = state.user)
+            }
         }
     }
 
@@ -42,14 +46,12 @@ class ProScanOnboardingFragment(
 
     private fun getTokenLocalStored() {
         lifecycleScope.launch {
-            val data = dataStore.readString(requireContext(), EMAIL_KEY)
-            viewModel.postEvent(OnBoardingContract.OnBoardingEvent.GetUserByEmailEvent(data))
-            onBoardingEvent()
+            viewModel.postEvent(OnBoardingContract.OnBoardingEvent.GetUserByTokenEvent)
         }
     }
 
-    private fun onBoardingEvent(){
-        viewModel.postEvent(OnBoardingContract.OnBoardingEvent.OnboardingEvent{ route ->
+    private fun onBoardingEvent(user: MappedUserWithoutPasswordModel?){
+        viewModel.postEvent(OnBoardingContract.OnBoardingEvent.OnboardingEvent(user){ route ->
             lifecycleScope.launch {
                 if (dataStore.readBoolean(requireContext()))
                     navigateByActivityTitle(route, requireActivity(),true)
