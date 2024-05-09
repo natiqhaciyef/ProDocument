@@ -20,8 +20,8 @@ import com.natiqhaciyef.common.helpers.getNow
 import com.natiqhaciyef.prodocument.databinding.FragmentMergePdfsBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.core.model.FileTypes.PDF
-import com.natiqhaciyef.prodocument.ui.BaseNavigationDeepLink
-import com.natiqhaciyef.prodocument.ui.BaseNavigationDeepLink.navigateByRouteTitle
+import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink
+import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.util.DefaultImplModels
 import com.natiqhaciyef.prodocument.ui.view.main.home.adapter.FileItemAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.merge.contract.MergePdfContract

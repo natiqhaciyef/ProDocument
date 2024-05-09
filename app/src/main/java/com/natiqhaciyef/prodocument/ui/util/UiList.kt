@@ -3,14 +3,14 @@ package com.natiqhaciyef.prodocument.ui.util
 import android.content.Context
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.model.MenuItemModel
-import com.natiqhaciyef.prodocument.ui.BaseNavigationDeepLink.ALL_TOOLS_ROUTE
-import com.natiqhaciyef.prodocument.ui.BaseNavigationDeepLink.COMPRESS_ROUTE
-import com.natiqhaciyef.prodocument.ui.BaseNavigationDeepLink.E_SIGN_ROUTE
-import com.natiqhaciyef.prodocument.ui.BaseNavigationDeepLink.MERGE_ROUTE
-import com.natiqhaciyef.prodocument.ui.BaseNavigationDeepLink.PROTECT_ROUTE
-import com.natiqhaciyef.prodocument.ui.BaseNavigationDeepLink.SCAN_ROUTE
-import com.natiqhaciyef.prodocument.ui.BaseNavigationDeepLink.SPLIT_ROUTE
-import com.natiqhaciyef.prodocument.ui.BaseNavigationDeepLink.WATERMARK_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.ALL_TOOLS_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.COMPRESS_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.E_SIGN_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.MERGE_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.PROTECT_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.SCAN_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.SPLIT_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.WATERMARK_ROUTE
 
 
 object UiList {

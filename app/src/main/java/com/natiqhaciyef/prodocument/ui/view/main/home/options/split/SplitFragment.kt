@@ -19,8 +19,8 @@ import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.databinding.FragmentSplitBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.core.model.FileTypes.PDF
-import com.natiqhaciyef.prodocument.ui.BaseNavigationDeepLink
-import com.natiqhaciyef.prodocument.ui.BaseNavigationDeepLink.navigateByRouteTitle
+import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink
+import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TITLE
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TYPE
@@ -148,7 +148,7 @@ class SplitFragment(
     }
 
     private fun goBackIconClickAction(){
-        navigateByRouteTitle(this@SplitFragment,BaseNavigationDeepLink.HOME_ROUTE)
+        navigateByRouteTitle(this@SplitFragment, BaseNavigationDeepLink.HOME_ROUTE)
     }
 
     private fun getDefaultMockFile() = DefaultImplModels.mappedMaterialModel

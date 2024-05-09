@@ -23,8 +23,8 @@ import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.ui.util.CameraReader
 import com.natiqhaciyef.prodocument.databinding.FragmentCaptureImageBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
-import com.natiqhaciyef.prodocument.ui.BaseNavigationDeepLink.HOME_ROUTE
-import com.natiqhaciyef.prodocument.ui.BaseNavigationDeepLink.navigateByRouteTitle
+import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.HOME_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TYPE
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.behaviour.CameraTypes
