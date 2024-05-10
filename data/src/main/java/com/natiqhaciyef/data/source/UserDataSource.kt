@@ -25,8 +25,8 @@ class UserDataSource(
 ) {
     // network
     suspend fun getUserFromNetwork() = withContext(Dispatchers.IO) {
-        val mock = generateMockerClass(GetUserMockGenerator::class)
-            .getMock(USER_EMAIL_MOCK_KEY) { null }
+        val mock = generateMockerClass(GetUserMockGenerator::class, Unit)
+            .getMock(Unit) { null }
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.getUser()
