@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.view.main.home.modify.contract
+package com.natiqhaciyef.prodocument.ui.view.main.modify.contract
 
 import android.content.Context
 import com.natiqhaciyef.common.model.CRUDModel

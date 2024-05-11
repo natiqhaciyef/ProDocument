@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.view.main.home.modify.viewmodel
+package com.natiqhaciyef.prodocument.ui.view.main.modify.viewmodel
 
 import android.app.Activity
 import android.content.Context
@@ -14,7 +14,7 @@ import com.natiqhaciyef.domain.usecase.USER_EMAIL
 import com.natiqhaciyef.domain.usecase.material.CreateMaterialUseCase
 import com.natiqhaciyef.domain.usecase.material.watermark.WatermarkMaterialUseCase
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
-import com.natiqhaciyef.prodocument.ui.view.main.home.modify.contract.ModifyPdfContract
+import com.natiqhaciyef.prodocument.ui.view.main.modify.contract.ModifyPdfContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

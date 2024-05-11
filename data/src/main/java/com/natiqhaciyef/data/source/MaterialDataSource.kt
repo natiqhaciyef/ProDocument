@@ -14,6 +14,8 @@ import com.natiqhaciyef.data.mock.materials.RemoveMaterialMockGenerator
 import com.natiqhaciyef.data.mock.materials.SplitMaterialMockGenerator
 import com.natiqhaciyef.data.mock.materials.UpdateMaterialMockGenerator
 import com.natiqhaciyef.data.mock.materials.WatermarkMaterialMockGenerator
+import com.natiqhaciyef.data.network.NetworkConfig
+import com.natiqhaciyef.data.network.manager.TokenManager
 import com.natiqhaciyef.data.network.request.MergeRequest
 import com.natiqhaciyef.data.network.request.SplitRequest
 import com.natiqhaciyef.data.network.request.WatermarkRequest
@@ -21,15 +23,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class MaterialDataSource(
+    private val manager: TokenManager,
     private val service: MaterialService
 ) {
 
-    suspend fun getAllFiles(email: String) = withContext(Dispatchers.IO) {
-        val mock = generateMockerClass(GetAllMaterialsMockGenerator::class, email)
-            .getMock(USER_EMAIL_MOCK_KEY) { null }
+    suspend fun getAllFiles() = withContext(Dispatchers.IO) {
+        val mock = generateMockerClass(GetAllMaterialsMockGenerator::class, manager.generateToken())
+            .getMock(NetworkConfig.HEADER_AUTHORIZATION_TYPE + MATERIAL_TOKEN_MOCK_KEY) { null }
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
-            service.getMaterials(email = email)
+            service.getMaterials(token = manager.generateToken())
         }
     }
 
@@ -129,7 +132,7 @@ class MaterialDataSource(
 
     suspend fun splitMaterial(
         data: SplitRequest
-    ) = withContext(Dispatchers.IO){
+    ) = withContext(Dispatchers.IO) {
         val mock = generateMockerClass(SplitMaterialMockGenerator::class, data)
             .getMock(SplitMaterialMockGenerator.customRequest) { null }
 

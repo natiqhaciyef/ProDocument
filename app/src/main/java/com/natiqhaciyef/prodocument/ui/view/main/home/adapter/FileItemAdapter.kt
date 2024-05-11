@@ -82,7 +82,7 @@ class FileItemAdapter(
         println(file)
 
         when (type) {
-            holder.context.getString(R.string.scan_code) -> {
+            holder.context.getString(R.string.scan_code), holder.context.getString(R.string.default_type) -> {
                 configOfHome(view)
             }
 

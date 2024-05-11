@@ -13,8 +13,8 @@ import com.natiqhaciyef.domain.repository.MaterialRepository
 class MaterialRepositoryImpl(
     private val ds: MaterialDataSource
 ) : MaterialRepository {
-    override suspend fun getAllMaterials(email: String) =
-        ds.getAllFiles(email = email)
+    override suspend fun getAllMaterials() =
+        ds.getAllFiles()
 
     override suspend fun getMaterialById(materialId: String, email: String) =
         ds.getFileById(materialId = materialId, email = email)

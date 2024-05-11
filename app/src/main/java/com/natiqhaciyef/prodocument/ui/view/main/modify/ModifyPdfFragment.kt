@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.view.main.home.modify
+package com.natiqhaciyef.prodocument.ui.view.main.modify
 
 import android.app.Activity
 import android.net.Uri
@@ -32,8 +32,8 @@ import com.natiqhaciyef.prodocument.ui.util.CameraReader.Companion.createAndShar
 import com.natiqhaciyef.prodocument.ui.util.CameraReader.Companion.getAddressOfFile
 import com.natiqhaciyef.prodocument.ui.util.PdfReader.createDefaultPdfUriLoader
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
-import com.natiqhaciyef.prodocument.ui.view.main.home.modify.contract.ModifyPdfContract
-import com.natiqhaciyef.prodocument.ui.view.main.home.modify.viewmodel.ModifyPdfViewModel
+import com.natiqhaciyef.prodocument.ui.view.main.modify.contract.ModifyPdfContract
+import com.natiqhaciyef.prodocument.ui.view.main.modify.viewmodel.ModifyPdfViewModel
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.CaptureImageFragment
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.ScanFragment
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.split.SplitFragment.Companion.SPLIT_TYPE
@@ -287,7 +287,7 @@ class ModifyPdfFragment(
 
     private fun saveButtonClickEvent(materialModel: MappedMaterialModel?) {
         materialModel?.let {
-            getEmail {
+            getToken {
                 viewModel.postEvent(
                     ModifyPdfContract.ModifyPdfEvent.CreateMaterialEvent(
                         email = it,

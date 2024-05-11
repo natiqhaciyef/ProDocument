@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.prodocument.databinding.FragmentHomeBinding
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
-import com.natiqhaciyef.common.objects.USER_EMAIL_MOCK_KEY
+import com.natiqhaciyef.common.objects.MATERIAL_TOKEN_MOCK_KEY
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
@@ -34,18 +34,7 @@ class HomeFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as MainActivity).also {
-            it.binding.bottomNavBar.visibility = View.VISIBLE
-            it.binding.materialToolbar.visibility = View.VISIBLE
-            it.binding.appbarLayout.visibility = View.VISIBLE
-            it.binding.materialToolbar.setTitleToolbar(getString(R.string.proscan))
-            it.binding.materialToolbar.changeVisibility(View.VISIBLE)
-            it.binding.materialToolbar.setVisibilityOptionsMenu(View.GONE)
-            it.binding.materialToolbar.setVisibilitySearch(View.GONE)
-            it.binding.materialToolbar.setVisibilityToolbar(View.VISIBLE)
-        }
-        viewModel.postEvent(HomeContract.HomeEvent.GetAllMaterials(USER_EMAIL_MOCK_KEY))
-        menuAdapterConfig()
+        config()
     }
 
     override fun onStateChange(state: HomeContract.HomeUiState) {
@@ -88,6 +77,21 @@ class HomeFragment(
         }
     }
 
+    private fun config(){
+        (activity as MainActivity).also {
+            it.binding.bottomNavBar.visibility = View.VISIBLE
+            it.binding.materialToolbar.visibility = View.VISIBLE
+            it.binding.appbarLayout.visibility = View.VISIBLE
+            it.binding.materialToolbar.setTitleToolbar(getString(R.string.proscan))
+            it.binding.materialToolbar.changeVisibility(View.VISIBLE)
+            it.binding.materialToolbar.setVisibilityOptionsMenu(View.GONE)
+            it.binding.materialToolbar.setVisibilitySearch(View.GONE)
+            it.binding.materialToolbar.setVisibilityToolbar(View.VISIBLE)
+        }
+        viewModel.postEvent(HomeContract.HomeEvent.GetAllMaterials)
+        menuAdapterConfig()
+        recentFilesClickAction()
+    }
 
     private fun menuAdapterConfig() {
         menuAdapter =
@@ -110,7 +114,7 @@ class HomeFragment(
 
     private fun fileAdapterConfig(list: List<MappedMaterialModel>?) {
         list?.let {
-            fileAdapter = FileItemAdapter(list.toMutableList(), requireContext().getString(R.string.scan_code), this, requireContext())
+            fileAdapter = FileItemAdapter(list.toMutableList(), requireContext().getString(R.string.default_type), this, requireContext())
 
             fileAdapter.onClickAction = { materialId ->
                 fileClickEvent(materialId)
@@ -125,7 +129,7 @@ class HomeFragment(
     }
 
     private fun fileClickEvent(materialId: String) {
-        getEmail { email ->
+        getToken { email ->
 //            if (email.isNotEmpty())
 //                viewModel.postEvent(HomeContract.HomeEvent.GetMaterialById(id = materialId, email = email))
 //            else
@@ -137,5 +141,12 @@ class HomeFragment(
         bundle.putParcelable(BUNDLE_MATERIAL, material)
         val action = HomeFragmentDirections.actionHomeFragmentToPreviewMaterialNavGraph(bundle)
         navigate(action)
+    }
+
+    private fun recentFilesClickAction(){
+        binding.rightArrowIcon.setOnClickListener {
+            val action = HomeFragmentDirections.actionHomeFragmentToRecentFilesFragment()
+            navigate(action)
+        }
     }
 }

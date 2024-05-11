@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
@@ -16,6 +15,8 @@ import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
+import com.natiqhaciyef.common.model.mapped.MappedTokenModel
+import com.natiqhaciyef.common.objects.MATERIAL_TOKEN_MOCK_KEY
 import com.natiqhaciyef.core.store.AppStorePref
 import com.natiqhaciyef.core.store.AppStorePrefKeys
 import kotlinx.coroutines.flow.launchIn
@@ -108,13 +109,14 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel<State, Event, E
         pendingIntent.send()
     }
 
-    protected fun getEmail(onSuccess: (String) -> Unit = { }) = lifecycleScope.launch {
-        val result = dataStore.readString(
+    protected fun getToken(onSuccess: (String) -> Unit = { }) = lifecycleScope.launch {
+        val result = dataStore.readParcelableClassData(
             context = requireContext(),
-            key = AppStorePrefKeys.EMAIL_KEY
+            key = AppStorePrefKeys.TOKEN_KEY,
+            classType = MappedTokenModel::class.java
         )
 
-        onSuccess(result)
+        onSuccess(result?.accessToken ?: MATERIAL_TOKEN_MOCK_KEY)
         return@launch
     }
 }

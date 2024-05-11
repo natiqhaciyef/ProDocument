@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_3"
-    tools:context=".ui.view.main.home.modify.ModifyPdfFragment">
+    tools:context=".ui.view.main.modify.ModifyPdfFragment">
 
     <ProgressBar
         android:id="@+id/progressBar"

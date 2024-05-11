@@ -32,8 +32,8 @@ object SourceModule {
 
     @Provides
     @Singleton
-    fun provideMaterialDataSource(service: MaterialService) =
-        MaterialDataSource(service)
+    fun provideMaterialDataSource(manager: TokenManager, service: MaterialService) =
+        MaterialDataSource(manager, service)
 
     @Provides
     @Singleton

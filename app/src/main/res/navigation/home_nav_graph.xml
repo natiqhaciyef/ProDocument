@@ -24,6 +24,9 @@
                 android:name="resourceBundle"
                 app:argType="android.os.Bundle" />
         </action>
+        <action
+            android:id="@+id/action_homeFragment_to_recentFilesFragment"
+            app:destination="@id/recentFilesFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -51,4 +54,9 @@
     <include app:graph="@navigation/scan_nav_graph" />
     <include app:graph="@navigation/merge_nav_graph" />
     <include app:graph="@navigation/preview_material_nav_graph" />
+    <fragment
+        android:id="@+id/recentFilesFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.home.recent.RecentFilesFragment"
+        android:label="fragment_recent_files"
+        tools:layout="@layout/fragment_recent_files" />
 </navigation>

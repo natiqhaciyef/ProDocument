@@ -10,7 +10,7 @@ object FileContract {
 
         data class GetMaterialById(val id: String, val email: String) : FileEvent()
 
-        data class GetAllMaterials(val email: String) : FileEvent()
+        data object GetAllMaterials : FileEvent()
 
         data class SortMaterials(
             var list: MutableList<MappedMaterialModel>,

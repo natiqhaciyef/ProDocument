@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/modifyPdfFragment"
-        android:name="com.natiqhaciyef.prodocument.ui.view.main.home.modify.ModifyPdfFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.modify.ModifyPdfFragment"
         android:label="fragment_modify_pdf"
         tools:layout="@layout/fragment_modify_pdf">
         <argument

@@ -25,7 +25,7 @@
     <!--  Titles  -->
     <string name="proscan">ProScan</string>
     <string name="file">Files</string>
-
+    <string name="default_type">Default</string>
 
 
     <!-- Result -->

@@ -84,8 +84,8 @@ class FilesFragment(
     }
 
     private fun getFilesEvent() {
-        getEmail { email ->
-            viewModel.postEvent(FileContract.FileEvent.GetAllMaterials(email))
+        getToken { token ->
+            viewModel.postEvent(FileContract.FileEvent.GetAllMaterials)
         }
     }
 
@@ -129,7 +129,7 @@ class FilesFragment(
 
 
     private fun fileClickEvent(id: String) {
-        getEmail { email ->
+        getToken { email ->
             viewModel.postEvent(
                 FileContract.FileEvent.GetMaterialById(
                     id = id,

@@ -4,6 +4,7 @@ import com.natiqhaciyef.data.network.request.MergeRequest
 import com.natiqhaciyef.data.network.request.SplitRequest
 import com.natiqhaciyef.data.network.request.WatermarkRequest
 import com.natiqhaciyef.core.CRUDResponse
+import com.natiqhaciyef.data.network.NetworkConfig
 import com.natiqhaciyef.data.network.response.MaterialResponse
 import com.natiqhaciyef.data.network.response.ListMaterialResponse
 import retrofit2.Response
@@ -11,6 +12,7 @@ import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -20,7 +22,7 @@ MaterialService {
 
     @GET("")
     suspend fun getMaterials(
-        @Path("email") email: String
+        @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String,
     ): Response<ListMaterialResponse>
 
     @GET("")

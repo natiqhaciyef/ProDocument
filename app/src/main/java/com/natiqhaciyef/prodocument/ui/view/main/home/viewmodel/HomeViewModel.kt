@@ -3,6 +3,7 @@ package com.natiqhaciyef.prodocument.ui.view.main.home.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.common.objects.USER_EMAIL_MOCK_KEY
+import com.natiqhaciyef.common.objects.USER_TOKEN_MOCK_KEY
 import com.natiqhaciyef.core.base.ui.BaseViewModel
 import com.natiqhaciyef.domain.usecase.MATERIAL_ID
 import com.natiqhaciyef.domain.usecase.USER_EMAIL
@@ -23,7 +24,7 @@ class HomeViewModel @Inject constructor(
     override fun onEventUpdate(event: HomeContract.HomeEvent) {
         when (event) {
             is HomeContract.HomeEvent.GetAllMaterials -> {
-                getAllOwnFiles(event.email)
+                getAllOwnFiles()
             }
 
             is HomeContract.HomeEvent.GetMaterialById -> {
@@ -32,9 +33,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getAllOwnFiles(email: String = USER_EMAIL_MOCK_KEY) {
+    private fun getAllOwnFiles() {
         viewModelScope.launch {
-            getAllMaterialsRemoteUseCase.operate(email).collectLatest { result ->
+            getAllMaterialsRemoteUseCase.invoke().collectLatest { result ->
                 when (result.status) {
                     Status.SUCCESS -> {
                         if (result.data != null) {

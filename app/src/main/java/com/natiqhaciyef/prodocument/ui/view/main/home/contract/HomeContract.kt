@@ -8,7 +8,7 @@ import com.natiqhaciyef.core.base.ui.UiState
 object HomeContract {
 
     sealed class HomeEvent: UiEvent {
-        class GetAllMaterials(val email: String) : HomeEvent()
+        data object GetAllMaterials : HomeEvent()
 
         class GetMaterialById(val id: String, val email: String) : HomeEvent()
     }

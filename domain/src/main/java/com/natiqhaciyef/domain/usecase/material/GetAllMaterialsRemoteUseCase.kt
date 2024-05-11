@@ -16,12 +16,12 @@ import javax.inject.Inject
 @UseCase
 class GetAllMaterialsRemoteUseCase @Inject constructor(
     materialRepository: MaterialRepository
-) : BaseUseCase<MaterialRepository, String, List<MappedMaterialModel>>(materialRepository) {
+) : BaseUseCase<MaterialRepository, Unit, List<MappedMaterialModel>>(materialRepository) {
 
-    override fun operate(data: String): Flow<Resource<List<MappedMaterialModel>>> = flow {
+    override fun invoke(): Flow<Resource<List<MappedMaterialModel>>> = flow {
         emit(Resource.loading(null))
 
-        when (val result = repository.getAllMaterials(email = data)) {
+        when (val result = repository.getAllMaterials()) {
             is NetworkResult.Success -> {
                 val model = result.data.toUIResult()
 

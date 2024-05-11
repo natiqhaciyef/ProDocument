@@ -12,7 +12,7 @@ import com.natiqhaciyef.core.base.repository.BaseRepository
 
 interface MaterialRepository : BaseRepository {
 
-    suspend fun getAllMaterials(email: String): NetworkResult<ListMaterialResponse>
+    suspend fun getAllMaterials(): NetworkResult<ListMaterialResponse>
 
     suspend fun getMaterialById(materialId: String, email: String): NetworkResult<MaterialResponse>
 
