@@ -129,12 +129,10 @@ class HomeFragment(
     }
 
     private fun fileClickEvent(materialId: String) {
-        getToken { email ->
 //            if (email.isNotEmpty())
 //                viewModel.postEvent(HomeContract.HomeEvent.GetMaterialById(id = materialId, email = email))
 //            else
-                viewModel.postEvent(HomeContract.HomeEvent.GetMaterialById(id = materialId, email = "userEmail"))
-        }
+        viewModel.postEvent(HomeContract.HomeEvent.GetMaterialById(id = materialId))
     }
 
     private fun fileClickAction(material: MappedMaterialModel) {

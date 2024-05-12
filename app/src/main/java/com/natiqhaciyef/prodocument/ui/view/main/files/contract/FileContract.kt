@@ -8,7 +8,7 @@ import com.natiqhaciyef.core.base.ui.UiState
 object FileContract {
     sealed class FileEvent : UiEvent {
 
-        data class GetMaterialById(val id: String, val email: String) : FileEvent()
+        data class GetMaterialById(val id: String) : FileEvent()
 
         data object GetAllMaterials : FileEvent()
 

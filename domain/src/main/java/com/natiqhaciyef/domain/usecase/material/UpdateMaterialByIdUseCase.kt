@@ -3,6 +3,7 @@ package com.natiqhaciyef.domain.usecase.material
 import com.natiqhaciyef.common.helpers.toMappedMaterial
 import com.natiqhaciyef.common.model.CRUDModel
 import com.natiqhaciyef.common.model.Resource
+import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.data.mapper.toModel
 import com.natiqhaciyef.data.network.NetworkResult
@@ -18,22 +19,12 @@ import javax.inject.Inject
 @UseCase
 class UpdateMaterialByIdUseCase @Inject constructor(
     materialRepository: MaterialRepository
-) : BaseUseCase<MaterialRepository, Map<String, String>, CRUDModel>(materialRepository) {
+) : BaseUseCase<MaterialRepository, MappedMaterialModel, CRUDModel>(materialRepository) {
 
-    override fun operate(data: Map<String, String>): Flow<Resource<CRUDModel>> = flow {
+    override fun operate(data: MappedMaterialModel): Flow<Resource<CRUDModel>> = flow {
         emit(Resource.loading(null))
 
-        val email = data[USER_EMAIL].toString()
-        val materialModel = data[MATERIAL_MODEL]
-            .toString()
-            .toMappedMaterial()
-
-        val result = repository.updateMaterialById(
-            materialModel = materialModel,
-            email = email
-        )
-
-        when (result) {
+        when (val result = repository.updateMaterialById(materialModel = data)) {
             is NetworkResult.Success -> {
                 val model = result.data.toModel()
 

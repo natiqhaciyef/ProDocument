@@ -27,8 +27,8 @@ object SourceModule {
 
     @Provides
     @Singleton
-    fun provideUserDataSource(service: UserService, dao: UserDao) =
-        UserDataSource(service, dao)
+    fun provideUserDataSource(manager: TokenManager, service: UserService, dao: UserDao) =
+        UserDataSource(manager, service, dao)
 
     @Provides
     @Singleton
@@ -37,7 +37,7 @@ object SourceModule {
 
     @Provides
     @Singleton
-    fun provideQrCodeDataSource(service: QrCodeService) =
-        QrCodeDataSource(service)
+    fun provideQrCodeDataSource(manager: TokenManager, service: QrCodeService) =
+        QrCodeDataSource(manager, service)
 
 }

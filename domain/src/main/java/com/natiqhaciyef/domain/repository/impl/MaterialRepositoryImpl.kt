@@ -16,29 +16,17 @@ class MaterialRepositoryImpl(
     override suspend fun getAllMaterials() =
         ds.getAllFiles()
 
-    override suspend fun getMaterialById(materialId: String, email: String) =
-        ds.getFileById(materialId = materialId, email = email)
+    override suspend fun getMaterialById(materialId: String) =
+        ds.getFileById(materialId = materialId)
 
-    override suspend fun createMaterial(
-        materialModel: MappedMaterialModel,
-        email: String,
-    ) = ds.createMaterialById(
-        email = email,
-        materialModel = materialModel.toMaterialResponse()
-    )
+    override suspend fun createMaterial(materialModel: MappedMaterialModel) =
+        ds.createMaterialById(materialModel = materialModel.toMaterialResponse())
 
-    override suspend fun removeMaterialById(
-        materialId: String,
-        email: String
-    ) = ds.removeMaterialById(email = email, materialId = materialId)
+    override suspend fun removeMaterialById(materialId: String) =
+        ds.removeMaterialById(materialId = materialId)
 
-    override suspend fun updateMaterialById(
-        materialModel: MappedMaterialModel,
-        email: String
-    ) = ds.updateMaterialById(
-        email = email,
-        materialModel = materialModel.toMaterialResponse()
-    )
+    override suspend fun updateMaterialById(materialModel: MappedMaterialModel) =
+        ds.updateMaterialById(materialModel = materialModel.toMaterialResponse())
 
     override suspend fun mergeMaterials(data: MergeRequest) =
         ds.mergeMaterials(data)

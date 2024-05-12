@@ -18,18 +18,13 @@ import javax.inject.Inject
 @UseCase
 class GetMaterialByIdRemoteUseCase @Inject constructor(
     materialRepository: MaterialRepository
-) : BaseUseCase<MaterialRepository, Map<String, String>, MappedMaterialModel>(
-    materialRepository
-) {
+) : BaseUseCase<MaterialRepository, String, MappedMaterialModel>(materialRepository) {
 
-    override fun operate(data: Map<String, String>): Flow<Resource<MappedMaterialModel>> =
+    override fun operate(data: String): Flow<Resource<MappedMaterialModel>> =
         flow {
             emit(Resource.loading(null))
-            val materialId = data[MATERIAL_ID].toString()
-            val email = data[USER_EMAIL].toString()
 
-
-            when (val result = repository.getMaterialById(materialId = materialId, email = email)) {
+            when (val result = repository.getMaterialById(materialId = data)) {
                 is NetworkResult.Success -> {
                     val model = result.data.toMappedModel()
 

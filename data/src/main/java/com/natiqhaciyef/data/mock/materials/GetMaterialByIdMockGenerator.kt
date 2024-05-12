@@ -2,9 +2,10 @@ package com.natiqhaciyef.data.mock.materials
 
 import com.natiqhaciyef.common.helpers.getNow
 import com.natiqhaciyef.common.objects.MATERIAL_ID_MOCK_KEY
-import com.natiqhaciyef.common.objects.USER_EMAIL_MOCK_KEY
+import com.natiqhaciyef.common.objects.MATERIAL_TOKEN_MOCK_KEY
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
+import com.natiqhaciyef.data.network.NetworkConfig
 import com.natiqhaciyef.data.network.response.MaterialResponse
 
 class GetMaterialByIdMockGenerator(
@@ -30,11 +31,11 @@ class GetMaterialByIdMockGenerator(
         action: (Map<String, String>) -> MaterialResponse?
     ): MaterialResponse {
         val materialId = request[MATERIAL_ID_MOCK_KEY]
-        val email = request[USER_EMAIL_MOCK_KEY]
+        val token = request[MATERIAL_TOKEN_MOCK_KEY]
 
         return if (
             materialId == takenRequest[MATERIAL_ID_MOCK_KEY]
-            && email == takenRequest[USER_EMAIL_MOCK_KEY]
+            && token == takenRequest[MATERIAL_TOKEN_MOCK_KEY]
         ) {
             createdMock
         } else {
@@ -44,7 +45,7 @@ class GetMaterialByIdMockGenerator(
 
     companion object GetMaterialByIdMockGenerator {
         val customRequest = mapOf(
-            USER_EMAIL_MOCK_KEY to USER_EMAIL_MOCK_KEY,
+            MATERIAL_TOKEN_MOCK_KEY to NetworkConfig.HEADER_AUTHORIZATION_TYPE + MATERIAL_TOKEN_MOCK_KEY,
             MATERIAL_ID_MOCK_KEY to MATERIAL_ID_MOCK_KEY
         )
     }

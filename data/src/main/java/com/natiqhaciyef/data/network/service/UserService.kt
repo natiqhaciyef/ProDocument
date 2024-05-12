@@ -1,6 +1,7 @@
 package com.natiqhaciyef.data.network.service
 
 import com.natiqhaciyef.core.CRUDResponse
+import com.natiqhaciyef.data.network.NetworkConfig
 import com.natiqhaciyef.data.network.response.TokenResponse
 import com.natiqhaciyef.data.network.response.UserResponse
 import retrofit2.Response
@@ -27,7 +28,9 @@ interface UserService {
     ): Response<TokenResponse>
 
     @GET("")
-    suspend fun getUser(): Response<UserResponse>
+    suspend fun getUser(
+        @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String
+    ): Response<UserResponse>
 
     @POST("")
     @FormUrlEncoded
@@ -55,5 +58,7 @@ interface UserService {
     ): Response<TokenResponse>
 
     @GET("")
-    suspend fun logout(): Response<CRUDResponse>
+    suspend fun logout(
+        @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String
+    ): Response<CRUDResponse>
 }

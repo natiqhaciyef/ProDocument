@@ -14,22 +14,25 @@ import com.natiqhaciyef.data.mock.users.LogOutMockGenerator
 import com.natiqhaciyef.data.mock.users.SignInMockGenerator
 import com.natiqhaciyef.data.network.LoadType
 import com.natiqhaciyef.data.network.handleNetworkResponse
+import com.natiqhaciyef.data.network.manager.TokenManager
 import com.natiqhaciyef.data.network.response.UserResponse
 import com.natiqhaciyef.data.network.service.UserService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class UserDataSource(
+    private val manager: TokenManager,
     private val service: UserService,
     private val dao: UserDao
 ) {
     // network
     suspend fun getUserFromNetwork() = withContext(Dispatchers.IO) {
+        val requestHeader = manager.generateToken()
         val mock = generateMockerClass(GetUserMockGenerator::class, Unit)
             .getMock(Unit) { null }
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
-            service.getUser()
+            service.getUser(requestHeader)
         }
     }
 
@@ -97,10 +100,11 @@ class UserDataSource(
     }
 
     suspend fun logout() = withContext(Dispatchers.IO) {
-        val mock = generateMockerClass(LogOutMockGenerator::class, null)
-            .getMock(null) { null }
+        val requestHeader = manager.generateToken()
+        val mock = generateMockerClass(LogOutMockGenerator::class, Unit)
+            .getMock(Unit) { null }
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
-            service.logout()
+            service.logout(requestHeader)
         }
     }
 

@@ -10,7 +10,7 @@ object HomeContract {
     sealed class HomeEvent: UiEvent {
         data object GetAllMaterials : HomeEvent()
 
-        class GetMaterialById(val id: String, val email: String) : HomeEvent()
+        class GetMaterialById(val id: String) : HomeEvent()
     }
 
     sealed class HomeEffect: UiEffect {

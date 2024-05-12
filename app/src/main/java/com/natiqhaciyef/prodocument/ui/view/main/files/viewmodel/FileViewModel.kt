@@ -25,7 +25,7 @@ class FileViewModel @Inject constructor(
         when (event) {
             is FileContract.FileEvent.GetAllMaterials -> getAllMaterials() /* event.email */
             is FileContract.FileEvent.GetMaterialById -> {
-                getMaterialById(event.email, event.id)
+                getMaterialById(event.id)
             }
 
             is FileContract.FileEvent.SortMaterials -> {
@@ -60,10 +60,9 @@ class FileViewModel @Inject constructor(
         }
     }
 
-    private fun getMaterialById(email: String, id: String) {
-        val request = mapOf(MATERIAL_ID to id, USER_EMAIL to email)
+    private fun getMaterialById(id: String) {
         viewModelScope.launch {
-            getMaterialByIdRemoteUseCase.operate(request).collectLatest { result ->
+            getMaterialByIdRemoteUseCase.operate(id).collectLatest { result ->
                 when (result.status) {
                     Status.SUCCESS -> {
                         if (result.data != null)

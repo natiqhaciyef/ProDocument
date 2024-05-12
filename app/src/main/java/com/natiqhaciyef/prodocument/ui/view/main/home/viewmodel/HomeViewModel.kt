@@ -28,7 +28,7 @@ class HomeViewModel @Inject constructor(
             }
 
             is HomeContract.HomeEvent.GetMaterialById -> {
-                getMaterialById(email = event.email, id = event.id)
+                getMaterialById(id = event.id)
             }
         }
     }
@@ -66,10 +66,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getMaterialById(email: String, id: String) {
-        val request = mapOf(MATERIAL_ID to id, USER_EMAIL to email)
+    private fun getMaterialById(id: String) {
         viewModelScope.launch {
-            getMaterialByIdRemoteUseCase.operate(request).collectLatest { result ->
+            getMaterialByIdRemoteUseCase.operate(id).collectLatest { result ->
                 when (result.status) {
                     Status.SUCCESS -> {
                         if (result.data != null)

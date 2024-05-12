@@ -36,30 +36,30 @@ class MaterialDataSource(
         }
     }
 
-    suspend fun getFileById(materialId: String, email: String) = withContext(Dispatchers.IO) {
-        val map = mapOf(USER_EMAIL_MOCK_KEY to email, MATERIAL_ID_MOCK_KEY to materialId)
+    suspend fun getFileById(materialId: String) = withContext(Dispatchers.IO) {
+        val requestHeader = manager.generateToken()
+        val map =
+            mapOf(MATERIAL_TOKEN_MOCK_KEY to requestHeader, MATERIAL_ID_MOCK_KEY to materialId)
         val mock = generateMockerClass(GetMaterialByIdMockGenerator::class, map)
             .getMock(GetMaterialByIdMockGenerator.customRequest) { null }
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
-            service.getMaterialById(
-                materialId = materialId,
-                email = email
-            )
+            service.getMaterialById(materialId = materialId, token = requestHeader)
         }
     }
 
-    suspend fun createMaterialById(materialModel: MaterialResponse, email: String) =
+    suspend fun createMaterialById(materialModel: MaterialResponse) =
         withContext(Dispatchers.IO) {
+            val requestHeader = manager.generateToken()
             val map =
-                mapOf(MATERIAL_MOCK_KEY to materialModel, USER_EMAIL_MOCK_KEY to email)
+                mapOf(MATERIAL_MOCK_KEY to materialModel, MATERIAL_TOKEN_MOCK_KEY to requestHeader)
 
             val mock = generateMockerClass(CreateMaterialMockGenerator::class, map)
                 .getMock(CreateMaterialMockGenerator.customRequest) { null }
 
             handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
                 service.createMaterialById(
-                    email = email,
+                    token = requestHeader,
                     publishDate = materialModel.publishDate,
                     image = materialModel.image,
                     title = materialModel.title ?: "",
@@ -70,74 +70,76 @@ class MaterialDataSource(
             }
         }
 
-    suspend fun removeMaterialById(email: String, materialId: String) =
+    suspend fun removeMaterialById(materialId: String) =
         withContext(Dispatchers.IO) {
+            val requestHeader = manager.generateToken()
             val map =
-                mapOf(USER_EMAIL_MOCK_KEY to email, MATERIAL_ID_MOCK_KEY to materialId)
+                mapOf(MATERIAL_TOKEN_MOCK_KEY to requestHeader, MATERIAL_ID_MOCK_KEY to materialId)
             val mock = generateMockerClass(RemoveMaterialMockGenerator::class, map)
                 .getMock(RemoveMaterialMockGenerator.customRequest) { null }
 
             handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
                 service.removeMaterialById(
-                    email = email,
+                    token = requestHeader,
                     id = materialId
                 )
             }
         }
 
-    suspend fun updateMaterialById(
-        email: String,
-        materialModel: MaterialResponse
-    ) = withContext(Dispatchers.IO) {
-        val map =
-            mapOf(MATERIAL_MOCK_KEY to materialModel, USER_EMAIL_MOCK_KEY to email)
-        val mock = generateMockerClass(UpdateMaterialMockGenerator::class, map)
-            .getMock(UpdateMaterialMockGenerator.customRequest) { null }
+    suspend fun updateMaterialById(materialModel: MaterialResponse) =
+        withContext(Dispatchers.IO) {
+            val requestHeader = manager.generateToken()
+            val map =
+                mapOf(MATERIAL_MOCK_KEY to materialModel, MATERIAL_TOKEN_MOCK_KEY to requestHeader)
+            val mock = generateMockerClass(UpdateMaterialMockGenerator::class, map)
+                .getMock(UpdateMaterialMockGenerator.customRequest) { null }
 
-        handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
-            service.updateMaterialById(
-                email = email,
-                id = materialModel.id,
-                publishDate = materialModel.publishDate,
-                image = materialModel.image,
-                title = materialModel.title ?: "",
-                description = materialModel.description ?: "",
-                type = materialModel.type,
-                url = materialModel.url
-            )
+            handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
+                service.updateMaterialById(
+                    token = requestHeader,
+                    id = materialModel.id,
+                    publishDate = materialModel.publishDate,
+                    image = materialModel.image,
+                    title = materialModel.title ?: "",
+                    description = materialModel.description ?: "",
+                    type = materialModel.type,
+                    url = materialModel.url
+                )
+            }
         }
-    }
 
     suspend fun mergeMaterials(
         data: MergeRequest
     ) = withContext(Dispatchers.IO) {
+        val requestHeader = manager.generateToken()
         val mock = generateMockerClass(MergeMaterialsMockGenerator::class, data)
             .getMock(MergeMaterialsMockGenerator.customRequest) { null }
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
-            service.mergeMaterials(data = data)
+            service.mergeMaterials(token = requestHeader, data = data)
         }
     }
 
-    suspend fun watermarkMaterial(
-        data: WatermarkRequest
-    ) = withContext(Dispatchers.IO) {
-        val mock = generateMockerClass(WatermarkMaterialMockGenerator::class, data)
-            .getMock(WatermarkMaterialMockGenerator.customRequest) { null }
+    suspend fun watermarkMaterial(data: WatermarkRequest) =
+        withContext(Dispatchers.IO) {
+            val requestHeader = manager.generateToken()
+            val mock = generateMockerClass(WatermarkMaterialMockGenerator::class, data)
+                .getMock(WatermarkMaterialMockGenerator.customRequest) { null }
 
-        handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
-            service.watermarkMaterial(data = data)
+            handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
+                service.watermarkMaterial(token = requestHeader, data = data)
+            }
         }
-    }
 
     suspend fun splitMaterial(
         data: SplitRequest
     ) = withContext(Dispatchers.IO) {
+        val requestHeader = manager.generateToken()
         val mock = generateMockerClass(SplitMaterialMockGenerator::class, data)
             .getMock(SplitMaterialMockGenerator.customRequest) { null }
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
-            service.splitMaterial(data = data)
+            service.splitMaterial(token = requestHeader, data = data)
         }
     }
 

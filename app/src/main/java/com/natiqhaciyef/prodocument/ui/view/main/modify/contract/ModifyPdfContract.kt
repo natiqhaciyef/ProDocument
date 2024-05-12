@@ -12,10 +12,7 @@ import com.natiqhaciyef.core.model.CategoryItem
 object ModifyPdfContract {
 
     sealed class ModifyPdfEvent : UiEvent {
-        data class CreateMaterialEvent(
-            var email: String,
-            var material: MappedMaterialModel
-        ) : ModifyPdfEvent()
+        data class CreateMaterialEvent(var material: MappedMaterialModel) : ModifyPdfEvent()
 
         data class GetShareOptions(val context: Context,
                                    var activity: BaseActivity<*>

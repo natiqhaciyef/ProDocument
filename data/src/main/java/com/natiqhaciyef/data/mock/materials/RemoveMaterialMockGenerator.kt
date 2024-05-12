@@ -1,9 +1,12 @@
 package com.natiqhaciyef.data.mock.materials
 
 import com.natiqhaciyef.common.objects.MATERIAL_ID_MOCK_KEY
+import com.natiqhaciyef.common.objects.MATERIAL_MOCK_KEY
+import com.natiqhaciyef.common.objects.MATERIAL_TOKEN_MOCK_KEY
 import com.natiqhaciyef.common.objects.USER_EMAIL_MOCK_KEY
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
+import com.natiqhaciyef.data.network.NetworkConfig
 
 class RemoveMaterialMockGenerator(
     override var takenRequest: Map<String, String>
@@ -18,11 +21,11 @@ class RemoveMaterialMockGenerator(
         action: (Map<String, String>) -> CRUDResponse?
     ): CRUDResponse {
         val materialId = request[MATERIAL_ID_MOCK_KEY]
-        val materialToken = request[USER_EMAIL_MOCK_KEY]
+        val materialToken = request[MATERIAL_TOKEN_MOCK_KEY]
 
         return if (
             materialId == takenRequest[MATERIAL_ID_MOCK_KEY]
-            && materialToken == takenRequest[USER_EMAIL_MOCK_KEY]
+            && materialToken == takenRequest[MATERIAL_TOKEN_MOCK_KEY]
         ) {
             createdMock
         } else {
@@ -33,7 +36,7 @@ class RemoveMaterialMockGenerator(
     companion object RemoveMaterialMockGenerator {
         val customRequest = mapOf(
             MATERIAL_ID_MOCK_KEY to MATERIAL_ID_MOCK_KEY,
-            USER_EMAIL_MOCK_KEY to USER_EMAIL_MOCK_KEY
+            MATERIAL_TOKEN_MOCK_KEY to NetworkConfig.HEADER_AUTHORIZATION_TYPE + MATERIAL_TOKEN_MOCK_KEY
         )
     }
 }

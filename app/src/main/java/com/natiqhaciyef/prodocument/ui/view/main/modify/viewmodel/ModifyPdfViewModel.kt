@@ -29,7 +29,7 @@ class ModifyPdfViewModel @Inject constructor(
     override fun onEventUpdate(event: ModifyPdfContract.ModifyPdfEvent) {
         when (event) {
             is ModifyPdfContract.ModifyPdfEvent.CreateMaterialEvent -> {
-                createMaterial(event.email, event.material)
+                createMaterial(event.material)
             }
 
             is ModifyPdfContract.ModifyPdfEvent.GetShareOptions -> {
@@ -51,53 +51,45 @@ class ModifyPdfViewModel @Inject constructor(
         )
     }
 
-    private fun createMaterial(email: String, material: MappedMaterialModel) {
-        if (email.isNotEmpty()) {
-            val materialStr = material.toJsonString()
-            val requestMap = hashMapOf(
-                USER_EMAIL to email,
-                MATERIAL_MODEL to materialStr
-            )
-
-            viewModelScope.launch {
-                createMaterialByIdUseCase.operate(requestMap).collectLatest { result ->
-                    when (result.status) {
-                        Status.SUCCESS -> {
-                            result.data?.let { data ->
-                                setBaseState(
-                                    getCurrentBaseState().copy(
-                                        isLoading = false,
-                                        result = data,
-                                        optionsList = null
-                                    )
-                                )
-                            }
-                        }
-
-                        Status.ERROR -> {
+    private fun createMaterial(material: MappedMaterialModel) {
+        viewModelScope.launch {
+            createMaterialByIdUseCase.operate(material).collectLatest { result ->
+                when (result.status) {
+                    Status.SUCCESS -> {
+                        result.data?.let { data ->
                             setBaseState(
                                 getCurrentBaseState().copy(
                                     isLoading = false,
-                                    result = null,
+                                    result = data,
                                     optionsList = null
                                 )
                             )
-                            postEffect(
-                                ModifyPdfContract.ModifyPdfEffect.CreateMaterialFailEffect(
-                                    message = result.message,
-                                    exception = result.exception
-                                )
-                            )
                         }
+                    }
 
-                        Status.LOADING -> {
-                            setBaseState(
-                                getCurrentBaseState().copy(
-                                    isLoading = true,
-                                    optionsList = null
-                                )
+                    Status.ERROR -> {
+                        setBaseState(
+                            getCurrentBaseState().copy(
+                                isLoading = false,
+                                result = null,
+                                optionsList = null
                             )
-                        }
+                        )
+                        postEffect(
+                            ModifyPdfContract.ModifyPdfEffect.CreateMaterialFailEffect(
+                                message = result.message,
+                                exception = result.exception
+                            )
+                        )
+                    }
+
+                    Status.LOADING -> {
+                        setBaseState(
+                            getCurrentBaseState().copy(
+                                isLoading = true,
+                                optionsList = null
+                            )
+                        )
                     }
                 }
             }

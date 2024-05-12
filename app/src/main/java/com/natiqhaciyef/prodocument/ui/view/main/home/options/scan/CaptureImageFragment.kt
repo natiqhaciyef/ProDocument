@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.camera.core.ExperimentalGetImage
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
@@ -35,7 +36,7 @@ import kotlin.reflect.KClass
 
 //val inset = context.convertDpToPixel(16)
 
-@AndroidEntryPoint
+@ExperimentalGetImage @AndroidEntryPoint
 class CaptureImageFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentCaptureImageBinding = FragmentCaptureImageBinding::inflate,
     override val viewModelClass: KClass<ScanViewModel> = ScanViewModel::class

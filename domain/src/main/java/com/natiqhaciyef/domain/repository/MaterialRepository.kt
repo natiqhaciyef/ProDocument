@@ -14,22 +14,13 @@ interface MaterialRepository : BaseRepository {
 
     suspend fun getAllMaterials(): NetworkResult<ListMaterialResponse>
 
-    suspend fun getMaterialById(materialId: String, email: String): NetworkResult<MaterialResponse>
+    suspend fun getMaterialById(materialId: String): NetworkResult<MaterialResponse>
 
-    suspend fun createMaterial(
-        materialModel: MappedMaterialModel,
-        email: String
-    ): NetworkResult<CRUDResponse>
+    suspend fun createMaterial(materialModel: MappedMaterialModel): NetworkResult<CRUDResponse>
 
-    suspend fun removeMaterialById(
-        materialId: String,
-        email: String
-    ): NetworkResult<CRUDResponse>
+    suspend fun removeMaterialById(materialId: String): NetworkResult<CRUDResponse>
 
-    suspend fun updateMaterialById(
-        materialModel: MappedMaterialModel,
-        email: String
-    ): NetworkResult<CRUDResponse>
+    suspend fun updateMaterialById(materialModel: MappedMaterialModel): NetworkResult<CRUDResponse>
 
     suspend fun mergeMaterials(data: MergeRequest): NetworkResult<MaterialResponse>
 

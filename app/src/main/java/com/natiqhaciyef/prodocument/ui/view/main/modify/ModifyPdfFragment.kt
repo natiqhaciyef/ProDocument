@@ -287,14 +287,9 @@ class ModifyPdfFragment(
 
     private fun saveButtonClickEvent(materialModel: MappedMaterialModel?) {
         materialModel?.let {
-            getToken {
-                viewModel.postEvent(
-                    ModifyPdfContract.ModifyPdfEvent.CreateMaterialEvent(
-                        email = it,
-                        material = materialModel
-                    )
-                )
-            }
+            viewModel.postEvent(
+                ModifyPdfContract.ModifyPdfEvent.CreateMaterialEvent(material = materialModel)
+            )
         }
     }
 
