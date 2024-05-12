@@ -4,7 +4,6 @@
     <string name="title_activity_registration">RegistrationActivity</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- Buttons -->
@@ -20,6 +19,7 @@
     <string name="confirm">Confirm</string>
     <string name="share">Share</string>
     <string name="merge">Merge</string>
+    <string name="protect">Protect</string>
     <string name="give_permission">Give permission</string>
 
     <!--  Titles  -->
@@ -152,6 +152,10 @@
     <string name="write_sentence">Write sentence</string>
     <string name="addition_information_about_split">You have to insert first line of split pdf. Then you ought to select second line which will end line of split pdf. This part will be removed from pdf and new file will be generated.</string>
     <string name="until_the_last_line">Until the last line</string>
+
+    <!-- Protect pdf  -->
+    <string name="protect_pdf_title">Protect PDF</string>
+    <string name="protect_pdf_description">Set a password to protect your scan. This password will be required if you or the person you provide the scanned document wants to access the file. If you forget the password, then this file will not be accessible forever.</string>
 
 
     <!--  Files titles  -->
