@@ -79,7 +79,6 @@ class FileItemAdapter(
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         val view = holder.binding
         val file = list[position]
-        println(file)
 
         when (type) {
             holder.context.getString(R.string.scan_code), holder.context.getString(R.string.default_type) -> {

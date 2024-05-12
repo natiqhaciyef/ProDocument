@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.prodocument.databinding.FragmentHomeBinding
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
-import com.natiqhaciyef.common.objects.MATERIAL_TOKEN_MOCK_KEY
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
@@ -129,9 +128,6 @@ class HomeFragment(
     }
 
     private fun fileClickEvent(materialId: String) {
-//            if (email.isNotEmpty())
-//                viewModel.postEvent(HomeContract.HomeEvent.GetMaterialById(id = materialId, email = email))
-//            else
         viewModel.postEvent(HomeContract.HomeEvent.GetMaterialById(id = materialId))
     }
 

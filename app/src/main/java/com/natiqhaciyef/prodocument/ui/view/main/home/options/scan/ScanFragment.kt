@@ -12,14 +12,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.ExperimentalGetImage
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
-import com.google.android.material.snackbar.Snackbar
-import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.databinding.FragmentScanBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
+import com.natiqhaciyef.prodocument.ui.manager.Permission
+import com.natiqhaciyef.prodocument.ui.manager.PermissionManager
 import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.HOME_ROUTE
 import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
@@ -153,34 +152,11 @@ class ScanFragment(
     }
 
     private fun checkGalleryPermission() {
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            // go to gallery
-            startGalleryConfig()
-        } else {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    requireActivity(),
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-                )
-            ) {
-                Snackbar.make(
-                    requireView(),
-                    NEED_GALLERY_PERMISSION,
-                    Snackbar.LENGTH_LONG
-                )
-                    .setAction(
-                        requireContext()
-                            .getString(R.string.give_permission)
-                    ) { registerForGalleryPermissionResult.launch(Manifest.permission.READ_EXTERNAL_STORAGE) }
-                    .show()
-
-            } else {
-                registerForGalleryPermissionResult.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-            }
-        }
+        PermissionManager.Builder(this@ScanFragment, false)
+            .addPermissionLauncher(registerForGalleryPermissionResult)
+            .request(Permission.createCustomPermission(Manifest.permission.READ_EXTERNAL_STORAGE))
+            .checkPermission { startGalleryConfig() }
+            .build()
     }
 
     private fun startGalleryConfig() {
@@ -210,12 +186,12 @@ class ScanFragment(
         }
     }
 
-    private fun goBackAction(){
+    private fun goBackAction() {
         (activity as MainActivity).apply {
             binding.bottomNavBar.visibility = View.VISIBLE
             binding.appbarLayout.visibility = View.VISIBLE
         }
-        navigateByRouteTitle(this@ScanFragment,HOME_ROUTE)
+        navigateByRouteTitle(this@ScanFragment, HOME_ROUTE)
     }
 
     override fun onDestroy() {
