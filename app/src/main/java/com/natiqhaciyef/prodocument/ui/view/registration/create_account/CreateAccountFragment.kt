@@ -51,7 +51,7 @@ class CreateAccountFragment(
             }
 
             else -> {
-                changeVisibilityOfProgressBar(false)
+                changeVisibilityOfProgressBar()
 
                 if (state.token != null) {
                     tokenStoring(state.token)
@@ -110,7 +110,7 @@ class CreateAccountFragment(
         userModel?.let {
             binding.apply {
                 val email = createAccountEmailInput.text.toString()
-                val password = createAccountPasswordInput.getPasswordText().toString()
+                val password = createAccountPasswordInput.getPasswordText()
                 userModel.email = email
                 userModel.password = password
 

@@ -88,7 +88,7 @@ object BaseNavigationDeepLink {
         }
 
         PROTECT_ROUTE -> {
-            0
+            R.navigation.protect_nav_graph
         }
 
         COMPRESS_ROUTE -> {

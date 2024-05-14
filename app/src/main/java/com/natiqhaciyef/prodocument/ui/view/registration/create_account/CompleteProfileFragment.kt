@@ -60,7 +60,7 @@ class CompleteProfileFragment(
         binding.apply {
             datePickerDialog(calendar)
             genderDropDownConfig()
-            changeVisibilityOfProgressBar(true)
+            changeVisibilityOfProgressBar(false)
 
             // validations
             fullNameValidation()
@@ -76,11 +76,11 @@ class CompleteProfileFragment(
     override fun onStateChange(state: CompleteProfileContract.CompleteUiState) {
         when {
             state.isLoading -> {
-                changeVisibilityOfProgressBar(false)
+                changeVisibilityOfProgressBar(true)
             }
 
             else -> {
-                changeVisibilityOfProgressBar(true)
+                changeVisibilityOfProgressBar(false)
                 continueButtonClickAction(state.user)
             }
         }

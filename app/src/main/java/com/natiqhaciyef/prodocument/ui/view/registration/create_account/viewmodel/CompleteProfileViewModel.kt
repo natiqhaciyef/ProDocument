@@ -10,7 +10,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-// zxing
 
 @HiltViewModel
 class CompleteProfileViewModel @Inject constructor() :
@@ -44,6 +43,7 @@ class CompleteProfileViewModel @Inject constructor() :
 
                 setBaseState(getCurrentBaseState().copy(user = mappedUserModel))
             } else {
+                setBaseState(getCurrentBaseState().copy(isLoading = false))
                 postEffect(
                     CompleteProfileContract.CompleteUiEffect.FieldNotCorrectlyFilledEffect(
                         error = Exception(ErrorMessages.EMPTY_FIELD),

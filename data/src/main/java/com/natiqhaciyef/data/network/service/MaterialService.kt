@@ -16,8 +16,7 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Query
 
-interface
-MaterialService {
+interface MaterialService {
 
     @GET("")
     suspend fun getMaterials(

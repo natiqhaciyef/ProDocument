@@ -23,10 +23,6 @@ class CreateAccountViewModel @Inject constructor(
     private val saveUserToLocalUseCase: InsertUserLocalUseCase,
     private val createUserRemoteUseCase: CreateUserRemoteUseCase,
 ) : BaseViewModel<CreateAccountContract.CreateAccountState, CreateAccountContract.CreateAccountEvent, CreateAccountContract.CreateAccountEffect>() {
-    private val _localResultState =
-        MutableLiveData(BaseUIState<Boolean>())
-    val localResultState: LiveData<BaseUIState<Boolean>>
-        get() = _localResultState
 
     override fun onEventUpdate(event: CreateAccountContract.CreateAccountEvent) {
         when (event) {
@@ -58,55 +54,18 @@ class CreateAccountViewModel @Inject constructor(
 
     fun saveToDatabase(
         model: MappedUserModel?,
-        onSuccess: () -> Unit = {}
     ) {
         viewModelScope.launch {
             model?.let {
                 val uiResult = UIResult(id = "0", data = model, publishDate = getNow())
                 saveUserToLocalUseCase.run(uiResult).collectLatest {
-                    when (it.status) {
-                        Status.SUCCESS -> {
-                            _localResultState.value = _localResultState.value?.copy(
-                                obj = it.data,
-                                list = listOf(),
-                                isLoading = false,
-                                isSuccess = true,
-                                message = it.message,
-                                failReason = null
-                            )
-                            onSuccess()
-                        }
-
-                        Status.ERROR -> {
-                            _localResultState.value = _localResultState.value?.copy(
-                                obj = null,
-                                list = listOf(),
-                                isLoading = false,
-                                isSuccess = false,
-                                message = it.message,
-                                failReason = it.exception
-                            )
-                        }
-
-                        Status.LOADING -> {
-                            _localResultState.value = _localResultState.value?.copy(
-                                obj = null,
-                                list = listOf(),
-                                isLoading = true,
-                                isSuccess = false,
-                                message = null,
-                                failReason = null
-                            )
-                        }
-                    }
+                    // have to change
                 }
             }
         }
     }
 
-    private fun createAccountNetwork(
-        model: MappedUserModel?
-    ) {
+    private fun createAccountNetwork(model: MappedUserModel?) {
         viewModelScope.launch {
             model?.let {
                 createUserRemoteUseCase.operate(model).collectLatest { result ->
@@ -122,6 +81,7 @@ class CreateAccountViewModel @Inject constructor(
                         }
 
                         Status.ERROR -> {
+                            setBaseState(getCurrentBaseState().copy(isLoading = false))
                             postEffect(
                                 CreateAccountContract.CreateAccountEffect.UserCreationFailedEffect(
                                     message = result.message,

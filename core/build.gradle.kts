@@ -106,4 +106,5 @@ dependencies {
     //Navigation
     implementation("androidx.navigation:navigation-fragment-ktx:$navigationVersion")
     implementation("androidx.navigation:navigation-ui-ktx:$navigationVersion")
+    implementation("androidx.navigation:navigation-runtime-ktx:$navigationVersion")
 }
