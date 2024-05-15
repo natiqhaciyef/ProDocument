@@ -1,9 +1,9 @@
 package com.natiqhaciyef.prodocument.ui.view.registration.create_account.contract
 
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
-import com.natiqhaciyef.prodocument.ui.base.UiEffect
-import com.natiqhaciyef.prodocument.ui.base.UiEvent
-import com.natiqhaciyef.prodocument.ui.base.UiState
+import com.natiqhaciyef.core.base.ui.UiEffect
+import com.natiqhaciyef.core.base.ui.UiEvent
+import com.natiqhaciyef.core.base.ui.UiState
 
 object CompleteProfileContract {
 

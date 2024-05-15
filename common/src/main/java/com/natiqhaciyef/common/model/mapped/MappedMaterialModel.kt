@@ -14,6 +14,8 @@ data class MappedMaterialModel(
     var createdDate: String,
     var type: String,
     var url: Uri,
+    var isProtected: Boolean = false,
+    var protectionKey: String? = null,
     var downloadedUri: String? = null,
     var isDownloading: Boolean = false,
     var result: CRUDModel? = null

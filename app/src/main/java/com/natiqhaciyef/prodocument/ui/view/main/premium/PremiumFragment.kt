@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.natiqhaciyef.prodocument.databinding.FragmentPremiumBinding
-import com.natiqhaciyef.prodocument.ui.base.BaseFragment
+import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.ui.view.main.premium.contract.PremiumContract
 import com.natiqhaciyef.prodocument.ui.view.main.premium.viewmodel.PremiumViewModel
 import dagger.hilt.android.AndroidEntryPoint

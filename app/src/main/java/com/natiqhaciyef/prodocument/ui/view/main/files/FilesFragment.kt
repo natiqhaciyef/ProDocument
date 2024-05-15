@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.databinding.FragmentFilesBinding
-import com.natiqhaciyef.prodocument.ui.base.BaseFragment
+import com.natiqhaciyef.core.base.ui.BaseFragment
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.files.contract.FileContract
 import com.natiqhaciyef.prodocument.ui.view.main.files.viewmodel.FileViewModel
@@ -21,6 +23,7 @@ class FilesFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentFilesBinding = FragmentFilesBinding::inflate,
     override val viewModelClass: KClass<FileViewModel> = FileViewModel::class
 ) : BaseFragment<FragmentFilesBinding, FileViewModel, FileContract.FileState, FileContract.FileEvent, FileContract.FileEffect>() {
+    private var bundle = bundleOf()
     private lateinit var fileAdapter: FileItemAdapter
     private var list: MutableList<MappedMaterialModel> = mutableListOf()
     private var sortingTypeClick: Boolean = false
@@ -81,8 +84,8 @@ class FilesFragment(
     }
 
     private fun getFilesEvent() {
-        getEmail { email ->
-            viewModel.postEvent(FileContract.FileEvent.GetAllMaterials(email))
+        getToken { token ->
+            viewModel.postEvent(FileContract.FileEvent.GetAllMaterials)
         }
     }
 
@@ -126,18 +129,14 @@ class FilesFragment(
 
 
     private fun fileClickEvent(id: String) {
-        getEmail { email ->
-            viewModel.postEvent(
-                FileContract.FileEvent.GetMaterialById(
-                    id = id,
-                    email = "userEmail"
-                )
-            )
-        }
+        viewModel.postEvent(
+            FileContract.FileEvent.GetMaterialById(id = id)
+        )
     }
 
     private fun fileClickAction(material: MappedMaterialModel) {
-        val action = FilesFragmentDirections.actionFilesFragmentToPreviewMaterialNavGraph(material)
+        bundle.putParcelable(BUNDLE_MATERIAL, material)
+        val action = FilesFragmentDirections.actionFilesFragmentToPreviewMaterialNavGraph(bundle)
         navigate(action)
     }
 

@@ -2,8 +2,10 @@ package com.natiqhaciyef.data.network.manager
 
 import android.content.Context
 import com.natiqhaciyef.common.model.mapped.MappedTokenModel
+import com.natiqhaciyef.common.objects.MATERIAL_TOKEN_MOCK_KEY
 import com.natiqhaciyef.core.store.AppStorePref
 import com.natiqhaciyef.core.store.AppStorePrefKeys
+import com.natiqhaciyef.data.network.NetworkConfig
 
 class TokenManager(
     private val ctx: Context
@@ -24,5 +26,15 @@ class TokenManager(
 
     suspend fun removeToken(){
         return ds.removeParcelableClassData(ctx, AppStorePrefKeys.TOKEN_KEY)
+    }
+
+    suspend fun generateToken(): String{
+        val token = AppStorePref.readParcelableClassData(
+            ctx,
+            MappedTokenModel::class.java,
+            AppStorePrefKeys.TOKEN_KEY
+        )?.accessToken ?: MATERIAL_TOKEN_MOCK_KEY
+
+        return NetworkConfig.HEADER_AUTHORIZATION_TYPE + token
     }
 }

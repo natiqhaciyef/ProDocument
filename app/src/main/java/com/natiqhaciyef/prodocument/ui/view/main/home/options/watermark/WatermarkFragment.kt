@@ -16,10 +16,11 @@ import androidx.core.os.bundleOf
 import coil.load
 import com.natiqhaciyef.common.helpers.getNow
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
-import com.natiqhaciyef.domain.worker.config.PDF
 import com.natiqhaciyef.prodocument.databinding.FragmentWatermarkBinding
-import com.natiqhaciyef.prodocument.ui.base.BaseFragment
-import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
+import com.natiqhaciyef.core.base.ui.BaseFragment
+import com.natiqhaciyef.core.model.FileTypes.PDF
+import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.HOME_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TITLE
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TYPE
@@ -50,6 +51,31 @@ class WatermarkFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         config()
+    }
+
+    override fun onStateChange(state: WatermarkContract.WatermarkState) {
+        when {
+            state.isLoading -> { changeVisibilityOfProgressBar(true) }
+            else -> {
+                changeVisibilityOfProgressBar()
+            }
+        }
+    }
+
+    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
+        if (isVisible) {
+            binding.apply {
+                uiLayout.visibility = View.GONE
+                progressBar.visibility = View.VISIBLE
+                progressBar.isIndeterminate = true
+            }
+        } else {
+            binding.apply {
+                uiLayout.visibility = View.VISIBLE
+                progressBar.visibility = View.GONE
+                progressBar.isIndeterminate = false
+            }
+        }
     }
 
     private fun config() {
@@ -141,7 +167,7 @@ class WatermarkFragment(
     }
 
     private fun goBackIconClickAction(){
-        navigateByRouteTitle(HOME_ROUTE)
+        navigateByRouteTitle(this@WatermarkFragment,HOME_ROUTE)
     }
 
     private fun getDefaultMockFile() = DefaultImplModels.mappedMaterialModel

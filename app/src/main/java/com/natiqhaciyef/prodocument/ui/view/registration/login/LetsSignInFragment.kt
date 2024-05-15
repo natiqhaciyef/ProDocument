@@ -1,13 +1,12 @@
 package com.natiqhaciyef.prodocument.ui.view.registration.login
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.FragmentLetsSignInBinding
-import com.natiqhaciyef.prodocument.ui.base.BaseFragment
+import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.ui.view.registration.login.contract.LoginContract
 import com.natiqhaciyef.prodocument.ui.view.registration.login.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint

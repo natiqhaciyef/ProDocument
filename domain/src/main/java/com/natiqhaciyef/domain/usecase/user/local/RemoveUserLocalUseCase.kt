@@ -1,9 +1,9 @@
 package com.natiqhaciyef.domain.usecase.user.local
 
 import com.natiqhaciyef.common.model.Resource
-import com.natiqhaciyef.domain.base.usecase.BaseUseCase
+import com.natiqhaciyef.core.base.usecase.BaseUseCase
 import com.natiqhaciyef.common.objects.ResultCases
-import com.natiqhaciyef.domain.base.usecase.UseCase
+import com.natiqhaciyef.core.base.usecase.UseCase
 import com.natiqhaciyef.common.model.UIResult
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
 import com.natiqhaciyef.data.mapper.toEntity

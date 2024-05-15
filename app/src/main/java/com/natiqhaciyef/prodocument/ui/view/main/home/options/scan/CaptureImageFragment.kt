@@ -23,8 +23,9 @@ import com.natiqhaciyef.common.helpers.loadImage
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.ui.util.CameraReader
 import com.natiqhaciyef.prodocument.databinding.FragmentCaptureImageBinding
-import com.natiqhaciyef.prodocument.ui.base.BaseFragment
-import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
+import com.natiqhaciyef.core.base.ui.BaseFragment
+import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.HOME_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TYPE
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.behaviour.CameraTypes
@@ -35,7 +36,7 @@ import kotlin.reflect.KClass
 
 //val inset = context.convertDpToPixel(16)
 
-@AndroidEntryPoint
+@ExperimentalGetImage @AndroidEntryPoint
 class CaptureImageFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentCaptureImageBinding = FragmentCaptureImageBinding::inflate,
     override val viewModelClass: KClass<ScanViewModel> = ScanViewModel::class
@@ -102,7 +103,7 @@ class CaptureImageFragment(
         requireActivity().onBackPressedDispatcher.addCallback(object :
             OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                navigateByRouteTitle(HOME_ROUTE)
+                navigateByRouteTitle(this@CaptureImageFragment,HOME_ROUTE)
             }
         })
     }
@@ -155,7 +156,7 @@ class CaptureImageFragment(
                 checkCameraPermission()
                 viewModel.isBackPressed.value = true
             } else {
-                navigateByRouteTitle(HOME_ROUTE)
+                navigateByRouteTitle(this@CaptureImageFragment,HOME_ROUTE)
                 viewModel.isBackPressed.value = false
             }
         }
@@ -180,7 +181,7 @@ class CaptureImageFragment(
                 scanTitle.visibility = View.VISIBLE
                 scanDescription.visibility = View.VISIBLE
             } else {
-                navigateByRouteTitle(HOME_ROUTE)
+                navigateByRouteTitle(this@CaptureImageFragment,HOME_ROUTE)
             }
         }
     }

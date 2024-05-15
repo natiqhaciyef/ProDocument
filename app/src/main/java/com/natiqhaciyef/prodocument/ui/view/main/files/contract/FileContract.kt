@@ -1,16 +1,16 @@
 package com.natiqhaciyef.prodocument.ui.view.main.files.contract
 
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
-import com.natiqhaciyef.prodocument.ui.base.UiEffect
-import com.natiqhaciyef.prodocument.ui.base.UiEvent
-import com.natiqhaciyef.prodocument.ui.base.UiState
+import com.natiqhaciyef.core.base.ui.UiEffect
+import com.natiqhaciyef.core.base.ui.UiEvent
+import com.natiqhaciyef.core.base.ui.UiState
 
 object FileContract {
     sealed class FileEvent : UiEvent {
 
-        data class GetMaterialById(val id: String, val email: String) : FileEvent()
+        data class GetMaterialById(val id: String) : FileEvent()
 
-        data class GetAllMaterials(val email: String) : FileEvent()
+        data object GetAllMaterials : FileEvent()
 
         data class SortMaterials(
             var list: MutableList<MappedMaterialModel>,

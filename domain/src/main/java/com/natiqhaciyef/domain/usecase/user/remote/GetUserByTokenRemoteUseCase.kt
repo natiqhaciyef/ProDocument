@@ -1,8 +1,8 @@
 package com.natiqhaciyef.domain.usecase.user.remote
 
 import com.natiqhaciyef.common.model.Resource
-import com.natiqhaciyef.domain.base.usecase.BaseUseCase
-import com.natiqhaciyef.domain.base.usecase.UseCase
+import com.natiqhaciyef.core.base.usecase.BaseUseCase
+import com.natiqhaciyef.core.base.usecase.UseCase
 import com.natiqhaciyef.common.model.mapped.MappedUserWithoutPasswordModel
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.common.objects.ErrorMessages.MAPPED_NULL_DATA
@@ -18,12 +18,12 @@ import javax.inject.Inject
 @UseCase
 class GetUserByTokenRemoteUseCase @Inject constructor(
     userRepository: UserRepository
-) : BaseUseCase<UserRepository, String, MappedUserWithoutPasswordModel>(userRepository) {
+) : BaseUseCase<UserRepository, Unit, MappedUserWithoutPasswordModel>(userRepository) {
 
-    override fun operate(data: String): Flow<Resource<MappedUserWithoutPasswordModel>> = flow {
+    override fun invoke(): Flow<Resource<MappedUserWithoutPasswordModel>> = flow {
         emit(Resource.loading(null))
 
-        when (val result = repository.getUser(data)) {
+        when (val result = repository.getUser()) {
             is NetworkResult.Success -> {
                 val model = result.data.toUIResult()
 

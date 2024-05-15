@@ -12,15 +12,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.MimeTypeMap
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.camera.core.ExperimentalGetImage
 import androidx.core.os.bundleOf
 import coil.load
 import com.natiqhaciyef.common.helpers.getNow
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
-import com.natiqhaciyef.domain.worker.config.PDF
 import com.natiqhaciyef.prodocument.databinding.FragmentSplitBinding
-import com.natiqhaciyef.prodocument.ui.base.BaseFragment
-import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink
+import com.natiqhaciyef.core.base.ui.BaseFragment
+import com.natiqhaciyef.core.model.FileTypes.PDF
+import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink
+import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TITLE
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TYPE
@@ -148,7 +148,7 @@ class SplitFragment(
     }
 
     private fun goBackIconClickAction(){
-        navigateByRouteTitle(BaseNavigationDeepLink.HOME_ROUTE)
+        navigateByRouteTitle(this@SplitFragment, BaseNavigationDeepLink.HOME_ROUTE)
     }
 
     private fun getDefaultMockFile() = DefaultImplModels.mappedMaterialModel

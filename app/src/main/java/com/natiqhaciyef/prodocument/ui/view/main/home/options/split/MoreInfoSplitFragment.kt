@@ -10,12 +10,10 @@ import androidx.core.widget.doOnTextChanged
 import androidx.navigation.fragment.navArgs
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.databinding.FragmentMoreInfoSplitBinding
-import com.natiqhaciyef.prodocument.ui.base.BaseFragment
+import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_LIST_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TITLE
-import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TYPE
-import com.natiqhaciyef.prodocument.ui.view.main.home.options.split.SplitFragment.Companion.SPLIT_TYPE
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.split.contract.SplitContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.split.viewmodel.SplitViewModel
 import dagger.hilt.android.AndroidEntryPoint

@@ -1,7 +1,7 @@
 package com.natiqhaciyef.data.mapper
 
 import com.natiqhaciyef.common.model.CRUDModel
-import com.natiqhaciyef.data.network.response.CRUDResponse
+import com.natiqhaciyef.core.CRUDResponse
 
 fun CRUDResponse.toModel(): CRUDModel{
     return CRUDModel(
@@ -9,7 +9,7 @@ fun CRUDResponse.toModel(): CRUDModel{
         message = message
     )
 }
-fun CRUDModel.toResponse(): CRUDResponse{
+fun CRUDModel.toResponse(): CRUDResponse {
     return CRUDResponse(
         resultCode = resultCode,
         message = message

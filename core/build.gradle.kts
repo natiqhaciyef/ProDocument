@@ -34,6 +34,9 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures{
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -46,6 +49,8 @@ dependencies {
     val workManagerVersion = "2.8.1"
     val swipeLayoutVersion = "1.1.0"
     val retrofitVersion = "2.9.0"
+    val epoxyVersion = "5.1.3"
+    val navigationVersion = "2.5.3"
 
     implementation(project(":common"))
 
@@ -92,4 +97,14 @@ dependencies {
     //View Model Lifecycle
     implementation("androidx.lifecycle:lifecycle-viewmodel:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
+
+
+    // Epoxy UI && Masked text
+    implementation("com.airbnb.android:epoxy:$epoxyVersion")
+    annotationProcessor("com.airbnb.android:epoxy-processor:$epoxyVersion")
+
+    //Navigation
+    implementation("androidx.navigation:navigation-fragment-ktx:$navigationVersion")
+    implementation("androidx.navigation:navigation-ui-ktx:$navigationVersion")
+    implementation("androidx.navigation:navigation-runtime-ktx:$navigationVersion")
 }

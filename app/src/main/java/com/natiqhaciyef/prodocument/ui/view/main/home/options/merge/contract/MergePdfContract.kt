@@ -1,9 +1,9 @@
 package com.natiqhaciyef.prodocument.ui.view.main.home.options.merge.contract
 
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
-import com.natiqhaciyef.prodocument.ui.base.UiEffect
-import com.natiqhaciyef.prodocument.ui.base.UiEvent
-import com.natiqhaciyef.prodocument.ui.base.UiState
+import com.natiqhaciyef.core.base.ui.UiEffect
+import com.natiqhaciyef.core.base.ui.UiEvent
+import com.natiqhaciyef.core.base.ui.UiState
 import java.lang.Exception
 
 object MergePdfContract {

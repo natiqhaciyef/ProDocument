@@ -1,8 +1,8 @@
 package com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.contract
 
-import com.natiqhaciyef.prodocument.ui.base.UiEffect
-import com.natiqhaciyef.prodocument.ui.base.UiEvent
-import com.natiqhaciyef.prodocument.ui.base.UiState
+import com.natiqhaciyef.core.base.ui.UiEffect
+import com.natiqhaciyef.core.base.ui.UiEvent
+import com.natiqhaciyef.core.base.ui.UiState
 
 object WatermarkContract {
 

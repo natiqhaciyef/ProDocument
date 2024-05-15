@@ -10,9 +10,9 @@ import coil.load
 import com.natiqhaciyef.prodocument.databinding.RecyclerFilesItemViewBinding
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.R
-import com.natiqhaciyef.prodocument.ui.base.BaseRecyclerViewAdapter
+import com.natiqhaciyef.core.base.ui.BaseRecyclerViewAdapter
 import com.natiqhaciyef.prodocument.ui.custom.CustomMaterialOptionsBottomSheetFragment
-import com.natiqhaciyef.prodocument.ui.model.CategoryItem
+import com.natiqhaciyef.core.model.CategoryItem
 import com.natiqhaciyef.prodocument.ui.util.CameraReader.Companion.createAndShareFile
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 
@@ -79,10 +79,9 @@ class FileItemAdapter(
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         val view = holder.binding
         val file = list[position]
-        println(file)
 
         when (type) {
-            holder.context.getString(R.string.scan_code) -> {
+            holder.context.getString(R.string.scan_code), holder.context.getString(R.string.default_type) -> {
                 configOfHome(view)
             }
 

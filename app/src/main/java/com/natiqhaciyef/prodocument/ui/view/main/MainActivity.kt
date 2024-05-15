@@ -8,7 +8,7 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.ActivityMainBinding
-import com.natiqhaciyef.prodocument.ui.base.BaseActivity
+import com.natiqhaciyef.core.base.ui.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -38,6 +38,7 @@ fun MappedMaterialModel.toMaterialResponse(): MaterialResponse {
         publishDate = createdDate,
         type = this.type,
         url = this.url.toString(),
+        protectionKey = this.protectionKey,
         result = this.result?.toResponse()
     )
 }
@@ -52,6 +53,8 @@ fun MaterialResponse.toMappedModel(): MappedMaterialModel? {
             createdDate = this.publishDate,
             type = this.type,
             url = this.url.toUri(),
+            isProtected = this.protectionKey != null,
+            protectionKey = this.protectionKey,
             result = this.result?.toModel()
         )
     } else {

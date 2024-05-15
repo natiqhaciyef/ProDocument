@@ -15,7 +15,7 @@ import com.natiqhaciyef.core.store.AppStorePrefKeys.TOKEN_KEY
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.AlertDialogResultViewBinding
 import com.natiqhaciyef.prodocument.databinding.FragmentCreateAccountBinding
-import com.natiqhaciyef.prodocument.ui.base.BaseFragment
+import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkEmailAcceptanceCondition
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkPasswordAcceptanceCondition
 import com.natiqhaciyef.prodocument.ui.view.registration.create_account.contract.CreateAccountContract
@@ -51,7 +51,7 @@ class CreateAccountFragment(
             }
 
             else -> {
-                changeVisibilityOfProgressBar(false)
+                changeVisibilityOfProgressBar()
 
                 if (state.token != null) {
                     tokenStoring(state.token)
@@ -110,7 +110,7 @@ class CreateAccountFragment(
         userModel?.let {
             binding.apply {
                 val email = createAccountEmailInput.text.toString()
-                val password = createAccountPasswordInput.getPasswordText().toString()
+                val password = createAccountPasswordInput.getPasswordText()
                 userModel.email = email
                 userModel.password = password
 

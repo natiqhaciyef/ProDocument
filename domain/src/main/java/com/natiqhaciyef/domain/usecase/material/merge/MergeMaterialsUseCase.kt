@@ -5,8 +5,8 @@ import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.data.network.request.MergeRequest
-import com.natiqhaciyef.domain.base.usecase.BaseUseCase
-import com.natiqhaciyef.domain.base.usecase.UseCase
+import com.natiqhaciyef.core.base.usecase.BaseUseCase
+import com.natiqhaciyef.core.base.usecase.UseCase
 import com.natiqhaciyef.data.mapper.toMappedModel
 import com.natiqhaciyef.data.mapper.toMaterialResponse
 import com.natiqhaciyef.domain.repository.MaterialRepository
