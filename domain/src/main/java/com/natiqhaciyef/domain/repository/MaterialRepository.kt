@@ -9,6 +9,7 @@ import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.data.network.response.MaterialResponse
 import com.natiqhaciyef.data.network.response.ListMaterialResponse
 import com.natiqhaciyef.core.base.repository.BaseRepository
+import com.natiqhaciyef.data.network.request.ProtectRequest
 
 interface MaterialRepository : BaseRepository {
 
@@ -27,4 +28,6 @@ interface MaterialRepository : BaseRepository {
     suspend fun watermarkMaterial(data: WatermarkRequest): NetworkResult<MaterialResponse>
 
     suspend fun splitMaterial(data: SplitRequest): NetworkResult<List<MaterialResponse>>
+
+    suspend fun protectMaterial(data: ProtectRequest): NetworkResult<MaterialResponse>
 }

@@ -4,6 +4,7 @@ import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.data.mapper.toMaterialResponse
 import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.data.network.request.MergeRequest
+import com.natiqhaciyef.data.network.request.ProtectRequest
 import com.natiqhaciyef.data.network.request.SplitRequest
 import com.natiqhaciyef.data.network.request.WatermarkRequest
 import com.natiqhaciyef.data.network.response.MaterialResponse
@@ -36,4 +37,7 @@ class MaterialRepositoryImpl(
 
     override suspend fun splitMaterial(data: SplitRequest): NetworkResult<List<MaterialResponse>> =
         ds.splitMaterial(data)
+
+    override suspend fun protectMaterial(data: ProtectRequest): NetworkResult<MaterialResponse> =
+        ds.protectMaterial(data)
 }

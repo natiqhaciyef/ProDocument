@@ -5,6 +5,7 @@ import com.natiqhaciyef.data.network.request.SplitRequest
 import com.natiqhaciyef.data.network.request.WatermarkRequest
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.data.network.NetworkConfig
+import com.natiqhaciyef.data.network.request.ProtectRequest
 import com.natiqhaciyef.data.network.response.MaterialResponse
 import com.natiqhaciyef.data.network.response.ListMaterialResponse
 import retrofit2.Response
@@ -81,4 +82,11 @@ interface MaterialService {
         @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String,
         @Body data: SplitRequest
     ): Response<List<MaterialResponse>>
+
+    @POST("")
+    @FormUrlEncoded
+    suspend fun protectMaterial(
+        @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String,
+        @Body data: ProtectRequest
+    ): Response<MaterialResponse>
 }

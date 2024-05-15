@@ -23,6 +23,8 @@ data class MaterialResponse(
     var type: String,
     @SerializedName("url")
     var url: String,
+    @SerializedName("protectionKey")
+    var protectionKey: String? = null,
     @SerializedName("result")
     override var result: CRUDResponse? = null,
 ) : IOModel(), BaseNetworkModel, Parcelable

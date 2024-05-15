@@ -53,6 +53,31 @@ class WatermarkFragment(
         config()
     }
 
+    override fun onStateChange(state: WatermarkContract.WatermarkState) {
+        when {
+            state.isLoading -> { changeVisibilityOfProgressBar(true) }
+            else -> {
+                changeVisibilityOfProgressBar()
+            }
+        }
+    }
+
+    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
+        if (isVisible) {
+            binding.apply {
+                uiLayout.visibility = View.GONE
+                progressBar.visibility = View.VISIBLE
+                progressBar.isIndeterminate = true
+            }
+        } else {
+            binding.apply {
+                uiLayout.visibility = View.VISIBLE
+                progressBar.visibility = View.GONE
+                progressBar.isIndeterminate = false
+            }
+        }
+    }
+
     private fun config() {
         with(binding) {
             addFileButton.setOnClickListener { addFileButtonAction() }

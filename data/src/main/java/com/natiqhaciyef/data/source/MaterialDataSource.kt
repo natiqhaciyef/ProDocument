@@ -10,6 +10,7 @@ import com.natiqhaciyef.data.network.service.MaterialService
 import com.natiqhaciyef.data.mock.materials.GetAllMaterialsMockGenerator
 import com.natiqhaciyef.data.mock.materials.GetMaterialByIdMockGenerator
 import com.natiqhaciyef.data.mock.materials.MergeMaterialsMockGenerator
+import com.natiqhaciyef.data.mock.materials.ProtectMaterialMockGenerator
 import com.natiqhaciyef.data.mock.materials.RemoveMaterialMockGenerator
 import com.natiqhaciyef.data.mock.materials.SplitMaterialMockGenerator
 import com.natiqhaciyef.data.mock.materials.UpdateMaterialMockGenerator
@@ -17,6 +18,7 @@ import com.natiqhaciyef.data.mock.materials.WatermarkMaterialMockGenerator
 import com.natiqhaciyef.data.network.NetworkConfig
 import com.natiqhaciyef.data.network.manager.TokenManager
 import com.natiqhaciyef.data.network.request.MergeRequest
+import com.natiqhaciyef.data.network.request.ProtectRequest
 import com.natiqhaciyef.data.network.request.SplitRequest
 import com.natiqhaciyef.data.network.request.WatermarkRequest
 import kotlinx.coroutines.Dispatchers
@@ -143,4 +145,15 @@ class MaterialDataSource(
         }
     }
 
+    suspend fun protectMaterial(
+        data: ProtectRequest
+    ) = withContext(Dispatchers.IO) {
+        val requestHeader = manager.generateToken()
+        val mock = generateMockerClass(ProtectMaterialMockGenerator::class, data)
+            .getMock(ProtectMaterialMockGenerator.customRequest) { null }
+
+        handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
+            service.protectMaterial(token = requestHeader, data = data)
+        }
+    }
 }
