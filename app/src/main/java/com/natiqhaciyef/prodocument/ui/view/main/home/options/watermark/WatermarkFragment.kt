@@ -19,6 +19,7 @@ import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.databinding.FragmentWatermarkBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.core.model.FileTypes.PDF
+import com.natiqhaciyef.prodocument.ui.manager.FileManager
 import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.HOME_ROUTE
 import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
@@ -43,7 +44,16 @@ class WatermarkFragment(
             if (result.resultCode == Activity.RESULT_OK) {
                 result.data?.let { intent ->
                     if (intent.data != null)
-                        readAndCreateFile(intent.data!!)
+                        FileManager.readAndCreateFile(
+                            activity = requireActivity(),
+                            uri = intent.data!!
+                        ) { file ->
+                            val title = binding.usernameWatermarkTitle.text.toString()
+
+                            fileConfig(file)
+                            binding.continueButton.isEnabled = true
+                            binding.continueButton.setOnClickListener { continueButtonAction(file, title) }
+                        }
                 }
             }
         }
@@ -55,7 +65,10 @@ class WatermarkFragment(
 
     override fun onStateChange(state: WatermarkContract.WatermarkState) {
         when {
-            state.isLoading -> { changeVisibilityOfProgressBar(true) }
+            state.isLoading -> {
+                changeVisibilityOfProgressBar(true)
+            }
+
             else -> {
                 changeVisibilityOfProgressBar()
             }
@@ -80,32 +93,8 @@ class WatermarkFragment(
 
     private fun config() {
         with(binding) {
-            addFileButton.setOnClickListener { addFileButtonAction() }
+            addFileButton.setOnClickListener { FileManager.getFile(fileRequestLauncher) }
             goBackIcon.setOnClickListener { goBackIconClickAction() }
-        }
-    }
-
-    @SuppressLint("Range")
-    private fun readAndCreateFile(uri: Uri) {
-        val cursor = requireActivity()
-            .contentResolver.query(uri, null, null, null, null)
-        cursor?.use {
-            if (it.moveToFirst()) {
-                val displayName = it.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
-                val fileType = MimeTypeMap.getSingleton()
-                    .getExtensionFromMimeType(requireContext().contentResolver.getType(uri))
-                val file = createFileObject(
-                    uri = uri,
-                    title = displayName,
-                    type = fileType,
-//                    image = uri.toString().removePrefix("content://")
-                )
-                val title = binding.usernameWatermarkTitle.text.toString()
-
-                fileConfig(file)
-                binding.continueButton.isEnabled = true
-                binding.continueButton.setOnClickListener { continueButtonAction(file, title) }
-            }
         }
     }
 
@@ -121,40 +110,12 @@ class WatermarkFragment(
         }
     }
 
-    private fun createFileObject(
-        uri: Uri,
-        title: String? = null,
-        description: String? = null,
-        image: String? = null,
-        type: String? = null
-    ): MappedMaterialModel {
-        val material = getDefaultMockFile()
-        material.id = "${UUID.randomUUID()}"
-        material.url = uri
-        material.title = title ?: ""
-        material.description = description
-        material.image = image ?: ""
-        material.createdDate = getNow()
-        material.type = type ?: PDF
-
-        return material.copy()
-    }
-
-    private fun addFileButtonAction() {
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-            addCategory(Intent.CATEGORY_OPENABLE)
-            type = "*/*"
-            val uri = Uri.parse("content://com.android.externalstorage.documents/")
-            putExtra(DocumentsContract.EXTRA_INITIAL_URI, uri)
-        }
-        fileRequestLauncher.launch(intent)
-    }
-
     private fun continueButtonAction(materialModel: MappedMaterialModel, title: String) {
         bundle.putParcelable(BUNDLE_MATERIAL, materialModel)
         bundle.putString(BUNDLE_TYPE, WATERMARK_TYPE)
         bundle.putString(BUNDLE_TITLE, title)
-        val action = WatermarkFragmentDirections.actionWatermarkFragmentToPreviewMaterialNavGraph(bundle)
+        val action =
+            WatermarkFragmentDirections.actionWatermarkFragmentToPreviewMaterialNavGraph(bundle)
         navigate(action)
     }
 
@@ -166,11 +127,9 @@ class WatermarkFragment(
         }
     }
 
-    private fun goBackIconClickAction(){
-        navigateByRouteTitle(this@WatermarkFragment,HOME_ROUTE)
+    private fun goBackIconClickAction() {
+        navigateByRouteTitle(this@WatermarkFragment, HOME_ROUTE)
     }
-
-    private fun getDefaultMockFile() = DefaultImplModels.mappedMaterialModel
 
     companion object {
         const val WATERMARK_TYPE = "Watermark"

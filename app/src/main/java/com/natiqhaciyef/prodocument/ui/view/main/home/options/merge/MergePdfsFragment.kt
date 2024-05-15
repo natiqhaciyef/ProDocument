@@ -20,6 +20,7 @@ import com.natiqhaciyef.common.helpers.getNow
 import com.natiqhaciyef.prodocument.databinding.FragmentMergePdfsBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.core.model.FileTypes.PDF
+import com.natiqhaciyef.prodocument.ui.manager.FileManager
 import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink
 import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.util.DefaultImplModels
@@ -44,7 +45,14 @@ class MergePdfsFragment(
             if (result.resultCode == RESULT_OK) {
                 result.data?.let { intent ->
                     if (intent.data != null)
-                        readAndCreateFile(intent.data!!)
+                        FileManager.readAndCreateFile(
+                            activity = requireActivity(),
+                            uri = intent.data!!
+                        ) { file ->
+                            filesList.add(file)
+                            configOfChangeFileList()
+                            continueButtonEnabled()
+                        }
                 }
             }
         }
@@ -63,9 +71,14 @@ class MergePdfsFragment(
             materialsRecyclerView.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
-            addMoreFilesButton.setOnClickListener { addFileButtonAction() }
+            addMoreFilesButton.setOnClickListener { FileManager.getFile(fileRequestLauncher) }
             mergeButton.setOnClickListener { mergeButtonEvent(filesList) }
-            goBackIcon.setOnClickListener { navigateByRouteTitle(this@MergePdfsFragment, BaseNavigationDeepLink.HOME_ROUTE) }
+            goBackIcon.setOnClickListener {
+                navigateByRouteTitle(
+                    this@MergePdfsFragment,
+                    BaseNavigationDeepLink.HOME_ROUTE
+                )
+            }
             adapter?.removeAction = { removeFileButtonClickAction(it) }
         }
     }
@@ -119,30 +132,6 @@ class MergePdfsFragment(
             if (filesList.isEmpty()) View.GONE else View.VISIBLE
     }
 
-    @SuppressLint("Range")
-    private fun readAndCreateFile(uri: Uri) {
-        val cursor = requireActivity().contentResolver.query(uri, null, null, null, null)
-        cursor?.use {
-            if (it.moveToFirst()) {
-                val displayName = it.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
-                val fileType = MimeTypeMap.getSingleton()
-                    .getExtensionFromMimeType(requireContext().contentResolver.getType(uri))
-
-                val file = createFileObject(
-                    uri = uri,
-                    title = displayName,
-                    type = fileType,
-                    image = uri.toString().removePrefix("content://")
-                )
-
-                filesList.add(file)
-                configOfChangeFileList()
-                continueButtonEnabled()
-            }
-        }
-    }
-
-
     private fun configOfChangeFileList() {
         adapter?.list = filesList
         setFilesCountConfigurations()
@@ -150,34 +139,6 @@ class MergePdfsFragment(
         adapter?.notifyDataSetChanged()
     }
 
-    private fun createFileObject(
-        uri: Uri,
-        title: String? = null,
-        description: String? = null,
-        image: String? = null,
-        type: String? = null
-    ): MappedMaterialModel {
-        val material = getDefaultMockFile()
-        material.id = "${UUID.randomUUID()}"
-        material.url = uri
-        material.title = title ?: ""
-        material.description = description
-        material.image = image ?: ""
-        material.createdDate = getNow()
-        material.type = type ?: PDF
-
-        return material.copy()
-    }
-
-    private fun addFileButtonAction() {
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-            addCategory(Intent.CATEGORY_OPENABLE)
-            type = "*/*"
-            val uri = Uri.parse("content://com.android.externalstorage.documents/")
-            putExtra(DocumentsContract.EXTRA_INITIAL_URI, uri)
-        }
-        fileRequestLauncher.launch(intent)
-    }
 
     private fun mergeButtonEvent(list: List<MappedMaterialModel>) {
         val title = binding.usernameMergedTitle.text.toString()
@@ -194,9 +155,7 @@ class MergePdfsFragment(
         configOfChangeFileList()
     }
 
-    private fun continueButtonEnabled(){
+    private fun continueButtonEnabled() {
         binding.mergeButton.isEnabled = filesList.size >= 2
     }
-
-    private fun getDefaultMockFile() = DefaultImplModels.mappedMaterialModel
 }
