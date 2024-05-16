@@ -9,6 +9,7 @@ import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.data.network.response.MaterialResponse
 import com.natiqhaciyef.data.network.response.ListMaterialResponse
 import com.natiqhaciyef.core.base.repository.BaseRepository
+import com.natiqhaciyef.data.network.request.CompressRequest
 import com.natiqhaciyef.data.network.request.ProtectRequest
 
 interface MaterialRepository : BaseRepository {
@@ -30,4 +31,6 @@ interface MaterialRepository : BaseRepository {
     suspend fun splitMaterial(data: SplitRequest): NetworkResult<List<MaterialResponse>>
 
     suspend fun protectMaterial(data: ProtectRequest): NetworkResult<MaterialResponse>
+
+    suspend fun compressMaterial(data: CompressRequest): NetworkResult<MaterialResponse>
 }

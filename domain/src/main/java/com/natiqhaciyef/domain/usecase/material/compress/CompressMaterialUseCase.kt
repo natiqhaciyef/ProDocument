@@ -1,5 +1,6 @@
-package com.natiqhaciyef.domain.usecase.material.protect
+package com.natiqhaciyef.domain.usecase.material.compress
 
+import com.natiqhaciyef.common.model.Quality
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.objects.ErrorMessages
@@ -7,35 +8,30 @@ import com.natiqhaciyef.core.base.usecase.BaseUseCase
 import com.natiqhaciyef.core.base.usecase.UseCase
 import com.natiqhaciyef.data.mapper.toMappedModel
 import com.natiqhaciyef.data.network.NetworkResult
-import com.natiqhaciyef.data.network.request.ProtectRequest
+import com.natiqhaciyef.data.network.request.CompressRequest
 import com.natiqhaciyef.domain.repository.MaterialRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 @UseCase
-class ProtectMaterialUseCase @Inject constructor(
+class CompressMaterialUseCase @Inject constructor(
     materialRepository: MaterialRepository
 ): BaseUseCase<MaterialRepository, MappedMaterialModel, MappedMaterialModel>(materialRepository) {
 
     override fun operate(data: MappedMaterialModel): Flow<Resource<MappedMaterialModel>> = flow{
         emit(Resource.loading(null))
 
-        val key = data.protectionKey
-        val material = data.copy(isProtected = false, protectionKey = null)
+        val quality = data.copy().quality?.name ?: Quality.STANDARD.name
+        val material = data.copy(quality = null)
+        val request = CompressRequest(material = material, quality = quality)
 
-        // check key nullability
-        val request = ProtectRequest(
-            material = material,
-            key = key ?: "Protected"
-        )
-
-        when (val result = repository.protectMaterial(request)) {
+        when(val result = repository.compressMaterial(request)){
             is NetworkResult.Success -> {
                 val mapped = result.data.toMappedModel()
-                if (mapped != null && mapped.result?.resultCode in 200..299) {
+                if (mapped != null && mapped.result?.resultCode in 200..299){
                     emit(Resource.success(mapped))
-                } else {
+                }else{
                     emit(
                         Resource.error(
                             data = mapped,
@@ -44,6 +40,7 @@ class ProtectMaterialUseCase @Inject constructor(
                         )
                     )
                 }
+
             }
 
             is NetworkResult.Error -> {
@@ -69,7 +66,8 @@ class ProtectMaterialUseCase @Inject constructor(
             }
 
             else -> {}
-        }
 
+        }
     }
+
 }

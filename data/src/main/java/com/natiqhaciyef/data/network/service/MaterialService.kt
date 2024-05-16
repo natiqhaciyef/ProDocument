@@ -5,6 +5,7 @@ import com.natiqhaciyef.data.network.request.SplitRequest
 import com.natiqhaciyef.data.network.request.WatermarkRequest
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.data.network.NetworkConfig
+import com.natiqhaciyef.data.network.request.CompressRequest
 import com.natiqhaciyef.data.network.request.ProtectRequest
 import com.natiqhaciyef.data.network.response.MaterialResponse
 import com.natiqhaciyef.data.network.response.ListMaterialResponse
@@ -88,5 +89,11 @@ interface MaterialService {
     suspend fun protectMaterial(
         @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String,
         @Body data: ProtectRequest
+    ): Response<MaterialResponse>
+
+    @POST("")
+    suspend fun compressMaterial(
+        @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String,
+        @Body data: CompressRequest
     ): Response<MaterialResponse>
 }

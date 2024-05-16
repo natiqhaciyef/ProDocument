@@ -24,6 +24,8 @@ class SplitMaterialUseCase @Inject constructor(
 ) : BaseUseCase<MaterialRepository, Map<String, Any>, List<MappedMaterialModel>>(materialRepository) {
 
     override fun operate(data: Map<String, Any>): Flow<Resource<List<MappedMaterialModel>>> = flow {
+        emit(Resource.loading(null))
+
         val title = data[MATERIAL_TITLE].toString()
         val material = (data[MATERIAL_MODEL] as MappedMaterialModel).toMaterialResponse()
         val firstLine = data[MATERIAL_FIRST_LINE].toString()
