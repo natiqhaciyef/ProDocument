@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import com.natiqhaciyef.prodocument.databinding.FragmentForgotPasswordBinding
-import com.natiqhaciyef.prodocument.ui.base.BaseFragment
+import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkEmailAcceptanceCondition
 import com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.forgot_password.contract.ForgotPasswordContract
 import com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.forgot_password.viewmoodel.ForgotPasswordViewModel

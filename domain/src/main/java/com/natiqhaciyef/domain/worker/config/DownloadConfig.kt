@@ -15,6 +15,12 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
+import com.natiqhaciyef.core.model.FileTypes.DOCX
+import com.natiqhaciyef.core.model.FileTypes.URL
+import com.natiqhaciyef.core.model.FileTypes.JPEG
+import com.natiqhaciyef.core.model.FileTypes.MP4
+import com.natiqhaciyef.core.model.FileTypes.PDF
+import com.natiqhaciyef.core.model.FileTypes.PNG
 import com.natiqhaciyef.domain.worker.FileDownloadWorker
 import java.io.File
 import java.io.FileOutputStream
@@ -22,12 +28,6 @@ import java.net.URL
 import java.util.UUID
 
 
-const val URL = "url"
-const val PDF = "PDF"
-const val DOCX = "DOCX"
-const val PNG = "PNG"
-const val JPEG = "JPEG"
-const val MP4 = "MP4"
 
 fun getSavedFileUri(
     fileName: String,

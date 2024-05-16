@@ -1,6 +1,7 @@
 package com.natiqhaciyef.prodocument.ui.custom
 
 import android.content.Context
+import android.opengl.Visibility
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -76,6 +77,10 @@ class CustomToolbarLayout(
     fun changeVisibility(visibility: Int) {
         binding?.toolbarImage?.visibility = visibility
         binding?.topbarTitle?.visibility = visibility
+    }
+
+    fun appIconVisibility(visibility: Int){
+        binding?.toolbarImage?.visibility = visibility
     }
 
     private fun closeAndSearchIconClickAction() {

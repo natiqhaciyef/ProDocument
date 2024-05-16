@@ -1,6 +1,6 @@
 package com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.viewmodel
 
-import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
+import com.natiqhaciyef.core.base.ui.BaseViewModel
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.contract.WatermarkContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

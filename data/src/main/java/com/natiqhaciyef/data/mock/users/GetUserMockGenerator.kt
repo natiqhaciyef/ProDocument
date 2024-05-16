@@ -1,13 +1,13 @@
 package com.natiqhaciyef.data.mock.users
 
 import com.natiqhaciyef.common.helpers.getNow
-import com.natiqhaciyef.data.base.mock.BaseMockGenerator
-import com.natiqhaciyef.data.network.response.CRUDResponse
+import com.natiqhaciyef.core.CRUDResponse
+import com.natiqhaciyef.core.base.mock.BaseMockGenerator
 import com.natiqhaciyef.data.network.response.UserResponse
 
 class GetUserMockGenerator(
-    override var takenRequest: String
-): BaseMockGenerator<String, UserResponse>() {
+    override var takenRequest: Unit
+): BaseMockGenerator<Unit, UserResponse>() {
     override var createdMock: UserResponse = UserResponse(
         fullName = "fullname",
         phoneNumber = "+994xx xxx xx xx",
@@ -23,11 +23,7 @@ class GetUserMockGenerator(
         )
     )
 
-    override fun getMock(request: String, action: (String) -> UserResponse?): UserResponse {
-        return if (request == takenRequest){
-            createdMock
-        }else{
-            action.invoke(request) ?: throw Companion.MockRequestException()
-        }
+    override fun getMock(request: Unit, action: (Unit) -> UserResponse?): UserResponse {
+        return createdMock
     }
 }

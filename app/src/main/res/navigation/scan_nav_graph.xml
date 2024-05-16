@@ -14,12 +14,9 @@
             android:id="@+id/action_scanFragment_to_preview_material_nav_graph"
             app:destination="@id/preview_material_nav_graph" >
             <argument
-                android:name="fileMaterial"
-                app:argType="com.natiqhaciyef.common.model.mapped.MappedMaterialModel"
-                app:nullable="true" />
-            <argument
-                android:name="type"
-                app:argType="string" />
+                android:name="resourceBundle"
+                app:argType="android.os.Bundle"
+                />
         </action>
     </fragment>
     <fragment
@@ -31,12 +28,9 @@
             android:id="@+id/action_scanTypeFragment_to_preview_material_nav_graph"
             app:destination="@id/preview_material_nav_graph" >
             <argument
-                android:name="fileMaterial"
-                app:argType="com.natiqhaciyef.common.model.mapped.MappedMaterialModel"
-                app:nullable="true" />
-            <argument
-                android:name="type"
-                app:argType="string" />
+                android:name="resourceBundle"
+                app:argType="android.os.Bundle"
+                />
         </action>
     </fragment>
     <fragment
@@ -48,12 +42,9 @@
             android:id="@+id/action_captureImageFragment_to_preview_material_nav_graph"
             app:destination="@id/preview_material_nav_graph" >
             <argument
-                android:name="fileMaterial"
-                app:argType="com.natiqhaciyef.common.model.mapped.MappedMaterialModel"
-                app:nullable="true" />
-            <argument
-                android:name="type"
-                app:argType="string" />
+                android:name="resourceBundle"
+                app:argType="android.os.Bundle"
+                />
         </action>
     </fragment>
     <include app:graph="@navigation/preview_material_nav_graph"

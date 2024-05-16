@@ -2,8 +2,8 @@ package com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.forgot
 
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.model.Status
+import com.natiqhaciyef.core.base.ui.BaseViewModel
 import com.natiqhaciyef.domain.usecase.user.remote.GetOtpRemoteUseCase
-import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
 import com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.forgot_password.contract.ForgotPasswordContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest

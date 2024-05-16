@@ -12,14 +12,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.ExperimentalGetImage
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.google.android.material.snackbar.Snackbar
-import com.natiqhaciyef.common.R
+import androidx.core.os.bundleOf
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.databinding.FragmentScanBinding
-import com.natiqhaciyef.prodocument.ui.base.BaseFragment
-import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
+import com.natiqhaciyef.core.base.ui.BaseFragment
+import com.natiqhaciyef.prodocument.ui.manager.PermissionManager
+import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.HOME_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.navigateByRouteTitle
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TYPE
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.behaviour.CameraTypes
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.contract.ScanContract
@@ -33,6 +35,7 @@ class ScanFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentScanBinding = FragmentScanBinding::inflate,
     override val viewModelClass: KClass<ScanViewModel> = ScanViewModel::class
 ) : BaseFragment<FragmentScanBinding, ScanViewModel, ScanContract.ScanState, ScanContract.ScanEvent, ScanContract.ScanEffect>() {
+    private var bundle = bundleOf()
     private var selectedImage: Uri? = null
     private val registerForCameraPermissionResult =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
@@ -148,34 +151,11 @@ class ScanFragment(
     }
 
     private fun checkGalleryPermission() {
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            // go to gallery
-            startGalleryConfig()
-        } else {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    requireActivity(),
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-                )
-            ) {
-                Snackbar.make(
-                    requireView(),
-                    NEED_GALLERY_PERMISSION,
-                    Snackbar.LENGTH_LONG
-                )
-                    .setAction(
-                        requireContext()
-                            .getString(R.string.give_permission)
-                    ) { registerForGalleryPermissionResult.launch(Manifest.permission.READ_EXTERNAL_STORAGE) }
-                    .show()
-
-            } else {
-                registerForGalleryPermissionResult.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-            }
-        }
+        PermissionManager.Builder(this@ScanFragment, false)
+            .addPermissionLauncher(registerForGalleryPermissionResult)
+            .request(PermissionManager.Permission.createCustomPermission(Manifest.permission.READ_EXTERNAL_STORAGE))
+            .checkPermission { startGalleryConfig() }
+            .build()
     }
 
     private fun startGalleryConfig() {
@@ -185,8 +165,11 @@ class ScanFragment(
     }
 
     private fun navigateToModifyPdf(material: MappedMaterialModel) {
+        bundle.putString(BUNDLE_TYPE, SCAN_QR_TYPE)
+        bundle.putParcelable(BUNDLE_MATERIAL, material)
+
         val action =
-            ScanTypeFragmentDirections.actionScanTypeFragmentToPreviewMaterialNavGraph(material, SCAN_QR_TYPE)
+            ScanTypeFragmentDirections.actionScanTypeFragmentToPreviewMaterialNavGraph(bundle)
         navigate(action)
     }
 
@@ -202,12 +185,12 @@ class ScanFragment(
         }
     }
 
-    private fun goBackAction(){
+    private fun goBackAction() {
         (activity as MainActivity).apply {
             binding.bottomNavBar.visibility = View.VISIBLE
             binding.appbarLayout.visibility = View.VISIBLE
         }
-        navigateByRouteTitle(HOME_ROUTE)
+        navigateByRouteTitle(this@ScanFragment, HOME_ROUTE)
     }
 
     override fun onDestroy() {

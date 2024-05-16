@@ -4,10 +4,9 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import com.natiqhaciyef.prodocument.databinding.RecyclerCategoryItemBinding
-import com.natiqhaciyef.prodocument.ui.base.BaseRecyclerViewAdapter
-import com.natiqhaciyef.prodocument.ui.model.CategoryItem
+import com.natiqhaciyef.core.base.ui.BaseRecyclerViewAdapter
+import com.natiqhaciyef.core.model.CategoryItem
 
 class ShareCategoryAdapter(
     dataList: MutableList<CategoryItem>
@@ -31,7 +30,7 @@ class ShareCategoryAdapter(
             if (item.size != null && !item.sizeType.isNullOrEmpty()) {
                 val size = String.format("%.1f", item.size)
                 sizeOfItemText.visibility = View.VISIBLE
-                sizeOfItemText.text = "$size (${item.sizeType.uppercase()})"
+                sizeOfItemText.text = "$size (${item.sizeType?.uppercase()})"
             } else {
                 sizeOfItemText.visibility = View.GONE
             }

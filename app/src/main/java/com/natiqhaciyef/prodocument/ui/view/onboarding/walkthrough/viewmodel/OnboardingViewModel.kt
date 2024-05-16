@@ -1,14 +1,11 @@
 package com.natiqhaciyef.prodocument.ui.view.onboarding.walkthrough.viewmodel
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.model.Status
-import com.natiqhaciyef.common.model.UIResult
 import com.natiqhaciyef.common.model.mapped.MappedUserWithoutPasswordModel
+import com.natiqhaciyef.core.base.ui.BaseViewModel
 import com.natiqhaciyef.domain.usecase.user.remote.GetUserByTokenRemoteUseCase
-import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
-import com.natiqhaciyef.prodocument.ui.base.BaseUIState
-import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
+import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.HOME_ROUTE
 import com.natiqhaciyef.prodocument.ui.view.onboarding.walkthrough.contract.OnBoardingContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -20,40 +17,48 @@ import javax.inject.Inject
 class OnboardingViewModel @Inject constructor(
     private val getUserByTokenRemoteUseCase: GetUserByTokenRemoteUseCase
 ) : BaseViewModel<OnBoardingContract.OnboardingState, OnBoardingContract.OnBoardingEvent, OnBoardingContract.OnboardingEffect>() {
-    private val _userState =
-        MutableLiveData(BaseUIState<UIResult<MappedUserWithoutPasswordModel>>())
-    val userState: MutableLiveData<BaseUIState<UIResult<MappedUserWithoutPasswordModel>>>
-        get() = _userState
 
     override fun onEventUpdate(event: OnBoardingContract.OnBoardingEvent) {
-        when(event){
-            is OnBoardingContract.OnBoardingEvent.GetUserByEmailEvent -> {getUserByEmail(event.email)}
-            is OnBoardingContract.OnBoardingEvent.SkipButtonClickEvent -> {actionForOnBoarding(event.onAction)}
-            is OnBoardingContract.OnBoardingEvent.OnboardingEvent -> {onboardingAction(event.onAction)}
+        when (event) {
+            is OnBoardingContract.OnBoardingEvent.GetUserByTokenEvent -> {
+                getUserByToken()
+            }
+
+            is OnBoardingContract.OnBoardingEvent.SkipButtonClickEvent -> {
+                actionForOnBoarding(event.user, event.onAction)
+            }
+
+            is OnBoardingContract.OnBoardingEvent.OnboardingEvent -> {
+                onboardingAction(event.user, event.onAction)
+            }
         }
     }
 
     private fun onboardingAction(
-        onAction: (String) -> Unit = {},
+        user: MappedUserWithoutPasswordModel?,
+        action: (String) -> Unit = {}
     ) {
         viewModelScope.launch {
             delay(3500)
-            actionForOnBoarding(onAction)
+            actionForOnBoarding(user,action)
         }
     }
 
-    private fun actionForOnBoarding(onAction: (String) -> Unit) {
-        if (userState.value != null && userState.value?.obj != null) {
-            onAction(HOME_ROUTE)
+    private fun actionForOnBoarding(
+        user: MappedUserWithoutPasswordModel?,
+        action: (String) -> Unit = {}
+    ) {
+        if (user != null) {
+            action(HOME_ROUTE)
         } else {
-            onAction(HOME_ROUTE)
+            action(HOME_ROUTE)
 //            onAction(REGISTER_ROUTE)
         }
     }
 
-    private fun getUserByEmail(email: String = "") {
+    private fun getUserByToken() {
         viewModelScope.launch {
-            getUserByTokenRemoteUseCase.operate(email).collectLatest { result ->
+            getUserByTokenRemoteUseCase.invoke().collectLatest { result ->
                 when (result.status) {
                     Status.LOADING -> {
                         setBaseState(getCurrentBaseState().copy(isLoading = true))

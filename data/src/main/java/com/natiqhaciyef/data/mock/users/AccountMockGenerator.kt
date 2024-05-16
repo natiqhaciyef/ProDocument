@@ -1,7 +1,7 @@
 package com.natiqhaciyef.data.mock.users
 
-import com.natiqhaciyef.data.base.mock.BaseMockGenerator
-import com.natiqhaciyef.data.network.response.CRUDResponse
+import com.natiqhaciyef.core.CRUDResponse
+import com.natiqhaciyef.core.base.mock.BaseMockGenerator
 import com.natiqhaciyef.data.network.response.TokenResponse
 import com.natiqhaciyef.data.network.response.UserResponse
 import java.util.UUID
@@ -11,12 +11,12 @@ class AccountMockGenerator(
 ) : BaseMockGenerator<UserResponse, TokenResponse>() {
     override var createdMock: TokenResponse =
         TokenResponse(
-            uid = "${UUID.randomUUID()}",
+            accessToken = "${UUID.randomUUID()}",
             result = CRUDResponse(
                 resultCode = 299,
                 message = "Mock token"
             ),
-            email = "email@gmail.com"
+            refreshToken = "email@gmail.com"
         )
 
     override fun getMock(

@@ -16,14 +16,18 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.ExperimentalGetImage
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.core.os.bundleOf
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanning
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanningResult
 import com.natiqhaciyef.common.helpers.loadImage
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
-import com.natiqhaciyef.prodocument.ui.util.CameraReader
+import com.natiqhaciyef.prodocument.ui.manager.CameraManager
 import com.natiqhaciyef.prodocument.databinding.FragmentCaptureImageBinding
-import com.natiqhaciyef.prodocument.ui.base.BaseFragment
-import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
+import com.natiqhaciyef.core.base.ui.BaseFragment
+import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.HOME_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.navigateByRouteTitle
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TYPE
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.behaviour.CameraTypes
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.contract.ScanContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.viewmodel.ScanViewModel
@@ -32,16 +36,15 @@ import kotlin.reflect.KClass
 
 //val inset = context.convertDpToPixel(16)
 
-@ExperimentalGetImage
-@AndroidEntryPoint
+@ExperimentalGetImage @AndroidEntryPoint
 class CaptureImageFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentCaptureImageBinding = FragmentCaptureImageBinding::inflate,
     override val viewModelClass: KClass<ScanViewModel> = ScanViewModel::class
 ) : BaseFragment<FragmentCaptureImageBinding, ScanViewModel, ScanContract.ScanState, ScanContract.ScanEvent, ScanContract.ScanEffect>() {
+    private var bundle = bundleOf()
     private var imageUri: Uri? = null
-
     private var scanner =
-        GmsDocumentScanning.getClient(CameraReader.cameraScannerDefaultOptions)
+        GmsDocumentScanning.getClient(CameraManager.cameraScannerDefaultOptions)
 
     private val scannerLauncher =
         registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
@@ -100,7 +103,7 @@ class CaptureImageFragment(
         requireActivity().onBackPressedDispatcher.addCallback(object :
             OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                navigateByRouteTitle(HOME_ROUTE)
+                navigateByRouteTitle(this@CaptureImageFragment,HOME_ROUTE)
             }
         })
     }
@@ -153,7 +156,7 @@ class CaptureImageFragment(
                 checkCameraPermission()
                 viewModel.isBackPressed.value = true
             } else {
-                navigateByRouteTitle(HOME_ROUTE)
+                navigateByRouteTitle(this@CaptureImageFragment,HOME_ROUTE)
                 viewModel.isBackPressed.value = false
             }
         }
@@ -178,7 +181,7 @@ class CaptureImageFragment(
                 scanTitle.visibility = View.VISIBLE
                 scanDescription.visibility = View.VISIBLE
             } else {
-                navigateByRouteTitle(HOME_ROUTE)
+                navigateByRouteTitle(this@CaptureImageFragment,HOME_ROUTE)
             }
         }
     }
@@ -249,8 +252,10 @@ class CaptureImageFragment(
     }
 
     private fun imageResultAction(material: MappedMaterialModel) {
+        bundle.putParcelable(BUNDLE_MATERIAL, material)
+        bundle.putString(BUNDLE_TYPE, CAPTURE_IMAGE_TYPE)
         val action =
-            ScanTypeFragmentDirections.actionScanTypeFragmentToPreviewMaterialNavGraph(material, CAPTURE_IMAGE_TYPE)
+            ScanTypeFragmentDirections.actionScanTypeFragmentToPreviewMaterialNavGraph(bundle)
         navigate(action)
     }
 

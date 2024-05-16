@@ -27,8 +27,8 @@ class CustomPasswordInputEditText(
             CustomPasswordInputEdittextBinding.inflate(LayoutInflater.from(context), this, true)
     }
 
-    fun getPasswordText(): CharSequence? =
-        binding?.passwordInput?.text
+    fun getPasswordText(): String =
+        (binding?.passwordInput?.text != null).toString()
 
 
     fun setPasswordHintText(text: String) = binding?.passwordInput?.setHint(text)

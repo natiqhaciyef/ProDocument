@@ -7,16 +7,15 @@ import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.view.PreviewView
 import androidx.core.net.toUri
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.helpers.getNow
 import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
-import com.natiqhaciyef.prodocument.ui.util.CameraReader
+import com.natiqhaciyef.core.base.ui.BaseViewModel
+import com.natiqhaciyef.core.model.FileTypes.PDF
+import com.natiqhaciyef.prodocument.ui.manager.CameraManager
 import com.natiqhaciyef.domain.usecase.qrCode.ReadQrCodeResultUseCase
-import com.natiqhaciyef.domain.worker.config.PDF
-import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.behaviour.CameraTypes
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.contract.ScanContract
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,7 +29,7 @@ import javax.inject.Inject
 class ScanViewModel @Inject constructor(
     private val readQrCodeResultUseCase: ReadQrCodeResultUseCase
 ) : BaseViewModel<ScanContract.ScanState, ScanContract.ScanEvent, ScanContract.ScanEffect>() {
-    private val cameraReaderLiveData = MutableLiveData<CameraReader?>(null)
+    private val cameraReaderLiveData = MutableLiveData<CameraManager?>(null)
     var isBackPressed: MutableLiveData<Boolean> = MutableLiveData(false)
 
     override fun onEventUpdate(event: ScanContract.ScanEvent) {
@@ -84,7 +83,7 @@ class ScanViewModel @Inject constructor(
         onSuccess: (Any) -> Unit = { }
     ) {
         if (cameraReaderLiveData.value == null) {
-            cameraReaderLiveData.value = CameraReader(context, lifecycle)
+            cameraReaderLiveData.value = CameraManager(context, lifecycle)
         }
 
         when (type.name) {

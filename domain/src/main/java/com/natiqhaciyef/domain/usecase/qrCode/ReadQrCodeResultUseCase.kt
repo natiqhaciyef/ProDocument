@@ -1,14 +1,12 @@
 package com.natiqhaciyef.domain.usecase.qrCode
 
-import com.natiqhaciyef.domain.mapper.toMapped
-import com.natiqhaciyef.domain.mapper.toModel
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.common.model.mapped.MappedQrCodeResultModel
 import com.natiqhaciyef.common.objects.ErrorMessages
-import com.natiqhaciyef.common.objects.ResultExceptions
+import com.natiqhaciyef.data.mapper.toMapped
 import com.natiqhaciyef.data.network.NetworkResult
-import com.natiqhaciyef.domain.base.usecase.BaseUseCase
-import com.natiqhaciyef.domain.base.usecase.UseCase
+import com.natiqhaciyef.core.base.usecase.BaseUseCase
+import com.natiqhaciyef.core.base.usecase.UseCase
 import com.natiqhaciyef.domain.repository.QrCodeRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

@@ -2,8 +2,8 @@ package com.natiqhaciyef.data.mock.users
 
 import com.natiqhaciyef.common.objects.USER_EMAIL_MOCK_KEY
 import com.natiqhaciyef.common.objects.USER_PASSWORD_MOCK_KEY
-import com.natiqhaciyef.data.base.mock.BaseMockGenerator
-import com.natiqhaciyef.data.network.response.CRUDResponse
+import com.natiqhaciyef.core.CRUDResponse
+import com.natiqhaciyef.core.base.mock.BaseMockGenerator
 import com.natiqhaciyef.data.network.response.TokenResponse
 import java.util.UUID
 
@@ -11,12 +11,12 @@ class SignInMockGenerator(
     override var takenRequest: Map<String, String>
 ) : BaseMockGenerator<Map<String, String>, TokenResponse>() {
     override var createdMock: TokenResponse = TokenResponse(
-        uid = "${UUID.randomUUID()}",
+        accessToken = "${UUID.randomUUID()}",
         result = CRUDResponse(
             resultCode = 299,
             message = "Mock token"
         ),
-        email = "email@gmail.com"
+        refreshToken = "email@gmail.com"
     )
 
     override fun getMock(

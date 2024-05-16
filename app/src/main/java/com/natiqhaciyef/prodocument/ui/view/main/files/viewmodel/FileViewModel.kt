@@ -3,12 +3,11 @@ package com.natiqhaciyef.prodocument.ui.view.main.files.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
-import com.natiqhaciyef.common.objects.USER_EMAIL_MOCK_KEY
+import com.natiqhaciyef.core.base.ui.BaseViewModel
 import com.natiqhaciyef.domain.usecase.MATERIAL_ID
 import com.natiqhaciyef.domain.usecase.USER_EMAIL
 import com.natiqhaciyef.domain.usecase.material.GetAllMaterialsRemoteUseCase
 import com.natiqhaciyef.domain.usecase.material.GetMaterialByIdRemoteUseCase
-import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
 import com.natiqhaciyef.prodocument.ui.view.main.files.FilesFragment
 import com.natiqhaciyef.prodocument.ui.view.main.files.contract.FileContract
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,7 +25,7 @@ class FileViewModel @Inject constructor(
         when (event) {
             is FileContract.FileEvent.GetAllMaterials -> getAllMaterials() /* event.email */
             is FileContract.FileEvent.GetMaterialById -> {
-                getMaterialById(event.email, event.id)
+                getMaterialById(event.id)
             }
 
             is FileContract.FileEvent.SortMaterials -> {
@@ -39,9 +38,9 @@ class FileViewModel @Inject constructor(
         }
     }
 
-    private fun getAllMaterials(email: String = USER_EMAIL_MOCK_KEY) {
+    private fun getAllMaterials() {
         viewModelScope.launch {
-            getAllMaterialsRemoteUseCase.operate(email).collectLatest { result ->
+            getAllMaterialsRemoteUseCase.invoke().collectLatest { result ->
                 when (result.status) {
                     Status.SUCCESS -> {
                         if (result.data != null) {
@@ -61,10 +60,9 @@ class FileViewModel @Inject constructor(
         }
     }
 
-    private fun getMaterialById(email: String, id: String) {
-        val request = mapOf(MATERIAL_ID to id, USER_EMAIL to email)
+    private fun getMaterialById(id: String) {
         viewModelScope.launch {
-            getMaterialByIdRemoteUseCase.operate(request).collectLatest { result ->
+            getMaterialByIdRemoteUseCase.operate(id).collectLatest { result ->
                 when (result.status) {
                     Status.SUCCESS -> {
                         if (result.data != null)

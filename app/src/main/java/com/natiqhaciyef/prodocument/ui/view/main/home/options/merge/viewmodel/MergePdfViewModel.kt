@@ -3,11 +3,10 @@ package com.natiqhaciyef.prodocument.ui.view.main.home.options.merge.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
+import com.natiqhaciyef.core.base.ui.BaseViewModel
 import com.natiqhaciyef.domain.usecase.MATERIAL_LIST
 import com.natiqhaciyef.domain.usecase.MATERIAL_TITLE
 import com.natiqhaciyef.domain.usecase.material.merge.MergeMaterialsUseCase
-import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
-import com.natiqhaciyef.prodocument.ui.util.DefaultImplModels
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.merge.contract.MergePdfContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest

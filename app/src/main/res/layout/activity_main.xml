@@ -19,7 +19,11 @@
         <com.natiqhaciyef.prodocument.ui.custom.CustomToolbarLayout
             android:id="@+id/materialToolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:minHeight="@null"
+            style="@style/Widget.MaterialComponents.Toolbar"
+            app:buttonGravity="center_vertical"
+            />
 
     </com.google.android.material.appbar.AppBarLayout>
 

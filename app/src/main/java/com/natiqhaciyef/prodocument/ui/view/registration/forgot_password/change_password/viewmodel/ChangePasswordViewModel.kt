@@ -4,9 +4,9 @@ import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.common.objects.SuccessMessages
+import com.natiqhaciyef.core.base.ui.BaseViewModel
 import com.natiqhaciyef.domain.usecase.user.remote.UpdateUserPasswordByEmailRemoteUseCase
-import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
-import com.natiqhaciyef.prodocument.ui.model.ResultType
+import com.natiqhaciyef.core.model.ResultType
 import com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.change_password.contract.ChangePasswordContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest

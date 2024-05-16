@@ -2,26 +2,27 @@ package com.natiqhaciyef.data.network.response
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import com.natiqhaciyef.data.base.BaseNetworkModel
+import com.natiqhaciyef.core.CRUDResponse
+import com.natiqhaciyef.core.base.network.BaseNetworkModel
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class UserResponse(
-    @SerializedName("full_name")
+    @SerializedName("fullName")
     var fullName: String,
-    @SerializedName("phone_number")
+    @SerializedName("phoneNumber")
     var phoneNumber: String,
     @SerializedName("gender")
     var gender: String,
     @SerializedName("dob")
     var dateOfBirth: String,
-    @SerializedName("image_url")
+    @SerializedName("imageUrl")
     var imageUrl: String,
     @SerializedName("email")
     var email: String,
     @SerializedName("password")
     var password: String,
-    @SerializedName("publish_date")
+    @SerializedName("publishDate")
     var publishDate: String,
     @SerializedName("result")
     override var result: CRUDResponse?

@@ -1,10 +1,13 @@
 package com.natiqhaciyef.prodocument.ui.custom
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.textfield.TextInputEditText
@@ -70,15 +73,11 @@ class CustomWatermarkAdderBottomSheetFragment(
                 val text = getTextClickAction.invoke()
                 val image = getImageClickAction.invoke()
 
-                if (text?.text != null) {
-                    println(text.text)
-                    continueButtonCLickAction.invoke(text.text.toString())
-                }
+                if (text?.text != null) { continueButtonCLickAction.invoke(text.text.toString()) }
 
-                if(image != null){
-                    println(image)
-                    continueButtonCLickAction.invoke(image)
-                }
+                if(image != null){ continueButtonCLickAction.invoke(image) }
+
+                this@CustomWatermarkAdderBottomSheetFragment.dismiss()
             }
         }
     }

@@ -3,10 +3,9 @@ package com.natiqhaciyef.prodocument.ui.view.main.home.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import com.natiqhaciyef.common.model.MenuItemModel
 import com.natiqhaciyef.prodocument.databinding.RecyclerMenuItemViewBinding
-import com.natiqhaciyef.prodocument.ui.base.BaseRecyclerViewAdapter
+import com.natiqhaciyef.core.base.ui.BaseRecyclerViewAdapter
 
 
 class MenuAdapter(

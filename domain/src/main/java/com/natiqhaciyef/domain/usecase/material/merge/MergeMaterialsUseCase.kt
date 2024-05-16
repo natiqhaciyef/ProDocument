@@ -1,18 +1,17 @@
 package com.natiqhaciyef.domain.usecase.material.merge
 
-import com.natiqhaciyef.domain.mapper.toMappedModel
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.data.network.request.MergeRequest
-import com.natiqhaciyef.domain.base.usecase.BaseUseCase
-import com.natiqhaciyef.domain.base.usecase.UseCase
-import com.natiqhaciyef.domain.mapper.toMaterialResponse
+import com.natiqhaciyef.core.base.usecase.BaseUseCase
+import com.natiqhaciyef.core.base.usecase.UseCase
+import com.natiqhaciyef.data.mapper.toMappedModel
+import com.natiqhaciyef.data.mapper.toMaterialResponse
 import com.natiqhaciyef.domain.repository.MaterialRepository
 import com.natiqhaciyef.domain.usecase.MATERIAL_LIST
 import com.natiqhaciyef.domain.usecase.MATERIAL_TITLE
-import com.natiqhaciyef.domain.usecase.MATERIAL_TOKEN
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
