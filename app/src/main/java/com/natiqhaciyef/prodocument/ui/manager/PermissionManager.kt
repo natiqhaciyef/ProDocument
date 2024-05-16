@@ -137,40 +137,40 @@ class PermissionManager private constructor(
             this.detailedCallback
         )
     }
-}
 
-sealed class Permission(vararg val permissions: String) {
-    class CustomPermission(permissions: String): Permission(permissions)
-    // Individual permissions
-    data object Camera : Permission(Manifest.permission.CAMERA)
+    sealed class Permission(vararg val permissions: String) {
+        class CustomPermission(permissions: String): Permission(permissions)
+        // Individual permissions
+        data object Camera : Permission(Manifest.permission.CAMERA)
 
-    // Bundled permissions
-    data object MandatoryForFeatureOne : Permission(
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.ACCESS_FINE_LOCATION
-    )
+        // Bundled permissions
+        data object MandatoryForFeatureOne : Permission(
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
 
-    // Grouped permissions
-    data object Location : Permission(
-        Manifest.permission.ACCESS_FINE_LOCATION,
-        Manifest.permission.ACCESS_COARSE_LOCATION
-    )
-    data object Storage : Permission(
-        Manifest.permission.READ_EXTERNAL_STORAGE,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE
-    )
+        // Grouped permissions
+        data object Location : Permission(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        )
+        data object Storage : Permission(
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
 
 
-    companion object {
-        fun createCustomPermission(permissions: String): CustomPermission {
-            return CustomPermission(permissions)
-        }
+        companion object {
+            fun createCustomPermission(permissions: String): CustomPermission {
+                return CustomPermission(permissions)
+            }
 
-        fun from(permission: String) = when (permission) {
-            Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION -> Location
-            Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE -> Storage
-            Manifest.permission.CAMERA -> Camera
-            else -> CustomPermission(permission)
+            fun from(permission: String) = when (permission) {
+                Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION -> Location
+                Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE -> Storage
+                Manifest.permission.CAMERA -> Camera
+                else -> CustomPermission(permission)
+            }
         }
     }
 }

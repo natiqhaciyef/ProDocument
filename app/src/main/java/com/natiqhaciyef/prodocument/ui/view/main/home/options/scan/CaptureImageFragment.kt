@@ -21,7 +21,7 @@ import com.google.mlkit.vision.documentscanner.GmsDocumentScanning
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanningResult
 import com.natiqhaciyef.common.helpers.loadImage
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
-import com.natiqhaciyef.prodocument.ui.util.CameraReader
+import com.natiqhaciyef.prodocument.ui.manager.CameraManager
 import com.natiqhaciyef.prodocument.databinding.FragmentCaptureImageBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.HOME_ROUTE
@@ -44,7 +44,7 @@ class CaptureImageFragment(
     private var bundle = bundleOf()
     private var imageUri: Uri? = null
     private var scanner =
-        GmsDocumentScanning.getClient(CameraReader.cameraScannerDefaultOptions)
+        GmsDocumentScanning.getClient(CameraManager.cameraScannerDefaultOptions)
 
     private val scannerLauncher =
         registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
