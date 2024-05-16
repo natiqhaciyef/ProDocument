@@ -23,14 +23,14 @@ import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.HOME_ROUTE
 import com.natiqhaciyef.prodocument.ui.custom.CustomMaterialOptionsBottomSheetFragment
 import com.natiqhaciyef.prodocument.ui.custom.CustomWatermarkAdderBottomSheetFragment
 import com.natiqhaciyef.core.model.CategoryItem
+import com.natiqhaciyef.prodocument.ui.manager.CameraManager.Companion.createAndShareFile
+import com.natiqhaciyef.prodocument.ui.manager.CameraManager.Companion.getAddressOfFile
+import com.natiqhaciyef.prodocument.ui.manager.FileManager.createDefaultPdfUriLoader
 import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_LIST_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TITLE
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TYPE
-import com.natiqhaciyef.prodocument.ui.util.CameraReader.Companion.createAndShareFile
-import com.natiqhaciyef.prodocument.ui.util.CameraReader.Companion.getAddressOfFile
-import com.natiqhaciyef.prodocument.ui.util.PdfReader.createDefaultPdfUriLoader
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.modify.contract.ModifyPdfContract
 import com.natiqhaciyef.prodocument.ui.view.main.modify.viewmodel.ModifyPdfViewModel

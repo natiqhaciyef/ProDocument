@@ -101,7 +101,7 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel<State, Event, E
             activity.finish()
     }
 
-    fun navigate(deepLink: Uri, navGraph: Int) {
+    fun navigate(deepLink: Uri) {
         val pendingIntent = NavDeepLinkBuilder(requireContext())
             .setDestination(deepLink.toString())
             .createPendingIntent()

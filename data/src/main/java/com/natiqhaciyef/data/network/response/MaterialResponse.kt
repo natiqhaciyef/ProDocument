@@ -23,6 +23,8 @@ data class MaterialResponse(
     var type: String,
     @SerializedName("url")
     var url: String,
+    @SerializedName("quality")
+    var quality: String? = null,
     @SerializedName("protectionKey")
     var protectionKey: String? = null,
     @SerializedName("result")

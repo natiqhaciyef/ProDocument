@@ -17,7 +17,6 @@ import androidx.core.os.bundleOf
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.databinding.FragmentScanBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
-import com.natiqhaciyef.prodocument.ui.manager.Permission
 import com.natiqhaciyef.prodocument.ui.manager.PermissionManager
 import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.HOME_ROUTE
 import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.navigateByRouteTitle
@@ -154,7 +153,7 @@ class ScanFragment(
     private fun checkGalleryPermission() {
         PermissionManager.Builder(this@ScanFragment, false)
             .addPermissionLauncher(registerForGalleryPermissionResult)
-            .request(Permission.createCustomPermission(Manifest.permission.READ_EXTERNAL_STORAGE))
+            .request(PermissionManager.Permission.createCustomPermission(Manifest.permission.READ_EXTERNAL_STORAGE))
             .checkPermission { startGalleryConfig() }
             .build()
     }

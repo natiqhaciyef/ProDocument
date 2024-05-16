@@ -2,6 +2,7 @@ package com.natiqhaciyef.data.source
 
 import com.natiqhaciyef.common.objects.*
 import com.natiqhaciyef.core.base.mock.generateMockerClass
+import com.natiqhaciyef.data.mock.materials.CompressMaterialMockGenerator
 import com.natiqhaciyef.data.mock.materials.CreateMaterialMockGenerator
 import com.natiqhaciyef.data.network.LoadType
 import com.natiqhaciyef.data.network.handleNetworkResponse
@@ -17,6 +18,7 @@ import com.natiqhaciyef.data.mock.materials.UpdateMaterialMockGenerator
 import com.natiqhaciyef.data.mock.materials.WatermarkMaterialMockGenerator
 import com.natiqhaciyef.data.network.NetworkConfig
 import com.natiqhaciyef.data.network.manager.TokenManager
+import com.natiqhaciyef.data.network.request.CompressRequest
 import com.natiqhaciyef.data.network.request.MergeRequest
 import com.natiqhaciyef.data.network.request.ProtectRequest
 import com.natiqhaciyef.data.network.request.SplitRequest
@@ -154,6 +156,18 @@ class MaterialDataSource(
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.protectMaterial(token = requestHeader, data = data)
+        }
+    }
+
+    suspend fun compressMaterial(
+        data: CompressRequest
+    ) = withContext(Dispatchers.IO){
+        val requestHeader = manager.generateToken()
+        val mock = generateMockerClass(CompressMaterialMockGenerator::class, data)
+            .getMock(CompressMaterialMockGenerator.customRequest) { null }
+
+        handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
+            service.compressMaterial(token = requestHeader, data = data)
         }
     }
 }

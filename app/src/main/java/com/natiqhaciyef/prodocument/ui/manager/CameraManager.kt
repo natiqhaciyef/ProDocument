@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.util
+package com.natiqhaciyef.prodocument.ui.manager
 
 import android.content.ContentValues
 import android.content.Context
@@ -49,7 +49,7 @@ import java.util.Locale
 import java.util.concurrent.Executors
 
 
-class CameraReader(
+class CameraManager(
     private val context: Context,
     private val lifecycle: LifecycleOwner,
 ) {
