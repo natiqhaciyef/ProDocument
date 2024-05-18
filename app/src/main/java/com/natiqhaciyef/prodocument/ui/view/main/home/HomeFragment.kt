@@ -13,6 +13,7 @@ import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TYPE
 import com.natiqhaciyef.prodocument.ui.util.UiList
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.home.adapter.FileItemAdapter
@@ -27,7 +28,7 @@ class HomeFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentHomeBinding = FragmentHomeBinding::inflate,
     override val viewModelClass: KClass<HomeViewModel> = HomeViewModel::class
 ) : BaseFragment<FragmentHomeBinding, HomeViewModel, HomeContract.HomeUiState, HomeContract.HomeEvent, HomeContract.HomeEffect>() {
-    private var bundle = bundleOf()
+    private var resourceBundle = bundleOf()
     private lateinit var menuAdapter: MenuAdapter
     private lateinit var fileAdapter: FileItemAdapter
 
@@ -59,6 +60,7 @@ class HomeFragment(
         when (effect) {
             is HomeContract.HomeEffect.FindMaterialByIdFailedEffect -> {}
             is HomeContract.HomeEffect.MaterialListLoadingFailedEffect -> {}
+            else -> {}
         }
     }
 
@@ -76,7 +78,7 @@ class HomeFragment(
         }
     }
 
-    private fun config(){
+    private fun config() {
         (activity as MainActivity).also {
             it.binding.bottomNavBar.visibility = View.VISIBLE
             it.binding.materialToolbar.visibility = View.VISIBLE
@@ -95,8 +97,12 @@ class HomeFragment(
     private fun menuAdapterConfig() {
         menuAdapter =
             MenuAdapter(UiList.generateHomeMenuItemsList(requireContext()).toMutableList())
-        menuAdapter.onClickAction = { route ->
-            navigateByRouteTitle(this@HomeFragment,route)
+        menuAdapter.onClickAction = { route, type ->
+            val customBundle = bundleOf()
+            if (type != null)
+                customBundle.putString(BUNDLE_TYPE, type)
+
+            navigateByRouteTitle(this@HomeFragment, route, customBundle)
             (activity as MainActivity).apply {
                 binding.bottomNavBar.visibility = View.GONE
                 binding.appbarLayout.visibility = View.GONE
@@ -113,7 +119,12 @@ class HomeFragment(
 
     private fun fileAdapterConfig(list: List<MappedMaterialModel>?) {
         list?.let {
-            fileAdapter = FileItemAdapter(list.toMutableList(), requireContext().getString(R.string.default_type), this, requireContext())
+            fileAdapter = FileItemAdapter(
+                list.toMutableList(),
+                requireContext().getString(R.string.default_type),
+                this,
+                requireContext()
+            )
 
             fileAdapter.onClickAction = { materialId ->
                 fileClickEvent(materialId)
@@ -132,12 +143,12 @@ class HomeFragment(
     }
 
     private fun fileClickAction(material: MappedMaterialModel) {
-        bundle.putParcelable(BUNDLE_MATERIAL, material)
-        val action = HomeFragmentDirections.actionHomeFragmentToPreviewMaterialNavGraph(bundle)
+        resourceBundle.putParcelable(BUNDLE_MATERIAL, material)
+        val action = HomeFragmentDirections.actionHomeFragmentToPreviewMaterialNavGraph(resourceBundle)
         navigate(action)
     }
 
-    private fun recentFilesClickAction(){
+    private fun recentFilesClickAction() {
         binding.rightArrowIcon.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToRecentFilesFragment()
             navigate(action)
