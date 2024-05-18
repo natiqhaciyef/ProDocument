@@ -26,6 +26,9 @@ import com.natiqhaciyef.core.model.CategoryItem
 import com.natiqhaciyef.prodocument.ui.manager.CameraManager.Companion.createAndShareFile
 import com.natiqhaciyef.prodocument.ui.manager.CameraManager.Companion.getAddressOfFile
 import com.natiqhaciyef.prodocument.ui.manager.FileManager.createDefaultPdfUriLoader
+import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.COMPRESS_TYPE
+import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.PROTECT_TYPE
+import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.SPLIT_TYPE
 import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_LIST_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
@@ -36,7 +39,6 @@ import com.natiqhaciyef.prodocument.ui.view.main.modify.contract.ModifyPdfContra
 import com.natiqhaciyef.prodocument.ui.view.main.modify.viewmodel.ModifyPdfViewModel
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.CaptureImageFragment
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.ScanFragment
-import com.natiqhaciyef.prodocument.ui.view.main.home.options.split.SplitFragment.Companion.SPLIT_TYPE
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.WatermarkFragment.Companion.WATERMARK_TYPE
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -87,6 +89,14 @@ class ModifyPdfFragment(
                     SPLIT_TYPE ->{
                         val list = (data.resourceBundle.getParcelableArray(BUNDLE_LIST_MATERIAL) as Array<MappedMaterialModel>).toList()
                         splitConfig(list)
+                    }
+
+                    PROTECT_TYPE ->{
+
+                    }
+
+                    COMPRESS_TYPE ->{
+
                     }
 
                     null -> { /* create effect */ }

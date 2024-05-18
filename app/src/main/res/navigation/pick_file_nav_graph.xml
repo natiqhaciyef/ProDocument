@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/pick_file_nav_graph"
+    app:startDestination="@id/pickFileFragment">
+
+    <fragment
+        android:id="@+id/addPasswordFileFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.home.options.protect.AddPasswordFileFragment"
+        android:label="fragment_add_password_file"
+        tools:layout="@layout/fragment_add_password_file">
+        <argument
+            android:name="resourceBundle"
+            app:argType="android.os.Bundle" />
+    </fragment>
+    <fragment
+        android:id="@+id/pickFileFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.home.options.pick_file.PickFileFragment"
+        android:label="fragment_pick_file"
+        tools:layout="@layout/fragment_pick_file" >
+        <action
+            android:id="@+id/action_pickFileFragment_to_moreInfoSplitFragment"
+            app:destination="@id/moreInfoSplitFragment" />
+        <action
+            android:id="@+id/action_pickFileFragment_to_addPasswordFileFragment"
+            app:destination="@id/addPasswordFileFragment" />
+        <action
+            android:id="@+id/action_pickFileFragment_to_compressFragment"
+            app:destination="@id/compressFragment" />
+        <argument
+            android:name="resourceBundle"
+            app:argType="android.os.Bundle" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/moreInfoSplitFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.home.options.split.MoreInfoSplitFragment"
+        android:label="fragment_more_info_split"
+        tools:layout="@layout/fragment_more_info_split" >
+        <argument
+            android:name="resourceBundle"
+            app:argType="android.os.Bundle" />
+        <action
+            android:id="@+id/action_moreInfoSplitFragment_to_preview_material_nav_graph"
+            app:destination="@id/preview_material_nav_graph" >
+            <argument
+                android:name="resourceBundle"
+                app:argType="android.os.Bundle" />
+        </action>
+    </fragment>
+    <include app:graph="@navigation/preview_material_nav_graph" />
+    <fragment
+        android:id="@+id/compressFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.home.options.compress.CompressFragment"
+        android:label="fragment_compress"
+        tools:layout="@layout/fragment_compress" >
+        <action
+            android:id="@+id/action_compressFragment_to_preview_material_nav_graph"
+            app:destination="@id/preview_material_nav_graph" >
+            <argument
+                android:name="resourceBundle"
+                app:argType="android.os.Bundle" />
+        </action>
+        <argument
+            android:name="resourceBundle"
+            app:argType="android.os.Bundle" />
+    </fragment>
+
+
+</navigation>
