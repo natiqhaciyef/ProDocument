@@ -41,15 +41,15 @@ class CompressMaterialMockGenerator(
 
     companion object CompressMaterialMockGenerator{
         val customRequest = CompressRequest(
-            material = MappedMaterialModel(
+            material = MaterialResponse(
                 id = "materialId",
-                createdDate = getNow(),
+                publishDate = getNow(),
                 image = "image",
                 title = "title",
                 description = "description",
                 type = "type",
-                url = "url".toUri(),
-                result = CRUDModel(
+                url = "",
+                result = CRUDResponse(
                     resultCode = 299,
                     message = "Mock crud"
                 )

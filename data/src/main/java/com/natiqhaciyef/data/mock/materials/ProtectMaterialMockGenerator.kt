@@ -40,15 +40,15 @@ class ProtectMaterialMockGenerator(
 
     companion object ProtectMaterialMockGenerator{
         val customRequest = ProtectRequest(
-            material = MappedMaterialModel(
+            material = MaterialResponse(
                 id = "materialId",
-                createdDate = getNow(),
+                publishDate = getNow(),
                 image = "image",
                 title = "title",
                 description = "description",
                 type = "type",
-                url = "".toUri(),
-                result = CRUDModel(
+                url = "",
+                result = CRUDResponse(
                     resultCode = 299,
                     message = "Mock crud"
                 )
