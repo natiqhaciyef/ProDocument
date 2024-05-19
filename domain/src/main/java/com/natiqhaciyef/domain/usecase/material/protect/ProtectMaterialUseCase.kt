@@ -6,6 +6,7 @@ import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.core.base.usecase.BaseUseCase
 import com.natiqhaciyef.core.base.usecase.UseCase
 import com.natiqhaciyef.data.mapper.toMappedModel
+import com.natiqhaciyef.data.mapper.toMaterialResponse
 import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.data.network.request.ProtectRequest
 import com.natiqhaciyef.domain.repository.MaterialRepository
@@ -22,7 +23,7 @@ class ProtectMaterialUseCase @Inject constructor(
         emit(Resource.loading(null))
 
         val key = data.protectionKey
-        val material = data.copy(isProtected = false, protectionKey = null)
+        val material = data.copy(isProtected = false, protectionKey = null).toMaterialResponse()
 
         // check key nullability
         val request = ProtectRequest(
