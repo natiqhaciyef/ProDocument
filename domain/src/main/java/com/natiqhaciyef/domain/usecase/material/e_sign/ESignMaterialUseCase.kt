@@ -1,4 +1,4 @@
-package com.natiqhaciyef.domain.usecase.material.protect
+package com.natiqhaciyef.domain.usecase.material.e_sign
 
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
@@ -8,33 +8,30 @@ import com.natiqhaciyef.core.base.usecase.UseCase
 import com.natiqhaciyef.data.mapper.toMappedModel
 import com.natiqhaciyef.data.mapper.toMaterialResponse
 import com.natiqhaciyef.data.network.NetworkResult
-import com.natiqhaciyef.data.network.request.ProtectRequest
+import com.natiqhaciyef.data.network.request.ESignRequest
 import com.natiqhaciyef.domain.repository.MaterialRepository
+import com.natiqhaciyef.domain.usecase.MATERIAL_E_SIGN
+import com.natiqhaciyef.domain.usecase.MATERIAL_MODEL
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 @UseCase
-class ProtectMaterialUseCase @Inject constructor(
+class ESignMaterialUseCase @Inject constructor(
     materialRepository: MaterialRepository
-): BaseUseCase<MaterialRepository, MappedMaterialModel, MappedMaterialModel>(materialRepository) {
+) : BaseUseCase<MaterialRepository, Map<String, Any>, MappedMaterialModel>(materialRepository) {
 
-    override fun operate(data: MappedMaterialModel): Flow<Resource<MappedMaterialModel>> = flow{
+    override fun operate(data: Map<String, Any>): Flow<Resource<MappedMaterialModel>> = flow {
         emit(Resource.loading(null))
 
-        val key = data.protectionKey
-        val material = data.copy(isProtected = false, protectionKey = null).toMaterialResponse()
+        val sign = data[MATERIAL_E_SIGN].toString()
+        val material = (data[MATERIAL_MODEL] as MappedMaterialModel).toMaterialResponse()
 
-        // check key nullability
-        val request = ProtectRequest(
-            material = material,
-            key = key ?: "Protected"
-        )
-
-        when (val result = repository.protectMaterial(request)) {
+        val eSignRequest = ESignRequest(sign = sign, material = material)
+        when (val result = repository.eSignMaterial(eSignRequest)) {
             is NetworkResult.Success -> {
                 val mapped = result.data.toMappedModel()
-                if (mapped != null && mapped.result?.resultCode in 200..299) {
+                if (mapped != null && result.data.result?.resultCode in 200..299) {
                     emit(Resource.success(mapped))
                 } else {
                     emit(
@@ -71,6 +68,5 @@ class ProtectMaterialUseCase @Inject constructor(
 
             else -> {}
         }
-
     }
 }

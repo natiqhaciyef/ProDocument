@@ -1,8 +1,8 @@
 package com.natiqhaciyef.data.network.request
 
-import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
+import com.natiqhaciyef.data.network.response.MaterialResponse
 
 data class CompressRequest(
-    var material: MappedMaterialModel,
+    var material: MaterialResponse,
     var quality: String
 )
