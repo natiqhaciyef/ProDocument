@@ -27,6 +27,7 @@ object BaseNavigationDeepLink {
     const val PROTECT_TYPE = "ProtectPdfType"
     const val SPLIT_TYPE = "SplitPdfType"
     const val COMPRESS_TYPE = "CompressPdfType"
+    const val E_SIGN_TYPE = "E-SignType"
 
 
     // Routes

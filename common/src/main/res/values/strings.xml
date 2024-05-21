@@ -104,10 +104,10 @@
     <!-- Home -->
     <string name="scan_code">Scan Code</string>
     <string name="watermark">Watermark</string>
-    <string name="e_sign_pdf">eSign PDF</string>
     <string name="split_pdf">Split PDF</string>
     <string name="merge_pdf">Merge PDF</string>
     <string name="protect_pdf">Protect PDF</string>
+    <string name="e_sign_pdf">E-Sign PDF</string>
     <string name="compress_pdf">Compress PDF</string>
     <string name="all_tools">All tools</string>
     <string name="recent_files">Recent Files</string>

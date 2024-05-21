@@ -18,7 +18,7 @@
         android:id="@+id/pickFileFragment"
         android:name="com.natiqhaciyef.prodocument.ui.view.main.home.options.pick_file.PickFileFragment"
         android:label="fragment_pick_file"
-        tools:layout="@layout/fragment_pick_file" >
+        tools:layout="@layout/fragment_pick_file">
         <action
             android:id="@+id/action_pickFileFragment_to_moreInfoSplitFragment"
             app:destination="@id/moreInfoSplitFragment" />
@@ -31,19 +31,22 @@
         <argument
             android:name="resourceBundle"
             app:argType="android.os.Bundle" />
+        <action
+            android:id="@+id/action_pickFileFragment_to_ESignFragment"
+            app:destination="@id/ESignFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/moreInfoSplitFragment"
         android:name="com.natiqhaciyef.prodocument.ui.view.main.home.options.split.MoreInfoSplitFragment"
         android:label="fragment_more_info_split"
-        tools:layout="@layout/fragment_more_info_split" >
+        tools:layout="@layout/fragment_more_info_split">
         <argument
             android:name="resourceBundle"
             app:argType="android.os.Bundle" />
         <action
             android:id="@+id/action_moreInfoSplitFragment_to_preview_material_nav_graph"
-            app:destination="@id/preview_material_nav_graph" >
+            app:destination="@id/preview_material_nav_graph">
             <argument
                 android:name="resourceBundle"
                 app:argType="android.os.Bundle" />
@@ -54,14 +57,26 @@
         android:id="@+id/compressFragment"
         android:name="com.natiqhaciyef.prodocument.ui.view.main.home.options.compress.CompressFragment"
         android:label="fragment_compress"
-        tools:layout="@layout/fragment_compress" >
+        tools:layout="@layout/fragment_compress">
         <action
             android:id="@+id/action_compressFragment_to_preview_material_nav_graph"
-            app:destination="@id/preview_material_nav_graph" >
+            app:destination="@id/preview_material_nav_graph">
             <argument
                 android:name="resourceBundle"
                 app:argType="android.os.Bundle" />
         </action>
+        <argument
+            android:name="resourceBundle"
+            app:argType="android.os.Bundle" />
+    </fragment>
+    <fragment
+        android:id="@+id/ESignFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.home.options.e_sign.ESignFragment"
+        android:label="fragment_e_sign"
+        tools:layout="@layout/fragment_e_sign">
+        <action
+            android:id="@+id/action_ESignFragment_to_preview_material_nav_graph"
+            app:destination="@id/preview_material_nav_graph" />
         <argument
             android:name="resourceBundle"
             app:argType="android.os.Bundle" />

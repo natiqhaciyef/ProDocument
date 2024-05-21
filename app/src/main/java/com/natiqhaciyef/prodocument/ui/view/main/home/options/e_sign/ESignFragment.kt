@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.navArgs
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.FragmentESignBinding
@@ -19,6 +21,10 @@ class ESignFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentESignBinding = FragmentESignBinding::inflate,
     override val viewModelClass: KClass<ESignViewModel> = ESignViewModel::class
 ) : BaseFragment<FragmentESignBinding, ESignViewModel, ESignContract.ESignState, ESignContract.ESignEvent, ESignContract.ESignEffect>() {
-
-
+    private var resBundle = bundleOf()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val args: ESignFragmentArgs by navArgs()
+        resBundle = args.resourceBundle
+    }
 }
