@@ -7,6 +7,7 @@ import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.ALL_TOOLS_ROU
 import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.COMPRESS_ROUTE
 import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.COMPRESS_TYPE
 import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.E_SIGN_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.E_SIGN_TYPE
 import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.MERGE_ROUTE
 import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.PROTECT_ROUTE
 import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.PROTECT_TYPE
@@ -31,7 +32,8 @@ object UiList {
         MenuItemModel(
             title = context.getString(R.string.e_sign_pdf),
             imageId = R.drawable.e_sign_menu_icon,
-            routeTitle = E_SIGN_ROUTE
+            routeTitle = E_SIGN_ROUTE,
+            type = E_SIGN_TYPE
         ),
         MenuItemModel(
             title = context.getString(R.string.split_pdf),
