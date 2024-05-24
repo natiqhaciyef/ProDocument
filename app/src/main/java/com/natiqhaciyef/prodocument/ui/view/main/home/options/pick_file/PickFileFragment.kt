@@ -16,6 +16,7 @@ import com.natiqhaciyef.prodocument.databinding.FragmentPickFileBinding
 import com.natiqhaciyef.prodocument.ui.manager.FileManager
 import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink
 import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.COMPRESS_TYPE
+import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.E_SIGN_TYPE
 import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.PROTECT_TYPE
 import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.SPLIT_TYPE
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants
@@ -44,10 +45,7 @@ class PickFileFragment(
                             fileConfig(file)
                             binding.continueButton.isEnabled = true
                             binding.continueButton.setOnClickListener {
-                                continueButtonAction(
-                                    file,
-                                    title
-                                )
+                                continueButtonAction(file, title)
                             }
                         }
                 }
@@ -96,6 +94,16 @@ class PickFileFragment(
                     .actionPickFileFragmentToMoreInfoSplitFragment(resBundle)
             }
 
+            PROTECT_TYPE -> {
+                PickFileFragmentDirections
+                    .actionPickFileFragmentToAddPasswordFileFragment(resBundle)
+            }
+
+            E_SIGN_TYPE -> {
+                PickFileFragmentDirections
+                    .actionPickFileFragmentToESignFragment(resBundle)
+            }
+
             else -> {
                 PickFileFragmentDirections
                     .actionPickFileFragmentToAddPasswordFileFragment(resBundle)
@@ -124,6 +132,10 @@ class PickFileFragment(
 
         PROTECT_TYPE -> {
             binding.pickFileTitleText.setText(com.natiqhaciyef.common.R.string.protect_pdf)
+        }
+
+        E_SIGN_TYPE -> {
+            binding.pickFileTitleText.setText(com.natiqhaciyef.common.R.string.e_sign_pdf)
         }
 
         else -> {}

@@ -1,5 +1,7 @@
 package com.natiqhaciyef.domain.usecase.material.e_sign
 
+import android.graphics.Bitmap
+import com.natiqhaciyef.common.helpers.toResponseString
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.objects.ErrorMessages
@@ -11,6 +13,7 @@ import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.data.network.request.ESignRequest
 import com.natiqhaciyef.domain.repository.MaterialRepository
 import com.natiqhaciyef.domain.usecase.MATERIAL_E_SIGN
+import com.natiqhaciyef.domain.usecase.MATERIAL_E_SIGN_BITMAP
 import com.natiqhaciyef.domain.usecase.MATERIAL_MODEL
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -25,9 +28,10 @@ class ESignMaterialUseCase @Inject constructor(
         emit(Resource.loading(null))
 
         val sign = data[MATERIAL_E_SIGN].toString()
+        val signBitmap = data[MATERIAL_E_SIGN_BITMAP] as Bitmap
         val material = (data[MATERIAL_MODEL] as MappedMaterialModel).toMaterialResponse()
 
-        val eSignRequest = ESignRequest(sign = sign, material = material)
+        val eSignRequest = ESignRequest(sign = sign, material = material, signBitmap = signBitmap.toResponseString())
         when (val result = repository.eSignMaterial(eSignRequest)) {
             is NetworkResult.Success -> {
                 val mapped = result.data.toMappedModel()

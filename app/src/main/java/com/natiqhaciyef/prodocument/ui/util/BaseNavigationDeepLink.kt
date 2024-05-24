@@ -27,6 +27,7 @@ object BaseNavigationDeepLink {
     const val PROTECT_TYPE = "ProtectPdfType"
     const val SPLIT_TYPE = "SplitPdfType"
     const val COMPRESS_TYPE = "CompressPdfType"
+    const val E_SIGN_TYPE = "E-SignType"
 
 
     // Routes
@@ -85,11 +86,7 @@ object BaseNavigationDeepLink {
             R.navigation.watermark_nav_graph
         }
 
-        E_SIGN_ROUTE -> {
-            0
-        }
-
-        SPLIT_ROUTE, PROTECT_ROUTE, COMPRESS_ROUTE -> {
+        SPLIT_ROUTE, PROTECT_ROUTE, COMPRESS_ROUTE, E_SIGN_ROUTE -> {
             R.navigation.pick_file_nav_graph
         }
 
@@ -178,7 +175,7 @@ object BaseNavigationDeepLink {
 
     fun navigateByRouteTitle(fragment: Fragment, title: String, bundle: Bundle? = null) {
         when (title) {
-            COMPRESS_ROUTE, SPLIT_ROUTE, PROTECT_ROUTE -> {
+            COMPRESS_ROUTE, SPLIT_ROUTE, PROTECT_ROUTE, E_SIGN_ROUTE -> {
                 if (fragment is HomeFragment && bundle != null) {
                     val customBundle = bundleOf()
                     customBundle.putBundle("resourceBundle", bundle)

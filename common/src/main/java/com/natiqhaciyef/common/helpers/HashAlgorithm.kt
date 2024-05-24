@@ -1,7 +1,11 @@
 package com.natiqhaciyef.common.helpers
 
+import android.graphics.Bitmap
+import android.util.Base64
+import java.io.ByteArrayOutputStream
 import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
+
 
 fun hashPassword(password: String): String{
     val messageDigest = MessageDigest.getInstance("SHA-256")
@@ -13,4 +17,11 @@ fun hashPassword(password: String): String{
     }
 
     return hexString.toString()
+}
+
+fun Bitmap.toResponseString(): String {
+    val baos = ByteArrayOutputStream()
+    this.compress(Bitmap.CompressFormat.PNG, 100, baos)
+    val b = baos.toByteArray()
+    return Base64.encodeToString(b, Base64.DEFAULT)
 }
