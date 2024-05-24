@@ -51,7 +51,7 @@
         android:layout_marginBottom="36dp"
         android:background="@drawable/custom_button_background"
         android:elevation="0dp"
-        android:enabled="false"
+        android:enabled="true"
         android:fontFamily="@font/urbanist_bold"
         android:text="@string/continue_"
         android:textAllCaps="false"

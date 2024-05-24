@@ -79,7 +79,7 @@ object FileManager {
         return material.copy()
     }
 
-    fun getFile(fileRequestLauncher: ActivityResultLauncher<Intent>, ) {
+    fun getFile(fileRequestLauncher: ActivityResultLauncher<Intent>) {
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
             type = "*/*"
@@ -137,7 +137,7 @@ object FileManager {
     fun getPdfName(title: String) =
         String.format("%s %s / %s", title, pageNumber + 1, pageTotalCount)
 
-    fun PDFView.createDefaultPdfUriLoader(uri: Uri) =
+    fun PDFView.createSafePdfUriLoader(uri: Uri?) = if (uri != null)
         this.fromUri(uri)
             .pages(0, 2, 1, 3, 3, 3) // all pages are displayed by default
             .enableSwipe(true) // allows to block changing pages using swipe
@@ -153,5 +153,6 @@ object FileManager {
             .password(null)
             .scrollHandle(null)
             .load()
-
+    else
+        null
 }

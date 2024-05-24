@@ -74,9 +74,18 @@
         android:name="com.natiqhaciyef.prodocument.ui.view.main.home.options.e_sign.ESignFragment"
         android:label="fragment_e_sign"
         tools:layout="@layout/fragment_e_sign">
+        <argument
+            android:name="resourceBundle"
+            app:argType="android.os.Bundle" />
         <action
-            android:id="@+id/action_ESignFragment_to_preview_material_nav_graph"
-            app:destination="@id/preview_material_nav_graph" />
+            android:id="@+id/action_ESignFragment_to_addSignFragment"
+            app:destination="@id/addSignFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addSignFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.home.options.e_sign.AddSignFragment"
+        android:label="fragment_add_sign"
+        tools:layout="@layout/fragment_add_sign" >
         <argument
             android:name="resourceBundle"
             app:argType="android.os.Bundle" />

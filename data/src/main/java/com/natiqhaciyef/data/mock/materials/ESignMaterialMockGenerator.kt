@@ -1,5 +1,7 @@
 package com.natiqhaciyef.data.mock.materials
 
+import android.graphics.Bitmap
+import androidx.core.graphics.createBitmap
 import com.natiqhaciyef.common.helpers.getNow
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
@@ -50,7 +52,8 @@ class ESignMaterialMockGenerator(
                     message = "Mock crud"
                 )
             ),
-            sign = "not-signed"
+            sign = "not-signed",
+            signBitmap = "converted-bitmap"
         )
     }
 }

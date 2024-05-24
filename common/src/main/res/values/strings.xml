@@ -170,6 +170,7 @@
 
     <!-- E-Sign pdf  -->
     <string name="e_sign_draw_title">Draw your signature or add from the library</string>
+    <string name="e_sign_add_signature_to_file_title">Add Digital Signature</string>
 
     <!--  Files titles  -->
     <string name="total_file_amount_title">Total: %1$s file(s)</string>

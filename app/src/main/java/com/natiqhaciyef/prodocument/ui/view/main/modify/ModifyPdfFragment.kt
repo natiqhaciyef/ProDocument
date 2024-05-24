@@ -25,7 +25,7 @@ import com.natiqhaciyef.prodocument.ui.custom.CustomWatermarkAdderBottomSheetFra
 import com.natiqhaciyef.core.model.CategoryItem
 import com.natiqhaciyef.prodocument.ui.manager.CameraManager.Companion.createAndShareFile
 import com.natiqhaciyef.prodocument.ui.manager.CameraManager.Companion.getAddressOfFile
-import com.natiqhaciyef.prodocument.ui.manager.FileManager.createDefaultPdfUriLoader
+import com.natiqhaciyef.prodocument.ui.manager.FileManager.createSafePdfUriLoader
 import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.COMPRESS_TYPE
 import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.PROTECT_TYPE
 import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.SPLIT_TYPE
@@ -168,7 +168,7 @@ class ModifyPdfFragment(
             pdfView.visibility = View.VISIBLE
             imageView.visibility = View.GONE
             uriAddress = getAddressOfFile(requireContext(), material.url) ?: "".toUri()
-            pdfView.createDefaultPdfUriLoader(uriAddress!!)
+            pdfView.createSafePdfUriLoader(uriAddress!!)
             saveButton.setOnClickListener {
                 saveButtonClickEvent(material)
             }
@@ -182,7 +182,7 @@ class ModifyPdfFragment(
             pdfView.visibility = View.VISIBLE
             imageView.visibility = View.GONE
             uriAddress = getAddressOfFile(requireContext(), mappedMaterialModel.url) ?: "".toUri()
-            pdfView.createDefaultPdfUriLoader(uriAddress!!)
+            pdfView.createSafePdfUriLoader(uriAddress!!)
 
             val pdfParams = pdfView.layoutParams as ConstraintLayout.LayoutParams
             pdfParams.bottomMargin = 0
@@ -204,7 +204,7 @@ class ModifyPdfFragment(
         with(binding) {
             pdfView.visibility = View.VISIBLE
             imageView.visibility = View.GONE
-            pdfView.createDefaultPdfUriLoader(material.url)
+            pdfView.createSafePdfUriLoader(material.url)
 
             val params = pdfTitleText.layoutParams as ConstraintLayout.LayoutParams
             params.endToStart = optionsIconButton.id
@@ -225,7 +225,7 @@ class ModifyPdfFragment(
         with(binding) {
             pdfView.visibility = View.VISIBLE
             imageView.visibility = View.GONE
-            pdfView.createDefaultPdfUriLoader(materials.first().url)
+            pdfView.createSafePdfUriLoader(materials.first().url)
 
             val params = pdfTitleText.layoutParams as ConstraintLayout.LayoutParams
             params.endToStart = optionsIconButton.id

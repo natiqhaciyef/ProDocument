@@ -45,10 +45,7 @@ class PickFileFragment(
                             fileConfig(file)
                             binding.continueButton.isEnabled = true
                             binding.continueButton.setOnClickListener {
-                                continueButtonAction(
-                                    file,
-                                    title
-                                )
+                                continueButtonAction(file, title)
                             }
                         }
                 }
