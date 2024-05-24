@@ -1,0 +1,111 @@
+package com.natiqhaciyef.prodocument.ui.view.main.home.options.e_sign
+
+import android.annotation.SuppressLint
+import android.graphics.Bitmap
+import android.os.Build
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.annotation.RequiresApi
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.navArgs
+import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
+import com.natiqhaciyef.core.base.ui.BaseFragment
+import com.natiqhaciyef.prodocument.databinding.FragmentAddSignBinding
+import com.natiqhaciyef.prodocument.ui.manager.FileManager.createSafePdfUriLoader
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_SIGN_BITMAP
+import com.natiqhaciyef.prodocument.ui.view.main.home.options.e_sign.contract.ESignContract
+import com.natiqhaciyef.prodocument.ui.view.main.home.options.e_sign.viewmodel.ESignViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlin.reflect.KClass
+
+
+@AndroidEntryPoint
+class AddSignFragment(
+    override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentAddSignBinding = FragmentAddSignBinding::inflate,
+    override val viewModelClass: KClass<ESignViewModel> = ESignViewModel::class
+) : BaseFragment<FragmentAddSignBinding, ESignViewModel, ESignContract.ESignState, ESignContract.ESignEvent, ESignContract.ESignEffect>() {
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        config()
+    }
+
+    override fun onStateChange(state: ESignContract.ESignState) {
+        when{
+            state.isLoading -> {
+                changeVisibilityOfProgressBar(true)
+            }
+
+            else -> {
+                changeVisibilityOfProgressBar(false)
+
+
+            }
+        }
+    }
+
+    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
+        if (isVisible) {
+            binding.apply {
+                uiLayout.visibility = View.GONE
+                progressBar.visibility = View.VISIBLE
+                progressBar.isIndeterminate = true
+            }
+        } else {
+            binding.apply {
+                uiLayout.visibility = View.VISIBLE
+                progressBar.visibility = View.GONE
+                progressBar.isIndeterminate = false
+            }
+        }
+    }
+
+
+    private fun config(){
+        val arg: AddSignFragmentArgs by navArgs()
+        val resBundle = arg.resourceBundle
+
+        val material = resBundle.getParcelable<MappedMaterialModel>(BUNDLE_MATERIAL)
+        val signBitmap = resBundle.getParcelable<Bitmap>(BUNDLE_SIGN_BITMAP)
+
+        with(binding){
+            pdfView.createSafePdfUriLoader(material?.url)
+            signImageView.setImageBitmap(signBitmap)
+
+            signImageTouchListenerConfig(signImageView)
+        }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun signImageTouchListenerConfig(imageView: ImageView){
+        var initialX = 0f
+        var initialY = 0f
+
+        imageView.setOnTouchListener { view, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    initialX = event.rawX
+                    initialY = event.rawY
+                }
+                MotionEvent.ACTION_MOVE -> {
+                    val deltaX = event.rawX - initialX
+                    val deltaY = event.rawY - initialY
+                    imageView.x += deltaX
+                    imageView.y += deltaY
+                    initialX = event.rawX
+                    initialY = event.rawY
+                }
+
+                else -> {}
+            }
+            true
+        }
+    }
+}

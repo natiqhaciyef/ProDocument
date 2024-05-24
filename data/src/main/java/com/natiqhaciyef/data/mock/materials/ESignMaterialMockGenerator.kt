@@ -1,17 +1,16 @@
 package com.natiqhaciyef.data.mock.materials
 
-import androidx.core.net.toUri
+import android.graphics.Bitmap
+import androidx.core.graphics.createBitmap
 import com.natiqhaciyef.common.helpers.getNow
-import com.natiqhaciyef.common.model.CRUDModel
-import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
-import com.natiqhaciyef.data.network.request.ProtectRequest
+import com.natiqhaciyef.data.network.request.ESignRequest
 import com.natiqhaciyef.data.network.response.MaterialResponse
 
-class ProtectMaterialMockGenerator(
-    override var takenRequest: ProtectRequest
-) : BaseMockGenerator<ProtectRequest, MaterialResponse>() {
+class ESignMaterialMockGenerator(
+    override var takenRequest: ESignRequest
+) : BaseMockGenerator<ESignRequest, MaterialResponse>() {
     override var createdMock: MaterialResponse =
         MaterialResponse(
             id = "materialId",
@@ -29,17 +28,17 @@ class ProtectMaterialMockGenerator(
         )
 
     override fun getMock(
-        request: ProtectRequest,
-        action: (ProtectRequest) -> MaterialResponse?
+        request: ESignRequest,
+        action: (ESignRequest) -> MaterialResponse?
     ): MaterialResponse {
-        return if (request.key == takenRequest.key && request.material.title == takenRequest.material.title)
+        return if (request.sign == takenRequest.sign)
             createdMock
         else
             action.invoke(request) ?: throw Companion.MockRequestException()
     }
 
-    companion object ProtectMaterialMockGenerator{
-        val customRequest = ProtectRequest(
+    companion object ESignMaterialMockGenerator{
+        val customRequest = ESignRequest(
             material = MaterialResponse(
                 id = "materialId",
                 publishDate = getNow(),
@@ -53,7 +52,8 @@ class ProtectMaterialMockGenerator(
                     message = "Mock crud"
                 )
             ),
-            key = "Protected"
+            sign = "not-signed",
+            signBitmap = "converted-bitmap"
         )
     }
 }

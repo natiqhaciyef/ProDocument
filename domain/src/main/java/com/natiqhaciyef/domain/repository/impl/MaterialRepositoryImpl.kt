@@ -4,6 +4,7 @@ import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.data.mapper.toMaterialResponse
 import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.data.network.request.CompressRequest
+import com.natiqhaciyef.data.network.request.ESignRequest
 import com.natiqhaciyef.data.network.request.MergeRequest
 import com.natiqhaciyef.data.network.request.ProtectRequest
 import com.natiqhaciyef.data.network.request.SplitRequest
@@ -44,4 +45,7 @@ class MaterialRepositoryImpl(
 
     override suspend fun compressMaterial(data: CompressRequest): NetworkResult<MaterialResponse> =
         ds.compressMaterial(data)
+
+    override suspend fun eSignMaterial(data: ESignRequest): NetworkResult<MaterialResponse> =
+        ds.eSignMaterial(data)
 }

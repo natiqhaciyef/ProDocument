@@ -7,6 +7,7 @@ import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.core.base.usecase.BaseUseCase
 import com.natiqhaciyef.core.base.usecase.UseCase
 import com.natiqhaciyef.data.mapper.toMappedModel
+import com.natiqhaciyef.data.mapper.toMaterialResponse
 import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.data.network.request.CompressRequest
 import com.natiqhaciyef.domain.repository.MaterialRepository
@@ -23,7 +24,7 @@ class CompressMaterialUseCase @Inject constructor(
         emit(Resource.loading(null))
 
         val quality = data.copy().quality?.name ?: Quality.STANDARD.name
-        val material = data.copy(quality = null)
+        val material = data.copy(quality = null).toMaterialResponse()
         val request = CompressRequest(material = material, quality = quality)
 
         when(val result = repository.compressMaterial(request)){

@@ -21,6 +21,7 @@ class ProtectFileViewModel @Inject constructor(
             is ProtectFileContract.ProtectFileEvent.ProtectFileWithKeyEvent -> {
                 protectMaterial(material = event.material, key = event.key)
             }
+            else -> {}
         }
     }
 

@@ -20,6 +20,7 @@
     <string name="share">Share</string>
     <string name="merge">Merge</string>
     <string name="protect">Protect</string>
+    <string name="compress">Compress</string>
     <string name="give_permission">Give permission</string>
 
     <!--  Titles  -->
@@ -103,10 +104,10 @@
     <!-- Home -->
     <string name="scan_code">Scan Code</string>
     <string name="watermark">Watermark</string>
-    <string name="e_sign_pdf">eSign PDF</string>
     <string name="split_pdf">Split PDF</string>
     <string name="merge_pdf">Merge PDF</string>
     <string name="protect_pdf">Protect PDF</string>
+    <string name="e_sign_pdf">E-Sign PDF</string>
     <string name="compress_pdf">Compress PDF</string>
     <string name="all_tools">All tools</string>
     <string name="recent_files">Recent Files</string>
@@ -157,6 +158,19 @@
     <string name="protect_pdf_title">Protect PDF</string>
     <string name="protect_pdf_description">Set a password to protect your scan. This password will be required if you or the person you provide the scanned document wants to access the file. If you forget the password, then this file will not be accessible forever.</string>
 
+    <!-- Compress pdf  -->
+    <string name="compress_pdf_description">Reduce the size of your PDF file.</string>
+    <string name="compress_pdf_quality">Select compression level: </string>
+    <string name="high_compression_level">High compression</string>
+    <string name="medium_compression_level">Medium compression</string>
+    <string name="low_compression_level">Low compression</string>
+    <string name="high_compression_level_description">Smallest size, lower quality</string>
+    <string name="medium_compression_level_description">Medium size, medium quality</string>
+    <string name="low_compression_level_description">Largest size, better quality</string>
+
+    <!-- E-Sign pdf  -->
+    <string name="e_sign_draw_title">Draw your signature or add from the library</string>
+    <string name="e_sign_add_signature_to_file_title">Add Digital Signature</string>
 
     <!--  Files titles  -->
     <string name="total_file_amount_title">Total: %1$s file(s)</string>

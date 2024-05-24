@@ -3,11 +3,17 @@ package com.natiqhaciyef.prodocument.ui.util
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import androidx.core.net.toUri
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.natiqhaciyef.prodocument.R
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TYPE
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
+import com.natiqhaciyef.prodocument.ui.view.main.home.HomeFragment
+import com.natiqhaciyef.prodocument.ui.view.main.home.HomeFragmentDirections
 import com.natiqhaciyef.prodocument.ui.view.onboarding.OnboardingActivity
 import com.natiqhaciyef.prodocument.ui.view.registration.RegistrationActivity
 
@@ -17,6 +23,11 @@ object BaseNavigationDeepLink {
     const val REGISTER_MAIN_DEEPLINK = "prodoc://register/main"
     const val ONBOARDING_MAIN_DEEPLINK = "prodoc://onboarding/main"
     const val HOME_MAIN_DEEPLINK = "prodoc://home/main"
+
+    const val PROTECT_TYPE = "ProtectPdfType"
+    const val SPLIT_TYPE = "SplitPdfType"
+    const val COMPRESS_TYPE = "CompressPdfType"
+    const val E_SIGN_TYPE = "E-SignType"
 
 
     // Routes
@@ -43,7 +54,7 @@ object BaseNavigationDeepLink {
 
     // NavParams
 
-    fun generateNavGraphs(title: String) = when (title) {
+    private fun generateNavGraphs(title: String) = when (title) {
         // Main route
         REGISTER_ROUTE -> {
             R.navigation.registration_nav_graph
@@ -75,24 +86,12 @@ object BaseNavigationDeepLink {
             R.navigation.watermark_nav_graph
         }
 
-        E_SIGN_ROUTE -> {
-            0
-        }
-
-        SPLIT_ROUTE -> {
-            R.navigation.split_nav_graph
+        SPLIT_ROUTE, PROTECT_ROUTE, COMPRESS_ROUTE, E_SIGN_ROUTE -> {
+            R.navigation.pick_file_nav_graph
         }
 
         MERGE_ROUTE -> {
             R.navigation.merge_nav_graph
-        }
-
-        PROTECT_ROUTE -> {
-            R.navigation.protect_nav_graph
-        }
-
-        COMPRESS_ROUTE -> {
-            0
         }
 
         ALL_TOOLS_ROUTE -> {
@@ -120,7 +119,7 @@ object BaseNavigationDeepLink {
         else -> 0
     }
 
-    fun getNavigationByTitleActivity(title: String, context: Context) = when (title) {
+    private fun getNavigationByTitleActivity(title: String, context: Context) = when (title) {
         ONBOARDING_ROUTE -> {
             Intent(context, OnboardingActivity::class.java)
         }
@@ -174,9 +173,23 @@ object BaseNavigationDeepLink {
         activity.startActivity(deepLink)
     }
 
-    fun navigateByRouteTitle(fragment: Fragment, title: String) {
-        val destinationId = getNavGraph(title)
-        destinationId.let { fragment.findNavController().setGraph(destinationId) }
+    fun navigateByRouteTitle(fragment: Fragment, title: String, bundle: Bundle? = null) {
+        when (title) {
+            COMPRESS_ROUTE, SPLIT_ROUTE, PROTECT_ROUTE, E_SIGN_ROUTE -> {
+                if (fragment is HomeFragment && bundle != null) {
+                    val customBundle = bundleOf()
+                    customBundle.putBundle("resourceBundle", bundle)
+
+                    val destinationId = getNavGraph(title)
+                    destinationId.let { fragment.findNavController().setGraph(destinationId, customBundle) }
+                }
+            }
+
+            else -> {
+                val destinationId = getNavGraph(title)
+                destinationId.let { fragment.findNavController().setGraph(destinationId) }
+            }
+        }
     }
 
 }

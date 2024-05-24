@@ -5,6 +5,8 @@ package com.natiqhaciyef.domain.usecase
 const val MATERIAL_TOKEN = "materialToken"
 const val MATERIAL_MODEL = "mappedMaterial"
 const val MATERIAL_ID = "materialId"
+const val MATERIAL_E_SIGN = "materialE-Sign"
+const val MATERIAL_E_SIGN_BITMAP = "materialE-SignBitmap"
 const val MATERIAL_LIST = "materialList"
 const val MATERIAL_TITLE = "materialTitle"
 const val MATERIAL_FIRST_LINE = "materialFirstLine"

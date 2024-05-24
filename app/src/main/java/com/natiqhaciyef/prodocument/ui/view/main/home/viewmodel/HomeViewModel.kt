@@ -14,6 +14,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.reflect.full.declaredFunctions
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(

@@ -1,8 +1,8 @@
 package com.natiqhaciyef.data.network.request
 
-import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
+import com.natiqhaciyef.data.network.response.MaterialResponse
 
 data class ProtectRequest(
-    val material: MappedMaterialModel,
+    val material: MaterialResponse,
     val key: String
 )

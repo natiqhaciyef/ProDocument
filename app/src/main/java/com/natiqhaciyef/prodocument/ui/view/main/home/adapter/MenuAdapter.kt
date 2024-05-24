@@ -12,7 +12,7 @@ class MenuAdapter(
     dataList: MutableList<MenuItemModel>
 ) : BaseRecyclerViewAdapter<MenuItemModel, RecyclerMenuItemViewBinding>(dataList) {
 
-    var onClickAction: (String) -> Unit = {}
+    var onClickAction: (String, String?) -> Unit = { route, type ->  }
     override val binding: (Context, ViewGroup, Boolean) -> RecyclerMenuItemViewBinding =
         { context, viewGroup, b ->
             RecyclerMenuItemViewBinding.inflate(LayoutInflater.from(context), viewGroup, b)
@@ -25,7 +25,7 @@ class MenuAdapter(
         view.menuItemImage.setImageResource(menuItem.imageId)
         view.menuItemTitle.text = menuItem.title
 
-        holder.itemView.setOnClickListener { onClickAction.invoke(menuItem.routeTitle) }
+        holder.itemView.setOnClickListener { onClickAction.invoke(menuItem.routeTitle, menuItem.type) }
 
     }
 }
