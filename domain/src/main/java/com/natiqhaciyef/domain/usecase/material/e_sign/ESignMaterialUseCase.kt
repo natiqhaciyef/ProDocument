@@ -12,9 +12,11 @@ import com.natiqhaciyef.data.mapper.toMaterialResponse
 import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.data.network.request.ESignRequest
 import com.natiqhaciyef.domain.repository.MaterialRepository
+import com.natiqhaciyef.domain.usecase.CURRENT_PAGE_NUMBER
 import com.natiqhaciyef.domain.usecase.MATERIAL_E_SIGN
 import com.natiqhaciyef.domain.usecase.MATERIAL_E_SIGN_BITMAP
 import com.natiqhaciyef.domain.usecase.MATERIAL_MODEL
+import com.natiqhaciyef.domain.usecase.POSITIONS_LIST
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -30,8 +32,20 @@ class ESignMaterialUseCase @Inject constructor(
         val sign = data[MATERIAL_E_SIGN].toString()
         val signBitmap = data[MATERIAL_E_SIGN_BITMAP] as Bitmap
         val material = (data[MATERIAL_MODEL] as MappedMaterialModel).toMaterialResponse()
+        val page = data[CURRENT_PAGE_NUMBER].toString().toInt()
+        val positions = data[POSITIONS_LIST] as MutableList<Float>
+        val xPosition = positions[0]
+        val yPosition = positions[1]
 
-        val eSignRequest = ESignRequest(sign = sign, material = material, signBitmap = signBitmap.toResponseString())
+        val eSignRequest = ESignRequest(
+            sign = sign,
+            material = material,
+            signBitmap = signBitmap.toResponseString(),
+            page = page,
+            positionX = xPosition,
+            positionY = yPosition
+        )
+
         when (val result = repository.eSignMaterial(eSignRequest)) {
             is NetworkResult.Success -> {
                 val mapped = result.data.toMappedModel()

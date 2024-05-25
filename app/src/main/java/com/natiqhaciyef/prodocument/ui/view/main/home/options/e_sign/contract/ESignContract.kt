@@ -13,7 +13,9 @@ object ESignContract {
         data class SignMaterialEvent(
             val material: MappedMaterialModel,
             val eSign: String,
-            val bitmap: Bitmap
+            val bitmap: Bitmap,
+            val positionsList: MutableList<Float>,
+            val pageNumber: Int
         ) : ESignEvent
 
         data class ConvertSignToBitmap(
