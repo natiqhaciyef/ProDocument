@@ -7,6 +7,7 @@ import com.natiqhaciyef.data.network.TokenAuthenticator
 import com.natiqhaciyef.data.network.manager.TokenManager
 import com.natiqhaciyef.data.network.service.MaterialService
 import com.natiqhaciyef.data.network.service.QrCodeService
+import com.natiqhaciyef.data.network.service.SubscriptionService
 import com.natiqhaciyef.data.network.service.TokenService
 import com.natiqhaciyef.data.network.service.UserService
 import dagger.Module
@@ -49,6 +50,11 @@ object RemoteModule {
     @Singleton
     fun provideQrCodeService(network: Retrofit): QrCodeService =
         network.create(QrCodeService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideSubscriptionService(network: Retrofit): SubscriptionService =
+        network.create(SubscriptionService::class.java)
 
     @Provides
     @Singleton

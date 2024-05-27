@@ -176,4 +176,6 @@
     <string name="total_file_amount_title">Total: %1$s file(s)</string>
     <string name="search_file">Search file...</string>
 
+    <!-- Premium -->
+    <string name="subscription_price_text"><![CDATA[<font size="36">%1$s</font> <font size="24">/ %2$s</font>]]></string>
 </resources>

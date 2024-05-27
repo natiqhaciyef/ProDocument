@@ -4,10 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.natiqhaciyef.common.R
+import com.natiqhaciyef.common.model.mapped.MappedSubscriptionModel
 import com.natiqhaciyef.prodocument.databinding.FragmentPremiumBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
+import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
+import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.adapter.ScanViewPagerAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.premium.contract.PremiumContract
 import com.natiqhaciyef.prodocument.ui.view.main.premium.viewmodel.PremiumViewModel
+import com.natiqhaciyef.prodocument.ui.view.onboarding.behaviour.ZoomOutPageTransformer
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.KClass
 
@@ -19,6 +24,7 @@ class PremiumFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        config()
     }
 
     override fun onStateChange(state: PremiumContract.PremiumState) {
@@ -29,6 +35,9 @@ class PremiumFragment(
             else -> {
                 changeVisibilityOfProgressBar()
 
+                if (state.subscriptions != null){
+                    viewPagerConfiguration(state.subscriptions!!)
+                }
             }
         }
     }
@@ -51,5 +60,30 @@ class PremiumFragment(
                 progressBar.isIndeterminate = false
             }
         }
+    }
+
+    private fun config() {
+        (activity as MainActivity).also {
+            it.binding.bottomNavBar.visibility = View.VISIBLE
+            it.binding.materialToolbar.visibility = View.VISIBLE
+            it.binding.appbarLayout.visibility = View.VISIBLE
+            it.binding.materialToolbar.setTitleToolbar(getString(R.string.proscan))
+            it.binding.materialToolbar.changeVisibility(View.VISIBLE)
+            it.binding.materialToolbar.setVisibilityOptionsMenu(View.GONE)
+            it.binding.materialToolbar.setVisibilitySearch(View.GONE)
+            it.binding.materialToolbar.setVisibilityToolbar(View.VISIBLE)
+        }
+
+        viewModel.postEvent(PremiumContract.PremiumEvent.GetAllSubscriptionPlans)
+    }
+
+    private fun viewPagerConfiguration(list: List<MappedSubscriptionModel>){
+        val plansFragmentList = mutableListOf<SubscriptionFragment>()
+        for (subscriptionModel in list){
+            plansFragmentList.add(SubscriptionFragment(subscriptionModel = subscriptionModel))
+        }
+        val adapter = ScanViewPagerAdapter(plansFragmentList, this@PremiumFragment)
+        binding.subscriptionViewPager.adapter = adapter
+        binding.subscriptionViewPager.setPageTransformer(ZoomOutPageTransformer())
     }
 }
