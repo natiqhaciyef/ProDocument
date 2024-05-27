@@ -9,7 +9,7 @@ class GetAllSubscriptionPlansMockGenerator(
     override var createdMock: List<SubscriptionResponse> = listOf(
         SubscriptionResponse(
             title = "Empty",
-            price = 0.0,
+            price = 1.99,
             perTime = 1,
             timeType = "day",
             description = "no description",
@@ -17,6 +17,17 @@ class GetAllSubscriptionPlansMockGenerator(
             expireDate = "0.00.0",
             backgroundColor = "red",
             token = "subscriptionToken"
+        ),
+        SubscriptionResponse(
+            title = "Unit",
+            price = 0.99,
+            perTime = 1,
+            timeType = "day",
+            description = "no description",
+            features = listOf("Nothing", "Empty", "Unit", "Void"),
+            expireDate = "0.00.0",
+            backgroundColor = "blue",
+            token = "subscriptionToken-2"
         )
     )
 

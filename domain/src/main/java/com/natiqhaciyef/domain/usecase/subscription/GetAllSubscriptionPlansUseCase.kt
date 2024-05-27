@@ -17,7 +17,6 @@ class GetAllSubscriptionPlansUseCase @Inject constructor(
     subscriptionRepository: SubscriptionRepository
 ) : BaseUseCase<SubscriptionRepository, Unit, List<MappedSubscriptionModel>>(subscriptionRepository) {
 
-
     override fun invoke(): Flow<Resource<List<MappedSubscriptionModel>>> = flow {
         emit(Resource.loading(null))
 
