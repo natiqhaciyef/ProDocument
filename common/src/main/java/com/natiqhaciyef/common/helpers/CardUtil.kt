@@ -1,39 +1,48 @@
 package com.natiqhaciyef.common.helpers
 
+import androidx.annotation.DrawableRes
 import com.natiqhaciyef.common.R
-import com.natiqhaciyef.common.model.PaymentChoiceModel
-import com.natiqhaciyef.common.model.PaymentTypes
+import com.natiqhaciyef.common.model.payment.PaymentPickModel
+import com.natiqhaciyef.common.model.payment.PaymentMethods
 
 
-fun String.onlyDigits(): Boolean{
+fun String.onlyDigits(): Boolean {
     return this.all { it.isDigit() }
 }
 
 object PaymentMethodList {
     val list = mutableListOf(
-        PaymentChoiceModel(
-            type = PaymentTypes.VISA,
+        PaymentPickModel(
+            type = PaymentMethods.VISA,
             image = R.drawable.visa,
-            isSelected = true
         ),
-        PaymentChoiceModel(
-            type = PaymentTypes.MASTERCARD,
+        PaymentPickModel(
+            type = PaymentMethods.MASTERCARD,
             image = R.drawable.mastercard,
-            isSelected = false
         ),
-        PaymentChoiceModel(
-            type = PaymentTypes.PAYPAL,
+        PaymentPickModel(
+            type = PaymentMethods.PAYPAL,
             image = R.drawable.paypal,
-            isSelected = false
         ),
+        PaymentPickModel(
+            type = PaymentMethods.GOOGLE_PAY,
+            image = R.drawable.google_pay
+        ),
+        PaymentPickModel(
+            type = PaymentMethods.APPLE_PAY,
+            image = R.drawable.apple_pay
+        )
     )
 }
 
-fun cardTypeToImageFinder(paymentMethod: String): Int {
-    return when (paymentMethod.lowercase()) {
-        PaymentTypes.VISA.mainName.lowercase() -> PaymentMethodList.list[0].image
-        PaymentTypes.MASTERCARD.mainName.lowercase() -> PaymentMethodList.list[1].image
-        PaymentTypes.PAYPAL.mainName.lowercase() -> PaymentMethodList.list[2].image
+fun cardTypeToImageFinder(paymentMethod: PaymentMethods): Int {
+    return when (paymentMethod) {
+        PaymentMethods.VISA -> { R.drawable.visa }
+        PaymentMethods.MASTERCARD -> { R.drawable.mastercard }
+        PaymentMethods.PAYPAL -> { R.drawable.paypal }
+        PaymentMethods.AMERICAN_EXPRESS -> { R.drawable.american_express }
+        PaymentMethods.GOOGLE_PAY -> { R.drawable.google_pay }
+        PaymentMethods.APPLE_PAY -> { R.drawable.apple_pay }
         else -> 0
     }
 }

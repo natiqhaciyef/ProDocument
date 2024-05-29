@@ -2,8 +2,6 @@ package com.natiqhaciyef.prodocument.ui.view.main.premium.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.model.Status
-import com.natiqhaciyef.common.model.SubscriptionType
-import com.natiqhaciyef.common.model.Time
 import com.natiqhaciyef.core.base.ui.BaseViewModel
 import com.natiqhaciyef.domain.usecase.subscription.ActivatePickedPlanUseCase
 import com.natiqhaciyef.domain.usecase.subscription.GetAllSubscriptionPlansUseCase

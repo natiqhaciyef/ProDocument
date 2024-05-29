@@ -1,8 +1,6 @@
 package com.natiqhaciyef.data.mapper
 
-import com.natiqhaciyef.common.helpers.getNow
-import com.natiqhaciyef.common.helpers.hashPassword
-import com.natiqhaciyef.common.model.UIResult
+import com.natiqhaciyef.common.model.ui.UIResult
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
 import com.natiqhaciyef.common.model.mapped.MappedUserWithoutPasswordModel
 import com.natiqhaciyef.data.local.entity.UserEntity

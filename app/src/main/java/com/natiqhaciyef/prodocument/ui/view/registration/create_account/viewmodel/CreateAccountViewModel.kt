@@ -1,14 +1,11 @@
 package com.natiqhaciyef.prodocument.ui.view.registration.create_account.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.helpers.getNow
 import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.common.objects.ErrorMessages
-import com.natiqhaciyef.common.model.UIResult
+import com.natiqhaciyef.common.model.ui.UIResult
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
-import com.natiqhaciyef.core.base.ui.BaseUIState
 import com.natiqhaciyef.core.base.ui.BaseViewModel
 import com.natiqhaciyef.domain.usecase.user.remote.CreateUserRemoteUseCase
 import com.natiqhaciyef.domain.usecase.user.local.InsertUserLocalUseCase

@@ -9,7 +9,7 @@ import com.natiqhaciyef.common.model.mapped.MappedSubscriptionModel
 import com.natiqhaciyef.prodocument.databinding.FragmentPremiumBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
-import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.adapter.ScanViewPagerAdapter
+import com.natiqhaciyef.prodocument.ui.view.main.premium.adapter.SubscriptionPlanAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.premium.contract.PremiumContract
 import com.natiqhaciyef.prodocument.ui.view.main.premium.viewmodel.PremiumViewModel
 import com.natiqhaciyef.prodocument.ui.view.onboarding.behaviour.ZoomOutPageTransformer
@@ -82,7 +82,7 @@ class PremiumFragment(
         for (subscriptionModel in list){
             plansFragmentList.add(SubscriptionFragment(subscriptionModel = subscriptionModel))
         }
-        val adapter = ScanViewPagerAdapter(plansFragmentList, this@PremiumFragment)
+        val adapter = SubscriptionPlanAdapter(plansFragmentList, this@PremiumFragment)
         binding.subscriptionViewPager.adapter = adapter
         binding.subscriptionViewPager.setPageTransformer(ZoomOutPageTransformer())
     }

@@ -1,8 +1,6 @@
 package com.natiqhaciyef.prodocument.ui.view.main.premium.contract
 
 import com.natiqhaciyef.common.model.CRUDModel
-import com.natiqhaciyef.common.model.SubscriptionType
-import com.natiqhaciyef.common.model.Time
 import com.natiqhaciyef.common.model.mapped.MappedSubscriptionModel
 import com.natiqhaciyef.core.base.ui.UiEffect
 import com.natiqhaciyef.core.base.ui.UiEvent

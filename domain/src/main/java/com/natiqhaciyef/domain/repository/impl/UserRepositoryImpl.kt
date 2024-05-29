@@ -1,6 +1,6 @@
 package com.natiqhaciyef.domain.repository.impl
 
-import com.natiqhaciyef.common.model.UIResult
+import com.natiqhaciyef.common.model.ui.UIResult
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
 import com.natiqhaciyef.data.local.entity.UserEntity
 import com.natiqhaciyef.data.mapper.toResponse
