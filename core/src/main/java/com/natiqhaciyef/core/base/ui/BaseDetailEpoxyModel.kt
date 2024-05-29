@@ -1,6 +1,6 @@
 package com.natiqhaciyef.core.base.ui
 
-import com.natiqhaciyef.common.model.UIResult
+import com.natiqhaciyef.common.model.ui.UIResult
 
 open class BaseDetailEpoxyModel<T>(
     val data: List<UIResult<T>>,

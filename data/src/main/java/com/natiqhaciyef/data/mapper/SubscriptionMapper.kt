@@ -1,7 +1,7 @@
 package com.natiqhaciyef.data.mapper
 
-import com.natiqhaciyef.common.model.Color
-import com.natiqhaciyef.common.model.SubscriptionType
+import com.natiqhaciyef.common.model.ui.Color
+import com.natiqhaciyef.common.model.ui.SubscriptionType
 import com.natiqhaciyef.common.model.Time
 import com.natiqhaciyef.common.model.mapped.MappedSubscriptionModel
 import com.natiqhaciyef.data.network.response.SubscriptionResponse

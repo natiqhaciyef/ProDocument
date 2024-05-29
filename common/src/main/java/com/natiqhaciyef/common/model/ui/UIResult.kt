@@ -1,4 +1,6 @@
-package com.natiqhaciyef.common.model
+package com.natiqhaciyef.common.model.ui
+
+import com.natiqhaciyef.common.model.CRUDModel
 
 data class UIResult<T>(
     var id: String,

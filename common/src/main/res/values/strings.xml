@@ -178,4 +178,13 @@
 
     <!-- Premium -->
     <string name="subscription_price_text"><![CDATA[<font size="36">%1$s</font> <font size="24">/ %2$s</font>]]></string>
+
+    <!-- Payment -->
+    <string name="visa">Visa</string>
+    <string name="mastercard">Mastercard</string>
+    <string name="paypal">Paypal</string>
+    <string name="american_express">American Express</string>
+    <string name="google_pay">Google Pay</string>
+    <string name="apple_pay">Apple Pay</string>
+    <string name="other">Other</string>
 </resources>

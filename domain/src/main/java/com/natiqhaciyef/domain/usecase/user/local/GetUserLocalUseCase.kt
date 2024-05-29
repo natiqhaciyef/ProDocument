@@ -3,7 +3,7 @@ package com.natiqhaciyef.domain.usecase.user.local
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.core.base.usecase.BaseUseCase
 import com.natiqhaciyef.core.base.usecase.UseCase
-import com.natiqhaciyef.common.model.UIResult
+import com.natiqhaciyef.common.model.ui.UIResult
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.common.objects.ResultExceptions

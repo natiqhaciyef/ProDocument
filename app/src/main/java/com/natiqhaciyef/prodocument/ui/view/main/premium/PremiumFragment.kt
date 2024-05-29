@@ -1,7 +1,6 @@
 package com.natiqhaciyef.prodocument.ui.view.main.premium
 
 import android.os.Bundle
-import android.telephony.SubscriptionPlan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,6 @@ import com.natiqhaciyef.common.model.mapped.MappedSubscriptionModel
 import com.natiqhaciyef.prodocument.databinding.FragmentPremiumBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
-import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.adapter.ScanViewPagerAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.premium.adapter.SubscriptionPlanAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.premium.contract.PremiumContract
 import com.natiqhaciyef.prodocument.ui.view.main.premium.viewmodel.PremiumViewModel

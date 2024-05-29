@@ -1,4 +1,4 @@
-package com.natiqhaciyef.common.model
+package com.natiqhaciyef.common.model.ui
 
 enum class Color {
     WHITE,
