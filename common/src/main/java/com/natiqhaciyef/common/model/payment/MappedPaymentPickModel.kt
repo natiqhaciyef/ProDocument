@@ -1,6 +1,6 @@
 package com.natiqhaciyef.common.model.payment
 
-data class PaymentPickModel(
+data class MappedPaymentPickModel(
     var type: PaymentMethods,
     var image: Int
 )

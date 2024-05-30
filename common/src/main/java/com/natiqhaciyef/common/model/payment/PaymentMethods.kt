@@ -10,5 +10,20 @@ enum class PaymentMethods(@StringRes var resourceId: Int) {
     PAYPAL(R.string.paypal),
     GOOGLE_PAY(R.string.google_pay),
     APPLE_PAY(R.string.apple_pay),
-    UNKNOWN(R.string.other)
+    UNKNOWN(R.string.other);
+
+    companion object{
+        fun stringToType(str: String): PaymentMethods{
+            return when(str.lowercase()) {
+                VISA.name.lowercase() -> { VISA }
+                MASTERCARD.name.lowercase() -> { MASTERCARD }
+                AMERICAN_EXPRESS.name.lowercase() -> { AMERICAN_EXPRESS }
+                PAYPAL.name.lowercase() -> { PAYPAL }
+                GOOGLE_PAY.name.lowercase() -> { GOOGLE_PAY }
+                APPLE_PAY.name.lowercase() -> { APPLE_PAY }
+                else -> UNKNOWN
+            }
+        }
+
+    }
 }

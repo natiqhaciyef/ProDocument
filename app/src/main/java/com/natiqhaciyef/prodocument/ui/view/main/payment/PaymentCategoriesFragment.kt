@@ -1,15 +1,16 @@
-package com.natiqhaciyef.prodocument.ui.view.payment
+package com.natiqhaciyef.prodocument.ui.view.main.payment
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.natiqhaciyef.core.base.ui.BaseFragment
+import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.FragmentPaymentCategoriesBinding
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.premium.contract.PremiumContract
-import com.natiqhaciyef.prodocument.ui.view.payment.contract.PaymentContract
-import com.natiqhaciyef.prodocument.ui.view.payment.viewmodel.PaymentViewModel
+import com.natiqhaciyef.prodocument.ui.view.main.payment.contract.PaymentContract
+import com.natiqhaciyef.prodocument.ui.view.main.payment.viewmodel.PaymentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.KClass
 
@@ -60,16 +61,28 @@ class PaymentCategoriesFragment(
 
     private fun activityConfig() {
         (activity as MainActivity).also {
-            it.binding.bottomNavBar.visibility = View.VISIBLE
-            it.binding.materialToolbar.visibility = View.VISIBLE
-            it.binding.appbarLayout.visibility = View.VISIBLE
-            it.binding.materialToolbar.setTitleToolbar(getString(com.natiqhaciyef.common.R.string.proscan))
-            it.binding.materialToolbar.changeVisibility(View.VISIBLE)
-            it.binding.materialToolbar.setVisibilityOptionsMenu(View.GONE)
-            it.binding.materialToolbar.setVisibilitySearch(View.GONE)
-            it.binding.materialToolbar.setVisibilityToolbar(View.VISIBLE)
+            with(it.binding) {
+                bottomNavBar.visibility = View.VISIBLE
+                appbarLayout.visibility = View.VISIBLE
+
+                materialToolbar.apply {
+                    visibility = View.VISIBLE
+                    setTitleToolbar(getString(com.natiqhaciyef.common.R.string.select_payment_method))
+                    changeVisibility(View.VISIBLE)
+                    appIconVisibility(View.GONE)
+                    setVisibilitySearch(View.GONE)
+                    setVisibilityOptionsMenu(View.VISIBLE)
+                    setIconToOptions(com.natiqhaciyef.common.R.drawable.toolbar_scan_icon)
+                    setVisibilityToolbar(View.VISIBLE)
+                    optionSetOnClickListener{ onScanIconClickAction() }
+                }
+            }
         }
 
         viewModel.postEvent(PaymentContract.PaymentEvent.GetAllStoredPaymentMethods)
+    }
+
+    private fun onScanIconClickAction(){
+        // navigate camera screen
     }
 }
