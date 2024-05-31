@@ -1,5 +1,7 @@
 package com.natiqhaciyef.domain.repository.impl
 
+import com.natiqhaciyef.common.model.payment.PaymentDetails
+import com.natiqhaciyef.data.local.entity.PaymentEntity
 import com.natiqhaciyef.data.network.request.PaymentModel
 import com.natiqhaciyef.data.network.response.PaymentPickModel
 import com.natiqhaciyef.data.source.PaymentDataSource
@@ -20,4 +22,15 @@ class PaymentRepositoryImpl(private val ds: PaymentDataSource) : PaymentReposito
 
     override suspend fun insertNewPaymentMethod(paymentModel: PaymentModel) =
         ds.insertNewPaymentMethod(paymentModel)
+
+
+
+    override suspend fun getStoredPaymentMethods(): List<PaymentEntity> =
+        ds.getStoredPaymentMethods()
+
+    override suspend fun insertNewPaymentMethod(entity: PaymentEntity) =
+        ds.insertNewPaymentMethod(entity)
+
+    override suspend fun removePaymentMethod(details: String) =
+        ds.removePaymentMethod(details)
 }

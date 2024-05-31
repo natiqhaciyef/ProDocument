@@ -13,6 +13,19 @@ enum class PaymentMethods(@StringRes var resourceId: Int) {
     UNKNOWN(R.string.other);
 
     companion object{
+
+        fun stringToImage(title: String): Int{
+            return when(title.lowercase()) {
+                VISA.name.lowercase() -> { R.drawable.visa }
+                MASTERCARD.name.lowercase() -> { R.drawable.mastercard }
+                AMERICAN_EXPRESS.name.lowercase() -> { R.drawable.american_express }
+                PAYPAL.name.lowercase() -> { R.drawable.paypal }
+                GOOGLE_PAY.name.lowercase() -> { R.drawable.google_pay }
+                APPLE_PAY.name.lowercase() -> { R.drawable.apple_pay }
+                else -> R.drawable.profile_account_icon
+            }
+        }
+
         fun stringToType(str: String): PaymentMethods{
             return when(str.lowercase()) {
                 VISA.name.lowercase() -> { VISA }

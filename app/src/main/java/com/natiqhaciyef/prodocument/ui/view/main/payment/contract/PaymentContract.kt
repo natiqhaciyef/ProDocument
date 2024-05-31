@@ -2,7 +2,7 @@ package com.natiqhaciyef.prodocument.ui.view.main.payment.contract
 
 import com.natiqhaciyef.common.model.CRUDModel
 import com.natiqhaciyef.common.model.payment.MappedPaymentChequeModel
-import com.natiqhaciyef.common.model.mapped.MappedPaymentModel
+import com.natiqhaciyef.common.model.payment.MappedPaymentModel
 import com.natiqhaciyef.common.model.payment.MappedPaymentPickModel
 import com.natiqhaciyef.core.base.ui.UiEffect
 import com.natiqhaciyef.core.base.ui.UiEvent

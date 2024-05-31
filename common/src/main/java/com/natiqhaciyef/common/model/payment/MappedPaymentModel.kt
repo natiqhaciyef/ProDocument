@@ -1,4 +1,4 @@
-package com.natiqhaciyef.common.model.mapped
+package com.natiqhaciyef.common.model.payment
 
 import com.natiqhaciyef.common.model.payment.PaymentDetails
 import com.natiqhaciyef.common.model.payment.PaymentMethods

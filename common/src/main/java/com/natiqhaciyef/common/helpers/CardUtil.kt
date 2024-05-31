@@ -46,3 +46,25 @@ fun cardTypeToImageFinder(paymentMethod: PaymentMethods): Int {
     }
 }
 
+fun String.cardMasking(): String{
+    return if (this.trim().length == 19){
+        val result = this.toCharArray().toMutableList()
+        for (i in this.indices){
+            if (this[i].isDigit() && i < 15){
+                result[i] = '*'
+            }
+        }
+
+        result.toDesignedString()
+    }else{
+        this
+    }
+}
+
+fun MutableList<Char>.toDesignedString(): String{
+    var result = ""
+    for (i in this){
+        result += i
+    }
+    return result
+}

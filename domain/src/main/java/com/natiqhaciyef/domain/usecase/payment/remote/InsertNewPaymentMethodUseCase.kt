@@ -1,8 +1,8 @@
-package com.natiqhaciyef.domain.usecase.payment
+package com.natiqhaciyef.domain.usecase.payment.remote
 
 import com.natiqhaciyef.common.model.CRUDModel
 import com.natiqhaciyef.common.model.Resource
-import com.natiqhaciyef.common.model.mapped.MappedPaymentModel
+import com.natiqhaciyef.common.model.payment.MappedPaymentModel
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.core.base.usecase.BaseUseCase
 import com.natiqhaciyef.core.base.usecase.UseCase

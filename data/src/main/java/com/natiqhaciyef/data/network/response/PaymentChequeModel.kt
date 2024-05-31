@@ -31,5 +31,6 @@ data class ChequePayloadModel(var payload: String) : Parcelable
 @Parcelize
 data class PaymentPickModel(
     var type: String,
-    var image: Int
+    var image: Int,
+    var maskedCardNumber: String = ""
 ): Parcelable

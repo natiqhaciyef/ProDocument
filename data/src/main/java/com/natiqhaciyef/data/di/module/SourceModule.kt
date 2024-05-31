@@ -1,6 +1,7 @@
 package com.natiqhaciyef.data.di.module
 
 import android.content.Context
+import com.natiqhaciyef.data.local.dao.PaymentDao
 import com.natiqhaciyef.data.local.dao.UserDao
 import com.natiqhaciyef.data.network.manager.TokenManager
 import com.natiqhaciyef.data.network.service.MaterialService
@@ -51,6 +52,6 @@ object SourceModule {
 
     @Provides
     @Singleton
-    fun providePaymentDataSource(manager: TokenManager, service: PaymentService) =
-        PaymentDataSource(manager, service)
+    fun providePaymentDataSource(manager: TokenManager, service: PaymentService, dao: PaymentDao) =
+        PaymentDataSource(manager, service, dao)
 }

@@ -1,4 +1,4 @@
-package com.natiqhaciyef.domain.usecase.payment
+package com.natiqhaciyef.domain.usecase.payment.remote
 
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.common.objects.ErrorMessages

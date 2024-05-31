@@ -1,6 +1,9 @@
 package com.natiqhaciyef.data.source
 
+import com.natiqhaciyef.common.model.payment.PaymentDetails
 import com.natiqhaciyef.core.base.mock.generateMockerClass
+import com.natiqhaciyef.data.local.dao.PaymentDao
+import com.natiqhaciyef.data.local.entity.PaymentEntity
 import com.natiqhaciyef.data.mock.payment.GetAllSavedPaymentMethodsMockGenerator
 import com.natiqhaciyef.data.mock.payment.GetChequePdfMockGenerator
 import com.natiqhaciyef.data.mock.payment.GetPickedPaymentDetailsMockGenerator
@@ -17,7 +20,8 @@ import kotlinx.coroutines.withContext
 
 class PaymentDataSource(
     private val manager: TokenManager,
-    private val service: PaymentService
+    private val service: PaymentService,
+    private val dao: PaymentDao
 ) {
 
     suspend fun startPayment(paymentModel: PaymentModel) = withContext(Dispatchers.IO) {
@@ -79,4 +83,17 @@ class PaymentDataSource(
                 )
             }
         }
+
+
+    suspend fun getStoredPaymentMethods() = withContext(Dispatchers.IO){
+        dao.getStoredPaymentMethods()
+    }
+
+    suspend fun insertNewPaymentMethod(entity: PaymentEntity) = withContext(Dispatchers.IO){
+        dao.insertNewPaymentMethod(entity)
+    }
+
+    suspend fun removePaymentMethod(details: String) = withContext(Dispatchers.IO){
+        dao.removePaymentMethod(details)
+    }
 }

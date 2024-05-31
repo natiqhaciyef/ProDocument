@@ -7,13 +7,15 @@ import com.natiqhaciyef.data.network.response.PaymentPickModel
 fun PaymentPickModel.toMapped(): MappedPaymentPickModel{
     return MappedPaymentPickModel(
         type = PaymentMethods.stringToType(this.type),
-        image = this.image
+        image = this.image,
+        maskedCardNumber = this.maskedCardNumber
     )
 }
 
 fun MappedPaymentPickModel.toResponse(): PaymentPickModel{
     return PaymentPickModel(
         type = this.type.name,
-        image = this.image
+        image = this.image,
+        maskedCardNumber = this.maskedCardNumber
     )
 }

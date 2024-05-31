@@ -1,12 +1,12 @@
-package com.natiqhaciyef.domain.usecase.payment
+package com.natiqhaciyef.domain.usecase.payment.remote
 
 import com.natiqhaciyef.common.model.Resource
-import com.natiqhaciyef.common.model.mapped.MappedPaymentModel
-import com.natiqhaciyef.common.model.payment.MappedPaymentPickModel
+import com.natiqhaciyef.common.model.payment.MappedPaymentChequeModel
+import com.natiqhaciyef.common.model.payment.MappedPaymentModel
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.core.base.usecase.BaseUseCase
 import com.natiqhaciyef.core.base.usecase.UseCase
-import com.natiqhaciyef.data.mapper.toMapped
+import com.natiqhaciyef.data.mapper.toMappedModel
 import com.natiqhaciyef.data.mapper.toResponse
 import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.domain.repository.PaymentRepository
@@ -15,17 +15,18 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 @UseCase
-class GetPickedPaymentDetailsUseCase @Inject constructor(
+class StartPaymentUseCase @Inject constructor(
     paymentRepository: PaymentRepository
-): BaseUseCase<PaymentRepository, MappedPaymentPickModel, MappedPaymentModel>(paymentRepository) {
+) : BaseUseCase<PaymentRepository, MappedPaymentModel, MappedPaymentChequeModel>(paymentRepository) {
 
-    override fun operate(data: MappedPaymentPickModel): Flow<Resource<MappedPaymentModel>> = flow{
+
+    override fun operate(data: MappedPaymentModel): Flow<Resource<MappedPaymentChequeModel>> = flow{
         emit(Resource.loading(null))
-        val request = data.toResponse()
 
-        when(val result = repository.getPickedPaymentDetails(request)){
+        val request = data.toResponse()
+        when(val result = repository.startPayment(request)){
             is NetworkResult.Success -> {
-                emit(Resource.success(result.data.toMapped()))
+                emit(Resource.success(result.data.toMappedModel()))
             }
 
             is NetworkResult.Error -> {
@@ -49,5 +50,4 @@ class GetPickedPaymentDetailsUseCase @Inject constructor(
             }
         }
     }
-
 }

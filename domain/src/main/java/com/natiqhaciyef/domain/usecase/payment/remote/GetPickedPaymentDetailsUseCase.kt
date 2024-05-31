@@ -1,11 +1,13 @@
-package com.natiqhaciyef.domain.usecase.payment
+package com.natiqhaciyef.domain.usecase.payment.remote
 
 import com.natiqhaciyef.common.model.Resource
+import com.natiqhaciyef.common.model.payment.MappedPaymentModel
 import com.natiqhaciyef.common.model.payment.MappedPaymentPickModel
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.core.base.usecase.BaseUseCase
 import com.natiqhaciyef.core.base.usecase.UseCase
 import com.natiqhaciyef.data.mapper.toMapped
+import com.natiqhaciyef.data.mapper.toResponse
 import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.domain.repository.PaymentRepository
 import kotlinx.coroutines.flow.Flow
@@ -13,16 +15,17 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 @UseCase
-class GetAllSavedPaymentMethodsUseCase @Inject constructor(
+class GetPickedPaymentDetailsUseCase @Inject constructor(
     paymentRepository: PaymentRepository
-): BaseUseCase<PaymentRepository, Unit, List<MappedPaymentPickModel>>(paymentRepository) {
+): BaseUseCase<PaymentRepository, MappedPaymentPickModel, MappedPaymentModel>(paymentRepository) {
 
-    override fun invoke(): Flow<Resource<List<MappedPaymentPickModel>>> = flow{
+    override fun operate(data: MappedPaymentPickModel): Flow<Resource<MappedPaymentModel>> = flow{
         emit(Resource.loading(null))
+        val request = data.toResponse()
 
-        when(val result = repository.getAllSavedPaymentMethods()){
+        when(val result = repository.getPickedPaymentDetails(request)){
             is NetworkResult.Success -> {
-                emit(Resource.success(data = result.data.map { it.toMapped() }))
+                emit(Resource.success(result.data.toMapped()))
             }
 
             is NetworkResult.Error -> {
