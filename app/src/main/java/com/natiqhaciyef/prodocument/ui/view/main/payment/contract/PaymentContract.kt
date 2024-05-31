@@ -1,8 +1,9 @@
-package com.natiqhaciyef.prodocument.ui.view.payment.contract
+package com.natiqhaciyef.prodocument.ui.view.main.payment.contract
 
 import com.natiqhaciyef.common.model.CRUDModel
-import com.natiqhaciyef.common.model.mapped.MappedPaymentModel
-import com.natiqhaciyef.common.model.payment.PaymentPickModel
+import com.natiqhaciyef.common.model.payment.MappedPaymentChequeModel
+import com.natiqhaciyef.common.model.payment.MappedPaymentModel
+import com.natiqhaciyef.common.model.payment.MappedPaymentPickModel
 import com.natiqhaciyef.core.base.ui.UiEffect
 import com.natiqhaciyef.core.base.ui.UiEvent
 import com.natiqhaciyef.core.base.ui.UiState
@@ -11,7 +12,7 @@ object PaymentContract {
 
     sealed interface PaymentEvent : UiEvent {
         data class PickPaymentMethod(
-            val pickedPaymentMethod: PaymentPickModel
+            val pickedPaymentMethod: MappedPaymentPickModel
         ): PaymentEvent
 
         data class AddNewPaymentMethod(
@@ -32,8 +33,11 @@ object PaymentContract {
 
     data class PaymentState(
         override var isLoading: Boolean = false,
-        var pickedPayment: PaymentPickModel? = null,
+        var paymentMethodsList: List<MappedPaymentPickModel>? = null,
+        var pickedPayment: MappedPaymentPickModel? = null,
         var mappedPaymentModel: MappedPaymentModel? = null,
-//        var paymentResult: CRUDModel? = null, create CheckModel
+        var cheque: MappedPaymentChequeModel? = null,
+        var chequePayload: String? = null,
+        var paymentResult: CRUDModel? = null,
     ) : UiState
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/payment_navigation"
+    app:startDestination="@id/paymentCategoriesFragment">
+
+    <fragment
+        android:id="@+id/paymentCategoriesFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.payment.PaymentCategoriesFragment"
+        android:label="fragment_payment_categories"
+        tools:layout="@layout/fragment_payment_categories" >
+        <action
+            android:id="@+id/action_paymentCategoriesFragment_to_scanFragment2"
+            app:destination="@id/scanFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/scanFragment2"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.ScanFragment"
+        android:label="fragment_scan"
+        tools:layout="@layout/fragment_scan" />
+</navigation>

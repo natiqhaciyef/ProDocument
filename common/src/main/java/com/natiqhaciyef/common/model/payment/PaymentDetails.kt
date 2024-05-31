@@ -1,8 +1,13 @@
 package com.natiqhaciyef.common.model.payment
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class PaymentDetails(
-    var username: String,
+    var cardHolder: String,
     var cardNumber: String,
     var expireDate: String,
-    var cvv: Int
-)
+    var currency: String,
+    var cvv: String
+): Parcelable

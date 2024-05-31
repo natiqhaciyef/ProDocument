@@ -12,8 +12,8 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class SubscriptionDataSource @Inject constructor(
-    private val service: SubscriptionService,
-    private val manager: TokenManager
+    private val manager: TokenManager,
+    private val service: SubscriptionService
 ) {
 
     suspend fun getAllSubscriptionPlans() = withContext(Dispatchers.IO){
