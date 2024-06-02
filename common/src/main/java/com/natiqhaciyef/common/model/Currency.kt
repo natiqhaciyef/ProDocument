@@ -6,7 +6,8 @@ enum class Currency {
     EUR,
     CAD,
     TL,
-    RUB;
+    RUB,
+    DEFAULT;
 
     companion object{
         fun stringToType(str: String): Currency{
@@ -17,7 +18,7 @@ enum class Currency {
                 CAD.name.lowercase() -> { CAD }
                 TL.name.lowercase() -> { TL }
                 RUB.name.lowercase() -> { RUB }
-                else -> USD
+                else -> DEFAULT
             }
         }
     }
