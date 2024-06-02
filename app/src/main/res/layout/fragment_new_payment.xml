@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.view.main.payment.NewPaymentFragment">
+
+
+    <ImageView
+        android:id="@+id/cardTemplate"
+        android:layout_width="340dp"
+        android:layout_height="197dp"
+        android:scaleType="centerCrop"
+        android:layout_marginTop="24dp"
+        android:layout_marginHorizontal="24dp"
+        android:src="@drawable/custom_card_example_purple"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/linecut_background"
+        android:backgroundTint="@color/purple"
+        app:layout_constraintStart_toStartOf="@id/cardTemplate"
+        app:layout_constraintTop_toTopOf="@id/cardTemplate"
+        app:layout_constraintBottom_toBottomOf="@id/cardTemplate"
+        app:layout_constraintEnd_toEndOf="@id/cardTemplate"
+        />
+
+    <TextView
+        android:id="@+id/card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/card"
+        android:textSize="18sp"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="32dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/urbanist_bold"
+        app:layout_constraintTop_toTopOf="@id/cardTemplate"
+        app:layout_constraintStart_toStartOf="@id/cardTemplate"
+        />
+
+    <TextView
+        android:id="@+id/cardNumberField"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="48dp"
+        android:text="@string/card_number_default"
+        android:gravity="center"
+        android:textSize="22sp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/urbanist_bold"
+        app:layout_constraintBottom_toBottomOf="@id/cardTemplate"
+        app:layout_constraintEnd_toEndOf="@id/cardTemplate"
+        app:layout_constraintTop_toTopOf="@id/cardTemplate"
+        app:layout_constraintStart_toStartOf="@id/cardTemplate"
+        />
+
+    <TextView
+        android:id="@+id/cardHolderNameTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="4dp"
+        android:textSize="14sp"
+        android:text="@string/card_holder_name_title"
+        android:textColor="@color/white"
+        android:fontFamily="@font/urbanist_medium"
+        app:layout_constraintBottom_toTopOf="@+id/cardHolderNameInput"
+        app:layout_constraintStart_toStartOf="@id/cardTemplate"
+        />
+
+    <TextView
+        android:id="@+id/cardHolderNameInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/card_holder_name_default"
+        android:textSize="14sp"
+        android:layout_marginBottom="12dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/urbanist_bold"
+        app:layout_constraintBottom_toBottomOf="@id/cardTemplate"
+        app:layout_constraintStart_toStartOf="@id/cardHolderNameTitle"
+        app:layout_constraintEnd_toEndOf="@id/cardHolderNameTitle"
+        />
+
+    <TextView
+        android:id="@+id/expirationTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="4dp"
+        android:textSize="14sp"
+        android:text="@string/expire_date_title"
+        android:textColor="@color/white"
+        android:fontFamily="@font/urbanist_medium"
+        app:layout_constraintBottom_toTopOf="@+id/expirationInput"
+        app:layout_constraintEnd_toEndOf="@id/cardTemplate"
+        />
+
+    <TextView
+        android:id="@+id/expirationInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/expire_date_default"
+        android:textSize="14sp"
+        android:layout_marginBottom="12dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/urbanist_bold"
+        app:layout_constraintBottom_toBottomOf="@id/cardTemplate"
+        app:layout_constraintStart_toStartOf="@id/expirationTitle"
+        app:layout_constraintEnd_toEndOf="@id/expirationTitle"
+        />
+
+
+    <TextView
+        android:id="@+id/cardHolderFieldTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/urbanist_bold"
+        android:text="@string/card_holder_name_title"
+        android:textColor="@color/grayscale_900"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardTemplate" />
+
+    <EditText
+        android:id="@+id/cardHolderFieldInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/custom_registration_input_background"
+        android:fontFamily="@font/urbanist_bold"
+        android:gravity="center_vertical"
+        android:hint="@string/card_holder_name_default"
+        android:inputType="text"
+        android:paddingVertical="10dp"
+        android:textColor="@color/grayscale_900"
+        android:textColorHint="@color/grayscale_500"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardHolderFieldTitle" />
+
+    <TextView
+        android:id="@+id/cardNumberFieldTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/urbanist_bold"
+        android:text="@string/card_number_title"
+        android:textColor="@color/grayscale_900"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardHolderFieldInput" />
+
+    <EditText
+        android:id="@+id/cardNumberFieldInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/custom_registration_input_background"
+        android:fontFamily="@font/urbanist_bold"
+        android:gravity="center_vertical"
+        android:maxLength="16"
+        android:hint="@string/card_number_default"
+        android:paddingVertical="10dp"
+        android:inputType="number"
+        android:textColor="@color/grayscale_900"
+        android:textColorHint="@color/grayscale_500"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardNumberFieldTitle"
+        tools:ignore="TextFields" />
+
+    <TextView
+        android:id="@+id/expireDateFieldTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/urbanist_bold"
+        android:text="@string/expire_date_title"
+        android:textColor="@color/grayscale_900"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardNumberFieldInput" />
+
+    <EditText
+        android:id="@+id/expireDateFieldInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/custom_registration_input_background"
+        android:fontFamily="@font/urbanist_bold"
+        android:gravity="center_vertical"
+        android:maxLength="4"
+        android:hint="@string/expire_date_default"
+        android:paddingVertical="10dp"
+        android:inputType="number"
+        android:textColor="@color/grayscale_900"
+        android:textColorHint="@color/grayscale_500"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/expireDateFieldTitle"
+        tools:ignore="TextFields" />
+
+    <TextView
+        android:id="@+id/cvvFieldTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/urbanist_bold"
+        android:text="@string/cvv_title"
+        android:textColor="@color/grayscale_900"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/expireDateFieldInput" />
+
+    <EditText
+        android:id="@+id/cvvFieldInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/custom_registration_input_background"
+        android:fontFamily="@font/urbanist_bold"
+        android:gravity="center_vertical"
+        android:maxLength="3"
+        android:hint="@string/cvv_default"
+        android:paddingVertical="10dp"
+        android:inputType="number"
+        android:textColor="@color/grayscale_900"
+        android:textColorHint="@color/grayscale_500"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cvvFieldTitle"
+        tools:ignore="TextFields" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

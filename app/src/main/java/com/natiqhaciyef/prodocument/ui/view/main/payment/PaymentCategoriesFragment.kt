@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.natiqhaciyef.common.model.payment.MappedPaymentPickModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.FragmentPaymentCategoriesBinding
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
+import com.natiqhaciyef.prodocument.ui.view.main.payment.adapter.PaymentMethodsAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.premium.contract.PremiumContract
 import com.natiqhaciyef.prodocument.ui.view.main.payment.contract.PaymentContract
 import com.natiqhaciyef.prodocument.ui.view.main.payment.viewmodel.PaymentViewModel
@@ -20,6 +23,7 @@ class PaymentCategoriesFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentPaymentCategoriesBinding = FragmentPaymentCategoriesBinding::inflate,
     override val viewModelClass: KClass<PaymentViewModel> = PaymentViewModel::class
 ) : BaseFragment<FragmentPaymentCategoriesBinding, PaymentViewModel, PaymentContract.PaymentState, PaymentContract.PaymentEvent, PaymentContract.PaymentEffect>() {
+    private var adapter: PaymentMethodsAdapter? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,6 +39,8 @@ class PaymentCategoriesFragment(
             else -> {
                 changeVisibilityOfProgressBar()
 
+                if (state.paymentMethodsList != null)
+                    recyclerViewConfig(state.paymentMethodsList!!)
             }
         }
     }
@@ -74,7 +80,7 @@ class PaymentCategoriesFragment(
                     setVisibilityOptionsMenu(View.VISIBLE)
                     setIconToOptions(com.natiqhaciyef.common.R.drawable.toolbar_scan_icon)
                     setVisibilityToolbar(View.VISIBLE)
-                    optionSetOnClickListener{ onScanIconClickAction() }
+                    optionSetOnClickListener { onScanIconClickAction() }
                 }
             }
         }
@@ -82,7 +88,23 @@ class PaymentCategoriesFragment(
         viewModel.postEvent(PaymentContract.PaymentEvent.GetAllStoredPaymentMethods)
     }
 
-    private fun onScanIconClickAction(){
+    private fun onScanIconClickAction() {
         // navigate camera screen
+    }
+
+    private fun recyclerViewConfig(list: List<MappedPaymentPickModel>) {
+        adapter = PaymentMethodsAdapter(list = list.toMutableList())
+        adapter?.onClickAction = {
+            // navigate to details screen with loading screen
+        }
+
+        binding.pickPaymentRecyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.pickPaymentRecyclerView.adapter = adapter
+
+    }
+
+    private fun addNewPaymentMethodButtonClick(){
+        // navigate new card
     }
 }
