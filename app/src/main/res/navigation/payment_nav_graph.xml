@@ -37,5 +37,9 @@
         android:id="@+id/paymentDetailsFragment"
         android:name="com.natiqhaciyef.prodocument.ui.view.main.payment.PaymentDetailsFragment"
         android:label="fragment_payment_details"
-        tools:layout="@layout/fragment_payment_details" />
+        tools:layout="@layout/fragment_payment_details" >
+        <argument
+            android:name="datasetBundle"
+            app:argType="android.os.Bundle" />
+    </fragment>
 </navigation>

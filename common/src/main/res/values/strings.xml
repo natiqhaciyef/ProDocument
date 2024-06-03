@@ -189,6 +189,7 @@
     <string name="apple_pay">Apple Pay</string>
     <string name="other">Other</string>
     <string name="select_payment_method">Select Payment</string>
+    <string name="payment_details">Payment Details</string>
     <string name="add_new_payment">Add New Payment</string>
     <string name="card_number_default">●●●● ●●●● ●●●● ●●●●</string>
     <string name="card">Card</string>
