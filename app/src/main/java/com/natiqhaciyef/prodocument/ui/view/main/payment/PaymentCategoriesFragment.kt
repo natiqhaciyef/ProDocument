@@ -5,10 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.natiqhaciyef.common.model.payment.MappedPaymentPickModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.FragmentPaymentCategoriesBinding
+import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink
+import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.HOME_ROUTE
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.payment.adapter.PaymentMethodsAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.premium.contract.PremiumContract
@@ -68,7 +71,7 @@ class PaymentCategoriesFragment(
     private fun activityConfig() {
         (activity as MainActivity).also {
             with(it.binding) {
-                bottomNavBar.visibility = View.VISIBLE
+                bottomNavBar.visibility = View.GONE
                 appbarLayout.visibility = View.VISIBLE
 
                 materialToolbar.apply {
@@ -81,11 +84,19 @@ class PaymentCategoriesFragment(
                     setIconToOptions(com.natiqhaciyef.common.R.drawable.toolbar_scan_icon)
                     setVisibilityToolbar(View.VISIBLE)
                     optionSetOnClickListener { onScanIconClickAction() }
+                    setNavigationOnClickListener {
+                        onToolbarBackPressAction(bottomNavBar)
+                    }
                 }
             }
         }
 
         viewModel.postEvent(PaymentContract.PaymentEvent.GetAllStoredPaymentMethods)
+    }
+
+    private fun onToolbarBackPressAction(bnw: BottomNavigationView){
+        bnw.visibility = View.VISIBLE
+        BaseNavigationDeepLink.navigateByRouteTitle(this, HOME_ROUTE)
     }
 
     private fun onScanIconClickAction() {

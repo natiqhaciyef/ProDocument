@@ -21,6 +21,7 @@ class PremiumFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentPremiumBinding = FragmentPremiumBinding::inflate,
     override val viewModelClass: KClass<PremiumViewModel> = PremiumViewModel::class
 ) : BaseFragment<FragmentPremiumBinding, PremiumViewModel, PremiumContract.PremiumState, PremiumContract.PremiumEvent, PremiumContract.PremiumEffect>() {
+    private val plansFragmentList = mutableListOf<SubscriptionFragment>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -32,6 +33,11 @@ class PremiumFragment(
             state.isLoading -> {
                 changeVisibilityOfProgressBar(true)
             }
+
+            state.subscriptions.isNullOrEmpty() -> {
+                viewModel.postEvent(PremiumContract.PremiumEvent.GetAllSubscriptionPlans)
+            }
+
             else -> {
                 changeVisibilityOfProgressBar()
 
@@ -42,9 +48,6 @@ class PremiumFragment(
         }
     }
 
-    override fun onEffectUpdate(effect: PremiumContract.PremiumEffect) {
-
-    }
 
     private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
         if (isVisible) {
@@ -73,16 +76,13 @@ class PremiumFragment(
             it.binding.materialToolbar.setVisibilitySearch(View.GONE)
             it.binding.materialToolbar.setVisibilityToolbar(View.VISIBLE)
         }
-
-        viewModel.postEvent(PremiumContract.PremiumEvent.GetAllSubscriptionPlans)
     }
 
     private fun viewPagerConfiguration(list: List<MappedSubscriptionModel>){
-        val plansFragmentList = mutableListOf<SubscriptionFragment>()
         for (subscriptionModel in list){
-            plansFragmentList.add(SubscriptionFragment(subscriptionModel = subscriptionModel))
+            plansFragmentList.add(SubscriptionFragment(subscription = subscriptionModel))
         }
-        val adapter = SubscriptionPlanAdapter(plansFragmentList, this@PremiumFragment)
+        val adapter = SubscriptionPlanAdapter(plansFragmentList, requireActivity())
         binding.subscriptionViewPager.adapter = adapter
         binding.subscriptionViewPager.setPageTransformer(ZoomOutPageTransformer())
     }

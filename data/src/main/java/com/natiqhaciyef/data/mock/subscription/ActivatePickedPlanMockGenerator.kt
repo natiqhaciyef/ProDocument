@@ -13,10 +13,11 @@ class ActivatePickedPlanMockGenerator(
         )
 
     override fun getMock(request: String, action: (String) -> CRUDResponse?): CRUDResponse {
-        return if (request == takenRequest)
-            createdMock
-        else
-            action.invoke(request) ?: throw Companion.MockRequestException()
+//        return if (request == takenRequest)
+//            createdMock
+//        else
+//            action.invoke(request) ?: throw Companion.MockRequestException()
+        return createdMock
     }
 
     companion object ActivatePickedPlanMockGenerator{
