@@ -14,6 +14,7 @@ import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TYPE
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.home.HomeFragment
 import com.natiqhaciyef.prodocument.ui.view.main.home.HomeFragmentDirections
+import com.natiqhaciyef.prodocument.ui.view.main.premium.SubscriptionFragment
 import com.natiqhaciyef.prodocument.ui.view.onboarding.OnboardingActivity
 import com.natiqhaciyef.prodocument.ui.view.registration.RegistrationActivity
 
@@ -51,6 +52,7 @@ object BaseNavigationDeepLink {
     const val CUSTOM_ROUTE = "Custom"
 
     const val MODIFY_PDF_ROUTE = "Modify PDF"
+    const val PAYMENT_ROUTE = "Payment"
 
     // NavParams
 
@@ -114,6 +116,11 @@ object BaseNavigationDeepLink {
         // External Routes
         MODIFY_PDF_ROUTE -> {
             R.navigation.preview_material_nav_graph
+        }
+
+        // External Routes
+        PAYMENT_ROUTE -> {
+            R.navigation.payment_nav_graph
         }
 
         else -> 0
@@ -181,7 +188,17 @@ object BaseNavigationDeepLink {
                     customBundle.putBundle("resourceBundle", bundle)
 
                     val destinationId = getNavGraph(title)
-                    destinationId.let { fragment.findNavController().setGraph(destinationId, customBundle) }
+                    fragment.findNavController().setGraph(destinationId, customBundle)
+                }
+            }
+
+            PAYMENT_ROUTE -> {
+                if (fragment is SubscriptionFragment && bundle != null){
+                    val customBundle = bundleOf()
+                    customBundle.putBundle("datasetBundle", bundle)
+
+                    val destinationId = getNavGraph(title)
+                    fragment.findNavController().setGraph(destinationId, customBundle)
                 }
             }
 

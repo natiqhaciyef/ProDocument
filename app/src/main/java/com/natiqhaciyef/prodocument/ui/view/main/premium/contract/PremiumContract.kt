@@ -22,7 +22,6 @@ object PremiumContract {
 
     data class PremiumState(
         override var isLoading: Boolean = false,
-        var pickedSubscription: MappedSubscriptionModel? = null,
         var subscriptions: List<MappedSubscriptionModel>? = null,
         var isPicked: CRUDModel? = null
     ) : UiState

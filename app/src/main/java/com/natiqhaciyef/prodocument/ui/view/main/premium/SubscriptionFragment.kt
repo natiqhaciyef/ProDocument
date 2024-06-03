@@ -8,10 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.natiqhaciyef.common.model.mapped.MappedSubscriptionModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.databinding.FragmentSubscriptionBinding
+import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants
 import com.natiqhaciyef.prodocument.ui.view.main.premium.adapter.FeatureAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.premium.contract.PremiumContract
 import com.natiqhaciyef.prodocument.ui.view.main.premium.viewmodel.PremiumViewModel
@@ -21,7 +24,7 @@ import kotlin.reflect.KClass
 
 @AndroidEntryPoint
 class SubscriptionFragment(
-    private val subscriptionModel: MappedSubscriptionModel?,
+    private val subscription: MappedSubscriptionModel? = null,
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentSubscriptionBinding = FragmentSubscriptionBinding::inflate,
     override val viewModelClass: KClass<PremiumViewModel> = PremiumViewModel::class
 ) : BaseFragment<FragmentSubscriptionBinding, PremiumViewModel, PremiumContract.PremiumState, PremiumContract.PremiumEvent, PremiumContract.PremiumEffect>() {
@@ -29,7 +32,7 @@ class SubscriptionFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        config()
+        config(subscription)
     }
 
     override fun onStateChange(state: PremiumContract.PremiumState) {
@@ -39,14 +42,14 @@ class SubscriptionFragment(
             }
 
             else -> {
-                if (state.pickedSubscription == subscriptionModel && state.isPicked?.resultCode in 200..299)
-                    goToPayment()
+                if (state.isPicked?.resultCode in 200..299 && subscription != null)
+                    goToPayment(subscription)
             }
         }
     }
 
     @SuppressLint("ResourceAsColor")
-    private fun config() {
+    private fun config(subscriptionModel: MappedSubscriptionModel?) {
         if (subscriptionModel != null) {
             with(binding) {
                 val price = "$${subscriptionModel.price}"
@@ -80,17 +83,20 @@ class SubscriptionFragment(
                 descriptionText.text = subscriptionModel.description
                 fragmentBackground.setBackgroundColor(com.natiqhaciyef.common.R.color.gradient_red)
 
-                selectPlanButton.setOnClickListener { selectPlanClickEvent(plan = subscriptionModel) }
+                selectPlanButton.setOnClickListener {
+                    selectPlanClickEvent(plan = subscriptionModel)
+                }
             }
         }
     }
 
-    private fun goToPayment(){
+    private fun goToPayment(selectedPlan: MappedSubscriptionModel) {
         // navigate to payment
-        Toast.makeText(requireContext(), "Posted", Toast.LENGTH_SHORT).show()
+        val bundle = bundleOf(BundleConstants.BUNDLE_SUBSCRIPTION_PLAN to selectedPlan)
+        BaseNavigationDeepLink.navigateByRouteTitle(this, BaseNavigationDeepLink.PAYMENT_ROUTE, bundle)
     }
 
-    private fun selectPlanClickEvent(plan: MappedSubscriptionModel){
+    private fun selectPlanClickEvent(plan: MappedSubscriptionModel) {
         viewModel.postEvent(PremiumContract.PremiumEvent.PickPlanEvent(planToken = plan.token))
     }
 }
