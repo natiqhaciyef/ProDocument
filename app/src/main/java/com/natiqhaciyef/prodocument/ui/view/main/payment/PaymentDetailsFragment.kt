@@ -1,14 +1,12 @@
 package com.natiqhaciyef.prodocument.ui.view.main.payment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
 import com.natiqhaciyef.common.model.mapped.MappedSubscriptionModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
-import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.FragmentPaymentDetailsBinding
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
@@ -50,7 +48,7 @@ class PaymentDetailsFragment(
 
                 materialToolbar.apply {
                     visibility = View.VISIBLE
-                    setTitleToolbar(getString(com.natiqhaciyef.common.R.string.payment_details))
+                    setTitleToolbar(getString(com.natiqhaciyef.common.R.string.review_summary))
                     changeVisibility(View.VISIBLE)
                     appIconVisibility(View.GONE)
                     setVisibilitySearch(View.GONE)
