@@ -13,6 +13,7 @@
     <string name="continue_">Continue</string>
     <string name="add">Add</string>
     <string name="cancel">Cancel</string>
+    <string name="change">Change</string>
     <string name="finish">Finish</string>
     <string name="go_to_login">Go to Login</string>
     <string name="sign_in">Sign in</string>
@@ -189,7 +190,9 @@
     <string name="apple_pay">Apple Pay</string>
     <string name="other">Other</string>
     <string name="select_payment_method">Select Payment</string>
+    <string name="review_summary">Review Summary</string>
     <string name="add_new_payment">Add New Payment</string>
+
     <string name="card_number_default">●●●● ●●●● ●●●● ●●●●</string>
     <string name="card">Card</string>
     <string name="card_holder_name_title">Card Holder Name</string>
@@ -202,5 +205,11 @@
     <string name="expire_date_template">%1$s/%2$s</string>
     <string name="card_number_template">%1$s %2$s %3$s %4$s</string>
 
+    <string name="plan_title">Subscription Plan</string>
+    <string name="plan_date_title">Range</string>
+    <string name="plan_amount_title">Amount</string>
+    <string name="plan_tax_amount_title">Tax</string>
+    <string name="plan_total_amount_title">Total Amount</string>
+    <string name="plan_payment_method_title">Payment Method</string>
 
 </resources>

@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.natiqhaciyef.common.model.payment.MappedPaymentPickModel
@@ -27,10 +29,15 @@ class PaymentCategoriesFragment(
     override val viewModelClass: KClass<PaymentViewModel> = PaymentViewModel::class
 ) : BaseFragment<FragmentPaymentCategoriesBinding, PaymentViewModel, PaymentContract.PaymentState, PaymentContract.PaymentEvent, PaymentContract.PaymentEffect>() {
     private var adapter: PaymentMethodsAdapter? = null
+    private var resourceBundle = bundleOf()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activityConfig()
+        val arg: PaymentCategoriesFragmentArgs by navArgs()
+        resourceBundle = arg.datasetBundle
+
+        binding.addNewPaymentMethodButton.setOnClickListener { addNewPaymentMethodButtonClick() }
     }
 
     override fun onStateChange(state: PaymentContract.PaymentState) {
@@ -84,9 +91,7 @@ class PaymentCategoriesFragment(
                     setIconToOptions(com.natiqhaciyef.common.R.drawable.toolbar_scan_icon)
                     setVisibilityToolbar(View.VISIBLE)
                     optionSetOnClickListener { onScanIconClickAction() }
-                    setNavigationOnClickListener {
-                        onToolbarBackPressAction(bottomNavBar)
-                    }
+                    setNavigationOnClickListener { onToolbarBackPressAction(bottomNavBar) }
                 }
             }
         }
@@ -107,6 +112,8 @@ class PaymentCategoriesFragment(
         adapter = PaymentMethodsAdapter(list = list.toMutableList())
         adapter?.onClickAction = {
             // navigate to details screen with loading screen
+            val action = PaymentCategoriesFragmentDirections.actionPaymentCategoriesFragmentToPaymentDetailsFragment(resourceBundle)
+            navigate(action)
         }
 
         binding.pickPaymentRecyclerView.layoutManager =
@@ -116,6 +123,7 @@ class PaymentCategoriesFragment(
     }
 
     private fun addNewPaymentMethodButtonClick(){
-        // navigate new card
+        val action = PaymentCategoriesFragmentDirections.actionPaymentCategoriesFragmentToNewPaymentFragment()
+        navigate(action)
     }
 }
