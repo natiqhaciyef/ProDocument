@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
 import com.natiqhaciyef.common.model.Currency
 import com.natiqhaciyef.common.model.mapped.MappedSubscriptionModel
+import com.natiqhaciyef.common.model.payment.MappedPaymentChequeModel
 import com.natiqhaciyef.common.model.payment.MappedPaymentModel
 import com.natiqhaciyef.common.model.payment.MappedPaymentModel.Companion.toMappedPick
-import com.natiqhaciyef.common.model.payment.PaymentMethods
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.databinding.FragmentPaymentDetailsBinding
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants
@@ -44,7 +44,12 @@ class PaymentDetailsFragment(
 
             }
 
-            else -> {}
+            else -> {
+                if (state.cheque != null)
+                    confirmButtonAction(state.cheque!!)
+                else
+                    println("Fake")
+            }
         }
     }
 
@@ -86,6 +91,18 @@ class PaymentDetailsFragment(
             totalAmountDetails.text = "${currency}${totalPrice}"
             paymentTypeImage.setImageResource(pickedPayment.image)
             maskedCardNumber.text = pickedPayment.maskedCardNumber
+            confirmButtonEvent(paymentModel)
         }
+    }
+
+    private fun confirmButtonEvent(paymentModel: MappedPaymentModel){
+        binding.confirmButton.setOnClickListener {
+            viewModel.postEvent(PaymentContract.PaymentEvent.PayForPlan(paymentModel = paymentModel))
+        }
+    }
+
+    private fun confirmButtonAction(chequeModel: MappedPaymentChequeModel){
+        // navigate payment cheque screen
+        println(chequeModel)
     }
 }

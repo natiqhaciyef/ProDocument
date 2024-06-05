@@ -19,6 +19,8 @@
     <string name="sign_in">Sign in</string>
     <string name="save">Save</string>
     <string name="confirm">Confirm</string>
+    <string name="confirm_payment">Confirm Payment</string>
+    <string name="pay">Pay</string>
     <string name="share">Share</string>
     <string name="merge">Merge</string>
     <string name="protect">Protect</string>
