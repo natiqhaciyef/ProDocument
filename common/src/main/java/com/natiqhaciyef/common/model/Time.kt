@@ -1,14 +1,14 @@
 package com.natiqhaciyef.common.model
 
-enum class Time {
-    MINUTE,
-    HOUR,
-    DAY,
-    WEEK,
-    MONTH,
-    YEAR,
-    DECADE,
-    NON_OF_THEM;
+enum class Time(val title: String) {
+    MINUTE("Minute"),
+    HOUR("Hour"),
+    DAY("Day"),
+    WEEK("Week"),
+    MONTH("Month"),
+    YEAR("Year"),
+    DECADE("Decade"),
+    NON_OF_THEM("Non of them");
 
     companion object{
         fun stringToTimeType(time: String) = when(time.lowercase()){

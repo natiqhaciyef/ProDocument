@@ -33,7 +33,7 @@ object PaymentContract {
 
     data class PaymentState(
         override var isLoading: Boolean = false,
-        var paymentMethodsList: List<MappedPaymentPickModel>? = null,
+        var paymentMethodsList: List<MappedPaymentModel>? = null,
         var pickedPayment: MappedPaymentPickModel? = null,
         var mappedPaymentModel: MappedPaymentModel? = null,
         var cheque: MappedPaymentChequeModel? = null,

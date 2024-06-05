@@ -8,4 +8,5 @@ object BundleConstants {
     const val BUNDLE_TITLE = "BundleTitle"
     const val BUNDLE_LIST_MATERIAL = "BundleListMaterial"
     const val BUNDLE_SUBSCRIPTION_PLAN = "BundleSubscriptionPlan"
+    const val BUNDLE_PAYMENT = "BundlePayment"
 }

@@ -8,12 +8,15 @@ import androidx.core.os.bundleOf
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.natiqhaciyef.common.helpers.toPickedModelList
+import com.natiqhaciyef.common.model.payment.MappedPaymentModel
 import com.natiqhaciyef.common.model.payment.MappedPaymentPickModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.FragmentPaymentCategoriesBinding
 import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink
 import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.HOME_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.payment.adapter.PaymentMethodsAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.premium.contract.PremiumContract
@@ -108,10 +111,11 @@ class PaymentCategoriesFragment(
         // navigate camera screen
     }
 
-    private fun recyclerViewConfig(list: List<MappedPaymentPickModel>) {
+    private fun recyclerViewConfig(list: List<MappedPaymentModel>) {
         adapter = PaymentMethodsAdapter(list = list.toMutableList())
         adapter?.onClickAction = {
             // navigate to details screen with loading screen
+            resourceBundle.putParcelable(BundleConstants.BUNDLE_PAYMENT, it)
             val action = PaymentCategoriesFragmentDirections.actionPaymentCategoriesFragmentToPaymentDetailsFragment(resourceBundle)
             navigate(action)
         }

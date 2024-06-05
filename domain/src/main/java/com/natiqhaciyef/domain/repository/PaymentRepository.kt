@@ -19,7 +19,7 @@ interface PaymentRepository: BaseRepository {
 
     suspend fun getChequePdf(checkId: String): NetworkResult<ChequePayloadModel>
 
-    suspend fun getAllSavedPaymentMethods(): NetworkResult<List<PaymentPickModel>>
+    suspend fun getAllSavedPaymentMethods(): NetworkResult<List<PaymentModel>>
 
     suspend fun getPickedPaymentDetails(paymentPickModel: PaymentPickModel): NetworkResult<PaymentModel>
 

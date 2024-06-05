@@ -144,7 +144,7 @@ class PaymentViewModel @Inject constructor(
                             setBaseState(
                                 getCurrentBaseState().copy(
                                     isLoading = false,
-                                    paymentMethodsList = result.data!!.toPickedModelList()
+                                    paymentMethodsList = result.data
                                 )
                             )
                     }

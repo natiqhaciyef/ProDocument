@@ -29,7 +29,7 @@ interface PaymentService {
     @POST("")
     suspend fun getAllSavedPaymentMethods(
         @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String
-    ): Response<List<PaymentPickModel>>
+    ): Response<List<PaymentModel>>
 
     @POST("")
     suspend fun getPickedPaymentDetails(
