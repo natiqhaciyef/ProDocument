@@ -1,16 +1,17 @@
 package com.natiqhaciyef.prodocument.ui.view.main.payment.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import com.natiqhaciyef.common.helpers.toPickedModelList
 import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.common.model.payment.MappedPaymentModel
 import com.natiqhaciyef.common.model.payment.MappedPaymentPickModel
-import com.natiqhaciyef.common.model.payment.PaymentDetails
 import com.natiqhaciyef.core.base.ui.BaseViewModel
+import com.natiqhaciyef.domain.usecase.PAYMENT_MODEL
+import com.natiqhaciyef.domain.usecase.PICKED_SUBSCRIPTION_PLAN
 import com.natiqhaciyef.domain.usecase.payment.local.GetStoredPaymentMethodsUseCase
 import com.natiqhaciyef.domain.usecase.payment.local.RemovePaymentMethodUseCase
 import com.natiqhaciyef.domain.usecase.payment.remote.GetAllSavedPaymentMethodsUseCase
 import com.natiqhaciyef.domain.usecase.payment.remote.GetChequePdfUseCase
+import com.natiqhaciyef.domain.usecase.payment.remote.GetPaymentDataUseCase
 import com.natiqhaciyef.domain.usecase.payment.remote.GetPickedPaymentDetailsUseCase
 import com.natiqhaciyef.domain.usecase.payment.remote.StartPaymentUseCase
 import com.natiqhaciyef.prodocument.ui.view.main.payment.contract.PaymentContract
@@ -25,6 +26,7 @@ class PaymentViewModel @Inject constructor(
     private val pickPaymentMethodsUseCase: GetPickedPaymentDetailsUseCase,
     private val insertNewPaymentMethodRemoteUseCase: com.natiqhaciyef.domain.usecase.payment.remote.InsertNewPaymentMethodUseCase,
     private val startPaymentUseCase: StartPaymentUseCase,
+    private val getPaymentDataUseCase: GetPaymentDataUseCase,
     private val getChequePdfUseCase: GetChequePdfUseCase,
     private val getAllStoredPaymentMethodsUseCase: GetStoredPaymentMethodsUseCase,
     private val insertNewPaymentMethodLocaleUseCase: com.natiqhaciyef.domain.usecase.payment.local.InsertNewPaymentMethodUseCase,
@@ -41,12 +43,20 @@ class PaymentViewModel @Inject constructor(
                 insertNewPaymentMethod(event.paymentModel)
             }
 
-            is PaymentContract.PaymentEvent.PayForPlan -> {
-                payForPlan(event.paymentModel, event.isSaved)
+            is PaymentContract.PaymentEvent.GetPaymentData -> {
+                getPaymentData(event.paymentModel, event.pickedPlan)
+            }
+
+            is PaymentContract.PaymentEvent.GetChequePdf -> {
+                getChequePdf(event.chequeId)
             }
 
             is PaymentContract.PaymentEvent.GetAllStoredPaymentMethods -> {
                 getAllStoredMethods()
+            }
+
+            is PaymentContract.PaymentEvent.PayForPlan -> {
+
             }
         }
     }
@@ -114,9 +124,14 @@ class PaymentViewModel @Inject constructor(
         }
     }
 
-    private fun payForPlan(mappedPaymentModel: MappedPaymentModel, isSaved: Boolean) {
+    private fun getPaymentData(mappedPaymentModel: MappedPaymentModel, pickedPlanId: String) {
+        val map = mapOf(
+            PAYMENT_MODEL to mappedPaymentModel,
+            PICKED_SUBSCRIPTION_PLAN to pickedPlanId
+        )
+
         viewModelScope.launch {
-            startPaymentUseCase.operate(mappedPaymentModel).collectLatest { result ->
+            getPaymentDataUseCase.operate(map).collectLatest { result ->
                 when (result.status) {
                     Status.SUCCESS -> {
                         if (result.data != null)
@@ -135,6 +150,28 @@ class PaymentViewModel @Inject constructor(
         }
     }
 
+    private fun getChequePdf(chequeId: String){
+        viewModelScope.launch {
+            getChequePdfUseCase.operate(chequeId).collectLatest { result ->
+                when(result.status){
+                    Status.SUCCESS -> {
+                        if (result.data != null)
+                            setBaseState(getCurrentBaseState().copy(isLoading = false, chequePayload = result.data))
+                    }
+
+                    Status.ERROR -> {
+                        setBaseState(getCurrentBaseState().copy(isLoading = false))
+                    }
+
+                    Status.LOADING -> {
+                        setBaseState(getCurrentBaseState().copy(isLoading = true))
+                    }
+                }
+            }
+        }
+    }
+
+
     private fun getAllStoredPaymentMethodsLocal(){
         viewModelScope.launch {
             getAllStoredPaymentMethodsUseCase.invoke().collectLatest { result ->
@@ -144,7 +181,7 @@ class PaymentViewModel @Inject constructor(
                             setBaseState(
                                 getCurrentBaseState().copy(
                                     isLoading = false,
-                                    paymentMethodsList = result.data!!.toPickedModelList()
+                                    paymentMethodsList = result.data
                                 )
                             )
                     }

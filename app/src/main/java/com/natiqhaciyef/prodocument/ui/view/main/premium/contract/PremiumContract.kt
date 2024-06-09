@@ -9,10 +9,6 @@ import com.natiqhaciyef.core.base.ui.UiState
 object PremiumContract {
 
     sealed interface PremiumEvent : UiEvent {
-        data class PickPlanEvent(
-            val planToken: String
-        ) : PremiumEvent
-
         data object GetAllSubscriptionPlans : PremiumEvent
     }
 
@@ -23,6 +19,5 @@ object PremiumContract {
     data class PremiumState(
         override var isLoading: Boolean = false,
         var subscriptions: List<MappedSubscriptionModel>? = null,
-        var isPicked: CRUDModel? = null
     ) : UiState
 }

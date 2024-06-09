@@ -14,14 +14,14 @@ import javax.inject.Inject
 @UseCase
 class GetChequePdfUseCase @Inject constructor(
     paymentRepository: PaymentRepository
-): BaseUseCase<PaymentRepository, String, ChequePayloadModel>(paymentRepository) {
+): BaseUseCase<PaymentRepository, String, String>(paymentRepository) {
 
-    override fun operate(data: String): Flow<Resource<ChequePayloadModel>> = flow{
+    override fun operate(data: String): Flow<Resource<String>> = flow{
         emit(Resource.loading(null))
 
         when(val result = repository.getChequePdf(data)){
             is NetworkResult.Success -> {
-                emit(Resource.success(data = result.data))
+                emit(Resource.success(data = result.data.payload))
             }
 
             is NetworkResult.Error -> {

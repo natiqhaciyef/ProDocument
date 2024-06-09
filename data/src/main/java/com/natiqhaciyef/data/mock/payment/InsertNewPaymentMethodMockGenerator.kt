@@ -9,20 +9,20 @@ import com.natiqhaciyef.data.network.request.PaymentModel
 class InsertNewPaymentMethodMockGenerator(
     override var takenRequest: PaymentModel
 ) : BaseMockGenerator<PaymentModel, CRUDResponse>() {
-    override var createdMock: CRUDResponse =
-        CRUDResponse(
-            resultCode = 299,
-            message = "mock result"
-        )
+    override var createdMock: CRUDResponse = CRUDResponse(
+        resultCode = 299,
+        message = "mock result success"
+    )
+
 
     override fun getMock(
         request: PaymentModel,
         action: (PaymentModel) -> CRUDResponse?
     ): CRUDResponse {
-        return if (request == takenRequest)
-            createdMock
-        else
-            action.invoke(takenRequest) ?: throw Companion.MockRequestException()
+        if (request == takenRequest)
+            return createdMock
+
+        return PaymentMockManager.insertNewPayment(takenRequest)
     }
 
     companion object InsertNewPaymentMethodMockGenerator{

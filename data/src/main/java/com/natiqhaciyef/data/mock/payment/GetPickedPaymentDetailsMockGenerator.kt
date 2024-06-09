@@ -26,10 +26,10 @@ class GetPickedPaymentDetailsMockGenerator(
         request: PaymentPickModel,
         action: (PaymentPickModel) -> PaymentModel?
     ): PaymentModel {
-        return if (request == takenRequest)
-            createdMock
-        else
-            action.invoke(takenRequest) ?: throw Companion.MockRequestException()
+        if (request == takenRequest)
+            return createdMock
+
+        return PaymentMockManager.getPickedPaymentDetails(takenRequest) ?: createdMock
     }
 
     companion object GetPickedPaymentDetails{

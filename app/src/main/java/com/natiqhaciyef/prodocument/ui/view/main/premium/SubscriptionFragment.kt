@@ -42,8 +42,7 @@ class SubscriptionFragment(
             }
 
             else -> {
-                if (state.isPicked?.resultCode in 200..299 && subscription != null)
-                    goToPayment(subscription)
+
             }
         }
     }
@@ -84,7 +83,7 @@ class SubscriptionFragment(
                 fragmentBackground.setBackgroundColor(com.natiqhaciyef.common.R.color.gradient_red)
 
                 selectPlanButton.setOnClickListener {
-                    selectPlanClickEvent(plan = subscriptionModel)
+                    goToPayment(selectedPlan = subscriptionModel)
                 }
             }
         }
@@ -94,9 +93,5 @@ class SubscriptionFragment(
         // navigate to payment
         val bundle = bundleOf(BundleConstants.BUNDLE_SUBSCRIPTION_PLAN to selectedPlan)
         BaseNavigationDeepLink.navigateByRouteTitle(this, BaseNavigationDeepLink.PAYMENT_ROUTE, bundle)
-    }
-
-    private fun selectPlanClickEvent(plan: MappedSubscriptionModel) {
-        viewModel.postEvent(PremiumContract.PremiumEvent.PickPlanEvent(planToken = plan.token))
     }
 }

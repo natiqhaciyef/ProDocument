@@ -1,11 +1,11 @@
 package com.natiqhaciyef.common.model.ui
 
-enum class SubscriptionType {
-    BEGINNER,
-    ADVANCED,
-    PARTNER,
-    OTHER,
-    CUSTOM;
+enum class SubscriptionType(val title: String) {
+    BEGINNER("Beginner"),
+    ADVANCED("Advanced"),
+    PARTNER("Partner"),
+    OTHER("Other"),
+    CUSTOM("Custom");
 
     companion object {
         fun stringToSubscriptionType(title: String) = when (title.lowercase()) {

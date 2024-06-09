@@ -1,15 +1,21 @@
 package com.natiqhaciyef.domain.repository.impl
 
-import com.natiqhaciyef.common.model.payment.PaymentDetails
+import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.data.local.entity.PaymentEntity
+import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.data.network.request.PaymentModel
+import com.natiqhaciyef.data.network.request.PaymentRequest
 import com.natiqhaciyef.data.network.response.PaymentPickModel
 import com.natiqhaciyef.data.source.PaymentDataSource
 import com.natiqhaciyef.domain.repository.PaymentRepository
 
 class PaymentRepositoryImpl(private val ds: PaymentDataSource) : PaymentRepository {
-    override suspend fun startPayment(paymentModel: PaymentModel) =
-        ds.startPayment(paymentModel)
+    override suspend fun getPaymentData(paymentRequest: PaymentRequest) =
+        ds.getPaymentData(paymentRequest)
+
+    override suspend fun startPayment(): NetworkResult<CRUDResponse> {
+        return ds.startPayment()
+    }
 
     override suspend fun getChequePdf(checkId: String) =
         ds.getChequePdf(checkId)

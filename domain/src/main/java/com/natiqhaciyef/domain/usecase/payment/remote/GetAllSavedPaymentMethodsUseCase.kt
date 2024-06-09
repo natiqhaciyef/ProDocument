@@ -1,6 +1,7 @@
 package com.natiqhaciyef.domain.usecase.payment.remote
 
 import com.natiqhaciyef.common.model.Resource
+import com.natiqhaciyef.common.model.payment.MappedPaymentModel
 import com.natiqhaciyef.common.model.payment.MappedPaymentPickModel
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.core.base.usecase.BaseUseCase
@@ -15,9 +16,9 @@ import javax.inject.Inject
 @UseCase
 class GetAllSavedPaymentMethodsUseCase @Inject constructor(
     paymentRepository: PaymentRepository
-): BaseUseCase<PaymentRepository, Unit, List<MappedPaymentPickModel>>(paymentRepository) {
+): BaseUseCase<PaymentRepository, Unit, List<MappedPaymentModel>>(paymentRepository) {
 
-    override fun invoke(): Flow<Resource<List<MappedPaymentPickModel>>> = flow{
+    override fun invoke(): Flow<Resource<List<MappedPaymentModel>>> = flow{
         emit(Resource.loading(null))
 
         when(val result = repository.getAllSavedPaymentMethods()){

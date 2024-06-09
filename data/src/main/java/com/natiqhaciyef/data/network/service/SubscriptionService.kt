@@ -15,10 +15,4 @@ interface SubscriptionService {
     suspend fun getAllSubscriptionPlans(
         @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String
     ): Response<List<SubscriptionResponse>>
-
-    @POST("")
-    suspend fun activatePickedPlan(
-        @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String,
-        @Field("pickedPlanToken") pickedPlanToken: String
-    ): Response<CRUDResponse>
 }

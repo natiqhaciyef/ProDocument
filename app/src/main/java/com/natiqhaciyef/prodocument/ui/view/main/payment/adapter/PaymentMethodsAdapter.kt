@@ -3,13 +3,15 @@ package com.natiqhaciyef.prodocument.ui.view.main.payment.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.natiqhaciyef.common.model.payment.MappedPaymentModel
+import com.natiqhaciyef.common.model.payment.MappedPaymentModel.Companion.toMappedPick
 import com.natiqhaciyef.common.model.payment.MappedPaymentPickModel
 import com.natiqhaciyef.core.base.ui.BaseRecyclerViewAdapter
 import com.natiqhaciyef.prodocument.databinding.RecyclerPaymentMethodItemBinding
 
 class PaymentMethodsAdapter(
-    list: MutableList<MappedPaymentPickModel>
-) : BaseRecyclerViewAdapter<MappedPaymentPickModel, RecyclerPaymentMethodItemBinding>(list) {
+    list: MutableList<MappedPaymentModel>
+) : BaseRecyclerViewAdapter<MappedPaymentModel, RecyclerPaymentMethodItemBinding>(list) {
     override val binding: (Context, ViewGroup, Boolean) -> RecyclerPaymentMethodItemBinding =
         { ctx, parent, _ ->
             RecyclerPaymentMethodItemBinding.inflate(LayoutInflater.from(ctx), parent, false)
@@ -17,7 +19,8 @@ class PaymentMethodsAdapter(
 
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-        val paymentMethod = list[position]
+        val paymentModel = list[position]
+        val paymentMethod = paymentModel.toMappedPick()
         with(holder.binding) {
             paymentImage.setImageResource(paymentMethod.image)
 
@@ -26,11 +29,11 @@ class PaymentMethodsAdapter(
             if (paymentMethod.maskedCardNumber.isNotEmpty())
                 paymentTitle.text = paymentMethod.maskedCardNumber
 
-            pickPaymentButtonIcon.setOnClickListener { onClickAction.invoke(paymentMethod) }
+            pickPaymentButtonIcon.setOnClickListener { onClickAction.invoke(paymentModel) }
         }
 
-        holder.itemView.setOnClickListener { onClickAction.invoke(paymentMethod) }
+        holder.itemView.setOnClickListener { onClickAction.invoke(paymentModel) }
     }
 
-    var onClickAction: (MappedPaymentPickModel) -> Unit = {}
+    var onClickAction: (MappedPaymentModel) -> Unit = {}
 }

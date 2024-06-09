@@ -7,6 +7,7 @@ import com.natiqhaciyef.common.model.payment.PaymentMethods
 import com.natiqhaciyef.common.model.payment.PaymentTypes
 import com.natiqhaciyef.data.local.entity.PaymentEntity
 import com.natiqhaciyef.data.network.request.PaymentModel
+import com.natiqhaciyef.data.network.request.PaymentRequest
 
 fun PaymentModel.toMapped(): MappedPaymentModel {
     return MappedPaymentModel(
@@ -23,6 +24,16 @@ fun PaymentEntity.toMapped(): MappedPaymentModel{
         paymentMethod = PaymentMethods.stringToType(this.paymentMethod),
         paymentType = PaymentTypes.stringToType(this.paymentType),
         paymentDetails = Gson().fromJson(this.paymentDetails, PaymentDetails::class.java)
+    )
+}
+
+fun PaymentModel.toPaymentRequest(planId: String): PaymentRequest{
+    return PaymentRequest(
+        merchantId = this.merchantId,
+        paymentType = this.paymentType,
+        paymentMethod = this.paymentMethod,
+        paymentDetails = this.paymentDetails,
+        pickedPlanToken = planId
     )
 }
 

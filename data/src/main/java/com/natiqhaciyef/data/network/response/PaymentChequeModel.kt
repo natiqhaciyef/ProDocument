@@ -2,7 +2,6 @@ package com.natiqhaciyef.data.network.response
 
 import android.os.Parcelable
 import com.natiqhaciyef.common.model.payment.PaymentDetails
-import com.natiqhaciyef.common.model.payment.MappedSubscriptionPlanPaymentDetails
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -14,6 +13,7 @@ data class PaymentChequeModel(
     var totalAmount: Double,
     var currency: String,
     var paymentDetails: PaymentDetails,
+    var paymentResult: String
 ) : Parcelable
 
 @Parcelize

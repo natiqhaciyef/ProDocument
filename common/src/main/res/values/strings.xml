@@ -19,6 +19,8 @@
     <string name="sign_in">Sign in</string>
     <string name="save">Save</string>
     <string name="confirm">Confirm</string>
+    <string name="confirm_payment">Confirm Payment</string>
+    <string name="pay">Pay</string>
     <string name="share">Share</string>
     <string name="merge">Merge</string>
     <string name="protect">Protect</string>
@@ -211,5 +213,7 @@
     <string name="plan_tax_amount_title">Tax</string>
     <string name="plan_total_amount_title">Total Amount</string>
     <string name="plan_payment_method_title">Payment Method</string>
+    <string name="share_cheque_title">Share cheque</string>
+    <string name="payment_details_title">Payment details</string>
 
 </resources>

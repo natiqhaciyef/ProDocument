@@ -50,7 +50,7 @@ class NewPaymentFragment(
     private fun activityConfig() {
         (activity as MainActivity).also {
             with(it.binding) {
-                bottomNavBar.visibility = View.VISIBLE
+                bottomNavBar.visibility = View.GONE
                 appbarLayout.visibility = View.VISIBLE
 
                 materialToolbar.apply {
@@ -110,7 +110,7 @@ class NewPaymentFragment(
         viewModel.postEvent(
             PaymentContract.PaymentEvent.AddNewPaymentMethod(
                 MappedPaymentModel(
-                    merchantId = 0,
+                    merchantId = 109,
                     paymentType = PaymentTypes.CARD,
                     paymentMethod = PaymentMethods.UNKNOWN,
                     paymentDetails = PaymentDetails(
@@ -118,7 +118,7 @@ class NewPaymentFragment(
                         cardNumber = cardNumber,
                         expireDate = expireDate,
                         cvv = cvv,
-                        currency = Currency.DEFAULT.name
+                        currency = Currency.USD.name
                     )
                 )
             )
@@ -126,6 +126,6 @@ class NewPaymentFragment(
     }
 
     private fun addButtonClickAction(){
-        // navigate to payment list and update screen
+        navigateBack()
     }
 }

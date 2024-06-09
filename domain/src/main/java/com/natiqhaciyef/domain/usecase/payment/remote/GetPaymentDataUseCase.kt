@@ -1,28 +1,43 @@
 package com.natiqhaciyef.domain.usecase.payment.remote
 
-import com.natiqhaciyef.common.model.CRUDModel
 import com.natiqhaciyef.common.model.Resource
+import com.natiqhaciyef.common.model.payment.MappedPaymentChequeModel
+import com.natiqhaciyef.common.model.payment.MappedPaymentModel
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.core.base.usecase.BaseUseCase
 import com.natiqhaciyef.core.base.usecase.UseCase
-import com.natiqhaciyef.data.mapper.toModel
+import com.natiqhaciyef.data.mapper.toMappedModel
+import com.natiqhaciyef.data.mapper.toResponse
 import com.natiqhaciyef.data.network.NetworkResult
+import com.natiqhaciyef.data.network.request.PaymentRequest
 import com.natiqhaciyef.domain.repository.PaymentRepository
+import com.natiqhaciyef.domain.usecase.PAYMENT_MODEL
+import com.natiqhaciyef.domain.usecase.PICKED_SUBSCRIPTION_PLAN
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 @UseCase
-class StartPaymentUseCase @Inject constructor(
+class GetPaymentDataUseCase @Inject constructor(
     paymentRepository: PaymentRepository
-): BaseUseCase<PaymentRepository, Unit, CRUDModel>(paymentRepository){
+) : BaseUseCase<PaymentRepository, Map<String, Any>, MappedPaymentChequeModel>(paymentRepository) {
 
-    override fun invoke(): Flow<Resource<CRUDModel>> = flow {
+    override fun operate(data: Map<String, Any>): Flow<Resource<MappedPaymentChequeModel>> = flow {
         emit(Resource.loading(null))
 
-        when (val result = repository.startPayment()) {
+        val payment = (data[PAYMENT_MODEL] as MappedPaymentModel).toResponse()
+        val pickedPlan = data[PICKED_SUBSCRIPTION_PLAN].toString()
+        val request = PaymentRequest(
+            merchantId = payment.merchantId,
+            paymentType = payment.paymentType,
+            paymentMethod = payment.paymentMethod,
+            paymentDetails = payment.paymentDetails,
+            pickedPlanToken = pickedPlan
+        )
+
+        when (val result = repository.getPaymentData(request)) {
             is NetworkResult.Success -> {
-                emit(Resource.success(result.data.toModel()))
+                emit(Resource.success(result.data.toMappedModel()))
             }
 
             is NetworkResult.Error -> {
