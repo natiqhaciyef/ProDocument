@@ -1,16 +1,17 @@
 package com.natiqhaciyef.data.mock.payment
 
+import com.natiqhaciyef.common.helpers.getNow
 import com.natiqhaciyef.common.model.payment.PaymentDetails
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
 import com.natiqhaciyef.data.network.request.PaymentRequest
-import com.natiqhaciyef.data.network.response.PaymentChequeModel
+import com.natiqhaciyef.data.network.response.PaymentChequeResponse
 import com.natiqhaciyef.data.network.response.SubscriptionPlanPaymentDetails
 
 class StartPaymentMockGenerator(
     override var takenRequest: PaymentRequest
-) : BaseMockGenerator<PaymentRequest, PaymentChequeModel>() {
-    override var createdMock: PaymentChequeModel =
-        PaymentChequeModel(
+) : BaseMockGenerator<PaymentRequest, PaymentChequeResponse>() {
+    override var createdMock: PaymentChequeResponse =
+        PaymentChequeResponse(
             checkId = "mock-key-id",
             title = "Payment food",
             description = "Payment refund is not available",
@@ -30,13 +31,14 @@ class StartPaymentMockGenerator(
                 currency = "USD",
                 cvv = "909"
             ),
-            paymentResult = "SUCCESS"
+            paymentResult = "SUCCESS",
+            date = getNow()
         )
 
     override fun getMock(
         request: PaymentRequest,
-        action: (PaymentRequest) -> PaymentChequeModel?
-    ): PaymentChequeModel {
+        action: (PaymentRequest) -> PaymentChequeResponse?
+    ): PaymentChequeResponse {
         if (request == takenRequest)
             return createdMock
 

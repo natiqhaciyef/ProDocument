@@ -13,6 +13,7 @@ import com.natiqhaciyef.data.network.handleNetworkResponse
 import com.natiqhaciyef.data.network.manager.TokenManager
 import com.natiqhaciyef.data.network.request.PaymentModel
 import com.natiqhaciyef.data.network.request.PaymentRequest
+import com.natiqhaciyef.data.network.response.PaymentChequeResponse
 import com.natiqhaciyef.data.network.response.PaymentPickModel
 import com.natiqhaciyef.data.network.service.PaymentService
 import kotlinx.coroutines.Dispatchers
@@ -34,11 +35,11 @@ class PaymentDataSource(
         }
     }
 
-    suspend fun startPayment() = withContext(Dispatchers.IO){
+    suspend fun startPayment(cheque: PaymentChequeResponse) = withContext(Dispatchers.IO){
         val requestHeader = manager.generateToken()
 
         handleNetworkResponse(mock = null, handlingType = LoadType.MOCK) {
-            service.startPayment(token = requestHeader)
+            service.startPayment(token = requestHeader, cheque = cheque)
         }
     }
 

@@ -17,6 +17,8 @@ import com.natiqhaciyef.domain.usecase.payment.remote.StartPaymentUseCase
 import com.natiqhaciyef.prodocument.ui.view.main.payment.contract.PaymentContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -56,7 +58,7 @@ class PaymentViewModel @Inject constructor(
             }
 
             is PaymentContract.PaymentEvent.PayForPlan -> {
-
+                startPayment()
             }
         }
     }
@@ -147,6 +149,30 @@ class PaymentViewModel @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+    private fun startPayment(){
+        viewModelScope.launch {
+            startPaymentUseCase.invoke().onEach { result ->
+
+                when(result.status){
+                    Status.SUCCESS -> {
+                        if (result.data != null)
+                            setBaseState(getCurrentBaseState().copy(paymentResult = result.data, isLoading = false))
+                    }
+
+                    Status.ERROR -> {
+                        setBaseState(getCurrentBaseState().copy(isLoading = false))
+                    }
+
+                    Status.LOADING -> {
+                        setBaseState(getCurrentBaseState().copy(isLoading = true))
+                    }
+                }
+
+            }.launchIn(viewModelScope)
+
         }
     }
 

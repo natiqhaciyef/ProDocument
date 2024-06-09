@@ -53,8 +53,8 @@ class PaymentDetailsFragment(
             }
 
             else -> {
-                if (state.cheque != null)
-                    confirmButtonAction(state.cheque!!)
+                if (chequeModel != null && state.paymentResult?.resultCode in 200..299)
+                    confirmButtonAction(chequeModel!!)
             }
         }
     }
