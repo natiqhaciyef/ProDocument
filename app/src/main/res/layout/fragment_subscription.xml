@@ -17,8 +17,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/fragmentBackground"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/gradient_red">
+            android:layout_height="match_parent">
 
 
             <TextView

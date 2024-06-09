@@ -100,5 +100,31 @@
     <color name="transparent_black">#9909101D</color>
 
     <!-- Gradient types -->
-    <color name="gradient_red">#FF7475</color>
+    <color name="gradient_start_red">#F5484A</color>
+    <color name="gradient_end_red">#FF7475</color>
+
+    <color name="gradient_start_pink">#F548EC</color>
+    <color name="gradient_end_pink">#FF74EC</color>
+
+    <color name="gradient_start_blue">#4B68FF</color>
+    <color name="gradient_end_blue">#7C90F8</color>
+
+    <color name="gradient_start_teal">#009B8D</color>
+    <color name="gradient_end_teal">#32D0C2</color>
+
+    <color name="gradient_start_green">#12D18E</color>
+    <color name="gradient_end_green">#71E3BB</color>
+
+    <color name="gradient_start_brown">#A4634D</color>
+    <color name="gradient_end_brown">#AC7E6E</color>
+
+    <color name="gradient_start_yellow">#FACC15</color>
+    <color name="gradient_end_yellow">#FFE580</color>
+
+    <color name="gradient_start_orange">#F89300</color>
+    <color name="gradient_end_orange">#FFBB58</color>
+
+    <color name="gradient_start_purple">#6949FF</color>
+    <color name="gradient_end_purple">#876DFF</color>
+
 </resources>

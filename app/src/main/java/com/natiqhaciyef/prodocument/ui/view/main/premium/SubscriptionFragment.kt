@@ -80,7 +80,7 @@ class SubscriptionFragment(
                     LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
                 descriptionText.text = subscriptionModel.description
-                fragmentBackground.setBackgroundColor(com.natiqhaciyef.common.R.color.gradient_red)
+                fragmentBackground.setBackgroundResource(subscriptionModel.backgroundColor.gradient)
 
                 selectPlanButton.setOnClickListener {
                     goToPayment(selectedPlan = subscriptionModel)
