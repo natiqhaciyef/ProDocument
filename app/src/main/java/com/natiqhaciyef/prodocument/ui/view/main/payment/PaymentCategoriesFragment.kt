@@ -8,7 +8,9 @@ import androidx.core.os.bundleOf
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.gson.Gson
 import com.natiqhaciyef.common.helpers.toPickedModelList
+import com.natiqhaciyef.common.model.mapped.MappedSubscriptionModel
 import com.natiqhaciyef.common.model.payment.MappedPaymentModel
 import com.natiqhaciyef.common.model.payment.MappedPaymentPickModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
@@ -33,12 +35,16 @@ class PaymentCategoriesFragment(
 ) : BaseFragment<FragmentPaymentCategoriesBinding, PaymentViewModel, PaymentContract.PaymentState, PaymentContract.PaymentEvent, PaymentContract.PaymentEffect>() {
     private var adapter: PaymentMethodsAdapter? = null
     private var resourceBundle = bundleOf()
+    private var paymentModel: MappedPaymentModel? = null
+    private var pickedSubscriptionModel: MappedSubscriptionModel? = null
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activityConfig()
         val arg: PaymentCategoriesFragmentArgs by navArgs()
         resourceBundle = arg.datasetBundle
+        pickedSubscriptionModel = resourceBundle.getParcelable(BundleConstants.BUNDLE_SUBSCRIPTION_PLAN)
 
         binding.addNewPaymentMethodButton.setOnClickListener { addNewPaymentMethodButtonClick() }
     }
@@ -54,6 +60,13 @@ class PaymentCategoriesFragment(
 
                 if (state.paymentMethodsList != null)
                     recyclerViewConfig(state.paymentMethodsList!!)
+
+                if (state.cheque != null){
+                    resourceBundle.putParcelable(BundleConstants.BUNDLE_CHEQUE_PAYMENT, state.cheque!!)
+                    resourceBundle.putParcelable(BundleConstants.BUNDLE_PAYMENT, paymentModel)
+                    val action = PaymentCategoriesFragmentDirections.actionPaymentCategoriesFragmentToPaymentDetailsFragment(resourceBundle)
+                    navigate(action)
+                }
             }
         }
     }
@@ -115,9 +128,13 @@ class PaymentCategoriesFragment(
         adapter = PaymentMethodsAdapter(list = list.toMutableList())
         adapter?.onClickAction = {
             // navigate to details screen with loading screen
-            resourceBundle.putParcelable(BundleConstants.BUNDLE_PAYMENT, it)
-            val action = PaymentCategoriesFragmentDirections.actionPaymentCategoriesFragmentToPaymentDetailsFragment(resourceBundle)
-            navigate(action)
+            paymentModel = it
+            viewModel.postEvent(
+                PaymentContract.PaymentEvent.GetPaymentData(
+                    paymentModel = it,
+                    pickedPlan = pickedSubscriptionModel?.token ?: ""
+                )
+            )
         }
 
         binding.pickPaymentRecyclerView.layoutManager =

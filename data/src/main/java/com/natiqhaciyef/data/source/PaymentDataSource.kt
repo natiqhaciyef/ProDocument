@@ -1,6 +1,5 @@
 package com.natiqhaciyef.data.source
 
-import com.natiqhaciyef.common.model.payment.PaymentDetails
 import com.natiqhaciyef.core.base.mock.generateMockerClass
 import com.natiqhaciyef.data.local.dao.PaymentDao
 import com.natiqhaciyef.data.local.entity.PaymentEntity
@@ -13,6 +12,7 @@ import com.natiqhaciyef.data.network.LoadType
 import com.natiqhaciyef.data.network.handleNetworkResponse
 import com.natiqhaciyef.data.network.manager.TokenManager
 import com.natiqhaciyef.data.network.request.PaymentModel
+import com.natiqhaciyef.data.network.request.PaymentRequest
 import com.natiqhaciyef.data.network.response.PaymentPickModel
 import com.natiqhaciyef.data.network.service.PaymentService
 import kotlinx.coroutines.Dispatchers
@@ -24,13 +24,21 @@ class PaymentDataSource(
     private val dao: PaymentDao
 ) {
 
-    suspend fun startPayment(paymentModel: PaymentModel) = withContext(Dispatchers.IO) {
+    suspend fun getPaymentData(payment: PaymentRequest) = withContext(Dispatchers.IO) {
         val requestHeader = manager.generateToken()
-        val mock = generateMockerClass(StartPaymentMockGenerator::class, paymentModel)
+        val mock = generateMockerClass(StartPaymentMockGenerator::class, payment)
             .getMock(StartPaymentMockGenerator.customRequest) { null }
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
-            service.startPayment(token = requestHeader, paymentModel = paymentModel)
+            service.getPaymentData(token = requestHeader, paymentData = payment)
+        }
+    }
+
+    suspend fun startPayment() = withContext(Dispatchers.IO){
+        val requestHeader = manager.generateToken()
+
+        handleNetworkResponse(mock = null, handlingType = LoadType.MOCK) {
+            service.startPayment(token = requestHeader)
         }
     }
 

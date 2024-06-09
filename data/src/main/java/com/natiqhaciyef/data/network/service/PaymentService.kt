@@ -3,6 +3,7 @@ package com.natiqhaciyef.data.network.service
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.data.network.NetworkConfig
 import com.natiqhaciyef.data.network.request.PaymentModel
+import com.natiqhaciyef.data.network.request.PaymentRequest
 import com.natiqhaciyef.data.network.response.ChequePayloadModel
 import com.natiqhaciyef.data.network.response.PaymentChequeModel
 import com.natiqhaciyef.data.network.response.PaymentPickModel
@@ -14,10 +15,15 @@ import retrofit2.http.POST
 interface PaymentService {
 
     @POST("")
+    suspend fun getPaymentData(
+        @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String,
+        @Body paymentData: PaymentRequest
+    ): Response<PaymentChequeModel>
+
+    @POST("")
     suspend fun startPayment(
         @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String,
-        @Body paymentModel: PaymentModel
-    ): Response<PaymentChequeModel>
+    ): Response<CRUDResponse>
 
     @POST("")
     suspend fun getChequePdf(

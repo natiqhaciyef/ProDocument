@@ -41,5 +41,17 @@
         <argument
             android:name="datasetBundle"
             app:argType="android.os.Bundle" />
+        <action
+            android:id="@+id/action_paymentDetailsFragment_to_paymentResultFragment"
+            app:destination="@id/paymentResultFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/paymentResultFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.payment.PaymentResultFragment"
+        android:label="fragment_payment_cheque"
+        tools:layout="@layout/fragment_payment_result" >
+        <argument
+            android:name="cheque"
+            app:argType="com.natiqhaciyef.common.model.payment.MappedPaymentChequeModel" />
     </fragment>
 </navigation>

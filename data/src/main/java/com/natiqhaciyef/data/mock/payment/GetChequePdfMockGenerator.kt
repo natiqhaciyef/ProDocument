@@ -13,10 +13,7 @@ class GetChequePdfMockGenerator(
         request: String,
         action: (String) -> ChequePayloadModel?
     ): ChequePayloadModel {
-        return if (request == takenRequest)
-            createdMock
-        else
-            action.invoke(takenRequest) ?: throw Companion.MockRequestException()
+        return PaymentMockManager.getChequePayload(takenRequest) ?: createdMock
     }
 
     companion object GetChequePdfMockGenerator{

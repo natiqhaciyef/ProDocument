@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
+import com.google.gson.Gson
 import com.natiqhaciyef.common.model.Currency
 import com.natiqhaciyef.common.model.mapped.MappedSubscriptionModel
 import com.natiqhaciyef.common.model.payment.MappedPaymentChequeModel
@@ -24,18 +25,25 @@ class PaymentDetailsFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentPaymentDetailsBinding = FragmentPaymentDetailsBinding::inflate,
     override val viewModelClass: KClass<PaymentViewModel> = PaymentViewModel::class
 ) : BaseFragment<FragmentPaymentDetailsBinding, PaymentViewModel, PaymentContract.PaymentState, PaymentContract.PaymentEvent, PaymentContract.PaymentEffect>() {
+    private var chequeModel: MappedPaymentChequeModel? = null
     private var pickedPlan: MappedSubscriptionModel? = null
-    private var pickedPaymentModel: MappedPaymentModel? = null
+    private var paymentModel: MappedPaymentModel? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val args: PaymentDetailsFragmentArgs by navArgs()
+        chequeModel = args.datasetBundle.getParcelable(BundleConstants.BUNDLE_CHEQUE_PAYMENT)
         pickedPlan = args.datasetBundle.getParcelable(BundleConstants.BUNDLE_SUBSCRIPTION_PLAN)
-        pickedPaymentModel = args.datasetBundle.getParcelable(BundleConstants.BUNDLE_PAYMENT)
+        paymentModel = args.datasetBundle.getParcelable(BundleConstants.BUNDLE_PAYMENT)
+
+        println(chequeModel)
+        println(pickedPlan)
+        println(paymentModel)
 
         activityConfig()
-        if (pickedPlan != null && pickedPaymentModel != null)
-            planDetailsConfig(pickedPlan!!, pickedPaymentModel!!)
+        if (chequeModel != null && pickedPlan != null && paymentModel != null){
+            planDetailsConfig(chequeModel= chequeModel!!, plan = pickedPlan!!, payment = paymentModel!!)
+        }
     }
 
     override fun onStateChange(state: PaymentContract.PaymentState) {
@@ -47,8 +55,6 @@ class PaymentDetailsFragment(
             else -> {
                 if (state.cheque != null)
                     confirmButtonAction(state.cheque!!)
-                else
-                    println("Fake")
             }
         }
     }
@@ -73,36 +79,33 @@ class PaymentDetailsFragment(
         }
     }
 
-    private fun planDetailsConfig(
-        pickedPlan: MappedSubscriptionModel,
-        paymentModel: MappedPaymentModel
-    ) {
-        val tax = String.format("%.2f", (pickedPlan.price * 0.05))
-        val totalPrice = tax.toDouble() + pickedPlan.price
-        val pickedPayment = paymentModel.toMappedPick()
-        val currency = Currency.stringToSign(paymentModel.paymentDetails.currency)
+    private fun planDetailsConfig(plan: MappedSubscriptionModel, chequeModel: MappedPaymentChequeModel, payment: MappedPaymentModel) {
+        val pickedPayment = payment.toMappedPick()
+        val currency = Currency.stringToSign(chequeModel.paymentDetails.currency)
+        val fee = "%.2f".format(chequeModel.subscriptionDetails.fee)
+        val total = "%.2f".format(chequeModel.totalAmount)
+        val price = "%.2f".format(chequeModel.subscriptionDetails.price)
+        val perTimeType = chequeModel.subscriptionDetails.expirationTimeType.title
+        val perTime = chequeModel.subscriptionDetails.expirationTime
 
         with(binding) {
-            subscriptionPlanDetails.text = pickedPlan.title.title
-            subscriptionPlanDateDetails.text = "${pickedPlan.perTime} ${pickedPlan.timeType.title}"
-            planAmountDetails.text = "${currency}${pickedPlan.price}"
-            taxAmountDetails.text = "${currency}${tax}"
+            subscriptionPlanDetails.text = plan.title.title
+            subscriptionPlanDateDetails.text = "$perTime $perTimeType"
+            planAmountDetails.text = "${currency}${price}"
+            taxAmountDetails.text = "${currency}${fee}"
 
-            totalAmountDetails.text = "${currency}${totalPrice}"
+            totalAmountDetails.text = "${currency}${total}"
             paymentTypeImage.setImageResource(pickedPayment.image)
             maskedCardNumber.text = pickedPayment.maskedCardNumber
-            confirmButtonEvent(paymentModel)
-        }
-    }
-
-    private fun confirmButtonEvent(paymentModel: MappedPaymentModel){
-        binding.confirmButton.setOnClickListener {
-            viewModel.postEvent(PaymentContract.PaymentEvent.PayForPlan(paymentModel = paymentModel))
+            binding.confirmButton.setOnClickListener {
+                viewModel.postEvent(PaymentContract.PaymentEvent.PayForPlan)
+            }
         }
     }
 
     private fun confirmButtonAction(chequeModel: MappedPaymentChequeModel){
         // navigate payment cheque screen
-        println(chequeModel)
+        val action = PaymentDetailsFragmentDirections.actionPaymentDetailsFragmentToPaymentResultFragment(chequeModel)
+        navigate(action)
     }
 }

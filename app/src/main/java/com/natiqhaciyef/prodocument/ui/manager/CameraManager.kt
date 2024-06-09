@@ -416,51 +416,70 @@ class CameraManager(
             val list = mutableListOf<Uri?>()
             val sharingIntent = Intent(Intent.ACTION_SEND)
 
-            if (fileType == URL) {
-                if (urls.isNotEmpty()) {
-                    val url = urls[0].toString().replace(".pdf", "").toUri()
+            when(fileType){
+                URL -> {
+                    if (urls.isNotEmpty()) {
+                        val url = urls[0].toString().replace(".pdf", "").toUri()
+                        val address = getAddressOfFile(requireContext(), url)
+                        list.add(address)
+
+                        sharingIntent.apply {
+                            type = getIntentFileType(fileType)
+                            putExtra(Intent.EXTRA_TEXT, url.toString())
+                            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                        }
+                    }
+                }
+
+                PDF -> {
+                    if (urls.isNotEmpty()) {
+                        val externalUri = getAddressOfFile(requireContext(), urls[0])
+                        if (isShare)
+                            sharingIntent.apply {
+                                type = getIntentFileType(fileType)
+                                putExtra(Intent.EXTRA_STREAM, externalUri)
+                                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                            }
+                        list.add(externalUri)
+                    }
+                }
+
+                DOCX -> {
+                    val url = urls[0].toString().replace(".pdf", ".docx").toUri()
                     val address = getAddressOfFile(requireContext(), url)
                     list.add(address)
 
                     sharingIntent.apply {
                         type = getIntentFileType(fileType)
-                        putExtra(Intent.EXTRA_TEXT, url.toString())
+                        putExtra(Intent.EXTRA_STREAM, url.toString())
                         addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                     }
                 }
-            } else if (fileType == PDF) {
-                if (urls.isNotEmpty()) {
-                    val externalUri = getAddressOfFile(requireContext(), urls[0])
+
+                PNG, JPEG -> {
+                    val url = urls[0].toString().replace(".pdf", ".png").toUri()
+                    val address = getAddressOfFile(requireContext(), url)
+                    list.add(address)
+
+                    sharingIntent.apply {
+                        type = getIntentFileType(fileType)
+                        putExtra(Intent.EXTRA_STREAM, url.toString())
+                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    }
+                }
+
+                else -> {
+                    for (url in urls) {
+                        list.add(getAddressOfFile(requireContext(), url))
+                    }
+
                     if (isShare)
                         sharingIntent.apply {
                             type = getIntentFileType(fileType)
-                            putExtra(Intent.EXTRA_STREAM, externalUri)
+                            putExtra(Intent.EXTRA_STREAM, list[0])
                             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                         }
-                    list.add(externalUri)
                 }
-
-            } else if(fileType == DOCX) {
-                val url = urls[0].toString().replace(".pdf", ".docx").toUri()
-                val address = getAddressOfFile(requireContext(), url)
-                list.add(address)
-
-                sharingIntent.apply {
-                    type = getIntentFileType(fileType)
-                    putExtra(Intent.EXTRA_STREAM, url.toString())
-                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                }
-            }else {
-                for (url in urls) {
-                    list.add(getAddressOfFile(requireContext(), url))
-                }
-
-                if (isShare)
-                    sharingIntent.apply {
-                        type = getIntentFileType(fileType)
-                        putExtra(Intent.EXTRA_STREAM, list[0])
-                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                    }
             }
 
             startActivity(Intent.createChooser(sharingIntent, "Share data using"))

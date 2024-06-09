@@ -21,3 +21,7 @@ const val USER_TOKEN = "userToken"
 const val USER_EMAIL = "userEmail"
 const val USER_NAME = "username"
 const val USER_PASSWORD = "userPassword"
+
+// payment
+const val PAYMENT_MODEL = "paymentModel"
+const val PICKED_SUBSCRIPTION_PLAN = "pickedSubscriptionPlan"

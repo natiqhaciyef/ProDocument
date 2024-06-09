@@ -213,5 +213,7 @@
     <string name="plan_tax_amount_title">Tax</string>
     <string name="plan_total_amount_title">Total Amount</string>
     <string name="plan_payment_method_title">Payment Method</string>
+    <string name="share_cheque_title">Share cheque</string>
+    <string name="payment_details_title">Payment details</string>
 
 </resources>

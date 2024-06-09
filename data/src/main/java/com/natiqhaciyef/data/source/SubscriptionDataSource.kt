@@ -1,7 +1,6 @@
 package com.natiqhaciyef.data.source
 
 import com.natiqhaciyef.core.base.mock.generateMockerClass
-import com.natiqhaciyef.data.mock.subscription.ActivatePickedPlanMockGenerator
 import com.natiqhaciyef.data.mock.subscription.GetAllSubscriptionPlansMockGenerator
 import com.natiqhaciyef.data.network.LoadType
 import com.natiqhaciyef.data.network.handleNetworkResponse
@@ -23,16 +22,6 @@ class SubscriptionDataSource @Inject constructor(
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.getAllSubscriptionPlans(token = requestHeader)
-        }
-    }
-
-    suspend fun activatePickedPlan(planToken: String) = withContext(Dispatchers.IO){
-        val requestHeader = manager.generateToken()
-        val mock = generateMockerClass(ActivatePickedPlanMockGenerator::class, planToken)
-            .getMock(ActivatePickedPlanMockGenerator.customRequest) { null }
-
-        handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
-            service.activatePickedPlan(token = requestHeader, pickedPlanToken = planToken)
         }
     }
 }

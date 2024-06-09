@@ -13,5 +13,6 @@ data class MappedPaymentChequeModel(
     var totalAmount: Double,
     var currency: Currency,
     var paymentDetails: PaymentDetails,
+    var paymentResult: PaymentResultType
 ): Parcelable
 

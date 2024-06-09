@@ -4,6 +4,7 @@ import com.natiqhaciyef.common.model.Currency
 import com.natiqhaciyef.common.model.Time
 import com.natiqhaciyef.common.model.payment.MappedPaymentChequeModel
 import com.natiqhaciyef.common.model.payment.MappedSubscriptionPlanPaymentDetails
+import com.natiqhaciyef.common.model.payment.PaymentResultType
 import com.natiqhaciyef.data.network.response.PaymentChequeModel
 import com.natiqhaciyef.data.network.response.SubscriptionPlanPaymentDetails
 
@@ -15,7 +16,8 @@ fun PaymentChequeModel.toMappedModel(): MappedPaymentChequeModel {
         subscriptionDetails = this.subscriptionDetails.toMappedModel(),
         totalAmount = this.totalAmount,
         currency = Currency.stringToType(this.currency),
-        paymentDetails = this.paymentDetails
+        paymentDetails = this.paymentDetails,
+        paymentResult = PaymentResultType.stringToPaymentResultType(this.paymentResult)
     )
 }
 
@@ -27,7 +29,8 @@ fun MappedPaymentChequeModel.toResponse(): PaymentChequeModel {
         subscriptionDetails = this.subscriptionDetails.toResponse(),
         totalAmount = this.totalAmount,
         currency = this.currency.name,
-        paymentDetails = this.paymentDetails
+        paymentDetails = this.paymentDetails,
+        paymentResult = this.paymentResult.title
     )
 }
 

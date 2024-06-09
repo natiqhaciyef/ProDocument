@@ -9,5 +9,4 @@ interface SubscriptionRepository: BaseRepository {
 
     suspend fun getAllSubscriptionPlans(): NetworkResult<List<SubscriptionResponse>>
 
-    suspend fun activatePickedPlan(planToken: String): NetworkResult<CRUDResponse>
 }

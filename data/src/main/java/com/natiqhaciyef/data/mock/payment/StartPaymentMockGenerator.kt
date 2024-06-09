@@ -2,13 +2,13 @@ package com.natiqhaciyef.data.mock.payment
 
 import com.natiqhaciyef.common.model.payment.PaymentDetails
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
-import com.natiqhaciyef.data.network.request.PaymentModel
+import com.natiqhaciyef.data.network.request.PaymentRequest
 import com.natiqhaciyef.data.network.response.PaymentChequeModel
 import com.natiqhaciyef.data.network.response.SubscriptionPlanPaymentDetails
 
 class StartPaymentMockGenerator(
-    override var takenRequest: PaymentModel
-) : BaseMockGenerator<PaymentModel, PaymentChequeModel>() {
+    override var takenRequest: PaymentRequest
+) : BaseMockGenerator<PaymentRequest, PaymentChequeModel>() {
     override var createdMock: PaymentChequeModel =
         PaymentChequeModel(
             checkId = "mock-key-id",
@@ -29,22 +29,22 @@ class StartPaymentMockGenerator(
                 expireDate = "12/19",
                 currency = "USD",
                 cvv = "909"
-            )
+            ),
+            paymentResult = "SUCCESS"
         )
 
     override fun getMock(
-        request: PaymentModel,
-        action: (PaymentModel) -> PaymentChequeModel?
+        request: PaymentRequest,
+        action: (PaymentRequest) -> PaymentChequeModel?
     ): PaymentChequeModel {
+        if (request == takenRequest)
+            return createdMock
 
-        return if(request.paymentDetails == takenRequest.paymentDetails)
-            createdMock
-        else
-            action.invoke(takenRequest) ?: throw Companion.MockRequestException()
+        return PaymentMockManager.getPayment(payment = takenRequest)
     }
 
     companion object StartPaymentMockGenerator{
-        val customRequest = PaymentModel(
+        val customRequest = PaymentRequest(
             merchantId = 0,
             paymentType = "QR",
             paymentMethod = "VISA",
@@ -54,7 +54,8 @@ class StartPaymentMockGenerator(
                 expireDate = "12/19",
                 currency = "USD",
                 cvv = "909"
-            )
+            ),
+            pickedPlanToken = "subscriptionToken-3"
         )
     }
 }

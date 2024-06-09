@@ -19,10 +19,15 @@ object PaymentContract {
             val paymentModel: MappedPaymentModel
         ) : PaymentEvent
 
-        data class PayForPlan(
+        data class GetPaymentData(
             val paymentModel: MappedPaymentModel,
+            val pickedPlan: String,
             val isSaved: Boolean = false
         ): PaymentEvent
+
+        data object PayForPlan: PaymentEvent
+
+        data class GetChequePdf(val chequeId: String): PaymentEvent
 
         data object GetAllStoredPaymentMethods: PaymentEvent
     }
