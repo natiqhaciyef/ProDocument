@@ -53,7 +53,10 @@ class ESignMaterialMockGenerator(
                 )
             ),
             sign = "not-signed",
-            signBitmap = "converted-bitmap"
+            signBitmap = "converted-bitmap",
+            page = 0,
+            positionX = 0f,
+            positionY = 0f
         )
     }
 }

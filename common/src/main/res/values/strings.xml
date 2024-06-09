@@ -11,12 +11,16 @@
     <string name="next">Next</string>
     <string name="select">Select</string>
     <string name="continue_">Continue</string>
+    <string name="add">Add</string>
     <string name="cancel">Cancel</string>
+    <string name="change">Change</string>
     <string name="finish">Finish</string>
     <string name="go_to_login">Go to Login</string>
     <string name="sign_in">Sign in</string>
     <string name="save">Save</string>
     <string name="confirm">Confirm</string>
+    <string name="confirm_payment">Confirm Payment</string>
+    <string name="pay">Pay</string>
     <string name="share">Share</string>
     <string name="merge">Merge</string>
     <string name="protect">Protect</string>
@@ -175,5 +179,41 @@
     <!--  Files titles  -->
     <string name="total_file_amount_title">Total: %1$s file(s)</string>
     <string name="search_file">Search file...</string>
+
+    <!-- Premium -->
+    <string name="subscription_price_text"><![CDATA[<font size="36">%1$s</font> <font size="24">/ %2$s</font>]]></string>
+
+    <!-- Payment -->
+    <string name="visa">Visa</string>
+    <string name="mastercard">Mastercard</string>
+    <string name="paypal">Paypal</string>
+    <string name="american_express">American Express</string>
+    <string name="google_pay">Google Pay</string>
+    <string name="apple_pay">Apple Pay</string>
+    <string name="other">Other</string>
+    <string name="select_payment_method">Select Payment</string>
+    <string name="review_summary">Review Summary</string>
+    <string name="add_new_payment">Add New Payment</string>
+
+    <string name="card_number_default">●●●● ●●●● ●●●● ●●●●</string>
+    <string name="card">Card</string>
+    <string name="card_holder_name_title">Card Holder Name</string>
+    <string name="card_number_title">Card Number</string>
+    <string name="card_holder_name_default">●●●●●●●●●</string>
+    <string name="expire_date_title">Expire Date</string>
+    <string name="expire_date_default">00/00</string>
+    <string name="cvv_title">CVV</string>
+    <string name="cvv_default">000</string>
+    <string name="expire_date_template">%1$s/%2$s</string>
+    <string name="card_number_template">%1$s %2$s %3$s %4$s</string>
+
+    <string name="plan_title">Subscription Plan</string>
+    <string name="plan_date_title">Range</string>
+    <string name="plan_amount_title">Amount</string>
+    <string name="plan_tax_amount_title">Tax</string>
+    <string name="plan_total_amount_title">Total Amount</string>
+    <string name="plan_payment_method_title">Payment Method</string>
+    <string name="share_cheque_title">Share cheque</string>
+    <string name="payment_details_title">Payment details</string>
 
 </resources>

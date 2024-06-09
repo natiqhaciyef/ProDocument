@@ -8,9 +8,11 @@ import androidx.test.core.view.captureToBitmap
 import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.base.ui.BaseViewModel
+import com.natiqhaciyef.domain.usecase.CURRENT_PAGE_NUMBER
 import com.natiqhaciyef.domain.usecase.MATERIAL_E_SIGN
 import com.natiqhaciyef.domain.usecase.MATERIAL_E_SIGN_BITMAP
 import com.natiqhaciyef.domain.usecase.MATERIAL_MODEL
+import com.natiqhaciyef.domain.usecase.POSITIONS_LIST
 import com.natiqhaciyef.domain.usecase.material.e_sign.ESignMaterialUseCase
 import com.natiqhaciyef.prodocument.ui.custom.CustomCanvasView
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.e_sign.contract.ESignContract
@@ -25,9 +27,17 @@ class ESignViewModel @Inject constructor(
 ) : BaseViewModel<ESignContract.ESignState, ESignContract.ESignEvent, ESignContract.ESignEffect>() {
 
     override fun onEventUpdate(event: ESignContract.ESignEvent) {
-        when(event){
+        when (event) {
             is ESignContract.ESignEvent.SignMaterialEvent -> {
-                signMaterial(material = event.material, sign = event.eSign, signBitmap = event.bitmap)
+                with(event){
+                    signMaterial(
+                        material = material,
+                        sign = eSign,
+                        signBitmap = bitmap,
+                        positionsList = positionsList,
+                        pageNumber = pageNumber
+                    )
+                }
             }
 
             is ESignContract.ESignEvent.ConvertSignToBitmap -> {
@@ -39,18 +49,31 @@ class ESignViewModel @Inject constructor(
     }
 
 
-    private fun signMaterial(material: MappedMaterialModel, sign: String, signBitmap: Bitmap){
+    private fun signMaterial(
+        material: MappedMaterialModel,
+        sign: String,
+        signBitmap: Bitmap,
+        positionsList: MutableList<Float>,
+        pageNumber: Int
+    ) {
         val map = mutableMapOf<String, Any>()
         map[MATERIAL_MODEL] = material
         map[MATERIAL_E_SIGN] = sign
         map[MATERIAL_E_SIGN_BITMAP] = signBitmap
+        map[POSITIONS_LIST] = positionsList
+        map[CURRENT_PAGE_NUMBER] = pageNumber
 
         viewModelScope.launch {
             eSignMaterialUseCase.operate(map).collectLatest { result ->
-                when(result.status){
+                when (result.status) {
                     Status.SUCCESS -> {
                         if (result.data != null)
-                            setBaseState(getCurrentBaseState().copy(isLoading = false, mappedMaterialModel = result.data))
+                            setBaseState(
+                                getCurrentBaseState().copy(
+                                    isLoading = false,
+                                    mappedMaterialModel = result.data
+                                )
+                            )
                     }
 
                     Status.ERROR -> {

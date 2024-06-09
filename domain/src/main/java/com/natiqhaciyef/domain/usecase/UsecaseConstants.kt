@@ -13,8 +13,15 @@ const val MATERIAL_FIRST_LINE = "materialFirstLine"
 const val MATERIAL_LAST_LINE = "materialLastLine"
 const val MATERIAL_WATERMARK = "materialWatermark"
 
+const val POSITIONS_LIST = "positionsList"
+const val CURRENT_PAGE_NUMBER = "currentPageNumber"
+
 // user
 const val USER_TOKEN = "userToken"
 const val USER_EMAIL = "userEmail"
 const val USER_NAME = "username"
 const val USER_PASSWORD = "userPassword"
+
+// payment
+const val PAYMENT_MODEL = "paymentModel"
+const val PICKED_SUBSCRIPTION_PLAN = "pickedSubscriptionPlan"

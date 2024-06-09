@@ -2,17 +2,15 @@ package com.natiqhaciyef.prodocument.ui.view.main.home.options.e_sign
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.annotation.RequiresApi
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.navArgs
+import com.natiqhaciyef.common.helpers.toResponseString
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.databinding.FragmentAddSignBinding
@@ -30,15 +28,18 @@ class AddSignFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentAddSignBinding = FragmentAddSignBinding::inflate,
     override val viewModelClass: KClass<ESignViewModel> = ESignViewModel::class
 ) : BaseFragment<FragmentAddSignBinding, ESignViewModel, ESignContract.ESignState, ESignContract.ESignEvent, ESignContract.ESignEffect>() {
-
+    private var resBundle = bundleOf()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val arg: AddSignFragmentArgs by navArgs()
+        resBundle = arg.resourceBundle
+
         config()
     }
 
     override fun onStateChange(state: ESignContract.ESignState) {
-        when{
+        when {
             state.isLoading -> {
                 changeVisibilityOfProgressBar(true)
             }
@@ -68,23 +69,22 @@ class AddSignFragment(
     }
 
 
-    private fun config(){
-        val arg: AddSignFragmentArgs by navArgs()
-        val resBundle = arg.resourceBundle
+    private fun config() {
 
         val material = resBundle.getParcelable<MappedMaterialModel>(BUNDLE_MATERIAL)
         val signBitmap = resBundle.getParcelable<Bitmap>(BUNDLE_SIGN_BITMAP)
 
-        with(binding){
+        with(binding) {
             pdfView.createSafePdfUriLoader(material?.url)
             signImageView.setImageBitmap(signBitmap)
 
             signImageTouchListenerConfig(signImageView)
+            continueButton.setOnClickListener { continueButtonClickEvent() }
         }
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private fun signImageTouchListenerConfig(imageView: ImageView){
+    private fun signImageTouchListenerConfig(imageView: ImageView) {
         var initialX = 0f
         var initialY = 0f
 
@@ -94,6 +94,7 @@ class AddSignFragment(
                     initialX = event.rawX
                     initialY = event.rawY
                 }
+
                 MotionEvent.ACTION_MOVE -> {
                     val deltaX = event.rawX - initialX
                     val deltaY = event.rawY - initialY
@@ -106,6 +107,29 @@ class AddSignFragment(
                 else -> {}
             }
             true
+        }
+    }
+
+    private fun continueButtonClickEvent() {
+        with(binding){
+            val xPosition = signImageView.x
+            val yPosition = signImageView.y
+
+            val pageNumber = pdfView.currentPage
+
+            val eSign = resBundle.getParcelable<Bitmap>(BUNDLE_SIGN_BITMAP) as Bitmap
+            val material =
+                resBundle.getParcelable<MappedMaterialModel>(BUNDLE_MATERIAL) as MappedMaterialModel
+
+            viewModel.postEvent(
+                event = ESignContract.ESignEvent.SignMaterialEvent(
+                    material = material,
+                    bitmap = eSign,
+                    eSign = eSign.toResponseString(),
+                    positionsList = mutableListOf(xPosition, yPosition),
+                    pageNumber = pageNumber
+                )
+            )
         }
     }
 }

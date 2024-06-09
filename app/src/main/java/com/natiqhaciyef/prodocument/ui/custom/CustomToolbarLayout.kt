@@ -5,6 +5,7 @@ import android.opengl.Visibility
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import androidx.annotation.DrawableRes
 import androidx.core.widget.doOnTextChanged
 import com.google.android.material.appbar.MaterialToolbar
 import com.natiqhaciyef.prodocument.databinding.CustomToolbarLayoutBinding
@@ -37,6 +38,10 @@ class CustomToolbarLayout(
     fun setVisibilitySearch(visibility: Int) {
         binding?.searchbarLayout?.visibility = visibility
         binding?.searchIcon?.visibility = visibility
+    }
+
+    fun setIconToOptions(@DrawableRes id: Int){
+        binding?.optionsIcon?.setImageResource(id)
     }
 
     fun setVisibilityToolbar(visibility: Int){
@@ -77,6 +82,10 @@ class CustomToolbarLayout(
     fun changeVisibility(visibility: Int) {
         binding?.toolbarImage?.visibility = visibility
         binding?.topbarTitle?.visibility = visibility
+    }
+
+    fun appIconImageVisibility(visibility: Int = View.VISIBLE){
+        binding?.toolbarImage?.visibility = visibility
     }
 
     fun appIconVisibility(visibility: Int){
