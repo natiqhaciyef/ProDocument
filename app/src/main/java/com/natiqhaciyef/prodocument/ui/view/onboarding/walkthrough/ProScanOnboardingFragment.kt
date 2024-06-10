@@ -5,14 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
-import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.common.model.mapped.MappedUserWithoutPasswordModel
 import com.natiqhaciyef.prodocument.databinding.FragmentProScanOnboardingBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
-import com.natiqhaciyef.core.store.AppStorePrefKeys.TOKEN_KEY
-import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.WALKTHROUGH_ROUTE
-import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.navigateByActivityTitle
-import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.navigateByRouteTitle
+import com.natiqhaciyef.prodocument.ui.util.NavigationManager.WALKTHROUGH_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.NavigationManager.navigateByActivityTitle
+import com.natiqhaciyef.prodocument.ui.util.NavigationManager.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.view.onboarding.walkthrough.contract.OnBoardingContract
 import com.natiqhaciyef.prodocument.ui.view.onboarding.walkthrough.viewmodel.OnboardingViewModel
 import dagger.hilt.android.AndroidEntryPoint

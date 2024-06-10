@@ -5,6 +5,7 @@ import com.natiqhaciyef.data.local.entity.PaymentEntity
 import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.data.network.request.PaymentModel
 import com.natiqhaciyef.data.network.request.PaymentRequest
+import com.natiqhaciyef.data.network.response.PaymentChequeResponse
 import com.natiqhaciyef.data.network.response.PaymentPickModel
 import com.natiqhaciyef.data.source.PaymentDataSource
 import com.natiqhaciyef.domain.repository.PaymentRepository
@@ -13,8 +14,8 @@ class PaymentRepositoryImpl(private val ds: PaymentDataSource) : PaymentReposito
     override suspend fun getPaymentData(paymentRequest: PaymentRequest) =
         ds.getPaymentData(paymentRequest)
 
-    override suspend fun startPayment(): NetworkResult<CRUDResponse> {
-        return ds.startPayment()
+    override suspend fun startPayment(paymentChequeResponse: PaymentChequeResponse): NetworkResult<CRUDResponse> {
+        return ds.startPayment(paymentChequeResponse)
     }
 
     override suspend fun getChequePdf(checkId: String) =

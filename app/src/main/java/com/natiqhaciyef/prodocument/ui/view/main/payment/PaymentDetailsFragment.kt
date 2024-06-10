@@ -11,6 +11,7 @@ import com.natiqhaciyef.common.model.mapped.MappedSubscriptionModel
 import com.natiqhaciyef.common.model.payment.MappedPaymentChequeModel
 import com.natiqhaciyef.common.model.payment.MappedPaymentModel
 import com.natiqhaciyef.common.model.payment.MappedPaymentModel.Companion.toMappedPick
+import com.natiqhaciyef.common.model.payment.PaymentResultType
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.databinding.FragmentPaymentDetailsBinding
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants
@@ -36,10 +37,6 @@ class PaymentDetailsFragment(
         pickedPlan = args.datasetBundle.getParcelable(BundleConstants.BUNDLE_SUBSCRIPTION_PLAN)
         paymentModel = args.datasetBundle.getParcelable(BundleConstants.BUNDLE_PAYMENT)
 
-        println(chequeModel)
-        println(pickedPlan)
-        println(paymentModel)
-
         activityConfig()
         if (chequeModel != null && pickedPlan != null && paymentModel != null){
             planDetailsConfig(chequeModel= chequeModel!!, plan = pickedPlan!!, payment = paymentModel!!)
@@ -53,8 +50,12 @@ class PaymentDetailsFragment(
             }
 
             else -> {
-                if (state.cheque != null)
-                    confirmButtonAction(state.cheque!!)
+                if (chequeModel != null && state.paymentResult != null) {
+                    if (state.paymentResult!!.resultCode in 200..299)
+                        confirmButtonAction(chequeModel!!)
+                    else
+                        confirmButtonAction(chequeModel!!.copy(paymentResult = PaymentResultType.FAIL))
+                }
             }
         }
     }
@@ -98,7 +99,7 @@ class PaymentDetailsFragment(
             paymentTypeImage.setImageResource(pickedPayment.image)
             maskedCardNumber.text = pickedPayment.maskedCardNumber
             binding.confirmButton.setOnClickListener {
-                viewModel.postEvent(PaymentContract.PaymentEvent.PayForPlan)
+                viewModel.postEvent(PaymentContract.PaymentEvent.PayForPlan(chequeModel))
             }
         }
     }

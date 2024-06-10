@@ -25,7 +25,7 @@ object PaymentContract {
             val isSaved: Boolean = false
         ): PaymentEvent
 
-        data object PayForPlan: PaymentEvent
+        data class PayForPlan(val cheque: MappedPaymentChequeModel): PaymentEvent
 
         data class GetChequePdf(val chequeId: String): PaymentEvent
 

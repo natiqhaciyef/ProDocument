@@ -5,7 +5,7 @@ import com.natiqhaciyef.data.network.NetworkConfig
 import com.natiqhaciyef.data.network.request.PaymentModel
 import com.natiqhaciyef.data.network.request.PaymentRequest
 import com.natiqhaciyef.data.network.response.ChequePayloadModel
-import com.natiqhaciyef.data.network.response.PaymentChequeModel
+import com.natiqhaciyef.data.network.response.PaymentChequeResponse
 import com.natiqhaciyef.data.network.response.PaymentPickModel
 import retrofit2.Response
 import retrofit2.http.Body
@@ -18,11 +18,12 @@ interface PaymentService {
     suspend fun getPaymentData(
         @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String,
         @Body paymentData: PaymentRequest
-    ): Response<PaymentChequeModel>
+    ): Response<PaymentChequeResponse>
 
     @POST("")
     suspend fun startPayment(
         @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String,
+        @Body cheque: PaymentChequeResponse
     ): Response<CRUDResponse>
 
     @POST("")
@@ -48,5 +49,15 @@ interface PaymentService {
         @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String,
         @Body paymentModel: PaymentModel
     ): Response<CRUDResponse>
+
+    @POST("")
+    suspend fun getPaymentHistory(
+        @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String,
+    )
+
+    @POST("")
+    suspend fun insertChequeForPaymentHistory(
+        @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String,
+    )
 }
 

@@ -12,8 +12,10 @@ import com.natiqhaciyef.common.model.payment.MappedPaymentChequeModel
 import com.natiqhaciyef.common.model.payment.PaymentResultType
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.core.model.FileTypes.PNG
+import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.FragmentPaymentResultBinding
 import com.natiqhaciyef.prodocument.ui.manager.CameraManager.Companion.createAndShareFile
+import com.natiqhaciyef.prodocument.ui.util.NavigationManager
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.payment.contract.PaymentContract
 import com.natiqhaciyef.prodocument.ui.view.main.payment.viewmodel.PaymentViewModel
@@ -74,22 +76,39 @@ class PaymentResultFragment(
         viewModel.postEvent(PaymentContract.PaymentEvent.GetChequePdf(chequeId = chequeModel.checkId))
 
         with(binding){
-            resultIcon.setImageResource(chequeResultIcon(chequeModel.paymentResult))
-            continueButton.setOnClickListener {  }
+            chequeResultDataConfig(chequeModel.paymentResult)
+            continueButton.setOnClickListener {
+                NavigationManager.navigateByRouteTitle(this@PaymentResultFragment, NavigationManager.HOME_ROUTE)
+            }
             chequeTitle.setOnClickListener { shareCheque(payload ?: "") }
             viewCheque.setOnClickListener { shareCheque(payload ?: "") }
         }
     }
 
-    private fun chequeResultIcon(result: PaymentResultType): Int{
-        return when(result){
-            PaymentResultType.FAIL -> { com.natiqhaciyef.common.R.drawable.fail_result_type_icon }
+    private fun chequeResultDataConfig(result: PaymentResultType){
+        with(binding){
+            when(result){
+                PaymentResultType.FAIL -> {
+                    resultTitleText.text = getString(com.natiqhaciyef.common.R.string.payment_failed)
+                    resultIcon.setImageResource(com.natiqhaciyef.common.R.drawable.fail_result_type_icon)
+                }
 
-            PaymentResultType.SUCCESS -> { com.natiqhaciyef.common.R.drawable.success_result_type_icon }
+                PaymentResultType.SUCCESS -> {
+                    resultTitleText.text = getString(com.natiqhaciyef.common.R.string.payment_succeed)
+                    resultIcon.setImageResource(com.natiqhaciyef.common.R.drawable.success_result_type_icon)
+                }
 
-            PaymentResultType.REVERSED -> { com.natiqhaciyef.common.R.drawable.swap_reverse_result_type_icon }
+                PaymentResultType.REVERSED -> {
+                    resultTitleText.text = getString(com.natiqhaciyef.common.R.string.payment_reversed)
+                    resultIcon.setImageResource(com.natiqhaciyef.common.R.drawable.swap_reverse_result_type_icon)
+                }
 
-            else -> { com.natiqhaciyef.common.R.drawable.inform_result_type_icon }
+                else -> {
+                    resultTitleText.text = getString(com.natiqhaciyef.common.R.string.payment_waiting)
+                    resultIcon.setImageResource(com.natiqhaciyef.common.R.drawable.inform_result_type_icon)
+                }
+            }
+
         }
     }
 
