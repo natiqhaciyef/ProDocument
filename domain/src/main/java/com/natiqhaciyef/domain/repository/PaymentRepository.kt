@@ -26,7 +26,7 @@ interface PaymentRepository: BaseRepository {
 
     suspend fun getPaymentHistory(): NetworkResult<List<PaymentChequeResponse>>
 
-    suspend fun insertPaymentCheque(cheque: PaymentChequeResponse): NetworkResult<CRUDResponse>
+    suspend fun getPaymentHistoryDetails(chequeId: String): NetworkResult<PaymentChequeResponse>
 
 
     suspend fun getStoredPaymentMethods(): List<PaymentEntity>

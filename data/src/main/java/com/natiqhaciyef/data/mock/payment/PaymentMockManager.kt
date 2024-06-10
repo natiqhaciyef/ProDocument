@@ -77,7 +77,7 @@ object PaymentMockManager {
             )
     }
 
-    fun insertCheque(chequeModel: PaymentChequeResponse): CRUDResponse {
+    private fun insertCheque(chequeModel: PaymentChequeResponse): CRUDResponse {
         if (!chequeList.contains(chequeModel))
             chequeList.add(chequeModel)
         return if (chequeList.contains(chequeModel))
@@ -146,6 +146,10 @@ object PaymentMockManager {
 
     fun getAllCheques(): MutableList<PaymentChequeResponse> {
         return chequeList
+    }
+
+    fun getChequeDetails(chequeId: String): PaymentChequeResponse {
+        return chequeList.find { it.checkId == chequeId } ?: chequeList.first()
     }
 
     fun getChequePayload(chequeId: String): ChequePayloadModel? {

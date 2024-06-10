@@ -33,9 +33,8 @@ class PaymentRepositoryImpl(private val ds: PaymentDataSource) : PaymentReposito
     override suspend fun getPaymentHistory(): NetworkResult<List<PaymentChequeResponse>> =
         ds.getPaymentHistory()
 
-    override suspend fun insertPaymentCheque(cheque: PaymentChequeResponse) =
-        ds.insertChequeForPaymentHistory(cheque)
-
+    override suspend fun getPaymentHistoryDetails(chequeId: String): NetworkResult<PaymentChequeResponse> =
+        ds.getPaymentHistoryDetails(chequeId)
 
     override suspend fun getStoredPaymentMethods(): List<PaymentEntity> =
         ds.getStoredPaymentMethods()

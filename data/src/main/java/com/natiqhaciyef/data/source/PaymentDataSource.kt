@@ -8,8 +8,8 @@ import com.natiqhaciyef.data.mock.payment.GetChequePdfMockGenerator
 import com.natiqhaciyef.data.mock.payment.GetPickedPaymentDetailsMockGenerator
 import com.natiqhaciyef.data.mock.payment.InsertNewPaymentMethodMockGenerator
 import com.natiqhaciyef.data.mock.payment.GetPaymentDataPaymentMockGenerator
+import com.natiqhaciyef.data.mock.payment.GetPaymentHistoryDetailsMockGenerator
 import com.natiqhaciyef.data.mock.payment.GetPaymentHistoryMockGenerator
-import com.natiqhaciyef.data.mock.payment.InsertChequeForPaymentHistoryMockGenerator
 import com.natiqhaciyef.data.mock.payment.StartPaymentMockGenerator
 import com.natiqhaciyef.data.network.LoadType
 import com.natiqhaciyef.data.network.handleNetworkResponse
@@ -109,17 +109,16 @@ class PaymentDataSource(
             }
         }
 
-    suspend fun insertChequeForPaymentHistory(cheque: PaymentChequeResponse) =
-        withContext(Dispatchers.IO) {
+    suspend fun getPaymentHistoryDetails(chequeId: String) =
+        withContext(Dispatchers.IO){
             val requestHeader = manager.generateToken()
-            val mock = generateMockerClass(InsertChequeForPaymentHistoryMockGenerator::class, cheque)
-                .getMock(InsertChequeForPaymentHistoryMockGenerator.customRequest) { null }
+            val mock = generateMockerClass(GetPaymentHistoryDetailsMockGenerator::class, chequeId)
+                .getMock(GetPaymentHistoryDetailsMockGenerator.customRequest) { null }
 
             handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
-                service.insertChequeForPaymentHistory(token = requestHeader, cheque = cheque)
+                service.getPaymentHistoryDetails(token = requestHeader, chequeId = chequeId)
             }
         }
-
 
     suspend fun getStoredPaymentMethods() = withContext(Dispatchers.IO){
         dao.getStoredPaymentMethods()

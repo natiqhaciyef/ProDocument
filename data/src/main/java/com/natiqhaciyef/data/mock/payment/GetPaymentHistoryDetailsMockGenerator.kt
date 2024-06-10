@@ -1,33 +1,15 @@
 package com.natiqhaciyef.data.mock.payment
 
-import com.natiqhaciyef.common.helpers.getNow
 import com.natiqhaciyef.common.model.payment.PaymentDetails
-import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
 import com.natiqhaciyef.data.network.response.PaymentChequeResponse
 import com.natiqhaciyef.data.network.response.SubscriptionPlanPaymentDetails
 
-class InsertChequeForPaymentHistoryMockGenerator(
-    override var takenRequest: PaymentChequeResponse
-) : BaseMockGenerator<PaymentChequeResponse, CRUDResponse>() {
-    override var createdMock: CRUDResponse =
-        CRUDResponse(
-            resultCode = 299,
-            message = "insert cheque mock result"
-        )
-
-    override fun getMock(
-        request: PaymentChequeResponse,
-        action: (PaymentChequeResponse) -> CRUDResponse?
-    ): CRUDResponse {
-        if (request == takenRequest)
-            return createdMock
-
-        return PaymentMockManager.insertCheque(takenRequest)
-    }
-
-    companion object InsertChequeForPaymentHistoryMockGenerator{
-        val customRequest = PaymentChequeResponse(
+class GetPaymentHistoryDetailsMockGenerator(
+    override var takenRequest: String
+) : BaseMockGenerator<String, PaymentChequeResponse>() {
+    override var createdMock: PaymentChequeResponse =
+        PaymentChequeResponse(
             checkId = "mock-key-id",
             title = "Payment for plan",
             description = "Payment refund is not available",
@@ -51,5 +33,17 @@ class InsertChequeForPaymentHistoryMockGenerator(
             date = "00.00.0000 00:00"
         )
 
+    override fun getMock(
+        request: String,
+        action: (String) -> PaymentChequeResponse?
+    ): PaymentChequeResponse {
+        if (request == takenRequest)
+            return createdMock
+
+        return PaymentMockManager.getChequeDetails(takenRequest)
+    }
+
+    companion object GetPaymentHistoryDetailsMockGenerator{
+        const val customRequest = "customChequeId"
     }
 }

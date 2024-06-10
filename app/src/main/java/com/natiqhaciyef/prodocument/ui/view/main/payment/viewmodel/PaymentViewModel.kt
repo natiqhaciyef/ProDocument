@@ -8,8 +8,6 @@ import com.natiqhaciyef.common.model.payment.MappedPaymentPickModel
 import com.natiqhaciyef.core.base.ui.BaseViewModel
 import com.natiqhaciyef.domain.usecase.PAYMENT_MODEL
 import com.natiqhaciyef.domain.usecase.PICKED_SUBSCRIPTION_PLAN
-import com.natiqhaciyef.domain.usecase.payment.local.GetStoredPaymentMethodsUseCase
-import com.natiqhaciyef.domain.usecase.payment.local.RemovePaymentMethodUseCase
 import com.natiqhaciyef.domain.usecase.payment.remote.GetAllSavedPaymentMethodsUseCase
 import com.natiqhaciyef.domain.usecase.payment.remote.GetChequePdfUseCase
 import com.natiqhaciyef.domain.usecase.payment.remote.GetPaymentDataUseCase
@@ -31,9 +29,6 @@ class PaymentViewModel @Inject constructor(
     private val startPaymentUseCase: StartPaymentUseCase,
     private val getPaymentDataUseCase: GetPaymentDataUseCase,
     private val getChequePdfUseCase: GetChequePdfUseCase,
-    private val getAllStoredPaymentMethodsUseCase: GetStoredPaymentMethodsUseCase,
-    private val insertNewPaymentMethodLocaleUseCase: com.natiqhaciyef.domain.usecase.payment.local.InsertNewPaymentMethodUseCase,
-    private val removePaymentMethodUseCase: RemovePaymentMethodUseCase
 ) : BaseViewModel<PaymentContract.PaymentState, PaymentContract.PaymentEvent, PaymentContract.PaymentEffect>() {
 
     override fun onEventUpdate(event: PaymentContract.PaymentEvent) {
@@ -201,44 +196,6 @@ class PaymentViewModel @Inject constructor(
         }
     }
 
-
-    private fun getAllStoredPaymentMethodsLocal(){
-        viewModelScope.launch {
-            getAllStoredPaymentMethodsUseCase.invoke().collectLatest { result ->
-                when(result.status){
-                    Status.SUCCESS -> {
-                        if (result.data != null)
-                            setBaseState(
-                                getCurrentBaseState().copy(
-                                    isLoading = false,
-                                    paymentMethodsList = result.data
-                                )
-                            )
-                    }
-
-                    Status.ERROR -> {
-                        setBaseState(getCurrentBaseState().copy(isLoading = false))
-                    }
-
-                    Status.LOADING -> {
-                        setBaseState(getCurrentBaseState().copy(isLoading = true))
-                    }
-                }
-            }
-        }
-    }
-
-    private fun insertNewPaymentMethodLocal(paymentModel: MappedPaymentModel){
-        viewModelScope.launch {
-            insertNewPaymentMethodLocaleUseCase.run(paymentModel).collectLatest {}
-        }
-    }
-
-    private fun removePaymentMethodLocal(paymentModel: MappedPaymentModel){
-        viewModelScope.launch {
-            removePaymentMethodUseCase.run(paymentModel)
-        }
-    }
 
     override fun getInitialState(): PaymentContract.PaymentState =
         PaymentContract.PaymentState()

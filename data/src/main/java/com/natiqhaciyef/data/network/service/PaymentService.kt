@@ -56,9 +56,9 @@ interface PaymentService {
     ): Response<List<PaymentChequeResponse>>
 
     @POST("")
-    suspend fun insertChequeForPaymentHistory(
+    suspend fun getPaymentHistoryDetails(
         @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String,
-        @Body cheque: PaymentChequeResponse
-    ): Response<CRUDResponse>
+        @Body chequeId: String
+    ): Response<PaymentChequeResponse>
 }
 
