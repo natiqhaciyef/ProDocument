@@ -1,35 +1,25 @@
 package com.natiqhaciyef.prodocument.ui.view.main.home.options.merge
 
-import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.provider.DocumentsContract
-import android.provider.OpenableColumns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.MimeTypeMap
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.R
-import com.natiqhaciyef.common.helpers.getNow
 import com.natiqhaciyef.prodocument.databinding.FragmentMergePdfsBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
-import com.natiqhaciyef.core.model.FileTypes.PDF
 import com.natiqhaciyef.prodocument.ui.manager.FileManager
-import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink
-import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.navigateByRouteTitle
-import com.natiqhaciyef.prodocument.ui.util.DefaultImplModels
+import com.natiqhaciyef.prodocument.ui.util.NavigationManager
+import com.natiqhaciyef.prodocument.ui.util.NavigationManager.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.view.main.home.adapter.FileItemAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.merge.contract.MergePdfContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.merge.viewmodel.MergePdfViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.util.UUID
 import kotlin.reflect.KClass
 
 @AndroidEntryPoint
@@ -76,7 +66,7 @@ class MergePdfsFragment(
             goBackIcon.setOnClickListener {
                 navigateByRouteTitle(
                     this@MergePdfsFragment,
-                    BaseNavigationDeepLink.HOME_ROUTE
+                    NavigationManager.HOME_ROUTE
                 )
             }
             adapter?.removeAction = { removeFileButtonClickAction(it) }

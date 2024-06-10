@@ -8,20 +8,15 @@ import androidx.core.os.bundleOf
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.gson.Gson
-import com.natiqhaciyef.common.helpers.toPickedModelList
 import com.natiqhaciyef.common.model.mapped.MappedSubscriptionModel
 import com.natiqhaciyef.common.model.payment.MappedPaymentModel
-import com.natiqhaciyef.common.model.payment.MappedPaymentPickModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
-import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.FragmentPaymentCategoriesBinding
-import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink
-import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.HOME_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.NavigationManager
+import com.natiqhaciyef.prodocument.ui.util.NavigationManager.HOME_ROUTE
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.payment.adapter.PaymentMethodsAdapter
-import com.natiqhaciyef.prodocument.ui.view.main.premium.contract.PremiumContract
 import com.natiqhaciyef.prodocument.ui.view.main.payment.contract.PaymentContract
 import com.natiqhaciyef.prodocument.ui.view.main.payment.viewmodel.PaymentViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -117,7 +112,7 @@ class PaymentCategoriesFragment(
 
     private fun onToolbarBackPressAction(bnw: BottomNavigationView){
         bnw.visibility = View.VISIBLE
-        BaseNavigationDeepLink.navigateByRouteTitle(this, HOME_ROUTE)
+        NavigationManager.navigateByRouteTitle(this, HOME_ROUTE)
     }
 
     private fun onScanIconClickAction() {

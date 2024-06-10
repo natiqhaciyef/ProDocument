@@ -5,10 +5,10 @@ import com.natiqhaciyef.common.model.Time
 import com.natiqhaciyef.common.model.payment.MappedPaymentChequeModel
 import com.natiqhaciyef.common.model.payment.MappedSubscriptionPlanPaymentDetails
 import com.natiqhaciyef.common.model.payment.PaymentResultType
-import com.natiqhaciyef.data.network.response.PaymentChequeModel
+import com.natiqhaciyef.data.network.response.PaymentChequeResponse
 import com.natiqhaciyef.data.network.response.SubscriptionPlanPaymentDetails
 
-fun PaymentChequeModel.toMappedModel(): MappedPaymentChequeModel {
+fun PaymentChequeResponse.toMappedModel(): MappedPaymentChequeModel {
     return MappedPaymentChequeModel(
         checkId = this.checkId,
         title = this.title,
@@ -17,12 +17,13 @@ fun PaymentChequeModel.toMappedModel(): MappedPaymentChequeModel {
         totalAmount = this.totalAmount,
         currency = Currency.stringToType(this.currency),
         paymentDetails = this.paymentDetails,
-        paymentResult = PaymentResultType.stringToPaymentResultType(this.paymentResult)
+        paymentResult = PaymentResultType.stringToPaymentResultType(this.paymentResult),
+        date = this.date
     )
 }
 
-fun MappedPaymentChequeModel.toResponse(): PaymentChequeModel {
-    return PaymentChequeModel(
+fun MappedPaymentChequeModel.toResponse(): PaymentChequeResponse {
+    return PaymentChequeResponse(
         checkId = this.checkId,
         title = this.title,
         description = this.description ?: "",
@@ -30,7 +31,8 @@ fun MappedPaymentChequeModel.toResponse(): PaymentChequeModel {
         totalAmount = this.totalAmount,
         currency = this.currency.name,
         paymentDetails = this.paymentDetails,
-        paymentResult = this.paymentResult.title
+        paymentResult = this.paymentResult.title,
+        date = this.date
     )
 }
 

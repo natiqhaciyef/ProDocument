@@ -7,18 +7,14 @@ import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.data.network.request.PaymentModel
 import com.natiqhaciyef.data.network.request.PaymentRequest
 import com.natiqhaciyef.data.network.response.ChequePayloadModel
-import com.natiqhaciyef.data.network.response.PaymentChequeModel
+import com.natiqhaciyef.data.network.response.PaymentChequeResponse
 import com.natiqhaciyef.data.network.response.PaymentPickModel
-import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.Header
-import retrofit2.http.POST
 
 interface PaymentRepository: BaseRepository {
 
-    suspend fun getPaymentData(paymentRequest: PaymentRequest): NetworkResult<PaymentChequeModel>
+    suspend fun getPaymentData(paymentRequest: PaymentRequest): NetworkResult<PaymentChequeResponse>
 
-    suspend fun startPayment(): NetworkResult<CRUDResponse>
+    suspend fun startPayment(paymentChequeResponse: PaymentChequeResponse): NetworkResult<CRUDResponse>
 
     suspend fun getChequePdf(checkId: String): NetworkResult<ChequePayloadModel>
 

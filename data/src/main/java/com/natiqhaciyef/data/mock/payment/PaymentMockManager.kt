@@ -1,5 +1,6 @@
 package com.natiqhaciyef.data.mock.payment
 
+import com.natiqhaciyef.common.helpers.getNow
 import com.natiqhaciyef.common.model.payment.PaymentDetails
 import com.natiqhaciyef.common.model.payment.PaymentMethods
 import com.natiqhaciyef.common.model.payment.PaymentTypes
@@ -8,11 +9,16 @@ import com.natiqhaciyef.data.mock.subscription.SubscriptionMockManager
 import com.natiqhaciyef.data.network.request.PaymentModel
 import com.natiqhaciyef.data.network.request.PaymentRequest
 import com.natiqhaciyef.data.network.response.ChequePayloadModel
-import com.natiqhaciyef.data.network.response.PaymentChequeModel
+import com.natiqhaciyef.data.network.response.PaymentChequeResponse
 import com.natiqhaciyef.data.network.response.PaymentPickModel
 import com.natiqhaciyef.data.network.response.SubscriptionPlanPaymentDetails
+import com.natiqhaciyef.data.network.response.SubscriptionResponse
+import java.util.concurrent.Flow.Subscription
 
 object PaymentMockManager {
+    private var balance = 100.0
+    private var paymentRequest: PaymentRequest? = null
+    private var subscriptionModel: SubscriptionResponse? = null
     private val paymentsList = mutableListOf(
         PaymentModel(
             merchantId = 100,
@@ -39,7 +45,22 @@ object PaymentMockManager {
             )
         )
     )
-    private val chequeList = mutableListOf<PaymentChequeModel>()
+    private val chequeList = mutableListOf<PaymentChequeResponse>()
+
+    fun startPayment(chequeModel: PaymentChequeResponse): CRUDResponse{
+        if (chequeModel.totalAmount > balance)
+            return CRUDResponse(
+                resultCode = 409,
+                message = "mock result fail"
+            )
+
+        balance -= chequeModel.totalAmount
+
+        return CRUDResponse(
+                resultCode = 299,
+                message = "mock result success"
+            )
+    }
 
     fun insertNewPayment(paymentModel: PaymentModel): CRUDResponse {
         if (!paymentsList.contains(paymentModel))
@@ -56,7 +77,7 @@ object PaymentMockManager {
             )
     }
 
-    fun insertCheque(chequeModel: PaymentChequeModel): CRUDResponse {
+    fun insertCheque(chequeModel: PaymentChequeResponse): CRUDResponse {
         if (!chequeList.contains(chequeModel))
             chequeList.add(chequeModel)
         return if (chequeList.contains(chequeModel))
@@ -79,16 +100,18 @@ object PaymentMockManager {
         paymentsList.removeAt(index)
     }
 
-    fun getPayment(payment: PaymentRequest): PaymentChequeModel {
+    fun getPayment(payment: PaymentRequest): PaymentChequeResponse {
         val plan = SubscriptionMockManager.getAllSubscriptions()
             .find { it.token == payment.pickedPlanToken }
             ?: SubscriptionMockManager.getAllSubscriptions().first()
+        subscriptionModel = plan
+        paymentRequest = payment
 
         val price = plan.price * 12
-        val fee = plan.price * 0.1
+        val fee = price * 0.05
         val paymentDetails = payment.paymentDetails
 
-        val cheque = PaymentChequeModel(
+        val cheque = PaymentChequeResponse(
             checkId = "mock-key-id",
             title = "Payment for plan",
             description = "Payment refund is not available",
@@ -108,9 +131,9 @@ object PaymentMockManager {
                 currency = paymentDetails.currency,
                 cvv = paymentDetails.cvv
             ),
-            paymentResult = "SUCCESS"
+            paymentResult = "SUCCESS",
+            date = getNow()
         )
-        println("cheque: $cheque")
 
         insertCheque(cheque)
 
@@ -121,7 +144,7 @@ object PaymentMockManager {
         return paymentsList
     }
 
-    fun getAllCheques(): MutableList<PaymentChequeModel> {
+    fun getAllCheques(): MutableList<PaymentChequeResponse> {
         return chequeList
     }
 

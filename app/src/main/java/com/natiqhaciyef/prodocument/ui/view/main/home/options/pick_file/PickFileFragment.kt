@@ -11,14 +11,13 @@ import androidx.navigation.fragment.navArgs
 import coil.load
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
-import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.FragmentPickFileBinding
 import com.natiqhaciyef.prodocument.ui.manager.FileManager
-import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink
-import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.COMPRESS_TYPE
-import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.E_SIGN_TYPE
-import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.PROTECT_TYPE
-import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.SPLIT_TYPE
+import com.natiqhaciyef.prodocument.ui.util.NavigationManager
+import com.natiqhaciyef.prodocument.ui.util.NavigationManager.COMPRESS_TYPE
+import com.natiqhaciyef.prodocument.ui.util.NavigationManager.E_SIGN_TYPE
+import com.natiqhaciyef.prodocument.ui.util.NavigationManager.PROTECT_TYPE
+import com.natiqhaciyef.prodocument.ui.util.NavigationManager.SPLIT_TYPE
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TYPE
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.pick_file.contract.PickFileContract
@@ -142,9 +141,9 @@ class PickFileFragment(
     }
 
     private fun goBackIconClickAction() {
-        BaseNavigationDeepLink.navigateByRouteTitle(
+        NavigationManager.navigateByRouteTitle(
             this@PickFileFragment,
-            BaseNavigationDeepLink.HOME_ROUTE
+            NavigationManager.HOME_ROUTE
         )
     }
 }

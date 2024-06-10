@@ -7,13 +7,12 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.natiqhaciyef.common.model.mapped.MappedSubscriptionModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.databinding.FragmentSubscriptionBinding
-import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink
+import com.natiqhaciyef.prodocument.ui.util.NavigationManager
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants
 import com.natiqhaciyef.prodocument.ui.view.main.premium.adapter.FeatureAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.premium.contract.PremiumContract
@@ -80,7 +79,7 @@ class SubscriptionFragment(
                     LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
                 descriptionText.text = subscriptionModel.description
-                fragmentBackground.setBackgroundColor(com.natiqhaciyef.common.R.color.gradient_red)
+                fragmentBackground.setBackgroundResource(subscriptionModel.backgroundColor.gradient)
 
                 selectPlanButton.setOnClickListener {
                     goToPayment(selectedPlan = subscriptionModel)
@@ -92,6 +91,6 @@ class SubscriptionFragment(
     private fun goToPayment(selectedPlan: MappedSubscriptionModel) {
         // navigate to payment
         val bundle = bundleOf(BundleConstants.BUNDLE_SUBSCRIPTION_PLAN to selectedPlan)
-        BaseNavigationDeepLink.navigateByRouteTitle(this, BaseNavigationDeepLink.PAYMENT_ROUTE, bundle)
+        NavigationManager.navigateByRouteTitle(this, NavigationManager.PAYMENT_ROUTE, bundle)
     }
 }

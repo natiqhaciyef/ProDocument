@@ -7,19 +7,16 @@ import android.os.Bundle
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.natiqhaciyef.prodocument.R
-import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TYPE
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.home.HomeFragment
-import com.natiqhaciyef.prodocument.ui.view.main.home.HomeFragmentDirections
 import com.natiqhaciyef.prodocument.ui.view.main.premium.SubscriptionFragment
 import com.natiqhaciyef.prodocument.ui.view.onboarding.OnboardingActivity
 import com.natiqhaciyef.prodocument.ui.view.registration.RegistrationActivity
 
 
-object BaseNavigationDeepLink {
+object NavigationManager {
     // Deep links
     const val REGISTER_MAIN_DEEPLINK = "prodoc://register/main"
     const val ONBOARDING_MAIN_DEEPLINK = "prodoc://onboarding/main"

@@ -7,12 +7,14 @@ import com.natiqhaciyef.data.mock.payment.GetAllSavedPaymentMethodsMockGenerator
 import com.natiqhaciyef.data.mock.payment.GetChequePdfMockGenerator
 import com.natiqhaciyef.data.mock.payment.GetPickedPaymentDetailsMockGenerator
 import com.natiqhaciyef.data.mock.payment.InsertNewPaymentMethodMockGenerator
+import com.natiqhaciyef.data.mock.payment.GetPaymentDataPaymentMockGenerator
 import com.natiqhaciyef.data.mock.payment.StartPaymentMockGenerator
 import com.natiqhaciyef.data.network.LoadType
 import com.natiqhaciyef.data.network.handleNetworkResponse
 import com.natiqhaciyef.data.network.manager.TokenManager
 import com.natiqhaciyef.data.network.request.PaymentModel
 import com.natiqhaciyef.data.network.request.PaymentRequest
+import com.natiqhaciyef.data.network.response.PaymentChequeResponse
 import com.natiqhaciyef.data.network.response.PaymentPickModel
 import com.natiqhaciyef.data.network.service.PaymentService
 import kotlinx.coroutines.Dispatchers
@@ -26,19 +28,21 @@ class PaymentDataSource(
 
     suspend fun getPaymentData(payment: PaymentRequest) = withContext(Dispatchers.IO) {
         val requestHeader = manager.generateToken()
-        val mock = generateMockerClass(StartPaymentMockGenerator::class, payment)
-            .getMock(StartPaymentMockGenerator.customRequest) { null }
+        val mock = generateMockerClass(GetPaymentDataPaymentMockGenerator::class, payment)
+            .getMock(GetPaymentDataPaymentMockGenerator.customRequest) { null }
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.getPaymentData(token = requestHeader, paymentData = payment)
         }
     }
 
-    suspend fun startPayment() = withContext(Dispatchers.IO){
+    suspend fun startPayment(cheque: PaymentChequeResponse) = withContext(Dispatchers.IO){
         val requestHeader = manager.generateToken()
+        val mock = generateMockerClass(StartPaymentMockGenerator::class, cheque)
+            .getMock(StartPaymentMockGenerator.customRequest) { null }
 
-        handleNetworkResponse(mock = null, handlingType = LoadType.MOCK) {
-            service.startPayment(token = requestHeader)
+        handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
+            service.startPayment(token = requestHeader, cheque = cheque)
         }
     }
 

@@ -3,18 +3,18 @@ package com.natiqhaciyef.prodocument.ui.util
 import android.content.Context
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.model.MenuItemModel
-import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.ALL_TOOLS_ROUTE
-import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.COMPRESS_ROUTE
-import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.COMPRESS_TYPE
-import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.E_SIGN_ROUTE
-import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.E_SIGN_TYPE
-import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.MERGE_ROUTE
-import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.PROTECT_ROUTE
-import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.PROTECT_TYPE
-import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.SCAN_ROUTE
-import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.SPLIT_ROUTE
-import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.SPLIT_TYPE
-import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.WATERMARK_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.NavigationManager.ALL_TOOLS_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.NavigationManager.COMPRESS_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.NavigationManager.COMPRESS_TYPE
+import com.natiqhaciyef.prodocument.ui.util.NavigationManager.E_SIGN_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.NavigationManager.E_SIGN_TYPE
+import com.natiqhaciyef.prodocument.ui.util.NavigationManager.MERGE_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.NavigationManager.PROTECT_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.NavigationManager.PROTECT_TYPE
+import com.natiqhaciyef.prodocument.ui.util.NavigationManager.SCAN_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.NavigationManager.SPLIT_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.NavigationManager.SPLIT_TYPE
+import com.natiqhaciyef.prodocument.ui.util.NavigationManager.WATERMARK_ROUTE
 
 
 object UiList {

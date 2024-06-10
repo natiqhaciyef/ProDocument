@@ -5,7 +5,7 @@ import com.natiqhaciyef.common.model.payment.PaymentDetails
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class PaymentChequeModel(
+data class PaymentChequeResponse(
     var checkId: String,
     var title: String,
     var description: String,
@@ -13,7 +13,8 @@ data class PaymentChequeModel(
     var totalAmount: Double,
     var currency: String,
     var paymentDetails: PaymentDetails,
-    var paymentResult: String
+    var paymentResult: String,
+    var date: String
 ) : Parcelable
 
 @Parcelize
