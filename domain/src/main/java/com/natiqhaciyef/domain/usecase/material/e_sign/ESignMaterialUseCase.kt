@@ -7,7 +7,7 @@ import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.core.base.usecase.BaseUseCase
 import com.natiqhaciyef.core.base.usecase.UseCase
-import com.natiqhaciyef.data.mapper.toMappedModel
+import com.natiqhaciyef.data.mapper.toMapped
 import com.natiqhaciyef.data.mapper.toMaterialResponse
 import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.data.network.request.ESignRequest
@@ -48,7 +48,7 @@ class ESignMaterialUseCase @Inject constructor(
 
         when (val result = repository.eSignMaterial(eSignRequest)) {
             is NetworkResult.Success -> {
-                val mapped = result.data.toMappedModel()
+                val mapped = result.data.toMapped()
                 if (mapped != null && result.data.result?.resultCode in 200..299) {
                     emit(Resource.success(mapped))
                 } else {

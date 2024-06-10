@@ -8,6 +8,8 @@ import com.natiqhaciyef.data.mock.payment.GetChequePdfMockGenerator
 import com.natiqhaciyef.data.mock.payment.GetPickedPaymentDetailsMockGenerator
 import com.natiqhaciyef.data.mock.payment.InsertNewPaymentMethodMockGenerator
 import com.natiqhaciyef.data.mock.payment.GetPaymentDataPaymentMockGenerator
+import com.natiqhaciyef.data.mock.payment.GetPaymentHistoryMockGenerator
+import com.natiqhaciyef.data.mock.payment.InsertChequeForPaymentHistoryMockGenerator
 import com.natiqhaciyef.data.mock.payment.StartPaymentMockGenerator
 import com.natiqhaciyef.data.network.LoadType
 import com.natiqhaciyef.data.network.handleNetworkResponse
@@ -76,7 +78,7 @@ class PaymentDataSource(
             handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
                 service.getPickedPaymentDetails(
                     token = requestHeader,
-                    paymentPickModel = paymentPickModel
+                    pickedPayment = paymentPickModel
                 )
             }
         }
@@ -91,8 +93,30 @@ class PaymentDataSource(
             handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
                 service.insertNewPaymentMethod(
                     token = requestHeader,
-                    paymentModel = paymentModel
+                    payment = paymentModel
                 )
+            }
+        }
+
+    suspend fun getPaymentHistory() =
+        withContext(Dispatchers.IO) {
+            val requestHeader = manager.generateToken()
+            val mock = generateMockerClass(GetPaymentHistoryMockGenerator::class, Unit)
+                .getMock(Unit){ null }
+
+            handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
+                service.getPaymentHistory(token = requestHeader)
+            }
+        }
+
+    suspend fun insertChequeForPaymentHistory(cheque: PaymentChequeResponse) =
+        withContext(Dispatchers.IO) {
+            val requestHeader = manager.generateToken()
+            val mock = generateMockerClass(InsertChequeForPaymentHistoryMockGenerator::class, cheque)
+                .getMock(InsertChequeForPaymentHistoryMockGenerator.customRequest) { null }
+
+            handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
+                service.insertChequeForPaymentHistory(token = requestHeader, cheque = cheque)
             }
         }
 

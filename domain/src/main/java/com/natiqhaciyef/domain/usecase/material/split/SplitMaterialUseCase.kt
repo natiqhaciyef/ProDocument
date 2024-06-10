@@ -7,7 +7,7 @@ import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.data.network.request.SplitRequest
 import com.natiqhaciyef.core.base.usecase.BaseUseCase
 import com.natiqhaciyef.core.base.usecase.UseCase
-import com.natiqhaciyef.data.mapper.toMappedModel
+import com.natiqhaciyef.data.mapper.toMapped
 import com.natiqhaciyef.data.mapper.toMaterialResponse
 import com.natiqhaciyef.domain.repository.MaterialRepository
 import com.natiqhaciyef.domain.usecase.MATERIAL_FIRST_LINE
@@ -40,7 +40,7 @@ class SplitMaterialUseCase @Inject constructor(
         when (val result = repository.splitMaterial(splitRequest)) {
             is NetworkResult.Success -> {
                 if (result.data.isNotEmpty() && result.data.all { it.result?.resultCode in 200..299 && !it.title.isNullOrEmpty() }) {
-                    val mapped = result.data.map { it.toMappedModel()!! }
+                    val mapped = result.data.map { it.toMapped()!! }
 
                     emit(Resource.success(mapped))
                 }

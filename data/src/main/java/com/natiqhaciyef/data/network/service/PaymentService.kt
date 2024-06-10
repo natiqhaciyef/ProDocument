@@ -41,23 +41,24 @@ interface PaymentService {
     @POST("")
     suspend fun getPickedPaymentDetails(
         @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String,
-        @Body paymentPickModel: PaymentPickModel
+        @Body pickedPayment: PaymentPickModel
     ): Response<PaymentModel>
 
     @POST("")
     suspend fun insertNewPaymentMethod(
         @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String,
-        @Body paymentModel: PaymentModel
+        @Body payment: PaymentModel
     ): Response<CRUDResponse>
 
     @POST("")
     suspend fun getPaymentHistory(
         @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String,
-    )
+    ): Response<List<PaymentChequeResponse>>
 
     @POST("")
     suspend fun insertChequeForPaymentHistory(
         @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String,
-    )
+        @Body cheque: PaymentChequeResponse
+    ): Response<CRUDResponse>
 }
 

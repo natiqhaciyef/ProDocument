@@ -8,12 +8,12 @@ import com.natiqhaciyef.common.model.payment.PaymentResultType
 import com.natiqhaciyef.data.network.response.PaymentChequeResponse
 import com.natiqhaciyef.data.network.response.SubscriptionPlanPaymentDetails
 
-fun PaymentChequeResponse.toMappedModel(): MappedPaymentChequeModel {
+fun PaymentChequeResponse.toMapped(): MappedPaymentChequeModel {
     return MappedPaymentChequeModel(
         checkId = this.checkId,
         title = this.title,
         description = this.description,
-        subscriptionDetails = this.subscriptionDetails.toMappedModel(),
+        subscriptionDetails = this.subscriptionDetails.toMapped(),
         totalAmount = this.totalAmount,
         currency = Currency.stringToType(this.currency),
         paymentDetails = this.paymentDetails,
@@ -36,7 +36,7 @@ fun MappedPaymentChequeModel.toResponse(): PaymentChequeResponse {
     )
 }
 
-fun SubscriptionPlanPaymentDetails.toMappedModel(): MappedSubscriptionPlanPaymentDetails{
+fun SubscriptionPlanPaymentDetails.toMapped(): MappedSubscriptionPlanPaymentDetails{
     return MappedSubscriptionPlanPaymentDetails(
         expirationTime = this.expirationTime,
         expirationTimeType = Time.stringToTimeType(this.expirationTimeType),

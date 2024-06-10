@@ -7,7 +7,7 @@ import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.data.network.request.MergeRequest
 import com.natiqhaciyef.core.base.usecase.BaseUseCase
 import com.natiqhaciyef.core.base.usecase.UseCase
-import com.natiqhaciyef.data.mapper.toMappedModel
+import com.natiqhaciyef.data.mapper.toMapped
 import com.natiqhaciyef.data.mapper.toMaterialResponse
 import com.natiqhaciyef.domain.repository.MaterialRepository
 import com.natiqhaciyef.domain.usecase.MATERIAL_LIST
@@ -35,7 +35,7 @@ class MergeMaterialsUseCase @Inject constructor(
 
             when (val result = repository.mergeMaterials(request)) {
                 is NetworkResult.Success -> {
-                    val mapped = result.data.toMappedModel()
+                    val mapped = result.data.toMapped()
                     if (mapped != null && mapped.result?.resultCode in 200..299) {
                         emit(Resource.success(mapped))
                     } else {

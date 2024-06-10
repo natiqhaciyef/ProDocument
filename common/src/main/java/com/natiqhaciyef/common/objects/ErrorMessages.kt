@@ -15,6 +15,7 @@ object ErrorMessages {
 
     const val NULL_PROPERTY = "Null property"
     const val EMPTY_FIELD = "Empty field(s)"
+    const val EMPTY_LIST = "Empty list"
     const val FINDING_EXCEPTION = "Finding failed"
     const val ELEMENT_NOT_FOUND = "Element not found"
     const val SOMETHING_WENT_WRONG = "Something went wrong"
