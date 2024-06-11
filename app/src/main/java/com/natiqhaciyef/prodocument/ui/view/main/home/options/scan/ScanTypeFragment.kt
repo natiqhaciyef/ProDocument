@@ -41,11 +41,11 @@ class ScanTypeFragment(
 
             TabLayoutMediator(scanTabLayout, scanViewPager) { tab, position ->
                 tab.text = when (position) {
-                    1 -> {
+                    0 -> {
                         CameraTypes.LIVE_SCANNER.title
                     }
 
-                    2 -> {
+                    1 -> {
                         CameraTypes.CAPTURE_IMAGE_SCREEN.title
                     }
 
