@@ -38,7 +38,7 @@ import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.modify.contract.ModifyPdfContract
 import com.natiqhaciyef.prodocument.ui.view.main.modify.viewmodel.ModifyPdfViewModel
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.CaptureImageFragment
-import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.ScanFragment
+import com.natiqhaciyef.prodocument.ui.view.main.payment.ScanFragment
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.WatermarkFragment.Companion.WATERMARK_TYPE
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

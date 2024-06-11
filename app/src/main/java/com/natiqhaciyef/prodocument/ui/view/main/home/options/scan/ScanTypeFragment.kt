@@ -33,7 +33,6 @@ class ScanTypeFragment(
     private fun viewPagerInitConfig() {
         binding.apply {
             val fragments = listOf(
-                ScanFragment(),
                 LiveRecognitionFragment(),
                 CaptureImageFragment(),
             )
@@ -42,10 +41,6 @@ class ScanTypeFragment(
 
             TabLayoutMediator(scanTabLayout, scanViewPager) { tab, position ->
                 tab.text = when (position) {
-                    0 -> {
-                        CameraTypes.QR_CODE_SCREEN.title
-                    }
-
                     1 -> {
                         CameraTypes.LIVE_SCANNER.title
                     }
