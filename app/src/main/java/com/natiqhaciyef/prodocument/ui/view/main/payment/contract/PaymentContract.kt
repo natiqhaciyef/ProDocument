@@ -1,5 +1,8 @@
 package com.natiqhaciyef.prodocument.ui.view.main.payment.contract
 
+import android.content.Context
+import androidx.camera.view.PreviewView
+import androidx.lifecycle.LifecycleOwner
 import com.natiqhaciyef.common.model.CRUDModel
 import com.natiqhaciyef.common.model.payment.MappedPaymentChequeModel
 import com.natiqhaciyef.common.model.payment.MappedPaymentModel
@@ -30,6 +33,15 @@ object PaymentContract {
         data class GetChequePdf(val chequeId: String): PaymentEvent
 
         data object GetAllStoredPaymentMethods: PaymentEvent
+
+        data class StartCamera(
+            val context: Context,
+            val lifecycle: LifecycleOwner,
+            val preview: PreviewView,
+            val onSuccess: (Any) -> Unit = { }
+        ): PaymentEvent
+
+        data class ScanQRCode(val qrCode: String): PaymentEvent
     }
 
     sealed interface PaymentEffect : UiEffect {

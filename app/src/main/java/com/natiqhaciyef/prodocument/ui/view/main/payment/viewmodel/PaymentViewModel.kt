@@ -1,5 +1,10 @@
 package com.natiqhaciyef.prodocument.ui.view.main.payment.viewmodel
 
+import android.content.Context
+import androidx.camera.core.ExperimentalGetImage
+import androidx.camera.view.PreviewView
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.common.model.payment.MappedPaymentChequeModel
@@ -13,6 +18,7 @@ import com.natiqhaciyef.domain.usecase.payment.remote.GetChequePdfUseCase
 import com.natiqhaciyef.domain.usecase.payment.remote.GetPaymentDataUseCase
 import com.natiqhaciyef.domain.usecase.payment.remote.GetPickedPaymentDetailsUseCase
 import com.natiqhaciyef.domain.usecase.payment.remote.StartPaymentUseCase
+import com.natiqhaciyef.prodocument.ui.manager.CameraManager
 import com.natiqhaciyef.prodocument.ui.view.main.payment.contract.PaymentContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -30,7 +36,9 @@ class PaymentViewModel @Inject constructor(
     private val getPaymentDataUseCase: GetPaymentDataUseCase,
     private val getChequePdfUseCase: GetChequePdfUseCase,
 ) : BaseViewModel<PaymentContract.PaymentState, PaymentContract.PaymentEvent, PaymentContract.PaymentEffect>() {
+    private val cameraReaderLiveData = MutableLiveData<CameraManager?>(null)
 
+    @ExperimentalGetImage
     override fun onEventUpdate(event: PaymentContract.PaymentEvent) {
         when (event) {
             is PaymentContract.PaymentEvent.PickPaymentMethod -> {
@@ -55,6 +63,14 @@ class PaymentViewModel @Inject constructor(
 
             is PaymentContract.PaymentEvent.PayForPlan -> {
                 startPayment(event.cheque)
+            }
+
+            is PaymentContract.PaymentEvent.StartCamera -> {
+                startCamera(event.context, event.lifecycle, event.preview, event.onSuccess)
+            }
+
+            is PaymentContract.PaymentEvent.ScanQRCode -> {
+                // create function
             }
         }
     }
@@ -194,6 +210,20 @@ class PaymentViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    @ExperimentalGetImage
+    private fun startCamera(
+        context: Context,
+        lifecycle: LifecycleOwner,
+        preview: PreviewView,
+        onSuccess: (Any) -> Unit = { }
+    ) {
+        if (cameraReaderLiveData.value == null) {
+            cameraReaderLiveData.value = CameraManager(context, lifecycle)
+        }
+
+        cameraReaderLiveData.value?.openBarcodeScanner(preview, onSuccess)
     }
 
 

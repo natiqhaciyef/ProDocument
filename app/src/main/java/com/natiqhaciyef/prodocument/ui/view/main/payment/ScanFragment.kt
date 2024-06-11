@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.view.main.home.options.scan
+package com.natiqhaciyef.prodocument.ui.view.main.payment
 
 import android.Manifest
 import android.app.Activity.RESULT_OK
@@ -23,9 +23,12 @@ import com.natiqhaciyef.prodocument.ui.util.NavigationManager.navigateByRouteTit
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TYPE
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
+import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.ScanTypeFragment
+import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.ScanTypeFragmentDirections
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.behaviour.CameraTypes
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.contract.ScanContract
-import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.viewmodel.ScanViewModel
+import com.natiqhaciyef.prodocument.ui.view.main.payment.contract.PaymentContract
+import com.natiqhaciyef.prodocument.ui.view.main.payment.viewmodel.PaymentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.KClass
 
@@ -33,8 +36,8 @@ import kotlin.reflect.KClass
 @AndroidEntryPoint
 class ScanFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentScanBinding = FragmentScanBinding::inflate,
-    override val viewModelClass: KClass<ScanViewModel> = ScanViewModel::class
-) : BaseFragment<FragmentScanBinding, ScanViewModel, ScanContract.ScanState, ScanContract.ScanEvent, ScanContract.ScanEffect>() {
+    override val viewModelClass: KClass<PaymentViewModel> = PaymentViewModel::class
+) : BaseFragment<FragmentScanBinding, PaymentViewModel, PaymentContract.PaymentState, PaymentContract.PaymentEvent, PaymentContract.PaymentEffect>() {
     private var bundle = bundleOf()
     private var selectedImage: Uri? = null
     private val registerForCameraPermissionResult =
@@ -53,7 +56,6 @@ class ScanFragment(
             if (result.resultCode == RESULT_OK) {
                 result.data?.data?.let {
                     selectedImage = it
-                    createMaterialEvent()
                 }
             }
         }
@@ -61,15 +63,14 @@ class ScanFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.postEvent(ScanContract.ScanEvent.ClearStateEvent)
 
-        binding.goBackIcon.setOnClickListener { goBackAction() }
-        ScanTypeFragment.galleryButtonClickAction.invoke()?.setOnClickListener {
-            checkGalleryPermission()
+        with(binding){
+            goBackIcon.setOnClickListener { goBackAction() }
+            pickFromGalleryButton.setOnClickListener { checkGalleryPermission() }
         }
     }
 
-    override fun onStateChange(state: ScanContract.ScanState) {
+    override fun onStateChange(state: PaymentContract.PaymentState) {
         when {
             state.isLoading -> {
                 changeVisibilityOfProgressBar(true)
@@ -78,18 +79,11 @@ class ScanFragment(
             else -> {
                 changeVisibilityOfProgressBar()
 
-                if (state.result != null) {
-                    // handle qr reading result
-                }
-
-                if (state.material != null) {
-                    navigateToModifyPdf(state.material!!)
-                }
             }
         }
     }
 
-    override fun onEffectUpdate(effect: ScanContract.ScanEffect) {
+    override fun onEffectUpdate(effect: PaymentContract.PaymentEffect) {
 
     }
 
@@ -129,23 +123,21 @@ class ScanFragment(
 
     private fun startCameraConfig() {
         viewModel.postEvent(
-            ScanContract.ScanEvent.StartQrCameraEvent(
+            PaymentContract.PaymentEvent.StartCamera(
                 requireContext(),
                 viewLifecycleOwner,
                 binding.cameraXPreviewHolder,
-                CameraTypes.QR_CODE_SCREEN,
             ) { value ->
                 value as String
-                viewModel.postEvent(ScanContract.ScanEvent.ReadQrCodeEvent(qrCode = value))
+                viewModel.postEvent(PaymentContract.PaymentEvent.ScanQRCode(qrCode = value))
             }
         )
 
         viewModel.postEvent(
-            ScanContract.ScanEvent.StartCameraEvent(
+            PaymentContract.PaymentEvent.StartCamera(
                 requireContext(),
                 viewLifecycleOwner,
                 binding.cameraXPreviewHolderBackground,
-                CameraTypes.QR_CODE_SCREEN
             )
         )
     }
@@ -164,26 +156,6 @@ class ScanFragment(
         launchGallerySelection.launch(intent)
     }
 
-    private fun navigateToModifyPdf(material: MappedMaterialModel) {
-        bundle.putString(BUNDLE_TYPE, SCAN_QR_TYPE)
-        bundle.putParcelable(BUNDLE_MATERIAL, material)
-
-        val action =
-            ScanTypeFragmentDirections.actionScanTypeFragmentToPreviewMaterialNavGraph(bundle)
-        navigate(action)
-    }
-
-    private fun createMaterialEvent() {
-        selectedImage?.let {
-            viewModel.postEvent(
-                ScanContract.ScanEvent.CreateMaterialEvent(
-                    title = "Selected image",
-                    uri = it,
-                    image = it.toString()
-                )
-            )
-        }
-    }
 
     private fun goBackAction() {
         (activity as MainActivity).apply {
