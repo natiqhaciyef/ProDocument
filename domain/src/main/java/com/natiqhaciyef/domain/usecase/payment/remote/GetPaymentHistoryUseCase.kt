@@ -1,40 +1,42 @@
-package com.natiqhaciyef.domain.usecase.subscription
+package com.natiqhaciyef.domain.usecase.payment.remote
 
 import com.natiqhaciyef.common.model.Resource
-import com.natiqhaciyef.common.model.mapped.MappedSubscriptionModel
+import com.natiqhaciyef.common.model.payment.MappedPaymentChequeModel
+import com.natiqhaciyef.common.model.payment.PaymentHistoryModel
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.core.base.usecase.BaseUseCase
 import com.natiqhaciyef.core.base.usecase.UseCase
 import com.natiqhaciyef.data.mapper.toMapped
+import com.natiqhaciyef.data.mapper.toPaymentHistory
 import com.natiqhaciyef.data.network.NetworkResult
-import com.natiqhaciyef.domain.repository.SubscriptionRepository
+import com.natiqhaciyef.domain.repository.PaymentRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 @UseCase
-class GetAllSubscriptionPlansUseCase @Inject constructor(
-    subscriptionRepository: SubscriptionRepository
-) : BaseUseCase<SubscriptionRepository, Unit, List<MappedSubscriptionModel>>(subscriptionRepository) {
+class GetPaymentHistoryUseCase @Inject constructor(
+    paymentRepository: PaymentRepository
+) : BaseUseCase<PaymentRepository, Unit, List<PaymentHistoryModel>>(paymentRepository) {
 
-    override fun invoke(): Flow<Resource<List<MappedSubscriptionModel>>> = flow {
+    override fun invoke(): Flow<Resource<List<PaymentHistoryModel>>> = flow {
         emit(Resource.loading(null))
 
-        when (val result = repository.getAllSubscriptionPlans()) {
+        when (val result = repository.getPaymentHistory()) {
             is NetworkResult.Success -> {
-                val mapped = result.data.map { it.toMapped() }
+                val mappedList = result.data.map { it.toPaymentHistory() }
 
-                if (!mapped.contains(null))
-                    emit(Resource.success(mapped.filterNotNull()))
+                if (mappedList.isNotEmpty())
+                    emit(Resource.success(mappedList))
                 else
                     emit(
                         Resource.error(
-                            msg = ErrorMessages.MAPPED_NULL_DATA,
-                            exception = Exception(ErrorMessages.MAPPED_NULL_DATA),
-                            data = null
+                            msg = ErrorMessages.EMPTY_LIST,
+                            data = null,
+                            exception = Exception(ErrorMessages.EMPTY_LIST),
+                            errorCode = 411
                         )
                     )
-
             }
 
             is NetworkResult.Error -> {
@@ -59,6 +61,5 @@ class GetAllSubscriptionPlansUseCase @Inject constructor(
                 )
             }
         }
-
     }
 }

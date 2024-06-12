@@ -1,8 +1,9 @@
 package com.natiqhaciyef.domain.usecase.payment.remote
 
 import com.natiqhaciyef.common.model.Resource
-import com.natiqhaciyef.common.model.payment.MappedPaymentChequeModel
-import com.natiqhaciyef.common.model.payment.MappedPaymentModel
+import com.natiqhaciyef.common.model.mapped.MappedQrCodePaymentModel
+import com.natiqhaciyef.common.model.mapped.MappedQrCodeRequest
+import com.natiqhaciyef.common.model.payment.MappedSubscriptionPlanPaymentDetails
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.core.base.usecase.BaseUseCase
 import com.natiqhaciyef.core.base.usecase.UseCase
@@ -10,34 +11,35 @@ import com.natiqhaciyef.data.mapper.toMapped
 import com.natiqhaciyef.data.mapper.toResponse
 import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.data.network.request.PaymentRequest
+import com.natiqhaciyef.data.network.request.QrCodeRequest
 import com.natiqhaciyef.domain.repository.PaymentRepository
-import com.natiqhaciyef.domain.usecase.PAYMENT_MODEL
 import com.natiqhaciyef.domain.usecase.PICKED_SUBSCRIPTION_PLAN
+import com.natiqhaciyef.domain.usecase.QR_CODE
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 @UseCase
-class GetPaymentDataUseCase @Inject constructor(
+class ScanQrCodePaymentUseCase @Inject constructor(
     paymentRepository: PaymentRepository
-) : BaseUseCase<PaymentRepository, Map<String, Any>, MappedPaymentChequeModel>(paymentRepository) {
+): BaseUseCase<PaymentRepository, Map<String, Any>, MappedQrCodePaymentModel>(paymentRepository) {
 
-    override fun operate(data: Map<String, Any>): Flow<Resource<MappedPaymentChequeModel>> = flow {
-        emit(Resource.loading(null))
+    override fun operate(data: Map<String, Any>): Flow<Resource<MappedQrCodePaymentModel>> = flow{
+        emit(Resource.loading())
 
-        val payment = (data[PAYMENT_MODEL] as MappedPaymentModel).toResponse()
-        val pickedPlan = data[PICKED_SUBSCRIPTION_PLAN].toString()
-        val request = PaymentRequest(
-            merchantId = payment.merchantId,
-            paymentType = payment.paymentType,
-            paymentMethod = payment.paymentMethod,
-            paymentDetails = payment.paymentDetails,
-            pickedPlanToken = pickedPlan
+        val qrCode = data[QR_CODE].toString()
+        val planDetails = (data[PICKED_SUBSCRIPTION_PLAN] as MappedSubscriptionPlanPaymentDetails)
+            .toResponse()
+
+        val request = QrCodeRequest(
+            qrCode = qrCode,
+            subscriptionDetails = planDetails
         )
 
-        when (val result = repository.getPaymentData(request)) {
+        when(val result = repository.scanQrCodePayment(request)){
             is NetworkResult.Success -> {
-                emit(Resource.success(result.data.toMapped()))
+                val mapped = result.data.toMapped()
+                emit(Resource.success(mapped))
             }
 
             is NetworkResult.Error -> {
@@ -62,5 +64,6 @@ class GetPaymentDataUseCase @Inject constructor(
                 )
             }
         }
+
     }
 }

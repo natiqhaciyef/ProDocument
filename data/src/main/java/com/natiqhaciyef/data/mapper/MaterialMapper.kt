@@ -43,7 +43,7 @@ fun MappedMaterialModel.toMaterialResponse(): MaterialResponse {
     )
 }
 
-fun MaterialResponse.toMappedModel(): MappedMaterialModel? {
+fun MaterialResponse.toMapped(): MappedMaterialModel? {
     return if (!this.title.isNullOrEmpty()) {
         MappedMaterialModel(
             id = this.id,
@@ -63,7 +63,7 @@ fun MaterialResponse.toMappedModel(): MappedMaterialModel? {
 }
 
 fun ListMaterialResponse.toUIResult(): UIResult<List<MappedMaterialModel>>? {
-    val materials = this.materials.map { it.toMappedModel() }
+    val materials = this.materials.map { it.toMapped() }
     return if (this.materials.isNotEmpty() && !materials.contains(null)) {
         UIResult(
             id = this.id,

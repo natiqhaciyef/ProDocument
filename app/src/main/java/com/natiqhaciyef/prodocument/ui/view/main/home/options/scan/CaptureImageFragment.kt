@@ -116,9 +116,6 @@ class CaptureImageFragment(
 
             else ->{
                 changeVisibilityOfProgressBar(false)
-                if (state.result != null){
-
-                }
 
                 if (state.material != null){
                     imageResultAction(state.material!!)

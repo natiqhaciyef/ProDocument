@@ -1,6 +1,8 @@
 package com.natiqhaciyef.data.mock.payment
 
 import com.natiqhaciyef.common.helpers.getNow
+import com.natiqhaciyef.common.model.Currency
+import com.natiqhaciyef.common.model.Time
 import com.natiqhaciyef.common.model.payment.PaymentDetails
 import com.natiqhaciyef.common.model.payment.PaymentMethods
 import com.natiqhaciyef.common.model.payment.PaymentTypes
@@ -8,14 +10,17 @@ import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.data.mock.subscription.SubscriptionMockManager
 import com.natiqhaciyef.data.network.request.PaymentModel
 import com.natiqhaciyef.data.network.request.PaymentRequest
+import com.natiqhaciyef.data.network.request.QrCodeRequest
 import com.natiqhaciyef.data.network.response.ChequePayloadModel
 import com.natiqhaciyef.data.network.response.PaymentChequeResponse
 import com.natiqhaciyef.data.network.response.PaymentPickModel
+import com.natiqhaciyef.data.network.response.QrPaymentResponse
 import com.natiqhaciyef.data.network.response.SubscriptionPlanPaymentDetails
 import com.natiqhaciyef.data.network.response.SubscriptionResponse
 import java.util.concurrent.Flow.Subscription
 
 object PaymentMockManager {
+    private var mockQrCode = "mockQrCode"
     private var balance = 100.0
     private var paymentRequest: PaymentRequest? = null
     private var subscriptionModel: SubscriptionResponse? = null
@@ -43,11 +48,23 @@ object PaymentMockManager {
                 currency = "USD",
                 cvv = "000"
             )
-        )
+        ),
+        PaymentModel(
+            merchantId = 99,
+            paymentType = PaymentTypes.QR.name,
+            paymentMethod = PaymentMethods.GOOGLE_PAY.name,
+            paymentDetails = PaymentDetails(
+                cardHolder = "Anyone",
+                cardNumber = "0000 9999 8888 7777",
+                expireDate = "00/00",
+                currency = "USD",
+                cvv = "000"
+            )
+        ),
     )
     private val chequeList = mutableListOf<PaymentChequeResponse>()
 
-    fun startPayment(chequeModel: PaymentChequeResponse): CRUDResponse{
+    fun startPayment(chequeModel: PaymentChequeResponse): CRUDResponse {
         if (chequeModel.totalAmount > balance)
             return CRUDResponse(
                 resultCode = 409,
@@ -57,9 +74,9 @@ object PaymentMockManager {
         balance -= chequeModel.totalAmount
 
         return CRUDResponse(
-                resultCode = 299,
-                message = "mock result success"
-            )
+            resultCode = 299,
+            message = "mock result success"
+        )
     }
 
     fun insertNewPayment(paymentModel: PaymentModel): CRUDResponse {
@@ -77,7 +94,7 @@ object PaymentMockManager {
             )
     }
 
-    fun insertCheque(chequeModel: PaymentChequeResponse): CRUDResponse {
+    private fun insertCheque(chequeModel: PaymentChequeResponse): CRUDResponse {
         if (!chequeList.contains(chequeModel))
             chequeList.add(chequeModel)
         return if (chequeList.contains(chequeModel))
@@ -148,6 +165,10 @@ object PaymentMockManager {
         return chequeList
     }
 
+    fun getChequeDetails(chequeId: String): PaymentChequeResponse {
+        return chequeList.find { it.checkId == chequeId } ?: chequeList.first()
+    }
+
     fun getChequePayload(chequeId: String): ChequePayloadModel? {
         return if (chequeList.any { it.checkId == chequeId })
             ChequePayloadModel(payload = "Payload")
@@ -167,5 +188,42 @@ object PaymentMockManager {
                         )
                     )
         }
+    }
+
+    fun scanQrCodePayment(qrCode: QrCodeRequest): QrPaymentResponse {
+        val planDetails = qrCode.subscriptionDetails
+        val qrResult = QrPaymentResponse(
+            merchantId = 99,
+            paymentType = PaymentTypes.QR.name,
+            paymentMethod = PaymentMethods.GOOGLE_PAY.name,
+            cheque = PaymentChequeResponse(
+                checkId = "request-qr-chque",
+                title = "Beginner",
+                description = "EMPTY AND VOID",
+                subscriptionDetails = SubscriptionPlanPaymentDetails(
+                    expirationTimeType = planDetails.expirationTimeType,
+                    expirationTime = planDetails.expirationTime * 12,
+                    price = planDetails.price * 12,
+                    fee = planDetails.fee * 12,
+                    discount = 0.0
+                ),
+                totalAmount = (planDetails.fee + planDetails.price) - (planDetails.fee + planDetails.price) * planDetails.discount / 100,
+                currency = Currency.USD.name,
+                paymentDetails = PaymentDetails(
+                    cardHolder = "Anyone",
+                    cardNumber = "0000 1111 2222 3333",
+                    expireDate = "00/00",
+                    currency = "USD",
+                    cvv = "000"
+                ),
+                paymentResult = "SUCCESS",
+                date = getNow()
+            )
+        )
+
+        return if (mockQrCode == qrCode.qrCode)
+            qrResult
+        else
+            qrResult.copy(cheque = qrResult.cheque.copy(paymentResult = "FAILED"))
     }
 }

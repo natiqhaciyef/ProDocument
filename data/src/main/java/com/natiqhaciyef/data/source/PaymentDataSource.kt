@@ -8,12 +8,16 @@ import com.natiqhaciyef.data.mock.payment.GetChequePdfMockGenerator
 import com.natiqhaciyef.data.mock.payment.GetPickedPaymentDetailsMockGenerator
 import com.natiqhaciyef.data.mock.payment.InsertNewPaymentMethodMockGenerator
 import com.natiqhaciyef.data.mock.payment.GetPaymentDataPaymentMockGenerator
+import com.natiqhaciyef.data.mock.payment.GetPaymentHistoryDetailsMockGenerator
+import com.natiqhaciyef.data.mock.payment.GetPaymentHistoryMockGenerator
+import com.natiqhaciyef.data.mock.payment.ScanQrCodePaymentMockGenerator
 import com.natiqhaciyef.data.mock.payment.StartPaymentMockGenerator
 import com.natiqhaciyef.data.network.LoadType
 import com.natiqhaciyef.data.network.handleNetworkResponse
 import com.natiqhaciyef.data.network.manager.TokenManager
 import com.natiqhaciyef.data.network.request.PaymentModel
 import com.natiqhaciyef.data.network.request.PaymentRequest
+import com.natiqhaciyef.data.network.request.QrCodeRequest
 import com.natiqhaciyef.data.network.response.PaymentChequeResponse
 import com.natiqhaciyef.data.network.response.PaymentPickModel
 import com.natiqhaciyef.data.network.service.PaymentService
@@ -76,7 +80,7 @@ class PaymentDataSource(
             handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
                 service.getPickedPaymentDetails(
                     token = requestHeader,
-                    paymentPickModel = paymentPickModel
+                    pickedPayment = paymentPickModel
                 )
             }
         }
@@ -91,11 +95,43 @@ class PaymentDataSource(
             handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
                 service.insertNewPaymentMethod(
                     token = requestHeader,
-                    paymentModel = paymentModel
+                    payment = paymentModel
                 )
             }
         }
 
+    suspend fun getPaymentHistory() =
+        withContext(Dispatchers.IO) {
+            val requestHeader = manager.generateToken()
+            val mock = generateMockerClass(GetPaymentHistoryMockGenerator::class, Unit)
+                .getMock(Unit){ null }
+
+            handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
+                service.getPaymentHistory(token = requestHeader)
+            }
+        }
+
+    suspend fun getPaymentHistoryDetails(chequeId: String) =
+        withContext(Dispatchers.IO){
+            val requestHeader = manager.generateToken()
+            val mock = generateMockerClass(GetPaymentHistoryDetailsMockGenerator::class, chequeId)
+                .getMock(GetPaymentHistoryDetailsMockGenerator.customRequest) { null }
+
+            handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
+                service.getPaymentHistoryDetails(token = requestHeader, chequeId = chequeId)
+            }
+        }
+
+    suspend fun scanQrCodePayment(qrCodeRequest: QrCodeRequest) =
+        withContext(Dispatchers.IO) {
+            val requestHeader = manager.generateToken()
+            val mock = generateMockerClass(ScanQrCodePaymentMockGenerator::class, qrCodeRequest)
+                .getMock(ScanQrCodePaymentMockGenerator.customRequest) { null }
+
+            handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
+                service.scanQrCodePayment(token = requestHeader, qrCodeRequest = qrCodeRequest)
+            }
+        }
 
     suspend fun getStoredPaymentMethods() = withContext(Dispatchers.IO){
         dao.getStoredPaymentMethods()

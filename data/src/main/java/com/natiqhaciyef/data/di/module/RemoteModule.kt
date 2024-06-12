@@ -1,20 +1,16 @@
 package com.natiqhaciyef.data.di.module
 
-import android.content.Context
-import android.media.session.MediaSession.Token
 import com.natiqhaciyef.data.network.NetworkConfig
 import com.natiqhaciyef.data.network.TokenAuthenticator
 import com.natiqhaciyef.data.network.manager.TokenManager
 import com.natiqhaciyef.data.network.service.MaterialService
 import com.natiqhaciyef.data.network.service.PaymentService
-import com.natiqhaciyef.data.network.service.QrCodeService
 import com.natiqhaciyef.data.network.service.SubscriptionService
 import com.natiqhaciyef.data.network.service.TokenService
 import com.natiqhaciyef.data.network.service.UserService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -46,11 +42,6 @@ object RemoteModule {
     @Singleton
     fun provideMaterialService(network: Retrofit): MaterialService =
         network.create(MaterialService::class.java)
-
-    @Provides
-    @Singleton
-    fun provideQrCodeService(network: Retrofit): QrCodeService =
-        network.create(QrCodeService::class.java)
 
     @Provides
     @Singleton

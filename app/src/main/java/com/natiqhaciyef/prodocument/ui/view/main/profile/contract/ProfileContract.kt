@@ -7,7 +7,7 @@ import com.natiqhaciyef.core.base.ui.UiState
 object ProfileContract {
 
     sealed class ProfileEvent : UiEvent {
-
+//        data object GetPaymentHistoryEvent: ProfileEvent
     }
 
     sealed class ProfileEffect : UiEffect {

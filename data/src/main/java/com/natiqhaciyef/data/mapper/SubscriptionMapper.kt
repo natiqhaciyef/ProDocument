@@ -7,7 +7,7 @@ import com.natiqhaciyef.common.model.mapped.MappedSubscriptionModel
 import com.natiqhaciyef.data.network.response.SubscriptionResponse
 
 
-fun SubscriptionResponse.toMappedModel(): MappedSubscriptionModel? {
+fun SubscriptionResponse.toMapped(): MappedSubscriptionModel? {
     return if (
         this.title.isNotEmpty()
         && this.price != 0.0

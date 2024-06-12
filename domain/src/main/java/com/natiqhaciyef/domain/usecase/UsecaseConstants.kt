@@ -23,5 +23,6 @@ const val USER_NAME = "username"
 const val USER_PASSWORD = "userPassword"
 
 // payment
+const val QR_CODE = "qrCode"
 const val PAYMENT_MODEL = "paymentModel"
 const val PICKED_SUBSCRIPTION_PLAN = "pickedSubscriptionPlan"

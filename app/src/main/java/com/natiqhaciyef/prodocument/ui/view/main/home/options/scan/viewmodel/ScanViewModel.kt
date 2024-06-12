@@ -15,7 +15,6 @@ import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.base.ui.BaseViewModel
 import com.natiqhaciyef.core.model.FileTypes.PDF
 import com.natiqhaciyef.prodocument.ui.manager.CameraManager
-import com.natiqhaciyef.domain.usecase.qrCode.ReadQrCodeResultUseCase
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.behaviour.CameraTypes
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.contract.ScanContract
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,18 +25,12 @@ import javax.inject.Inject
 
 @ExperimentalGetImage
 @HiltViewModel
-class ScanViewModel @Inject constructor(
-    private val readQrCodeResultUseCase: ReadQrCodeResultUseCase
-) : BaseViewModel<ScanContract.ScanState, ScanContract.ScanEvent, ScanContract.ScanEffect>() {
+class ScanViewModel @Inject constructor() : BaseViewModel<ScanContract.ScanState, ScanContract.ScanEvent, ScanContract.ScanEffect>() {
     private val cameraReaderLiveData = MutableLiveData<CameraManager?>(null)
     var isBackPressed: MutableLiveData<Boolean> = MutableLiveData(false)
 
     override fun onEventUpdate(event: ScanContract.ScanEvent) {
         when (event) {
-            is ScanContract.ScanEvent.ReadQrCodeEvent -> {
-                readQrCode(event.qrCode)
-            }
-
             is ScanContract.ScanEvent.StartCameraEvent -> {
                 startCamera(
                     event.context,
@@ -69,7 +62,7 @@ class ScanViewModel @Inject constructor(
             }
 
             is ScanContract.ScanEvent.ClearStateEvent -> {
-                setBaseState(getCurrentBaseState().copy(isLoading = false, result = null, material = null))
+                setBaseState(getCurrentBaseState().copy(isLoading = false, material = null))
             }
         }
     }
@@ -105,33 +98,6 @@ class ScanViewModel @Inject constructor(
         }
     }
 
-
-    private fun readQrCode(qrCode: String) {
-        viewModelScope.launch {
-            readQrCodeResultUseCase.operate(qrCode).collectLatest { result ->
-                when (result.status) {
-                    Status.SUCCESS -> {
-                        if (result.data != null)
-                            setBaseState(getCurrentBaseState().copy(isLoading = false, result = result.data))
-                    }
-
-                    Status.ERROR -> {
-                        setBaseState(getCurrentBaseState().copy(isLoading = false))
-                        postEffect(
-                            ScanContract.ScanEffect.ReadQrCodeFailedEffect(
-                            result.message,
-                            result.exception
-                        ))
-                    }
-
-                    Status.LOADING -> {
-                        setBaseState(getCurrentBaseState().copy(isLoading = true))
-                    }
-                }
-            }
-        }
-    }
-
     private fun createMaterial(
         title: String,
         uri: Uri,
@@ -149,8 +115,7 @@ class ScanViewModel @Inject constructor(
                 downloadedUri = null,
                 isDownloading = false
             ),
-            isLoading = false,
-            result = null
+            isLoading = false
         ))
     }
 

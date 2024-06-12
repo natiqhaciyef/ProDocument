@@ -6,9 +6,11 @@ import com.natiqhaciyef.data.local.entity.PaymentEntity
 import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.data.network.request.PaymentModel
 import com.natiqhaciyef.data.network.request.PaymentRequest
+import com.natiqhaciyef.data.network.request.QrCodeRequest
 import com.natiqhaciyef.data.network.response.ChequePayloadModel
 import com.natiqhaciyef.data.network.response.PaymentChequeResponse
 import com.natiqhaciyef.data.network.response.PaymentPickModel
+import com.natiqhaciyef.data.network.response.QrPaymentResponse
 
 interface PaymentRepository: BaseRepository {
 
@@ -23,6 +25,12 @@ interface PaymentRepository: BaseRepository {
     suspend fun getPickedPaymentDetails(paymentPickModel: PaymentPickModel): NetworkResult<PaymentModel>
 
     suspend fun insertNewPaymentMethod(paymentModel: PaymentModel): NetworkResult<CRUDResponse>
+
+    suspend fun getPaymentHistory(): NetworkResult<List<PaymentChequeResponse>>
+
+    suspend fun getPaymentHistoryDetails(chequeId: String): NetworkResult<PaymentChequeResponse>
+
+    suspend fun scanQrCodePayment(qrCodeRequest: QrCodeRequest): NetworkResult<QrPaymentResponse>
 
 
     suspend fun getStoredPaymentMethods(): List<PaymentEntity>
