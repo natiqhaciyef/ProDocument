@@ -8,6 +8,7 @@ import androidx.core.os.bundleOf
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.natiqhaciyef.common.helpers.toDetails
 import com.natiqhaciyef.common.model.mapped.MappedSubscriptionModel
 import com.natiqhaciyef.common.model.payment.MappedPaymentModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
@@ -116,7 +117,12 @@ class PaymentCategoriesFragment(
     }
 
     private fun onScanIconClickAction() {
-        // navigate camera screen
+        val mappedSubscriptionModel = resourceBundle.getParcelable<MappedSubscriptionModel>(BundleConstants.BUNDLE_SUBSCRIPTION_PLAN)
+        val subscriptionDetails = mappedSubscriptionModel?.toDetails()
+        resourceBundle.putParcelable(BundleConstants.BUNDLE_SUBSCRIPTION_PAYMENT_DETAILS, subscriptionDetails)
+
+        val action = PaymentCategoriesFragmentDirections.actionPaymentCategoriesFragmentToScanFragment(resourceBundle)
+        navigate(action)
     }
 
     private fun recyclerViewConfig(list: List<MappedPaymentModel>) {

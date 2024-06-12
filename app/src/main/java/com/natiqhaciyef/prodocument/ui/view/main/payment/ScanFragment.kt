@@ -14,10 +14,16 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.ExperimentalGetImage
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.navigation.fragment.navArgs
+import com.natiqhaciyef.common.helpers.toDetails
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
+import com.natiqhaciyef.common.model.mapped.MappedSubscriptionModel
+import com.natiqhaciyef.common.model.payment.MappedPaymentModel
+import com.natiqhaciyef.common.model.payment.MappedSubscriptionPlanPaymentDetails
 import com.natiqhaciyef.prodocument.databinding.FragmentScanBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.ui.manager.PermissionManager
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants
 import com.natiqhaciyef.prodocument.ui.util.NavigationManager.HOME_ROUTE
 import com.natiqhaciyef.prodocument.ui.util.NavigationManager.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
@@ -38,7 +44,7 @@ class ScanFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentScanBinding = FragmentScanBinding::inflate,
     override val viewModelClass: KClass<PaymentViewModel> = PaymentViewModel::class
 ) : BaseFragment<FragmentScanBinding, PaymentViewModel, PaymentContract.PaymentState, PaymentContract.PaymentEvent, PaymentContract.PaymentEffect>() {
-    private var bundle = bundleOf()
+    private var resourceBundle = bundleOf()
     private var selectedImage: Uri? = null
     private val registerForCameraPermissionResult =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
@@ -63,9 +69,11 @@ class ScanFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        with(binding){
-            goBackIcon.setOnClickListener { goBackAction() }
+        val args: ScanFragmentArgs by navArgs()
+        resourceBundle = args.datasetBundle
+        activityConfig()
+        with(binding) {
+            goBackIcon.setOnClickListener { navigateBack() }
             pickFromGalleryButton.setOnClickListener { checkGalleryPermission() }
         }
     }
@@ -108,6 +116,10 @@ class ScanFragment(
         checkCameraPermission()
     }
 
+    private fun activityConfig() {
+        (activity as MainActivity).binding.materialToolbar.visibility = View.GONE
+    }
+
     private fun checkCameraPermission() {
         if (ContextCompat.checkSelfPermission(
                 requireContext(),
@@ -129,7 +141,12 @@ class ScanFragment(
                 binding.cameraXPreviewHolder,
             ) { value ->
                 value as String
-                viewModel.postEvent(PaymentContract.PaymentEvent.ScanQRCode(qrCode = value))
+
+                val subscription =
+                    resourceBundle.getParcelable<MappedSubscriptionPlanPaymentDetails>(BundleConstants.BUNDLE_SUBSCRIPTION_PLAN)
+
+                if (subscription != null)
+                    viewModel.postEvent(PaymentContract.PaymentEvent.ScanQRCode(qrCode = value, subscriptionPlanPaymentDetails = subscription))
             }
         )
 
@@ -157,22 +174,12 @@ class ScanFragment(
     }
 
 
-    private fun goBackAction() {
-        (activity as MainActivity).apply {
-            binding.bottomNavBar.visibility = View.VISIBLE
-            binding.appbarLayout.visibility = View.VISIBLE
-        }
-        navigateByRouteTitle(this@ScanFragment, HOME_ROUTE)
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
 
     companion object {
-        private const val NEED_GALLERY_PERMISSION = "Need gallery permission"
-        private const val NEED_FILE_PERMISSION = "Need file permission"
         const val SCAN_QR_TYPE = "scan-qr-type"
     }
 }

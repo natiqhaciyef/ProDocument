@@ -32,7 +32,7 @@ class GetPaymentDataPaymentMockGenerator(
                 cvv = "909"
             ),
             paymentResult = "SUCCESS",
-            date = getNow()
+            date = "00.00.0000 00:00"
         )
 
     override fun getMock(

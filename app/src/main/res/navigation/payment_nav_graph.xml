@@ -53,5 +53,12 @@
         android:id="@+id/scanFragment"
         android:name="com.natiqhaciyef.prodocument.ui.view.main.payment.ScanFragment"
         android:label="fragment_scan"
-        tools:layout="@layout/fragment_scan" />
+        tools:layout="@layout/fragment_scan" >
+        <action
+            android:id="@+id/action_scanFragment_to_paymentDetailsFragment"
+            app:destination="@id/paymentDetailsFragment" />
+        <argument
+            android:name="datasetBundle"
+            app:argType="android.os.Bundle" />
+    </fragment>
 </navigation>

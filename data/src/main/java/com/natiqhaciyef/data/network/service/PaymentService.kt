@@ -4,12 +4,15 @@ import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.data.network.NetworkConfig
 import com.natiqhaciyef.data.network.request.PaymentModel
 import com.natiqhaciyef.data.network.request.PaymentRequest
+import com.natiqhaciyef.data.network.request.QrCodeRequest
 import com.natiqhaciyef.data.network.response.ChequePayloadModel
 import com.natiqhaciyef.data.network.response.PaymentChequeResponse
 import com.natiqhaciyef.data.network.response.PaymentPickModel
+import com.natiqhaciyef.data.network.response.QrPaymentResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.Header
 import retrofit2.http.POST
 interface PaymentService {
@@ -60,5 +63,11 @@ interface PaymentService {
         @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String,
         @Body chequeId: String
     ): Response<PaymentChequeResponse>
+
+    @POST("")
+    suspend fun scanQrCodePayment(
+        @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String,
+        @Body qrCodeRequest: QrCodeRequest
+    ): Response<QrPaymentResponse>
 }
 
