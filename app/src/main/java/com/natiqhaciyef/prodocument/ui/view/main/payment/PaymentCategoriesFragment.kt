@@ -117,10 +117,6 @@ class PaymentCategoriesFragment(
     }
 
     private fun onScanIconClickAction() {
-        val mappedSubscriptionModel = resourceBundle.getParcelable<MappedSubscriptionModel>(BundleConstants.BUNDLE_SUBSCRIPTION_PLAN)
-        val subscriptionDetails = mappedSubscriptionModel?.toDetails()
-        resourceBundle.putParcelable(BundleConstants.BUNDLE_SUBSCRIPTION_PAYMENT_DETAILS, subscriptionDetails)
-
         val action = PaymentCategoriesFragmentDirections.actionPaymentCategoriesFragmentToScanFragment(resourceBundle)
         navigate(action)
     }

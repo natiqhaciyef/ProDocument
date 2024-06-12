@@ -24,9 +24,11 @@ import com.natiqhaciyef.prodocument.databinding.FragmentScanBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.ui.manager.PermissionManager
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_CHEQUE_PAYMENT
 import com.natiqhaciyef.prodocument.ui.util.NavigationManager.HOME_ROUTE
 import com.natiqhaciyef.prodocument.ui.util.NavigationManager.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
+import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_PAYMENT
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TYPE
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.ScanTypeFragment
@@ -87,6 +89,21 @@ class ScanFragment(
             else -> {
                 changeVisibilityOfProgressBar()
 
+                state.qrCodePaymentModel?.let {
+                    val cheque = it.cheque
+                    val paymentModel = MappedPaymentModel(
+                        merchantId = it.merchantId,
+                        paymentMethod = it.paymentMethod,
+                        paymentType = it.paymentType,
+                        paymentDetails = it.cheque.paymentDetails
+                    )
+
+                    resourceBundle.putParcelable(BUNDLE_CHEQUE_PAYMENT, cheque)
+                    resourceBundle.putParcelable(BUNDLE_PAYMENT, paymentModel)
+
+                    val action = ScanFragmentDirections.actionScanFragmentToPaymentDetailsFragment(resourceBundle)
+                    navigate(action)
+                }
             }
         }
     }
@@ -143,10 +160,16 @@ class ScanFragment(
                 value as String
 
                 val subscription =
-                    resourceBundle.getParcelable<MappedSubscriptionPlanPaymentDetails>(BundleConstants.BUNDLE_SUBSCRIPTION_PLAN)
+                    resourceBundle.getParcelable<MappedSubscriptionModel>(BundleConstants.BUNDLE_SUBSCRIPTION_PLAN)
+                val subscriptionDetails = subscription?.toDetails()
 
-                if (subscription != null)
-                    viewModel.postEvent(PaymentContract.PaymentEvent.ScanQRCode(qrCode = value, subscriptionPlanPaymentDetails = subscription))
+                if (subscriptionDetails != null)
+                    viewModel.postEvent(
+                        PaymentContract.PaymentEvent.ScanQRCode(
+                            qrCode = value,
+                            subscriptionPlanPaymentDetails = subscriptionDetails
+                        )
+                    )
             }
         )
 
