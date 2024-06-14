@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/layout"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginHorizontal="24dp"
+    android:layout_marginTop="24dp"
+    >
+
+    <ImageView
+        android:id="@+id/settingsIcon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/security_outline_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/settingsTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@id/goDetailsIcon"
+        android:textColor="@color/grayscale_900"
+        android:fontFamily="@font/urbanist_bold"
+        app:layout_constraintTop_toTopOf="@id/settingsIcon"
+        app:layout_constraintStart_toEndOf="@id/settingsIcon"
+        app:layout_constraintBottom_toBottomOf="@id/settingsIcon"
+        />
+
+
+    <ImageView
+        android:id="@+id/goDetailsIcon"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:rotation="270"
+        android:src="@drawable/down_arrow_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/grayscale_900" />
+
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/switchIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        app:trackTint="@color/primary_200"
+        app:thumbTint="@color/primary_900"
+        android:visibility="gone"
+        android:checked="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

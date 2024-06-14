@@ -27,6 +27,7 @@
     <string name="protect">Protect</string>
     <string name="compress">Compress</string>
     <string name="give_permission">Give permission</string>
+    <string name="upgrade">Upgrade</string>
 
     <!--  Titles  -->
     <string name="proscan">ProScan</string>
@@ -199,7 +200,6 @@
     <string name="select_payment_method">Select Payment</string>
     <string name="review_summary">Review Summary</string>
     <string name="add_new_payment">Add New Payment</string>
-
     <string name="card_number_default">●●●● ●●●● ●●●● ●●●●</string>
     <string name="card">Card</string>
     <string name="card_holder_name_title">Card Holder Name</string>
@@ -211,7 +211,6 @@
     <string name="cvv_default">000</string>
     <string name="expire_date_template">%1$s/%2$s</string>
     <string name="card_number_template">%1$s %2$s %3$s %4$s</string>
-
     <string name="plan_title">Subscription Plan</string>
     <string name="plan_date_title">Range</string>
     <string name="plan_amount_title">Amount</string>
@@ -220,5 +219,22 @@
     <string name="plan_payment_method_title">Payment Method</string>
     <string name="share_cheque_title">Share cheque</string>
     <string name="payment_details_title">Payment details</string>
+
+
+    <!-- Profile account -->
+    <string name="captured_files_size_ratio">%2$s %1$s / %3$s %1$s</string>
+    <string name="go_to_premium">Go to Premium</string>
+    <string name="enjoy_all_benefits">Enjoy all the benefits</string>
+
+    <string name="personal_info">Personal Info</string>
+    <string name="preferences">Preferences</string>
+    <string name="security">Security</string>
+    <string name="payment_history">Payment History</string>
+    <string name="category_graph">Category Graph</string>
+    <string name="language">Language</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="help_center">Help Center</string>
+    <string name="about_proscan">About Proscan</string>
+    <string name="logout">Logout</string>
 
 </resources>

@@ -14,6 +14,7 @@ import com.natiqhaciyef.common.model.payment.MappedPaymentModel.Companion.toMapp
 import com.natiqhaciyef.common.model.payment.PaymentResultType
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.databinding.FragmentPaymentDetailsBinding
+import com.natiqhaciyef.prodocument.ui.custom.CustomPaymentMethodsFragment
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.payment.contract.PaymentContract
@@ -55,6 +56,10 @@ class PaymentDetailsFragment(
                         confirmButtonAction(chequeModel!!)
                     else
                         confirmButtonAction(chequeModel!!.copy(paymentResult = PaymentResultType.FAIL))
+                }
+
+                if (state.paymentMethodsList != null){
+                    paymentBottomSheetConfig(state.paymentMethodsList!!)
                 }
             }
         }
@@ -98,14 +103,19 @@ class PaymentDetailsFragment(
             totalAmountDetails.text = "${currency}${total}"
             paymentTypeImage.setImageResource(pickedPayment.image)
             maskedCardNumber.text = pickedPayment.maskedCardNumber
-            binding.confirmButton.setOnClickListener {
-                viewModel.postEvent(PaymentContract.PaymentEvent.PayForPlan(chequeModel))
-            }
+            confirmButton.setOnClickListener { viewModel.postEvent(PaymentContract.PaymentEvent.PayForPlan(chequeModel)) }
+            changePaymentMethod.setOnClickListener { viewModel.postEvent(PaymentContract.PaymentEvent.GetAllStoredPaymentMethods) }
         }
     }
 
+    private fun paymentBottomSheetConfig(list: List<MappedPaymentModel>){
+        CustomPaymentMethodsFragment(list = list){
+            if (pickedPlan != null && chequeModel != null)
+                planDetailsConfig(plan = pickedPlan!!, chequeModel = chequeModel!!, payment = it)
+        }.show(this.childFragmentManager, CustomPaymentMethodsFragment::class.simpleName)
+    }
+
     private fun confirmButtonAction(chequeModel: MappedPaymentChequeModel){
-        // navigate payment cheque screen
         val action = PaymentDetailsFragmentDirections.actionPaymentDetailsFragmentToPaymentResultFragment(chequeModel)
         navigate(action)
     }

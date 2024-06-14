@@ -18,11 +18,11 @@ interface UserService {
     @POST("")
     @FormUrlEncoded
     suspend fun createAccount(
-        @Field("full_name") fullName: String,
-        @Field("phone_number") phoneNumber: String,
+        @Field("fullName") fullName: String,
+        @Field("phoneNumber") phoneNumber: String,
         @Field("gender") gender: String,
         @Field("dob") dateOfBirth: String,
-        @Field("image_url") imageUrl: String,
+        @Field("imageUrl") imageUrl: String,
         @Field("email") email: String,
         @Field("password") password: String,
     ): Response<TokenResponse>

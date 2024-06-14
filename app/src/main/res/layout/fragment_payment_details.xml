@@ -237,14 +237,14 @@
             android:textColor="@color/grayscale_900"
             android:fontFamily="@font/urbanist_bold"
             android:layout_marginHorizontal="16dp"
-            app:layout_constraintEnd_toStartOf="@id/changePaymentCardNumber"
+            app:layout_constraintEnd_toStartOf="@id/changePaymentMethod"
             app:layout_constraintTop_toTopOf="@+id/paymentTypeImage"
             app:layout_constraintStart_toEndOf="@id/paymentTypeImage"
             app:layout_constraintBottom_toBottomOf="@id/paymentTypeImage"
             />
 
         <TextView
-            android:id="@+id/changePaymentCardNumber"
+            android:id="@+id/changePaymentMethod"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:text="@string/change"
