@@ -226,4 +226,15 @@
     <string name="go_to_premium">Go to Premium</string>
     <string name="enjoy_all_benefits">Enjoy all the benefits</string>
 
+    <string name="personal_info">Personal Info</string>
+    <string name="preferences">Preferences</string>
+    <string name="security">Security</string>
+    <string name="payment_history">Payment History</string>
+    <string name="category_graph">Category Graph</string>
+    <string name="language">Language</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="help_center">Help Center</string>
+    <string name="about_proscan">About Proscan</string>
+    <string name="logout">Logout</string>
+
 </resources>
