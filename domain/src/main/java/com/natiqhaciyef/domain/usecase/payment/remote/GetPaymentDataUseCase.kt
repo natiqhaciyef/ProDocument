@@ -6,7 +6,7 @@ import com.natiqhaciyef.common.model.payment.MappedPaymentModel
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.core.base.usecase.BaseUseCase
 import com.natiqhaciyef.core.base.usecase.UseCase
-import com.natiqhaciyef.data.mapper.toMappedModel
+import com.natiqhaciyef.data.mapper.toMapped
 import com.natiqhaciyef.data.mapper.toResponse
 import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.data.network.request.PaymentRequest
@@ -37,7 +37,7 @@ class GetPaymentDataUseCase @Inject constructor(
 
         when (val result = repository.getPaymentData(request)) {
             is NetworkResult.Success -> {
-                emit(Resource.success(result.data.toMappedModel()))
+                emit(Resource.success(result.data.toMapped()))
             }
 
             is NetworkResult.Error -> {

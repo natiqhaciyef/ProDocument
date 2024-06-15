@@ -4,9 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.natiqhaciyef.prodocument.ui.view.main.profile.model.AccountSettingModel
 import com.natiqhaciyef.prodocument.databinding.FragmentProfileBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
+import com.natiqhaciyef.prodocument.ui.view.main.profile.adapter.AccountParametersAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.profile.contract.ProfileContract
+import com.natiqhaciyef.prodocument.ui.view.main.profile.model.Settings
 import com.natiqhaciyef.prodocument.ui.view.main.profile.viewmodel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.KClass
@@ -17,20 +21,24 @@ class ProfileFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentProfileBinding = FragmentProfileBinding::inflate,
     override val viewModelClass: KClass<ProfileViewModel> = ProfileViewModel::class
 ) : BaseFragment<FragmentProfileBinding, ProfileViewModel, ProfileContract.ProfileState, ProfileContract.ProfileEvent, ProfileContract.ProfileEffect>() {
+    private var adapter: AccountParametersAdapter? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        viewModel.postEvent(ProfileContract.ProfileEvent.GetSettings)
     }
 
     override fun onStateChange(state: ProfileContract.ProfileState) {
-        when{
+        when {
             state.isLoading -> {
                 changeVisibilityOfProgressBar(true)
             }
 
             else -> {
                 changeVisibilityOfProgressBar()
+
+                if (state.settingList != null)
+                    recyclerviewConfig(state.settingList!!)
             }
         }
     }
@@ -53,5 +61,23 @@ class ProfileFragment(
                 progressBar.isIndeterminate = false
             }
         }
+    }
+
+    private fun recyclerviewConfig(list: MutableList<AccountSettingModel>) {
+        adapter = AccountParametersAdapter(this, list)
+        with(binding) {
+            recyclerSettingsView.adapter = adapter
+            recyclerSettingsView.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        }
+
+        adapter?.onClickAction = { title ->
+            adapterClickNavigation(title)
+        }
+    }
+
+    private fun adapterClickNavigation(title: String) {
+        val action = ProfileFragmentDirections.actionProfileFragmentToProfileDetailsNavGraph(title)
+        navigate(action)
     }
 }

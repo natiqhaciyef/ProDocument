@@ -34,7 +34,7 @@ object SubscriptionMockManager {
             description = "no description",
             features = listOf("Something", "Empty", "Unit", "Void", "No limit"),
             expireDate = "0.00.0",
-            backgroundColor = "yellow",
+            backgroundColor = "orange",
             token = "subscriptionToken-3"
         )
     )

@@ -6,7 +6,6 @@ import android.view.View
 import androidx.camera.view.PreviewView
 import androidx.lifecycle.LifecycleOwner
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
-import com.natiqhaciyef.common.model.mapped.MappedQrCodeResultModel
 import com.natiqhaciyef.core.base.ui.UiEffect
 import com.natiqhaciyef.core.base.ui.UiEvent
 import com.natiqhaciyef.core.base.ui.UiState
@@ -15,8 +14,6 @@ import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.behaviour.Cam
 object ScanContract {
 
     sealed class ScanEvent : UiEvent {
-        data class ReadQrCodeEvent(var qrCode: String) : ScanEvent()
-
         data class StartCameraEvent(
             var context: Context,
             var lifecycle: LifecycleOwner,
@@ -53,7 +50,6 @@ object ScanContract {
 
     data class ScanState(
         override var isLoading: Boolean = false,
-        var result: MappedQrCodeResultModel? = null,
         var material: MappedMaterialModel? = null
         ) : UiState
 }

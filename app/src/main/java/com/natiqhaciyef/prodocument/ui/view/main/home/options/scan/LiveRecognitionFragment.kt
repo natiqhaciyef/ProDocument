@@ -13,8 +13,8 @@ import androidx.core.content.ContextCompat
 import com.natiqhaciyef.common.helpers.loadImage
 import com.natiqhaciyef.prodocument.databinding.FragmentLiveRecognitionBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
-import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink
-import com.natiqhaciyef.prodocument.ui.util.BaseNavigationDeepLink.navigateByRouteTitle
+import com.natiqhaciyef.prodocument.ui.util.NavigationManager
+import com.natiqhaciyef.prodocument.ui.util.NavigationManager.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.behaviour.CameraTypes
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.contract.ScanContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.viewmodel.ScanViewModel
@@ -53,7 +53,7 @@ class LiveRecognitionFragment(
                 scanTitle.visibility = View.VISIBLE
                 scanDescription.visibility = View.VISIBLE
             } else {
-                navigateByRouteTitle(this@LiveRecognitionFragment, BaseNavigationDeepLink.HOME_ROUTE)
+                navigateByRouteTitle(this@LiveRecognitionFragment, NavigationManager.HOME_ROUTE)
             }
         }
     }

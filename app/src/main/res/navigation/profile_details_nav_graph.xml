@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/profile_details_nav_graph"
+    app:startDestination="@id/redirectionFragment">
+
+    <fragment
+        android:id="@+id/personalInfoFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.profile.params.PersonalInfoFragment"
+        android:label="fragment_personal_info"
+        tools:layout="@layout/fragment_personal_info" />
+    <fragment
+        android:id="@+id/preferencesFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.profile.params.PreferencesFragment"
+        android:label="fragment_preferences"
+        tools:layout="@layout/fragment_preferences" />
+    <fragment
+        android:id="@+id/securityFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.profile.params.SecurityFragment"
+        android:label="fragment_security"
+        tools:layout="@layout/fragment_security" />
+    <fragment
+        android:id="@+id/paymentHistoryFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.profile.params.PaymentHistoryFragment"
+        android:label="fragment_payment_history"
+        tools:layout="@layout/fragment_payment_history" />
+    <fragment
+        android:id="@+id/categoryGraphFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.profile.params.CategoryGraphFragment"
+        android:label="fragment_category_graph"
+        tools:layout="@layout/fragment_category_graph" />
+    <fragment
+        android:id="@+id/helpCenterFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.profile.params.HelpCenterFragment"
+        android:label="fragment_help_center"
+        tools:layout="@layout/fragment_help_center" />
+    <fragment
+        android:id="@+id/aboutProscanFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.profile.params.AboutProscanFragment"
+        android:label="fragment_about_proscan"
+        tools:layout="@layout/fragment_about_proscan" />
+    <fragment
+        android:id="@+id/redirectionFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.profile.params.RedirectionFragment"
+        android:label="fragment_redirection"
+        tools:layout="@layout/fragment_redirection" >
+        <argument
+            android:name="settingTitle"
+            app:argType="string" />
+    </fragment>
+</navigation>

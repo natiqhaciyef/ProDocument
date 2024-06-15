@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="com.natiqhaciyef.prodocument.ui.custom.CustomInputView">
+        <attr name="customHint" format="string"/>
+        <attr name="customTitle" format="string"/>
+        <attr name="customInputType" format="integer">
+            <enum name="text" value="1"/>
+            <enum name="email" value="2"/>
+            <enum name="password" value="3"/>
+            <enum name="number" value="4"/>
+            <enum name="decimal" value="5"/>
+        </attr>
+    </declare-styleable>
+
+</resources>

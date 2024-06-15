@@ -7,7 +7,7 @@ import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.common.objects.ResultExceptions
 import com.natiqhaciyef.data.network.NetworkResult
-import com.natiqhaciyef.data.mapper.toMappedModel
+import com.natiqhaciyef.data.mapper.toMapped
 import com.natiqhaciyef.domain.repository.MaterialRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -24,7 +24,7 @@ class GetMaterialByIdRemoteUseCase @Inject constructor(
 
             when (val result = repository.getMaterialById(materialId = data)) {
                 is NetworkResult.Success -> {
-                    val model = result.data.toMappedModel()
+                    val model = result.data.toMapped()
 
                     if (model?.result?.resultCode in 200..299 && model != null)
                         emit(Resource.success(data = model))

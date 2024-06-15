@@ -5,7 +5,7 @@ import com.natiqhaciyef.common.model.mapped.MappedSubscriptionModel
 import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.core.base.usecase.BaseUseCase
 import com.natiqhaciyef.core.base.usecase.UseCase
-import com.natiqhaciyef.data.mapper.toMappedModel
+import com.natiqhaciyef.data.mapper.toMapped
 import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.domain.repository.SubscriptionRepository
 import kotlinx.coroutines.flow.Flow
@@ -22,7 +22,7 @@ class GetAllSubscriptionPlansUseCase @Inject constructor(
 
         when (val result = repository.getAllSubscriptionPlans()) {
             is NetworkResult.Success -> {
-                val mapped = result.data.map { it.toMappedModel() }
+                val mapped = result.data.map { it.toMapped() }
 
                 if (!mapped.contains(null))
                     emit(Resource.success(mapped.filterNotNull()))
