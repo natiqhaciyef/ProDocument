@@ -4,12 +4,17 @@
         <attr name="customHint" format="string"/>
         <attr name="customTitle" format="string"/>
         <attr name="customInputType" format="integer">
-            <enum name="text" value="1"/>
-            <enum name="email" value="2"/>
-            <enum name="password" value="3"/>
-            <enum name="number" value="4"/>
-            <enum name="decimal" value="5"/>
+            <flag name="text" value="1"/>
+            <flag name="email" value="2"/>
+            <flag name="number" value="3"/>
+            <flag name="decimal" value="4"/>
+            <flag name="dob" value="5"/>
         </attr>
+    </declare-styleable>
+
+    <declare-styleable name="com.natiqhaciyef.prodocument.ui.custom.CustomExpandedDropDownCardView">
+        <attr name="customDropDownHint" format="string"/>
+        <attr name="customDropDownTitle" format="string"/>
     </declare-styleable>
 
 </resources>

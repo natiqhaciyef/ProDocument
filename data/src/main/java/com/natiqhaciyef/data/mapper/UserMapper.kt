@@ -16,6 +16,22 @@ fun MappedUserModel.toMappedUserWithoutPassword(): MappedUserWithoutPasswordMode
         gender = this.gender,
         birthDate = this.birthDate,
         imageUrl = this.imageUrl,
+        city = this.city,
+        street = this.street,
+    )
+}
+
+fun UserResponse.toMapped(): MappedUserModel {
+    return MappedUserModel(
+        name = this.fullName,
+        phoneNumber = this.phoneNumber,
+        gender = this.gender,
+        birthDate = this.dateOfBirth,
+        imageUrl = this.imageUrl,
+        email = this.email,
+        password = this.password,
+        city = this.city,
+        street = this.street,
     )
 }
 
@@ -38,7 +54,9 @@ fun UserResponse.toUIResult(): UIResult<MappedUserModel>? {
             gender = this.gender,
             birthDate = this.dateOfBirth,
             imageUrl = this.imageUrl,
-            password = this.password
+            password = this.password,
+            city = this.city,
+            street = this.street,
         )
 
         UIResult(
@@ -62,6 +80,8 @@ fun MappedUserModel.toResponse(): UserResponse =
         imageUrl = this.imageUrl,
         email = this.email,
         password = this.password,
+        city = this.city,
+        street = this.street,
         publishDate = "",
         result = null
     )
@@ -124,6 +144,8 @@ fun UIResult<MappedUserModel>.toEntity(): UserEntity {
         birthDate = this.data.birthDate,
         imageUrl = this.data.imageUrl,
         password = this.data.password,
-        publishDate = this.publishDate
+        publishDate = this.publishDate,
+        city = this.data.city,
+        street = this.data.street,
     )
 }

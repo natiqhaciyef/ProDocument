@@ -11,6 +11,7 @@
     <string name="next">Next</string>
     <string name="select">Select</string>
     <string name="continue_">Continue</string>
+    <string name="save_changes">Save changes</string>
     <string name="pick_from_gallery">Pick from gallery</string>
     <string name="add">Add</string>
     <string name="cancel">Cancel</string>
@@ -65,6 +66,8 @@
     <string name="date_of_birth">Date of birth</string>
     <string name="not_selected">Not selected</string>
     <string name="date_of_birth_example">DD/MM/YYYY</string>
+    <string name="street_address">Street Address</string>
+    <string name="country">Country</string>
 
 
     <!-- Create account -->

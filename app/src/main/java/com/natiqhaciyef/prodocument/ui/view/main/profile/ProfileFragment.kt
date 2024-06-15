@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.natiqhaciyef.prodocument.ui.view.main.profile.model.AccountSettingModel
 import com.natiqhaciyef.prodocument.databinding.FragmentProfileBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
+import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.profile.adapter.AccountParametersAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.profile.contract.ProfileContract
 import com.natiqhaciyef.prodocument.ui.view.main.profile.model.Settings
@@ -26,6 +27,7 @@ class ProfileFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.postEvent(ProfileContract.ProfileEvent.GetSettings)
+        activityConfig()
     }
 
     override fun onStateChange(state: ProfileContract.ProfileState) {
@@ -59,6 +61,22 @@ class ProfileFragment(
                 uiLayout.visibility = View.VISIBLE
                 progressBar.visibility = View.GONE
                 progressBar.isIndeterminate = false
+            }
+        }
+    }
+
+    private fun activityConfig() {
+        (activity as MainActivity).also {
+            it.binding.bottomNavBar.visibility = View.VISIBLE
+            it.binding.materialToolbar.visibility = View.VISIBLE
+            with(it.binding.materialToolbar) {
+                visibility = View.VISIBLE
+                setTitleToolbar(getString(com.natiqhaciyef.common.R.string.proscan))
+                changeVisibility(View.VISIBLE)
+                setVisibilitySearch(View.GONE)
+                setVisibilityOptionsMenu(View.GONE)
+                setIconToOptions(com.natiqhaciyef.common.R.drawable.toolbar_scan_icon)
+                setVisibilityToolbar(View.VISIBLE)
             }
         }
     }
