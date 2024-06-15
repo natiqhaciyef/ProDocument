@@ -237,4 +237,6 @@
     <string name="about_proscan">About Proscan</string>
     <string name="logout">Logout</string>
 
+    <string name="account">Account</string>
+
 </resources>

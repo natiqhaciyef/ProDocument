@@ -4,14 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.natiqhaciyef.common.model.AccountSettingModel
+import com.natiqhaciyef.prodocument.ui.view.main.profile.model.AccountSettingModel
 import com.natiqhaciyef.prodocument.databinding.FragmentProfileBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
-import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.ui.view.main.profile.adapter.AccountParametersAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.profile.contract.ProfileContract
+import com.natiqhaciyef.prodocument.ui.view.main.profile.model.Settings
 import com.natiqhaciyef.prodocument.ui.view.main.profile.viewmodel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.KClass
@@ -26,7 +25,7 @@ class ProfileFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.postEvent(ProfileContract.ProfileEvent.GetSettingsEvent(requireContext()))
+        viewModel.postEvent(ProfileContract.ProfileEvent.GetSettings)
     }
 
     override fun onStateChange(state: ProfileContract.ProfileState) {
@@ -72,10 +71,13 @@ class ProfileFragment(
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         }
 
-        adapter?.onClickAction = { accountSettingModel ->
-            // filter as click
+        adapter?.onClickAction = { title ->
+            adapterClickNavigation(title)
         }
     }
 
-
+    private fun adapterClickNavigation(title: String) {
+        val action = ProfileFragmentDirections.actionProfileFragmentToProfileDetailsNavGraph(title)
+        navigate(action)
+    }
 }

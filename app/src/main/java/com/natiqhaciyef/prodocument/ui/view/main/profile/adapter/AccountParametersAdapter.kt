@@ -1,6 +1,5 @@
 package com.natiqhaciyef.prodocument.ui.view.main.profile.adapter
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -8,9 +7,9 @@ import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.natiqhaciyef.common.model.AccountSettingModel
+import com.natiqhaciyef.prodocument.ui.view.main.profile.model.AccountSettingModel
+import com.natiqhaciyef.prodocument.ui.view.main.profile.model.Settings
 import com.natiqhaciyef.core.base.ui.BaseRecyclerViewAdapter
-import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.RecyclerAccountItemBinding
 
 
@@ -23,18 +22,19 @@ class AccountParametersAdapter(
     }
     private var isEnabledSwitch = false
 
-    var onClickAction: (AccountSettingModel) -> Unit = {
+    var onClickAction: (String) -> Unit = {
 
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         val item = list[position]
+        val title = Settings.settingEnumToString(item.type, fragment.requireContext())
         with(holder.binding){
             settingsIcon.setImageResource(item.image)
-            settingsTitle.text = item.title
+            settingsTitle.text = title
         }
 
-        when(item.title){
+        when(title){
             fragment.requireContext().getString(com.natiqhaciyef.common.R.string.dark_mode) -> {
                 darkModeConfig(holder.binding)
             }
@@ -45,8 +45,8 @@ class AccountParametersAdapter(
             }
 
             else -> {
-                holder.binding.goDetailsIcon.setOnClickListener { onClickAction.invoke(item) }
-                holder.itemView.setOnClickListener { onClickAction.invoke(item) }
+                holder.binding.goDetailsIcon.setOnClickListener { onClickAction.invoke(item.type.name) }
+                holder.itemView.setOnClickListener { onClickAction.invoke(item.type.name) }
             }
         }
     }
@@ -75,12 +75,6 @@ class AccountParametersAdapter(
             layout.setOnClickListener {
                 // add alert dialog
             }
-        }
-    }
-
-    private fun filterNavigationRoute(title: String) {
-        when (title) {
-
         }
     }
 }
