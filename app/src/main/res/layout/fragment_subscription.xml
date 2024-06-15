@@ -67,6 +67,8 @@
                 android:id="@+id/featuresRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:isScrollContainer="false"
+                app:layout_constraintVertical_bias="0.0"
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="24dp"

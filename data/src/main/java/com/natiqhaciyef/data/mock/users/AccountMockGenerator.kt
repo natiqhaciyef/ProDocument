@@ -41,6 +41,8 @@ class AccountMockGenerator(
             email = "email@gmail.com",
             password = "password123",
             publishDate = "00.00.0000",
+            city = "ING",
+            street = "Guten morgem 65",
             result = null
         )
     }

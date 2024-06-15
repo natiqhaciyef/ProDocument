@@ -4,14 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.natiqhaciyef.common.model.AccountSettingModel
+import com.natiqhaciyef.prodocument.ui.view.main.profile.model.AccountSettingModel
 import com.natiqhaciyef.prodocument.databinding.FragmentProfileBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
-import com.natiqhaciyef.prodocument.R
+import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.profile.adapter.AccountParametersAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.profile.contract.ProfileContract
+import com.natiqhaciyef.prodocument.ui.view.main.profile.model.Settings
 import com.natiqhaciyef.prodocument.ui.view.main.profile.viewmodel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.KClass
@@ -26,7 +26,8 @@ class ProfileFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.postEvent(ProfileContract.ProfileEvent.GetSettingsEvent(requireContext()))
+        viewModel.postEvent(ProfileContract.ProfileEvent.GetSettings)
+        activityConfig()
     }
 
     override fun onStateChange(state: ProfileContract.ProfileState) {
@@ -64,6 +65,22 @@ class ProfileFragment(
         }
     }
 
+    private fun activityConfig() {
+        (activity as MainActivity).also {
+            it.binding.bottomNavBar.visibility = View.VISIBLE
+            it.binding.materialToolbar.visibility = View.VISIBLE
+            with(it.binding.materialToolbar) {
+                visibility = View.VISIBLE
+                setTitleToolbar(getString(com.natiqhaciyef.common.R.string.proscan))
+                changeVisibility(View.VISIBLE)
+                setVisibilitySearch(View.GONE)
+                setVisibilityOptionsMenu(View.GONE)
+                setIconToOptions(com.natiqhaciyef.common.R.drawable.toolbar_scan_icon)
+                setVisibilityToolbar(View.VISIBLE)
+            }
+        }
+    }
+
     private fun recyclerviewConfig(list: MutableList<AccountSettingModel>) {
         adapter = AccountParametersAdapter(this, list)
         with(binding) {
@@ -72,10 +89,13 @@ class ProfileFragment(
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         }
 
-        adapter?.onClickAction = { accountSettingModel ->
-            // filter as click
+        adapter?.onClickAction = { title ->
+            adapterClickNavigation(title)
         }
     }
 
-
+    private fun adapterClickNavigation(title: String) {
+        val action = ProfileFragmentDirections.actionProfileFragmentToProfileDetailsNavGraph(title)
+        navigate(action)
+    }
 }
