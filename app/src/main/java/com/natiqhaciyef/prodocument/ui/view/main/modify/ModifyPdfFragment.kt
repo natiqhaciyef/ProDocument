@@ -243,7 +243,7 @@ class ModifyPdfFragment(
 
     private fun config() {
         (activity as MainActivity).binding.apply {
-            appbarLayout.visibility = View.GONE
+            materialToolbar.visibility = View.GONE
             bottomNavBar.visibility = View.GONE
         }
 

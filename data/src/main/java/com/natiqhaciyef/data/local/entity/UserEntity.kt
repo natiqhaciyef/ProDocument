@@ -16,6 +16,7 @@ data class UserEntity(
     var imageUrl: String,
     var password: String,
     var publishDate: String,
+    var country: String,
     var city: String,
     var street: String
 )

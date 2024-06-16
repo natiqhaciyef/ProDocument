@@ -56,7 +56,7 @@ class RecentFilesFragment(
         (activity as MainActivity).also {
             it.binding.bottomNavBar.visibility = View.GONE
             it.binding.materialToolbar.visibility = View.VISIBLE
-            it.binding.appbarLayout.visibility = View.VISIBLE
+            it.binding.materialToolbar.visibility = View.VISIBLE
             it.binding.materialToolbar.setTitleToolbar(getString(com.natiqhaciyef.common.R.string.recent_files))
             it.binding.materialToolbar.changeVisibility(View.VISIBLE)
             it.binding.materialToolbar.appIconVisibility(View.GONE)

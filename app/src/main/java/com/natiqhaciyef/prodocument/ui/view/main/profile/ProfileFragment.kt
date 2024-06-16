@@ -72,6 +72,7 @@ class ProfileFragment(
             with(it.binding.materialToolbar) {
                 visibility = View.VISIBLE
                 setTitleToolbar(getString(com.natiqhaciyef.common.R.string.proscan))
+                changeAppIcon(com.natiqhaciyef.common.R.drawable.pro_scan_lens_icon)
                 changeVisibility(View.VISIBLE)
                 setVisibilitySearch(View.GONE)
                 setVisibilityOptionsMenu(View.GONE)
