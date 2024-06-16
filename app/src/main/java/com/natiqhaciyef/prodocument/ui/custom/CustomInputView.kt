@@ -27,15 +27,28 @@ class CustomInputView(
         defaultInit()
     }
 
-    fun initCustomView(title: String, inputHint: String) {
+    fun initCustomView(
+        title: String,
+        inputHint: String,
+        inputData: String? = null,
+    ) {
         binding?.let {
             it.customTitleText.text = title
             it.customInputEditText.hint = inputHint
+
+            if (inputData != null)
+                it.customInputEditText.setText(inputData)
         }
     }
 
     fun listenUserInput(action: (CharSequence?, Int, Int, Int) -> Unit) {
         binding?.customInputEditText?.doOnTextChanged(action)
+    }
+
+    fun insertInput(inputData: String, title: String? = null) {
+        if (title != null)
+            binding?.customTitleText?.text = title
+        binding?.customInputEditText?.setText(inputData)
     }
 
     fun getInputResult(): String {

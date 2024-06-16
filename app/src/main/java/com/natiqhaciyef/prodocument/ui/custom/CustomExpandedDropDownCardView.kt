@@ -11,7 +11,7 @@ import com.natiqhaciyef.prodocument.databinding.CustomExpandedDropdownViewBindin
 class CustomExpandedDropDownCardView(
     private val ctx: Context,
     private var attributes: AttributeSet
-): ConstraintLayout(ctx, attributes) {
+) : ConstraintLayout(ctx, attributes) {
     private var binding: CustomExpandedDropdownViewBinding? = null
     private var genderSelection: String = "Not-selected"
 
@@ -20,7 +20,7 @@ class CustomExpandedDropDownCardView(
         defaultInit()
     }
 
-    fun initCustomDropDown(list: List<String>, title: String, hint: String){
+    fun initCustomDropDown(list: List<String>, title: String, hint: String) {
         val adapter =
             ArrayAdapter(ctx, R.layout.drop_down_gender_item, list)
 
@@ -38,7 +38,16 @@ class CustomExpandedDropDownCardView(
         }
     }
 
-    private fun defaultInit(){
+    fun initPickedData(
+        input: String,
+        title: String? = null
+    ) {
+        if (title != null)
+            binding?.dropdownTitle?.text = title
+        binding?.dropdownInputItem?.setText(input)
+    }
+
+    private fun defaultInit() {
         val defaultList = listOf("Male", "Female")
         val typedArray = context.obtainStyledAttributes(
             attributes,

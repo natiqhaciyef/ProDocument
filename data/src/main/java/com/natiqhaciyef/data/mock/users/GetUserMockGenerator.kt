@@ -9,14 +9,17 @@ class GetUserMockGenerator(
     override var takenRequest: Unit
 ): BaseMockGenerator<Unit, UserResponse>() {
     override var createdMock: UserResponse = UserResponse(
-        fullName = "fullname",
-        phoneNumber = "+994xx xxx xx xx",
-        gender = "gender",
-        dateOfBirth = getNow(),
-        imageUrl = "image",
-        email = "email@gmail.com",
-        password = "password123",
-        publishDate = getNow(),
+        fullName = "Steve Wooden",
+        phoneNumber = "+44 20 0001 0002",
+        gender = "Male",
+        dateOfBirth = "12.04.2000",
+        imageUrl = "https://minecraftfaces.com/wp-content/bigfaces/big-steve-face.png",
+        email = "steve@minecraft.com",
+        password = "steve123",
+        publishDate = "09.03.2024",
+        country = "England",
+        city = "Brighton",
+        street = "Mr Allen street 12",
         result = CRUDResponse(
             resultCode = 299,
             message = "Mock user"

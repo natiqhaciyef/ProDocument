@@ -11,6 +11,7 @@ data class MappedUserModel(
     var phoneNumber: String,
     var gender: String,
     var birthDate: String,
+    var country: String = "",
     var city: String = "",
     var street: String = "",
     var imageUrl: String,
@@ -25,6 +26,7 @@ data class MappedUserWithoutPasswordModel(
     var gender: String,
     var birthDate: String,
     var imageUrl: String,
+    var country: String = "",
     var city: String = "",
     var street: String = ""
 ) : Parcelable

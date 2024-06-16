@@ -2,10 +2,12 @@ package com.natiqhaciyef.prodocument.ui.view.main
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
+import coil.size.Dimension
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.ActivityMainBinding
 import com.natiqhaciyef.core.base.ui.BaseActivity
@@ -37,8 +39,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             navHostFragment.navController,
             appBarConfiguration
         )
+        setSupportActionBar(binding.materialToolbar)
+
+
         actionBar?.setDisplayShowHomeEnabled(false)
+        actionBar?.setDisplayHomeAsUpEnabled(false)
     }
+
+    fun customizePadding(){
+
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()
