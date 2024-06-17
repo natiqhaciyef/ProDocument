@@ -22,9 +22,7 @@ class AccountParametersAdapter(
     }
     private var isEnabledSwitch = false
 
-    var onClickAction: (String) -> Unit = {
-
-    }
+    var onClickAction: ((String) -> Unit)? = null
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         val item = list[position]
@@ -45,8 +43,8 @@ class AccountParametersAdapter(
             }
 
             else -> {
-                holder.binding.goDetailsIcon.setOnClickListener { onClickAction.invoke(item.type.name) }
-                holder.itemView.setOnClickListener { onClickAction.invoke(item.type.name) }
+                holder.binding.goDetailsIcon.setOnClickListener { onClickAction?.invoke(item.type.name) }
+                holder.itemView.setOnClickListener { onClickAction?.invoke(item.type.name) }
             }
         }
     }

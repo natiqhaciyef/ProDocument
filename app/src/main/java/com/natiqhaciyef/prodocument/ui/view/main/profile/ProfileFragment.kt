@@ -5,14 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.natiqhaciyef.common.model.LanguageModel
 import com.natiqhaciyef.common.model.mapped.MappedSubscriptionModel
 import com.natiqhaciyef.common.model.mapped.MappedUserWithoutPasswordModel
 import com.natiqhaciyef.prodocument.ui.view.main.profile.model.AccountSettingModel
 import com.natiqhaciyef.prodocument.databinding.FragmentProfileBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
+import com.natiqhaciyef.common.R
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.profile.adapter.AccountParametersAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.profile.contract.ProfileContract
+import com.natiqhaciyef.prodocument.ui.view.main.profile.params.language.LanguageFragment
 import com.natiqhaciyef.prodocument.ui.view.main.profile.viewmodel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.KClass
@@ -49,6 +52,9 @@ class ProfileFragment(
 
                 if (state.user != null && state.pickedPlan == null)
                     viewModel.postEvent(ProfileContract.ProfileEvent.GetSubscriptionInfo(state.user!!))
+
+                if (state.languages != null)
+                    initLanguages(state.languages!!.toMutableList())
             }
         }
     }
@@ -79,12 +85,12 @@ class ProfileFragment(
             it.binding.materialToolbar.visibility = View.VISIBLE
             with(it.binding.materialToolbar) {
                 visibility = View.VISIBLE
-                setTitleToolbar(getString(com.natiqhaciyef.common.R.string.proscan))
-                changeAppIcon(com.natiqhaciyef.common.R.drawable.pro_scan_lens_icon)
+                setTitleToolbar(getString(R.string.proscan))
+                changeAppIcon(R.drawable.pro_scan_lens_icon)
                 changeVisibility(View.VISIBLE)
                 setVisibilitySearch(View.GONE)
                 setVisibilityOptionsMenu(View.GONE)
-                setIconToOptions(com.natiqhaciyef.common.R.drawable.toolbar_scan_icon)
+                setIconToOptions(R.drawable.toolbar_scan_icon)
                 setVisibilityToolbar(View.VISIBLE)
             }
         }
@@ -92,14 +98,13 @@ class ProfileFragment(
 
     private fun recyclerviewConfig(list: MutableList<AccountSettingModel>) {
         adapter = AccountParametersAdapter(this, list)
+        adapter?.onClickAction = { title ->
+            adapterClickNavigation(title)
+        }
         with(binding) {
             recyclerSettingsView.adapter = adapter
             recyclerSettingsView.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        }
-
-        adapter?.onClickAction = { title ->
-            adapterClickNavigation(title)
         }
     }
 
@@ -118,8 +123,27 @@ class ProfileFragment(
         }
     }
 
+    private fun initLanguages(list: MutableList<LanguageModel>) {
+        LanguageFragment.list = list
+        LanguageFragment { language ->
+            // change language
+        }.show(
+            this.childFragmentManager,
+            LanguageFragment::class.simpleName
+        )
+    }
+
     private fun adapterClickNavigation(title: String) {
-        val action = ProfileFragmentDirections.actionProfileFragmentToProfileDetailsNavGraph(title)
-        navigate(action)
+        when (title.lowercase()) {
+            requireContext().getString(R.string.language).lowercase() -> {
+                viewModel.postEvent(ProfileContract.ProfileEvent.GetAllSupportedLanguages(requireContext()))
+            }
+
+            else -> {
+                val action =
+                    ProfileFragmentDirections.actionProfileFragmentToProfileDetailsNavGraph(title)
+                navigate(action)
+            }
+        }
     }
 }

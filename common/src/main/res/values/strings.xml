@@ -248,20 +248,27 @@
     <string name="high_quality_scan">High Quality Scan</string>
     <string name="auto_crop_image">Auto Crop Image</string>
     <string name="enhance_mode">Enhance Mode</string>
-
     <string name="file_naming">File Naming</string>
     <string name="default_file_name">Default File Name</string>
-
     <string name="files_storage">Files &amp; Storage</string>
     <string name="save_original_images_to_gallery">Save Original Images to Gallery</string>
     <string name="free_up_storage">Free Up Storage</string>
-
     <string name="payment_subscriptions">Payment &amp; Subscriptions</string>
     <string name="subscription_management">Subscription Management</string>
     <string name="manage_payment_methods">Manage Payment Methods</string>
-
     <string name="cloud_n_sync">Cloud &amp; Sync</string>
     <string name="cloud_sync">Cloud Sync</string>
     <string name="local_folder_sync">Local Folder Sync</string>
+
+    <!-- Language -->
+    <string name="languages">Languages</string>
+    <string name="az_tag">az</string>
+    <string name="en_tag">en</string>
+    <string name="tr_tag">tr</string>
+    <string name="azerbaijani">Azerbaijani</string>
+    <string name="english">English</string>
+    <string name="turkish">Turkish</string>
+    <string name="lang_tag_container">(%1$s)</string>
+
 
 </resources>

@@ -4,6 +4,7 @@ import android.content.Context
 import android.provider.ContactsContract.Profile
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.R
+import com.natiqhaciyef.common.model.LanguageModel
 import com.natiqhaciyef.prodocument.ui.view.main.profile.model.AccountSettingModel
 import com.natiqhaciyef.prodocument.ui.view.main.profile.model.Settings
 import com.natiqhaciyef.common.model.Status
@@ -47,8 +48,8 @@ class ProfileViewModel @Inject constructor(
                 getPreferences(event.ctx)
             }
 
-            else -> {
-
+            is ProfileContract.ProfileEvent.GetAllSupportedLanguages -> {
+                getAllLanguages(event.context)
             }
         }
     }
@@ -166,6 +167,16 @@ class ProfileViewModel @Inject constructor(
         )
 
         setBaseState(getCurrentBaseState().copy(preferenceUIModelList = list))
+    }
+
+    private fun getAllLanguages(ctx: Context){
+        val languages = listOf(
+            LanguageModel(title = ctx.getString(R.string.az_tag), ctx.getString(R.string.azerbaijani), false),
+            LanguageModel(title = ctx.getString(R.string.tr_tag), ctx.getString(R.string.turkish), false),
+            LanguageModel(title = "", ctx.getString(R.string.english), false),
+        )
+
+        setBaseState(getCurrentBaseState().copy(languages = languages))
     }
 
     override fun getInitialState(): ProfileContract.ProfileState = ProfileContract.ProfileState()
