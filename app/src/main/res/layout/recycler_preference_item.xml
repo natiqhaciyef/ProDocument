@@ -1,34 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/layout"
+    android:id="@+id/preferenceLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginVertical="12dp"
     android:layout_marginHorizontal="24dp"
-    android:layout_marginTop="24dp">
+    >
 
-    <ImageView
-        android:id="@+id/settingsIcon"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:src="@drawable/security_outline_icon"
+    <View
+        android:id="@+id/preferenceLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/long_simple_line"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+    
     <TextView
-        android:id="@+id/settingsTitle"
+        android:id="@+id/preferenceTitle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:fontFamily="@font/urbanist_bold"
+        android:layout_height="28dp"
+        android:text="@string/save"
+        android:textSize="18sp"
         android:textColor="@color/grayscale_900"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@id/settingsIcon"
-        app:layout_constraintEnd_toStartOf="@id/goDetailsIcon"
-        app:layout_constraintStart_toEndOf="@id/settingsIcon"
-        app:layout_constraintTop_toTopOf="@id/settingsIcon" />
-
+        android:gravity="center_vertical"
+        android:fontFamily="@font/urbanist_bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
 
     <ImageView
         android:id="@+id/goDetailsIcon"
@@ -40,6 +44,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/grayscale_900" />
+
 
     <com.google.android.material.materialswitch.MaterialSwitch
         android:id="@+id/switchIcon"

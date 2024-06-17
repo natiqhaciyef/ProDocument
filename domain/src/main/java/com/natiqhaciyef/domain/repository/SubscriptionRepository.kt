@@ -9,4 +9,5 @@ interface SubscriptionRepository: BaseRepository {
 
     suspend fun getAllSubscriptionPlans(): NetworkResult<List<SubscriptionResponse>>
 
+    suspend fun getPickedPlan(email: String): NetworkResult<SubscriptionResponse>
 }

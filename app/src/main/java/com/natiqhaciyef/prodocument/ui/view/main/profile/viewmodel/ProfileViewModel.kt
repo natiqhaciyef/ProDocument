@@ -1,13 +1,19 @@
 package com.natiqhaciyef.prodocument.ui.view.main.profile.viewmodel
 
+import android.content.Context
+import android.provider.ContactsContract.Profile
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.prodocument.ui.view.main.profile.model.AccountSettingModel
 import com.natiqhaciyef.prodocument.ui.view.main.profile.model.Settings
 import com.natiqhaciyef.common.model.Status
+import com.natiqhaciyef.common.model.mapped.MappedUserWithoutPasswordModel
 import com.natiqhaciyef.core.base.ui.BaseViewModel
+import com.natiqhaciyef.domain.usecase.subscription.GetPickedPlanUseCase
 import com.natiqhaciyef.domain.usecase.user.remote.GetUserByTokenRemoteUseCase
 import com.natiqhaciyef.prodocument.ui.view.main.profile.contract.ProfileContract
+import com.natiqhaciyef.prodocument.ui.view.main.profile.params.preferences.model.FieldType
+import com.natiqhaciyef.prodocument.ui.view.main.profile.params.preferences.model.PreferenceUIModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -15,7 +21,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val getUserByTokenRemoteUseCase: GetUserByTokenRemoteUseCase
+    private val getUserByTokenRemoteUseCase: GetUserByTokenRemoteUseCase,
+    private val getPickedPlanUseCase: GetPickedPlanUseCase
 ) : BaseViewModel<ProfileContract.ProfileState, ProfileContract.ProfileEvent, ProfileContract.ProfileEffect>() {
 
     override fun onEventUpdate(event: ProfileContract.ProfileEvent) {
@@ -24,8 +31,20 @@ class ProfileViewModel @Inject constructor(
                 getSettings()
             }
 
-            is ProfileContract.ProfileEvent.GetUser -> {
-                getUser()
+            is ProfileContract.ProfileEvent.GetAccountInfo -> {
+                getAccount()
+            }
+
+            is ProfileContract.ProfileEvent.GetSubscriptionInfo -> {
+                getPickedPlan(event.user)
+            }
+
+            is ProfileContract.ProfileEvent.GetPaymentHistoryEvent -> {
+
+            }
+
+            is ProfileContract.ProfileEvent.GetPreferences -> {
+                getPreferences(event.ctx)
             }
 
             else -> {
@@ -33,6 +52,46 @@ class ProfileViewModel @Inject constructor(
             }
         }
     }
+
+
+    private fun getPickedPlan(user: MappedUserWithoutPasswordModel){
+        getPickedPlanUseCase.operate(user.email).onEach { result ->
+            when(result.status){
+                Status.SUCCESS -> {
+                    if (result.data != null)
+                        setBaseState(getCurrentBaseState().copy(isLoading = false, pickedPlan = result.data, user = user))
+                }
+
+                Status.ERROR -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = false))
+                }
+
+                Status.LOADING -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = true))
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    private fun getAccount(){
+        getUserByTokenRemoteUseCase.invoke().onEach { result ->
+            when(result.status){
+                Status.SUCCESS -> {
+                    if (result.data != null)
+                        setBaseState(getCurrentBaseState().copy(isLoading = false, user = result.data))
+                }
+
+                Status.ERROR -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = false))
+                }
+
+                Status.LOADING -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = true))
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
 
 
     private fun getSettings() {
@@ -78,26 +137,36 @@ class ProfileViewModel @Inject constructor(
         setBaseState(getCurrentBaseState().copy(settingList = list))
     }
 
+    private fun getPreferences(ctx: Context){
+        val list = mutableListOf(
+            PreferenceUIModel(title = ctx.getString(R.string.scan), FieldType.TITLE),
+            PreferenceUIModel(title = ctx.getString(R.string.high_quality_scan), FieldType.SWITCH),
+            PreferenceUIModel(title = ctx.getString(R.string.auto_crop_image), FieldType.SWITCH),
+            PreferenceUIModel(title = ctx.getString(R.string.enhance_mode), FieldType.NAVIGATION),
 
-    private fun getUser(){
-        getUserByTokenRemoteUseCase.invoke().onEach { result ->
-            when(result.status){
-                Status.SUCCESS -> {
-                    if (result.data != null)
-                        setBaseState(getCurrentBaseState().copy(isLoading = false, user = result.data))
-                }
+            PreferenceUIModel(title = "", FieldType.LINE),
+            PreferenceUIModel(title = ctx.getString(R.string.file_naming), FieldType.TITLE),
+            PreferenceUIModel(title = ctx.getString(R.string.default_file_name), FieldType.NAVIGATION),
 
-                Status.ERROR -> {
-                    setBaseState(getCurrentBaseState().copy(isLoading = false))
-                }
+            PreferenceUIModel(title = "", FieldType.LINE),
+            PreferenceUIModel(title = ctx.getString(R.string.files_storage), FieldType.TITLE),
+            PreferenceUIModel(title = ctx.getString(R.string.save_original_images_to_gallery), FieldType.SWITCH),
+            PreferenceUIModel(title = ctx.getString(R.string.free_up_storage), FieldType.NAVIGATION),
 
-                Status.LOADING -> {
-                    setBaseState(getCurrentBaseState().copy(isLoading = true))
-                }
-            }
-        }.launchIn(viewModelScope)
+            PreferenceUIModel(title = "", FieldType.LINE),
+            PreferenceUIModel(title = ctx.getString(R.string.payment_subscriptions), FieldType.TITLE),
+            PreferenceUIModel(title = ctx.getString(R.string.subscription_management), FieldType.NAVIGATION),
+            PreferenceUIModel(title = ctx.getString(R.string.manage_payment_methods), FieldType.NAVIGATION),
+
+            PreferenceUIModel(title = "", FieldType.LINE),
+            PreferenceUIModel(title = ctx.getString(R.string.cloud_n_sync), FieldType.TITLE),
+            PreferenceUIModel(title = ctx.getString(R.string.cloud_sync), FieldType.NAVIGATION),
+            PreferenceUIModel(title = ctx.getString(R.string.local_folder_sync), FieldType.NAVIGATION),
+            PreferenceUIModel(title = "", FieldType.SPACE)
+        )
+
+        setBaseState(getCurrentBaseState().copy(preferenceUIModelList = list))
     }
-
 
     override fun getInitialState(): ProfileContract.ProfileState = ProfileContract.ProfileState()
 }
