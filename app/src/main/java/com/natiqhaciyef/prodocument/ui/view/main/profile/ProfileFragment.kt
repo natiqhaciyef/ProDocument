@@ -5,13 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.natiqhaciyef.common.model.mapped.MappedSubscriptionModel
+import com.natiqhaciyef.common.model.mapped.MappedUserWithoutPasswordModel
 import com.natiqhaciyef.prodocument.ui.view.main.profile.model.AccountSettingModel
 import com.natiqhaciyef.prodocument.databinding.FragmentProfileBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.profile.adapter.AccountParametersAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.profile.contract.ProfileContract
-import com.natiqhaciyef.prodocument.ui.view.main.profile.model.Settings
 import com.natiqhaciyef.prodocument.ui.view.main.profile.viewmodel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.KClass
@@ -27,6 +28,7 @@ class ProfileFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.postEvent(ProfileContract.ProfileEvent.GetSettings)
+        viewModel.postEvent(ProfileContract.ProfileEvent.GetAccountInfo)
         activityConfig()
     }
 
@@ -41,6 +43,12 @@ class ProfileFragment(
 
                 if (state.settingList != null)
                     recyclerviewConfig(state.settingList!!)
+
+                if (state.pickedPlan != null && state.user != null)
+                    initAccountInfo(state.user!!, state.pickedPlan!!)
+
+                if (state.user != null && state.pickedPlan == null)
+                    viewModel.postEvent(ProfileContract.ProfileEvent.GetSubscriptionInfo(state.user!!))
             }
         }
     }
@@ -92,6 +100,21 @@ class ProfileFragment(
 
         adapter?.onClickAction = { title ->
             adapterClickNavigation(title)
+        }
+    }
+
+    private fun initAccountInfo(
+        user: MappedUserWithoutPasswordModel,
+        plan: MappedSubscriptionModel
+    ) {
+        with(binding) {
+            profileDetailsTopbar.initAccountDetails(
+                user = user,
+                subscriptionType = plan.title,
+                filled = 0.0,
+                total = plan.size,
+                type = plan.sizeType
+            )
         }
     }
 

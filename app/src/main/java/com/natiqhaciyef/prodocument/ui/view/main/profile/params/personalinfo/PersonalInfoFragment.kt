@@ -25,7 +25,7 @@ class PersonalInfoFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.postEvent(ProfileContract.ProfileEvent.GetUser)
+        viewModel.postEvent(ProfileContract.ProfileEvent.GetAccountInfo)
         activityConfig()
     }
 

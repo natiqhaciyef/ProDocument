@@ -1,12 +1,15 @@
 package com.natiqhaciyef.prodocument.ui.view.main.profile.viewmodel
 
 import android.content.Context
+import android.provider.ContactsContract.Profile
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.prodocument.ui.view.main.profile.model.AccountSettingModel
 import com.natiqhaciyef.prodocument.ui.view.main.profile.model.Settings
 import com.natiqhaciyef.common.model.Status
+import com.natiqhaciyef.common.model.mapped.MappedUserWithoutPasswordModel
 import com.natiqhaciyef.core.base.ui.BaseViewModel
+import com.natiqhaciyef.domain.usecase.subscription.GetPickedPlanUseCase
 import com.natiqhaciyef.domain.usecase.user.remote.GetUserByTokenRemoteUseCase
 import com.natiqhaciyef.prodocument.ui.view.main.profile.contract.ProfileContract
 import com.natiqhaciyef.prodocument.ui.view.main.profile.params.preferences.model.FieldType
@@ -18,7 +21,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val getUserByTokenRemoteUseCase: GetUserByTokenRemoteUseCase
+    private val getUserByTokenRemoteUseCase: GetUserByTokenRemoteUseCase,
+    private val getPickedPlanUseCase: GetPickedPlanUseCase
 ) : BaseViewModel<ProfileContract.ProfileState, ProfileContract.ProfileEvent, ProfileContract.ProfileEffect>() {
 
     override fun onEventUpdate(event: ProfileContract.ProfileEvent) {
@@ -27,8 +31,12 @@ class ProfileViewModel @Inject constructor(
                 getSettings()
             }
 
-            is ProfileContract.ProfileEvent.GetUser -> {
-                getUser()
+            is ProfileContract.ProfileEvent.GetAccountInfo -> {
+                getAccount()
+            }
+
+            is ProfileContract.ProfileEvent.GetSubscriptionInfo -> {
+                getPickedPlan(event.user)
             }
 
             is ProfileContract.ProfileEvent.GetPaymentHistoryEvent -> {
@@ -44,6 +52,46 @@ class ProfileViewModel @Inject constructor(
             }
         }
     }
+
+
+    private fun getPickedPlan(user: MappedUserWithoutPasswordModel){
+        getPickedPlanUseCase.operate(user.email).onEach { result ->
+            when(result.status){
+                Status.SUCCESS -> {
+                    if (result.data != null)
+                        setBaseState(getCurrentBaseState().copy(isLoading = false, pickedPlan = result.data, user = user))
+                }
+
+                Status.ERROR -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = false))
+                }
+
+                Status.LOADING -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = true))
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    private fun getAccount(){
+        getUserByTokenRemoteUseCase.invoke().onEach { result ->
+            when(result.status){
+                Status.SUCCESS -> {
+                    if (result.data != null)
+                        setBaseState(getCurrentBaseState().copy(isLoading = false, user = result.data))
+                }
+
+                Status.ERROR -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = false))
+                }
+
+                Status.LOADING -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = true))
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
 
 
     private fun getSettings() {
@@ -119,27 +167,6 @@ class ProfileViewModel @Inject constructor(
 
         setBaseState(getCurrentBaseState().copy(preferenceUIModelList = list))
     }
-
-
-    private fun getUser(){
-        getUserByTokenRemoteUseCase.invoke().onEach { result ->
-            when(result.status){
-                Status.SUCCESS -> {
-                    if (result.data != null)
-                        setBaseState(getCurrentBaseState().copy(isLoading = false, user = result.data))
-                }
-
-                Status.ERROR -> {
-                    setBaseState(getCurrentBaseState().copy(isLoading = false))
-                }
-
-                Status.LOADING -> {
-                    setBaseState(getCurrentBaseState().copy(isLoading = true))
-                }
-            }
-        }.launchIn(viewModelScope)
-    }
-
 
     override fun getInitialState(): ProfileContract.ProfileState = ProfileContract.ProfileState()
 }

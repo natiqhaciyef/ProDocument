@@ -13,4 +13,7 @@ class SubscriptionRepositoryImpl(
     override suspend fun getAllSubscriptionPlans(): NetworkResult<List<SubscriptionResponse>> =
         ds.getAllSubscriptionPlans()
 
+    override suspend fun getPickedPlan(email: String): NetworkResult<SubscriptionResponse> =
+        ds.getPickedPlan(email)
+
 }
