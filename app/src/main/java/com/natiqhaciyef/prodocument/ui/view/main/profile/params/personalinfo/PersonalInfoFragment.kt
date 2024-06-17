@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.view.main.profile.params
+package com.natiqhaciyef.prodocument.ui.view.main.profile.params.personalinfo
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,8 +15,6 @@ import com.natiqhaciyef.prodocument.ui.view.main.profile.contract.ProfileContrac
 import com.natiqhaciyef.prodocument.ui.view.main.profile.viewmodel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.KClass
-import android.graphics.drawable.InsetDrawable
-
 
 
 @AndroidEntryPoint
@@ -64,7 +62,6 @@ class PersonalInfoFragment(
                     setVisibilityOptionsMenu(View.VISIBLE)
                     setIconToOptions(com.natiqhaciyef.common.R.drawable.options_icon)
                     setVisibilityToolbar(View.VISIBLE)
-                    setNavigationOnClickListener { onToolbarBackPressAction(bottomNavBar) }
                 }
             }
         }

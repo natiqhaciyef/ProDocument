@@ -1,5 +1,6 @@
 package com.natiqhaciyef.prodocument.ui.view.main.profile.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.prodocument.ui.view.main.profile.model.AccountSettingModel
@@ -8,6 +9,8 @@ import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.core.base.ui.BaseViewModel
 import com.natiqhaciyef.domain.usecase.user.remote.GetUserByTokenRemoteUseCase
 import com.natiqhaciyef.prodocument.ui.view.main.profile.contract.ProfileContract
+import com.natiqhaciyef.prodocument.ui.view.main.profile.params.preferences.model.FieldType
+import com.natiqhaciyef.prodocument.ui.view.main.profile.params.preferences.model.PreferenceUIModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -26,6 +29,14 @@ class ProfileViewModel @Inject constructor(
 
             is ProfileContract.ProfileEvent.GetUser -> {
                 getUser()
+            }
+
+            is ProfileContract.ProfileEvent.GetPaymentHistoryEvent -> {
+
+            }
+
+            is ProfileContract.ProfileEvent.GetPreferences -> {
+                getPreferences(event.ctx)
             }
 
             else -> {
@@ -76,6 +87,37 @@ class ProfileViewModel @Inject constructor(
         )
 
         setBaseState(getCurrentBaseState().copy(settingList = list))
+    }
+
+    private fun getPreferences(ctx: Context){
+        val list = mutableListOf(
+            PreferenceUIModel(title = ctx.getString(R.string.scan), FieldType.TITLE),
+            PreferenceUIModel(title = ctx.getString(R.string.high_quality_scan), FieldType.SWITCH),
+            PreferenceUIModel(title = ctx.getString(R.string.auto_crop_image), FieldType.SWITCH),
+            PreferenceUIModel(title = ctx.getString(R.string.enhance_mode), FieldType.NAVIGATION),
+
+            PreferenceUIModel(title = "", FieldType.LINE),
+            PreferenceUIModel(title = ctx.getString(R.string.file_naming), FieldType.TITLE),
+            PreferenceUIModel(title = ctx.getString(R.string.default_file_name), FieldType.NAVIGATION),
+
+            PreferenceUIModel(title = "", FieldType.LINE),
+            PreferenceUIModel(title = ctx.getString(R.string.files_storage), FieldType.TITLE),
+            PreferenceUIModel(title = ctx.getString(R.string.save_original_images_to_gallery), FieldType.SWITCH),
+            PreferenceUIModel(title = ctx.getString(R.string.free_up_storage), FieldType.NAVIGATION),
+
+            PreferenceUIModel(title = "", FieldType.LINE),
+            PreferenceUIModel(title = ctx.getString(R.string.payment_subscriptions), FieldType.TITLE),
+            PreferenceUIModel(title = ctx.getString(R.string.subscription_management), FieldType.NAVIGATION),
+            PreferenceUIModel(title = ctx.getString(R.string.manage_payment_methods), FieldType.NAVIGATION),
+
+            PreferenceUIModel(title = "", FieldType.LINE),
+            PreferenceUIModel(title = ctx.getString(R.string.cloud_n_sync), FieldType.TITLE),
+            PreferenceUIModel(title = ctx.getString(R.string.cloud_sync), FieldType.NAVIGATION),
+            PreferenceUIModel(title = ctx.getString(R.string.local_folder_sync), FieldType.NAVIGATION),
+            PreferenceUIModel(title = "", FieldType.SPACE)
+        )
+
+        setBaseState(getCurrentBaseState().copy(preferenceUIModelList = list))
     }
 
 

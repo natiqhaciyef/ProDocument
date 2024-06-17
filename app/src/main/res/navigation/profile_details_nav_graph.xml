@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/personalInfoFragment"
-        android:name="com.natiqhaciyef.prodocument.ui.view.main.profile.params.PersonalInfoFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.profile.params.personalinfo.PersonalInfoFragment"
         android:label="fragment_personal_info"
         tools:layout="@layout/fragment_personal_info" />
     <fragment
         android:id="@+id/preferencesFragment"
-        android:name="com.natiqhaciyef.prodocument.ui.view.main.profile.params.PreferencesFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.profile.params.preferences.PreferencesFragment"
         android:label="fragment_preferences"
         tools:layout="@layout/fragment_preferences" />
     <fragment
