@@ -1,7 +1,6 @@
 package com.natiqhaciyef.prodocument.ui.view.main.profile.viewmodel
 
 import android.content.Context
-import android.provider.ContactsContract.Profile
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.model.LanguageModel
@@ -10,6 +9,7 @@ import com.natiqhaciyef.prodocument.ui.view.main.profile.model.Settings
 import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.common.model.mapped.MappedUserWithoutPasswordModel
 import com.natiqhaciyef.core.base.ui.BaseViewModel
+import com.natiqhaciyef.domain.usecase.payment.remote.GetPaymentHistoryUseCase
 import com.natiqhaciyef.domain.usecase.subscription.GetPickedPlanUseCase
 import com.natiqhaciyef.domain.usecase.user.remote.GetUserByTokenRemoteUseCase
 import com.natiqhaciyef.prodocument.ui.view.main.profile.contract.ProfileContract
@@ -23,7 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val getUserByTokenRemoteUseCase: GetUserByTokenRemoteUseCase,
-    private val getPickedPlanUseCase: GetPickedPlanUseCase
+    private val getPickedPlanUseCase: GetPickedPlanUseCase,
+    private val getPaymentHistoryUseCase: GetPaymentHistoryUseCase
 ) : BaseViewModel<ProfileContract.ProfileState, ProfileContract.ProfileEvent, ProfileContract.ProfileEffect>() {
 
     override fun onEventUpdate(event: ProfileContract.ProfileEvent) {
@@ -40,8 +41,8 @@ class ProfileViewModel @Inject constructor(
                 getPickedPlan(event.user)
             }
 
-            is ProfileContract.ProfileEvent.GetPaymentHistoryEvent -> {
-
+            is ProfileContract.ProfileEvent.GetPaymentHistory -> {
+                getPaymentHistory()
             }
 
             is ProfileContract.ProfileEvent.GetPreferences -> {
@@ -54,6 +55,26 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
+
+    private fun getPaymentHistory(){
+        getPaymentHistoryUseCase.invoke().onEach { result ->
+            when(result.status){
+                Status.SUCCESS -> {
+                    if(result.data != null)
+                        setBaseState(getCurrentBaseState().copy(isLoading = false, paymentsHistory = result.data))
+                }
+
+                Status.ERROR -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = false))
+                }
+
+                Status.LOADING -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = true))
+                }
+            }
+
+        }.launchIn(viewModelScope)
+    }
 
     private fun getPickedPlan(user: MappedUserWithoutPasswordModel){
         getPickedPlanUseCase.operate(user.email).onEach { result ->

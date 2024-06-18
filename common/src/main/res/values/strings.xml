@@ -193,6 +193,7 @@
 
     <!-- Premium -->
     <string name="subscription_price_text"><![CDATA[<font size="36">%1$s</font> <font size="24">/ %2$s</font>]]></string>
+    <string name="plan_title_template">Plan: %1$s</string>
 
     <!-- Payment -->
     <string name="visa">Visa</string>
@@ -224,6 +225,7 @@
     <string name="plan_payment_method_title">Payment Method</string>
     <string name="share_cheque_title">Share cheque</string>
     <string name="payment_details_title">Payment details</string>
+    <string name="payment_currency">%1$s %2$s</string>
 
 
     <!-- Profile account -->

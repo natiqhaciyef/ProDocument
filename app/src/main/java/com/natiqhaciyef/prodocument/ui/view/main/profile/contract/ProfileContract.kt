@@ -5,6 +5,7 @@ import com.natiqhaciyef.common.model.LanguageModel
 import com.natiqhaciyef.common.model.mapped.MappedSubscriptionModel
 import com.natiqhaciyef.prodocument.ui.view.main.profile.model.AccountSettingModel
 import com.natiqhaciyef.common.model.mapped.MappedUserWithoutPasswordModel
+import com.natiqhaciyef.common.model.payment.PaymentHistoryModel
 import com.natiqhaciyef.core.base.ui.UiEffect
 import com.natiqhaciyef.core.base.ui.UiEvent
 import com.natiqhaciyef.core.base.ui.UiState
@@ -13,7 +14,7 @@ import com.natiqhaciyef.prodocument.ui.view.main.profile.params.preferences.mode
 object ProfileContract {
 
     sealed interface ProfileEvent : UiEvent {
-        data object GetPaymentHistoryEvent : ProfileEvent
+        data object GetPaymentHistory: ProfileEvent
 
         data object GetSettings : ProfileEvent
 
@@ -36,6 +37,7 @@ object ProfileContract {
         var user: MappedUserWithoutPasswordModel? = null,
         var languages: List<LanguageModel>? = null,
         var pickedPlan: MappedSubscriptionModel? = null,
+        var paymentsHistory: List<PaymentHistoryModel>? = null,
         override var isLoading: Boolean = false,
     ) : UiState
 }

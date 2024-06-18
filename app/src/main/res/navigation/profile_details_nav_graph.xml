@@ -22,7 +22,7 @@
         tools:layout="@layout/fragment_security" />
     <fragment
         android:id="@+id/paymentHistoryFragment"
-        android:name="com.natiqhaciyef.prodocument.ui.view.main.profile.params.PaymentHistoryFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.profile.params.paymenthistory.PaymentHistoryFragment"
         android:label="fragment_payment_history"
         tools:layout="@layout/fragment_payment_history" />
     <fragment
