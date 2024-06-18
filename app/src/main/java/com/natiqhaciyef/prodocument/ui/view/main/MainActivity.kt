@@ -11,6 +11,7 @@ import coil.size.Dimension
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.ActivityMainBinding
 import com.natiqhaciyef.core.base.ui.BaseActivity
+import com.natiqhaciyef.prodocument.ui.manager.LanguageManager
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -41,13 +42,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         )
         setSupportActionBar(binding.materialToolbar)
 
+        LanguageManager.loadLocale(this)
 
         actionBar?.setDisplayShowHomeEnabled(false)
         actionBar?.setDisplayHomeAsUpEnabled(false)
-    }
-
-    fun customizePadding(){
-
     }
 
 

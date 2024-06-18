@@ -12,6 +12,7 @@ import com.natiqhaciyef.prodocument.ui.view.main.profile.model.AccountSettingMod
 import com.natiqhaciyef.prodocument.databinding.FragmentProfileBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.common.R
+import com.natiqhaciyef.prodocument.ui.manager.LanguageManager
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.profile.adapter.AccountParametersAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.profile.contract.ProfileContract
@@ -127,6 +128,8 @@ class ProfileFragment(
         LanguageFragment.list = list
         LanguageFragment { language ->
             // change language
+            LanguageManager.setLocaleLang(lang = language.title, requireContext())
+            LanguageManager.loadLocale(requireContext())
         }.show(
             this.childFragmentManager,
             LanguageFragment::class.simpleName
