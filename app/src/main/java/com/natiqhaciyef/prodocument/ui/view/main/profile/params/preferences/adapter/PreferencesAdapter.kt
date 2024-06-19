@@ -8,21 +8,21 @@ import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.natiqhaciyef.core.base.ui.BaseRecyclerViewAdapter
-import com.natiqhaciyef.prodocument.databinding.RecyclerPreferenceItemBinding
-import com.natiqhaciyef.prodocument.ui.view.main.profile.params.preferences.model.FieldType
-import com.natiqhaciyef.prodocument.ui.view.main.profile.params.preferences.model.PreferenceUIModel
+import com.natiqhaciyef.prodocument.databinding.RecyclerParamsItemBinding
+import com.natiqhaciyef.prodocument.ui.view.main.profile.params.model.FieldType
+import com.natiqhaciyef.prodocument.ui.view.main.profile.params.model.ParamsUIModel
 
 
 class PreferencesAdapter(
     private val ctx: Context,
-    private val preferenceList: MutableList<PreferenceUIModel>
+    private val preferenceList: MutableList<ParamsUIModel>
 ) :
-    BaseRecyclerViewAdapter<PreferenceUIModel, RecyclerPreferenceItemBinding>(list = preferenceList) {
+    BaseRecyclerViewAdapter<ParamsUIModel, RecyclerParamsItemBinding>(list = preferenceList) {
     private var isChecked: Boolean = false
 
-    override val binding: (Context, ViewGroup, Boolean) -> RecyclerPreferenceItemBinding =
+    override val binding: (Context, ViewGroup, Boolean) -> RecyclerParamsItemBinding =
         { ctx, vg, bool ->
-            RecyclerPreferenceItemBinding.inflate(LayoutInflater.from(ctx), vg, bool)
+            RecyclerParamsItemBinding.inflate(LayoutInflater.from(ctx), vg, bool)
         }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
@@ -43,7 +43,7 @@ class PreferencesAdapter(
         }
     }
 
-    private fun lineConfig(binding: RecyclerPreferenceItemBinding){
+    private fun lineConfig(binding: RecyclerParamsItemBinding){
         with(binding){
             switchIcon.visibility = View.GONE
             goDetailsIcon.visibility = View.GONE
@@ -52,7 +52,7 @@ class PreferencesAdapter(
         }
     }
 
-    private fun spaceConfig(binding: RecyclerPreferenceItemBinding){
+    private fun spaceConfig(binding: RecyclerParamsItemBinding){
         with(binding){
             switchIcon.visibility = View.INVISIBLE
             goDetailsIcon.visibility = View.GONE
@@ -62,8 +62,8 @@ class PreferencesAdapter(
     }
 
     private fun titleConfig(
-        item: PreferenceUIModel,
-        binding: RecyclerPreferenceItemBinding
+        item: ParamsUIModel,
+        binding: RecyclerParamsItemBinding
     ) {
         with(binding) {
             switchIcon.visibility = View.GONE
@@ -80,8 +80,8 @@ class PreferencesAdapter(
     }
 
     private fun switchConfig(
-        item: PreferenceUIModel,
-        binding: RecyclerPreferenceItemBinding,
+        item: ParamsUIModel,
+        binding: RecyclerParamsItemBinding,
         action: () -> Unit = {}
     ) {
         with(binding) {
@@ -104,8 +104,8 @@ class PreferencesAdapter(
     }
 
     private fun navigationConfig(
-        item: PreferenceUIModel,
-        binding: RecyclerPreferenceItemBinding,
+        item: ParamsUIModel,
+        binding: RecyclerParamsItemBinding,
         action: () -> Unit = {}
     ) {
         with(binding) {

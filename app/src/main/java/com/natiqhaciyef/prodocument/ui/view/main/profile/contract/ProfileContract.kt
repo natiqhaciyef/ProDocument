@@ -9,7 +9,7 @@ import com.natiqhaciyef.common.model.payment.PaymentHistoryModel
 import com.natiqhaciyef.core.base.ui.UiEffect
 import com.natiqhaciyef.core.base.ui.UiEvent
 import com.natiqhaciyef.core.base.ui.UiState
-import com.natiqhaciyef.prodocument.ui.view.main.profile.params.preferences.model.PreferenceUIModel
+import com.natiqhaciyef.prodocument.ui.view.main.profile.params.model.ParamsUIModel
 
 object ProfileContract {
 
@@ -25,6 +25,8 @@ object ProfileContract {
         data class GetSubscriptionInfo(val user: MappedUserWithoutPasswordModel) : ProfileEvent
 
         data class GetPreferences(val ctx: Context) : ProfileEvent
+
+        data class GetSecurityParams(val ctx: Context) : ProfileEvent
     }
 
     sealed interface ProfileEffect : UiEffect {
@@ -33,7 +35,7 @@ object ProfileContract {
 
     data class ProfileState(
         var settingList: MutableList<AccountSettingModel>? = null,
-        var preferenceUIModelList: MutableList<PreferenceUIModel>? = null,
+        var paramsUIModelList: MutableList<ParamsUIModel>? = null,
         var user: MappedUserWithoutPasswordModel? = null,
         var languages: List<LanguageModel>? = null,
         var pickedPlan: MappedSubscriptionModel? = null,

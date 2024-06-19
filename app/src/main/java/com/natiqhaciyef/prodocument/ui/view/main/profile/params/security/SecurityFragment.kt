@@ -1,6 +1,8 @@
-package com.natiqhaciyef.prodocument.ui.view.main.profile.params.preferences
+package com.natiqhaciyef.prodocument.ui.view.main.profile.params.security
 
 import android.os.Bundle
+import android.provider.ContactsContract.Profile
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,35 +10,37 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.R
-import com.natiqhaciyef.prodocument.databinding.FragmentPreferencesBinding
+import com.natiqhaciyef.prodocument.databinding.FragmentSecurityBinding
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.profile.contract.ProfileContract
-import com.natiqhaciyef.prodocument.ui.view.main.profile.params.preferences.adapter.PreferencesAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.profile.params.model.ParamsUIModel
+import com.natiqhaciyef.prodocument.ui.view.main.profile.params.security.adapter.SecurityParamsAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.profile.viewmodel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.KClass
 
+
 @AndroidEntryPoint
-class PreferencesFragment(
-    override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentPreferencesBinding = FragmentPreferencesBinding::inflate,
+class SecurityFragment(
+    override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentSecurityBinding = FragmentSecurityBinding::inflate,
     override val viewModelClass: KClass<ProfileViewModel> = ProfileViewModel::class
-) : BaseFragment<FragmentPreferencesBinding, ProfileViewModel, ProfileContract.ProfileState, ProfileContract.ProfileEvent, ProfileContract.ProfileEffect>() {
-    private var prefAdapter: PreferencesAdapter? = null
+) : BaseFragment<FragmentSecurityBinding, ProfileViewModel, ProfileContract.ProfileState, ProfileContract.ProfileEvent, ProfileContract.ProfileEffect>() {
+    private var paramAdapter: SecurityParamsAdapter? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.postEvent(ProfileContract.ProfileEvent.GetPreferences(requireContext()))
         activityConfig()
+        viewModel.postEvent(ProfileContract.ProfileEvent.GetSecurityParams(requireContext()))
     }
 
     override fun onStateChange(state: ProfileContract.ProfileState) {
-        when{
+        when {
             state.isLoading -> {}
 
             else -> {
-                if (state.paramsUIModelList != null)
-                    recyclerViewConfig(state.paramsUIModelList!!)
+                if (state.paramsUIModelList != null) {
+                    recyclerConfig(state.paramsUIModelList!!)
+                }
             }
         }
     }
@@ -52,11 +56,11 @@ class PreferencesFragment(
                 materialToolbar.apply {
                     navigationIcon = null
                     visibility = View.VISIBLE
-                    setTitleToolbar(getString(com.natiqhaciyef.common.R.string.preferences))
+                    setTitleToolbar(getString(com.natiqhaciyef.common.R.string.security))
                     appIconVisibility(View.VISIBLE)
                     setVisibilitySearch(View.GONE)
                     setVisibilityOptionsMenu(View.GONE)
-                    changeAppIcon(com.natiqhaciyef.common.R.drawable.back_arrow_icon){
+                    changeAppIcon(com.natiqhaciyef.common.R.drawable.back_arrow_icon) {
                         onToolbarBackPressAction(bottomNavBar)
                     }
                 }
@@ -69,11 +73,13 @@ class PreferencesFragment(
         navigate(R.id.profileFragment)
     }
 
-    private fun recyclerViewConfig(list: MutableList<ParamsUIModel>){
-        prefAdapter = PreferencesAdapter(requireContext(), list)
-        with(binding.preferencesRecyclerView){
-            adapter = prefAdapter
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+    private fun recyclerConfig(list: MutableList<ParamsUIModel>) {
+        paramAdapter = SecurityParamsAdapter(requireContext(), list)
+
+        with(binding) {
+            recyclerSecurityParamsView.adapter = paramAdapter
+            recyclerSecurityParamsView.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         }
     }
 }

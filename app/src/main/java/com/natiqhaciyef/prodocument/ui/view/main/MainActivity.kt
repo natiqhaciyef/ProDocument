@@ -13,7 +13,11 @@ import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.ActivityMainBinding
 import com.natiqhaciyef.core.base.ui.BaseActivity
 import com.natiqhaciyef.prodocument.ui.manager.LanguageManager
+import com.natiqhaciyef.prodocument.ui.manager.RememberUserManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>() {

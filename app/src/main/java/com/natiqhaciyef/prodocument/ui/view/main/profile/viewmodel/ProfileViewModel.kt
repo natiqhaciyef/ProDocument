@@ -13,8 +13,8 @@ import com.natiqhaciyef.domain.usecase.payment.remote.GetPaymentHistoryUseCase
 import com.natiqhaciyef.domain.usecase.subscription.GetPickedPlanUseCase
 import com.natiqhaciyef.domain.usecase.user.remote.GetUserByTokenRemoteUseCase
 import com.natiqhaciyef.prodocument.ui.view.main.profile.contract.ProfileContract
-import com.natiqhaciyef.prodocument.ui.view.main.profile.params.preferences.model.FieldType
-import com.natiqhaciyef.prodocument.ui.view.main.profile.params.preferences.model.PreferenceUIModel
+import com.natiqhaciyef.prodocument.ui.view.main.profile.params.model.FieldType
+import com.natiqhaciyef.prodocument.ui.view.main.profile.params.model.ParamsUIModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -51,6 +51,10 @@ class ProfileViewModel @Inject constructor(
 
             is ProfileContract.ProfileEvent.GetAllSupportedLanguages -> {
                 getAllLanguages(event.context)
+            }
+
+            is ProfileContract.ProfileEvent.GetSecurityParams -> {
+                getSecurityParams(event.ctx)
             }
         }
     }
@@ -161,33 +165,46 @@ class ProfileViewModel @Inject constructor(
 
     private fun getPreferences(ctx: Context){
         val list = mutableListOf(
-            PreferenceUIModel(title = ctx.getString(R.string.scan), FieldType.TITLE),
-            PreferenceUIModel(title = ctx.getString(R.string.high_quality_scan), FieldType.SWITCH),
-            PreferenceUIModel(title = ctx.getString(R.string.auto_crop_image), FieldType.SWITCH),
-            PreferenceUIModel(title = ctx.getString(R.string.enhance_mode), FieldType.NAVIGATION),
+            ParamsUIModel(title = ctx.getString(R.string.scan), FieldType.TITLE),
+            ParamsUIModel(title = ctx.getString(R.string.high_quality_scan), FieldType.SWITCH),
+            ParamsUIModel(title = ctx.getString(R.string.auto_crop_image), FieldType.SWITCH),
+            ParamsUIModel(title = ctx.getString(R.string.enhance_mode), FieldType.NAVIGATION),
 
-            PreferenceUIModel(title = "", FieldType.LINE),
-            PreferenceUIModel(title = ctx.getString(R.string.file_naming), FieldType.TITLE),
-            PreferenceUIModel(title = ctx.getString(R.string.default_file_name), FieldType.NAVIGATION),
+            ParamsUIModel(title = "", FieldType.LINE),
+            ParamsUIModel(title = ctx.getString(R.string.file_naming), FieldType.TITLE),
+            ParamsUIModel(title = ctx.getString(R.string.default_file_name), FieldType.NAVIGATION),
 
-            PreferenceUIModel(title = "", FieldType.LINE),
-            PreferenceUIModel(title = ctx.getString(R.string.files_storage), FieldType.TITLE),
-            PreferenceUIModel(title = ctx.getString(R.string.save_original_images_to_gallery), FieldType.SWITCH),
-            PreferenceUIModel(title = ctx.getString(R.string.free_up_storage), FieldType.NAVIGATION),
+            ParamsUIModel(title = "", FieldType.LINE),
+            ParamsUIModel(title = ctx.getString(R.string.files_storage), FieldType.TITLE),
+            ParamsUIModel(title = ctx.getString(R.string.save_original_images_to_gallery), FieldType.SWITCH),
+            ParamsUIModel(title = ctx.getString(R.string.free_up_storage), FieldType.NAVIGATION),
 
-            PreferenceUIModel(title = "", FieldType.LINE),
-            PreferenceUIModel(title = ctx.getString(R.string.payment_subscriptions), FieldType.TITLE),
-            PreferenceUIModel(title = ctx.getString(R.string.subscription_management), FieldType.NAVIGATION),
-            PreferenceUIModel(title = ctx.getString(R.string.manage_payment_methods), FieldType.NAVIGATION),
+            ParamsUIModel(title = "", FieldType.LINE),
+            ParamsUIModel(title = ctx.getString(R.string.payment_subscriptions), FieldType.TITLE),
+            ParamsUIModel(title = ctx.getString(R.string.subscription_management), FieldType.NAVIGATION),
+            ParamsUIModel(title = ctx.getString(R.string.manage_payment_methods), FieldType.NAVIGATION),
 
-            PreferenceUIModel(title = "", FieldType.LINE),
-            PreferenceUIModel(title = ctx.getString(R.string.cloud_n_sync), FieldType.TITLE),
-            PreferenceUIModel(title = ctx.getString(R.string.cloud_sync), FieldType.NAVIGATION),
-            PreferenceUIModel(title = ctx.getString(R.string.local_folder_sync), FieldType.NAVIGATION),
-            PreferenceUIModel(title = "", FieldType.SPACE)
+            ParamsUIModel(title = "", FieldType.LINE),
+            ParamsUIModel(title = ctx.getString(R.string.cloud_n_sync), FieldType.TITLE),
+            ParamsUIModel(title = ctx.getString(R.string.cloud_sync), FieldType.NAVIGATION),
+            ParamsUIModel(title = ctx.getString(R.string.local_folder_sync), FieldType.NAVIGATION),
+            ParamsUIModel(title = "", FieldType.SPACE)
         )
 
-        setBaseState(getCurrentBaseState().copy(preferenceUIModelList = list))
+        setBaseState(getCurrentBaseState().copy(paramsUIModelList = list))
+    }
+
+    private fun getSecurityParams(ctx: Context){
+        val list = mutableListOf(
+            ParamsUIModel(title = ctx.getString(R.string.remember_me_param), FieldType.SWITCH),
+            ParamsUIModel(title = ctx.getString(R.string.biometric_id), FieldType.SWITCH),
+            ParamsUIModel(title = ctx.getString(R.string.face_id), FieldType.SWITCH),
+            ParamsUIModel(title = ctx.getString(R.string.sms_authenticator), FieldType.SWITCH),
+            ParamsUIModel(title = ctx.getString(R.string.google_authenticator), FieldType.SWITCH),
+            ParamsUIModel(title = ctx.getString(R.string.device_management), FieldType.NAVIGATION),
+        )
+
+        setBaseState(getCurrentBaseState().copy(paramsUIModelList = list))
     }
 
     private fun getAllLanguages(ctx: Context){
