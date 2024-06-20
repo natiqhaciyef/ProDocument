@@ -1,5 +1,7 @@
 package com.natiqhaciyef.core.base.mock
 
+import com.natiqhaciyef.common.constants.NOT_PRIMARY_CONSTRUCTOR_FOUND
+import com.natiqhaciyef.common.constants.NOT_VALID_REQUEST
 import kotlin.reflect.KClass
 import kotlin.reflect.full.primaryConstructor
 
@@ -17,7 +19,7 @@ abstract class BaseMockGenerator<In, Out : Any> {
 
 
     companion object{
-        class MockRequestException: Exception("Not valid request")
+        class MockRequestException: Exception(NOT_VALID_REQUEST)
     }
 }
 
@@ -26,6 +28,6 @@ fun <T : BaseMockGenerator<*, *>, In> generateMockerClass(
     request: In
 ): T {
     val primaryConstructor = mockClass.primaryConstructor
-        ?: throw IllegalArgumentException("No primary constructor found")
+        ?: throw IllegalArgumentException(NOT_PRIMARY_CONSTRUCTOR_FOUND)
     return primaryConstructor.call(request)
 }

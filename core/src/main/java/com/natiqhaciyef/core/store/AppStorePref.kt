@@ -9,6 +9,8 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.google.gson.Gson
+import com.natiqhaciyef.common.constants.ELEMENT_NOT_FOUND
+import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.core.store.AppStorePrefKeys.BOOLEAN_KEY
 import com.natiqhaciyef.core.store.AppStorePrefKeys.INT_KEY
 import com.natiqhaciyef.core.store.AppStorePrefKeys.PARCELABLE_KEY
@@ -24,7 +26,8 @@ import kotlinx.coroutines.flow.first
  * */
 
 object AppStorePref {
-    private val Context.ds: DataStore<Preferences> by preferencesDataStore("data_store")
+    private const val DATABASE_NAME = "data_store"
+    private val Context.ds: DataStore<Preferences> by preferencesDataStore(DATABASE_NAME)
 
     suspend fun <T> saveParcelableClassData(
         context: Context,
@@ -81,12 +84,12 @@ object AppStorePref {
     suspend fun readString(
         context: Context,
         key: Preferences.Key<String> = STR_KEY
-    ): String = context.ds.data.first()[key] ?: "String not found"
+    ): String = context.ds.data.first()[key] ?: ELEMENT_NOT_FOUND
 
     suspend fun readInt(
         context: Context,
         key: Preferences.Key<Int> = INT_KEY
-    ): Int = context.ds.data.first()[key] ?: 0
+    ): Int = context.ds.data.first()[key] ?: ZERO
 
     suspend fun readBoolean(
         context: Context,

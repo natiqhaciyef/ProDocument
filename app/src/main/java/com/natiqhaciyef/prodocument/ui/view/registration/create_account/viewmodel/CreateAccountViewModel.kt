@@ -1,9 +1,9 @@
 package com.natiqhaciyef.prodocument.ui.view.registration.create_account.viewmodel
 
 import androidx.lifecycle.viewModelScope
+import com.natiqhaciyef.common.constants.EMPTY_FIELD
 import com.natiqhaciyef.common.helpers.getNow
 import com.natiqhaciyef.common.model.Status
-import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.common.model.ui.UIResult
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
 import com.natiqhaciyef.core.base.ui.BaseViewModel
@@ -43,7 +43,7 @@ class CreateAccountViewModel @Inject constructor(
             ) {
                 onSuccess()
             } else {
-                onFail(Exception(ErrorMessages.EMPTY_FIELD))
+                onFail(Exception(EMPTY_FIELD))
             }
         }
     }

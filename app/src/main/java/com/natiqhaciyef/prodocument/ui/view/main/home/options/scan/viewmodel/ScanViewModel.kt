@@ -9,6 +9,7 @@ import androidx.core.net.toUri
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.natiqhaciyef.common.constants.EMPTY_STRING
 import com.natiqhaciyef.common.helpers.getNow
 import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
@@ -44,9 +45,9 @@ class ScanViewModel @Inject constructor() : BaseViewModel<ScanContract.ScanState
 
             is ScanContract.ScanEvent.CreateMaterialEvent -> {
                 createMaterial(
-                    title = event.title ?: "",
-                    uri = event.uri ?: "".toUri(),
-                    image = event.image ?: ""
+                    title = event.title ?: EMPTY_STRING,
+                    uri = event.uri ?: EMPTY_STRING.toUri(),
+                    image = event.image ?: EMPTY_STRING
                 )
             }
 

@@ -9,7 +9,9 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.natiqhaciyef.common.R
 import androidx.core.widget.doOnTextChanged
-import com.natiqhaciyef.common.objects.ErrorMessages
+import com.natiqhaciyef.common.constants.DATE_OVER_FLOW_ERROR
+import com.natiqhaciyef.common.constants.EMPTY_STRING
+import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.prodocument.databinding.CustomInputViewBinding
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -20,7 +22,7 @@ class CustomInputView(
     private val attributeSet: AttributeSet
 ) : ConstraintLayout(ctx, attributeSet) {
     private var binding: CustomInputViewBinding? = null
-    private var currentSelectedTime: Long = 0L
+    private var currentSelectedTime: Long = ZERO.toLong()
 
     init {
         binding = CustomInputViewBinding.inflate(LayoutInflater.from(ctx), this, true)
@@ -52,15 +54,15 @@ class CustomInputView(
     }
 
     fun getInputResult(): String {
-        return binding?.customInputEditText?.text?.toString() ?: ""
+        return binding?.customInputEditText?.text?.toString() ?: EMPTY_STRING
     }
 
     private fun getCustomInputType(inpType: String) = when (inpType) {
-        "0x1" -> InputType.TYPE_CLASS_TEXT
-        "0x2" -> InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS + InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS
-        "0x3" -> InputType.TYPE_CLASS_NUMBER
-        "0x4" -> InputType.TYPE_CLASS_NUMBER + InputType.TYPE_NUMBER_FLAG_DECIMAL + InputType.TYPE_NUMBER_FLAG_SIGNED
-        "0x5" -> InputType.TYPE_NULL
+        TEXT_TYPE -> InputType.TYPE_CLASS_TEXT
+        EMAIL_TYPE -> InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS + InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS
+        NUMBER_TYPE -> InputType.TYPE_CLASS_NUMBER
+        DECIMAL_TYPE -> InputType.TYPE_CLASS_NUMBER + InputType.TYPE_NUMBER_FLAG_DECIMAL + InputType.TYPE_NUMBER_FLAG_SIGNED
+        NULL_TYPE -> InputType.TYPE_NULL
         else -> InputType.TYPE_CLASS_TEXT
     }
 
@@ -80,7 +82,7 @@ class CustomInputView(
         binding?.customInputEditText?.hint = customHint
         binding?.customTitleText?.text = customTitle
 
-        if (customInputType == "0x5") {
+        if (customInputType == NULL_TYPE) {
             binding?.customInputEditText?.setCompoundDrawablesWithIntrinsicBounds(
                 null,
                 null,
@@ -123,12 +125,20 @@ class CustomInputView(
 
     private fun changeCalendar(calendar: Calendar) {
         currentSelectedTime = calendar.timeInMillis
-        val format = "dd/MM/yyyy"
         val sdf = SimpleDateFormat(format, Locale.UK)
         val date = sdf.format(calendar.time)
         if (calendar.time.time < System.currentTimeMillis())
             binding?.customInputEditText?.setText(date)
         else
-            binding?.customInputEditText?.setText(ErrorMessages.DATE_OVER_FLOW_ERROR)
+            binding?.customInputEditText?.setText(DATE_OVER_FLOW_ERROR)
+    }
+
+    companion object{
+        const val format = "dd/MM/yyyy"
+        const val TEXT_TYPE = "0x1"
+        const val EMAIL_TYPE = "0x2"
+        const val NUMBER_TYPE = "0x3"
+        const val DECIMAL_TYPE = "0x4"
+        const val NULL_TYPE = "0x5"
     }
 }

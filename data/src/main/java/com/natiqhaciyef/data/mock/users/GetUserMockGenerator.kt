@@ -1,5 +1,6 @@
 package com.natiqhaciyef.data.mock.users
 
+import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
 import com.natiqhaciyef.common.helpers.getNow
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
@@ -21,7 +22,7 @@ class GetUserMockGenerator(
         city = "Brighton",
         street = "Mr Allen street 12",
         result = CRUDResponse(
-            resultCode = 299,
+            resultCode = TWO_HUNDRED_NINETY_NINE,
             message = "Mock user"
         )
     )

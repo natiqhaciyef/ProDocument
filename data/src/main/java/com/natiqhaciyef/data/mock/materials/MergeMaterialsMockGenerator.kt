@@ -1,5 +1,7 @@
 package com.natiqhaciyef.data.mock.materials
 
+import com.natiqhaciyef.common.constants.EMPTY_STRING
+import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
 import com.natiqhaciyef.common.helpers.getNow
 import com.natiqhaciyef.data.network.request.MergeRequest
 import com.natiqhaciyef.core.CRUDResponse
@@ -18,7 +20,7 @@ class MergeMaterialsMockGenerator(
         type = "type",
         url = "url",
         result = CRUDResponse(
-            resultCode = 299,
+            resultCode = TWO_HUNDRED_NINETY_NINE,
             message = "Mock crud"
         )
     )
@@ -36,17 +38,17 @@ class MergeMaterialsMockGenerator(
 
     companion object MergeMaterialsMockGenerator {
         private var materialResponse = MaterialResponse(
-            id = "",
+            id = EMPTY_STRING,
             publishDate = "publishDate",
-            image = "",
-            title = "",
-            description = "",
-            type = "",
-            url = "",
+            image = EMPTY_STRING,
+            title = EMPTY_STRING,
+            description = EMPTY_STRING,
+            type = EMPTY_STRING,
+            url = EMPTY_STRING,
             result = null
         )
         val customRequest = MergeRequest(
-            title = "",
+            title = EMPTY_STRING,
             list = listOf(materialResponse, materialResponse)
         )
     }

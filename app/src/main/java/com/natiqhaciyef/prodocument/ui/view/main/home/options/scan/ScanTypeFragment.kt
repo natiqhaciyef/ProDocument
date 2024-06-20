@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.camera.core.ExperimentalGetImage
 import com.google.android.material.tabs.TabLayoutMediator
+import com.natiqhaciyef.common.constants.ONE
+import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.prodocument.databinding.FragmentScanTypeBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.adapter.ScanViewPagerAdapter
@@ -41,13 +43,9 @@ class ScanTypeFragment(
 
             TabLayoutMediator(scanTabLayout, scanViewPager) { tab, position ->
                 tab.text = when (position) {
-                    0 -> {
-                        CameraTypes.LIVE_SCANNER.title
-                    }
+                    ZERO -> { CameraTypes.LIVE_SCANNER.title }
 
-                    1 -> {
-                        CameraTypes.CAPTURE_IMAGE_SCREEN.title
-                    }
+                    ONE -> { CameraTypes.CAPTURE_IMAGE_SCREEN.title }
 
                     else -> {
                         CameraTypes.QR_CODE_SCREEN.title

@@ -1,10 +1,19 @@
 package com.natiqhaciyef.prodocument.ui.util
 
+import com.natiqhaciyef.common.constants.EIGHT
+import com.natiqhaciyef.common.constants.ELEVEN
+import com.natiqhaciyef.common.constants.FOUR
+import com.natiqhaciyef.common.constants.SIX
+import com.natiqhaciyef.common.constants.SPACE
+import com.natiqhaciyef.common.constants.TEN
+import com.natiqhaciyef.common.constants.THIRTEEN
+
 
 object InputAcceptanceConditions {
-    private const val PASSWORD_MIN_LENGTH = 8
-    private const val FULL_NAME_MIN_LENGTH = 10
-    private const val PHONE_NUMBER_MIN_LENGTH = 13
+    private const val PASSWORD_MIN_LENGTH = EIGHT
+    private const val FULL_NAME_MIN_LENGTH = TEN
+    private const val PHONE_NUMBER_MIN_LENGTH = THIRTEEN
+    private const val NOT_SELECTED = "Not-selected"
 
     val emailRegex = Regex(
         pattern = "^[a-zA-Z0-9_!#$%&'*+/=?^`{|}~-]+(?:\\.[a-zA-Z0-9_!#$%&'*+/=?^`{|}~-]+)*@(gmail|mail)\\.(ru|com)$",
@@ -17,7 +26,7 @@ object InputAcceptanceConditions {
     )
 
     fun checkGenderAcceptanceCondition(text: CharSequence?) =
-        !text.isNullOrEmpty() && text != "Not-selected"
+        !text.isNullOrEmpty() && text != NOT_SELECTED
 
     fun checkPhoneAcceptanceCondition(text: CharSequence?) =
         !text.isNullOrEmpty() && text.length == PHONE_NUMBER_MIN_LENGTH
@@ -35,16 +44,16 @@ object InputAcceptanceConditions {
         val formattedStringBuilder = StringBuilder()
 
         for (i in input.indices) {
-            if ((input.length == 4 || input.length == 8 || input.length == 11)
+            if ((input.length == FOUR || input.length == EIGHT || input.length == ELEVEN)
                 && i == input.lastIndex && input[i] != ' '
             ) {
-                formattedStringBuilder.append(" ")
+                formattedStringBuilder.append(SPACE)
             }
 
-            if ((input.length == 6 || input.length == 10 || input.length == 13)
+            if ((input.length == SIX || input.length == TEN || input.length == THIRTEEN)
                 && i == input.lastIndex
             ) {
-                formattedStringBuilder.removePrefix(" ")
+                formattedStringBuilder.removePrefix(SPACE)
             }
 
             formattedStringBuilder.append(input[i])

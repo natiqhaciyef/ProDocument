@@ -5,6 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
+import com.natiqhaciyef.common.constants.HUNDRED
+import com.natiqhaciyef.common.constants.NINE
+import com.natiqhaciyef.common.constants.SPACE
+import com.natiqhaciyef.common.constants.TEN
+import com.natiqhaciyef.common.constants.TWO_HUNDRED
+import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
 import com.natiqhaciyef.common.helpers.CardNumberMaskingListener
 import com.natiqhaciyef.common.helpers.ExpireMaskingListener
 import com.natiqhaciyef.common.model.Currency
@@ -40,7 +46,7 @@ class NewPaymentFragment(
             }
 
             else -> {
-                if (state.paymentResult?.resultCode in 200..299){
+                    if (state.paymentResult?.resultCode in TWO_HUNDRED..TWO_HUNDRED_NINETY_NINE){
                     addButtonClickAction()
                 }
             }
@@ -84,7 +90,7 @@ class NewPaymentFragment(
     private fun buttonConfig() {
         with(binding) {
             addButton.setOnClickListener {
-                if (cardHolderNameInput.text.contains(" ") &&
+                if (cardHolderNameInput.text.contains(SPACE) &&
                     cardNumberField.text.isNotEmpty() &&
                     expirationInput.text.isNotEmpty() &&
                     cvvFieldInput.text.isNotEmpty()
@@ -108,7 +114,7 @@ class NewPaymentFragment(
         viewModel.postEvent(
             PaymentContract.PaymentEvent.AddNewPaymentMethod(
                 MappedPaymentModel(
-                    merchantId = 109,
+                    merchantId = "${TEN}${NINE}".toInt(),
                     paymentType = PaymentTypes.CARD,
                     paymentMethod = PaymentMethods.UNKNOWN,
                     paymentDetails = PaymentDetails(

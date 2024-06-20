@@ -1,5 +1,6 @@
 package com.natiqhaciyef.data.mapper
 
+import com.natiqhaciyef.common.constants.EMPTY_STRING
 import com.natiqhaciyef.common.helpers.cardMasking
 import com.natiqhaciyef.common.model.Currency
 import com.natiqhaciyef.common.model.Time
@@ -29,7 +30,7 @@ fun MappedPaymentChequeModel.toResponse(): PaymentChequeResponse {
     return PaymentChequeResponse(
         checkId = this.checkId,
         title = this.title,
-        description = this.description ?: "",
+        description = this.description ?: EMPTY_STRING,
         subscriptionDetails = this.subscriptionDetails.toResponse(),
         totalAmount = this.totalAmount,
         currency = this.currency.name,

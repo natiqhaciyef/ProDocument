@@ -1,6 +1,10 @@
 package com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.otp.viewmodel
 
 import androidx.lifecycle.viewModelScope
+import com.natiqhaciyef.common.constants.ONE
+import com.natiqhaciyef.common.constants.SIXTY
+import com.natiqhaciyef.common.constants.THOUSAND
+import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.core.base.ui.BaseViewModel
 import com.natiqhaciyef.domain.usecase.user.remote.SendOtpRemoteUseCase
@@ -18,11 +22,11 @@ class OTPViewModel @Inject constructor(
 ) : BaseViewModel<OTPContract.OTPState, OTPContract.OTPEvent, OTPContract.OTPEffect>() {
 
     val timingFlow = flow {
-        var count = 60
-        while (count > 0) {
-            delay(1000)
+        var count = SIXTY
+        while (count > ZERO) {
+            delay(THOUSAND.toLong())
             emit(count)
-            count -= 1
+            count -= ONE
         }
     }
 

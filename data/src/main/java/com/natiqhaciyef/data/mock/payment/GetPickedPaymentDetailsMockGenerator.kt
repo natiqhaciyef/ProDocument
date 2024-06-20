@@ -3,6 +3,7 @@ package com.natiqhaciyef.data.mock.payment
 import com.natiqhaciyef.common.model.payment.PaymentDetails
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
 import com.natiqhaciyef.common.R
+import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.data.network.request.PaymentModel
 import com.natiqhaciyef.data.network.response.PaymentPickModel
 
@@ -10,7 +11,7 @@ class GetPickedPaymentDetailsMockGenerator(
     override var takenRequest: PaymentPickModel
 ) : BaseMockGenerator<PaymentPickModel, PaymentModel>() {
     override var createdMock: PaymentModel = PaymentModel(
-        merchantId = 0,
+        merchantId = ZERO,
         paymentType = "QR",
         paymentMethod = "VISA",
         paymentDetails = PaymentDetails(

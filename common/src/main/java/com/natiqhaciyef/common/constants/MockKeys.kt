@@ -1,4 +1,4 @@
-package com.natiqhaciyef.common.objects
+package com.natiqhaciyef.common.constants
 
 // material
 const val MATERIAL_ID_MOCK_KEY = "materialId"

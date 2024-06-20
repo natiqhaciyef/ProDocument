@@ -4,8 +4,13 @@ import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.core.base.usecase.BaseUseCase
 import com.natiqhaciyef.core.base.usecase.UseCase
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
-import com.natiqhaciyef.common.objects.ErrorMessages
-import com.natiqhaciyef.common.objects.ResultExceptions
+import com.natiqhaciyef.common.constants.MAPPED_NULL_DATA
+import com.natiqhaciyef.common.constants.ONE
+import com.natiqhaciyef.common.constants.ResultExceptions
+import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
+import com.natiqhaciyef.common.constants.TWO_HUNDRED
+import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
+import com.natiqhaciyef.common.constants.UNKNOWN_ERROR
 import com.natiqhaciyef.data.mapper.toUIResult
 import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.domain.repository.MaterialRepository
@@ -25,15 +30,15 @@ class GetAllMaterialsRemoteUseCase @Inject constructor(
             is NetworkResult.Success -> {
                 val model = result.data.toUIResult()
 
-                if (model?.result?.resultCode in 200..299 && model != null)
+                if (model?.result?.resultCode in TWO_HUNDRED..TWO_HUNDRED_NINETY_NINE && model != null)
                     emit(Resource.success(data = model.data))
                 else
                     emit(Resource.error(
-                            msg = ErrorMessages.MAPPED_NULL_DATA,
+                            msg = MAPPED_NULL_DATA,
                             data = null,
                             exception = ResultExceptions.CustomIOException(
-                                msg = ErrorMessages.MAPPED_NULL_DATA,
-                                errorCode = -1
+                                msg = MAPPED_NULL_DATA,
+                                errorCode = -ONE
                             )
                         ))
             }
@@ -41,7 +46,7 @@ class GetAllMaterialsRemoteUseCase @Inject constructor(
             is NetworkResult.Error -> {
                 emit(
                     Resource.error(
-                        msg = result.message ?: ErrorMessages.UNKNOWN_ERROR,
+                        msg = result.message ?: UNKNOWN_ERROR,
                         data = null,
                         exception = Exception(result.message),
                         errorCode = result.code
@@ -51,10 +56,10 @@ class GetAllMaterialsRemoteUseCase @Inject constructor(
 
             is NetworkResult.Exception -> {
                 emit(Resource.error(
-                    msg = result.e.message ?: ErrorMessages.SOMETHING_WENT_WRONG,
+                    msg = result.e.message ?: SOMETHING_WENT_WRONG,
                     data = null,
                     exception = Exception(result.e),
-                    errorCode = -1
+                    errorCode = -ONE
                 ))
             }
         }

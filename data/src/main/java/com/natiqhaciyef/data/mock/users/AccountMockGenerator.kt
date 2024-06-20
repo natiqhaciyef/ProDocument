@@ -1,5 +1,6 @@
 package com.natiqhaciyef.data.mock.users
 
+import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
 import com.natiqhaciyef.data.network.response.TokenResponse
@@ -13,7 +14,7 @@ class AccountMockGenerator(
         TokenResponse(
             accessToken = "${UUID.randomUUID()}",
             result = CRUDResponse(
-                resultCode = 299,
+                resultCode = TWO_HUNDRED_NINETY_NINE,
                 message = "Mock token"
             ),
             refreshToken = "email@gmail.com"

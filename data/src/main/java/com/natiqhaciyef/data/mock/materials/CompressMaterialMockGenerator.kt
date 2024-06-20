@@ -1,10 +1,9 @@
 package com.natiqhaciyef.data.mock.materials
 
-import androidx.core.net.toUri
+import com.natiqhaciyef.common.constants.EMPTY_STRING
+import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
 import com.natiqhaciyef.common.helpers.getNow
-import com.natiqhaciyef.common.model.CRUDModel
 import com.natiqhaciyef.common.model.Quality
-import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
 import com.natiqhaciyef.data.network.request.CompressRequest
@@ -23,7 +22,7 @@ class CompressMaterialMockGenerator(
             type = "type",
             url = "url",
             result = CRUDResponse(
-                resultCode = 299,
+                resultCode = TWO_HUNDRED_NINETY_NINE,
                 message = "Mock crud"
             )
         )
@@ -48,9 +47,9 @@ class CompressMaterialMockGenerator(
                 title = "title",
                 description = "description",
                 type = "type",
-                url = "",
+                url = EMPTY_STRING,
                 result = CRUDResponse(
-                    resultCode = 299,
+                    resultCode = TWO_HUNDRED_NINETY_NINE,
                     message = "Mock crud"
                 )
             ),

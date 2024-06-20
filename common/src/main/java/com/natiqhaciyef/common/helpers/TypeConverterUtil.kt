@@ -1,21 +1,19 @@
 package com.natiqhaciyef.common.helpers
 
+import com.natiqhaciyef.common.constants.COLON
+import com.natiqhaciyef.common.constants.EMPTY_STRING
+import com.natiqhaciyef.common.constants.HASH
 
-fun main() {
-    val map = mutableMapOf("start" to "21 June", "end" to "24 June")
-    println(map.toSQLiteString())
-    println(map.toSQLiteString().toSQLiteMutableMap())
-}
 
 fun <T> Map<T, T>.toSQLiteString(): String {
     val keys = this.keys
-    var str = ""
+    var str = EMPTY_STRING
 
     for (key in keys) {
         str += key
-        str += ":"
+        str += COLON
         str += this[key]
-        str += "#"
+        str += HASH
     }
     return str
 }
@@ -24,9 +22,9 @@ fun <T> Map<T, T>.toSQLiteString(): String {
 fun String.toSQLiteMutableMap(): MutableMap<String, String> {
     val map = mutableMapOf<String, String>()
     val list = mutableListOf<String>()
-    var vanishData = ""
-    var value = ""
-    var key = ""
+    var vanishData = EMPTY_STRING
+    var value = EMPTY_STRING
+    var key = EMPTY_STRING
 
 
     for (char in this) {
@@ -34,7 +32,7 @@ fun String.toSQLiteMutableMap(): MutableMap<String, String> {
             vanishData += char
         else {
             list.add(vanishData)
-            vanishData = ""
+            vanishData = EMPTY_STRING
         }
     }
 
@@ -44,22 +42,22 @@ fun String.toSQLiteMutableMap(): MutableMap<String, String> {
                 value += char
             else {
                 key = value
-                value = ""
+                value = EMPTY_STRING
             }
         }
         map[key] = value
-        key = ""
-        value = ""
+        key = EMPTY_STRING
+        value = EMPTY_STRING
     }
     return map
 }
 
 
 fun <T> List<T>.toSQLiteString(): String {
-    var str = ""
+    var str = EMPTY_STRING
     for (element in this) {
         str += element
-        str += "#"
+        str += HASH
     }
     return str
 }
@@ -67,13 +65,13 @@ fun <T> List<T>.toSQLiteString(): String {
 
 fun String.toSQLiteList(): List<String> {
     val list = mutableListOf<String>()
-    var word = ""
+    var word = EMPTY_STRING
     for (element in this) {
         if (element != '#')
             word += element
         else {
             list.add(word)
-            word = ""
+            word = EMPTY_STRING
         }
     }
 
@@ -83,13 +81,13 @@ fun String.toSQLiteList(): List<String> {
 
 fun String.toSQLiteMutableListOfDouble(): MutableList<Double> {
     val list = mutableListOf<Double>()
-    var word = ""
+    var word = EMPTY_STRING
     for (element in this) {
         if (element != '#')
             word += element
         else {
             list.add(word.toDouble())
-            word = ""
+            word = EMPTY_STRING
         }
     }
 

@@ -9,6 +9,5 @@ import kotlinx.parcelize.Parcelize
 data class PaymentHistoryResponse(
     var chequeId: String,
     var title: String,
-//    var
     var paymentDetails: PaymentDetails
 ): Parcelable

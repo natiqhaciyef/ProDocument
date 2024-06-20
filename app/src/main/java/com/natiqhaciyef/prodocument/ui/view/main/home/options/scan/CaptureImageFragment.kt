@@ -24,10 +24,10 @@ import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.ui.manager.CameraManager
 import com.natiqhaciyef.prodocument.databinding.FragmentCaptureImageBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
-import com.natiqhaciyef.prodocument.ui.util.NavigationManager.HOME_ROUTE
-import com.natiqhaciyef.prodocument.ui.util.NavigationManager.navigateByRouteTitle
-import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
-import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TYPE
+import com.natiqhaciyef.prodocument.ui.util.BUNDLE_MATERIAL
+import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TYPE
+import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.HOME_ROUTE
+import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.behaviour.CameraTypes
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.contract.ScanContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.viewmodel.ScanViewModel
@@ -55,11 +55,9 @@ class CaptureImageFragment(
                 if (resultForPDF != null) {
                     viewModel.postEvent(
                         ScanContract.ScanEvent.CreateMaterialEvent(
-                        title = "Scanned file title",
+                        title = SCANNED_FILE_DEFAULT_TITLE,
                         uri = resultForPDF.pdf?.uri?.path.toString().toUri(),
-                        image = "${
-                            resultForPDF.pages?.map { it.imageUri.path.toString() }?.first()
-                        }"
+                        image = "${resultForPDF.pages?.map { it.imageUri.path.toString() }?.first()}"
                     ))
                 }
             }
@@ -264,5 +262,6 @@ class CaptureImageFragment(
 
     companion object {
         const val CAPTURE_IMAGE_TYPE = "capture-image-type"
+        const val SCANNED_FILE_DEFAULT_TITLE = "Scanned file title"
     }
 }

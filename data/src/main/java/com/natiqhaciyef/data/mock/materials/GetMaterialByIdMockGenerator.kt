@@ -1,8 +1,9 @@
 package com.natiqhaciyef.data.mock.materials
 
 import com.natiqhaciyef.common.helpers.getNow
-import com.natiqhaciyef.common.objects.MATERIAL_ID_MOCK_KEY
-import com.natiqhaciyef.common.objects.MATERIAL_TOKEN_MOCK_KEY
+import com.natiqhaciyef.common.constants.MATERIAL_ID_MOCK_KEY
+import com.natiqhaciyef.common.constants.MATERIAL_TOKEN_MOCK_KEY
+import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
 import com.natiqhaciyef.data.network.NetworkConfig
@@ -21,7 +22,7 @@ class GetMaterialByIdMockGenerator(
         type = "type",
         url = "url",
         result = CRUDResponse(
-            resultCode = 299,
+            resultCode = TWO_HUNDRED_NINETY_NINE,
             message = "Mock material"
         )
     )

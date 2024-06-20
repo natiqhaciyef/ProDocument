@@ -1,6 +1,9 @@
 package com.natiqhaciyef.data.mock.materials
 
 import androidx.core.net.toUri
+import com.natiqhaciyef.common.constants.EMPTY_STRING
+import com.natiqhaciyef.common.constants.TWO
+import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
 import com.natiqhaciyef.common.helpers.getNow
 import com.natiqhaciyef.common.model.CRUDModel
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
@@ -22,7 +25,7 @@ class ProtectMaterialMockGenerator(
             type = "type",
             url = "url",
             result = CRUDResponse(
-                resultCode = 299,
+                resultCode = TWO_HUNDRED_NINETY_NINE,
                 message = "Mock crud"
             ),
             protectionKey = "Protected"
@@ -47,9 +50,9 @@ class ProtectMaterialMockGenerator(
                 title = "title",
                 description = "description",
                 type = "type",
-                url = "",
+                url = EMPTY_STRING,
                 result = CRUDResponse(
-                    resultCode = 299,
+                    resultCode = TWO_HUNDRED_NINETY_NINE,
                     message = "Mock crud"
                 )
             ),

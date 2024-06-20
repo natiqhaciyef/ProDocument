@@ -13,6 +13,10 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.natiqhaciyef.common.R
+import com.natiqhaciyef.common.constants.EMPTY_STRING
+import com.natiqhaciyef.common.constants.ONE
+import com.natiqhaciyef.common.constants.PERMISSION_DENIED
+import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.common.model.Resource
 
 
@@ -37,7 +41,7 @@ fun sendNotification(activityCompat: ComponentActivity?, context: Context, title
             notificationManager.createNotificationChannel(channel)
 
             val pending =
-                PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+                PendingIntent.getActivity(context, ZERO, intent, PendingIntent.FLAG_IMMUTABLE)
 
             val notification = NotificationCompat.Builder(context, "NEWS")
                 .setContentTitle(title)
@@ -53,11 +57,11 @@ fun sendNotification(activityCompat: ComponentActivity?, context: Context, title
                         Manifest.permission.POST_NOTIFICATIONS
                     ) != PackageManager.PERMISSION_GRANTED
                 ) {
-                    return Resource.error("Permission not granted", null)
+                    return Resource.error(PERMISSION_DENIED, null)
                 }
-                notify(1, notification.build())
+                notify(ONE, notification.build())
             }
         }
     }
-    return Resource.success("")
+    return Resource.success(EMPTY_STRING)
 }

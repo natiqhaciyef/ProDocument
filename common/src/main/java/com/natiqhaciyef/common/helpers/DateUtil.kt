@@ -3,21 +3,37 @@ package com.natiqhaciyef.common.helpers
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.natiqhaciyef.common.constants.ELEVEN
+import com.natiqhaciyef.common.constants.FIFTEEN
+import com.natiqhaciyef.common.constants.FIVE
+import com.natiqhaciyef.common.constants.FORMATTED_DATE_TIME
+import com.natiqhaciyef.common.constants.FOUR
+import com.natiqhaciyef.common.constants.NINE
+import com.natiqhaciyef.common.constants.ONE
+import com.natiqhaciyef.common.constants.SIX
+import com.natiqhaciyef.common.constants.SIXTEEN
+import com.natiqhaciyef.common.constants.SIXTY
+import com.natiqhaciyef.common.constants.TEN
+import com.natiqhaciyef.common.constants.THIRTY_ONE
+import com.natiqhaciyef.common.constants.THREE
+import com.natiqhaciyef.common.constants.TWELVE
+import com.natiqhaciyef.common.constants.TWENTY_THREE
+import com.natiqhaciyef.common.constants.ZERO
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
 fun ticketTimeCalculator(from: String, to: String): String? {
     return if (!from.any { it.isLetter() } && !to.any { it.isLetter() }) {
-        val preFrom = from.substring(0..1).toDouble()
-        val sufFrom = from.substring(3..4).toDouble()
+        val preFrom = from.substring(ZERO..ONE).toDouble()
+        val sufFrom = from.substring(THREE..FOUR).toDouble()
 
-        val preTo = to.substring(0..1).toDouble()
-        val sufTo = to.substring(3..4).toDouble()
+        val preTo = to.substring(ZERO..ONE).toDouble()
+        val sufTo = to.substring(THREE..FOUR).toDouble()
 
-        val fromX = preFrom * 60 + sufFrom
-        val toX = preTo * 60 + sufTo
-        val res = (toX - fromX) / 60
+        val fromX = preFrom * SIXTY + sufFrom
+        val toX = preTo * SIXTY + sufTo
+        val res = (toX - fromX) / SIXTY
 
         fromDoubleToTimeLine(res)
     } else {
@@ -25,13 +41,13 @@ fun ticketTimeCalculator(from: String, to: String): String? {
     }
 }
 
-fun fromDateToDay(day: String): Int = if (day.startsWith("0")) 1 else 0
+fun fromDateToDay(day: String): Int = if (day.startsWith("$ZERO")) ONE else ZERO
 
 
 fun fromDoubleToTimeLine(d: Double = 7.5): String? {
-    return if (d > 0.0) {
+    return if (d > ZERO.toDouble()) {
         val hours = d.toInt()
-        val minutes = ((d % hours) * 60).toInt()
+        val minutes = ((d % hours) * SIXTY).toInt()
         "$hours hours\n$minutes minutes"
     } else {
         null
@@ -93,15 +109,15 @@ fun monthToString(month: String) = when (month) {
 
 
 fun examTimer(time: Int): String? {
-    return if (time > 0) {
-        if (time % 60 < 10 && time / 60 < 10)
-            "0${time / 60} : 0${time % 60}"
-        else if (time % 60 < 10 && time / 60 > 10)
-            "${time / 60} : 0${time % 60}"
-        else if (time % 60 > 10 && time / 60 < 10)
-            "0${time / 60} : ${time % 60}"
+    return if (time > ZERO) {
+        if (time % SIXTY < TEN && time / SIXTY < TEN)
+            "0${time / SIXTY} : 0${time % SIXTY}"
+        else if (time % SIXTY < TEN && time / SIXTY > TEN)
+            "${time / SIXTY} : 0${time % SIXTY}"
+        else if (time % SIXTY > TEN && time / SIXTY < TEN)
+            "0${time / SIXTY} : ${time % SIXTY}"
         else
-            "${time / 60} : ${time % 60}"
+            "${time / SIXTY} : ${time % SIXTY}"
     } else {
         null
     }
@@ -109,19 +125,19 @@ fun examTimer(time: Int): String? {
 
 
 fun majorStringToDateChanger(s: String = "01.12.2001 15:59"): String? {
-    if (s.length != 16)
+    if (s.length != SIXTEEN)
         return null
 
     if (s.any { it.isLetter() })
         return null
 
-    val subDay = s.substring(0..1)
-    val subMonth = s.substring(3..4)
-    val subYear = s.substring(6..9)
-    val subTime = s.substring(11..15)
+    val subDay = s.substring(ZERO..ONE)
+    val subMonth = s.substring(THREE..FOUR)
+    val subYear = s.substring(SIX..NINE)
+    val subTime = s.substring(ELEVEN..FIFTEEN)
 
-    if (subDay.toInt() > 31 || subMonth.toInt() > 12 || subTime.substring(0..1)
-            .toInt() > 23 || subTime.substring(3..4).toInt() > 60
+    if (subDay.toInt() > THIRTY_ONE || subMonth.toInt() > TWELVE || subTime.substring(ZERO..ONE)
+            .toInt() > TWENTY_THREE || subTime.substring(THREE..FOUR).toInt() > SIXTY
     )
         return null
 
@@ -129,7 +145,7 @@ fun majorStringToDateChanger(s: String = "01.12.2001 15:59"): String? {
     if (fromStringToMappedTime(subTime) == null)
         return null
 
-    val day = if (subDay.startsWith("0")) subDay[1] else subDay
+    val day = if (subDay.startsWith("$ZERO")) subDay[ONE] else subDay
     val month = monthToString(subMonth)
     val time = fromStringToMappedTime(subTime)
 
@@ -137,26 +153,26 @@ fun majorStringToDateChanger(s: String = "01.12.2001 15:59"): String? {
 }
 
 fun fromStringToMappedTime(time: String): String? {
-    if (time.length != 5)
+    if (time.length != FIVE)
         return null
 
-    val start = time.substring(0..1)
+    val start = time.substring(ZERO..ONE)
 
-    return if (start.toInt() > 12) {
-        "${start.toInt() - 12}:${time.substring(3..4)} PM"
+    return if (start.toInt() > TWELVE) {
+        "${start.toInt() - TWELVE}:${time.substring(THREE..FOUR)} PM"
     } else {
-        if (time.startsWith("0")) "${time.substring(1 until time.length)} AM" else "$time AM"
+        if (time.startsWith("$ZERO")) "${time.substring(ONE until time.length)} AM" else "$time AM"
     }
 }
 
 fun fromStringToMappedDay(date: String): String? {
-    if (date.length != 5)
+    if (date.length != FIVE)
         return null
 
-    val day = date.substring(0..1)
-    val month = date.substring(3..4)
+    val day = date.substring(ZERO..ONE)
+    val month = date.substring(THREE..FOUR)
 
-    if (day.toInt() > 31 || month.toInt() > 12)
+    if (day.toInt() > THIRTY_ONE || month.toInt() > TWELVE)
         return null
 
     return "$day ${monthToString(month)}"
@@ -165,12 +181,12 @@ fun fromStringToMappedDay(date: String): String? {
 
 @SuppressLint("NewApi")
 fun getNow(dateTime: LocalDateTime = LocalDateTime.now()): String {
-    val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
+    val formatter = DateTimeFormatter.ofPattern(FORMATTED_DATE_TIME)
     return formatter.format(dateTime)
 }
 
 @SuppressLint("NewApi")
 fun String.stringToFormattedLocalDateTime(): LocalDateTime {
-    val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
+    val formatter = DateTimeFormatter.ofPattern(FORMATTED_DATE_TIME)
     return LocalDateTime.parse(this, formatter)
 }

@@ -3,6 +3,7 @@ package com.natiqhaciyef.prodocument.ui.view.main.profile.viewmodel
 import android.content.Context
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.R
+import com.natiqhaciyef.common.constants.EMPTY_STRING
 import com.natiqhaciyef.common.model.LanguageModel
 import com.natiqhaciyef.prodocument.ui.view.main.profile.model.AccountSettingModel
 import com.natiqhaciyef.prodocument.ui.view.main.profile.model.Settings
@@ -170,25 +171,25 @@ class ProfileViewModel @Inject constructor(
             ParamsUIModel(title = ctx.getString(R.string.auto_crop_image), FieldType.SWITCH),
             ParamsUIModel(title = ctx.getString(R.string.enhance_mode), FieldType.NAVIGATION),
 
-            ParamsUIModel(title = "", FieldType.LINE),
+            ParamsUIModel(title = EMPTY_STRING, FieldType.LINE),
             ParamsUIModel(title = ctx.getString(R.string.file_naming), FieldType.TITLE),
             ParamsUIModel(title = ctx.getString(R.string.default_file_name), FieldType.NAVIGATION),
 
-            ParamsUIModel(title = "", FieldType.LINE),
+            ParamsUIModel(title = EMPTY_STRING, FieldType.LINE),
             ParamsUIModel(title = ctx.getString(R.string.files_storage), FieldType.TITLE),
             ParamsUIModel(title = ctx.getString(R.string.save_original_images_to_gallery), FieldType.SWITCH),
             ParamsUIModel(title = ctx.getString(R.string.free_up_storage), FieldType.NAVIGATION),
 
-            ParamsUIModel(title = "", FieldType.LINE),
+            ParamsUIModel(title = EMPTY_STRING, FieldType.LINE),
             ParamsUIModel(title = ctx.getString(R.string.payment_subscriptions), FieldType.TITLE),
             ParamsUIModel(title = ctx.getString(R.string.subscription_management), FieldType.NAVIGATION),
             ParamsUIModel(title = ctx.getString(R.string.manage_payment_methods), FieldType.NAVIGATION),
 
-            ParamsUIModel(title = "", FieldType.LINE),
+            ParamsUIModel(title = EMPTY_STRING, FieldType.LINE),
             ParamsUIModel(title = ctx.getString(R.string.cloud_n_sync), FieldType.TITLE),
             ParamsUIModel(title = ctx.getString(R.string.cloud_sync), FieldType.NAVIGATION),
             ParamsUIModel(title = ctx.getString(R.string.local_folder_sync), FieldType.NAVIGATION),
-            ParamsUIModel(title = "", FieldType.SPACE)
+            ParamsUIModel(title = EMPTY_STRING, FieldType.SPACE)
         )
 
         setBaseState(getCurrentBaseState().copy(paramsUIModelList = list))
@@ -211,7 +212,7 @@ class ProfileViewModel @Inject constructor(
         val languages = listOf(
             LanguageModel(title = ctx.getString(R.string.az_tag), ctx.getString(R.string.azerbaijani), false),
             LanguageModel(title = ctx.getString(R.string.tr_tag), ctx.getString(R.string.turkish), false),
-            LanguageModel(title = "", ctx.getString(R.string.english), false),
+            LanguageModel(title = EMPTY_STRING, ctx.getString(R.string.english), false),
         )
 
         setBaseState(getCurrentBaseState().copy(languages = languages))

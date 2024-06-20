@@ -2,6 +2,9 @@ package com.natiqhaciyef.prodocument.ui.view.onboarding.behaviour
 
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2
+import com.natiqhaciyef.common.constants.ONE
+import com.natiqhaciyef.common.constants.TWO
+import com.natiqhaciyef.common.constants.ZERO
 
 
 class ZoomOutPageTransformer : ViewPager2.PageTransformer {
@@ -15,20 +18,20 @@ class ZoomOutPageTransformer : ViewPager2.PageTransformer {
             val pageWidth = width
             val pageHeight = height
             when {
-                position < -1 -> { // [-Infinity,-1)
+                position < -ONE -> { // [-Infinity,-1)
                     // This page is way off-screen to the left.
-                    alpha = 0f
+                    alpha = ZERO.toFloat()
                 }
 
-                position <= 1 -> { // [-1,1]
+                position <= ONE -> { // [-1,1]
                     // Modify the default slide transition to shrink the page as well.
-                    val scaleFactor = Math.max(MIN_SCALE, 1 - Math.abs(position))
-                    val vertMargin = pageHeight * (1 - scaleFactor) / 2
-                    val horzMargin = pageWidth * (1 - scaleFactor) / 2
-                    translationX = if (position < 0) {
-                        horzMargin - vertMargin / 2
+                    val scaleFactor = Math.max(MIN_SCALE, ONE - Math.abs(position))
+                    val vertMargin = pageHeight * (ONE - scaleFactor) / TWO
+                    val horzMargin = pageWidth * (ONE - scaleFactor) / TWO
+                    translationX = if (position < ZERO) {
+                        horzMargin - vertMargin / TWO
                     } else {
-                        horzMargin + vertMargin / 2
+                        horzMargin + vertMargin / TWO
                     }
 
                     // Scale the page down (between MIN_SCALE and 1).
@@ -36,13 +39,12 @@ class ZoomOutPageTransformer : ViewPager2.PageTransformer {
                     scaleY = scaleFactor
 
                     // Fade the page relative to its size.
-                    alpha = (MIN_ALPHA +
-                            (((scaleFactor - MIN_SCALE) / (1 - MIN_SCALE)) * (1 - MIN_ALPHA)))
+                    alpha = (MIN_ALPHA + (((scaleFactor - MIN_SCALE) / (ONE - MIN_SCALE)) * (ONE - MIN_ALPHA)))
                 }
 
                 else -> { // (1,+Infinity]
                     // This page is way off-screen to the right.
-                    alpha = 0f
+                    alpha = ZERO.toFloat()
                 }
             }
         }

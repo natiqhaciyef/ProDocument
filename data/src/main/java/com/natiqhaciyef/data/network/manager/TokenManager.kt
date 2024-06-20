@@ -2,7 +2,7 @@ package com.natiqhaciyef.data.network.manager
 
 import android.content.Context
 import com.natiqhaciyef.common.model.mapped.MappedTokenModel
-import com.natiqhaciyef.common.objects.MATERIAL_TOKEN_MOCK_KEY
+import com.natiqhaciyef.common.constants.MATERIAL_TOKEN_MOCK_KEY
 import com.natiqhaciyef.core.store.AppStorePref
 import com.natiqhaciyef.core.store.AppStorePrefKeys
 import com.natiqhaciyef.data.network.NetworkConfig

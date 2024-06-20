@@ -1,8 +1,10 @@
 package com.natiqhaciyef.domain.usecase.payment.remote
 
+import com.natiqhaciyef.common.constants.ONE
+import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
+import com.natiqhaciyef.common.constants.UNKNOWN_ERROR
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.common.model.payment.MappedPaymentChequeModel
-import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.core.base.usecase.BaseUseCase
 import com.natiqhaciyef.core.base.usecase.UseCase
 import com.natiqhaciyef.data.mapper.toMapped
@@ -29,7 +31,7 @@ class GetPaymentHistoryDetailsUseCase @Inject constructor(
             is NetworkResult.Error -> {
                 emit(
                     Resource.error(
-                        msg = result.message ?: ErrorMessages.UNKNOWN_ERROR,
+                        msg = result.message ?: UNKNOWN_ERROR,
                         data = null,
                         exception = Exception(result.message),
                         errorCode = result.code
@@ -40,10 +42,10 @@ class GetPaymentHistoryDetailsUseCase @Inject constructor(
             is NetworkResult.Exception -> {
                 emit(
                     Resource.error(
-                        msg = result.e.message ?: ErrorMessages.SOMETHING_WENT_WRONG,
+                        msg = result.e.message ?: SOMETHING_WENT_WRONG,
                         data = null,
                         exception = Exception(result.e),
-                        errorCode = -1
+                        errorCode = -ONE
                     )
                 )
             }

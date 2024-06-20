@@ -1,11 +1,15 @@
 package com.natiqhaciyef.domain.usecase.user.remote
 
+import com.natiqhaciyef.common.constants.ONE
+import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
+import com.natiqhaciyef.common.constants.TWO_HUNDRED
+import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
+import com.natiqhaciyef.common.constants.UNKNOWN_ERROR
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.core.base.usecase.BaseUseCase
 import com.natiqhaciyef.core.base.usecase.UseCase
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
-import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.data.mapper.toMapped
 import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.domain.repository.UserRepository
@@ -25,7 +29,7 @@ class CreateUserRemoteUseCase @Inject constructor(
             is NetworkResult.Success -> {
                 val model = result.data.toMapped()
 
-                if (model.result?.resultCode in 200..299)
+                if (model.result?.resultCode in TWO_HUNDRED..TWO_HUNDRED_NINETY_NINE)
                     emit(Resource.success(data = model))
                 else
                     emit(
@@ -40,7 +44,7 @@ class CreateUserRemoteUseCase @Inject constructor(
             is NetworkResult.Error -> {
                 emit(
                     Resource.error(
-                        msg = result.message ?: ErrorMessages.UNKNOWN_ERROR,
+                        msg = result.message ?: UNKNOWN_ERROR,
                         data = null,
                         exception = Exception(result.message),
                         errorCode = result.code
@@ -50,10 +54,10 @@ class CreateUserRemoteUseCase @Inject constructor(
 
             is NetworkResult.Exception -> {
                 emit(Resource.error(
-                    msg = result.e.message ?: ErrorMessages.SOMETHING_WENT_WRONG,
+                    msg = result.e.message ?: SOMETHING_WENT_WRONG,
                     data = null,
                     exception = Exception(result.e),
-                    errorCode = -1
+                    errorCode = -ONE
                 ))
             }
         }

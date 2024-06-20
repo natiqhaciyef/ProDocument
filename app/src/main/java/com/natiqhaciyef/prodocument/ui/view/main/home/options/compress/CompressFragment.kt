@@ -9,11 +9,14 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.navArgs
+import com.natiqhaciyef.common.constants.ONE
+import com.natiqhaciyef.common.constants.THREE
+import com.natiqhaciyef.common.constants.TWO
 import com.natiqhaciyef.common.model.Quality
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.databinding.FragmentCompressBinding
-import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
+import com.natiqhaciyef.prodocument.ui.util.BUNDLE_MATERIAL
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.compress.contract.CompressContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.compress.viewmodel.CompressViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -79,9 +82,9 @@ class CompressFragment(
     @SuppressLint("ResourceType")
     private fun radioButtonConfig() {
         with(binding) {
-            highLevelRadioButton.id = 1
-            mediumLevelRadioButton.id = 2
-            lowLevelRadioButton.id = 3
+            highLevelRadioButton.id = ONE
+            mediumLevelRadioButton.id = TWO
+            lowLevelRadioButton.id = THREE
         }
     }
 
@@ -91,22 +94,13 @@ class CompressFragment(
         with(binding) {
             compressQualityRadioGroup.setOnCheckedChangeListener { radioGroup, i ->
                 quality = when (i) {
-                    1 -> {
-                        Quality.HIGH
-                    }
+                    ONE -> { Quality.HIGH }
 
-                    2 -> {
-                        Quality.MEDIUM
+                    TWO -> { Quality.MEDIUM }
 
-                    }
+                    THREE -> { Quality.LOW }
 
-                    3 -> {
-                        Quality.LOW
-                    }
-
-                    else -> {
-                        Quality.STANDARD
-                    }
+                    else -> { Quality.STANDARD }
                 }
             }
         }

@@ -4,6 +4,10 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.natiqhaciyef.common.R
+import com.natiqhaciyef.common.constants.FOUR
+import com.natiqhaciyef.common.constants.ONE
+import com.natiqhaciyef.common.constants.THREE
+import com.natiqhaciyef.common.constants.TWO
 import com.natiqhaciyef.core.model.CategoryItem
 import com.natiqhaciyef.core.model.FileTypes.JPEG
 import com.natiqhaciyef.core.model.FileTypes.PDF
@@ -17,7 +21,7 @@ open class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
     fun getShareOptionsList(context: Context) = listOf(
         CategoryItem(
-            id = 1,
+            id = ONE,
             title = context.getString(R.string.share_link),
             iconId = R.drawable.link_icon,
             size = null,
@@ -25,7 +29,7 @@ open class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             sizeType = null
         ),
         CategoryItem(
-            id = 2,
+            id = TWO,
             title = context.getString(R.string.share_pdf),
             iconId = R.drawable.pdf_icon,
             type = PDF,
@@ -33,7 +37,7 @@ open class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             sizeType = null
         ),
         CategoryItem(
-            id = 3,
+            id = THREE,
             title = context.getString(R.string.share_jpg),
             iconId = R.drawable.image_icon,
             type = JPEG,
@@ -41,7 +45,7 @@ open class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             sizeType = null
         ),
         CategoryItem(
-            id = 4,
+            id = FOUR,
             title = context.getString(R.string.share_png),
             iconId = R.drawable.image_icon,
             type = PNG,

@@ -13,8 +13,8 @@ import com.natiqhaciyef.common.R
 import com.natiqhaciyef.prodocument.databinding.FragmentMergePdfsBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.ui.manager.FileManager
-import com.natiqhaciyef.prodocument.ui.util.NavigationManager
-import com.natiqhaciyef.prodocument.ui.util.NavigationManager.navigateByRouteTitle
+import com.natiqhaciyef.prodocument.ui.manager.NavigationManager
+import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.view.main.home.adapter.FileItemAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.merge.contract.MergePdfContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.merge.viewmodel.MergePdfViewModel

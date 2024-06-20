@@ -12,6 +12,9 @@ import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.natiqhaciyef.common.R
+import com.natiqhaciyef.common.constants.EMPTY_STRING
+import com.natiqhaciyef.common.constants.ZERO
+
 fun ImageView.loadImage(
     uri: String,
     context: Context = this.context,
@@ -29,7 +32,7 @@ fun ImageView.loadImage(
         .load(uri)
         .into(this)
 
-    animationPlaceholder.setAnimationProgress(0.0f)
+    animationPlaceholder.setAnimationProgress(ZERO.toFloat())
     animationPlaceholder.invalidateSelf()
 
 }
@@ -38,7 +41,7 @@ fun ImageView.clearImage(
     context: Context = this.context,
 ) {
     Glide.with(context)
-        .load("")
+        .load(EMPTY_STRING)
         .into(this)
 }
 
