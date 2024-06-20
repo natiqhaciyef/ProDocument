@@ -11,6 +11,9 @@ import com.natiqhaciyef.prodocument.ui.view.main.profile.model.AccountSettingMod
 import com.natiqhaciyef.prodocument.ui.view.main.profile.model.Settings
 import com.natiqhaciyef.core.base.ui.BaseRecyclerViewAdapter
 import com.natiqhaciyef.prodocument.databinding.RecyclerAccountItemBinding
+import com.natiqhaciyef.prodocument.ui.manager.DarkModeManager
+import com.natiqhaciyef.prodocument.ui.util.NavigationManager
+import com.natiqhaciyef.prodocument.ui.view.main.profile.ProfileFragment
 
 
 class AccountParametersAdapter(
@@ -20,11 +23,9 @@ class AccountParametersAdapter(
     override val binding: (Context, ViewGroup, Boolean) -> RecyclerAccountItemBinding = { ctx, vGroup, bool ->
         RecyclerAccountItemBinding.inflate(LayoutInflater.from(ctx), vGroup, bool)
     }
-    private var isEnabledSwitch = false
+    private var isEnabledSwitch = DarkModeManager.getCurrentMode()
 
-    var onClickAction: (String) -> Unit = {
-
-    }
+    var onClickAction: ((String) -> Unit)? = null
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         val item = list[position]
@@ -45,8 +46,8 @@ class AccountParametersAdapter(
             }
 
             else -> {
-                holder.binding.goDetailsIcon.setOnClickListener { onClickAction.invoke(item.type.name) }
-                holder.itemView.setOnClickListener { onClickAction.invoke(item.type.name) }
+                holder.binding.goDetailsIcon.setOnClickListener { onClickAction?.invoke(item.type.name) }
+                holder.itemView.setOnClickListener { onClickAction?.invoke(item.type.name) }
             }
         }
     }
@@ -59,9 +60,13 @@ class AccountParametersAdapter(
             val params = settingsTitle.layoutParams as ConstraintLayout.LayoutParams
             params.endToStart = switchIcon.id
 
+            switchIcon.isChecked = !DarkModeManager.getCurrentMode()
+
             switchIcon.setOnClickListener {
-                isEnabledSwitch = !isEnabledSwitch
-                switchIcon.isChecked = isEnabledSwitch
+                switchIcon.isChecked = DarkModeManager.getCurrentMode()
+                DarkModeManager.updateCurrentMode()
+                NavigationManager.navigateByRouteTitle(fragment, NavigationManager.HOME_ROUTE)
+                DarkModeManager.changeModeToggle()
             }
         }
     }

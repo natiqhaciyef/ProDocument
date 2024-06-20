@@ -6,8 +6,11 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import androidx.annotation.DrawableRes
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.marginEnd
 import androidx.core.widget.doOnTextChanged
 import com.google.android.material.appbar.MaterialToolbar
+import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.CustomToolbarLayoutBinding
 
 class CustomToolbarLayout(
@@ -84,12 +87,23 @@ class CustomToolbarLayout(
         binding?.topbarTitle?.visibility = visibility
     }
 
-    fun appIconImageVisibility(visibility: Int = View.VISIBLE){
+    fun appIconVisibility(visibility: Int){
+        if (visibility == View.GONE){
+            binding?.let {
+                val params = it.topbarTitle.layoutParams as ConstraintLayout.LayoutParams
+                params.startToStart = it.materialToolbar.id
+                params.marginStart = 0
+            }
+        }
+
         binding?.toolbarImage?.visibility = visibility
     }
 
-    fun appIconVisibility(visibility: Int){
-        binding?.toolbarImage?.visibility = visibility
+    fun changeAppIcon(@DrawableRes icon: Int, onClickAction: () -> Unit = {}){
+        binding?.toolbarImage?.setImageResource(icon)
+        binding?.toolbarImage?.setOnClickListener {
+            onClickAction.invoke()
+        }
     }
 
     private fun closeAndSearchIconClickAction() {

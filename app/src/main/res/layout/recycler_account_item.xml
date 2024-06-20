@@ -47,6 +47,7 @@
         android:layout_height="28dp"
         android:checked="false"
         android:visibility="gone"
+        app:trackDecorationTint="@color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

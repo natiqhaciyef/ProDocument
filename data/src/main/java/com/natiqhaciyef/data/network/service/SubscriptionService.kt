@@ -15,4 +15,10 @@ interface SubscriptionService {
     suspend fun getAllSubscriptionPlans(
         @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String
     ): Response<List<SubscriptionResponse>>
+
+    @GET("")
+    suspend fun getPickedSubscriptionPlan(
+        @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String,
+        @Field("email") email: String
+    ): Response<SubscriptionResponse>
 }

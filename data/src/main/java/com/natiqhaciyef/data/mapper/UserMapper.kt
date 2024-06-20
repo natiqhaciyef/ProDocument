@@ -16,6 +16,24 @@ fun MappedUserModel.toMappedUserWithoutPassword(): MappedUserWithoutPasswordMode
         gender = this.gender,
         birthDate = this.birthDate,
         imageUrl = this.imageUrl,
+        country = this.country,
+        city = this.city,
+        street = this.street,
+    )
+}
+
+fun UserResponse.toMapped(): MappedUserModel {
+    return MappedUserModel(
+        name = this.fullName,
+        phoneNumber = this.phoneNumber,
+        gender = this.gender,
+        birthDate = this.dateOfBirth,
+        imageUrl = this.imageUrl,
+        email = this.email,
+        password = this.password,
+        country = this.country,
+        city = this.city,
+        street = this.street,
     )
 }
 
@@ -38,7 +56,10 @@ fun UserResponse.toUIResult(): UIResult<MappedUserModel>? {
             gender = this.gender,
             birthDate = this.dateOfBirth,
             imageUrl = this.imageUrl,
-            password = this.password
+            password = this.password,
+            country = this.country,
+            city = this.city,
+            street = this.street,
         )
 
         UIResult(
@@ -62,6 +83,9 @@ fun MappedUserModel.toResponse(): UserResponse =
         imageUrl = this.imageUrl,
         email = this.email,
         password = this.password,
+        country = this.country,
+        city = this.city,
+        street = this.street,
         publishDate = "",
         result = null
     )
@@ -86,6 +110,9 @@ fun UIResult<MappedUserModel>.toResponse(): UserResponse? {
             imageUrl = this.data.imageUrl,
             email = this.data.email,
             password = this.data.password,
+            country = this.data.country,
+            city = this.data.city,
+            street = this.data.street,
             publishDate = this.publishDate,
             result = this.result?.toResponse()
         )
@@ -104,7 +131,10 @@ fun UserEntity.toUIResult(): UIResult<MappedUserModel> {
         gender = this.gender,
         birthDate = this.birthDate,
         imageUrl = this.imageUrl,
-        password = this.password
+        password = this.password,
+        country = this.country,
+        city = this.city,
+        street = this.street,
     )
 
     return UIResult(
@@ -124,6 +154,9 @@ fun UIResult<MappedUserModel>.toEntity(): UserEntity {
         birthDate = this.data.birthDate,
         imageUrl = this.data.imageUrl,
         password = this.data.password,
-        publishDate = this.publishDate
+        publishDate = this.publishDate,
+        country = this.data.country,
+        city = this.data.country,
+        street = this.data.street,
     )
 }

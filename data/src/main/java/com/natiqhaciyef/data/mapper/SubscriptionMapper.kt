@@ -1,5 +1,6 @@
 package com.natiqhaciyef.data.mapper
 
+import com.natiqhaciyef.common.model.StorageSize
 import com.natiqhaciyef.common.model.ui.Color
 import com.natiqhaciyef.common.model.ui.SubscriptionType
 import com.natiqhaciyef.common.model.Time
@@ -26,6 +27,8 @@ fun SubscriptionResponse.toMapped(): MappedSubscriptionModel? {
             features = this.features,
             backgroundColor = Color.stringToColor(this.backgroundColor),
             expireDate = this.expireDate,
+            size = this.size,
+            sizeType = StorageSize.stringToStorageSize(this.sizeType),
             token = this.token
         )
     else
@@ -49,6 +52,8 @@ fun MappedSubscriptionModel.toResponse(): SubscriptionResponse? {
             features = this.features,
             backgroundColor = this.backgroundColor.name.lowercase(),
             expireDate = this.expireDate,
+            size = this.size,
+            sizeType = this.sizeType.name,
             token = this.token
         )
     else

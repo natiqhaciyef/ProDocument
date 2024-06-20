@@ -51,8 +51,6 @@ class NewPaymentFragment(
         (activity as MainActivity).also {
             with(it.binding) {
                 bottomNavBar.visibility = View.GONE
-                appbarLayout.visibility = View.VISIBLE
-
                 materialToolbar.apply {
                     visibility = View.VISIBLE
                     setTitleToolbar(getString(com.natiqhaciyef.common.R.string.add_new_payment))

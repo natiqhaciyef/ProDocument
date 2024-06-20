@@ -57,7 +57,6 @@ class PaymentResultFragment(
         (activity as MainActivity).also {
             with(it.binding) {
                 bottomNavBar.visibility = View.GONE
-                appbarLayout.visibility = View.GONE
 
                 materialToolbar.apply {
                     visibility = View.GONE

@@ -22,6 +22,10 @@ data class SubscriptionResponse(
     val expireDate: String,
     @SerializedName("templateColor")
     val backgroundColor: String,
+    @SerializedName("size")
+    val size: Int,
+    @SerializedName("sizeType")
+    val sizeType: String,
     @SerializedName("premiumToken")
     val token: String
 ): Parcelable

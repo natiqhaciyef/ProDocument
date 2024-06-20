@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.natiqhaciyef.common.helpers.loadImage
 import com.natiqhaciyef.common.model.StorageSize
+import com.natiqhaciyef.common.model.mapped.MappedUserWithoutPasswordModel
 import com.natiqhaciyef.common.model.ui.SubscriptionType
 import com.natiqhaciyef.prodocument.databinding.CustomAccountDetailsViewBinding
 
@@ -20,8 +21,7 @@ class CustomProfileDetailsView(
     }
 
     fun initAccountDetails(
-        fullName: String,
-        image: String,
+        user: MappedUserWithoutPasswordModel,
         subscriptionType: SubscriptionType,
         filled: Double,
         total: Int,
@@ -30,8 +30,8 @@ class CustomProfileDetailsView(
         val customSize = "%.1f".format(filled)
         val totalSize = total.toString()
         binding?.let {
-            it.accountFullName.text = fullName
-            it.accountUserImage.loadImage(image)
+            it.accountFullName.text = user.name
+            it.accountUserImage.loadImage(user.imageUrl)
             it.accountSubscriptionType.text = subscriptionType.title
             it.storageSizeRatio.text = context.getString(
                 com.natiqhaciyef.common.R.string.captured_files_size_ratio,
@@ -42,6 +42,4 @@ class CustomProfileDetailsView(
             it.loadLevelOfFilesPerUser.progress = (filled.toInt() / total) * 100
         }
     }
-
-
 }

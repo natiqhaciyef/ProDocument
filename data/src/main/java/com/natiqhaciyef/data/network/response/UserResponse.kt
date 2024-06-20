@@ -18,6 +18,12 @@ data class UserResponse(
     var dateOfBirth: String,
     @SerializedName("imageUrl")
     var imageUrl: String,
+    @SerializedName("country")
+    var country: String,
+    @SerializedName("city")
+    var city: String,
+    @SerializedName("street")
+    var street: String,
     @SerializedName("email")
     var email: String,
     @SerializedName("password")

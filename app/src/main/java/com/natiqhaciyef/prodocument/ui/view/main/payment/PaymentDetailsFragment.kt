@@ -13,6 +13,7 @@ import com.natiqhaciyef.common.model.payment.MappedPaymentModel
 import com.natiqhaciyef.common.model.payment.MappedPaymentModel.Companion.toMappedPick
 import com.natiqhaciyef.common.model.payment.PaymentResultType
 import com.natiqhaciyef.core.base.ui.BaseFragment
+import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.FragmentPaymentDetailsBinding
 import com.natiqhaciyef.prodocument.ui.custom.CustomPaymentMethodsFragment
 import com.natiqhaciyef.prodocument.ui.util.BundleConstants
@@ -69,7 +70,6 @@ class PaymentDetailsFragment(
         (activity as MainActivity).also {
             with(it.binding) {
                 bottomNavBar.visibility = View.GONE
-                appbarLayout.visibility = View.VISIBLE
 
                 materialToolbar.apply {
                     visibility = View.VISIBLE
@@ -97,10 +97,10 @@ class PaymentDetailsFragment(
         with(binding) {
             subscriptionPlanDetails.text = plan.title.title
             subscriptionPlanDateDetails.text = "$perTime $perTimeType"
-            planAmountDetails.text = "${currency}${price}"
-            taxAmountDetails.text = "${currency}${fee}"
+            planAmountDetails.text = getString(com.natiqhaciyef.common.R.string.payment_currency, currency, price)
+            taxAmountDetails.text = getString(com.natiqhaciyef.common.R.string.payment_currency, currency, fee)
 
-            totalAmountDetails.text = "${currency}${total}"
+            totalAmountDetails.text = getString(com.natiqhaciyef.common.R.string.payment_currency, currency, total)
             paymentTypeImage.setImageResource(pickedPayment.image)
             maskedCardNumber.text = pickedPayment.maskedCardNumber
             confirmButton.setOnClickListener { viewModel.postEvent(PaymentContract.PaymentEvent.PayForPlan(chequeModel)) }

@@ -130,7 +130,7 @@ object PaymentMockManager {
 
         val cheque = PaymentChequeResponse(
             checkId = "mock-key-id",
-            title = "Payment for plan",
+            title = plan.title,
             description = "Payment refund is not available",
             subscriptionDetails = SubscriptionPlanPaymentDetails(
                 expirationTime = 12,
