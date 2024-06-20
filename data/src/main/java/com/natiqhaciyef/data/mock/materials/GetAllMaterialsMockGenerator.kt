@@ -2,6 +2,7 @@ package com.natiqhaciyef.data.mock.materials
 
 
 import android.annotation.SuppressLint
+import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
 import com.natiqhaciyef.common.helpers.getNow
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
@@ -23,7 +24,7 @@ class GetAllMaterialsMockGenerator(override var takenRequest: String) :
                 type = "type",
                 url = "url",
                 result = CRUDResponse(
-                    resultCode = 299,
+                    resultCode = TWO_HUNDRED_NINETY_NINE,
                     message = "mock material"
                 )
             ),
@@ -36,7 +37,7 @@ class GetAllMaterialsMockGenerator(override var takenRequest: String) :
                 type = "type2",
                 url = "url2",
                 result = CRUDResponse(
-                    resultCode = 299,
+                    resultCode = TWO_HUNDRED_NINETY_NINE,
                     message = "mock material 2"
                 )
             ),
@@ -49,14 +50,14 @@ class GetAllMaterialsMockGenerator(override var takenRequest: String) :
                 type = "type2",
                 url = "url2",
                 result = CRUDResponse(
-                    resultCode = 299,
+                    resultCode = TWO_HUNDRED_NINETY_NINE,
                     message = "mock material 2"
                 )
             )
         ),
         id = "listMaterialId",
         result = CRUDResponse(
-            resultCode = 299,
+            resultCode = TWO_HUNDRED_NINETY_NINE,
             message = "Mock"
         ),
         publishDate = getNow()

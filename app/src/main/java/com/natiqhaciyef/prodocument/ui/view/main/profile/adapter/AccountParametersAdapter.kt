@@ -12,8 +12,7 @@ import com.natiqhaciyef.prodocument.ui.view.main.profile.model.Settings
 import com.natiqhaciyef.core.base.ui.BaseRecyclerViewAdapter
 import com.natiqhaciyef.prodocument.databinding.RecyclerAccountItemBinding
 import com.natiqhaciyef.prodocument.ui.manager.DarkModeManager
-import com.natiqhaciyef.prodocument.ui.util.NavigationManager
-import com.natiqhaciyef.prodocument.ui.view.main.profile.ProfileFragment
+import com.natiqhaciyef.prodocument.ui.manager.NavigationManager
 
 
 class AccountParametersAdapter(

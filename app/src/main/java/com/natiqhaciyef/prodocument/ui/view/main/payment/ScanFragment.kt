@@ -21,9 +21,9 @@ import com.natiqhaciyef.common.model.payment.MappedPaymentModel
 import com.natiqhaciyef.prodocument.databinding.FragmentScanBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.ui.manager.PermissionManager
-import com.natiqhaciyef.prodocument.ui.util.BundleConstants
-import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_CHEQUE_PAYMENT
-import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_PAYMENT
+import com.natiqhaciyef.prodocument.ui.util.BUNDLE_CHEQUE_PAYMENT
+import com.natiqhaciyef.prodocument.ui.util.BUNDLE_PAYMENT
+import com.natiqhaciyef.prodocument.ui.util.BUNDLE_SUBSCRIPTION_PLAN
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.payment.contract.PaymentContract
 import com.natiqhaciyef.prodocument.ui.view.main.payment.viewmodel.PaymentViewModel
@@ -150,7 +150,7 @@ class ScanFragment(
                 value as String
 
                 val subscription =
-                    resourceBundle.getParcelable<MappedSubscriptionModel>(BundleConstants.BUNDLE_SUBSCRIPTION_PLAN)
+                    resourceBundle.getParcelable<MappedSubscriptionModel>(BUNDLE_SUBSCRIPTION_PLAN)
                 val subscriptionDetails = subscription?.toDetails()
 
                 if (subscriptionDetails != null)

@@ -14,26 +14,28 @@ import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import coil.load
+import com.natiqhaciyef.common.constants.EMPTY_STRING
+import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.common.model.CRUDModel
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.store.AppStorePrefKeys.TITLE_COUNT_KEY
 import com.natiqhaciyef.prodocument.databinding.FragmentModifyPdfBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
-import com.natiqhaciyef.prodocument.ui.util.NavigationManager.HOME_ROUTE
+import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.HOME_ROUTE
 import com.natiqhaciyef.prodocument.ui.custom.CustomMaterialOptionsBottomSheetFragment
 import com.natiqhaciyef.prodocument.ui.custom.CustomWatermarkAdderBottomSheetFragment
 import com.natiqhaciyef.core.model.CategoryItem
 import com.natiqhaciyef.prodocument.ui.manager.CameraManager.Companion.createAndShareFile
 import com.natiqhaciyef.prodocument.ui.manager.CameraManager.Companion.getAddressOfFile
 import com.natiqhaciyef.prodocument.ui.manager.FileManager.createSafePdfUriLoader
-import com.natiqhaciyef.prodocument.ui.util.NavigationManager.COMPRESS_TYPE
-import com.natiqhaciyef.prodocument.ui.util.NavigationManager.PROTECT_TYPE
-import com.natiqhaciyef.prodocument.ui.util.NavigationManager.SPLIT_TYPE
-import com.natiqhaciyef.prodocument.ui.util.NavigationManager.navigateByRouteTitle
-import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_LIST_MATERIAL
-import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
-import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TITLE
-import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TYPE
+import com.natiqhaciyef.prodocument.ui.util.BUNDLE_LIST_MATERIAL
+import com.natiqhaciyef.prodocument.ui.util.BUNDLE_MATERIAL
+import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TITLE
+import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TYPE
+import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.COMPRESS_TYPE
+import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.PROTECT_TYPE
+import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.SPLIT_TYPE
+import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.modify.contract.ModifyPdfContract
 import com.natiqhaciyef.prodocument.ui.view.main.modify.viewmodel.ModifyPdfViewModel
@@ -167,7 +169,7 @@ class ModifyPdfFragment(
         with(binding) {
             pdfView.visibility = View.VISIBLE
             imageView.visibility = View.GONE
-            uriAddress = getAddressOfFile(requireContext(), material.url) ?: "".toUri()
+            uriAddress = getAddressOfFile(requireContext(), material.url) ?: EMPTY_STRING.toUri()
             pdfView.createSafePdfUriLoader(uriAddress!!)
             saveButton.setOnClickListener {
                 saveButtonClickEvent(material)
@@ -181,16 +183,16 @@ class ModifyPdfFragment(
         with(binding) {
             pdfView.visibility = View.VISIBLE
             imageView.visibility = View.GONE
-            uriAddress = getAddressOfFile(requireContext(), mappedMaterialModel.url) ?: "".toUri()
+            uriAddress = getAddressOfFile(requireContext(), mappedMaterialModel.url) ?: EMPTY_STRING.toUri()
             pdfView.createSafePdfUriLoader(uriAddress!!)
 
             val pdfParams = pdfView.layoutParams as ConstraintLayout.LayoutParams
-            pdfParams.bottomMargin = 0
+            pdfParams.bottomMargin = ZERO
             val params = pdfTitleText.layoutParams as ConstraintLayout.LayoutParams
             params.endToStart = optionsIconButton.id
 
             saveButton.visibility = View.GONE
-            pdfTitleText.setText(material?.title ?: "")
+            pdfTitleText.setText(material?.title ?: EMPTY_STRING)
             modifyIconButton.visibility = View.GONE
             saveButton.setOnClickListener {
                 saveButtonClickEvent(material)
@@ -217,7 +219,7 @@ class ModifyPdfFragment(
                 // continue button event
             }
 
-            optionsIconButton.setOnClickListener { showWatermarkBottomSheetDialog(material = material, title = title ?: "") }
+            optionsIconButton.setOnClickListener { showWatermarkBottomSheetDialog(material = material, title = title ?: EMPTY_STRING) }
         }
     }
 
@@ -335,7 +337,7 @@ class ModifyPdfFragment(
                         requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
 
                     // on below line hiding our keyboard.
-                    inputMethodManager.hideSoftInputFromWindow(pdfTitleText.windowToken, 0)
+                    inputMethodManager.hideSoftInputFromWindow(pdfTitleText.windowToken, ZERO)
                 }
             }
         }

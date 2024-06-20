@@ -10,13 +10,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.navArgs
+import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.common.helpers.toResponseString
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.databinding.FragmentAddSignBinding
 import com.natiqhaciyef.prodocument.ui.manager.FileManager.createSafePdfUriLoader
-import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
-import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_SIGN_BITMAP
+import com.natiqhaciyef.prodocument.ui.util.BUNDLE_MATERIAL
+import com.natiqhaciyef.prodocument.ui.util.BUNDLE_SIGN_BITMAP
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.e_sign.contract.ESignContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.e_sign.viewmodel.ESignViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -85,8 +86,8 @@ class AddSignFragment(
 
     @SuppressLint("ClickableViewAccessibility")
     private fun signImageTouchListenerConfig(imageView: ImageView) {
-        var initialX = 0f
-        var initialY = 0f
+        var initialX = ZERO.toFloat()
+        var initialY = ZERO.toFloat()
 
         imageView.setOnTouchListener { view, event ->
             when (event.action) {

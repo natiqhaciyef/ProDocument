@@ -1,5 +1,8 @@
 package com.natiqhaciyef.data.mock.payment
 
+import com.natiqhaciyef.common.constants.NINETY_NINE
+import com.natiqhaciyef.common.constants.ONE
+import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.common.model.Currency
 import com.natiqhaciyef.common.model.Time
 import com.natiqhaciyef.common.model.payment.PaymentDetails
@@ -16,7 +19,7 @@ class ScanQrCodePaymentMockGenerator(
 ) : BaseMockGenerator<QrCodeRequest, QrPaymentResponse>() {
     override var createdMock: QrPaymentResponse =
         QrPaymentResponse(
-            merchantId = 99,
+            merchantId = NINETY_NINE,
             paymentType = PaymentTypes.QR.name,
             paymentMethod = PaymentMethods.GOOGLE_PAY.name,
             cheque = PaymentChequeResponse(
@@ -25,10 +28,10 @@ class ScanQrCodePaymentMockGenerator(
                 description = "Empty description",
                 subscriptionDetails = SubscriptionPlanPaymentDetails(
                     expirationTimeType = Time.MONTH.title,
-                    expirationTime = 1,
+                    expirationTime = ONE,
                     price = 4.99,
                     fee = 0.5,
-                    discount = 0.0
+                    discount = ZERO.toDouble()
                 ),
                 totalAmount = 5.49,
                 currency = Currency.USD.name,
@@ -59,10 +62,10 @@ class ScanQrCodePaymentMockGenerator(
             qrCode = "qrCode",
             subscriptionDetails = SubscriptionPlanPaymentDetails(
                 expirationTimeType = Time.MONTH.title,
-                expirationTime = 1,
+                expirationTime = ONE,
                 price = 4.99,
                 fee = 0.5,
-                discount = 0.0
+                discount = ZERO.toDouble()
             )
         )
     }

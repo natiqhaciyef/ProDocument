@@ -8,12 +8,13 @@ import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.natiqhaciyef.common.R
+import com.natiqhaciyef.common.constants.FOUR
 import com.natiqhaciyef.prodocument.databinding.FragmentHomeBinding
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
-import com.natiqhaciyef.prodocument.ui.util.NavigationManager.navigateByRouteTitle
-import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
-import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TYPE
+import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.navigateByRouteTitle
+import com.natiqhaciyef.prodocument.ui.util.BUNDLE_MATERIAL
+import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TYPE
 import com.natiqhaciyef.prodocument.ui.util.UiList
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.home.adapter.FileItemAdapter
@@ -112,7 +113,7 @@ class HomeFragment(
         binding.apply {
             homeRecyclerMenubar.adapter = menuAdapter
             homeRecyclerMenubar.layoutManager =
-                GridLayoutManager(requireContext(), 4, GridLayoutManager.VERTICAL, false)
+                GridLayoutManager(requireContext(), FOUR, GridLayoutManager.VERTICAL, false)
             homeRecyclerMenubar.isScrollContainer = false
         }
     }

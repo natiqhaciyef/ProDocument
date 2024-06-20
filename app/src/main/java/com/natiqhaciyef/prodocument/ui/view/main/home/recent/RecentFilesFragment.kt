@@ -10,7 +10,6 @@ import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.model.mapped.MappedTokenModel
-import com.natiqhaciyef.common.objects.MATERIAL_TOKEN_MOCK_KEY
 import com.natiqhaciyef.core.store.AppStorePrefKeys.TOKEN_KEY
 import com.natiqhaciyef.prodocument.databinding.FragmentRecentFilesBinding
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity

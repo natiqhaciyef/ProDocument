@@ -1,5 +1,7 @@
 package com.natiqhaciyef.data.mock.materials
 
+import com.natiqhaciyef.common.constants.TWO_HUNDRED
+import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
 import com.natiqhaciyef.common.helpers.getNow
 import com.natiqhaciyef.data.network.request.SplitRequest
 import com.natiqhaciyef.core.CRUDResponse
@@ -20,7 +22,7 @@ class SplitMaterialMockGenerator(
             type = "type",
             url = "url",
             result = CRUDResponse(
-                resultCode = 299,
+                resultCode = TWO_HUNDRED_NINETY_NINE,
                 message = "Mock crud"
             )
         ),
@@ -33,7 +35,7 @@ class SplitMaterialMockGenerator(
             type = "type",
             url = "url",
             result = CRUDResponse(
-                resultCode = 299,
+                resultCode = TWO_HUNDRED_NINETY_NINE,
                 message = "Mock crud"
             )
         )
@@ -61,7 +63,7 @@ class SplitMaterialMockGenerator(
                 type = "type",
                 url = "url",
                 result = CRUDResponse(
-                    resultCode = 299,
+                    resultCode = TWO_HUNDRED_NINETY_NINE,
                     message = "Mock crud"
                 )
             ),

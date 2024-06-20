@@ -1,6 +1,8 @@
 package com.natiqhaciyef.data.network.response
 
 import android.os.Parcelable
+import com.natiqhaciyef.common.constants.EMPTY_STRING
+import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.common.model.payment.PaymentDetails
 import kotlinx.parcelize.Parcelize
 
@@ -23,7 +25,7 @@ data class SubscriptionPlanPaymentDetails(
     var expirationTimeType: String,
     var price: Double,
     var fee: Double,
-    var discount: Double = 0.0,
+    var discount: Double = ZERO.toDouble(),
 ): Parcelable
 
 @Parcelize
@@ -33,5 +35,5 @@ data class ChequePayloadModel(var payload: String) : Parcelable
 data class PaymentPickModel(
     var type: String,
     var image: Int,
-    var maskedCardNumber: String = ""
+    var maskedCardNumber: String = EMPTY_STRING
 ): Parcelable

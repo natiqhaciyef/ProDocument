@@ -1,5 +1,6 @@
 package com.natiqhaciyef.prodocument.ui.view.registration.login.contract
 
+import android.content.Context
 import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.core.base.ui.UiEffect
 import com.natiqhaciyef.core.base.ui.UiEvent
@@ -8,7 +9,7 @@ import java.lang.Exception
 
 object LoginContract {
     sealed class LoginEvent : UiEvent {
-        data class LoginClickEvent(val email: String, val password: String) : LoginEvent()
+        data class LoginClickEvent(val ctx: Context, val email: String, val password: String) : LoginEvent()
         data object GoogleSignInClickEvent : LoginEvent()
         data object AppleSignInClickEvent : LoginEvent()
         data object FacebookSignInClickEvent : LoginEvent()

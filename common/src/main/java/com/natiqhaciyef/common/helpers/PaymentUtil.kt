@@ -1,5 +1,6 @@
 package com.natiqhaciyef.common.helpers
 
+import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.common.model.mapped.MappedSubscriptionModel
 import com.natiqhaciyef.common.model.payment.MappedPaymentModel
 import com.natiqhaciyef.common.model.payment.MappedPaymentPickModel
@@ -28,6 +29,6 @@ fun MappedSubscriptionModel.toDetails(): MappedSubscriptionPlanPaymentDetails {
         expirationTimeType = this.timeType,
         price = this.price,
         fee = this.price * 0.1,
-        discount = 0.0
+        discount = ZERO.toDouble()
     )
 }

@@ -3,18 +3,18 @@ package com.natiqhaciyef.prodocument.ui.util
 import android.content.Context
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.model.MenuItemModel
-import com.natiqhaciyef.prodocument.ui.util.NavigationManager.ALL_TOOLS_ROUTE
-import com.natiqhaciyef.prodocument.ui.util.NavigationManager.COMPRESS_ROUTE
-import com.natiqhaciyef.prodocument.ui.util.NavigationManager.COMPRESS_TYPE
-import com.natiqhaciyef.prodocument.ui.util.NavigationManager.E_SIGN_ROUTE
-import com.natiqhaciyef.prodocument.ui.util.NavigationManager.E_SIGN_TYPE
-import com.natiqhaciyef.prodocument.ui.util.NavigationManager.MERGE_ROUTE
-import com.natiqhaciyef.prodocument.ui.util.NavigationManager.PROTECT_ROUTE
-import com.natiqhaciyef.prodocument.ui.util.NavigationManager.PROTECT_TYPE
-import com.natiqhaciyef.prodocument.ui.util.NavigationManager.SCAN_ROUTE
-import com.natiqhaciyef.prodocument.ui.util.NavigationManager.SPLIT_ROUTE
-import com.natiqhaciyef.prodocument.ui.util.NavigationManager.SPLIT_TYPE
-import com.natiqhaciyef.prodocument.ui.util.NavigationManager.WATERMARK_ROUTE
+import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.ALL_TOOLS_ROUTE
+import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.COMPRESS_ROUTE
+import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.COMPRESS_TYPE
+import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.E_SIGN_ROUTE
+import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.E_SIGN_TYPE
+import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.MERGE_ROUTE
+import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.PROTECT_ROUTE
+import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.PROTECT_TYPE
+import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.SCAN_ROUTE
+import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.SPLIT_ROUTE
+import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.SPLIT_TYPE
+import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.WATERMARK_ROUTE
 
 
 object UiList {

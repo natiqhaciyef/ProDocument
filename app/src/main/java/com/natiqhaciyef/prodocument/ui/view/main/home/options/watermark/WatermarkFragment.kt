@@ -12,11 +12,11 @@ import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.databinding.FragmentWatermarkBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.ui.manager.FileManager
-import com.natiqhaciyef.prodocument.ui.util.NavigationManager.HOME_ROUTE
-import com.natiqhaciyef.prodocument.ui.util.NavigationManager.navigateByRouteTitle
-import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
-import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TITLE
-import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TYPE
+import com.natiqhaciyef.prodocument.ui.util.BUNDLE_MATERIAL
+import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TITLE
+import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TYPE
+import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.HOME_ROUTE
+import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.contract.WatermarkContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.viewmodel.WatermarkViewModel
 import dagger.hilt.android.AndroidEntryPoint

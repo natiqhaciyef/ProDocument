@@ -1,5 +1,8 @@
 package com.natiqhaciyef.data.mock.payment
 
+import com.natiqhaciyef.common.constants.THIRTY_SIX
+import com.natiqhaciyef.common.constants.TWELVE
+import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.common.model.payment.PaymentDetails
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
 import com.natiqhaciyef.data.network.response.PaymentChequeResponse
@@ -14,11 +17,11 @@ class GetPaymentHistoryDetailsMockGenerator(
             title = "Payment for plan",
             description = "Payment refund is not available",
             subscriptionDetails = SubscriptionPlanPaymentDetails(
-                expirationTime = 12,
+                expirationTime = TWELVE,
                 expirationTimeType = "Month",
-                price = 36.00,
+                price = THIRTY_SIX.toDouble(),
                 fee = 2.99,
-                discount = 0.0
+                discount = ZERO.toDouble()
             ),
             totalAmount = 38.99,
             currency = "USD",

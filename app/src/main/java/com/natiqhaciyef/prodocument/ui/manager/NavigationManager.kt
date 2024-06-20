@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.util
+package com.natiqhaciyef.prodocument.ui.manager
 
 import android.app.Activity
 import android.content.Context
@@ -8,6 +8,7 @@ import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.home.HomeFragment
@@ -17,6 +18,9 @@ import com.natiqhaciyef.prodocument.ui.view.registration.RegistrationActivity
 
 
 object NavigationManager {
+    const val RESOURCE_BUNDLE = "resourceBundle"
+    const val DATASET_BUNDLE = "datasetBundle"
+
     // Deep links
     const val REGISTER_MAIN_DEEPLINK = "prodoc://register/main"
     const val ONBOARDING_MAIN_DEEPLINK = "prodoc://onboarding/main"
@@ -94,20 +98,20 @@ object NavigationManager {
         }
 
         ALL_TOOLS_ROUTE -> {
-            0
+            ZERO
         }
 
         // Result Route
         SUCCESS_ROUTE -> {
-            0
+            ZERO
         }
 
         ERROR_ROUTE -> {
-            0
+            ZERO
         }
 
         CUSTOM_ROUTE -> {
-            0
+            ZERO
         }
 
         // External Routes
@@ -120,7 +124,7 @@ object NavigationManager {
             R.navigation.payment_nav_graph
         }
 
-        else -> 0
+        else -> ZERO
     }
 
     private fun getNavigationByTitleActivity(title: String, context: Context) = when (title) {
@@ -182,7 +186,7 @@ object NavigationManager {
             COMPRESS_ROUTE, SPLIT_ROUTE, PROTECT_ROUTE, E_SIGN_ROUTE -> {
                 if (fragment is HomeFragment && bundle != null) {
                     val customBundle = bundleOf()
-                    customBundle.putBundle("resourceBundle", bundle)
+                    customBundle.putBundle(RESOURCE_BUNDLE, bundle)
 
                     val destinationId = getNavGraph(title)
                     fragment.findNavController().setGraph(destinationId, customBundle)
@@ -192,7 +196,7 @@ object NavigationManager {
             PAYMENT_ROUTE -> {
                 if (fragment is SubscriptionFragment && bundle != null){
                     val customBundle = bundleOf()
-                    customBundle.putBundle("datasetBundle", bundle)
+                    customBundle.putBundle(DATASET_BUNDLE, bundle)
 
                     val destinationId = getNavGraph(title)
                     fragment.findNavController().setGraph(destinationId, customBundle)

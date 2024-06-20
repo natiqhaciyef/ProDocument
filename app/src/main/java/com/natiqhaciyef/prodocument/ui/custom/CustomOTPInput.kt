@@ -8,6 +8,13 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doOnTextChanged
 import com.natiqhaciyef.common.R
+import com.natiqhaciyef.common.constants.ELEMENT_OUT_OF_BOUND
+import com.natiqhaciyef.common.constants.EMPTY_STRING
+import com.natiqhaciyef.common.constants.FOUR
+import com.natiqhaciyef.common.constants.ONE
+import com.natiqhaciyef.common.constants.THREE
+import com.natiqhaciyef.common.constants.TWO
+import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.prodocument.databinding.CustomOtpEdittextBinding
 
 
@@ -16,7 +23,7 @@ class CustomOTPInput(
     attribute: AttributeSet
 ) : ConstraintLayout(context, attribute) {
     private var binding: CustomOtpEdittextBinding? = null
-    private var otpResultArray = arrayOf("0", "0", "0", "0")
+    private var otpResultArray = arrayOf("$ZERO", "$ZERO", "$ZERO", "$ZERO")
 
     init {
         initBinding()
@@ -37,7 +44,7 @@ class CustomOTPInput(
                 text?.let {
                     if (text.length == MAX_SINGLE_OTP_FIELD_SIZE) {
                         otp1.focusSearch(View.FOCUS_RIGHT)?.requestFocus()
-                        otpResultArray[0] = text[0].toString()
+                        otpResultArray[ZERO] = text[ZERO].toString()
                     } else if (text.length > MAX_SINGLE_OTP_FIELD_SIZE) {
                         otp1.text.clear()
                     }
@@ -50,7 +57,7 @@ class CustomOTPInput(
                 text?.let {
                     if (text.length == MAX_SINGLE_OTP_FIELD_SIZE) {
                         otp2.focusSearch(View.FOCUS_RIGHT)?.requestFocus()
-                        otpResultArray[1] = text[0].toString()
+                        otpResultArray[ONE] = text[ZERO].toString()
                     } else if (text.length > MAX_SINGLE_OTP_FIELD_SIZE) {
                         otp2.text.clear()
                     }
@@ -63,7 +70,7 @@ class CustomOTPInput(
                 text?.let {
                     if (text.length == MAX_SINGLE_OTP_FIELD_SIZE) {
                         otp3.focusSearch(View.FOCUS_RIGHT)?.requestFocus()
-                        otpResultArray[2] = text[0].toString()
+                        otpResultArray[TWO] = text[ZERO].toString()
                     } else if (text.length > MAX_SINGLE_OTP_FIELD_SIZE) {
                         otp3.text.clear()
                     }
@@ -76,7 +83,7 @@ class CustomOTPInput(
                 text?.let {
                     if (text.length == MAX_SINGLE_OTP_FIELD_SIZE) {
                         otp4.focusSearch(View.FOCUS_RIGHT)?.requestFocus()
-                        otpResultArray[3] = text[0].toString()
+                        otpResultArray[THREE] = text[ZERO].toString()
                     } else if (text.length > MAX_SINGLE_OTP_FIELD_SIZE) {
                         otp4.text.clear()
                     }
@@ -114,7 +121,7 @@ class CustomOTPInput(
     }
 
     fun getOTP(): String {
-        var result = ""
+        var result = EMPTY_STRING
         for (element in otpResultArray) {
             result += element
         }
@@ -122,7 +129,7 @@ class CustomOTPInput(
         return if (result.length == OTP_MAX_SIZE) {
             result
         } else {
-            "Element out of bound"
+            ELEMENT_OUT_OF_BOUND
         }
     }
 
@@ -159,7 +166,7 @@ class CustomOTPInput(
     }
 
     companion object {
-        private const val MAX_SINGLE_OTP_FIELD_SIZE = 1
-        private const val OTP_MAX_SIZE = 4
+        private const val MAX_SINGLE_OTP_FIELD_SIZE = ONE
+        private const val OTP_MAX_SIZE = FOUR
     }
 }

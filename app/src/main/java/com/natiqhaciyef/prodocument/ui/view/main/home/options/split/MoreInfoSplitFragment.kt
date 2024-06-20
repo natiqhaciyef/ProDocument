@@ -8,12 +8,13 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.core.widget.doOnTextChanged
 import androidx.navigation.fragment.navArgs
+import com.natiqhaciyef.common.constants.EMPTY_STRING
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.databinding.FragmentMoreInfoSplitBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
-import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_LIST_MATERIAL
-import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_MATERIAL
-import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TITLE
+import com.natiqhaciyef.prodocument.ui.util.BUNDLE_LIST_MATERIAL
+import com.natiqhaciyef.prodocument.ui.util.BUNDLE_MATERIAL
+import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TITLE
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.split.contract.SplitContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.split.viewmodel.SplitViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,6 +39,7 @@ class MoreInfoSplitFragment(
     override fun onStateChange(state: SplitContract.SplitState) {
         when {
             state.isLoading -> {}
+
             else -> {
                 if (state.materialList != null)
                     continueButtonClickAction(state.materialList!!)
@@ -76,7 +78,7 @@ class MoreInfoSplitFragment(
             viewModel.postEvent(SplitContract.SplitEvent.SplitPdfByLinesEvent(
                 firstLine = firstLine,
                 lastLine = lastLine,
-                title = title ?: "",
+                title = title ?: EMPTY_STRING,
                 material = material
             ))
         }

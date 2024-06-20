@@ -1,5 +1,6 @@
 package com.natiqhaciyef.data.mock.subscription
 
+import com.natiqhaciyef.common.constants.ONE
 import com.natiqhaciyef.data.network.response.SubscriptionResponse
 
 object SubscriptionMockManager {
@@ -7,7 +8,7 @@ object SubscriptionMockManager {
         SubscriptionResponse(
             title = "Unit",
             price = 0.99,
-            perTime = 1,
+            perTime = ONE,
             timeType = "day",
             description = "no description",
             features = listOf("Nothing", "Empty", "Unit", "Void"),
@@ -20,7 +21,7 @@ object SubscriptionMockManager {
         SubscriptionResponse(
             title = "Empty",
             price = 1.99,
-            perTime = 1,
+            perTime = ONE,
             timeType = "day",
             description = "no description",
             features = listOf("Nothing", "Empty", "Unit", "Void"),
@@ -33,7 +34,7 @@ object SubscriptionMockManager {
         SubscriptionResponse(
             title = "Week unit",
             price = 4.99,
-            perTime = 1,
+            perTime = ONE,
             timeType = "week",
             description = "no description",
             features = listOf("Something", "Empty", "Unit", "Void", "No limit"),

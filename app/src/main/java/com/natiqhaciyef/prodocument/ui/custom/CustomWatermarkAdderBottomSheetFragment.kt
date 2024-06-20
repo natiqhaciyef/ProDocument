@@ -1,16 +1,14 @@
 package com.natiqhaciyef.prodocument.ui.custom
 
-import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.textfield.TextInputEditText
+import com.natiqhaciyef.common.constants.ONE
+import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.prodocument.databinding.FragmentCustomWatermarkAdderBottomSheetBinding
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.behaviour.WatermarkTypes
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.AddImageWatermarkFragment
@@ -55,11 +53,11 @@ class CustomWatermarkAdderBottomSheetFragment(
 
             TabLayoutMediator(addWatermarkTabLayout, addWatermarkViewPager) { tab, position ->
                 tab.text = when (position) {
-                    0 -> {
+                    ZERO -> {
                         WatermarkTypes.ADD_TEXT_TYPE.title
                     }
 
-                    1 -> {
+                    ONE -> {
                         WatermarkTypes.ADD_IMAGE_TYPE.title
                     }
 

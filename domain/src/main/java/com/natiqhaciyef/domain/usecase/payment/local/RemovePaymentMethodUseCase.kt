@@ -1,9 +1,11 @@
 package com.natiqhaciyef.domain.usecase.payment.local
 
 import com.google.gson.Gson
+import com.natiqhaciyef.common.constants.FOUR_HUNDRED_FOUR
+import com.natiqhaciyef.common.constants.ONE
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.common.model.payment.MappedPaymentModel
-import com.natiqhaciyef.common.objects.ErrorMessages
+import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.core.base.usecase.BaseUseCase
 import com.natiqhaciyef.core.base.usecase.UseCase
 import com.natiqhaciyef.data.mapper.toEntity
@@ -27,10 +29,10 @@ class RemovePaymentMethodUseCase @Inject constructor(
         } catch (e: Exception) {
             emit(
                 Resource.error(
-                    msg = ErrorMessages.SOMETHING_WENT_WRONG,
+                    msg = SOMETHING_WENT_WRONG,
                     data = null,
                     exception = e,
-                    errorCode = 4041
+                    errorCode = "$FOUR_HUNDRED_FOUR$ONE".toInt()
                 )
             )
         }

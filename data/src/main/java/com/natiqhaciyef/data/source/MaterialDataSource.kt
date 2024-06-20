@@ -1,6 +1,6 @@
 package com.natiqhaciyef.data.source
 
-import com.natiqhaciyef.common.objects.*
+import com.natiqhaciyef.common.constants.*
 import com.natiqhaciyef.core.base.mock.generateMockerClass
 import com.natiqhaciyef.data.mock.materials.CompressMaterialMockGenerator
 import com.natiqhaciyef.data.mock.materials.CreateMaterialMockGenerator
@@ -68,8 +68,8 @@ class MaterialDataSource(
                     token = requestHeader,
                     publishDate = materialModel.publishDate,
                     image = materialModel.image,
-                    title = materialModel.title ?: "",
-                    description = materialModel.description ?: "",
+                    title = materialModel.title ?: EMPTY_STRING,
+                    description = materialModel.description ?: EMPTY_STRING,
                     type = materialModel.type,
                     url = materialModel.url
                 )
@@ -106,8 +106,8 @@ class MaterialDataSource(
                     id = materialModel.id,
                     publishDate = materialModel.publishDate,
                     image = materialModel.image,
-                    title = materialModel.title ?: "",
-                    description = materialModel.description ?: "",
+                    title = materialModel.title ?: EMPTY_STRING,
+                    description = materialModel.description ?: EMPTY_STRING,
                     type = materialModel.type,
                     url = materialModel.url
                 )

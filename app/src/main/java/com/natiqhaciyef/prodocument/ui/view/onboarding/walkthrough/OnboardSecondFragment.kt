@@ -8,7 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.FragmentOnboardSecondBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
-import com.natiqhaciyef.prodocument.ui.util.NavigationManager.navigateByActivityTitle
+import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.navigateByActivityTitle
 import com.natiqhaciyef.prodocument.ui.view.onboarding.walkthrough.contract.OnBoardingContract
 import com.natiqhaciyef.prodocument.ui.view.onboarding.walkthrough.viewmodel.OnboardingViewModel
 import dagger.hilt.android.AndroidEntryPoint

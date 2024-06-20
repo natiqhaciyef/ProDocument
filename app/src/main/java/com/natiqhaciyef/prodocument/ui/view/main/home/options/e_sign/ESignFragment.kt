@@ -9,7 +9,7 @@ import androidx.core.os.bundleOf
 import androidx.navigation.fragment.navArgs
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.databinding.FragmentESignBinding
-import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_SIGN_BITMAP
+import com.natiqhaciyef.prodocument.ui.util.BUNDLE_SIGN_BITMAP
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.e_sign.contract.ESignContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.e_sign.viewmodel.ESignViewModel
 import dagger.hilt.android.AndroidEntryPoint

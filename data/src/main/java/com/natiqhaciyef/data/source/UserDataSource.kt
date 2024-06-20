@@ -1,9 +1,9 @@
 package com.natiqhaciyef.data.source
 
-import com.natiqhaciyef.common.objects.OTP_MOCK_KEY
-import com.natiqhaciyef.common.objects.USER_EMAIL_MOCK_KEY
-import com.natiqhaciyef.common.objects.USER_PASSWORD_MOCK_KEY
-import com.natiqhaciyef.common.objects.USER_TOKEN_MOCK_KEY
+import com.natiqhaciyef.common.constants.OTP_MOCK_KEY
+import com.natiqhaciyef.common.constants.USER_EMAIL_MOCK_KEY
+import com.natiqhaciyef.common.constants.USER_PASSWORD_MOCK_KEY
+import com.natiqhaciyef.common.constants.USER_TOKEN_MOCK_KEY
 import com.natiqhaciyef.core.base.mock.generateMockerClass
 import com.natiqhaciyef.data.local.dao.UserDao
 import com.natiqhaciyef.data.local.entity.UserEntity

@@ -1,8 +1,8 @@
 package com.natiqhaciyef.domain.usecase.user.local
 
+import com.natiqhaciyef.common.constants.INSERT_SUCCESS
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.core.base.usecase.BaseUseCase
-import com.natiqhaciyef.common.objects.ResultCases
 import com.natiqhaciyef.core.base.usecase.UseCase
 import com.natiqhaciyef.common.model.ui.UIResult
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
@@ -23,7 +23,7 @@ class InsertUserLocalUseCase @Inject constructor(
         emit(
             Resource.success(
                 data = true,
-                message = ResultCases.INSERT_SUCCESS
+                message = INSERT_SUCCESS
             )
         )
     }

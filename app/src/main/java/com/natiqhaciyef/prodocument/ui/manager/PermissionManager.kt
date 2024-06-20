@@ -6,6 +6,10 @@ import android.content.pm.PackageManager
 import androidx.activity.result.ActivityResultLauncher
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.natiqhaciyef.common.helpers.capitalizeFirstLetter
+import com.natiqhaciyef.prodocument.ui.manager.PermissionManager.Permission.Companion.PERMISSION
+import com.natiqhaciyef.prodocument.ui.manager.PermissionManager.Permission.Companion.PERMISSION_REQUIREMENT
+import com.natiqhaciyef.prodocument.ui.manager.PermissionManager.Permission.Companion.YES
 
 class PermissionManager private constructor(
     private val fragment: Fragment,
@@ -57,10 +61,10 @@ class PermissionManager private constructor(
 
         private fun displayRationale(fragment: Fragment) {
             AlertDialog.Builder(fragment.requireContext())
-                .setTitle("Permission")
-                .setMessage(rationale ?: "Permission need. Do you want give permission ?")
+                .setTitle(PERMISSION.capitalizeFirstLetter())
+                .setMessage(rationale ?: PERMISSION_REQUIREMENT)
                 .setCancelable(true)
-                .setPositiveButton("Yes") { _, _ ->
+                .setPositiveButton(YES.capitalizeFirstLetter()) { _, _ ->
                     requestPermissions()
                 }
                 .show()
@@ -161,6 +165,11 @@ class PermissionManager private constructor(
 
 
         companion object {
+            const val PERMISSION_REQUIREMENT = "Permission need. Do you want give permission ?"
+            const val PERMISSION_REQUEST = "Permission needed for Gallery"
+            const val YES = "yes"
+            const val PERMISSION = "Permission"
+
             fun createCustomPermission(permissions: String): CustomPermission {
                 return CustomPermission(permissions)
             }

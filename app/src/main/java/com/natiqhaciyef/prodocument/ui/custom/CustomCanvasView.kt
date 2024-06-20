@@ -8,29 +8,25 @@ import android.graphics.Path
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import com.natiqhaciyef.common.constants.FIVE
+import com.natiqhaciyef.common.constants.ZERO
 
 class CustomCanvasView : View {
     private var pathList = ArrayList<Path>()
     private var paint = Paint()
     private var path = Path()
 
-    constructor(context: Context) : this(context, null, 0) {
+    constructor(context: Context) : this(context, null, ZERO) {
         init()
     }
 
-    constructor(context: Context, attributeSet: AttributeSet? = null) : this(
-        context,
-        attributeSet,
-        0
-    ) {
+    constructor(context: Context, attributeSet: AttributeSet? = null) : this(context, attributeSet, ZERO) {
         init()
     }
 
-    constructor(context: Context, attributeSet: AttributeSet?, defStyle: Int) : super(
-        context,
-        attributeSet,
-        defStyle
-    ) {
+    constructor(context: Context, attributeSet: AttributeSet?, defStyle: Int) :
+            super(context, attributeSet, defStyle)
+    {
         init()
     }
 
@@ -67,6 +63,6 @@ class CustomCanvasView : View {
         paint.color = Color.BLACK
         paint.style = Paint.Style.STROKE
         paint.strokeJoin = Paint.Join.ROUND
-        paint.strokeWidth = 5f
+        paint.strokeWidth = FIVE.toFloat()
     }
 }
