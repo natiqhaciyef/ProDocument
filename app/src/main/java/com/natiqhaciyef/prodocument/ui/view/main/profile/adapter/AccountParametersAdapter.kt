@@ -22,7 +22,8 @@ class AccountParametersAdapter(
     override val binding: (Context, ViewGroup, Boolean) -> RecyclerAccountItemBinding = { ctx, vGroup, bool ->
         RecyclerAccountItemBinding.inflate(LayoutInflater.from(ctx), vGroup, bool)
     }
-    private var isEnabledSwitch = DarkModeManager.getCurrentMode()
+    private val darkModeManager = DarkModeManager(fragment.requireContext())
+    private var isEnabledSwitch = darkModeManager.getCurrentMode()
 
     var onClickAction: ((String) -> Unit)? = null
 
@@ -59,13 +60,13 @@ class AccountParametersAdapter(
             val params = settingsTitle.layoutParams as ConstraintLayout.LayoutParams
             params.endToStart = switchIcon.id
 
-            switchIcon.isChecked = !DarkModeManager.getCurrentMode()
+            switchIcon.isChecked = isEnabledSwitch
 
             switchIcon.setOnClickListener {
-                switchIcon.isChecked = DarkModeManager.getCurrentMode()
-                DarkModeManager.updateCurrentMode()
+                switchIcon.isChecked = darkModeManager.getCurrentMode()
+                darkModeManager.updateCurrentMode()
                 NavigationManager.navigateByRouteTitle(fragment, NavigationManager.HOME_ROUTE)
-                DarkModeManager.changeModeToggle()
+                darkModeManager.changeModeToggle()
             }
         }
     }

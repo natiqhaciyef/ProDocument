@@ -1,9 +1,22 @@
 package com.natiqhaciyef.prodocument.ui.manager
 
+import android.content.Context
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatDelegate
 
-object DarkModeManager {
-    private var isNightModeEnabled = AppCompatDelegate.getDefaultNightMode() != AppCompatDelegate.MODE_NIGHT_NO
+class DarkModeManager {
+    private var isNightModeEnabled: Boolean = false
+
+    private constructor()
+
+    constructor(context: Context){
+        setConfigCurrentMode(context)
+    }
+
+    private fun setConfigCurrentMode(context: Context) {
+        isNightModeEnabled =
+            context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+    }
 
     fun getCurrentMode() = isNightModeEnabled
 
@@ -11,14 +24,14 @@ object DarkModeManager {
         isNightModeEnabled = !isNightModeEnabled
     }
 
-    fun setCurrentMode(current: Boolean){
+    fun setCurrentMode(current: Boolean) {
         isNightModeEnabled = current
     }
 
-    fun changeModeToggle(){
+    fun changeModeToggle() {
         if (isNightModeEnabled)
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        else
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        else
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }
 }
