@@ -12,6 +12,7 @@ import coil.size.Dimension
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.ActivityMainBinding
 import com.natiqhaciyef.core.base.ui.BaseActivity
+import com.natiqhaciyef.prodocument.ui.manager.DarkModeManager
 import com.natiqhaciyef.prodocument.ui.manager.LanguageManager
 import com.natiqhaciyef.prodocument.ui.manager.RememberUserManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -51,6 +52,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         actionBar?.setDisplayShowHomeEnabled(false)
         actionBar?.setDisplayHomeAsUpEnabled(false)
+
+        DarkModeManager.changeModeToggle()
     }
 
 

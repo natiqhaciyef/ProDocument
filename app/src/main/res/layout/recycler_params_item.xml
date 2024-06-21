@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginVertical="12dp"
     android:layout_marginHorizontal="24dp"
+    android:background="@color/grayscale_50"
     >
 
     <View
