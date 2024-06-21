@@ -17,6 +17,7 @@ const val TWELVE = 12
 const val THIRTEEN = 13
 const val FIFTEEN = 15
 const val SIXTEEN = 16
+const val EIGHTEEN = 18
 const val NINETEEN = 19
 const val TWENTY = 20
 const val TWENTY_THREE = 23

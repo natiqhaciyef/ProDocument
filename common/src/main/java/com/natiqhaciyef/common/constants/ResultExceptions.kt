@@ -37,4 +37,9 @@ sealed interface ResultExceptions {
         val errorCode: Int = 400
     ) : Exception(), ResultExceptions
 
+    data class BiometricAuthenticationError(
+        val msg: String = BIOMETRIC_AUTHENTICATION_FAILED,
+        val errorCode: Int = 401
+    ) : Exception(), ResultExceptions
+
 }

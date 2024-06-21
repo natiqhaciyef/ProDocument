@@ -31,6 +31,7 @@ const val NOT_PRIMARY_CONSTRUCTOR_FOUND = "No primary constructor found"
 
 const val SIGN_IN_FAILED = "Sign in failed"
 const val SIGN_UP_FAILED = "Sign up failed"
+const val BIOMETRIC_AUTHENTICATION_FAILED = "Biometric Authentication Failed"
 const val USER_NOT_FOUND = "User not found"
 const val PASSWORD_RESETTING_FAILED = "Password resetting failed"
 const val WRONG_FILLED_FIELD = "Wrong filled field(s)"

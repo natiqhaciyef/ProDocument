@@ -12,6 +12,7 @@ import com.natiqhaciyef.prodocument.ui.view.main.profile.model.AccountSettingMod
 import com.natiqhaciyef.prodocument.databinding.FragmentProfileBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.common.R
+import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.prodocument.ui.manager.LanguageManager
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.profile.adapter.AccountParametersAdapter
@@ -117,7 +118,7 @@ class ProfileFragment(
             profileDetailsTopbar.initAccountDetails(
                 user = user,
                 subscriptionType = plan.title,
-                filled = 0.0,
+                filled = ZERO.toDouble(),
                 total = plan.size,
                 type = plan.sizeType
             )

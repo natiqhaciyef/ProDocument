@@ -1,8 +1,6 @@
 package com.natiqhaciyef.prodocument.ui.view.main.profile.params.security
 
 import android.os.Bundle
-import android.provider.ContactsContract.Profile
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -74,7 +72,7 @@ class SecurityFragment(
     }
 
     private fun recyclerConfig(list: MutableList<ParamsUIModel>) {
-        paramAdapter = SecurityParamsAdapter(requireContext(), list)
+        paramAdapter = SecurityParamsAdapter((requireActivity() as MainActivity), list)
 
         with(binding) {
             recyclerSecurityParamsView.adapter = paramAdapter

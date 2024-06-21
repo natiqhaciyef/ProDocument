@@ -1,21 +1,29 @@
 package com.natiqhaciyef.prodocument.ui.view.main.profile.params.security.adapter
 
+import android.app.Activity
 import android.content.Context
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.natiqhaciyef.core.base.ui.BaseRecyclerViewAdapter
 import com.natiqhaciyef.common.R
+import com.natiqhaciyef.common.constants.EIGHT
+import com.natiqhaciyef.common.constants.EIGHTEEN
+import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
+import com.natiqhaciyef.common.constants.SUCCESS
 import com.natiqhaciyef.prodocument.databinding.RecyclerParamsItemBinding
+import com.natiqhaciyef.prodocument.ui.manager.FingerPrintManager
 import com.natiqhaciyef.prodocument.ui.manager.RememberUserManager
 import com.natiqhaciyef.prodocument.ui.view.main.profile.params.model.FieldType
 import com.natiqhaciyef.prodocument.ui.view.main.profile.params.model.ParamsUIModel
 
 class SecurityParamsAdapter(
-    private val ctx: Context,
+    private val activity: AppCompatActivity,
     securityParamsList: MutableList<ParamsUIModel>,
 ) : BaseRecyclerViewAdapter<ParamsUIModel, RecyclerParamsItemBinding>(securityParamsList) {
     private var isChecked = false
@@ -65,8 +73,8 @@ class SecurityParamsAdapter(
             params.topToTop = preferenceLayout.id
 
             preferenceTitle.text = item.title
-            preferenceTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18F)
-            preferenceTitle.setTextColor(ContextCompat.getColor(ctx, R.color.grayscale_900))
+            preferenceTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, EIGHTEEN.toFloat())
+            preferenceTitle.setTextColor(ContextCompat.getColor(activity, R.color.grayscale_900))
             switchIcon.setOnCheckedChangeListener { compoundButton, b ->
                 isChecked = !isChecked
                 action.invoke()
@@ -89,25 +97,45 @@ class SecurityParamsAdapter(
             params.topToTop = preferenceLayout.id
 
             preferenceTitle.text = item.title
-            preferenceTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18F)
-            preferenceTitle.setTextColor(ContextCompat.getColor(ctx, R.color.grayscale_900))
+            preferenceTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, EIGHTEEN.toFloat())
+            preferenceTitle.setTextColor(ContextCompat.getColor(activity, R.color.grayscale_900))
             goDetailsIcon.setOnClickListener { action.invoke() }
         }
     }
 
-    private fun securityProcessConfiguration(paramsUIModel: ParamsUIModel) = when (paramsUIModel.title) {
-        ctx.getString(R.string.remember_me_param) -> { RememberUserManager.rememberState(ctx, isChecked) }
+    private fun securityProcessConfiguration(paramsUIModel: ParamsUIModel) =
+        when (paramsUIModel.title) {
+            activity.getString(R.string.remember_me_param) -> {
+                RememberUserManager.rememberState(activity, isChecked)
+            }
 
-        ctx.getString(R.string.biometric_id) -> { }
+            activity.getString(R.string.biometric_id) -> {
+                if (FingerPrintManager.isBiometricReady(activity)) {
+                    FingerPrintManager.showBiometricPrompt(
+                        title = activity.getString(R.string.biometric_id),
+                        subtitle = activity.getString(R.string.biometric_subtitle),
+                        description = activity.getString(R.string.biometric_details),
+                        activity = activity
+                    ) { isSucceed, exception ->
+                        Toast.makeText(
+                            activity,
+                            "Is succeed: ${isSucceed}: Reason ${exception?.message ?: SOMETHING_WENT_WRONG}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                } else {
 
-        ctx.getString(R.string.face_id) -> { }
+                }
+            }
 
-        ctx.getString(R.string.sms_authenticator) -> { }
+            activity.getString(R.string.face_id) -> {}
 
-        ctx.getString(R.string.google_authenticator) -> { }
+            activity.getString(R.string.sms_authenticator) -> {}
 
-        ctx.getString(R.string.device_management) -> { }
+            activity.getString(R.string.google_authenticator) -> {}
 
-        else -> {}
-    }
+            activity.getString(R.string.device_management) -> {}
+
+            else -> {}
+        }
 }
