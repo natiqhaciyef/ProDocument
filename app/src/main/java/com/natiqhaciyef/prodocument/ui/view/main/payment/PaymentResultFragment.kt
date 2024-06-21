@@ -6,16 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.navigation.fragment.navArgs
+import com.natiqhaciyef.common.constants.EMPTY_STRING
+import com.natiqhaciyef.common.constants.SPACE
 import com.natiqhaciyef.common.helpers.getNow
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.model.payment.MappedPaymentChequeModel
 import com.natiqhaciyef.common.model.payment.PaymentResultType
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.core.model.FileTypes.PNG
-import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.FragmentPaymentResultBinding
 import com.natiqhaciyef.prodocument.ui.manager.CameraManager.Companion.createAndShareFile
-import com.natiqhaciyef.prodocument.ui.util.NavigationManager
+import com.natiqhaciyef.prodocument.ui.manager.NavigationManager
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.payment.contract.PaymentContract
 import com.natiqhaciyef.prodocument.ui.view.main.payment.viewmodel.PaymentViewModel
@@ -60,7 +61,7 @@ class PaymentResultFragment(
 
                 materialToolbar.apply {
                     visibility = View.GONE
-                    setTitleToolbar(" ")
+                    setTitleToolbar(SPACE)
                     changeVisibility(View.GONE)
                     appIconVisibility(View.GONE)
                     setVisibilitySearch(View.GONE)
@@ -79,8 +80,8 @@ class PaymentResultFragment(
             continueButton.setOnClickListener {
                 NavigationManager.navigateByRouteTitle(this@PaymentResultFragment, NavigationManager.HOME_ROUTE)
             }
-            chequeTitle.setOnClickListener { shareCheque(payload ?: "") }
-            viewCheque.setOnClickListener { shareCheque(payload ?: "") }
+            chequeTitle.setOnClickListener { shareCheque(payload ?: EMPTY_STRING) }
+            viewCheque.setOnClickListener { shareCheque(payload ?: EMPTY_STRING) }
         }
     }
 
@@ -113,13 +114,19 @@ class PaymentResultFragment(
 
     private fun shareCheque(image: String){
         createAndShareFile(material = MappedMaterialModel(
-            id = "chequeResult",
+            id = chequeId,
             image = image,
-            title = "Payment receipt",
+            title = title,
             description = null,
             createdDate = getNow(),
             type = PNG,
             url = image.toUri(),
         ))
+    }
+
+
+    companion object{
+        private const val chequeId = "chequeResult"
+        private const val title = "Payment receipt"
     }
 }

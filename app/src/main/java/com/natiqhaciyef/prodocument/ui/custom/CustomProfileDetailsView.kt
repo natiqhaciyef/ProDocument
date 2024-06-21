@@ -4,6 +4,8 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.natiqhaciyef.common.constants.FORMATTED_NUMBER_ONE
+import com.natiqhaciyef.common.constants.HUNDRED
 import com.natiqhaciyef.common.helpers.loadImage
 import com.natiqhaciyef.common.model.StorageSize
 import com.natiqhaciyef.common.model.mapped.MappedUserWithoutPasswordModel
@@ -27,7 +29,7 @@ class CustomProfileDetailsView(
         total: Int,
         type: StorageSize
     ) {
-        val customSize = "%.1f".format(filled)
+        val customSize = FORMATTED_NUMBER_ONE.format(filled)
         val totalSize = total.toString()
         binding?.let {
             it.accountFullName.text = user.name
@@ -39,7 +41,7 @@ class CustomProfileDetailsView(
                 customSize,
                 totalSize
             )
-            it.loadLevelOfFilesPerUser.progress = (filled.toInt() / total) * 100
+            it.loadLevelOfFilesPerUser.progress = (filled.toInt() / total) * HUNDRED
         }
     }
 }

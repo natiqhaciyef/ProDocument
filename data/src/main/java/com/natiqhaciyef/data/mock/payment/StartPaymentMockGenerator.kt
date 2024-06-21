@@ -1,5 +1,8 @@
 package com.natiqhaciyef.data.mock.payment
 
+import com.natiqhaciyef.common.constants.TWELVE
+import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
+import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.common.model.payment.PaymentDetails
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
@@ -11,7 +14,7 @@ class StartPaymentMockGenerator(
 ) : BaseMockGenerator<PaymentChequeResponse, CRUDResponse>() {
     override var createdMock: CRUDResponse =
         CRUDResponse(
-            resultCode = 299,
+            resultCode = TWO_HUNDRED_NINETY_NINE,
             message = "mock result success"
         )
 
@@ -32,11 +35,11 @@ class StartPaymentMockGenerator(
                 title = "Payment for plan",
                 description = "Payment refund is not available",
                 subscriptionDetails = SubscriptionPlanPaymentDetails(
-                    expirationTime = 12,
+                    expirationTime = TWELVE,
                     expirationTimeType = "Month",
                     price = 36.00,
                     fee = 2.99,
-                    discount = 0.0
+                    discount = ZERO.toDouble()
                 ),
                 totalAmount = 38.99,
                 currency = "USD",

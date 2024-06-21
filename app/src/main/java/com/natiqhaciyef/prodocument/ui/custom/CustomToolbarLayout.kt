@@ -11,6 +11,8 @@ import androidx.core.view.marginEnd
 import androidx.core.widget.doOnTextChanged
 import com.google.android.material.appbar.MaterialToolbar
 import com.natiqhaciyef.prodocument.R
+import com.natiqhaciyef.common.constants.EMPTY_STRING
+import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.prodocument.databinding.CustomToolbarLayoutBinding
 
 class CustomToolbarLayout(
@@ -92,7 +94,7 @@ class CustomToolbarLayout(
             binding?.let {
                 val params = it.topbarTitle.layoutParams as ConstraintLayout.LayoutParams
                 params.startToStart = it.materialToolbar.id
-                params.marginStart = 0
+                params.marginStart = ZERO
             }
         }
 
@@ -109,7 +111,7 @@ class CustomToolbarLayout(
     private fun closeAndSearchIconClickAction() {
         binding?.apply {
             topbarSearchLayout.setEndIconOnClickListener {
-                topbarSearch.setText("")
+                topbarSearch.setText(EMPTY_STRING)
             }
             topbarSearchLayout.setStartIconOnClickListener {
                 searchClick = false

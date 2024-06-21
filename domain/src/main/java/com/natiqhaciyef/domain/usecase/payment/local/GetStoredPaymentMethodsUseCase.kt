@@ -1,8 +1,10 @@
 package com.natiqhaciyef.domain.usecase.payment.local
 
+import com.natiqhaciyef.common.constants.EMPTY_FIELD
+import com.natiqhaciyef.common.constants.FOUR_HUNDRED_FOUR
+import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.common.model.payment.MappedPaymentModel
-import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.core.base.usecase.BaseUseCase
 import com.natiqhaciyef.core.base.usecase.UseCase
 import com.natiqhaciyef.data.mapper.toMapped
@@ -25,10 +27,10 @@ class GetStoredPaymentMethodsUseCase @Inject constructor(
             emit(Resource.success(result.map { it.toMapped() }))
         }else{
             emit(Resource.error(
-                msg = ErrorMessages.EMPTY_FIELD,
+                msg = EMPTY_FIELD,
                 data = null,
-                exception = Exception(ErrorMessages.EMPTY_FIELD),
-                errorCode = 4040
+                exception = Exception(EMPTY_FIELD),
+                errorCode = "$FOUR_HUNDRED_FOUR$ZERO".toInt()
             ))
         }
     }

@@ -1,5 +1,16 @@
 package com.natiqhaciyef.data.mock.payment
 
+import com.natiqhaciyef.common.constants.FIVE
+import com.natiqhaciyef.common.constants.FIVE_HUNDRED
+import com.natiqhaciyef.common.constants.FOUR_HUNDRED_NINE
+import com.natiqhaciyef.common.constants.HUNDRED
+import com.natiqhaciyef.common.constants.HUNDRED_ONE
+import com.natiqhaciyef.common.constants.NINETEEN
+import com.natiqhaciyef.common.constants.NINETY_NINE
+import com.natiqhaciyef.common.constants.ONE
+import com.natiqhaciyef.common.constants.TWELVE
+import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
+import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.common.helpers.getNow
 import com.natiqhaciyef.common.model.Currency
 import com.natiqhaciyef.common.model.Time
@@ -21,12 +32,12 @@ import java.util.concurrent.Flow.Subscription
 
 object PaymentMockManager {
     private var mockQrCode = "mockQrCode"
-    private var balance = 100.0
+    private var balance = HUNDRED.toDouble()
     private var paymentRequest: PaymentRequest? = null
     private var subscriptionModel: SubscriptionResponse? = null
     private val paymentsList = mutableListOf(
         PaymentModel(
-            merchantId = 100,
+            merchantId = HUNDRED,
             paymentType = PaymentTypes.CARD.name,
             paymentMethod = PaymentMethods.MASTERCARD.name,
             paymentDetails = PaymentDetails(
@@ -38,7 +49,7 @@ object PaymentMockManager {
             )
         ),
         PaymentModel(
-            merchantId = 101,
+            merchantId = HUNDRED_ONE,
             paymentType = PaymentTypes.CARD.name,
             paymentMethod = PaymentMethods.VISA.name,
             paymentDetails = PaymentDetails(
@@ -50,7 +61,7 @@ object PaymentMockManager {
             )
         ),
         PaymentModel(
-            merchantId = 99,
+            merchantId = NINETY_NINE,
             paymentType = PaymentTypes.QR.name,
             paymentMethod = PaymentMethods.GOOGLE_PAY.name,
             paymentDetails = PaymentDetails(
@@ -67,14 +78,14 @@ object PaymentMockManager {
     fun startPayment(chequeModel: PaymentChequeResponse): CRUDResponse {
         if (chequeModel.totalAmount > balance)
             return CRUDResponse(
-                resultCode = 409,
+                resultCode = FOUR_HUNDRED_NINE,
                 message = "mock result fail"
             )
 
         balance -= chequeModel.totalAmount
 
         return CRUDResponse(
-            resultCode = 299,
+            resultCode = TWO_HUNDRED_NINETY_NINE,
             message = "mock result success"
         )
     }
@@ -84,12 +95,12 @@ object PaymentMockManager {
             paymentsList.add(paymentModel)
         return if (paymentsList.contains(paymentModel))
             CRUDResponse(
-                resultCode = 299,
+                resultCode = TWO_HUNDRED_NINETY_NINE,
                 message = "mock result success"
             )
         else
             CRUDResponse(
-                resultCode = 500,
+                resultCode = FIVE_HUNDRED,
                 message = "mock result fail"
             )
     }
@@ -99,12 +110,12 @@ object PaymentMockManager {
             chequeList.add(chequeModel)
         return if (chequeList.contains(chequeModel))
             CRUDResponse(
-                resultCode = 299,
+                resultCode = TWO_HUNDRED_NINETY_NINE,
                 message = "mock result success"
             )
         else
             CRUDResponse(
-                resultCode = 500,
+                resultCode = FIVE_HUNDRED,
                 message = "mock result fail"
             )
     }
@@ -124,20 +135,20 @@ object PaymentMockManager {
         subscriptionModel = plan
         paymentRequest = payment
 
-        val price = plan.price * 12
+        val price = plan.price * TWELVE
         val fee = price * 0.05
         val paymentDetails = payment.paymentDetails
 
         val cheque = PaymentChequeResponse(
             checkId = "mock-key-id",
-            title = "Payment for plan",
+            title = plan.title,
             description = "Payment refund is not available",
             subscriptionDetails = SubscriptionPlanPaymentDetails(
-                expirationTime = 12,
+                expirationTime = TWELVE,
                 expirationTimeType = "Month",
                 price = price,
                 fee = fee,
-                discount = 0.0
+                discount = ZERO.toDouble()
             ),
             totalAmount = price + fee,
             currency = paymentDetails.currency,
@@ -183,8 +194,8 @@ object PaymentMockManager {
             it.paymentType == picked.type &&
                     picked.maskedCardNumber.endsWith(
                         item.substring(
-                            item.length - 5,
-                            item.length - 1
+                            item.length - FIVE,
+                            item.length - ONE
                         )
                     )
         }
@@ -193,7 +204,7 @@ object PaymentMockManager {
     fun scanQrCodePayment(qrCode: QrCodeRequest): QrPaymentResponse {
         val planDetails = qrCode.subscriptionDetails
         val qrResult = QrPaymentResponse(
-            merchantId = 99,
+            merchantId = NINETY_NINE,
             paymentType = PaymentTypes.QR.name,
             paymentMethod = PaymentMethods.GOOGLE_PAY.name,
             cheque = PaymentChequeResponse(
@@ -202,12 +213,12 @@ object PaymentMockManager {
                 description = "EMPTY AND VOID",
                 subscriptionDetails = SubscriptionPlanPaymentDetails(
                     expirationTimeType = planDetails.expirationTimeType,
-                    expirationTime = planDetails.expirationTime * 12,
-                    price = planDetails.price * 12,
-                    fee = planDetails.fee * 12,
-                    discount = 0.0
+                    expirationTime = planDetails.expirationTime * TWELVE,
+                    price = planDetails.price * TWELVE,
+                    fee = planDetails.fee * TWELVE,
+                    discount = ZERO.toDouble()
                 ),
-                totalAmount = (planDetails.fee + planDetails.price) - (planDetails.fee + planDetails.price) * planDetails.discount / 100,
+                totalAmount = (planDetails.fee + planDetails.price) - (planDetails.fee + planDetails.price) * planDetails.discount / HUNDRED,
                 currency = Currency.USD.name,
                 paymentDetails = PaymentDetails(
                     cardHolder = "Anyone",

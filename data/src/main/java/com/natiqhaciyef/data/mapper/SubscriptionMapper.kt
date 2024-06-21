@@ -1,5 +1,6 @@
 package com.natiqhaciyef.data.mapper
 
+import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.common.model.StorageSize
 import com.natiqhaciyef.common.model.ui.Color
 import com.natiqhaciyef.common.model.ui.SubscriptionType
@@ -11,8 +12,8 @@ import com.natiqhaciyef.data.network.response.SubscriptionResponse
 fun SubscriptionResponse.toMapped(): MappedSubscriptionModel? {
     return if (
         this.title.isNotEmpty()
-        && this.price != 0.0
-        && this.perTime != 0
+        && this.price != ZERO.toDouble()
+        && this.perTime != ZERO
         && this.timeType.isNotEmpty()
         && this.features.isNotEmpty()
         && this.expireDate.isNotEmpty()
@@ -37,8 +38,8 @@ fun SubscriptionResponse.toMapped(): MappedSubscriptionModel? {
 
 fun MappedSubscriptionModel.toResponse(): SubscriptionResponse? {
     return if (
-        this.price != 0.0
-        && this.perTime != 0
+        this.price != ZERO.toDouble()
+        && this.perTime != ZERO
         && this.features.isNotEmpty()
         && this.expireDate.isNotEmpty()
         && this.token.isNotEmpty()

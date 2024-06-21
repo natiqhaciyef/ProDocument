@@ -16,7 +16,7 @@ import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.natiqhaciyef.common.model.mapped.MappedTokenModel
-import com.natiqhaciyef.common.objects.MATERIAL_TOKEN_MOCK_KEY
+import com.natiqhaciyef.common.constants.MATERIAL_TOKEN_MOCK_KEY
 import com.natiqhaciyef.core.store.AppStorePref
 import com.natiqhaciyef.core.store.AppStorePrefKeys
 import kotlinx.coroutines.flow.launchIn

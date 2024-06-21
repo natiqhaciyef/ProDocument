@@ -1,7 +1,8 @@
 package com.natiqhaciyef.data.mock.users
 
-import com.natiqhaciyef.common.objects.USER_EMAIL_MOCK_KEY
-import com.natiqhaciyef.common.objects.USER_PASSWORD_MOCK_KEY
+import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
+import com.natiqhaciyef.common.constants.USER_EMAIL_MOCK_KEY
+import com.natiqhaciyef.common.constants.USER_PASSWORD_MOCK_KEY
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
 import com.natiqhaciyef.data.network.response.TokenResponse
@@ -13,7 +14,7 @@ class SignInMockGenerator(
     override var createdMock: TokenResponse = TokenResponse(
         accessToken = "${UUID.randomUUID()}",
         result = CRUDResponse(
-            resultCode = 299,
+            resultCode = TWO_HUNDRED_NINETY_NINE,
             message = "Mock token"
         ),
         refreshToken = "email@gmail.com"

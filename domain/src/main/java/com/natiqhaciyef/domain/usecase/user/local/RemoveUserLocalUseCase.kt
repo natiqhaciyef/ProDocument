@@ -1,8 +1,8 @@
 package com.natiqhaciyef.domain.usecase.user.local
 
+import com.natiqhaciyef.common.constants.REMOVE_SUCCESS
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.core.base.usecase.BaseUseCase
-import com.natiqhaciyef.common.objects.ResultCases
 import com.natiqhaciyef.core.base.usecase.UseCase
 import com.natiqhaciyef.common.model.ui.UIResult
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
@@ -20,6 +20,6 @@ class RemoveUserLocalUseCase @Inject constructor(
     override fun run(data: UIResult<MappedUserModel>): Flow<Resource<Boolean>> = flow {
         emit(Resource.loading(null))
         repository.removeFromLocal(data.toEntity())
-        Resource.success(true, ResultCases.REMOVE_SUCCESS)
+        Resource.success(true, REMOVE_SUCCESS)
     }
 }

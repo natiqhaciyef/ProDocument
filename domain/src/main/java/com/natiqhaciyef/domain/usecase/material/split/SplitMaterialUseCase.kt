@@ -1,8 +1,12 @@
 package com.natiqhaciyef.domain.usecase.material.split
 
+import com.natiqhaciyef.common.constants.ONE
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
-import com.natiqhaciyef.common.objects.ErrorMessages
+import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
+import com.natiqhaciyef.common.constants.TWO_HUNDRED
+import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
+import com.natiqhaciyef.common.constants.UNKNOWN_ERROR
 import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.data.network.request.SplitRequest
 import com.natiqhaciyef.core.base.usecase.BaseUseCase
@@ -39,7 +43,7 @@ class SplitMaterialUseCase @Inject constructor(
 
         when (val result = repository.splitMaterial(splitRequest)) {
             is NetworkResult.Success -> {
-                if (result.data.isNotEmpty() && result.data.all { it.result?.resultCode in 200..299 && !it.title.isNullOrEmpty() }) {
+                if (result.data.isNotEmpty() && result.data.all { it.result?.resultCode in TWO_HUNDRED..TWO_HUNDRED_NINETY_NINE && !it.title.isNullOrEmpty() }) {
                     val mapped = result.data.map { it.toMapped()!! }
 
                     emit(Resource.success(mapped))
@@ -49,7 +53,7 @@ class SplitMaterialUseCase @Inject constructor(
             is NetworkResult.Error -> {
                 emit(
                     Resource.error(
-                        msg = result.message ?: ErrorMessages.UNKNOWN_ERROR,
+                        msg = result.message ?: UNKNOWN_ERROR,
                         data = null,
                         exception = Exception(result.message),
                         errorCode = result.code
@@ -60,10 +64,10 @@ class SplitMaterialUseCase @Inject constructor(
             is NetworkResult.Exception -> {
                 emit(
                     Resource.error(
-                        msg = result.e.message ?: ErrorMessages.SOMETHING_WENT_WRONG,
+                        msg = result.e.message ?: SOMETHING_WENT_WRONG,
                         data = null,
                         exception = Exception(result.e),
-                        errorCode = -1
+                        errorCode = -ONE
                     )
                 )
             }

@@ -2,6 +2,9 @@ package com.natiqhaciyef.data.mock.materials
 
 import android.graphics.Bitmap
 import androidx.core.graphics.createBitmap
+import com.natiqhaciyef.common.constants.EMPTY_STRING
+import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
+import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.common.helpers.getNow
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
@@ -21,7 +24,7 @@ class ESignMaterialMockGenerator(
             type = "type",
             url = "url",
             result = CRUDResponse(
-                resultCode = 299,
+                resultCode = TWO_HUNDRED_NINETY_NINE,
                 message = "Mock crud"
             ),
             protectionKey = "Protected"
@@ -46,17 +49,17 @@ class ESignMaterialMockGenerator(
                 title = "title",
                 description = "description",
                 type = "type",
-                url = "",
+                url = EMPTY_STRING,
                 result = CRUDResponse(
-                    resultCode = 299,
+                    resultCode = TWO_HUNDRED_NINETY_NINE,
                     message = "Mock crud"
                 )
             ),
             sign = "not-signed",
             signBitmap = "converted-bitmap",
-            page = 0,
-            positionX = 0f,
-            positionY = 0f
+            page = ZERO,
+            positionX = ZERO.toFloat(),
+            positionY = ZERO.toFloat()
         )
     }
 }

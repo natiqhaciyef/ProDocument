@@ -12,7 +12,7 @@ import com.natiqhaciyef.prodocument.databinding.FragmentPreferencesBinding
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.profile.contract.ProfileContract
 import com.natiqhaciyef.prodocument.ui.view.main.profile.params.preferences.adapter.PreferencesAdapter
-import com.natiqhaciyef.prodocument.ui.view.main.profile.params.preferences.model.PreferenceUIModel
+import com.natiqhaciyef.prodocument.ui.view.main.profile.params.model.ParamsUIModel
 import com.natiqhaciyef.prodocument.ui.view.main.profile.viewmodel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.KClass
@@ -35,8 +35,8 @@ class PreferencesFragment(
             state.isLoading -> {}
 
             else -> {
-                if (state.preferenceUIModelList != null)
-                    recyclerViewConfig(state.preferenceUIModelList!!)
+                if (state.paramsUIModelList != null)
+                    recyclerViewConfig(state.paramsUIModelList!!)
             }
         }
     }
@@ -69,7 +69,7 @@ class PreferencesFragment(
         navigate(R.id.profileFragment)
     }
 
-    private fun recyclerViewConfig(list: MutableList<PreferenceUIModel>){
+    private fun recyclerViewConfig(list: MutableList<ParamsUIModel>){
         prefAdapter = PreferencesAdapter(requireContext(), list)
         with(binding.preferencesRecyclerView){
             adapter = prefAdapter

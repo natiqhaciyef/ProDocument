@@ -7,18 +7,20 @@ import android.graphics.Path
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
+import com.natiqhaciyef.common.constants.THIRTY_TWO
+import com.natiqhaciyef.common.constants.ZERO
 
 class CustomQRScannerView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = ZERO
 ) : View(context, attrs, defStyleAttr) {
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val path = Path()
-    private var width = 0f
-    private var height = 0f
+    private var width = ZERO.toFloat()
+    private var height = ZERO.toFloat()
 
-    private val cornerRadius = 32f.dpToPx(context) // 32 dp converted to pixels
+    private val cornerRadius = THIRTY_TWO.toFloat().dpToPx(context) // 32 dp converted to pixels
 
     private fun getRect() = RectF(
         rectLeft,
@@ -83,7 +85,7 @@ class CustomQRScannerView @JvmOverloads constructor(
             reset() // Reset path before drawing
             fillType = Path.FillType.WINDING
 
-            addRect(0f, 0f, width, height, Path.Direction.CW)
+            addRect(ZERO.toFloat(), ZERO.toFloat(), width, height, Path.Direction.CW)
             addRoundRect(getRect(), cornerRadius, cornerRadius, Path.Direction.CCW)
         }
     }

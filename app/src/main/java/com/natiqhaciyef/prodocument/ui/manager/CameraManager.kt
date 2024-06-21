@@ -37,6 +37,11 @@ import com.google.mlkit.vision.documentscanner.GmsDocumentScannerOptions.SCANNER
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
+import com.natiqhaciyef.common.constants.EMPTY_STRING
+import com.natiqhaciyef.common.constants.PHOTO_CAPTURED_FAILED
+import com.natiqhaciyef.common.constants.PHOTO_CAPTURED_SUCCEED
+import com.natiqhaciyef.common.constants.THIRTY
+import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.model.FileTypes.DOCX
 import com.natiqhaciyef.core.model.FileTypes.JPEG
@@ -102,7 +107,7 @@ class CameraManager(
                 cameraProvider?.bindToLifecycle(lifecycle, cameraSelector, preview, analysisUseCase)
 
             } catch (exc: Exception) {
-                Log.e(ContentValues.TAG, "Use case binding failed", exc)
+                println(exc)
             }
 
         }, ContextCompat.getMainExecutor(context))
@@ -124,7 +129,7 @@ class CameraManager(
 
             barcodeScanner.process(inputImage)
                 .addOnSuccessListener { barcodeList ->
-                    val barcode = barcodeList.getOrNull(0)
+                    val barcode = barcodeList.getOrNull(ZERO)
                     barcode?.rawValue?.let { value ->
                         onSuccess(value)
                     }
@@ -160,9 +165,9 @@ class CameraManager(
             .format(System.currentTimeMillis())
         val contentValues = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, name)
-            put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+            put(MediaStore.MediaColumns.MIME_TYPE, JPEG)
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
-                put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/CameraX-Image")
+                put(MediaStore.Images.Media.RELATIVE_PATH, PICTURES_SLASH_CAMERAX_IMAGE)
             }
         }
 
@@ -191,11 +196,11 @@ class CameraManager(
                     ContextCompat.getMainExecutor(context),
                     object : ImageCapture.OnImageSavedCallback {
                         override fun onError(exc: ImageCaptureException) {
-                            Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
+                            Log.e(TAG, "$PHOTO_CAPTURED_FAILED: ${exc.message}", exc)
                         }
 
                         override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                            val msg = "Photo capture succeeded: ${output.savedUri}"
+                            val msg = "$PHOTO_CAPTURED_SUCCEED: ${output.savedUri}"
                             Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
                             Log.d(TAG, msg)
                             output.savedUri?.let(onSuccess)
@@ -215,7 +220,7 @@ class CameraManager(
                 )
 
             } catch (exc: Exception) {
-                Log.e(TAG, "Use case binding failed", exc)
+                println(exc)
             }
 
         }, ContextCompat.getMainExecutor(context))
@@ -263,9 +268,9 @@ class CameraManager(
             .format(System.currentTimeMillis())
         val contentValues = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, name)
-            put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+            put(MediaStore.MediaColumns.MIME_TYPE, JPEG)
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
-                put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/CameraX-Image")
+                put(MediaStore.Images.Media.RELATIVE_PATH, PICTURES_SLASH_CAMERAX_IMAGE)
             }
         }
 
@@ -294,11 +299,11 @@ class CameraManager(
                     ContextCompat.getMainExecutor(context),
                     object : ImageCapture.OnImageSavedCallback {
                         override fun onError(exc: ImageCaptureException) {
-                            Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
+                            Log.e(TAG, "$PHOTO_CAPTURED_FAILED: ${exc.message}", exc)
                         }
 
                         override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                            val msg = "Photo capture succeeded: ${output.savedUri}"
+                            val msg = "$PHOTO_CAPTURED_SUCCEED: ${output.savedUri}"
                             Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
                             Log.e(TAG, msg)
                             processRecognizerCapturedImage(output.savedUri)
@@ -318,7 +323,7 @@ class CameraManager(
                 )
 
             } catch (exc: Exception) {
-                Log.e(TAG, "Use case binding failed", exc)
+                println(exc)
             }
 
         }, ContextCompat.getMainExecutor(context))
@@ -370,14 +375,10 @@ class CameraManager(
     companion object {
         val cameraScannerDefaultOptions = GmsDocumentScannerOptions.Builder()
             .setGalleryImportAllowed(true)
-            .setPageLimit(30)
+            .setPageLimit(THIRTY)
             .setResultFormats(RESULT_FORMAT_PDF, RESULT_FORMAT_JPEG)
             .setScannerMode(SCANNER_MODE_FULL)
             .build()
-
-        const val TAG = "ACTION_STAFF_CAMERA"
-        private const val FILE_NAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
-
 
         fun Fragment.createAndShareFile(
             material: MappedMaterialModel,
@@ -419,7 +420,7 @@ class CameraManager(
             when(fileType){
                 URL -> {
                     if (urls.isNotEmpty()) {
-                        val url = urls[0].toString().replace(".pdf", "").toUri()
+                        val url = urls[ZERO].toString().replace(PDF_EXTENSION, EMPTY_STRING).toUri()
                         val address = getAddressOfFile(requireContext(), url)
                         list.add(address)
 
@@ -433,7 +434,7 @@ class CameraManager(
 
                 PDF -> {
                     if (urls.isNotEmpty()) {
-                        val externalUri = getAddressOfFile(requireContext(), urls[0])
+                        val externalUri = getAddressOfFile(requireContext(), urls[ZERO])
                         if (isShare)
                             sharingIntent.apply {
                                 type = getIntentFileType(fileType)
@@ -445,7 +446,7 @@ class CameraManager(
                 }
 
                 DOCX -> {
-                    val url = urls[0].toString().replace(".pdf", ".docx").toUri()
+                    val url = urls[ZERO].toString().replace(PDF_EXTENSION, DOCX_EXTENSION).toUri()
                     val address = getAddressOfFile(requireContext(), url)
                     list.add(address)
 
@@ -457,7 +458,7 @@ class CameraManager(
                 }
 
                 PNG, JPEG -> {
-                    val url = urls[0].toString().replace(".pdf", ".png").toUri()
+                    val url = urls[ZERO].toString().replace(PDF_EXTENSION, PNG_EXTENSION).toUri()
                     val address = getAddressOfFile(requireContext(), url)
                     list.add(address)
 
@@ -476,24 +477,34 @@ class CameraManager(
                     if (isShare)
                         sharingIntent.apply {
                             type = getIntentFileType(fileType)
-                            putExtra(Intent.EXTRA_STREAM, list[0])
+                            putExtra(Intent.EXTRA_STREAM, list[ZERO])
                             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                         }
                 }
             }
 
-            startActivity(Intent.createChooser(sharingIntent, "Share data using"))
+            startActivity(Intent.createChooser(sharingIntent, SHARE_DATE_USING))
             return list
         }
 
         fun getAddressOfFile(context: Context, uri: Uri?) = if (uri != null) {
             FileProvider.getUriForFile(
                 context,
-                "${BuildConfig.APPLICATION_ID}.provider",
+                "${BuildConfig.APPLICATION_ID}.$PROVIDER",
                 File(uri.path.toString())
             )
         }else {
             null
         }
+
+        private const val PDF_EXTENSION = ".pdf"
+        private const val PNG_EXTENSION = ".png"
+        private const val DOCX_EXTENSION = ".docx"
+        private const val PROVIDER = "provider"
+
+        private const val SHARE_DATE_USING = "Share data using"
+        const val TAG = "ACTION_STAFF_CAMERA"
+        private const val FILE_NAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
+        const val PICTURES_SLASH_CAMERAX_IMAGE = "Pictures/CameraX-Image"
     }
 }

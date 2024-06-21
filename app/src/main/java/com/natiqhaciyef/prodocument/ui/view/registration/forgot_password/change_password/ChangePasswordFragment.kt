@@ -74,7 +74,7 @@ class ChangePasswordFragment(
     private fun onClickEvent(email: String) {
         viewModel.postEvent(
             ChangePasswordContract.ChangePasswordEvent.UpdatePasswordEvent(
-                email = email, password = binding.newPasswordText.text.toString()
+                ctx = requireContext(), email = email, password = binding.newPasswordText.text
             )
         )
     }

@@ -17,12 +17,12 @@
         tools:layout="@layout/fragment_preferences" />
     <fragment
         android:id="@+id/securityFragment"
-        android:name="com.natiqhaciyef.prodocument.ui.view.main.profile.params.SecurityFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.profile.params.security.SecurityFragment"
         android:label="fragment_security"
         tools:layout="@layout/fragment_security" />
     <fragment
         android:id="@+id/paymentHistoryFragment"
-        android:name="com.natiqhaciyef.prodocument.ui.view.main.profile.params.PaymentHistoryFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.profile.params.paymenthistory.PaymentHistoryFragment"
         android:label="fragment_payment_history"
         tools:layout="@layout/fragment_payment_history" />
     <fragment

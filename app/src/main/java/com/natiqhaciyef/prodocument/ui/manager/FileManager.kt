@@ -19,9 +19,17 @@ import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener
 import com.github.barteksc.pdfviewer.listener.OnPageScrollListener
 import com.natiqhaciyef.common.R
+import com.natiqhaciyef.common.constants.EMPTY_STRING
+import com.natiqhaciyef.common.constants.FIVE
+import com.natiqhaciyef.common.constants.ONE
+import com.natiqhaciyef.common.constants.THREE
+import com.natiqhaciyef.common.constants.TWENTY
+import com.natiqhaciyef.common.constants.TWO
+import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.common.helpers.getNow
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.model.FileTypes
+import com.natiqhaciyef.core.model.FileTypes.ALL_FILES
 import com.natiqhaciyef.prodocument.ui.util.DefaultImplModels
 import com.shockwave.pdfium.PdfDocument
 import java.util.UUID
@@ -31,10 +39,20 @@ object FileManager {
     private fun getDefaultMockFile() = DefaultImplModels.mappedMaterialModel
 
     private const val TAG = "PDF LOADER TAG"
-    private var pageNumber = 0
-    private var pageTotalCount = 0
-    private var pagePositionOffset = 0.0f
+    private const val CONTENT_TITLE = "content://"
+    private const val CONTENT_URI = "${CONTENT_TITLE}com.android.externalstorage.documents/"
+    private var pageNumber = ZERO
+    private var pageTotalCount = ZERO
+    private var pagePositionOffset = ZERO.toFloat()
     private var pdfMetadata: PdfDocument.Meta? = null
+    private var TITLE_EQUAL = "title = "
+    private var AUTHOR_EQUAL = "author = "
+    private var SUBJECT_EQUAL = "subject = "
+    private var KEYWORD_EQUAL = "keywords = "
+    private var CREATOR_EQUAL = "creator = "
+    private var PRODUCER_EQUAL = "producer = "
+    private var CREATION_DATE_EQUAL = "creationDate = "
+    private var MOD_DATE_EQUAL = "modDate = "
 
     @SuppressLint("Range")
     fun readAndCreateFile(
@@ -52,7 +70,7 @@ object FileManager {
                     uri = uri,
                     title = displayName,
                     type = fileType,
-                    image = uri.toString().removePrefix("content://")
+                    image = uri.toString().removePrefix(CONTENT_TITLE)
                 )
 
                 action(file)
@@ -70,9 +88,9 @@ object FileManager {
         val material = getDefaultMockFile()
         material.id = "${UUID.randomUUID()}"
         material.url = uri
-        material.title = title ?: ""
+        material.title = title ?: EMPTY_STRING
         material.description = description
-        material.image = image ?: ""
+        material.image = image ?: EMPTY_STRING
         material.createdDate = getNow()
         material.type = type ?: FileTypes.PDF
 
@@ -82,8 +100,8 @@ object FileManager {
     fun getFile(fileRequestLauncher: ActivityResultLauncher<Intent>) {
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
-            type = "*/*"
-            val uri = Uri.parse("content://com.android.externalstorage.documents/")
+            type = ALL_FILES
+            val uri = Uri.parse(CONTENT_URI)
             putExtra(DocumentsContract.EXTRA_INITIAL_URI, uri)
         }
         fileRequestLauncher.launch(intent)
@@ -91,7 +109,7 @@ object FileManager {
 
     fun addDrawListener(ctx: Context) =
         OnDrawListener { canvas, pageWidth, pageHeight, _ ->
-            val padding = 20f
+            val padding = TWENTY.toFloat()
             val rect = RectF(
                 padding,
                 padding,
@@ -101,21 +119,21 @@ object FileManager {
             val paint = Paint().apply {
                 color = ctx.getColor(R.color.primary_900)
                 style = Paint.Style.STROKE
-                strokeWidth = 5f
+                strokeWidth = FIVE.toFloat()
             }
             canvas.drawRect(rect, paint)
         }
 
     fun addLoadCompleteListener(pdfView: PDFView) = OnLoadCompleteListener {
         val meta: PdfDocument.Meta = pdfView.documentMeta
-        Log.e(TAG, "title = " + meta.title)
-        Log.e(TAG, "author = " + meta.author)
-        Log.e(TAG, "subject = " + meta.subject)
-        Log.e(TAG, "keywords = " + meta.keywords)
-        Log.e(TAG, "creator = " + meta.creator)
-        Log.e(TAG, "producer = " + meta.producer)
-        Log.e(TAG, "creationDate = " + meta.creationDate)
-        Log.e(TAG, "modDate = " + meta.modDate)
+        Log.e(TAG, TITLE_EQUAL + meta.title)
+        Log.e(TAG, AUTHOR_EQUAL + meta.author)
+        Log.e(TAG,  SUBJECT_EQUAL + meta.subject)
+        Log.e(TAG,  KEYWORD_EQUAL + meta.keywords)
+        Log.e(TAG, CREATOR_EQUAL + meta.creator)
+        Log.e(TAG, PRODUCER_EQUAL + meta.producer)
+        Log.e(TAG, CREATION_DATE_EQUAL + meta.creationDate)
+        Log.e(TAG, MOD_DATE_EQUAL + meta.modDate)
 
         pdfMetadata = pdfView.documentMeta
     }
@@ -139,11 +157,11 @@ object FileManager {
 
     fun PDFView.createSafePdfUriLoader(uri: Uri?) = if (uri != null)
         this.fromUri(uri)
-            .pages(0, 2, 1, 3, 3, 3) // all pages are displayed by default
+            .pages(ZERO, TWO, ONE, THREE, THREE, THREE) // all pages are displayed by default
             .enableSwipe(true) // allows to block changing pages using swipe
             .swipeHorizontal(false)
             .enableDoubletap(true)
-            .defaultPage(0)
+            .defaultPage(ZERO)
 //            .onDraw(addDrawListener(ctx))
             .onLoad(addLoadCompleteListener(this)) // called after document is loaded and starts to be rendered
             .onPageChange(addOnPageChangeListener())

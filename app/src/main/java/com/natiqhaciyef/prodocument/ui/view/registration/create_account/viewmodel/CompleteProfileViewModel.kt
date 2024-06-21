@@ -1,7 +1,7 @@
 package com.natiqhaciyef.prodocument.ui.view.registration.create_account.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import com.natiqhaciyef.common.objects.ErrorMessages
+import com.natiqhaciyef.common.constants.EMPTY_FIELD
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
 import com.natiqhaciyef.core.base.ui.BaseViewModel
 import com.natiqhaciyef.prodocument.ui.util.DefaultImplModels
@@ -46,8 +46,8 @@ class CompleteProfileViewModel @Inject constructor() :
                 setBaseState(getCurrentBaseState().copy(isLoading = false))
                 postEffect(
                     CompleteProfileContract.CompleteUiEffect.FieldNotCorrectlyFilledEffect(
-                        error = Exception(ErrorMessages.EMPTY_FIELD),
-                        message = ErrorMessages.EMPTY_FIELD
+                        error = Exception(EMPTY_FIELD),
+                        message = EMPTY_FIELD
                     )
                 )
             }

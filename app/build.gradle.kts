@@ -154,16 +154,21 @@ dependencies {
     implementation("com.airbnb.android:lottie:$lottieVersion")
     implementation("androidx.viewpager2:viewpager2:$viewPagerVersion")
 
-    // Work manager
+    //Work manager
     implementation("androidx.work:work-runtime-ktx:$workManagerVersion")
 
     //Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
     //Reflection
     implementation(kotlin("reflect"))
+
+    //Fingerprint
+    implementation("androidx.biometric:biometric:1.2.0-alpha05")
 
     // TestImplementations
     implementation("androidx.test:core:1.5.0")

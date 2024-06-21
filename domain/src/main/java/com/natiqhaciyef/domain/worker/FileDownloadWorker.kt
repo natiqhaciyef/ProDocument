@@ -14,12 +14,16 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import com.natiqhaciyef.common.R
+import com.natiqhaciyef.common.constants.EMPTY_STRING
+import com.natiqhaciyef.common.constants.ONE
+import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.domain.worker.config.getSavedFileUri
 
 class FileDownloadWorker(
     private val context: Context,
     workerParameters: WorkerParameters
 ) : CoroutineWorker(context, workerParameters) {
+    val downloadingFile = "Downloading your file..."
 
     object FileParams {
         const val KEY_FILE_URL = "key_file_url"
@@ -32,14 +36,14 @@ class FileDownloadWorker(
         const val CHANNEL_NAME = "download_file_worker_demo_channel"
         const val CHANNEL_DESCRIPTION = "download_file_worker_demo_description"
         const val CHANNEL_ID = "download_file_worker_demo_channel_123456"
-        const val NOTIFICATION_ID = 1
+        const val NOTIFICATION_ID = ONE
     }
 
 
     override suspend fun doWork(): Result {
-        val fileUrl = inputData.getString(FileParams.KEY_FILE_URL) ?: ""
-        val fileName = inputData.getString(FileParams.KEY_FILE_NAME) ?: ""
-        val fileType = inputData.getString(FileParams.KEY_FILE_TYPE) ?: ""
+        val fileUrl = inputData.getString(FileParams.KEY_FILE_URL) ?: EMPTY_STRING
+        val fileName = inputData.getString(FileParams.KEY_FILE_NAME) ?: EMPTY_STRING
+        val fileType = inputData.getString(FileParams.KEY_FILE_TYPE) ?: EMPTY_STRING
 
         Log.d("TAG", "doWork: $fileUrl | $fileName | $fileType")
 
@@ -68,9 +72,9 @@ class FileDownloadWorker(
 
         val builder = NotificationCompat.Builder(context, NotificationConstants.CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
-            .setContentTitle("Downloading your file...")
+            .setContentTitle(downloadingFile)
             .setOngoing(true)
-            .setProgress(0, 0, true)
+            .setProgress(ZERO, ZERO, true)
 
 
 

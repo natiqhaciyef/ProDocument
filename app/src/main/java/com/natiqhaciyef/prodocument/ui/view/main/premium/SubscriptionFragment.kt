@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.natiqhaciyef.common.model.mapped.MappedSubscriptionModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.databinding.FragmentSubscriptionBinding
-import com.natiqhaciyef.prodocument.ui.util.NavigationManager
-import com.natiqhaciyef.prodocument.ui.util.BundleConstants
+import com.natiqhaciyef.prodocument.ui.util.BUNDLE_SUBSCRIPTION_PLAN
+import com.natiqhaciyef.prodocument.ui.manager.NavigationManager
 import com.natiqhaciyef.prodocument.ui.view.main.premium.adapter.FeatureAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.premium.contract.PremiumContract
 import com.natiqhaciyef.prodocument.ui.view.main.premium.viewmodel.PremiumViewModel
@@ -90,7 +90,7 @@ class SubscriptionFragment(
 
     private fun goToPayment(selectedPlan: MappedSubscriptionModel) {
         // navigate to payment
-        val bundle = bundleOf(BundleConstants.BUNDLE_SUBSCRIPTION_PLAN to selectedPlan)
+        val bundle = bundleOf(BUNDLE_SUBSCRIPTION_PLAN to selectedPlan)
         NavigationManager.navigateByRouteTitle(this, NavigationManager.PAYMENT_ROUTE, bundle)
     }
 }

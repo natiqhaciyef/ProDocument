@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.natiqhaciyef.common.helpers.capitalizeFirstLetter
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.FragmentLetsSignInBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
@@ -24,15 +25,30 @@ class LetsSignInFragment(
         binding.apply {
 //            googleSignInButton.initBinding()
             googleSignInButton.setIconImage(com.natiqhaciyef.common.R.drawable.google)
-            googleSignInButton.setTitleText("Continue with Google")
+            googleSignInButton.setTitleText(
+                getString(
+                    com.natiqhaciyef.common.R.string.continue_with_platform_name,
+                    GOOGLE.lowercase().capitalizeFirstLetter()
+                )
+            )
             googleSignInButton.setOnClickListener { }
 
             facebookSignInButton.setIconImage(com.natiqhaciyef.common.R.drawable.facebook)
-            facebookSignInButton.setTitleText("Continue with Facebook")
+            facebookSignInButton.setTitleText(
+                getString(
+                    com.natiqhaciyef.common.R.string.continue_with_platform_name,
+                    FACEBOOK.lowercase().capitalizeFirstLetter()
+                )
+            )
             facebookSignInButton.setOnClickListener { }
 
             appleSignInButton.setIconImage(com.natiqhaciyef.common.R.drawable.apple)
-            appleSignInButton.setTitleText("Continue with Apple")
+            appleSignInButton.setTitleText(
+                getString(
+                    com.natiqhaciyef.common.R.string.continue_with_platform_name,
+                    APPLE.lowercase().capitalizeFirstLetter()
+                )
+            )
             appleSignInButton.setOnClickListener { }
 
             goToSignInButton.setOnClickListener { navigate(R.id.loginFragment) }
@@ -69,14 +85,14 @@ class LetsSignInFragment(
 
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
     companion object {
         private const val GOOGLE = "GOOGLE"
         private const val APPLE = "APPLE"
         private const val FACEBOOK = "FACEBOOK"
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 }

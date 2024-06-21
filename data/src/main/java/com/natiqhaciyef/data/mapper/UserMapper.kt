@@ -1,5 +1,6 @@
 package com.natiqhaciyef.data.mapper
 
+import com.natiqhaciyef.common.constants.EMPTY_STRING
 import com.natiqhaciyef.common.model.ui.UIResult
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
 import com.natiqhaciyef.common.model.mapped.MappedUserWithoutPasswordModel
@@ -86,7 +87,7 @@ fun MappedUserModel.toResponse(): UserResponse =
         country = this.country,
         city = this.city,
         street = this.street,
-        publishDate = "",
+        publishDate = EMPTY_STRING,
         result = null
     )
 

@@ -1,5 +1,8 @@
 package com.natiqhaciyef.data.mock.payment
 
+import com.natiqhaciyef.common.constants.THIRTY_SIX
+import com.natiqhaciyef.common.constants.TWELVE
+import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.common.helpers.getNow
 import com.natiqhaciyef.common.model.payment.PaymentDetails
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
@@ -16,11 +19,11 @@ class GetPaymentDataPaymentMockGenerator(
             title = "Payment food",
             description = "Payment refund is not available",
             subscriptionDetails = SubscriptionPlanPaymentDetails(
-                expirationTime = 12,
+                expirationTime = TWELVE,
                 expirationTimeType = "Month",
-                price = 36.0,
+                price = THIRTY_SIX.toDouble(),
                 fee = 2.26,
-                discount = 0.0
+                discount = ZERO.toDouble()
             ),
             totalAmount = 38.26,
             currency = "USD",
@@ -47,7 +50,7 @@ class GetPaymentDataPaymentMockGenerator(
 
     companion object StartPaymentMockGenerator{
         val customRequest = PaymentRequest(
-            merchantId = 0,
+            merchantId = ZERO,
             paymentType = "QR",
             paymentMethod = "VISA",
             paymentDetails = PaymentDetails(

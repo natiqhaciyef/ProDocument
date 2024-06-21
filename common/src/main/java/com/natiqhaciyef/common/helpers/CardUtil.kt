@@ -7,12 +7,24 @@ import android.text.TextUtils
 import android.text.TextWatcher
 import android.widget.TextView
 import com.natiqhaciyef.common.R
+import com.natiqhaciyef.common.constants.EMPTY_STRING
+import com.natiqhaciyef.common.constants.FIFTEEN
+import com.natiqhaciyef.common.constants.FIVE
+import com.natiqhaciyef.common.constants.FOUR
+import com.natiqhaciyef.common.constants.NINETEEN
+import com.natiqhaciyef.common.constants.ONE
+import com.natiqhaciyef.common.constants.SIXTEEN
+import com.natiqhaciyef.common.constants.SLASH
+import com.natiqhaciyef.common.constants.SPACE
+import com.natiqhaciyef.common.constants.THREE
+import com.natiqhaciyef.common.constants.TWO
+import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.common.model.payment.MappedPaymentPickModel
 import com.natiqhaciyef.common.model.payment.PaymentMethods
 
 
 class CardNumberMaskingListener(val view: TextView) : TextWatcher {
-    private var current = ""
+    private var current = EMPTY_STRING
 
     override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
@@ -20,12 +32,12 @@ class CardNumberMaskingListener(val view: TextView) : TextWatcher {
 
     override fun afterTextChanged(s: Editable) {
         if (s.toString() != current) {
-            val userInput = s.toString().replace(nonDigits, "")
-            if (userInput.length <= 16) {
-                current = userInput.chunked(4).joinToString(" ")
-                s.filters = arrayOfNulls<InputFilter>(0)
+            val userInput = s.toString().replace(nonDigits, EMPTY_STRING)
+            if (userInput.length <= SIXTEEN) {
+                current = userInput.chunked(FOUR).joinToString(SPACE)
+                s.filters = arrayOfNulls<InputFilter>(ZERO)
             }
-            s.replace(0, s.length, current, 0, current.length)
+            s.replace(ZERO, s.length, current, ZERO, current.length)
             view.text = s
         }
     }
@@ -36,7 +48,7 @@ class CardNumberMaskingListener(val view: TextView) : TextWatcher {
 }
 
 class ExpireMaskingListener(val view: TextView) : TextWatcher {
-    private var current = ""
+    private var current = EMPTY_STRING
 
     override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
@@ -44,13 +56,13 @@ class ExpireMaskingListener(val view: TextView) : TextWatcher {
 
     override fun afterTextChanged(s: Editable) {
         if (s.toString() != current) {
-            val userInput = s.toString().replace(nonDigits, "")
-            if (userInput.length <= 4) {
-                current = userInput.chunked(2).joinToString("/")
-                s.filters = arrayOfNulls<InputFilter>(0)
+            val userInput = s.toString().replace(nonDigits, EMPTY_STRING)
+            if (userInput.length <= FOUR) {
+                current = userInput.chunked(TWO).joinToString(SLASH)
+                s.filters = arrayOfNulls<InputFilter>(ZERO)
 
             }
-            s.replace(0, s.length, current, 0, current.length)
+            s.replace(ZERO, s.length, current, ZERO, current.length)
             view.text = s
         }
     }
@@ -63,12 +75,12 @@ class ExpireMaskingListener(val view: TextView) : TextWatcher {
 
 fun formatOtherCardNumbers(text: String): String {
     if (text.onlyDigits()) {
-        val trimmed = if (text.length >= 16) text.substring(0..15) else text
-        var out = ""
+        val trimmed = if (text.length >= SIXTEEN) text.substring(ZERO until SIXTEEN) else text
+        var out = EMPTY_STRING
 
         for (i in trimmed.indices) {
             out += trimmed[i]
-            if (i % 4 == 3 && i != 15) out += " "
+            if (i % FOUR == THREE && i != FIFTEEN) out += SPACE
         }
         return out
     }
@@ -77,12 +89,12 @@ fun formatOtherCardNumbers(text: String): String {
 
 fun formatExpirationDate(text: String): String {
     if (text.onlyDigits()) {
-        val trimmed = if (text.length >= 5) text.substring(0..3) else text
-        var out = ""
+        val trimmed = if (text.length >= FIVE) text.substring(ZERO..THREE) else text
+        var out = EMPTY_STRING
 
         for (i in trimmed.indices) {
             out += trimmed[i]
-            if (i % 3 == 1) out += "/"
+            if (i % THREE == ONE) out += SLASH
         }
         return out
     }
@@ -150,10 +162,10 @@ fun cardTypeToImageFinder(paymentMethod: PaymentMethods): Int {
 }
 
 fun String.cardMasking(): String {
-    return if (this.trim().length == 19) {
+    return if (this.trim().length == NINETEEN) {
         val result = this.toCharArray().toMutableList()
         for (i in this.indices) {
-            if (this[i].isDigit() && i < 15) {
+            if (this[i].isDigit() && i < FIFTEEN) {
                 result[i] = '*'
             }
         }
@@ -165,7 +177,7 @@ fun String.cardMasking(): String {
 }
 
 fun MutableList<Char>.toDesignedString(): String {
-    var result = ""
+    var result = EMPTY_STRING
     for (i in this) {
         result += i
     }

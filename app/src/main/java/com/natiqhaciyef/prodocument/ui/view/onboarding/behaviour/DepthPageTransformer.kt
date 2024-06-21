@@ -3,6 +3,8 @@ package com.natiqhaciyef.prodocument.ui.view.onboarding.behaviour
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.viewpager2.widget.ViewPager2
+import com.natiqhaciyef.common.constants.ONE
+import com.natiqhaciyef.common.constants.ZERO
 
 @RequiresApi(21)
 class DepthPageTransformer : ViewPager2.PageTransformer {
@@ -14,38 +16,38 @@ class DepthPageTransformer : ViewPager2.PageTransformer {
         view.apply {
             val pageWidth = width
             when {
-                position < -1 -> { // [-Infinity,-1)
+                position < -ONE -> { // [-Infinity,-1)
                     // This page is way off-screen to the left.
-                    alpha = 0f
+                    alpha = ZERO.toFloat()
                 }
 
-                position <= 0 -> { // [-1,0]
+                position <= ZERO -> { // [-1,0]
                     // Use the default slide transition when moving to the left page.
-                    alpha = 1f
-                    translationX = 0f
-                    translationZ = 0f
-                    scaleX = 1f
-                    scaleY = 1f
+                    alpha = ONE.toFloat()
+                    translationX = ZERO.toFloat()
+                    translationZ = ZERO.toFloat()
+                    scaleX = ONE.toFloat()
+                    scaleY = ONE.toFloat()
                 }
 
-                position <= 1 -> { // (0,1]
+                position <= ONE -> { // (0,1]
                     // Fade the page out.
-                    alpha = 1 - position
+                    alpha = ONE - position
 
                     // Counteract the default slide transition.
                     translationX = pageWidth * -position
                     // Move it behind the left page.
-                    translationZ = -1f
+                    translationZ = -ONE.toFloat()
 
                     // Scale the page down (between MIN_SCALE and 1).
-                    val scaleFactor = (MIN_SCALE + (1 - MIN_SCALE) * (1 - Math.abs(position)))
+                    val scaleFactor = (MIN_SCALE + (ONE - MIN_SCALE) * (ONE - Math.abs(position)))
                     scaleX = scaleFactor
                     scaleY = scaleFactor
                 }
 
                 else -> { // (1,+Infinity]
                     // This page is way off-screen to the right.
-                    alpha = 0f
+                    alpha = ZERO.toFloat()
                 }
             }
         }

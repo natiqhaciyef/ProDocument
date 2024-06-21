@@ -1,6 +1,7 @@
 package com.natiqhaciyef.data.mock.payment
 
 
+import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
 import com.natiqhaciyef.common.model.payment.PaymentDetails
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
@@ -10,7 +11,7 @@ class InsertNewPaymentMethodMockGenerator(
     override var takenRequest: PaymentModel
 ) : BaseMockGenerator<PaymentModel, CRUDResponse>() {
     override var createdMock: CRUDResponse = CRUDResponse(
-        resultCode = 299,
+        resultCode = TWO_HUNDRED_NINETY_NINE,
         message = "mock result success"
     )
 

@@ -9,17 +9,19 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.navArgs
 import coil.load
+import com.natiqhaciyef.common.constants.EMPTY_STRING
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.databinding.FragmentPickFileBinding
 import com.natiqhaciyef.prodocument.ui.manager.FileManager
-import com.natiqhaciyef.prodocument.ui.util.NavigationManager
-import com.natiqhaciyef.prodocument.ui.util.NavigationManager.COMPRESS_TYPE
-import com.natiqhaciyef.prodocument.ui.util.NavigationManager.E_SIGN_TYPE
-import com.natiqhaciyef.prodocument.ui.util.NavigationManager.PROTECT_TYPE
-import com.natiqhaciyef.prodocument.ui.util.NavigationManager.SPLIT_TYPE
-import com.natiqhaciyef.prodocument.ui.util.BundleConstants
-import com.natiqhaciyef.prodocument.ui.util.BundleConstants.BUNDLE_TYPE
+import com.natiqhaciyef.prodocument.ui.manager.NavigationManager
+import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.COMPRESS_TYPE
+import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.E_SIGN_TYPE
+import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.PROTECT_TYPE
+import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.SPLIT_TYPE
+import com.natiqhaciyef.prodocument.ui.util.BUNDLE_MATERIAL
+import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TITLE
+import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TYPE
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.pick_file.contract.PickFileContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.pick_file.viewmodel.PickFileViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -59,7 +61,7 @@ class PickFileFragment(
     private fun config() {
         val args: PickFileFragmentArgs by navArgs()
         resBundle = args.resourceBundle
-        typeConfig(resBundle.getString(BUNDLE_TYPE) ?: "")
+        typeConfig(resBundle.getString(BUNDLE_TYPE) ?: EMPTY_STRING)
         with(binding) {
             addFileButton.setOnClickListener { FileManager.getFile(fileRequestLauncher) }
             goBackIcon.setOnClickListener { goBackIconClickAction() }
@@ -79,8 +81,8 @@ class PickFileFragment(
     }
 
     private fun continueButtonAction(materialModel: MappedMaterialModel, title: String) {
-        resBundle.putParcelable(BundleConstants.BUNDLE_MATERIAL, materialModel)
-        resBundle.putString(BundleConstants.BUNDLE_TITLE, title)
+        resBundle.putParcelable(BUNDLE_MATERIAL, materialModel)
+        resBundle.putString(BUNDLE_TITLE, title)
 
         val action = when (resBundle.getString(BUNDLE_TYPE)) {
             COMPRESS_TYPE -> {
