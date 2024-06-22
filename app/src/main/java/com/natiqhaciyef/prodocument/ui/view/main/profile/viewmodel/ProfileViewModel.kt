@@ -199,9 +199,9 @@ class ProfileViewModel @Inject constructor(
         val list = mutableListOf(
             ParamsUIModel(title = ctx.getString(R.string.remember_me_param), FieldType.SWITCH),
             ParamsUIModel(title = ctx.getString(R.string.biometric_id), FieldType.SWITCH),
-            ParamsUIModel(title = ctx.getString(R.string.face_id), FieldType.SWITCH),
-            ParamsUIModel(title = ctx.getString(R.string.sms_authenticator), FieldType.SWITCH),
-            ParamsUIModel(title = ctx.getString(R.string.google_authenticator), FieldType.SWITCH),
+//            ParamsUIModel(title = ctx.getString(R.string.face_id), FieldType.SWITCH),
+            ParamsUIModel(title = ctx.getString(R.string.sms_authenticator), FieldType.SWITCH, false),
+            ParamsUIModel(title = ctx.getString(R.string.google_authenticator), FieldType.SWITCH, false),
             ParamsUIModel(title = ctx.getString(R.string.device_management), FieldType.NAVIGATION),
         )
 

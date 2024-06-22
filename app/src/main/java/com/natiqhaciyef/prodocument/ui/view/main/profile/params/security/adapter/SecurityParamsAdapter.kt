@@ -39,6 +39,8 @@ class SecurityParamsAdapter(
         val item = list[position]
 
         holder.binding.let {
+            lockConfig(it, item)
+
             when (item.fieldType) {
                 FieldType.SWITCH -> {
                     switchConfig(item, it)
@@ -103,6 +105,43 @@ class SecurityParamsAdapter(
         }
     }
 
+    private fun lockConfig(
+        binding: RecyclerParamsItemBinding,
+        item: ParamsUIModel
+    ) {
+        if (!item.isAvailableEveryone) {
+            with(binding) {
+                lockIcon.visibility = View.VISIBLE
+                val lockParams = lockIcon.layoutParams as ConstraintLayout.LayoutParams
+
+
+                when (item.fieldType) {
+                    FieldType.SWITCH -> {
+                        val id = switchIcon.id
+                        lockParams.endToStart = id
+                        switchIcon.isEnabled = false
+                    }
+
+                    FieldType.NAVIGATION -> {
+                        val id = goDetailsIcon.id
+                        lockParams.endToStart = id
+                        goDetailsIcon.isEnabled = false
+                    }
+
+                    FieldType.SPACE -> {
+                        val params = preferenceTitle.layoutParams as ConstraintLayout.LayoutParams
+                        params.endToStart = lockIcon.id
+                        lockParams.endToEnd = preferenceLayout.id
+                    }
+
+                    else -> {
+                        preferenceLayout.layoutParams as ConstraintLayout.LayoutParams
+                    }
+                }
+            }
+        }
+    }
+
     private fun securityProcessConfiguration(paramsUIModel: ParamsUIModel) =
         when (paramsUIModel.title) {
             activity.getString(R.string.remember_me_param) -> {
@@ -128,9 +167,9 @@ class SecurityParamsAdapter(
                 }
             }
 
-            activity.getString(R.string.face_id) -> {}
+            activity.getString(R.string.sms_authenticator) -> {
 
-            activity.getString(R.string.sms_authenticator) -> {}
+            }
 
             activity.getString(R.string.google_authenticator) -> {}
 

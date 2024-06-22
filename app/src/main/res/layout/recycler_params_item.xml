@@ -60,5 +60,16 @@
         app:thumbTint="@color/primary_900"
         app:trackTint="@color/primary_200" />
 
+    <ImageView
+        android:id="@+id/lockIcon"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:visibility="gone"
+        android:src="@drawable/lock_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/grayscale_900" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
