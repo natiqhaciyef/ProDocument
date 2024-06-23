@@ -10,6 +10,8 @@ import com.natiqhaciyef.prodocument.ui.view.main.profile.model.Settings
 import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.common.model.mapped.MappedUserWithoutPasswordModel
 import com.natiqhaciyef.core.base.ui.BaseViewModel
+import com.natiqhaciyef.domain.usecase.app.GetFaqListUseCase
+import com.natiqhaciyef.domain.usecase.app.GetProscanDetailsUseCase
 import com.natiqhaciyef.domain.usecase.payment.remote.GetPaymentHistoryUseCase
 import com.natiqhaciyef.domain.usecase.subscription.GetPickedPlanUseCase
 import com.natiqhaciyef.domain.usecase.user.remote.GetUserByTokenRemoteUseCase
@@ -17,6 +19,7 @@ import com.natiqhaciyef.prodocument.ui.view.main.profile.contract.ProfileContrac
 import com.natiqhaciyef.prodocument.ui.view.main.profile.params.model.FieldType
 import com.natiqhaciyef.prodocument.ui.view.main.profile.params.model.ParamsUIModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -25,7 +28,9 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     private val getUserByTokenRemoteUseCase: GetUserByTokenRemoteUseCase,
     private val getPickedPlanUseCase: GetPickedPlanUseCase,
-    private val getPaymentHistoryUseCase: GetPaymentHistoryUseCase
+    private val getPaymentHistoryUseCase: GetPaymentHistoryUseCase,
+    private val getFaqListUseCase: GetFaqListUseCase,
+    private val getProscanDetailsUseCase: GetProscanDetailsUseCase,
 ) : BaseViewModel<ProfileContract.ProfileState, ProfileContract.ProfileEvent, ProfileContract.ProfileEffect>() {
 
     override fun onEventUpdate(event: ProfileContract.ProfileEvent) {
@@ -57,9 +62,16 @@ class ProfileViewModel @Inject constructor(
             is ProfileContract.ProfileEvent.GetSecurityParams -> {
                 getSecurityParams(event.ctx)
             }
+
+            is ProfileContract.ProfileEvent.GetFaqList -> {
+                getFaqList()
+            }
+
+            is ProfileContract.ProfileEvent.GetProscanInfo -> {
+                getProscanDetails()
+            }
         }
     }
-
 
     private fun getPaymentHistory(){
         getPaymentHistoryUseCase.invoke().onEach { result ->
@@ -119,6 +131,43 @@ class ProfileViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    private fun getProscanDetails(){
+        getProscanDetailsUseCase.invoke().onEach { result ->
+            when(result.status){
+                Status.SUCCESS -> {
+                    if (result.data != null)
+                        setBaseState(getCurrentBaseState().copy(proscanDetails = result.data))
+                }
+
+                Status.ERROR -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = false))
+                }
+
+                Status.LOADING -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = true))
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    private fun getFaqList(){
+        getFaqListUseCase.invoke().onEach { result ->
+            when(result.status){
+                Status.SUCCESS -> {
+                    if (result.data != null)
+                        setBaseState(getCurrentBaseState().copy(faqList = result.data))
+                }
+
+                Status.ERROR -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = false))
+                }
+
+                Status.LOADING -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = true))
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
 
 
     private fun getSettings() {

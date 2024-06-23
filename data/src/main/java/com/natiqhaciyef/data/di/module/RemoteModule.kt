@@ -3,6 +3,7 @@ package com.natiqhaciyef.data.di.module
 import com.natiqhaciyef.data.network.NetworkConfig
 import com.natiqhaciyef.data.network.TokenAuthenticator
 import com.natiqhaciyef.data.network.manager.TokenManager
+import com.natiqhaciyef.data.network.service.AppService
 import com.natiqhaciyef.data.network.service.MaterialService
 import com.natiqhaciyef.data.network.service.PaymentService
 import com.natiqhaciyef.data.network.service.SubscriptionService
@@ -52,6 +53,11 @@ object RemoteModule {
     @Singleton
     fun providePaymentService(network: Retrofit): PaymentService =
         network.create(PaymentService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideAppService(network: Retrofit): AppService =
+        network.create(AppService::class.java)
 
     @Provides
     @Singleton

@@ -13,7 +13,6 @@ import com.natiqhaciyef.prodocument.databinding.FragmentCustomWatermarkAdderBott
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.behaviour.WatermarkTypes
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.AddImageWatermarkFragment
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.AddTextWatermarkFragment
-import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.adapter.WatermarkViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -47,7 +46,7 @@ class CustomWatermarkAdderBottomSheetFragment(
         )
 
         val adapter =
-            WatermarkViewPagerAdapter(fragments, this@CustomWatermarkAdderBottomSheetFragment)
+            ViewPagerAdapter(fragments, this@CustomWatermarkAdderBottomSheetFragment)
         with(binding) {
             addWatermarkViewPager.adapter = adapter
 

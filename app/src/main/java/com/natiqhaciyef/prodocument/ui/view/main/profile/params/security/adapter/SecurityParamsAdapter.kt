@@ -1,7 +1,9 @@
 package com.natiqhaciyef.prodocument.ui.view.main.profile.params.security.adapter
 
-import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -9,13 +11,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
 import com.natiqhaciyef.core.base.ui.BaseRecyclerViewAdapter
 import com.natiqhaciyef.common.R
-import com.natiqhaciyef.common.constants.EIGHT
 import com.natiqhaciyef.common.constants.EIGHTEEN
 import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
-import com.natiqhaciyef.common.constants.SUCCESS
+import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.prodocument.databinding.RecyclerParamsItemBinding
 import com.natiqhaciyef.prodocument.ui.manager.FingerPrintManager
 import com.natiqhaciyef.prodocument.ui.manager.RememberUserManager
@@ -156,24 +158,29 @@ class SecurityParamsAdapter(
                         description = activity.getString(R.string.biometric_details),
                         activity = activity
                     ) { isSucceed, exception ->
-                        Toast.makeText(
-                            activity,
-                            "Is succeed: ${isSucceed}: Reason ${exception?.message ?: SOMETHING_WENT_WRONG}",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        // store biometric enabled and add it to user login screen
                     }
                 } else {
 
                 }
             }
 
-            activity.getString(R.string.sms_authenticator) -> {
-
-            }
+            activity.getString(R.string.sms_authenticator) -> {}
 
             activity.getString(R.string.google_authenticator) -> {}
 
-            activity.getString(R.string.device_management) -> {}
+            activity.getString(R.string.device_management) -> {
+                activity.startActivity(
+                    Intent(
+                        Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                        Uri.fromParts(
+                            activity.getString(R.string.package_),
+                            activity.packageName,
+                            null
+                        )
+                    )
+                )
+            }
 
             else -> {}
         }

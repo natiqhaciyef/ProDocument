@@ -4,10 +4,12 @@ import android.content.Context
 import com.natiqhaciyef.data.local.dao.PaymentDao
 import com.natiqhaciyef.data.local.dao.UserDao
 import com.natiqhaciyef.data.network.manager.TokenManager
+import com.natiqhaciyef.data.network.service.AppService
 import com.natiqhaciyef.data.network.service.MaterialService
 import com.natiqhaciyef.data.network.service.PaymentService
 import com.natiqhaciyef.data.network.service.SubscriptionService
 import com.natiqhaciyef.data.network.service.UserService
+import com.natiqhaciyef.data.source.AppDataSource
 import com.natiqhaciyef.data.source.MaterialDataSource
 import com.natiqhaciyef.data.source.PaymentDataSource
 import com.natiqhaciyef.data.source.SubscriptionDataSource
@@ -47,4 +49,9 @@ object SourceModule {
     @Singleton
     fun providePaymentDataSource(manager: TokenManager, service: PaymentService, dao: PaymentDao) =
         PaymentDataSource(manager, service, dao)
+
+    @Provides
+    @Singleton
+    fun provideAppDataSource(service: AppService) =
+        AppDataSource(service)
 }

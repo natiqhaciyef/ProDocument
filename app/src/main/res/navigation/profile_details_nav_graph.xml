@@ -32,7 +32,7 @@
         tools:layout="@layout/fragment_category_graph" />
     <fragment
         android:id="@+id/helpCenterFragment"
-        android:name="com.natiqhaciyef.prodocument.ui.view.main.profile.params.HelpCenterFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.profile.params.helpcenter.HelpCenterFragment"
         android:label="fragment_help_center"
         tools:layout="@layout/fragment_help_center" />
     <fragment
