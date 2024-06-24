@@ -4,7 +4,9 @@ import android.content.Context
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.constants.EMPTY_STRING
+import com.natiqhaciyef.common.model.CategoryModel
 import com.natiqhaciyef.common.model.LanguageModel
+import com.natiqhaciyef.common.model.QuestionCategories
 import com.natiqhaciyef.prodocument.ui.view.main.profile.model.AccountSettingModel
 import com.natiqhaciyef.prodocument.ui.view.main.profile.model.Settings
 import com.natiqhaciyef.common.model.Status
@@ -69,6 +71,10 @@ class ProfileViewModel @Inject constructor(
 
             is ProfileContract.ProfileEvent.GetProscanInfo -> {
                 getProscanDetails()
+            }
+
+            is ProfileContract.ProfileEvent.GetFaqCategories -> {
+                getAllFaqCategories()
             }
         }
     }
@@ -265,6 +271,22 @@ class ProfileViewModel @Inject constructor(
         )
 
         setBaseState(getCurrentBaseState().copy(languages = languages))
+    }
+
+    private fun getAllFaqCategories(){
+        val categoriesTitle = QuestionCategories.makeQuestionTypeStringList()
+        val mappedList = categoriesTitle
+            .map {
+                CategoryModel(
+                    title = it,
+                    backgroundColor = if (categoriesTitle.first() == it)
+                        R.color.primary_900
+                    else
+                        R.color.white
+                )
+            }
+
+        setBaseState(getCurrentBaseState().copy(faqCategoryList = mappedList))
     }
 
     override fun getInitialState(): ProfileContract.ProfileState = ProfileContract.ProfileState()

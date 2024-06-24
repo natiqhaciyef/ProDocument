@@ -27,6 +27,7 @@ class HelpCenterFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activityConfig()
+        tabLayoutConfig()
     }
 
     override fun onStateChange(state: ProfileContract.ProfileState) {
