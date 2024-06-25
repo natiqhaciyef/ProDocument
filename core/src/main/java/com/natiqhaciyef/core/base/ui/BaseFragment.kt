@@ -33,10 +33,8 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel<State, Event, E
     val binding: VB
         get() = _binding!!
 
-    val viewModel: VM
-        get() {
-            viewModelClass.let { return ViewModelProvider(this)[viewModelClass.java] }
-        }
+    private var _viewModel: VM? = null
+    val viewModel: VM get() = _viewModel!!
 
     val dataStore = AppStorePref
 
@@ -55,6 +53,7 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel<State, Event, E
         savedInstanceState: Bundle?
     ): View? {
         _binding = bindInflater(inflater, container, false)
+        _viewModel = viewModelClass.let {  ViewModelProvider(this)[viewModelClass.java] }
         return binding.root
     }
 

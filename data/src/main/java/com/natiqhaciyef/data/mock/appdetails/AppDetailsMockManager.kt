@@ -15,6 +15,11 @@ object AppDetailsMockManager {
             title = "Is the Proscan app free ?",
             description = "Not fully but most parts of app is free. Furthermore, if you need to work on documents professionally, there are a few options as a subscription plan",
             category = "General"
+        ),
+        FaqModel(
+            title = "Is E-sign only for premium users ?",
+            description = "E-sign is fully free feature for users. You can use it just accepting terms & conditions",
+            category = "Files & Process"
         )
     )
 

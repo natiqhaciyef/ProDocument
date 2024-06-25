@@ -97,7 +97,7 @@
 
 
     <!-- Lets sign in -->
-    <string name="lets_sign_in_title">Let’s get started</string>
+    <string name="lets_sign_in_title">Let’s you in</string>
     <string name="continue_with_platform_title">Continue with platform</string>
     <string name="continue_with_platform_name">Continue with %1$s</string>
     <string name="sign_in_with_password">Sign in with password</string>
@@ -149,11 +149,11 @@
 
     <!-- Scan -->
     <string name="scan_qr_title">Scan QR Code</string>
-    <string name="scan_image_title">Scan Image</string>
-    <string name="scan_live_title">Live Recognition</string>
+    <string name="scan_image_title">Scan Image Code</string>
+    <string name="scan_live_title">Live Recognition Code</string>
     <string name="scan_qr_description">Please point the camera at the QR Code</string>
     <string name="scan_live_description">Please set the camera at the view</string>
-    <string name="scan_image_description">Please set camera and capture image</string>
+    <string name="scan_image_description">Please capture and set camera at the Image</string>
     <string name="title_count">Scanned file %1$s</string>
 
     <!--  Merge pdf  -->
@@ -219,7 +219,7 @@
     <string name="google_pay">Google Pay</string>
     <string name="apple_pay">Apple Pay</string>
     <string name="other">Other</string>
-    <string name="select_payment_method">Select Payment Method</string>
+    <string name="select_payment_method">Select Payment</string>
     <string name="review_summary">Review Summary</string>
     <string name="add_new_payment">Add New Payment</string>
     <string name="card_number_default">●●●● ●●●● ●●●● ●●●●</string>
@@ -246,7 +246,7 @@
 
     <!-- Profile account -->
     <string name="captured_files_size_ratio">%2$s %1$s / %3$s %1$s</string>
-    <string name="go_to_premium">Switch Premium</string>
+    <string name="go_to_premium">Go to Premium</string>
     <string name="enjoy_all_benefits">Enjoy all the benefits</string>
 
     <string name="personal_info">Personal Info</string>

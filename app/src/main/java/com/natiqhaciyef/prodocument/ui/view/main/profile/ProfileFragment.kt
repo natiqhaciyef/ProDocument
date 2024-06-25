@@ -100,9 +100,7 @@ class ProfileFragment(
 
     private fun recyclerviewConfig(list: MutableList<AccountSettingModel>) {
         adapter = AccountParametersAdapter(this, list)
-        adapter?.onClickAction = { title ->
-            adapterClickNavigation(title)
-        }
+        adapter?.onClickAction = { title -> adapterClickNavigation(title) }
         with(binding) {
             recyclerSettingsView.adapter = adapter
             recyclerSettingsView.layoutManager =
@@ -132,7 +130,7 @@ class ProfileFragment(
             LanguageManager.setLocaleLang(lang = language.title, requireContext())
             LanguageManager.loadLocale(requireContext())
         }.show(
-            this.childFragmentManager,
+            if (!isAdded) return else this.childFragmentManager,
             LanguageFragment::class.simpleName
         )
     }
@@ -149,5 +147,10 @@ class ProfileFragment(
                 navigate(action)
             }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.postEvent(ProfileContract.ProfileEvent.ClearState)
     }
 }

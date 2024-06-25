@@ -36,6 +36,8 @@ object ProfileContract {
         data class GetPreferences(val ctx: Context) : ProfileEvent
 
         data class GetSecurityParams(val ctx: Context) : ProfileEvent
+
+        data object ClearState : ProfileEvent
     }
 
     sealed interface ProfileEffect : UiEffect {

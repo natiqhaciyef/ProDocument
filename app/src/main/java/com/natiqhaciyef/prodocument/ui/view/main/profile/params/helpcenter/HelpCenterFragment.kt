@@ -76,6 +76,8 @@ class HelpCenterFragment(
                     else -> { getString(com.natiqhaciyef.common.R.string.faq)}
                 }
             }.attach()
+
+            helpCenterViewPager.isUserInputEnabled = false
         }
     }
 

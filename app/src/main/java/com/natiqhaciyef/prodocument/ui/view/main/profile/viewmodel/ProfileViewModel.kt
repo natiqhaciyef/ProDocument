@@ -21,7 +21,6 @@ import com.natiqhaciyef.prodocument.ui.view.main.profile.contract.ProfileContrac
 import com.natiqhaciyef.prodocument.ui.view.main.profile.params.model.FieldType
 import com.natiqhaciyef.prodocument.ui.view.main.profile.params.model.ParamsUIModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -75,6 +74,10 @@ class ProfileViewModel @Inject constructor(
 
             is ProfileContract.ProfileEvent.GetFaqCategories -> {
                 getAllFaqCategories()
+            }
+
+            is ProfileContract.ProfileEvent.ClearState -> {
+                clearState()
             }
         }
     }
@@ -279,14 +282,15 @@ class ProfileViewModel @Inject constructor(
             .map {
                 CategoryModel(
                     title = it,
-                    backgroundColor = if (categoriesTitle.first() == it)
-                        R.color.primary_900
-                    else
-                        R.color.white
+                    backgroundColor = if (categoriesTitle.first() == it) R.color.primary_900 else R.color.white
                 )
             }
 
         setBaseState(getCurrentBaseState().copy(faqCategoryList = mappedList))
+    }
+
+    private fun clearState(){
+        setBaseState(getCurrentBaseState())
     }
 
     override fun getInitialState(): ProfileContract.ProfileState = ProfileContract.ProfileState()

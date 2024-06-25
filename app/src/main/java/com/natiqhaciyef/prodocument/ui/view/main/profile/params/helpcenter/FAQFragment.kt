@@ -6,14 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.natiqhaciyef.common.constants.EMPTY_STRING
 import com.natiqhaciyef.common.constants.TWENTY_FOUR
-import com.natiqhaciyef.common.constants.TWENTY_THREE
 import com.natiqhaciyef.common.model.CategoryModel
 import com.natiqhaciyef.common.model.FaqModel
 import com.natiqhaciyef.common.model.QuestionCategories
 import com.natiqhaciyef.core.base.ui.BaseFragment
-import com.natiqhaciyef.prodocument.R
+import com.natiqhaciyef.core.model.CategoryItem
 import com.natiqhaciyef.prodocument.databinding.FragmentFaqBinding
 import com.natiqhaciyef.prodocument.ui.view.main.profile.contract.ProfileContract
 import com.natiqhaciyef.prodocument.ui.view.main.profile.params.helpcenter.adapter.CategoryAdapter
@@ -29,6 +30,7 @@ class FAQFragment(
 ) : BaseFragment<FragmentFaqBinding, ProfileViewModel, ProfileContract.ProfileState, ProfileContract.ProfileEvent, ProfileContract.ProfileEffect>() {
     private var faqAdapter: FaqAdapter? = null
     private var categoryAdapter: CategoryAdapter? = null
+    private var baseList: MutableList<FaqModel>? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,10 +48,11 @@ class FAQFragment(
             else -> {
 
                 if (state.faqList != null) {
-                    questionsRecyclerConfig(state.faqList!!)
+                    baseList = state.faqList?.toMutableList()
+                    questionsRecyclerConfig()
                 }
 
-                if (state.faqCategoryList != null){
+                if (state.faqCategoryList != null) {
                     categoryRecyclerConfig(state.faqCategoryList!!)
                 }
             }
@@ -69,12 +72,16 @@ class FAQFragment(
         }
     }
 
-    private fun questionsRecyclerConfig(list: List<FaqModel>) {
+    private fun questionsRecyclerConfig() {
+        val mList = baseList?.toMutableList() ?: mutableListOf()
         with(binding) {
-            faqAdapter = FaqAdapter(list.toMutableList())
+            faqAdapter = FaqAdapter(mList)
             recyclerFaqView.adapter = faqAdapter
             recyclerFaqView.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+
+            searchQuestion()
+            categoryAdapter?.onClick = { filterList(it.title, baseList!!, true) }
         }
     }
 
@@ -87,5 +94,34 @@ class FAQFragment(
             imageTintList =
                 ColorStateList.valueOf(resources.getColor(com.natiqhaciyef.common.R.color.grayscale_500))
         }
+    }
+
+    private fun searchQuestion() {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(newTet: String?): Boolean {
+                filterList(newTet?.lowercase() ?: EMPTY_STRING, baseList ?: mutableListOf())
+                return true
+            }
+        })
+    }
+
+    private fun filterList(
+        text: String,
+        faqList: MutableList<FaqModel>,
+        isCategory: Boolean = false
+    ) {
+        val resultList = faqList.filter {
+            if (isCategory) it.category == text else it.title.contains(text)
+        }
+
+        if (isCategory && text == QuestionCategories.ALL.title)
+            faqAdapter?.updateList(baseList!!)
+        else
+            faqAdapter?.updateList(resultList.toMutableList())
     }
 }

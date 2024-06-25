@@ -32,5 +32,6 @@ class FaqAdapter(faqList: MutableList<FaqModel>) :
     private fun onExpandIconClickAction(binding: RecyclerFaqItemBinding) {
         isExpanded = !isExpanded
         binding.questionDetails.visibility = if (isExpanded) View.VISIBLE else View.GONE
+        binding.simpleLine.visibility = if (isExpanded) View.VISIBLE else View.GONE
     }
 }

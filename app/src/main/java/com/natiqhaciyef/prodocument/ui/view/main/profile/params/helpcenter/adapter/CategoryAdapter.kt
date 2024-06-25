@@ -4,12 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.ColorRes
-import androidx.constraintlayout.widget.ConstraintLayout
 import com.natiqhaciyef.common.constants.SIXTEEN
-import com.natiqhaciyef.common.constants.TWELVE
 import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.common.model.CategoryModel
 import com.natiqhaciyef.core.base.ui.BaseRecyclerViewAdapter
+import com.natiqhaciyef.common.R
 import com.natiqhaciyef.prodocument.databinding.RecyclerFaqCategoryItemBinding
 
 class CategoryAdapter(
@@ -20,6 +19,10 @@ class CategoryAdapter(
         get() = { ctx, vg, bool ->
             RecyclerFaqCategoryItemBinding.inflate(LayoutInflater.from(ctx), vg, bool)
         }
+
+    var onClick: (CategoryModel) -> Unit = {
+
+    }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         val item = list[position]
@@ -38,7 +41,16 @@ class CategoryAdapter(
             it.categoryTitle.text = item.title
             it.categoryConstraintLayout.setBackgroundColor(ctx.resources.getColor(item.backgroundColor))
             backgroundConfig(it, item.backgroundColor)
+            holder.itemView.setOnClickListener {
+                onClick.invoke(item)
+                backgroundChangeAction(item)
+            }
         }
+    }
+
+    private fun backgroundChangeAction(item: CategoryModel) {
+        val updateList = list.map { it.copy(backgroundColor = if (item != it) R.color.white else R.color.primary_900) }
+        updateList(updateList.toMutableList())
     }
 
     private fun firstItemMarginConfig(
@@ -55,16 +67,16 @@ class CategoryAdapter(
     private fun backgroundConfig(binding: RecyclerFaqCategoryItemBinding, @ColorRes color: Int) {
         with(binding) {
             when (color) {
-                com.natiqhaciyef.common.R.color.white -> {
-                    categoryTitle.setTextColor(ctx.getColor(com.natiqhaciyef.common.R.color.primary_900))
+                R.color.white -> {
+                    categoryTitle.setTextColor(ctx.getColor(R.color.primary_900))
                 }
 
-                com.natiqhaciyef.common.R.color.primary_900 -> {
-                    categoryTitle.setTextColor(ctx.getColor(com.natiqhaciyef.common.R.color.white))
+                R.color.primary_900 -> {
+                    categoryTitle.setTextColor(ctx.getColor(R.color.white))
                 }
 
                 else -> {
-                    categoryTitle.setTextColor(ctx.getColor(com.natiqhaciyef.common.R.color.black))
+                    categoryTitle.setTextColor(ctx.getColor(R.color.black))
                 }
             }
         }
