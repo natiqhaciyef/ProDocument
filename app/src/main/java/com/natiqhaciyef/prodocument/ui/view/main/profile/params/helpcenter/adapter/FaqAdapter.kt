@@ -1,9 +1,12 @@
 package com.natiqhaciyef.prodocument.ui.view.main.profile.params.helpcenter.adapter
 
+import android.animation.LayoutTransition
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.transition.AutoTransition
+import androidx.transition.TransitionManager
 import com.natiqhaciyef.common.model.FaqModel
 import com.natiqhaciyef.core.base.ui.BaseRecyclerViewAdapter
 import com.natiqhaciyef.prodocument.databinding.RecyclerFaqItemBinding
@@ -22,6 +25,8 @@ class FaqAdapter(faqList: MutableList<FaqModel>) :
         with(holder.binding) {
             questionTitle.text = item.title
             questionDetails.text = item.description
+            TransitionManager.beginDelayedTransition(cardLayout, AutoTransition())
+            cardLayout.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
             expandIcon.setOnClickListener { onExpandIconClickAction(holder.binding) }
         }
@@ -31,7 +36,10 @@ class FaqAdapter(faqList: MutableList<FaqModel>) :
 
     private fun onExpandIconClickAction(binding: RecyclerFaqItemBinding) {
         isExpanded = !isExpanded
-        binding.questionDetails.visibility = if (isExpanded) View.VISIBLE else View.GONE
-        binding.simpleLine.visibility = if (isExpanded) View.VISIBLE else View.GONE
+        with(binding){
+            questionDetails.visibility = if (isExpanded) View.VISIBLE else View.GONE
+            simpleLine.visibility = if (isExpanded) View.VISIBLE else View.GONE
+            expandIcon.rotation = if(isExpanded) 0f else 270f
+        }
     }
 }
