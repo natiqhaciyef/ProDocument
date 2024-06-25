@@ -19,6 +19,7 @@ import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.common.constants.MATERIAL_TOKEN_MOCK_KEY
 import com.natiqhaciyef.core.store.AppStorePref
 import com.natiqhaciyef.core.store.AppStorePrefKeys
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -35,6 +36,12 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel<State, Event, E
 
     private var _viewModel: VM? = null
     val viewModel: VM get() = _viewModel!!
+    val currentState: State get() = viewModel.stateValue
+    var isSharedViewModel = false
+
+    private var stateJob: Job? = null
+    private var effectJob: Job? = null
+
 
     val dataStore = AppStorePref
 
@@ -42,37 +49,29 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel<State, Event, E
 
     protected open fun onEffectUpdate(effect: Effect) {}
 
-    override fun onDestroy() {
-        super.onDestroy()
-//        _binding = null
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = bindInflater(inflater, container, false)
-        _viewModel = viewModelClass.let {  ViewModelProvider(this)[viewModelClass.java] }
+        _viewModel = viewModelClass.let {
+            ViewModelProvider(
+                if (isSharedViewModel)
+                    requireActivity()
+                else
+                    this
+            )[viewModelClass.java]
+        }
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         onStateSubscribers()
+        onEffectSubscribers()
     }
-
-    private fun onStateSubscribers() {
-        viewModel.state.onEach {
-            onStateChange(it)
-        }.launchIn(viewModel.viewModelScope)
-
-        viewModel.effect.onEach {
-            onEffectUpdate(it)
-        }.launchIn(viewModel.viewModelScope)
-    }
-
-
 
     fun navigateBack() {
         findNavController().popBackStack()
@@ -117,5 +116,42 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel<State, Event, E
 
         onSuccess(result?.accessToken ?: MATERIAL_TOKEN_MOCK_KEY)
         return@launch
+    }
+
+    private fun onStateSubscribers() {
+        stateJob = viewModel.state.onEach {
+            onStateChange(it)
+        }.launchIn(viewModel.viewModelScope)
+    }
+
+    private fun onEffectSubscribers() {
+        effectJob = viewModel.effect.onEach {
+            onEffectUpdate(it)
+        }.launchIn(viewModel.viewModelScope)
+    }
+
+    fun postEvent(event: Event) {
+        viewModel.viewModelScope.launch {
+            viewModel.updateEvent(event)
+        }
+    }
+
+    fun holdCurrentState(state: State){
+        viewModel.holdBaseState(state)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        stateJob?.cancel()
+        effectJob?.cancel()
+    }
+
+    fun navigateWithGraph(graphId: Int) {
+        findNavController().setGraph(graphId)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

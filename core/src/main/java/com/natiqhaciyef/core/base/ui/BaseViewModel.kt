@@ -24,6 +24,8 @@ abstract class BaseViewModel<State : UiState, Event : UiEvent, Effect : UiEffect
     private val currentState: State by lazy { getInitialState() }
     private var _state = MutableStateFlow(currentState)
     val state: StateFlow<State> = _state
+    val stateValue = _state.value
+    private var holdState: State = _state.value
 
     private var _event = MutableSharedFlow<Event>()
     private val event: SharedFlow<Event> = _event
@@ -51,12 +53,24 @@ abstract class BaseViewModel<State : UiState, Event : UiEvent, Effect : UiEffect
         viewModelScope.launch { _state.emit(state) }
     }
 
+    fun getHoldState(): State{
+        return holdState
+    }
+
+    fun holdBaseState(state: State){
+        holdState = state
+    }
+
     fun getCurrentBaseState(): State {
         return currentState
     }
 
     fun postEvent(event: Event) {
         viewModelScope.launch { _event.emit(event) }
+    }
+
+    suspend fun updateEvent(event: Event){
+        _event.emit(event)
     }
 
     fun postEffect(effect: Effect) {
