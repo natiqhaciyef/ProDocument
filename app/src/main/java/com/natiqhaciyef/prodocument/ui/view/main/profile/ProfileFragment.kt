@@ -1,5 +1,6 @@
 package com.natiqhaciyef.prodocument.ui.view.main.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +21,7 @@ import com.natiqhaciyef.prodocument.ui.view.main.profile.contract.ProfileContrac
 import com.natiqhaciyef.prodocument.ui.view.main.profile.params.LogOutFragment
 import com.natiqhaciyef.prodocument.ui.view.main.profile.params.language.LanguageFragment
 import com.natiqhaciyef.prodocument.ui.view.main.profile.viewmodel.ProfileViewModel
+import com.natiqhaciyef.prodocument.ui.view.registration.RegistrationActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.KClass
 
@@ -139,14 +141,15 @@ class ProfileFragment(
     private fun adapterClickNavigation(title: String) {
         when (title.lowercase()) {
             requireContext().getString(R.string.language).lowercase() -> {
-                viewModel.postEvent(ProfileContract.ProfileEvent.GetAllSupportedLanguages(requireContext()))
+                viewModel.postEvent(
+                    ProfileContract.ProfileEvent.GetAllSupportedLanguages(
+                        requireContext()
+                    )
+                )
             }
 
             requireContext().getString(R.string.logout).lowercase() -> {
-                LogOutFragment(
-                    onYesClick = {},
-                    onCancelClick = {}
-                ).show(
+                LogOutFragment { onLogOutClick() }.show(
                     if (!isAdded) return else this.childFragmentManager,
                     LogOutFragment::class.simpleName
                 )
@@ -158,6 +161,10 @@ class ProfileFragment(
                 navigate(action)
             }
         }
+    }
+
+    private fun onLogOutClick() {
+        navigate(requireActivity(), RegistrationActivity::class.java, true)
     }
 
     override fun onPause() {

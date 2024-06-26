@@ -1,5 +1,6 @@
 package com.natiqhaciyef.core.base.ui
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -89,14 +90,15 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel<State, Event, E
         requireActivity().startActivity(Intent(Intent.ACTION_VIEW, deepLink))
     }
 
-    fun navigate(
-        activity: FragmentActivity,
-        intent: Intent,
+    fun <T> navigate(
+        currentActivity: FragmentActivity,
+        destination: Class<T>,
         isFinished: Boolean = false
     ) {
-        activity.startActivity(intent)
+        val intent = Intent(currentActivity, destination)
+        currentActivity.startActivity(intent)
         if (isFinished)
-            activity.finish()
+            currentActivity.finish()
     }
 
     fun navigate(deepLink: Uri) {

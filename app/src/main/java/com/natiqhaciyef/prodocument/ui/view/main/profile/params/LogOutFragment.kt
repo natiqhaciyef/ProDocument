@@ -14,10 +14,9 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class LogOutFragment(
     private var onYesClick: () -> Unit = {},
-    private var onCancelClick: () -> Unit = {}
 ) : BottomSheetDialogFragment() {
     private var _binding: FragmentLogOutBinding? = null
-    private val binding: FragmentLogOutBinding get() =  _binding!!
+    private val binding: FragmentLogOutBinding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,7 +31,9 @@ class LogOutFragment(
 
         with(binding) {
             yesButton.setOnClickListener { onYesClick.invoke() }
-            cancelButton.setOnClickListener { onCancelClick.invoke() }
+            cancelButton.setOnClickListener {
+                dialog?.dismiss()
+            }
         }
     }
 
