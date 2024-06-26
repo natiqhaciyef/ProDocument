@@ -259,7 +259,8 @@
     <string name="help_center">Müştəri Xidmətləri</string>
     <string name="about_proscan">Proscan Haqqında</string>
     <string name="logout">Çıxış et</string>
-
+    <string name="logout_description">Çıxış etmək istədiyinizdən, əminsiniz?</string>
+    <string name="yes_logout">Bəli, Çıxış et</string>
     <string name="account">Hesab</string>
     
     <!-- Personal Information -->

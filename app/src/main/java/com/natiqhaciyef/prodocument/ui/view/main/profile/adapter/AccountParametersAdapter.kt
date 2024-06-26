@@ -43,13 +43,15 @@ class AccountParametersAdapter(
             fragment.requireContext().getString(com.natiqhaciyef.common.R.string.logout) -> {
                 holder.binding.settingsTitle.setTextColor(ContextCompat.getColor(fragment.requireContext(), com.natiqhaciyef.common.R.color.gradient_start_red))
                 logoutConfig(holder.binding)
+
             }
 
             else -> {
                 holder.binding.goDetailsIcon.setOnClickListener { onClickAction?.invoke(item.type.name) }
-                holder.itemView.setOnClickListener { onClickAction?.invoke(item.type.name) }
             }
         }
+
+        holder.itemView.setOnClickListener { onClickAction?.invoke(item.type.name) }
     }
 
 

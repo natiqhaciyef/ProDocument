@@ -17,6 +17,7 @@ import com.natiqhaciyef.prodocument.ui.manager.LanguageManager
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.profile.adapter.AccountParametersAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.profile.contract.ProfileContract
+import com.natiqhaciyef.prodocument.ui.view.main.profile.params.LogOutFragment
 import com.natiqhaciyef.prodocument.ui.view.main.profile.params.language.LanguageFragment
 import com.natiqhaciyef.prodocument.ui.view.main.profile.viewmodel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -139,6 +140,16 @@ class ProfileFragment(
         when (title.lowercase()) {
             requireContext().getString(R.string.language).lowercase() -> {
                 viewModel.postEvent(ProfileContract.ProfileEvent.GetAllSupportedLanguages(requireContext()))
+            }
+
+            requireContext().getString(R.string.logout).lowercase() -> {
+                LogOutFragment(
+                    onYesClick = {},
+                    onCancelClick = {}
+                ).show(
+                    if (!isAdded) return else this.childFragmentManager,
+                    LogOutFragment::class.simpleName
+                )
             }
 
             else -> {

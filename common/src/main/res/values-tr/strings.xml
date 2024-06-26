@@ -259,7 +259,8 @@
     <string name="help_center">Help Center</string>
     <string name="about_proscan">About Proscan</string>
     <string name="logout">Logout</string>
-
+    <string name="logout_description">Are you sure you want to log out?</string>
+    <string name="yes_logout">Yes, logout</string>
     <string name="account">Account</string>
     
     <!-- Personal Information -->
