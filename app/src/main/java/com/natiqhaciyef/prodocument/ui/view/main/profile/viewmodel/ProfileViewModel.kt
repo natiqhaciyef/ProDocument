@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.constants.EMPTY_STRING
 import com.natiqhaciyef.common.model.CategoryModel
+import com.natiqhaciyef.common.model.ContactMethods
 import com.natiqhaciyef.common.model.LanguageModel
 import com.natiqhaciyef.common.model.QuestionCategories
 import com.natiqhaciyef.prodocument.ui.view.main.profile.model.AccountSettingModel
@@ -74,6 +75,10 @@ class ProfileViewModel @Inject constructor(
 
             is ProfileContract.ProfileEvent.GetFaqCategories -> {
                 getAllFaqCategories()
+            }
+
+            is ProfileContract.ProfileEvent.GetContactMethods -> {
+                getContactMethods()
             }
 
             is ProfileContract.ProfileEvent.ClearState -> {
@@ -287,6 +292,10 @@ class ProfileViewModel @Inject constructor(
             }
 
         setBaseState(getCurrentBaseState().copy(faqCategoryList = mappedList))
+    }
+
+    private fun getContactMethods(){
+        setBaseState(getCurrentBaseState().copy(contactMethods = ContactMethods.makeContactList()))
     }
 
     private fun clearState(){

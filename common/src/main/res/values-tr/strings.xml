@@ -299,8 +299,16 @@
     <string name="biometric_subtitle">Put your finger on the icon</string>
     <string name="biometric_details">The app uses fingerprint for secured authentication</string>
     <string name="package_">package</string>
+
+    <!-- Help center -->
     <string name="faq">FAQ</string>
     <string name="contact_us">Contact Us</string>
 
+    <string name="contact_us_lowercase">Contact us</string>
+    <string name="whatsapp">WhatsApp</string>
+    <string name="instagram">Instagram</string>
+    <string name="facebook">Facebook</string>
+    <string name="twitter">Twitter</string>
+    <string name="website">Website</string>
 
 </resources>

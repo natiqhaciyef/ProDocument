@@ -2,6 +2,7 @@ package com.natiqhaciyef.prodocument.ui.view.main.profile.contract
 
 import android.content.Context
 import com.natiqhaciyef.common.model.CategoryModel
+import com.natiqhaciyef.common.model.ContactMethods
 import com.natiqhaciyef.common.model.FaqModel
 import com.natiqhaciyef.common.model.LanguageModel
 import com.natiqhaciyef.common.model.ProScanInfoModel
@@ -29,6 +30,8 @@ object ProfileContract {
 
         data object GetProscanInfo : ProfileEvent
 
+        data object GetContactMethods : ProfileEvent
+
         data class GetAllSupportedLanguages(val context: Context) : ProfileEvent
 
         data class GetSubscriptionInfo(val user: MappedUserWithoutPasswordModel) : ProfileEvent
@@ -54,6 +57,7 @@ object ProfileContract {
         var faqList: List<FaqModel>? = null,
         var proscanDetails: ProScanInfoModel? = null,
         var faqCategoryList: List<CategoryModel>? = null,
+        var contactMethods: List<ContactMethods>? = null,
         override var isLoading: Boolean = false,
     ) : UiState
 }

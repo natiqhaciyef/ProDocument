@@ -299,8 +299,16 @@
     <string name="biometric_subtitle">Barmağınızı buttonun üzərinə yerləşdirin</string>
     <string name="biometric_details">Tətbiq təhlükəsiz daxil olma üçün barmaq izi istifadə edir</string>
     <string name="package_">package</string>
+
+    <!-- Help center -->
     <string name="faq">Suallar</string>
     <string name="contact_us">Bizimlə Əlaqə</string>
 
+    <string name="contact_us_lowercase">Bizimlə əlaqə</string>
+    <string name="whatsapp">WhatsApp</string>
+    <string name="instagram">Instagram</string>
+    <string name="facebook">Facebook</string>
+    <string name="twitter">Twitter</string>
+    <string name="website">Veb sayt</string>
 
 </resources>
