@@ -37,7 +37,7 @@
         tools:layout="@layout/fragment_help_center" />
     <fragment
         android:id="@+id/aboutProscanFragment"
-        android:name="com.natiqhaciyef.prodocument.ui.view.main.profile.params.AboutProscanFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.profile.params.aboutproscan.AboutProscanFragment"
         android:label="fragment_about_proscan"
         tools:layout="@layout/fragment_about_proscan" />
     <fragment

@@ -312,4 +312,17 @@
     <string name="twitter">Twitter</string>
     <string name="website">Website</string>
 
+    <!-- About Us -->
+    <string name="job_vacancies">Job Vacancies</string>
+    <string name="teams">Teams</string>
+    <string name="partners">Partners</string>
+    <string name="accessibility">Accessibility</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="feedback">Feedback</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="visit_our_website">Visit Our Website</string>
+    <string name="follow_us_on_social_medias">Follow us on Social Medias</string>
+    <string name="proscan_title_and_version">%1$s v%2$s</string>
+
+
 </resources>

@@ -15,6 +15,7 @@ import com.natiqhaciyef.common.model.mapped.MappedUserWithoutPasswordModel
 import com.natiqhaciyef.core.base.ui.BaseViewModel
 import com.natiqhaciyef.domain.usecase.app.GetFaqListUseCase
 import com.natiqhaciyef.domain.usecase.app.GetProscanDetailsUseCase
+import com.natiqhaciyef.domain.usecase.app.GetProscanSectionsUseCase
 import com.natiqhaciyef.domain.usecase.payment.remote.GetPaymentHistoryUseCase
 import com.natiqhaciyef.domain.usecase.subscription.GetPickedPlanUseCase
 import com.natiqhaciyef.domain.usecase.user.remote.GetUserByTokenRemoteUseCase
@@ -33,6 +34,7 @@ class ProfileViewModel @Inject constructor(
     private val getPaymentHistoryUseCase: GetPaymentHistoryUseCase,
     private val getFaqListUseCase: GetFaqListUseCase,
     private val getProscanDetailsUseCase: GetProscanDetailsUseCase,
+    private val getProscanSectionsUseCase: GetProscanSectionsUseCase
 ) : BaseViewModel<ProfileContract.ProfileState, ProfileContract.ProfileEvent, ProfileContract.ProfileEffect>() {
 
     override fun onEventUpdate(event: ProfileContract.ProfileEvent) {
@@ -71,6 +73,10 @@ class ProfileViewModel @Inject constructor(
 
             is ProfileContract.ProfileEvent.GetProscanInfo -> {
                 getProscanDetails()
+            }
+
+            is ProfileContract.ProfileEvent.GetProscanSections -> {
+                getProscanSections()
             }
 
             is ProfileContract.ProfileEvent.GetFaqCategories -> {
@@ -150,7 +156,7 @@ class ProfileViewModel @Inject constructor(
             when(result.status){
                 Status.SUCCESS -> {
                     if (result.data != null)
-                        setBaseState(getCurrentBaseState().copy(proscanDetails = result.data))
+                        setBaseState(getCurrentBaseState().copy(proscanInfo = result.data))
                 }
 
                 Status.ERROR -> {
@@ -162,6 +168,25 @@ class ProfileViewModel @Inject constructor(
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    private fun getProscanSections(){
+        getProscanSectionsUseCase.invoke().onEach { result ->
+            when(result.status) {
+                Status.SUCCESS -> {
+                    if (result.data != null)
+                        setBaseState(getHoldState().copy(proscanSections = result.data))
+                }
+
+                Status.ERROR -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = false))
+                }
+
+                Status.LOADING -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = true))
+                }
+            }
+        }
     }
 
     private fun getFaqList(){

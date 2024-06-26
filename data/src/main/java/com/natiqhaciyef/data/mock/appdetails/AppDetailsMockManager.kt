@@ -1,5 +1,6 @@
 package com.natiqhaciyef.data.mock.appdetails
 
+import com.natiqhaciyef.common.model.ProscanSectionModel
 import com.natiqhaciyef.common.model.FaqModel
 import com.natiqhaciyef.common.model.ProScanInfoModel
 
@@ -30,4 +31,8 @@ object AppDetailsMockManager {
         version = "v1.0.1"
     )
 
+    fun getProscanSections() = listOf(
+        ProscanSectionModel(title = "Job Vacancies", link = "https://www.hellojob.az/"),
+        ProscanSectionModel(title = "Teams", link = "https://github.com/natiqhaciyef/")
+    )
 }

@@ -6,6 +6,7 @@ import com.natiqhaciyef.common.model.ContactMethods
 import com.natiqhaciyef.common.model.FaqModel
 import com.natiqhaciyef.common.model.LanguageModel
 import com.natiqhaciyef.common.model.ProScanInfoModel
+import com.natiqhaciyef.common.model.ProscanSectionModel
 import com.natiqhaciyef.common.model.mapped.MappedSubscriptionModel
 import com.natiqhaciyef.prodocument.ui.view.main.profile.model.AccountSettingModel
 import com.natiqhaciyef.common.model.mapped.MappedUserWithoutPasswordModel
@@ -29,6 +30,8 @@ object ProfileContract {
         data object GetFaqCategories : ProfileEvent
 
         data object GetProscanInfo : ProfileEvent
+
+        data object GetProscanSections : ProfileEvent
 
         data object GetContactMethods : ProfileEvent
 
@@ -55,7 +58,8 @@ object ProfileContract {
         var pickedPlan: MappedSubscriptionModel? = null,
         var paymentsHistory: List<PaymentHistoryModel>? = null,
         var faqList: List<FaqModel>? = null,
-        var proscanDetails: ProScanInfoModel? = null,
+        var proscanInfo: ProScanInfoModel? = null,
+        var proscanSections: List<ProscanSectionModel>? = null,
         var faqCategoryList: List<CategoryModel>? = null,
         var contactMethods: List<ContactMethods>? = null,
         override var isLoading: Boolean = false,

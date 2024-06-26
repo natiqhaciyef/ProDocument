@@ -312,4 +312,17 @@
     <string name="twitter">Twitter</string>
     <string name="website">Veb sayt</string>
 
+    <!-- About Us -->
+    <string name="job_vacancies">Vakansiyalar</string>
+    <string name="teams">Komandalar</string>
+    <string name="partners">Partnyorlar</string>
+    <string name="accessibility">Girişlər və Fürsətlər</string>
+    <string name="privacy_policy">Təhlükəsizlik Siyasəti</string>
+    <string name="feedback">Geridönüş</string>
+    <string name="rate_us">Bizi Qiymətləndir</string>
+    <string name="visit_our_website">Vebsaytımıza baxış</string>
+    <string name="follow_us_on_social_medias">Bizi Sosial Mediada İzlə</string>
+    <string name="proscan_title_and_version">%1$s v%2$s</string>
+
+
 </resources>
