@@ -43,6 +43,7 @@
             android:fontFamily="@font/urbanist_bold"
             android:gravity="center_vertical"
             android:inputType="none"
+            android:dropDownHeight="200dp"
             android:paddingVertical="6dp"
             android:paddingEnd="10dp"
             android:paddingStart="-0dp"

@@ -4,18 +4,26 @@ import android.content.Context
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.constants.EMPTY_STRING
+import com.natiqhaciyef.common.model.CategoryModel
+import com.natiqhaciyef.common.model.ContactMethods
 import com.natiqhaciyef.common.model.LanguageModel
+import com.natiqhaciyef.common.model.QuestionCategories
 import com.natiqhaciyef.prodocument.ui.view.main.profile.model.AccountSettingModel
 import com.natiqhaciyef.prodocument.ui.view.main.profile.model.Settings
 import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.common.model.mapped.MappedUserWithoutPasswordModel
 import com.natiqhaciyef.core.base.ui.BaseViewModel
+import com.natiqhaciyef.domain.usecase.app.GetCountriesUseCase
+import com.natiqhaciyef.domain.usecase.app.GetFaqListUseCase
+import com.natiqhaciyef.domain.usecase.app.GetProscanDetailsUseCase
+import com.natiqhaciyef.domain.usecase.app.GetProscanSectionsUseCase
 import com.natiqhaciyef.domain.usecase.payment.remote.GetPaymentHistoryUseCase
 import com.natiqhaciyef.domain.usecase.subscription.GetPickedPlanUseCase
 import com.natiqhaciyef.domain.usecase.user.remote.GetUserByTokenRemoteUseCase
+import com.natiqhaciyef.domain.usecase.user.remote.GetUserStaticsUseCase
 import com.natiqhaciyef.prodocument.ui.view.main.profile.contract.ProfileContract
-import com.natiqhaciyef.prodocument.ui.view.main.profile.params.model.FieldType
-import com.natiqhaciyef.prodocument.ui.view.main.profile.params.model.ParamsUIModel
+import com.natiqhaciyef.prodocument.ui.view.main.profile.model.FieldType
+import com.natiqhaciyef.prodocument.ui.view.main.profile.model.ParamsUIModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -25,41 +33,47 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     private val getUserByTokenRemoteUseCase: GetUserByTokenRemoteUseCase,
     private val getPickedPlanUseCase: GetPickedPlanUseCase,
-    private val getPaymentHistoryUseCase: GetPaymentHistoryUseCase
+    private val getPaymentHistoryUseCase: GetPaymentHistoryUseCase,
+    private val getFaqListUseCase: GetFaqListUseCase,
+    private val getProscanDetailsUseCase: GetProscanDetailsUseCase,
+    private val getProscanSectionsUseCase: GetProscanSectionsUseCase,
+    private val getCountriesUseCase: GetCountriesUseCase,
+    private val getUserStatistics: GetUserStaticsUseCase
 ) : BaseViewModel<ProfileContract.ProfileState, ProfileContract.ProfileEvent, ProfileContract.ProfileEffect>() {
 
     override fun onEventUpdate(event: ProfileContract.ProfileEvent) {
         when(event){
-            is ProfileContract.ProfileEvent.GetSettings -> {
-                getSettings()
-            }
+            is ProfileContract.ProfileEvent.GetCountries -> getAllCountries()
 
-            is ProfileContract.ProfileEvent.GetAccountInfo -> {
-                getAccount()
-            }
+            is ProfileContract.ProfileEvent.GetSettings -> getSettings()
 
-            is ProfileContract.ProfileEvent.GetSubscriptionInfo -> {
-                getPickedPlan(event.user)
-            }
+            is ProfileContract.ProfileEvent.GetUserStatistics -> getUserStatics()
 
-            is ProfileContract.ProfileEvent.GetPaymentHistory -> {
-                getPaymentHistory()
-            }
+            is ProfileContract.ProfileEvent.GetAccountInfo -> getAccount()
 
-            is ProfileContract.ProfileEvent.GetPreferences -> {
-                getPreferences(event.ctx)
-            }
+            is ProfileContract.ProfileEvent.GetSubscriptionInfo -> getPickedPlan(event.user)
 
-            is ProfileContract.ProfileEvent.GetAllSupportedLanguages -> {
-                getAllLanguages(event.context)
-            }
+            is ProfileContract.ProfileEvent.GetPaymentHistory -> getPaymentHistory()
 
-            is ProfileContract.ProfileEvent.GetSecurityParams -> {
-                getSecurityParams(event.ctx)
-            }
+            is ProfileContract.ProfileEvent.GetPreferences -> getPreferences(event.ctx)
+
+            is ProfileContract.ProfileEvent.GetAllSupportedLanguages -> getAllLanguages(event.context)
+
+            is ProfileContract.ProfileEvent.GetSecurityParams -> getSecurityParams(event.ctx)
+
+            is ProfileContract.ProfileEvent.GetFaqList -> getFaqList()
+
+            is ProfileContract.ProfileEvent.GetProscanInfo -> getProscanDetails()
+
+            is ProfileContract.ProfileEvent.GetProscanSections -> getProscanSections()
+
+            is ProfileContract.ProfileEvent.GetFaqCategories -> getAllFaqCategories()
+
+            is ProfileContract.ProfileEvent.GetContactMethods -> getContactMethods()
+
+            is ProfileContract.ProfileEvent.ClearState -> clearState()
         }
     }
-
 
     private fun getPaymentHistory(){
         getPaymentHistoryUseCase.invoke().onEach { result ->
@@ -100,6 +114,24 @@ class ProfileViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    private fun getUserStatics(){
+        getUserStatistics.invoke().onEach { result ->
+            when(result.status){
+                Status.SUCCESS -> {
+                    setBaseState(getCurrentBaseState().copy(userStatistics = result.data, isLoading = false))
+                }
+
+                Status.ERROR -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = false))
+                }
+
+                Status.LOADING -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = true))
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
     private fun getAccount(){
         getUserByTokenRemoteUseCase.invoke().onEach { result ->
             when(result.status){
@@ -119,6 +151,81 @@ class ProfileViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    private fun getAllCountries(){
+        getCountriesUseCase.invoke().onEach { result ->
+            when(result.status){
+                Status.SUCCESS -> {
+                    if (result.data != null)
+                        setBaseState(getHoldState().copy(countries = result.data, isLoading = false))
+                }
+
+                Status.ERROR -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = false))
+                }
+
+                Status.LOADING -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = true))
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    private fun getProscanDetails(){
+        getProscanDetailsUseCase.invoke().onEach { result ->
+            when(result.status){
+                Status.SUCCESS -> {
+                    if (result.data != null)
+                        setBaseState(getCurrentBaseState().copy(proscanInfo = result.data, isLoading = false))
+                }
+
+                Status.ERROR -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = false))
+                }
+
+                Status.LOADING -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = true))
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    private fun getProscanSections(){
+        getProscanSectionsUseCase.invoke().onEach { result ->
+            when(result.status) {
+                Status.SUCCESS -> {
+                    if (result.data != null)
+                        setBaseState(getHoldState().copy(proscanSections = result.data, isLoading = false))
+                }
+
+                Status.ERROR -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = false))
+                }
+
+                Status.LOADING -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = true))
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    private fun getFaqList(){
+        getFaqListUseCase.invoke().onEach { result ->
+            when(result.status){
+                Status.SUCCESS -> {
+                    if (result.data != null)
+                        setBaseState(getCurrentBaseState().copy(faqList = result.data, isLoading = false))
+                }
+
+                Status.ERROR -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = false))
+                }
+
+                Status.LOADING -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = true))
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
 
 
     private fun getSettings() {
@@ -138,6 +245,10 @@ class ProfileViewModel @Inject constructor(
             AccountSettingModel(
                 image = R.drawable.payment_history_outline_icon,
                 type = Settings.PAYMENT_HISTORY
+            ),
+            AccountSettingModel(
+                image = R.drawable.graph_outline_icon,
+                type = Settings.CATEGORY_GRAPH
             ),
             AccountSettingModel(
                 image = R.drawable.document_outline_icon,
@@ -199,9 +310,9 @@ class ProfileViewModel @Inject constructor(
         val list = mutableListOf(
             ParamsUIModel(title = ctx.getString(R.string.remember_me_param), FieldType.SWITCH),
             ParamsUIModel(title = ctx.getString(R.string.biometric_id), FieldType.SWITCH),
-            ParamsUIModel(title = ctx.getString(R.string.face_id), FieldType.SWITCH),
-            ParamsUIModel(title = ctx.getString(R.string.sms_authenticator), FieldType.SWITCH),
-            ParamsUIModel(title = ctx.getString(R.string.google_authenticator), FieldType.SWITCH),
+//            ParamsUIModel(title = ctx.getString(R.string.face_id), FieldType.SWITCH),
+            ParamsUIModel(title = ctx.getString(R.string.sms_authenticator), FieldType.SWITCH, false),
+            ParamsUIModel(title = ctx.getString(R.string.google_authenticator), FieldType.SWITCH, false),
             ParamsUIModel(title = ctx.getString(R.string.device_management), FieldType.NAVIGATION),
         )
 
@@ -216,6 +327,27 @@ class ProfileViewModel @Inject constructor(
         )
 
         setBaseState(getCurrentBaseState().copy(languages = languages))
+    }
+
+    private fun getAllFaqCategories(){
+        val categoriesTitle = QuestionCategories.makeQuestionTypeStringList()
+        val mappedList = categoriesTitle
+            .map {
+                CategoryModel(
+                    title = it,
+                    backgroundColor = if (categoriesTitle.first() == it) R.color.primary_900 else R.color.white
+                )
+            }
+
+        setBaseState(getCurrentBaseState().copy(faqCategoryList = mappedList))
+    }
+
+    private fun getContactMethods(){
+        setBaseState(getCurrentBaseState().copy(contactMethods = ContactMethods.makeContactList()))
+    }
+
+    private fun clearState(){
+        setBaseState(getCurrentBaseState())
     }
 
     override fun getInitialState(): ProfileContract.ProfileState = ProfileContract.ProfileState()

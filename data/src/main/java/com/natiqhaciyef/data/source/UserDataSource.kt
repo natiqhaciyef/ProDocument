@@ -10,6 +10,7 @@ import com.natiqhaciyef.data.local.entity.UserEntity
 import com.natiqhaciyef.data.mock.users.AccountMockGenerator
 import com.natiqhaciyef.data.mock.users.OtpMockGenerator
 import com.natiqhaciyef.data.mock.users.GetUserMockGenerator
+import com.natiqhaciyef.data.mock.users.GetUserStatisticsMockGenerator
 import com.natiqhaciyef.data.mock.users.LogOutMockGenerator
 import com.natiqhaciyef.data.mock.users.SignInMockGenerator
 import com.natiqhaciyef.data.network.LoadType
@@ -96,6 +97,16 @@ class UserDataSource(
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.updateUserPasswordByEmail(email, password)
+        }
+    }
+
+    suspend fun getUserStatics() = withContext(Dispatchers.IO){
+        val requestHeader = manager.generateToken()
+        val mock = generateMockerClass(GetUserStatisticsMockGenerator::class, Unit)
+            .getMock(Unit) { null }
+
+        handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
+            service.getUserStatics(requestHeader)
         }
     }
 

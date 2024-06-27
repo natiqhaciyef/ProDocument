@@ -6,6 +6,7 @@ import com.natiqhaciyef.common.model.mapped.MappedUserModel
 import com.natiqhaciyef.data.local.entity.UserEntity
 import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.core.CRUDResponse
+import com.natiqhaciyef.data.network.response.GraphDetailsListResponse
 import com.natiqhaciyef.data.network.response.TokenResponse
 import com.natiqhaciyef.data.network.response.UserResponse
 
@@ -22,6 +23,8 @@ interface UserRepository : BaseRepository {
     suspend fun sendOtp(otp: String): NetworkResult<CRUDResponse>
 
     suspend fun updateUserPasswordByEmail(email: String, password: String): NetworkResult<TokenResponse>
+
+    suspend fun getUserStatics(): NetworkResult<GraphDetailsListResponse>
 
     suspend fun logout(): NetworkResult<CRUDResponse>
 

@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.view.main.profile.params.model
+package com.natiqhaciyef.prodocument.ui.view.main.profile.model
 
 enum class FieldType {
     TITLE,

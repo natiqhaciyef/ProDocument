@@ -12,7 +12,7 @@ import com.natiqhaciyef.prodocument.databinding.FragmentPreferencesBinding
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.profile.contract.ProfileContract
 import com.natiqhaciyef.prodocument.ui.view.main.profile.params.preferences.adapter.PreferencesAdapter
-import com.natiqhaciyef.prodocument.ui.view.main.profile.params.model.ParamsUIModel
+import com.natiqhaciyef.prodocument.ui.view.main.profile.model.ParamsUIModel
 import com.natiqhaciyef.prodocument.ui.view.main.profile.viewmodel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.KClass

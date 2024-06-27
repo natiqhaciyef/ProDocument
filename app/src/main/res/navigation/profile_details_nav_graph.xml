@@ -27,17 +27,17 @@
         tools:layout="@layout/fragment_payment_history" />
     <fragment
         android:id="@+id/categoryGraphFragment"
-        android:name="com.natiqhaciyef.prodocument.ui.view.main.profile.params.CategoryGraphFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.profile.params.graphs.CategoryGraphFragment"
         android:label="fragment_category_graph"
         tools:layout="@layout/fragment_category_graph" />
     <fragment
         android:id="@+id/helpCenterFragment"
-        android:name="com.natiqhaciyef.prodocument.ui.view.main.profile.params.HelpCenterFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.profile.params.helpcenter.HelpCenterFragment"
         android:label="fragment_help_center"
         tools:layout="@layout/fragment_help_center" />
     <fragment
         android:id="@+id/aboutProscanFragment"
-        android:name="com.natiqhaciyef.prodocument.ui.view.main.profile.params.AboutProscanFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.profile.params.aboutproscan.AboutProscanFragment"
         android:label="fragment_about_proscan"
         tools:layout="@layout/fragment_about_proscan" />
     <fragment

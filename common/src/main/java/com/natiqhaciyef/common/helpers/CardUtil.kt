@@ -157,7 +157,7 @@ fun cardTypeToImageFinder(paymentMethod: PaymentMethods): Int {
             R.drawable.apple_pay
         }
 
-        else -> 0
+        else -> ZERO
     }
 }
 

@@ -1,0 +1,331 @@
+<resources>
+    <string name="app_name">ProScan</string>
+    <string name="default_web_client_id">215890442182-hf32bgffbujnnmda753pd8jeaefi1lsd.apps.googleusercontent.com</string>
+    <string name="title_activity_registration">RegistrationActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Common strings -->
+    <string name="text_str">text</string>
+    <string name="email_str">email</string>
+    <string name="password_str">password</string>
+    <string name="number_str">number</string>
+    <string name="decimal_str">decimal</string>
+    <string-array name="genders">
+        <item>kişi</item>
+        <item>qadın</item>
+    </string-array>
+    <string name="null_">null</string>
+
+
+    <!-- Buttons -->
+    <string name="skip">Ötür</string>
+    <string name="next">Növbəti</string>
+    <string name="select">Seç</string>
+    <string name="continue_">Davam et</string>
+    <string name="change_password">Şifrəni dəyiş</string>
+    <string name="save_changes">Dəyişikliyi saxla</string>
+    <string name="pick_from_gallery">Qalereyadan seç</string>
+    <string name="add">Əlavə et</string>
+    <string name="cancel">İmtina et</string>
+    <string name="change">Dəyiş</string>
+    <string name="finish">Bitir</string>
+    <string name="go_to_login">Daxil ol</string>
+    <string name="sign_in">Giriş et</string>
+    <string name="save">Yadda saxla</string>
+    <string name="confirm">Təsdiq et</string>
+    <string name="select_plan">Plan seç</string>
+    <string name="confirm_payment">Ödənişi təsdiq et</string>
+    <string name="give_permission">İcazə ver</string>
+    <string name="pay">Ödə</string>
+    <string name="share">Paylaş</string>
+    <string name="merge">Birləşdir</string>
+    <string name="protect">Qoru</string>
+    <string name="compress">Sıxışdır</string>
+    <string name="upgrade">Yüksəlt</string>
+    <string name="scan">Skan et</string>
+
+    <!--  Titles  -->
+    <string name="proscan">ProScan</string>
+    <string name="file">Fayllar</string>
+    <string name="default_type">Susmaya görə</string>
+
+
+    <!-- Result -->
+    <string name="sign_up_successful_result">Uğurlu qeydiyyat!</string>
+    <string name="your_account_has_been_created">Hesabınız yaradıldı</string>
+    <string name="not_found_result_title">Tapılmadı</string>
+    <string name="not_found_result_description">Axtardığınız açar sözə uyğun nəticə tapılmadı. Digər açar sözlərdən istifadə edin.</string>
+    <string name="payment_succeed">Ödəniş uğurla icra edildi</string>
+    <string name="payment_failed">Ödəniş uğursuz oldu</string>
+    <string name="payment_reversed">Ödəniş geri qaytarıldı</string>
+    <string name="payment_waiting">Ödəniş gözləmədədir</string>
+
+
+    <!-- Onboarding & Walkthrough -->
+    <string name="onboarding_title_1">Bütün sənədlərinizi asan və rahat şəkildə skan edin</string>
+    <string name="onboarding_title_2">Həmçinin sənədlərinizi online şəkildə dəyişmə imkanı</string>
+    <string name="onboarding_description_1">Sənədləri professional şəkildə skan etmə imkanı</string>
+    <string name="onboarding_description_2">Skan nəticələrini asanlıqla redaktə etmək və fərdiləşdirmək imkanı</string>
+    <string name="onboarding_title_3">Sənədlərinizi Proscan ilə mükəmmələşdirin!</string>
+    <string name="onboarding_description_3">Sənədlərinizi professinal, əlçatan və səliqəli olması üçün Proscandan yararlanın.</string>
+
+
+    <!-- Complete your profile -->
+    <string name="complete_your_profile_title">Profilinizi tamamalayın 📋</string>
+    <string name="complete_your_profile_description">Narahat olmayın, şəxsiz məlumatlarınız yalnız siz idarə edə bilərsiniz. Digər şəxslərin şəxsi məlumatlarınızı görmək imkanı yoxdur.</string>
+    <string name="full_name">Ad Soyad</string>
+    <string name="phone_number">Mobil Nömrə</string>
+    <string name="phone_number_example">055 000 00 00</string>
+    <string name="gender">Kişi/Qadın</string>
+    <string name="date_of_birth">Doğum tarixi</string>
+    <string name="not_selected">Seçilməyib</string>
+    <string name="date_of_birth_example">DD/MM/YYYY</string>
+    <string name="street_address">Address</string>
+    <string name="country">Ölkə</string>
+    <string name="city">Şəhər</string>
+
+
+    <!-- Create account -->
+    <string name="create_profile_title">Hesab yarat 🔐</string>
+    <string name="create_profile_description"><![CDATA[E-poçt addressinizi və şifrənizi daxil edin. Unutmusunuzsa, parolu unutdum hissəsinə keçid edin.]]></string>
+    <string name="email">E-poçt</string>
+    <string name="password">Şifrə</string>
+    <string name="confirm_password">Şifrəni təsdiqlə</string>
+    <string name="remember_me">Xatırla</string>
+
+
+    <!-- Lets sign in -->
+    <string name="lets_sign_in_title">Gəlin başlayaq</string>
+    <string name="continue_with_platform_title">Platforma ilə davam edin</string>
+    <string name="continue_with_platform_name">%1$s ilə davam edin</string>
+    <string name="sign_in_with_password">Şifrə ilə daxil olun</string>
+    <string name="don_t_have_an_account">Hesabınız yoxdur ?</string>
+    <string name="sign_up">Qeydiyyatdan keçin</string>
+
+
+    <!-- Login -->
+    <string name="login">Daxil olun</string>
+    <string name="login_title">Salam 👋</string>
+    <string name="login_description"><![CDATA[E-poçt addresinizi & şifrəinizi daxil edərək daxil olun.]]></string>
+    <string name="forgot_password">Şifrəni Unutmuşam</string>
+    <string name="or_continue_with">və ya davam edin</string>
+
+
+    <!-- Forgot password -->
+    <string name="forgot_password_title">Şifrəni yenilə 🔑</string>
+    <string name="forgot_password_description">E-poçt addressinizi daxil edin. Növbəti mərhələdə verifikasiya üçün OTP kod göndəriləcək.</string>
+
+
+    <!-- OTP -->
+    <string name="otp_title">Mail göndərilmişdir 📩</string>
+    <string name="otp_description">E-poçt addressinizi daxil edin. E-poçt addressinizi yoxlayın və kodu aşağı daxil edin.</string>
+    <string name="dont_get_email">Mail gəlməyib ?</string>
+    <string name="resend_description"><![CDATA[<font color=#212121>Kod yenidən göndərilməsi üçün </font><font color=#4B68FF>%1$s</font><font color=#212121> s</font>]]></string>
+
+
+    <!-- Change password -->
+    <string name="change_password_title">Yeni şifrə təyin edin 🔐</string>
+    <string name="change_password_description">Şifrə yeniləndikdən sonra yadda saxlamaq və ya digər qeydiyyat üsullarından istifadə etmək daha təhlükəsizdir..</string>
+    <string name="change_password_alert_dialog_title">Şifrə yenilənməsi %1$s</string> <!-- Uğursuzdur, Uğurludur -->
+    <string name="change_password_alert_success_description">Şifrəniz dəyişdirilmişdir!</string>
+    <string name="change_password_alert_fail_description">Texniki xəta baş verdi…</string>
+
+    <!-- Home -->
+    <string name="scan_code">Skan</string>
+    <string name="watermark">Su nişanı</string>
+    <string name="split_pdf">Bölmək</string>
+    <string name="merge_pdf">Birləşdirmək</string>
+    <string name="protect_pdf">Qorumaq</string>
+    <string name="e_sign_pdf">Rəqəmsal imza</string>
+    <string name="compress_pdf">Sıxışdır</string>
+    <string name="all_tools">Bütün alətlər</string>
+    <string name="recent_files">Son Fayllar</string>
+    <string name="home">Ana</string>
+    <string name="files">Fayllar</string>
+    <string name="premium">Premium</string>
+    <string name="profile">Profil</string>
+
+    <!-- Scan -->
+    <string name="scan_qr_title">QR Kod Skan Et</string>
+    <string name="scan_image_title">Şəkili Skan Et</string>
+    <string name="scan_live_title">Canlı Tanıtma</string>
+    <string name="scan_qr_description">Zəhmət olmasa, kameranı QR koda uyğunlaşdırın</string>
+    <string name="scan_live_description">Zəhmət olmasa, kameranı uyğunlaşdırın</string>
+    <string name="scan_image_description">Zəhmət olmasa, şəkil uyğunlaşdırın və çəkin</string>
+    <string name="title_count">Skan edilmiş fayllar %1$s</string>
+
+    <!--  Merge pdf  -->
+    <string name="merge_pdf_title">Birləşdir</string>
+    <string name="merge_pdf_description">%1$s ədəd birləşdirmək üçün seçilmş fayllar</string>
+    <string name="file_name_title">Fayl başlığı</string>
+    <string name="merged_files">Birləşdirilmiş fayllar</string>
+    <string name="add_more_files">+ Yeni Fayl Əlavə Edin</string>
+    <string name="add_files">Fayl Əlavə Et</string>
+
+    <!--  Sharing category titles  -->
+    <string name="share_link">Link Kimi Paylaş</string>
+    <string name="share_pdf">PDF Kimi Paylaş</string>
+    <string name="share_word">DOCX Kimi Paylaş</string>
+    <string name="share_jpg">JPG Kimi Paylaş</string>
+    <string name="share_png">PNG Kimi Paylaş</string>
+
+    <!-- Watermark -->
+    <string name="add_watermark">Su Nişanı Əlavə Et</string>
+    <string name="watermark_input">Etiket Daxil Edin</string>
+    <string name="watermark_add_image">+ Şəkil Əlavə Et</string>
+
+    <!--  Split  -->
+    <string name="split_file">Faylı hissələrə böl</string>
+    <string name="add_more_information">Daha Çox İnformasiya Daxil Edin</string>
+    <string name="from_here">Buradan</string>
+    <string name="until_here">Burayadək</string>
+    <string name="write_sentence">Cümlə yazın</string>
+    <string name="addition_information_about_split">Bölünmə üçün ilkin cümləni daxil edin. Sonra son cümləni daxil edərək bölünmüş PDF-in sərhədlərini təyin edə bilərsiniz. Seçilmiş hissədə yeni PDF yaradılacaq.</string>
+    <string name="until_the_last_line">Son sətirədək</string>
+
+    <!-- Protect pdf  -->
+    <string name="protect_pdf_title">Mühafizə et</string>
+    <string name="protect_pdf_description">Faylınızı mühafizə etmək üçün şifrə təyin edin. Bu şifrə sizin faylınızı istifadə etmək istədikdə tələb olunacaq. Şifrəni unutduğunuz təqdirdə fayla girişiniz mümkün olmayacaq.</string>
+
+    <!-- Compress pdf  -->
+    <string name="compress_pdf_description">Faylnızın həcmini azaltmaq, yaddaşa qənaət etməkdir.</string>
+    <string name="compress_pdf_quality">Sıxışdırılma dərəcəsini təyin et: </string>
+    <string name="high_compression_level">Yüksək səviyyə</string>
+    <string name="medium_compression_level">Orta səviyyə</string>
+    <string name="low_compression_level">Aşağı səviyyə</string>
+    <string name="high_compression_level_description">Aşağı səviyyə, aşağı keyfiyyət</string>
+    <string name="medium_compression_level_description">Orta səviyyə, orta keyfiyyət</string>
+    <string name="low_compression_level_description">Yüksək səviyyə, yüksək keyfiyyət</string>
+
+    <!-- E-Sign pdf  -->
+    <string name="e_sign_draw_title">Öz imzanızı çəkin və ya daxil edin</string>
+    <string name="e_sign_add_signature_to_file_title">Rəqəmsal İmza Əlavə Et</string>
+
+    <!--  Files titles  -->
+    <string name="total_file_amount_title">Toplam: %1$s fayl</string>
+    <string name="search_file">Fayl axtar…</string>
+
+    <!-- Premium -->
+    <string name="subscription_price_text"><![CDATA[<font size="36">%1$s</font> <font size="24">/ %2$s</font>]]></string>
+    <string name="plan_title_template">Plan: %1$s</string>
+
+    <!-- Payment -->
+    <string name="visa">Viza</string>
+    <string name="mastercard">Mastercard</string>
+    <string name="paypal">Paypal</string>
+    <string name="american_express">American Express</string>
+    <string name="google_pay">Google Pay</string>
+    <string name="apple_pay">Apple Pay</string>
+    <string name="other">Digər</string>
+    <string name="select_payment_method">Ödəniş Metodu Seçin</string>
+    <string name="review_summary">Ümumi Baxış</string>
+    <string name="add_new_payment">Yeni Ödəniş Metodu Əlavə Et</string>
+    <string name="card_number_default">●●●● ●●●● ●●●● ●●●●</string>
+    <string name="card">Kart</string>
+    <string name="card_holder_name_title">Kart Sahibinin Adı</string>
+    <string name="card_number_title">Kart Nömrəsi</string>
+    <string name="card_holder_name_default">●●●●●●●●●</string>
+    <string name="expire_date_title">Bitmə Tarixi</string>
+    <string name="expire_date_default">00/00</string>
+    <string name="cvv_title">CVV</string>
+    <string name="cvv_default">000</string>
+    <string name="expire_date_template">%1$s/%2$s</string>
+    <string name="card_number_template">%1$s %2$s %3$s %4$s</string>
+    <string name="plan_title">Abunəlik Planı</string>
+    <string name="plan_date_title">Müddət</string>
+    <string name="plan_amount_title">Qiymət</string>
+    <string name="plan_tax_amount_title">Vergi</string>
+    <string name="plan_total_amount_title">Toplam Qiymət</string>
+    <string name="plan_payment_method_title">Ödəniş Metodu</string>
+    <string name="share_cheque_title">Qəbzi paylaş</string>
+    <string name="payment_details_title">Ödəniş detalları</string>
+    <string name="payment_currency">%1$s %2$s</string>
+
+
+    <!-- Profile account -->
+    <string name="captured_files_size_ratio">%2$s %1$s / %3$s %1$s</string>
+    <string name="go_to_premium">Premiuma keçid edin</string>
+    <string name="enjoy_all_benefits">Bütün üstünlüklərdən yararlanın</string>
+
+    <string name="personal_info">Şəxsi Məlumatlar</string>
+    <string name="preferences">Üstünlüklər</string>
+    <string name="security">Təhlükəsizlik</string>
+    <string name="payment_history">Ödəniş Tarixcəsi</string>
+    <string name="category_graph">Kateqoriyalar Üzrə</string>
+    <string name="language">Dil</string>
+    <string name="dark_mode">Qaranlıq Rejim</string>
+    <string name="help_center">Müştəri Xidmətləri</string>
+    <string name="about_proscan">Proscan Haqqında</string>
+    <string name="logout">Çıxış et</string>
+    <string name="logout_description">Çıxış etmək istədiyinizdən, əminsiniz?</string>
+    <string name="yes_logout">Bəli, Çıxış et</string>
+    <string name="account">Hesab</string>
+    
+    <!-- Personal Information -->
+    <string name="high_quality_scan">Yüksək Keyfiyyətli Skan</string>
+    <string name="auto_crop_image">Şəkili Avto Seçmə</string>
+    <string name="enhance_mode">Genişlənmə Rejimi</string>
+    <string name="file_naming">Fayl Adlandırılması</string>
+    <string name="default_file_name">Susmaya Görə Fayl Adlandırılması</string>
+    <string name="files_storage">Fayllar &amp; Yaddaş</string>
+    <string name="save_original_images_to_gallery">Orijinal Şəkilləri Qallereyada Saxlayın</string>
+    <string name="free_up_storage">Yaddaş Həcmini Artırın</string>
+    <string name="payment_subscriptions">Ödəniş &amp; Abunəliklər</string>
+    <string name="subscription_management">Abunəlikləri İdarəetmə</string>
+    <string name="manage_payment_methods">Ödəniş Metodlarını İdarəetmə</string>
+    <string name="cloud_n_sync">Bulud texnologiyası &amp; Sinxronlaşdırma</string>
+    <string name="cloud_sync">Bulud Sinxronlaşdırma</string>
+    <string name="local_folder_sync">Yerli Faylları Sinxronlaşdırma</string>
+
+    <!-- Language -->
+    <string name="languages">Dillər</string>
+    <string name="az_tag">az</string>
+    <string name="en_tag">en</string>
+    <string name="tr_tag">tr</string>
+    <string name="azerbaijani">Azərbaycanca</string>
+    <string name="english">İngiliscə</string>
+    <string name="turkish">Türkcə</string>
+    <string name="lang_tag_container">(%1$s)</string>
+
+    <!-- Security -->
+    <string name="remember_me_param">Xatırla</string>
+    <string name="biometric_id">Biometrik Tanıma</string>
+    <string name="face_id">Üz ilə Tanıma</string>
+    <string name="sms_authenticator">SMS Autentikasiya</string>
+    <string name="google_authenticator">Google Autentikator</string>
+    <string name="device_management">Cihaz İdarəetməsi</string>
+
+    <string name="biometric_subtitle">Barmağınızı buttonun üzərinə yerləşdirin</string>
+    <string name="biometric_details">Tətbiq təhlükəsiz daxil olma üçün barmaq izi istifadə edir</string>
+    <string name="package_">package</string>
+
+    <!-- Help center -->
+    <string name="faq">Suallar</string>
+    <string name="contact_us">Bizimlə Əlaqə</string>
+
+    <string name="contact_us_lowercase">Bizimlə əlaqə</string>
+    <string name="whatsapp">WhatsApp</string>
+    <string name="instagram">Instagram</string>
+    <string name="facebook">Facebook</string>
+    <string name="twitter">Twitter</string>
+    <string name="website">Veb sayt</string>
+
+    <!-- About Us -->
+    <string name="job_vacancies">Vakansiyalar</string>
+    <string name="teams">Komandalar</string>
+    <string name="partners">Partnyorlar</string>
+    <string name="accessibility">Girişlər və Fürsətlər</string>
+    <string name="privacy_policy">Təhlükəsizlik Siyasəti</string>
+    <string name="feedback">Geridönüş</string>
+    <string name="rate_us">Bizi Qiymətləndir</string>
+    <string name="visit_our_website">Vebsaytımıza baxış</string>
+    <string name="follow_us_on_social_medias">Bizi Sosial Mediada İzlə</string>
+    <string name="proscan_title_and_version">%1$s v%2$s</string>
+
+    <string name="graph_percentage">%1$s %</string>
+
+
+
+</resources>
