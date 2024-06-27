@@ -80,15 +80,14 @@ class HomeFragment(
     }
 
     private fun config() {
-        (activity as MainActivity).also {
-            it.binding.bottomNavBar.visibility = View.VISIBLE
-            it.binding.materialToolbar.visibility = View.VISIBLE
-//            it.binding.appbarLayout.visibility = View.VISIBLE
-            it.binding.materialToolbar.setTitleToolbar(getString(R.string.proscan))
-            it.binding.materialToolbar.changeVisibility(View.VISIBLE)
-            it.binding.materialToolbar.setVisibilityOptionsMenu(View.GONE)
-            it.binding.materialToolbar.setVisibilitySearch(View.GONE)
-            it.binding.materialToolbar.setVisibilityToolbar(View.VISIBLE)
+        (activity as MainActivity).binding.apply {
+            bottomNavBar.visibility = View.VISIBLE
+            materialToolbar.visibility = View.VISIBLE
+            materialToolbar.setTitleToolbar(getString(R.string.proscan))
+            materialToolbar.changeVisibility(View.VISIBLE)
+            materialToolbar.setVisibilityOptionsMenu(View.GONE)
+            materialToolbar.setVisibilitySearch(View.GONE)
+            materialToolbar.setVisibilityToolbar(View.VISIBLE)
         }
         viewModel.postEvent(HomeContract.HomeEvent.GetAllMaterials)
         menuAdapterConfig()
@@ -104,9 +103,9 @@ class HomeFragment(
                 customBundle.putString(BUNDLE_TYPE, type)
 
             navigateByRouteTitle(this@HomeFragment, route, customBundle)
-            (activity as MainActivity).apply {
-                binding.bottomNavBar.visibility = View.GONE
-                binding.materialToolbar.visibility = View.GONE
+            (activity as MainActivity).binding.apply {
+                bottomNavBar.visibility = View.GONE
+                materialToolbar.visibility = View.GONE
             }
         }
 

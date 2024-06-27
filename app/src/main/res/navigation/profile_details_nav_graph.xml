@@ -27,7 +27,7 @@
         tools:layout="@layout/fragment_payment_history" />
     <fragment
         android:id="@+id/categoryGraphFragment"
-        android:name="com.natiqhaciyef.prodocument.ui.view.main.profile.params.CategoryGraphFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.profile.params.graphs.CategoryGraphFragment"
         android:label="fragment_category_graph"
         tools:layout="@layout/fragment_category_graph" />
     <fragment

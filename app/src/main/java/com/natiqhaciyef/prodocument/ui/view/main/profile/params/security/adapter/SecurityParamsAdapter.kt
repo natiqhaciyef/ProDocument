@@ -8,21 +8,17 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
 import com.natiqhaciyef.core.base.ui.BaseRecyclerViewAdapter
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.constants.EIGHTEEN
-import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
-import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.prodocument.databinding.RecyclerParamsItemBinding
 import com.natiqhaciyef.prodocument.ui.manager.FingerPrintManager
 import com.natiqhaciyef.prodocument.ui.manager.RememberUserManager
-import com.natiqhaciyef.prodocument.ui.view.main.profile.params.model.FieldType
-import com.natiqhaciyef.prodocument.ui.view.main.profile.params.model.ParamsUIModel
+import com.natiqhaciyef.prodocument.ui.view.main.profile.model.FieldType
+import com.natiqhaciyef.prodocument.ui.view.main.profile.model.ParamsUIModel
 
 class SecurityParamsAdapter(
     private val activity: AppCompatActivity,

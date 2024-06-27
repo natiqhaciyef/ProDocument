@@ -20,9 +20,10 @@ import com.natiqhaciyef.domain.usecase.app.GetProscanSectionsUseCase
 import com.natiqhaciyef.domain.usecase.payment.remote.GetPaymentHistoryUseCase
 import com.natiqhaciyef.domain.usecase.subscription.GetPickedPlanUseCase
 import com.natiqhaciyef.domain.usecase.user.remote.GetUserByTokenRemoteUseCase
+import com.natiqhaciyef.domain.usecase.user.remote.GetUserStaticsUseCase
 import com.natiqhaciyef.prodocument.ui.view.main.profile.contract.ProfileContract
-import com.natiqhaciyef.prodocument.ui.view.main.profile.params.model.FieldType
-import com.natiqhaciyef.prodocument.ui.view.main.profile.params.model.ParamsUIModel
+import com.natiqhaciyef.prodocument.ui.view.main.profile.model.FieldType
+import com.natiqhaciyef.prodocument.ui.view.main.profile.model.ParamsUIModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -36,66 +37,41 @@ class ProfileViewModel @Inject constructor(
     private val getFaqListUseCase: GetFaqListUseCase,
     private val getProscanDetailsUseCase: GetProscanDetailsUseCase,
     private val getProscanSectionsUseCase: GetProscanSectionsUseCase,
-    private val getCountriesUseCase: GetCountriesUseCase
+    private val getCountriesUseCase: GetCountriesUseCase,
+    private val getUserStatistics: GetUserStaticsUseCase
 ) : BaseViewModel<ProfileContract.ProfileState, ProfileContract.ProfileEvent, ProfileContract.ProfileEffect>() {
 
     override fun onEventUpdate(event: ProfileContract.ProfileEvent) {
         when(event){
-            is ProfileContract.ProfileEvent.GetCountries -> {
-                getAllCountries()
-            }
+            is ProfileContract.ProfileEvent.GetCountries -> getAllCountries()
 
-            is ProfileContract.ProfileEvent.GetSettings -> {
-                getSettings()
-            }
+            is ProfileContract.ProfileEvent.GetSettings -> getSettings()
 
-            is ProfileContract.ProfileEvent.GetAccountInfo -> {
-                getAccount()
-            }
+            is ProfileContract.ProfileEvent.GetUserStatistics -> getUserStatics()
 
-            is ProfileContract.ProfileEvent.GetSubscriptionInfo -> {
-                getPickedPlan(event.user)
-            }
+            is ProfileContract.ProfileEvent.GetAccountInfo -> getAccount()
 
-            is ProfileContract.ProfileEvent.GetPaymentHistory -> {
-                getPaymentHistory()
-            }
+            is ProfileContract.ProfileEvent.GetSubscriptionInfo -> getPickedPlan(event.user)
 
-            is ProfileContract.ProfileEvent.GetPreferences -> {
-                getPreferences(event.ctx)
-            }
+            is ProfileContract.ProfileEvent.GetPaymentHistory -> getPaymentHistory()
 
-            is ProfileContract.ProfileEvent.GetAllSupportedLanguages -> {
-                getAllLanguages(event.context)
-            }
+            is ProfileContract.ProfileEvent.GetPreferences -> getPreferences(event.ctx)
 
-            is ProfileContract.ProfileEvent.GetSecurityParams -> {
-                getSecurityParams(event.ctx)
-            }
+            is ProfileContract.ProfileEvent.GetAllSupportedLanguages -> getAllLanguages(event.context)
 
-            is ProfileContract.ProfileEvent.GetFaqList -> {
-                getFaqList()
-            }
+            is ProfileContract.ProfileEvent.GetSecurityParams -> getSecurityParams(event.ctx)
 
-            is ProfileContract.ProfileEvent.GetProscanInfo -> {
-                getProscanDetails()
-            }
+            is ProfileContract.ProfileEvent.GetFaqList -> getFaqList()
 
-            is ProfileContract.ProfileEvent.GetProscanSections -> {
-                getProscanSections()
-            }
+            is ProfileContract.ProfileEvent.GetProscanInfo -> getProscanDetails()
 
-            is ProfileContract.ProfileEvent.GetFaqCategories -> {
-                getAllFaqCategories()
-            }
+            is ProfileContract.ProfileEvent.GetProscanSections -> getProscanSections()
 
-            is ProfileContract.ProfileEvent.GetContactMethods -> {
-                getContactMethods()
-            }
+            is ProfileContract.ProfileEvent.GetFaqCategories -> getAllFaqCategories()
 
-            is ProfileContract.ProfileEvent.ClearState -> {
-                clearState()
-            }
+            is ProfileContract.ProfileEvent.GetContactMethods -> getContactMethods()
+
+            is ProfileContract.ProfileEvent.ClearState -> clearState()
         }
     }
 
@@ -138,6 +114,24 @@ class ProfileViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    private fun getUserStatics(){
+        getUserStatistics.invoke().onEach { result ->
+            when(result.status){
+                Status.SUCCESS -> {
+                    setBaseState(getCurrentBaseState().copy(userStatistics = result.data, isLoading = false))
+                }
+
+                Status.ERROR -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = false))
+                }
+
+                Status.LOADING -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = true))
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
     private fun getAccount(){
         getUserByTokenRemoteUseCase.invoke().onEach { result ->
             when(result.status){
@@ -162,7 +156,7 @@ class ProfileViewModel @Inject constructor(
             when(result.status){
                 Status.SUCCESS -> {
                     if (result.data != null)
-                        setBaseState(getHoldState().copy(countries = result.data))
+                        setBaseState(getHoldState().copy(countries = result.data, isLoading = false))
                 }
 
                 Status.ERROR -> {
@@ -181,7 +175,7 @@ class ProfileViewModel @Inject constructor(
             when(result.status){
                 Status.SUCCESS -> {
                     if (result.data != null)
-                        setBaseState(getCurrentBaseState().copy(proscanInfo = result.data))
+                        setBaseState(getCurrentBaseState().copy(proscanInfo = result.data, isLoading = false))
                 }
 
                 Status.ERROR -> {
@@ -200,7 +194,7 @@ class ProfileViewModel @Inject constructor(
             when(result.status) {
                 Status.SUCCESS -> {
                     if (result.data != null)
-                        setBaseState(getHoldState().copy(proscanSections = result.data))
+                        setBaseState(getHoldState().copy(proscanSections = result.data, isLoading = false))
                 }
 
                 Status.ERROR -> {
@@ -219,7 +213,7 @@ class ProfileViewModel @Inject constructor(
             when(result.status){
                 Status.SUCCESS -> {
                     if (result.data != null)
-                        setBaseState(getCurrentBaseState().copy(faqList = result.data))
+                        setBaseState(getCurrentBaseState().copy(faqList = result.data, isLoading = false))
                 }
 
                 Status.ERROR -> {
@@ -251,6 +245,10 @@ class ProfileViewModel @Inject constructor(
             AccountSettingModel(
                 image = R.drawable.payment_history_outline_icon,
                 type = Settings.PAYMENT_HISTORY
+            ),
+            AccountSettingModel(
+                image = R.drawable.graph_outline_icon,
+                type = Settings.CATEGORY_GRAPH
             ),
             AccountSettingModel(
                 image = R.drawable.document_outline_icon,

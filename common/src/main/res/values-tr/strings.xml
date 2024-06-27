@@ -323,6 +323,8 @@
     <string name="visit_our_website">Visit Our Website</string>
     <string name="follow_us_on_social_medias">Follow us on Social Medias</string>
     <string name="proscan_title_and_version">%1$s v%2$s</string>
+    <string name="graph_percentage">%1$s %</string>
+
 
 
 </resources>

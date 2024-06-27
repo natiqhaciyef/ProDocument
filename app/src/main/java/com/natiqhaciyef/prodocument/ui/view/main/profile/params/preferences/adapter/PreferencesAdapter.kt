@@ -9,8 +9,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.natiqhaciyef.core.base.ui.BaseRecyclerViewAdapter
 import com.natiqhaciyef.prodocument.databinding.RecyclerParamsItemBinding
-import com.natiqhaciyef.prodocument.ui.view.main.profile.params.model.FieldType
-import com.natiqhaciyef.prodocument.ui.view.main.profile.params.model.ParamsUIModel
+import com.natiqhaciyef.prodocument.ui.view.main.profile.model.FieldType
+import com.natiqhaciyef.prodocument.ui.view.main.profile.model.ParamsUIModel
 
 
 class PreferencesAdapter(
