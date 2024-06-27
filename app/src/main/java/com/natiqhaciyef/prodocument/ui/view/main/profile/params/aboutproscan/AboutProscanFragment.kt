@@ -1,9 +1,11 @@
 package com.natiqhaciyef.prodocument.ui.view.main.profile.params.aboutproscan
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.natiqhaciyef.common.helpers.loadImage
@@ -81,7 +83,8 @@ class AboutProscanFragment(
 
     private fun topConfig(proScanInfoModel: ProScanInfoModel) {
         with(binding) {
-            proscanImage.loadImage(proScanInfoModel.icon)
+            if (proScanInfoModel.icon.isNotEmpty())
+                proscanImage.loadImage(proScanInfoModel.icon)
             titleTagAndVersion.text =
                 requireContext().getString(
                     com.natiqhaciyef.common.R.string.proscan_title_and_version,
@@ -93,14 +96,16 @@ class AboutProscanFragment(
 
     private fun sectionsRecyclerConfig(list: List<ProscanSectionModel>) {
         adapter = SectionsAdapter(list.toMutableList())
-
         with(binding) {
             recyclerDetailsView.adapter = adapter
             recyclerDetailsView.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            adapter?.onClick = {
-                // add action
-            }
+            adapter?.onClick = { externalNavigate(it) }
         }
+    }
+
+    private fun externalNavigate(item: ProscanSectionModel) {
+        val intent = Intent(Intent.ACTION_VIEW, item.link.toUri())
+        requireActivity().startActivity(intent)
     }
 }

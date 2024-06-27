@@ -186,7 +186,7 @@ class ProfileViewModel @Inject constructor(
                     setBaseState(getCurrentBaseState().copy(isLoading = true))
                 }
             }
-        }
+        }.launchIn(viewModelScope)
     }
 
     private fun getFaqList(){

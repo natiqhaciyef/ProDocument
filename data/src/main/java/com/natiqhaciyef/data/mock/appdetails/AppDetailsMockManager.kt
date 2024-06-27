@@ -28,11 +28,16 @@ object AppDetailsMockManager {
         title = "Proscan",
         description = "App were developed by Natiq Hajiyev.",
         icon = "",
-        version = "v1.0.1"
+        version = "1.0.1"
     )
 
     fun getProscanSections() = listOf(
         ProscanSectionModel(title = "Job Vacancies", link = "https://www.hellojob.az/"),
-        ProscanSectionModel(title = "Teams", link = "https://github.com/natiqhaciyef/")
+        ProscanSectionModel(title = "Teams", link = "https://github.com/natiqhaciyef/"),
+        ProscanSectionModel(title = "Partners", link = "https://www.udemy.com/home/my-courses/learning/"),
+        ProscanSectionModel(title = "Accessibility", link = "https://stevdza-san.com/"),
+        ProscanSectionModel(title = "Privacy Policy", link = "https://play.google.com/console/u/0/developers/8825372601260754680/app-list?pli=1"),
+        ProscanSectionModel(title = "Feedback", link = "https://medium.com/"),
+//        ProscanSectionModel(title = "Rate us", link = "https://github.com/natiqhaciyef/"),
     )
 }

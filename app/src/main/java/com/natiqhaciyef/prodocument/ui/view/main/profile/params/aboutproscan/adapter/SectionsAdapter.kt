@@ -15,14 +15,14 @@ class SectionsAdapter(
             RecyclerSectionItemBinding.inflate(LayoutInflater.from(ctx), vg, bool)
         }
 
-    var onClick: (String) -> Unit = {}
+    var onClick: (ProscanSectionModel) -> Unit = {}
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         val item = list[position]
 
         with(holder) {
             binding.sectionTitle.text = item.title
-            itemView.setOnClickListener { onClick.invoke(item.link) }
+            itemView.setOnClickListener { onClick.invoke(item) }
         }
     }
 }
