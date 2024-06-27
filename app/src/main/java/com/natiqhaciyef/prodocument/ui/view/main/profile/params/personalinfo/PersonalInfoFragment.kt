@@ -36,9 +36,13 @@ class PersonalInfoFragment(
             }
 
             else -> {
+                if (state.user != null && state.countries == null) {
+                    postEvent(ProfileContract.ProfileEvent.GetCountries)
+                    holdCurrentState(state)
+                }
 
-                if (state.user != null)
-                    defaultParams(state.user!!)
+                if (state.user != null && state.countries != null)
+                    defaultParams(state.user!!, state.countries!!)
             }
         }
     }
@@ -56,7 +60,11 @@ class PersonalInfoFragment(
                     visibility = View.VISIBLE
                     setTitleToolbar(getString(com.natiqhaciyef.common.R.string.personal_info))
                     changeVisibility(View.VISIBLE)
-                    changeAppIcon(com.natiqhaciyef.common.R.drawable.back_arrow_icon){ onToolbarBackPressAction(bottomNavBar) }
+                    changeAppIcon(com.natiqhaciyef.common.R.drawable.back_arrow_icon) {
+                        onToolbarBackPressAction(
+                            bottomNavBar
+                        )
+                    }
                     appIconVisibility(View.VISIBLE)
                     setVisibilitySearch(View.GONE)
                     setVisibilityOptionsMenu(View.VISIBLE)
@@ -67,7 +75,7 @@ class PersonalInfoFragment(
         }
     }
 
-    private fun defaultParams(user: MappedUserWithoutPasswordModel) {
+    private fun defaultParams(user: MappedUserWithoutPasswordModel, countries: List<String>) {
         with(binding) {
             userImage.loadImage(user.imageUrl)
             fullNameInput.insertInput(user.name)
@@ -77,7 +85,12 @@ class PersonalInfoFragment(
             dateOfBirthInput.insertInput(user.birthDate)
 
             if (user.country.isNotEmpty())
-                countryInput.insertInput(user.country)
+                countryInput.initCustomDropDown(
+                    countries,
+                    requireContext().getString(com.natiqhaciyef.common.R.string.country),
+                    user.country,
+                    user.country
+                )
 
             if (user.city.isNotEmpty())
                 cityInput.insertInput(user.city)

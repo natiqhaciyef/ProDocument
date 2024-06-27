@@ -25,6 +25,8 @@ object ProfileContract {
 
         data object GetAccountInfo : ProfileEvent
 
+        data object GetCountries : ProfileEvent
+
         data object GetFaqList : ProfileEvent
 
         data object GetFaqCategories : ProfileEvent
@@ -54,6 +56,7 @@ object ProfileContract {
         var settingList: MutableList<AccountSettingModel>? = null,
         var paramsUIModelList: MutableList<ParamsUIModel>? = null,
         var user: MappedUserWithoutPasswordModel? = null,
+        var countries: List<String>? = null,
         var languages: List<LanguageModel>? = null,
         var pickedPlan: MappedSubscriptionModel? = null,
         var paymentsHistory: List<PaymentHistoryModel>? = null,

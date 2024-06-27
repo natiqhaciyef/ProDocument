@@ -13,4 +13,6 @@ interface AppRepository: BaseRepository {
     suspend fun getProscanDetails(): NetworkResult<ProScanInfoModel>
 
     suspend fun getProscanSections(): NetworkResult<List<ProscanSectionModel>>
+
+    suspend fun getCountries(): NetworkResult<List<String>>
 }

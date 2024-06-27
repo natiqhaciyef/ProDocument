@@ -13,6 +13,7 @@ import com.natiqhaciyef.prodocument.ui.view.main.profile.model.Settings
 import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.common.model.mapped.MappedUserWithoutPasswordModel
 import com.natiqhaciyef.core.base.ui.BaseViewModel
+import com.natiqhaciyef.domain.usecase.app.GetCountriesUseCase
 import com.natiqhaciyef.domain.usecase.app.GetFaqListUseCase
 import com.natiqhaciyef.domain.usecase.app.GetProscanDetailsUseCase
 import com.natiqhaciyef.domain.usecase.app.GetProscanSectionsUseCase
@@ -34,11 +35,16 @@ class ProfileViewModel @Inject constructor(
     private val getPaymentHistoryUseCase: GetPaymentHistoryUseCase,
     private val getFaqListUseCase: GetFaqListUseCase,
     private val getProscanDetailsUseCase: GetProscanDetailsUseCase,
-    private val getProscanSectionsUseCase: GetProscanSectionsUseCase
+    private val getProscanSectionsUseCase: GetProscanSectionsUseCase,
+    private val getCountriesUseCase: GetCountriesUseCase
 ) : BaseViewModel<ProfileContract.ProfileState, ProfileContract.ProfileEvent, ProfileContract.ProfileEffect>() {
 
     override fun onEventUpdate(event: ProfileContract.ProfileEvent) {
         when(event){
+            is ProfileContract.ProfileEvent.GetCountries -> {
+                getAllCountries()
+            }
+
             is ProfileContract.ProfileEvent.GetSettings -> {
                 getSettings()
             }
@@ -138,6 +144,25 @@ class ProfileViewModel @Inject constructor(
                 Status.SUCCESS -> {
                     if (result.data != null)
                         setBaseState(getCurrentBaseState().copy(isLoading = false, user = result.data))
+                }
+
+                Status.ERROR -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = false))
+                }
+
+                Status.LOADING -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = true))
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    private fun getAllCountries(){
+        getCountriesUseCase.invoke().onEach { result ->
+            when(result.status){
+                Status.SUCCESS -> {
+                    if (result.data != null)
+                        setBaseState(getHoldState().copy(countries = result.data))
                 }
 
                 Status.ERROR -> {

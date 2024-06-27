@@ -16,4 +16,7 @@ class AppRepositoryImpl(val ds: AppDataSource): AppRepository {
 
     override suspend fun getProscanSections(): NetworkResult<List<ProscanSectionModel>> =
         ds.getProscanSections()
+
+    override suspend fun getCountries(): NetworkResult<List<String>> =
+        ds.getCountries()
 }

@@ -16,4 +16,7 @@ interface AppService {
 
     @GET("")
     suspend fun getProscanSections(): Response<List<ProscanSectionModel>>
+
+    @GET("https://raw.githubusercontent.com/natiqhaciyef/Country-JSON/main/Country%20API%20kit/rawCountryNames.json?token=GHSAT0AAAAAACMK5HIY76CYKFNJ3WR3VPU4ZT5SAQQ")
+    suspend fun getCountries(): Response<List<String>>
 }

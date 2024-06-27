@@ -12,27 +12,33 @@ import kotlinx.coroutines.withContext
 
 class AppDataSource(val service: AppService) {
 
-    suspend fun getFaqList() = withContext(Dispatchers.IO){
+    suspend fun getFaqList() = withContext(Dispatchers.IO) {
         val mock = generateMockerClass(GetFaqListMockGenerator::class, Unit)
-            .getMock(Unit){ null }
+            .getMock(Unit) { null }
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.getFaqList()
         }
     }
 
-    suspend fun getProscanDetails() = withContext(Dispatchers.IO){
+    suspend fun getProscanDetails() = withContext(Dispatchers.IO) {
         val mock = generateMockerClass(GetProscanDetailsMockGenerator::class, Unit)
-            .getMock(Unit){ null }
+            .getMock(Unit) { null }
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.getProscanDetails()
         }
     }
 
-    suspend fun getProscanSections() = withContext(Dispatchers.IO){
+    suspend fun getProscanSections() = withContext(Dispatchers.IO) {
         val mock = generateMockerClass(GetProscanSectionsMockGenerator::class, Unit)
             .getMock(Unit) { null }
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.getProscanSections()
+        }
+    }
+
+    suspend fun getCountries() = withContext(Dispatchers.IO) {
+        handleNetworkResponse(mock = null, handlingType = LoadType.DEFAULT) {
+            service.getCountries()
         }
     }
 }
