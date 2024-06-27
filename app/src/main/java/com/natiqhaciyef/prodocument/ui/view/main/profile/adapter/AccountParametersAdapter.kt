@@ -10,9 +10,11 @@ import androidx.fragment.app.Fragment
 import com.natiqhaciyef.prodocument.ui.view.main.profile.model.AccountSettingModel
 import com.natiqhaciyef.prodocument.ui.view.main.profile.model.Settings
 import com.natiqhaciyef.core.base.ui.BaseRecyclerViewAdapter
+import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.RecyclerAccountItemBinding
 import com.natiqhaciyef.prodocument.ui.manager.DarkModeManager
 import com.natiqhaciyef.prodocument.ui.manager.NavigationManager
+import com.natiqhaciyef.prodocument.ui.view.main.profile.ProfileFragment
 
 
 class AccountParametersAdapter(
@@ -67,7 +69,7 @@ class AccountParametersAdapter(
             switchIcon.setOnClickListener {
                 switchIcon.isChecked = darkModeManager.getCurrentMode()
                 darkModeManager.updateCurrentMode()
-                NavigationManager.navigateByRouteTitle(fragment, NavigationManager.HOME_ROUTE)
+                (fragment as ProfileFragment).navigate(R.id.profileFragment)
                 darkModeManager.changeModeToggle()
             }
         }
