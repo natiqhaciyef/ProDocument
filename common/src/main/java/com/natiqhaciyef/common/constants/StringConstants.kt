@@ -16,6 +16,7 @@ const val HASH = "#"
 const val EQUAL = "="
 
 
+const val NULL = "null"
 const val FORMATTED_NUMBER_ONE = "%.1f"
 const val FORMATTED_NUMBER_TWO = "%.2f"
 const val FORMATTED_ALGORITHM = "%02x"

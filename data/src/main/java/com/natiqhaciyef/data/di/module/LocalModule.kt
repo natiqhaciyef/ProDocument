@@ -25,9 +25,5 @@ object LocalModule {
 
     @Provides
     @Singleton
-    fun provideUserDao(db: AppDatabase) = db.getUserDao()
-
-    @Provides
-    @Singleton
     fun providePaymentDao(db: AppDatabase) = db.getPaymentDao()
 }

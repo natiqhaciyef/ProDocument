@@ -35,18 +35,4 @@ class UserRepositoryImpl(
         ds.getUserStatics()
 
     override suspend fun logout() = ds.logout()
-
-
-    override suspend fun getUserFromLocal(): List<UIResult<MappedUserModel>>? =
-        ds.getUserFromLocal()?.map { entity -> entity.toUIResult() }
-
-    override suspend fun insertToLocal(userEntity: UserEntity) =
-        ds.insertToLocal(userEntity)
-
-    override suspend fun removeFromLocal(userEntity: UserEntity) =
-        ds.removeFromLocal(userEntity)
-
-    override suspend fun updateFromLocal(userEntity: UserEntity) =
-        ds.updateFromLocal(userEntity)
-
 }

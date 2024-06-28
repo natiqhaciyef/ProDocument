@@ -27,14 +27,4 @@ interface UserRepository : BaseRepository {
     suspend fun getUserStatics(): NetworkResult<GraphDetailsListResponse>
 
     suspend fun logout(): NetworkResult<CRUDResponse>
-
-
-    suspend fun getUserFromLocal(): List<UIResult<MappedUserModel>>?
-
-    suspend fun insertToLocal(userEntity: UserEntity)
-
-    suspend fun removeFromLocal(userEntity: UserEntity)
-
-    suspend fun updateFromLocal(userEntity: UserEntity)
-
 }
