@@ -1,10 +1,7 @@
 package com.natiqhaciyef.domain.repository.impl
 
-import com.natiqhaciyef.common.model.ui.UIResult
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
-import com.natiqhaciyef.data.local.entity.UserEntity
 import com.natiqhaciyef.data.mapper.toResponse
-import com.natiqhaciyef.data.mapper.toUIResult
 import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.data.network.response.GraphDetailsListResponse
 import com.natiqhaciyef.data.source.UserDataSource

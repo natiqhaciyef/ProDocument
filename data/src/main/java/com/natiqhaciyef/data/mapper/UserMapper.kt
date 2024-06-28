@@ -4,7 +4,6 @@ import com.natiqhaciyef.common.constants.EMPTY_STRING
 import com.natiqhaciyef.common.model.ui.UIResult
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
 import com.natiqhaciyef.common.model.mapped.MappedUserWithoutPasswordModel
-import com.natiqhaciyef.data.local.entity.UserEntity
 import com.natiqhaciyef.data.network.response.UserResponse
 import java.util.UUID
 
