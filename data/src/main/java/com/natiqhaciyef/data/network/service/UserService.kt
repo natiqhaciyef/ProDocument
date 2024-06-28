@@ -1,12 +1,15 @@
 package com.natiqhaciyef.data.network.service
 
-import com.natiqhaciyef.data.network.response.CRUDResponse
+import com.natiqhaciyef.core.CRUDResponse
+import com.natiqhaciyef.data.network.NetworkConfig
+import com.natiqhaciyef.data.network.response.GraphDetailsListResponse
 import com.natiqhaciyef.data.network.response.TokenResponse
 import com.natiqhaciyef.data.network.response.UserResponse
 import retrofit2.Response
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Query
 
@@ -16,18 +19,18 @@ interface UserService {
     @POST("")
     @FormUrlEncoded
     suspend fun createAccount(
-        @Field("full_name") fullName: String,
-        @Field("phone_number") phoneNumber: String,
+        @Field("fullName") fullName: String,
+        @Field("phoneNumber") phoneNumber: String,
         @Field("gender") gender: String,
         @Field("dob") dateOfBirth: String,
-        @Field("image_url") imageUrl: String,
+        @Field("imageUrl") imageUrl: String,
         @Field("email") email: String,
         @Field("password") password: String,
     ): Response<TokenResponse>
 
     @GET("")
     suspend fun getUser(
-        @Query("email") email: String,
+        @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String
     ): Response<UserResponse>
 
     @POST("")
@@ -55,6 +58,13 @@ interface UserService {
         @Field("password") password: String,
     ): Response<TokenResponse>
 
+    @POST("")
+    suspend fun getUserStatics(
+        @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String
+    ): Response<GraphDetailsListResponse>
+
     @GET("")
-    suspend fun logout(): Response<CRUDResponse>
+    suspend fun logout(
+        @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String
+    ): Response<CRUDResponse>
 }

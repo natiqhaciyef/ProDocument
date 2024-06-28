@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/payment_navigation"
+    app:startDestination="@id/paymentCategoriesFragment">
+
+    <fragment
+        android:id="@+id/paymentCategoriesFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.payment.PaymentCategoriesFragment"
+        android:label="fragment_payment_categories"
+        tools:layout="@layout/fragment_payment_categories" >
+        <action
+            android:id="@+id/action_paymentCategoriesFragment_to_newPaymentFragment"
+            app:destination="@id/newPaymentFragment" />
+        <action
+            android:id="@+id/action_paymentCategoriesFragment_to_paymentDetailsFragment"
+            app:destination="@id/paymentDetailsFragment" />
+        <argument
+            android:name="datasetBundle"
+            app:argType="android.os.Bundle" />
+        <action
+            android:id="@+id/action_paymentCategoriesFragment_to_scanFragment"
+            app:destination="@id/scanFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newPaymentFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.payment.NewPaymentFragment"
+        android:label="fragment_new_payment"
+        tools:layout="@layout/fragment_new_payment" />
+    <fragment
+        android:id="@+id/paymentDetailsFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.payment.PaymentDetailsFragment"
+        android:label="fragment_payment_details"
+        tools:layout="@layout/fragment_payment_details" >
+        <argument
+            android:name="datasetBundle"
+            app:argType="android.os.Bundle" />
+        <action
+            android:id="@+id/action_paymentDetailsFragment_to_paymentResultFragment"
+            app:destination="@id/paymentResultFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/paymentResultFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.payment.PaymentResultFragment"
+        android:label="fragment_payment_cheque"
+        tools:layout="@layout/fragment_payment_result" >
+        <argument
+            android:name="cheque"
+            app:argType="com.natiqhaciyef.common.model.payment.MappedPaymentChequeModel" />
+    </fragment>
+    <fragment
+        android:id="@+id/scanFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.payment.ScanFragment"
+        android:label="fragment_scan"
+        tools:layout="@layout/fragment_scan" >
+        <action
+            android:id="@+id/action_scanFragment_to_paymentDetailsFragment"
+            app:destination="@id/paymentDetailsFragment" />
+        <argument
+            android:name="datasetBundle"
+            app:argType="android.os.Bundle" />
+    </fragment>
+</navigation>

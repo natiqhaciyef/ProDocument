@@ -10,7 +10,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        minSdk = 24
+        minSdk = 30
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -38,8 +38,10 @@ dependencies {
     val retrofitVersion = "2.9.0"
     val daggerVersion = "2.46"
     val roomVersion = "2.5.0"
+    val dataStoreVersion = "1.0.0"
     val okHttpLoggingInterceptorVersion = "5.0.0-alpha.3"
 
+    implementation(project(":core"))
     implementation(project(":common"))
 
     implementation("androidx.core:core-ktx:1.12.0")
@@ -48,6 +50,10 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+    //Data store
+    implementation("androidx.datastore:datastore-preferences:$dataStoreVersion")
+    implementation("androidx.security:security-crypto:$dataStoreVersion")
 
 
     //Dagger hilt
@@ -67,4 +73,9 @@ dependencies {
 
     //Reflection
     implementation(kotlin("reflect"))
+
+    //Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
 }

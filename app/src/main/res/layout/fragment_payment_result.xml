@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grayscale_50"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.view.main.payment.PaymentResultFragment">
+
+    <TextView
+        android:id="@+id/resultTitleText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/primary_900"
+        android:textSize="24sp"
+        android:layout_marginTop="24dp"
+        android:layout_marginHorizontal="24dp"
+        android:fontFamily="@font/urbanist_bold"
+        app:layout_constraintTop_toBottomOf="@id/resultBackground"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <ImageView
+        android:id="@+id/resultBackground"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:src="@drawable/result_dialog_container_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.20" />
+
+    <ImageView
+        android:id="@+id/resultIcon"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        app:layout_constraintVertical_bias="0.51"
+        app:layout_constraintHorizontal_bias="0.51"
+        android:src="@drawable/inform_result_type_icon"
+        app:layout_constraintTop_toTopOf="@id/resultBackground"
+        app:layout_constraintStart_toStartOf="@id/resultBackground"
+        app:layout_constraintEnd_toEndOf="@id/resultBackground"
+        app:layout_constraintBottom_toBottomOf="@id/resultBackground"
+        app:tint="@color/white" />
+
+    <View
+        android:id="@+id/simpleLine1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/simple_line"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/resultBackground"
+        android:layout_marginTop="96dp"
+        android:layout_marginHorizontal="24dp"
+        android:backgroundTint="@color/grayscale_500"
+        />
+
+    <ImageView
+        android:id="@+id/chequeIcon"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/simpleLine1"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/document_icon"
+        android:tint="@color/grayscale_700"
+        />
+
+    <TextView
+        android:id="@+id/chequeTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:fontFamily="@font/urbanist_bold"
+        android:text="@string/share_cheque_title"
+        android:textColor="@color/grayscale_900"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/chequeIcon"
+        app:layout_constraintEnd_toStartOf="@+id/viewCheque"
+        app:layout_constraintHorizontal_bias="0.315"
+        app:layout_constraintStart_toEndOf="@+id/chequeIcon"
+        app:layout_constraintTop_toTopOf="@id/chequeIcon"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <ImageView
+        android:id="@+id/viewCheque"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/chequeIcon"
+        app:layout_constraintBottom_toBottomOf="@id/chequeIcon"
+        app:layout_constraintVertical_bias="0.5"
+        android:layout_marginEnd="24dp"
+        android:src="@drawable/down_arrow_icon"
+        android:rotation="270"
+        android:tint="@color/grayscale_700"
+        />
+
+
+    <View
+        android:id="@+id/simpleLine2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/simple_line"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/chequeIcon"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="24dp"
+        android:backgroundTint="@color/grayscale_500"
+        />
+
+    <ImageView
+        android:id="@+id/informIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/simpleLine2"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/percentage_icon"
+        android:tint="@color/grayscale_700"
+        />
+
+    <TextView
+        android:id="@+id/informTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:fontFamily="@font/urbanist_bold"
+        android:text="@string/payment_details_title"
+        android:textColor="@color/grayscale_900"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/informIcon"
+        app:layout_constraintEnd_toStartOf="@+id/informationDetails"
+        app:layout_constraintHorizontal_bias="0.315"
+        app:layout_constraintStart_toEndOf="@+id/informIcon"
+        app:layout_constraintTop_toTopOf="@id/informIcon"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <ImageView
+        android:id="@+id/informationDetails"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/informIcon"
+        app:layout_constraintBottom_toBottomOf="@id/informIcon"
+        app:layout_constraintVertical_bias="0.5"
+        android:layout_marginEnd="24dp"
+        android:src="@drawable/down_arrow_icon"
+        android:rotation="270"
+        android:tint="@color/grayscale_700"
+        />
+
+
+    <View
+        android:id="@+id/simpleLine3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/simple_line"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/informIcon"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="24dp"
+        android:backgroundTint="@color/grayscale_500"
+        />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/continueButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/custom_button_background"
+        android:backgroundTint="@color/primary_900"
+        android:fontFamily="@font/urbanist_bold"
+        android:text="@string/continue_"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

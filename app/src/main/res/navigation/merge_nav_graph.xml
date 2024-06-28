@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mergePdfsFragment"
-        android:name="com.natiqhaciyef.prodocument.ui.view.options.merge.MergePdfsFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.home.options.merge.MergePdfsFragment"
         android:label="fragment_merge_pdfs"
         tools:layout="@layout/fragment_merge_pdfs" />
 </navigation>

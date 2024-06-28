@@ -7,8 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import com.natiqhaciyef.common.constants.EMPTY_STRING
 import com.natiqhaciyef.prodocument.databinding.FragmentOTPBinding
-import com.natiqhaciyef.prodocument.ui.base.BaseFragment
+import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.otp.contract.OTPContract
 import com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.otp.viewmodel.OTPViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -53,7 +54,7 @@ class OTPFragment(
             else -> {
                 changeVisibilityOfProgressBar()
                 if (state.result != null) {
-                    onClickAction(email ?: "")
+                    onClickAction(email ?: EMPTY_STRING)
                 }
             }
         }

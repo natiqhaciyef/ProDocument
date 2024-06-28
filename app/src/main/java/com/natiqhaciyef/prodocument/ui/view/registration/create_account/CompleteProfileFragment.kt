@@ -21,15 +21,17 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import com.google.android.material.snackbar.Snackbar
+import com.natiqhaciyef.common.constants.DATE_OVER_FLOW_ERROR
+import com.natiqhaciyef.common.constants.EMPTY_STRING
 import com.natiqhaciyef.prodocument.R
-import com.natiqhaciyef.common.objects.ErrorMessages
 import com.natiqhaciyef.prodocument.databinding.FragmentCompleteProfileBinding
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
-import com.natiqhaciyef.prodocument.ui.base.BaseFragment
+import com.natiqhaciyef.core.base.ui.BaseFragment
+import com.natiqhaciyef.prodocument.ui.manager.PermissionManager.Permission.Companion.PERMISSION_REQUEST
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkFullNameAcceptanceCondition
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkGenderAcceptanceCondition
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkPhoneAcceptanceCondition
-import com.natiqhaciyef.prodocument.ui.util.formatPhoneNumber
+import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.formatPhoneNumber
 import com.natiqhaciyef.prodocument.ui.view.registration.create_account.contract.CompleteProfileContract
 import com.natiqhaciyef.prodocument.ui.view.registration.create_account.viewmodel.CompleteProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,7 +51,7 @@ class CompleteProfileFragment(
     private var currentSelectedTime: Long = 0L
     private var imageData: Uri? = null
     private var genderSelection: String = "Not-selected"
-    private val genderList = listOf("Male", "Female")
+    private val genderList = resources.getStringArray(com.natiqhaciyef.common.R.array.genders)
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -60,7 +62,7 @@ class CompleteProfileFragment(
         binding.apply {
             datePickerDialog(calendar)
             genderDropDownConfig()
-            changeVisibilityOfProgressBar(true)
+            changeVisibilityOfProgressBar(false)
 
             // validations
             fullNameValidation()
@@ -76,11 +78,11 @@ class CompleteProfileFragment(
     override fun onStateChange(state: CompleteProfileContract.CompleteUiState) {
         when {
             state.isLoading -> {
-                changeVisibilityOfProgressBar(false)
+                changeVisibilityOfProgressBar(true)
             }
 
             else -> {
-                changeVisibilityOfProgressBar(true)
+                changeVisibilityOfProgressBar(false)
                 continueButtonClickAction(state.user)
             }
         }
@@ -152,9 +154,9 @@ class CompleteProfileFragment(
                 // request permission
                 Snackbar.make(
                     requireView(),
-                    "Permission needed for Gallery",
+                    PERMISSION_REQUEST,
                     Snackbar.LENGTH_INDEFINITE
-                ).setAction("Give permission") {
+                ).setAction(requireContext().getString(com.natiqhaciyef.common.R.string.give_permission)) {
                     // request permission
                     permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
                 }.show()
@@ -174,12 +176,12 @@ class CompleteProfileFragment(
                 CompleteProfileContract.CompleteUiEvent.CollectUserData(
                     MappedUserModel(
                         name = completeProfileFullNameInput.text.toString(),
-                        email = "",
+                        email = EMPTY_STRING,
                         phoneNumber = completeProfilePhoneNumberInput.text.toString(),
                         gender = genderSelection,
                         birthDate = completeProfileDOBInput.text.toString(),
                         imageUrl = imageData.toString(),
-                        password = ""
+                        password = EMPTY_STRING
                     )
                 )
             )
@@ -245,7 +247,7 @@ class CompleteProfileFragment(
         if (calendar.time.time < System.currentTimeMillis())
             binding.completeProfileDOBInput.text = date
         else
-            binding.completeProfileDOBInput.text = ErrorMessages.DATE_OVER_FLOW_ERROR
+            binding.completeProfileDOBInput.text = DATE_OVER_FLOW_ERROR
     }
 
     private fun fullNameValidation() {

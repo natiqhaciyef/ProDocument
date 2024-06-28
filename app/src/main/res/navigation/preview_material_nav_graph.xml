@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/preview_material_nav_graph"
+    app:startDestination="@id/modifyPdfFragment">
+
+    <fragment
+        android:id="@+id/modifyPdfFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.modify.ModifyPdfFragment"
+        android:label="fragment_modify_pdf"
+        tools:layout="@layout/fragment_modify_pdf">
+        <argument
+            android:name="resourceBundle"
+            app:argType="android.os.Bundle" />
+    </fragment>
+</navigation>

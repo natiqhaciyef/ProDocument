@@ -12,11 +12,11 @@ import android.view.WindowManager
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.natiqhaciyef.common.model.mapped.MappedTokenModel
+import com.natiqhaciyef.core.store.AppStorePrefKeys.TOKEN_KEY
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.AlertDialogResultViewBinding
 import com.natiqhaciyef.prodocument.databinding.FragmentChangePasswordBinding
-import com.natiqhaciyef.prodocument.ui.base.BaseFragment
-import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.TOKEN_KEY
+import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkPasswordAcceptanceCondition
 import com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.change_password.contract.ChangePasswordContract
 import com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.change_password.viewmodel.ChangePasswordViewModel
@@ -58,7 +58,7 @@ class ChangePasswordFragment(
 
             else -> {
                 changeVisibilityOfProgressBar()
-                if (state.tokenModel != null){ onClickAction(tokenState = state.tokenModel!!) }
+                if (state.tokenModel != null){ tokenStoring(tokenState = state.tokenModel!!) }
             }
         }
     }
@@ -74,12 +74,12 @@ class ChangePasswordFragment(
     private fun onClickEvent(email: String) {
         viewModel.postEvent(
             ChangePasswordContract.ChangePasswordEvent.UpdatePasswordEvent(
-                email = email, password = binding.newPasswordText.text.toString()
+                ctx = requireContext(), email = email, password = binding.newPasswordText.text
             )
         )
     }
 
-    private fun onClickAction(tokenState: MappedTokenModel) {
+    private fun tokenStoring(tokenState: MappedTokenModel) {
         lifecycleScope.launch {
             dataStore.saveParcelableClassData(
                 context = requireContext(),

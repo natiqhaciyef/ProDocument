@@ -1,12 +1,12 @@
 package com.natiqhaciyef.domain.usecase.user.local
 
 import com.natiqhaciyef.common.model.Resource
-import com.natiqhaciyef.domain.base.usecase.BaseUseCase
-import com.natiqhaciyef.domain.base.usecase.UseCase
-import com.natiqhaciyef.common.model.UIResult
+import com.natiqhaciyef.core.base.usecase.BaseUseCase
+import com.natiqhaciyef.core.base.usecase.UseCase
+import com.natiqhaciyef.common.model.ui.UIResult
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
-import com.natiqhaciyef.common.objects.ErrorMessages
-import com.natiqhaciyef.common.objects.ResultExceptions
+import com.natiqhaciyef.common.constants.ResultExceptions
+import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -26,7 +26,7 @@ class GetUserLocalUseCase @Inject constructor(
         } else {
             emit(
                 Resource.error(
-                    msg = ErrorMessages.SOMETHING_WENT_WRONG,
+                    msg = SOMETHING_WENT_WRONG,
                     data = null,
                     exception = ResultExceptions.UnknownError()
                 )

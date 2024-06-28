@@ -2,12 +2,9 @@ package com.natiqhaciyef.prodocument.ui.view.main.home.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.model.Status
-import com.natiqhaciyef.common.objects.MATERIAL_TOKEN_MOCK_KEY
-import com.natiqhaciyef.domain.usecase.MATERIAL_ID
-import com.natiqhaciyef.domain.usecase.MATERIAL_TOKEN
+import com.natiqhaciyef.core.base.ui.BaseViewModel
 import com.natiqhaciyef.domain.usecase.material.GetAllMaterialsRemoteUseCase
 import com.natiqhaciyef.domain.usecase.material.GetMaterialByIdRemoteUseCase
-import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
 import com.natiqhaciyef.prodocument.ui.view.main.home.contract.HomeContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -23,18 +20,18 @@ class HomeViewModel @Inject constructor(
     override fun onEventUpdate(event: HomeContract.HomeEvent) {
         when (event) {
             is HomeContract.HomeEvent.GetAllMaterials -> {
-                getAllOwnFiles(event.token)
+                getAllOwnFiles()
             }
 
             is HomeContract.HomeEvent.GetMaterialById -> {
-                getMaterialById(token = event.token, id = event.id)
+                getMaterialById(id = event.id)
             }
         }
     }
 
-    private fun getAllOwnFiles(token: String = MATERIAL_TOKEN_MOCK_KEY) {
+    private fun getAllOwnFiles() {
         viewModelScope.launch {
-            getAllMaterialsRemoteUseCase.operate(token).collectLatest { result ->
+            getAllMaterialsRemoteUseCase.invoke().collectLatest { result ->
                 when (result.status) {
                     Status.SUCCESS -> {
                         if (result.data != null) {
@@ -65,10 +62,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getMaterialById(token: String, id: String) {
-        val request = mapOf(MATERIAL_ID to id, MATERIAL_TOKEN to token)
+    private fun getMaterialById(id: String) {
         viewModelScope.launch {
-            getMaterialByIdRemoteUseCase.operate(request).collectLatest { result ->
+            getMaterialByIdRemoteUseCase.operate(id).collectLatest { result ->
                 when (result.status) {
                     Status.SUCCESS -> {
                         if (result.data != null)

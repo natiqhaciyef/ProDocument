@@ -9,7 +9,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        minSdk = 24
+        minSdk = 30
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -40,6 +40,7 @@ dependencies {
     val okHttpLoggingInterceptorVersion = "5.0.0-alpha.3"
 
     implementation(project(":data"))
+    implementation(project(":core"))
     implementation(project(":common"))
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")

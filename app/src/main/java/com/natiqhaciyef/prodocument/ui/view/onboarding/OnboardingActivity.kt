@@ -1,8 +1,8 @@
 package com.natiqhaciyef.prodocument.ui.view.onboarding
 
 import android.os.Bundle
+import com.natiqhaciyef.core.base.ui.BaseActivity
 import com.natiqhaciyef.prodocument.databinding.ActivityOnboardingBinding
-import com.natiqhaciyef.prodocument.ui.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

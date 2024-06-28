@@ -1,7 +1,8 @@
 package com.natiqhaciyef.data.mock.users
 
-import com.natiqhaciyef.data.base.mock.BaseMockGenerator
-import com.natiqhaciyef.data.network.response.CRUDResponse
+import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
+import com.natiqhaciyef.core.CRUDResponse
+import com.natiqhaciyef.core.base.mock.BaseMockGenerator
 import com.natiqhaciyef.data.network.response.TokenResponse
 import com.natiqhaciyef.data.network.response.UserResponse
 import java.util.UUID
@@ -11,13 +12,12 @@ class AccountMockGenerator(
 ) : BaseMockGenerator<UserResponse, TokenResponse>() {
     override var createdMock: TokenResponse =
         TokenResponse(
-            uid = "${UUID.randomUUID()}",
-            premiumToken = null,
-            premiumTokenExpiryDate = null,
+            accessToken = "${UUID.randomUUID()}",
             result = CRUDResponse(
-                resultCode = 299,
+                resultCode = TWO_HUNDRED_NINETY_NINE,
                 message = "Mock token"
-            )
+            ),
+            refreshToken = "email@gmail.com"
         )
 
     override fun getMock(
@@ -34,14 +34,17 @@ class AccountMockGenerator(
 
     companion object CreateAccountMockGenerator{
         val customRequest = UserResponse(
-            fullName = "fullname",
-            phoneNumber = "+994xx xxx xx xx",
-            gender = "gender",
-            dateOfBirth = "00.00.0000",
-            imageUrl = "image",
-            email = "email@gmail.com",
-            password = "password123",
-            publishDate = "00.00.0000",
+            fullName = "Steve Wooden",
+            phoneNumber = "+44 20 0001 0002",
+            gender = "Male",
+            dateOfBirth = "12.04.2000",
+            imageUrl = "https://minecraftfaces.com/wp-content/bigfaces/big-steve-face.png",
+            email = "steve@minecraft.com",
+            password = "steve123",
+            publishDate = "09.03.2024",
+            country = "England",
+            city = "Brighton",
+            street = "Mr Allen street 12",
             result = null
         )
     }

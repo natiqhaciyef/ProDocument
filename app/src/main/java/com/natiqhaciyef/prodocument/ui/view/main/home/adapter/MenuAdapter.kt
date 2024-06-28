@@ -3,17 +3,16 @@ package com.natiqhaciyef.prodocument.ui.view.main.home.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import com.natiqhaciyef.common.model.MenuItemModel
 import com.natiqhaciyef.prodocument.databinding.RecyclerMenuItemViewBinding
-import com.natiqhaciyef.prodocument.ui.base.BaseRecyclerViewAdapter
+import com.natiqhaciyef.core.base.ui.BaseRecyclerViewAdapter
 
 
 class MenuAdapter(
     dataList: MutableList<MenuItemModel>
 ) : BaseRecyclerViewAdapter<MenuItemModel, RecyclerMenuItemViewBinding>(dataList) {
 
-    var onClickAction: (String) -> Unit = {}
+    var onClickAction: (String, String?) -> Unit = { route, type ->  }
     override val binding: (Context, ViewGroup, Boolean) -> RecyclerMenuItemViewBinding =
         { context, viewGroup, b ->
             RecyclerMenuItemViewBinding.inflate(LayoutInflater.from(context), viewGroup, b)
@@ -26,7 +25,7 @@ class MenuAdapter(
         view.menuItemImage.setImageResource(menuItem.imageId)
         view.menuItemTitle.text = menuItem.title
 
-        holder.itemView.setOnClickListener { onClickAction.invoke(menuItem.routeTitle) }
+        holder.itemView.setOnClickListener { onClickAction.invoke(menuItem.routeTitle, menuItem.type) }
 
     }
 }

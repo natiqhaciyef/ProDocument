@@ -1,22 +1,24 @@
 package com.natiqhaciyef.prodocument.ui.view.onboarding.walkthrough.contract
 
 import com.natiqhaciyef.common.model.mapped.MappedUserWithoutPasswordModel
-import com.natiqhaciyef.prodocument.ui.base.UiEffect
-import com.natiqhaciyef.prodocument.ui.base.UiEvent
-import com.natiqhaciyef.prodocument.ui.base.UiState
+import com.natiqhaciyef.core.base.ui.UiEffect
+import com.natiqhaciyef.core.base.ui.UiEvent
+import com.natiqhaciyef.core.base.ui.UiState
 
 object OnBoardingContract {
 
     sealed class OnBoardingEvent : UiEvent {
         data class SkipButtonClickEvent(
+            var user: MappedUserWithoutPasswordModel?,
             var onAction: (String) -> Unit
         ): OnBoardingEvent()
 
         data class OnboardingEvent(
+            var user: MappedUserWithoutPasswordModel?,
             var onAction: (String) -> Unit
         ): OnBoardingEvent()
 
-        data class GetUserByEmailEvent(var email: String) : OnBoardingEvent()
+        data object GetUserByTokenEvent : OnBoardingEvent()
     }
 
     sealed class OnboardingEffect : UiEffect {

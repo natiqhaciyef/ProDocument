@@ -1,6 +1,6 @@
 package com.natiqhaciyef.data.network
 
-import com.natiqhaciyef.data.base.mock.BaseMockGenerator
+import com.natiqhaciyef.common.constants.NULL_PROPERTY
 import retrofit2.HttpException
 import retrofit2.Response
 
@@ -15,7 +15,7 @@ suspend fun <T : Any> handleNetworkResponse(
     handlingType: LoadType = LoadType.DEFAULT,
     execute: suspend () -> Response<T>
 ): NetworkResult<T> {
-    val nullProperty = "Null property"
+    val nullProperty = NULL_PROPERTY
 
     return try {
         when (handlingType) {

@@ -1,15 +1,25 @@
 package com.natiqhaciyef.prodocument.ui.view.main
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
+import coil.size.Dimension
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.ActivityMainBinding
-import com.natiqhaciyef.prodocument.ui.base.BaseActivity
+import com.natiqhaciyef.core.base.ui.BaseActivity
+import com.natiqhaciyef.prodocument.ui.manager.DarkModeManager
+import com.natiqhaciyef.prodocument.ui.manager.LanguageManager
+import com.natiqhaciyef.prodocument.ui.manager.RememberUserManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>() {
@@ -27,18 +37,28 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             supportFragmentManager.findFragmentById(R.id.fragmentContainerViewHome) as NavHostFragment
         NavigationUI.setupWithNavController(binding.bottomNavBar, navHostFragment.navController)
 
-        val appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.homeFragment,
-            R.id.filesFragment,
-            R.id.premiumFragment,
-            R.id.profileFragment
-        ))
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.homeFragment,
+                R.id.filesFragment,
+                R.id.premiumFragment,
+                R.id.profileFragment
+            )
+        )
         binding.materialToolbar.setupWithNavController(
             navHostFragment.navController,
             appBarConfiguration
         )
+        setSupportActionBar(binding.materialToolbar)
+
+        LanguageManager.loadLocale(this)
+
         actionBar?.setDisplayShowHomeEnabled(false)
+        actionBar?.setDisplayHomeAsUpEnabled(false)
+
+        println(DarkModeManager(this).getCurrentMode())
     }
+
 
     override fun onDestroy() {
         super.onDestroy()

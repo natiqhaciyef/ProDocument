@@ -1,18 +1,21 @@
 package com.natiqhaciyef.domain.usecase.material.merge
 
-import com.natiqhaciyef.domain.mapper.toMappedModel
+import com.natiqhaciyef.common.constants.ONE
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
-import com.natiqhaciyef.common.objects.ErrorMessages
+import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
+import com.natiqhaciyef.common.constants.TWO_HUNDRED
+import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
+import com.natiqhaciyef.common.constants.UNKNOWN_ERROR
 import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.data.network.request.MergeRequest
-import com.natiqhaciyef.domain.base.usecase.BaseUseCase
-import com.natiqhaciyef.domain.base.usecase.UseCase
-import com.natiqhaciyef.domain.mapper.toMaterialResponse
+import com.natiqhaciyef.core.base.usecase.BaseUseCase
+import com.natiqhaciyef.core.base.usecase.UseCase
+import com.natiqhaciyef.data.mapper.toMapped
+import com.natiqhaciyef.data.mapper.toMaterialResponse
 import com.natiqhaciyef.domain.repository.MaterialRepository
 import com.natiqhaciyef.domain.usecase.MATERIAL_LIST
 import com.natiqhaciyef.domain.usecase.MATERIAL_TITLE
-import com.natiqhaciyef.domain.usecase.MATERIAL_TOKEN
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -36,8 +39,8 @@ class MergeMaterialsUseCase @Inject constructor(
 
             when (val result = repository.mergeMaterials(request)) {
                 is NetworkResult.Success -> {
-                    val mapped = result.data.toMappedModel()
-                    if (mapped != null && mapped.result?.resultCode in 200..299) {
+                    val mapped = result.data.toMapped()
+                    if (mapped != null && mapped.result?.resultCode in TWO_HUNDRED..TWO_HUNDRED_NINETY_NINE) {
                         emit(Resource.success(mapped))
                     } else {
                         emit(
@@ -53,7 +56,7 @@ class MergeMaterialsUseCase @Inject constructor(
                 is NetworkResult.Error -> {
                     emit(
                         Resource.error(
-                            msg = result.message ?: ErrorMessages.UNKNOWN_ERROR,
+                            msg = result.message ?: UNKNOWN_ERROR,
                             data = null,
                             exception = Exception(result.message),
                             errorCode = result.code
@@ -64,10 +67,10 @@ class MergeMaterialsUseCase @Inject constructor(
                 is NetworkResult.Exception -> {
                     emit(
                         Resource.error(
-                            msg = result.e.message ?: ErrorMessages.SOMETHING_WENT_WRONG,
+                            msg = result.e.message ?: SOMETHING_WENT_WRONG,
                             data = null,
                             exception = Exception(result.e),
-                            errorCode = -1
+                            errorCode = -ONE
                         )
                     )
                 }

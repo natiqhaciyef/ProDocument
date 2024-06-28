@@ -2,7 +2,7 @@ package com.natiqhaciyef.prodocument.ui.view.registration
 
 import android.os.Bundle
 import com.natiqhaciyef.prodocument.databinding.ActivityRegistrationBinding
-import com.natiqhaciyef.prodocument.ui.base.BaseActivity
+import com.natiqhaciyef.core.base.ui.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

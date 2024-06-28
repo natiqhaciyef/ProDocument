@@ -1,6 +1,7 @@
 package com.natiqhaciyef.common.model
 
-import com.natiqhaciyef.common.objects.ErrorMessages
+import com.natiqhaciyef.common.constants.UNKNOWN_ERROR
+import com.natiqhaciyef.common.constants.ZERO
 import kotlin.Exception
 
 
@@ -16,15 +17,15 @@ data class Resource<out T>(
         }
 
         fun <T> error(
-            msg: String = ErrorMessages.UNKNOWN_ERROR,
+            msg: String = UNKNOWN_ERROR,
             data: T?,
             exception: Exception = Exception(),
-            errorCode: Int = 0
+            errorCode: Int = ZERO
         ): Resource<T> {
             return Resource(Status.ERROR, data, msg, exception)
         }
 
-        fun <T> loading(data: T?): Resource<T> {
+        fun <T> loading(data: T? = null): Resource<T> {
             return Resource(Status.LOADING, data, null, null)
         }
     }

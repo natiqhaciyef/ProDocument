@@ -1,12 +1,12 @@
 package com.natiqhaciyef.domain.usecase.user.local
 
+import com.natiqhaciyef.common.constants.UPDATE_SUCCESS
 import com.natiqhaciyef.common.model.Resource
-import com.natiqhaciyef.domain.mapper.toEntity
-import com.natiqhaciyef.domain.base.usecase.BaseUseCase
-import com.natiqhaciyef.common.objects.ResultCases
-import com.natiqhaciyef.domain.base.usecase.UseCase
-import com.natiqhaciyef.common.model.UIResult
+import com.natiqhaciyef.core.base.usecase.BaseUseCase
+import com.natiqhaciyef.core.base.usecase.UseCase
+import com.natiqhaciyef.common.model.ui.UIResult
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
+import com.natiqhaciyef.data.mapper.toEntity
 import com.natiqhaciyef.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -20,6 +20,6 @@ class UpdateUserLocalUseCase @Inject constructor(
     override fun run(data: UIResult<MappedUserModel>): Flow<Resource<Boolean>> = flow {
         emit(Resource.loading(null))
         repository.updateFromLocal(data.toEntity())
-        Resource.success(true, ResultCases.UPDATE_SUCCESS)
+        Resource.success(true, UPDATE_SUCCESS)
     }
 }

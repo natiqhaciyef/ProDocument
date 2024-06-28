@@ -1,8 +1,13 @@
 package com.natiqhaciyef.data.di.module
 
 import com.natiqhaciyef.data.network.NetworkConfig
+import com.natiqhaciyef.data.network.TokenAuthenticator
+import com.natiqhaciyef.data.network.manager.TokenManager
+import com.natiqhaciyef.data.network.service.AppService
 import com.natiqhaciyef.data.network.service.MaterialService
-import com.natiqhaciyef.data.network.service.QrCodeService
+import com.natiqhaciyef.data.network.service.PaymentService
+import com.natiqhaciyef.data.network.service.SubscriptionService
+import com.natiqhaciyef.data.network.service.TokenService
 import com.natiqhaciyef.data.network.service.UserService
 import dagger.Module
 import dagger.Provides
@@ -18,10 +23,15 @@ object RemoteModule {
 
     @Provides
     @Singleton
-    fun provideNetworkConfig(): Retrofit = Retrofit.Builder()
+    fun provideNetworkConfig(
+        service: TokenService,
+        manager: TokenManager
+    ): Retrofit = Retrofit.Builder()
         .baseUrl(NetworkConfig.BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
-        .client(NetworkConfig.logger.build())
+        .client(NetworkConfig.logger
+                .authenticator(TokenAuthenticator(service, manager))
+                .build())
         .build()
 
     @Provides
@@ -36,7 +46,27 @@ object RemoteModule {
 
     @Provides
     @Singleton
-    fun provideQrCodeService(network: Retrofit): QrCodeService =
-        network.create(QrCodeService::class.java)
+    fun provideSubscriptionService(network: Retrofit): SubscriptionService =
+        network.create(SubscriptionService::class.java)
+
+    @Provides
+    @Singleton
+    fun providePaymentService(network: Retrofit): PaymentService =
+        network.create(PaymentService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideAppService(network: Retrofit): AppService =
+        network.create(AppService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideTokenService(): TokenService =
+        Retrofit.Builder()
+            .baseUrl(NetworkConfig.BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(NetworkConfig.logger.build())
+            .build()
+        .create(TokenService::class.java)
 
 }

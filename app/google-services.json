@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "215890442182",
-    "project_id": "prodocument-743c0",
-    "storage_bucket": "prodocument-743c0.appspot.com"
+    "project_number": "189031400492",
+    "project_id": "proscan-9c8f2",
+    "storage_bucket": "proscan-9c8f2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:215890442182:android:2dabf6d2e719de0ca6e4c7",
+        "mobilesdk_app_id": "1:189031400492:android:1139655549df7ca7f53d89",
         "android_client_info": {
           "package_name": "com.natiqhaciyef.prodocument"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAQM1U0F2FvbuilJuN0SyBEuI2woPluxhs"
+          "current_key": "AIzaSyA_vjJwYpOfwHDdTt1hn5-x1-_6rFG18vA"
         }
       ],
       "services": {

@@ -1,15 +1,23 @@
 package com.natiqhaciyef.data.di.module
 
+import android.content.Context
+import com.natiqhaciyef.data.local.dao.PaymentDao
 import com.natiqhaciyef.data.local.dao.UserDao
+import com.natiqhaciyef.data.network.manager.TokenManager
+import com.natiqhaciyef.data.network.service.AppService
 import com.natiqhaciyef.data.network.service.MaterialService
-import com.natiqhaciyef.data.network.service.QrCodeService
+import com.natiqhaciyef.data.network.service.PaymentService
+import com.natiqhaciyef.data.network.service.SubscriptionService
 import com.natiqhaciyef.data.network.service.UserService
+import com.natiqhaciyef.data.source.AppDataSource
 import com.natiqhaciyef.data.source.MaterialDataSource
-import com.natiqhaciyef.data.source.QrCodeDataSource
+import com.natiqhaciyef.data.source.PaymentDataSource
+import com.natiqhaciyef.data.source.SubscriptionDataSource
 import com.natiqhaciyef.data.source.UserDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -19,17 +27,31 @@ object SourceModule {
 
     @Provides
     @Singleton
-    fun provideUserDataSource(service: UserService, dao: UserDao) =
-        UserDataSource(service, dao)
+    fun provideTokenManager(@ApplicationContext context: Context) =
+        TokenManager(context)
 
     @Provides
     @Singleton
-    fun provideMaterialDataSource(service: MaterialService) =
-        MaterialDataSource(service)
+    fun provideUserDataSource(manager: TokenManager, service: UserService, dao: UserDao) =
+        UserDataSource(manager, service, dao)
 
     @Provides
     @Singleton
-    fun provideQrCodeDataSource(service: QrCodeService) =
-        QrCodeDataSource(service)
+    fun provideMaterialDataSource(manager: TokenManager, service: MaterialService) =
+        MaterialDataSource(manager, service)
 
+    @Provides
+    @Singleton
+    fun provideSubscriptionDataSource(manager: TokenManager, service: SubscriptionService) =
+        SubscriptionDataSource(manager, service)
+
+    @Provides
+    @Singleton
+    fun providePaymentDataSource(manager: TokenManager, service: PaymentService, dao: PaymentDao) =
+        PaymentDataSource(manager, service, dao)
+
+    @Provides
+    @Singleton
+    fun provideAppDataSource(service: AppService) =
+        AppDataSource(service)
 }

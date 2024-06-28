@@ -14,7 +14,15 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
+import com.natiqhaciyef.common.constants.EMPTY_STRING
+import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
+import com.natiqhaciyef.core.model.FileTypes.DOCX
+import com.natiqhaciyef.core.model.FileTypes.URL
+import com.natiqhaciyef.core.model.FileTypes.JPEG
+import com.natiqhaciyef.core.model.FileTypes.MP4
+import com.natiqhaciyef.core.model.FileTypes.PDF
+import com.natiqhaciyef.core.model.FileTypes.PNG
 import com.natiqhaciyef.domain.worker.FileDownloadWorker
 import java.io.File
 import java.io.FileOutputStream
@@ -22,12 +30,6 @@ import java.net.URL
 import java.util.UUID
 
 
-const val URL = "url"
-const val PDF = "PDF"
-const val DOCX = "DOCX"
-const val PNG = "PNG"
-const val JPEG = "JPEG"
-const val MP4 = "MP4"
 
 fun getSavedFileUri(
     fileName: String,
@@ -35,8 +37,8 @@ fun getSavedFileUri(
     fileUrl: String,
     context: Context
 ): Uri? {
-    val mimeType =
-        getIntentFileType(fileType) // different types of files will have different mime type
+    val mimeType = getIntentFileType(fileType) // different types of files will have different mime type
+    val downloadTag = "Download"
 
     if (mimeType.isEmpty()) return null
 
@@ -44,7 +46,7 @@ fun getSavedFileUri(
         val contentValues = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
             put(MediaStore.MediaColumns.MIME_TYPE, mimeType)
-            put(MediaStore.MediaColumns.RELATIVE_PATH, "Download")
+            put(MediaStore.MediaColumns.RELATIVE_PATH, downloadTag)
         }
 
         val resolver = context.contentResolver
@@ -100,6 +102,7 @@ fun startDownloadingFile(
 ) {
     val data = Data.Builder()
     val workManager = WorkManager.getInstance(context)
+    val failedResult = "Downloading failed!"
 
     data.apply {
         putString(
@@ -136,12 +139,12 @@ fun startDownloadingFile(
                     WorkInfo.State.SUCCEEDED -> {
                         success(
                             it.outputData.getString(FileDownloadWorker.FileParams.KEY_FILE_URI)
-                                ?: ""
+                                ?: EMPTY_STRING
                         )
                     }
 
                     WorkInfo.State.FAILED -> {
-                        failed("Downloading failed!")
+                        failed(failedResult)
                     }
 
                     WorkInfo.State.RUNNING -> {
@@ -149,7 +152,7 @@ fun startDownloadingFile(
                     }
 
                     else -> {
-                        failed("Something went wrong")
+                        failed(SOMETHING_WENT_WRONG)
                     }
                 }
             }

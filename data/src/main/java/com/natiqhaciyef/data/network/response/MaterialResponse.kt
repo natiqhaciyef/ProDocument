@@ -2,8 +2,10 @@ package com.natiqhaciyef.data.network.response
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import com.natiqhaciyef.data.base.BaseNetworkModel
-import com.natiqhaciyef.data.base.IOModel
+import com.natiqhaciyef.common.constants.EMPTY_STRING
+import com.natiqhaciyef.core.CRUDResponse
+import com.natiqhaciyef.core.base.network.BaseNetworkModel
+import com.natiqhaciyef.core.base.network.IOModel
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -13,7 +15,7 @@ data class MaterialResponse(
     @SerializedName("publish_date")
     override var publishDate: String,
     @SerializedName("image")
-    var image: String = "",
+    var image: String = EMPTY_STRING,
     @SerializedName("title")
     var title: String?,
     @SerializedName("description")
@@ -22,6 +24,10 @@ data class MaterialResponse(
     var type: String,
     @SerializedName("url")
     var url: String,
+    @SerializedName("quality")
+    var quality: String? = null,
+    @SerializedName("protectionKey")
+    var protectionKey: String? = null,
     @SerializedName("result")
     override var result: CRUDResponse? = null,
 ) : IOModel(), BaseNetworkModel, Parcelable

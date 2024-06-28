@@ -7,12 +7,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
+import com.natiqhaciyef.common.constants.EMPTY_FIELD
+import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.common.model.mapped.MappedTokenModel
-import com.natiqhaciyef.common.objects.ErrorMessages
+import com.natiqhaciyef.core.store.AppStorePrefKeys.TOKEN_KEY
 import com.natiqhaciyef.prodocument.databinding.FragmentLoginBinding
-import com.natiqhaciyef.prodocument.ui.base.BaseFragment
-import com.natiqhaciyef.prodocument.ui.base.BaseNavigationDeepLink.HOME_ROUTE
-import com.natiqhaciyef.prodocument.ui.store.AppStorePrefKeys.TOKEN_KEY
+import com.natiqhaciyef.core.base.ui.BaseFragment
+import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.HOME_ROUTE
+import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.navigateByActivityTitle
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkEmailAcceptanceCondition
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkPasswordAcceptanceCondition
 import com.natiqhaciyef.prodocument.ui.view.registration.login.contract.LoginContract
@@ -54,7 +56,7 @@ class LoginFragment(
             is LoginContract.LoginEffect.LoginFailedEffect -> {
                 Toast.makeText(
                     requireContext(),
-                    effect.exception?.localizedMessage ?: ErrorMessages.SOMETHING_WENT_WRONG,
+                    effect.exception?.localizedMessage ?: SOMETHING_WENT_WRONG,
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -62,7 +64,7 @@ class LoginFragment(
             is LoginContract.LoginEffect.EmptyFieldEffect -> {
                 Toast.makeText(
                     requireContext(),
-                    ErrorMessages.EMPTY_FIELD,
+                    EMPTY_FIELD,
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -116,7 +118,7 @@ class LoginFragment(
             val password = loginPasswordInput.text.toString()
 
             viewModel.postEvent(LoginContract
-                .LoginEvent.LoginClickEvent(email = email, password = password))
+                .LoginEvent.LoginClickEvent(ctx = requireContext(), email = email, password = password))
         }
     }
 
@@ -127,7 +129,7 @@ class LoginFragment(
                 data = token,
                 key = TOKEN_KEY
             )
-            navigateByActivityTitle(HOME_ROUTE, true)
+            navigateByActivityTitle(HOME_ROUTE, requireActivity(),true)
         }
     }
 

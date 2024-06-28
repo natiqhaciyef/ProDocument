@@ -14,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId = "com.natiqhaciyef.prodocument"
-        minSdk = 28
+        minSdk = 30
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
@@ -71,6 +71,7 @@ dependencies {
 
 
     implementation(project(":common"))
+    implementation(project(":core"))
     implementation(project(":domain"))
 
     implementation("com.google.ar:core:1.30.0")
@@ -148,18 +149,27 @@ dependencies {
     implementation("com.google.dagger:hilt-android:$daggerVersion")
     kapt("com.google.dagger:hilt-android-compiler:$daggerVersion")
 
-    //Animation Library & Swipe Refresh Layout & ViewPager
+    //Animation Library & Swipe Refresh Layout & ViewPager & Chart and graph library
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:$swipeLayoutVersion")
     implementation("com.airbnb.android:lottie:$lottieVersion")
     implementation("androidx.viewpager2:viewpager2:$viewPagerVersion")
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
-    // Work manager
+    //Work manager
     implementation("androidx.work:work-runtime-ktx:$workManagerVersion")
 
     //Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+
+    //Reflection
+    implementation(kotlin("reflect"))
+
+    //Fingerprint
+    implementation("androidx.biometric:biometric:1.2.0-alpha05")
 
     // TestImplementations
     implementation("androidx.test:core:1.5.0")

@@ -1,16 +1,15 @@
 package com.natiqhaciyef.prodocument.ui.view.registration.create_account.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import com.natiqhaciyef.common.objects.ErrorMessages
+import com.natiqhaciyef.common.constants.EMPTY_FIELD
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
-import com.natiqhaciyef.prodocument.ui.base.BaseViewModel
+import com.natiqhaciyef.core.base.ui.BaseViewModel
 import com.natiqhaciyef.prodocument.ui.util.DefaultImplModels
 import com.natiqhaciyef.prodocument.ui.view.registration.create_account.contract.CompleteProfileContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-// zxing
 
 @HiltViewModel
 class CompleteProfileViewModel @Inject constructor() :
@@ -44,10 +43,11 @@ class CompleteProfileViewModel @Inject constructor() :
 
                 setBaseState(getCurrentBaseState().copy(user = mappedUserModel))
             } else {
+                setBaseState(getCurrentBaseState().copy(isLoading = false))
                 postEffect(
                     CompleteProfileContract.CompleteUiEffect.FieldNotCorrectlyFilledEffect(
-                        error = Exception(ErrorMessages.EMPTY_FIELD),
-                        message = ErrorMessages.EMPTY_FIELD
+                        error = Exception(EMPTY_FIELD),
+                        message = EMPTY_FIELD
                     )
                 )
             }
