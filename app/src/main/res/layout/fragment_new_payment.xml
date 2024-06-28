@@ -120,73 +120,36 @@
         />
 
 
-    <TextView
-        android:id="@+id/cardHolderFieldTitle"
+    <com.natiqhaciyef.prodocument.ui.custom.CustomInputView
+        android:id="@+id/cardHolderFieldInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
         android:layout_marginTop="32dp"
         android:fontFamily="@font/urbanist_bold"
-        android:text="@string/card_holder_name_title"
         android:textColor="@color/grayscale_900"
         android:textSize="16sp"
+        app:customTitle="@string/card_holder_name_title"
+        app:customHint="@string/card_holder_name_default"
+        app:customInputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardTemplate" />
 
-    <EditText
-        android:id="@+id/cardHolderFieldInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/custom_registration_input_background"
-        android:fontFamily="@font/urbanist_bold"
-        android:gravity="center_vertical"
-        android:hint="@string/card_holder_name_default"
-        android:inputType="text"
-        android:paddingVertical="10dp"
-        android:textColor="@color/grayscale_900"
-        android:textColorHint="@color/grayscale_500"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardHolderFieldTitle" />
 
-    <TextView
-        android:id="@+id/cardNumberFieldTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="32dp"
-        android:fontFamily="@font/urbanist_bold"
-        android:text="@string/card_number_title"
-        android:textColor="@color/grayscale_900"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardHolderFieldInput" />
-
-    <EditText
+    <com.natiqhaciyef.prodocument.ui.custom.CustomInputView
         android:id="@+id/cardNumberFieldInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/custom_registration_input_background"
+        android:layout_marginTop="32dp"
         android:fontFamily="@font/urbanist_bold"
-        android:gravity="center_vertical"
-        android:maxLength="16"
-        android:hint="@string/card_number_default"
-        android:paddingVertical="10dp"
-        android:inputType="number"
         android:textColor="@color/grayscale_900"
-        android:textColorHint="@color/grayscale_500"
         android:textSize="16sp"
+        app:customHint="@string/card_number_default"
+        app:customTitle="@string/card_number_title"
+        app:customInputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardNumberFieldTitle"
-        tools:ignore="TextFields" />
+        app:layout_constraintTop_toBottomOf="@+id/cardHolderFieldInput" />
 
     <TextView
         android:id="@+id/expireDateFieldTitle"
@@ -223,40 +186,20 @@
         app:layout_constraintTop_toBottomOf="@id/expireDateFieldTitle"
         tools:ignore="TextFields" />
 
-    <TextView
-        android:id="@+id/cvvFieldTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="32dp"
-        android:fontFamily="@font/urbanist_bold"
-        android:text="@string/cvv_title"
-        android:textColor="@color/grayscale_900"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/expireDateFieldInput" />
-
-    <EditText
+    <com.natiqhaciyef.prodocument.ui.custom.CustomInputView
         android:id="@+id/cvvFieldInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/custom_registration_input_background"
+        android:layout_marginTop="32dp"
         android:fontFamily="@font/urbanist_bold"
-        android:gravity="center_vertical"
-        android:maxLength="3"
-        android:hint="@string/cvv_default"
-        android:paddingVertical="10dp"
-        android:inputType="number"
         android:textColor="@color/grayscale_900"
-        android:textColorHint="@color/grayscale_500"
         android:textSize="16sp"
+        app:customTitle="@string/cvv_title"
+        app:customHint="@string/cvv_default"
+        app:customInputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cvvFieldTitle"
-        tools:ignore="TextFields" />
+        app:layout_constraintTop_toBottomOf="@+id/expireDateFieldInput" />
 
 
     <androidx.appcompat.widget.AppCompatButton

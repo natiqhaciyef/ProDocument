@@ -205,7 +205,15 @@
 
     <!--  Files titles  -->
     <string name="total_file_amount_title">Total: %1$s file(s)</string>
-    <string name="search_file">Search file...</string>
+    <string name="search_file">Search file…</string>
+    <string name="save_to_device">Save to Device</string>
+    <string name="export_to">Export to …</string>
+    <string name="add_digital_signature">Add Digital Signature</string>
+    <string name="rename">Rename</string>
+    <string name="move_to_folder">Move to Folder</string>
+    <string name="print">Print</string>
+    <string name="delete">Delete</string>
+
 
     <!-- Premium -->
     <string name="subscription_price_text"><![CDATA[<font size="36">%1$s</font> <font size="24">/ %2$s</font>]]></string>
@@ -324,7 +332,6 @@
     <string name="visit_our_website">Visit Our Website</string>
     <string name="follow_us_on_social_medias">Follow us on Social Medias</string>
     <string name="proscan_title_and_version">%1$s v%2$s</string>
-
     <string name="graph_percentage">%1$s %</string>
 
 

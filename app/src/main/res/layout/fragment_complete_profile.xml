@@ -103,72 +103,34 @@
                 app:layout_constraintTop_toTopOf="@id/completeProfileAccountImage"
                 app:layout_constraintVertical_bias="1.0" />
 
-            <TextView
-                android:id="@+id/completeProfileFullNameTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="24dp"
-                android:fontFamily="@font/urbanist_bold"
-                android:text="@string/full_name"
-                android:textColor="@color/grayscale_900"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/completeProfileAccountImage" />
-
-            <EditText
+            <com.natiqhaciyef.prodocument.ui.custom.CustomInputView
                 android:id="@+id/completeProfileFullNameInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/custom_registration_input_background"
-                android:fontFamily="@font/urbanist_bold"
-                android:gravity="center_vertical"
-                android:hint="@string/full_name"
-                android:inputType="text"
-                android:paddingVertical="10dp"
-                android:textColor="@color/grayscale_900"
-                android:textColorHint="@color/grayscale_500"
-                android:textSize="16sp"
+                android:layout_marginTop="24dp"
+                app:customInputType="text"
+                app:customTitle="@string/full_name"
+                app:customHint="@string/full_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/completeProfileFullNameTitle" />
+                app:layout_constraintTop_toBottomOf="@id/completeProfileAccountImage"
+                />
 
-            <TextView
-                android:id="@+id/completeProfilePhoneNumberTitle"
+            <com.natiqhaciyef.prodocument.ui.custom.CustomInputView
+                android:id="@+id/completeProfilePhoneNumberInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/urbanist_bold"
-                android:text="@string/phone_number"
                 android:textColor="@color/grayscale_900"
                 android:textSize="16sp"
+                app:customInputType="number"
+                app:customHint="@string/phone_number_example"
+                app:customTitle="@string/phone_number"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/completeProfileFullNameInput" />
 
-            <EditText
-                android:id="@+id/completeProfilePhoneNumberInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/custom_registration_input_background"
-                android:fontFamily="@font/urbanist_bold"
-                android:gravity="center_vertical"
-                android:hint="@string/phone_number_example"
-                android:imeOptions="actionDone"
-                android:inputType="phone"
-                android:paddingVertical="10dp"
-                android:textColor="@color/grayscale_900"
-                android:textColorHint="@color/grayscale_500"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/completeProfilePhoneNumberTitle" />
 
             <TextView
                 android:id="@+id/completeProfileGenderTitle"

@@ -1,4 +1,4 @@
-package com.natiqhaciyef.domain.usecase.user.remote
+package com.natiqhaciyef.domain.usecase.user
 
 import com.natiqhaciyef.common.constants.ONE
 import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG

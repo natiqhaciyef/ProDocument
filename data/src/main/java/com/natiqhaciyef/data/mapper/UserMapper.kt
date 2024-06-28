@@ -4,7 +4,6 @@ import com.natiqhaciyef.common.constants.EMPTY_STRING
 import com.natiqhaciyef.common.model.ui.UIResult
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
 import com.natiqhaciyef.common.model.mapped.MappedUserWithoutPasswordModel
-import com.natiqhaciyef.data.local.entity.UserEntity
 import com.natiqhaciyef.data.network.response.UserResponse
 import java.util.UUID
 
@@ -120,44 +119,4 @@ fun UIResult<MappedUserModel>.toResponse(): UserResponse? {
     } else {
         null
     }
-}
-
-
-// Local db
-fun UserEntity.toUIResult(): UIResult<MappedUserModel> {
-    val mappedUser = MappedUserModel(
-        name = this.name,
-        email = this.email,
-        phoneNumber = this.phoneNumber,
-        gender = this.gender,
-        birthDate = this.birthDate,
-        imageUrl = this.imageUrl,
-        password = this.password,
-        country = this.country,
-        city = this.city,
-        street = this.street,
-    )
-
-    return UIResult(
-        id = "${this.id}",
-        data = mappedUser,
-        publishDate = this.publishDate
-    )
-}
-
-fun UIResult<MappedUserModel>.toEntity(): UserEntity {
-    return UserEntity(
-        id = this.id.toInt(),
-        name = this.data.name,
-        email = this.data.email,
-        phoneNumber = this.data.phoneNumber,
-        gender = this.data.gender,
-        birthDate = this.data.birthDate,
-        imageUrl = this.data.imageUrl,
-        password = this.data.password,
-        publishDate = this.publishDate,
-        country = this.data.country,
-        city = this.data.country,
-        street = this.data.street,
-    )
 }

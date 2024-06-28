@@ -7,7 +7,7 @@ import com.natiqhaciyef.common.constants.THOUSAND
 import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.core.base.ui.BaseViewModel
-import com.natiqhaciyef.domain.usecase.user.remote.SendOtpRemoteUseCase
+import com.natiqhaciyef.domain.usecase.user.SendOtpRemoteUseCase
 import com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.otp.contract.OTPContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay

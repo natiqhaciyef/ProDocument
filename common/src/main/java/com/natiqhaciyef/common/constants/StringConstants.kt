@@ -16,7 +16,9 @@ const val HASH = "#"
 const val EQUAL = "="
 
 
+const val NULL = "null"
 const val FORMATTED_NUMBER_ONE = "%.1f"
 const val FORMATTED_NUMBER_TWO = "%.2f"
 const val FORMATTED_ALGORITHM = "%02x"
+const val FORMATTED_DATE = "dd/MM/yyyy"
 const val FORMATTED_DATE_TIME = "dd.MM.yyyy HH:mm"

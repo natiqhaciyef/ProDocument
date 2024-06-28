@@ -130,7 +130,7 @@
     <string name="change_password_description">Enter your new password. If you forget it, then you have to do forgot password.</string>
     <string name="change_password_alert_dialog_title">Password update %1$s</string>
     <string name="change_password_alert_success_description">Your password changed now!</string>
-    <string name="change_password_alert_fail_description">Something went wrong...</string>
+    <string name="change_password_alert_fail_description">Something went wrong…</string>
 
     <!-- Home -->
     <string name="scan_code">Scan Code</string>
@@ -205,7 +205,15 @@
 
     <!--  Files titles  -->
     <string name="total_file_amount_title">Total: %1$s file(s)</string>
-    <string name="search_file">Search file...</string>
+    <string name="search_file">Search file…</string>
+    <string name="save_to_device">Save to Device</string>
+    <string name="export_to">Export to …</string>
+    <string name="add_digital_signature">Add Digital Signature</string>
+    <string name="rename">Rename</string>
+    <string name="move_to_folder">Move to Folder</string>
+    <string name="print">Print</string>
+    <string name="delete">Delete</string>
+
 
     <!-- Premium -->
     <string name="subscription_price_text"><![CDATA[<font size="36">%1$s</font> <font size="24">/ %2$s</font>]]></string>

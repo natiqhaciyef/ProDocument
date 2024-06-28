@@ -1,10 +1,7 @@
 package com.natiqhaciyef.domain.repository.impl
 
-import com.natiqhaciyef.common.model.ui.UIResult
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
-import com.natiqhaciyef.data.local.entity.UserEntity
 import com.natiqhaciyef.data.mapper.toResponse
-import com.natiqhaciyef.data.mapper.toUIResult
 import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.data.network.response.GraphDetailsListResponse
 import com.natiqhaciyef.data.source.UserDataSource
@@ -35,18 +32,4 @@ class UserRepositoryImpl(
         ds.getUserStatics()
 
     override suspend fun logout() = ds.logout()
-
-
-    override suspend fun getUserFromLocal(): List<UIResult<MappedUserModel>>? =
-        ds.getUserFromLocal()?.map { entity -> entity.toUIResult() }
-
-    override suspend fun insertToLocal(userEntity: UserEntity) =
-        ds.insertToLocal(userEntity)
-
-    override suspend fun removeFromLocal(userEntity: UserEntity) =
-        ds.removeFromLocal(userEntity)
-
-    override suspend fun updateFromLocal(userEntity: UserEntity) =
-        ds.updateFromLocal(userEntity)
-
 }

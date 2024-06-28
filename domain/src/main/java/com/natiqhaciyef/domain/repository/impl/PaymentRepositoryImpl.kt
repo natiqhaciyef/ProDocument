@@ -1,7 +1,6 @@
 package com.natiqhaciyef.domain.repository.impl
 
 import com.natiqhaciyef.core.CRUDResponse
-import com.natiqhaciyef.data.local.entity.PaymentEntity
 import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.data.network.request.PaymentModel
 import com.natiqhaciyef.data.network.request.PaymentRequest
@@ -41,12 +40,4 @@ class PaymentRepositoryImpl(private val ds: PaymentDataSource) : PaymentReposito
     override suspend fun scanQrCodePayment(qrCodeRequest: QrCodeRequest): NetworkResult<QrPaymentResponse> =
         ds.scanQrCodePayment(qrCodeRequest)
 
-    override suspend fun getStoredPaymentMethods(): List<PaymentEntity> =
-        ds.getStoredPaymentMethods()
-
-    override suspend fun insertNewPaymentMethod(entity: PaymentEntity) =
-        ds.insertNewPaymentMethod(entity)
-
-    override suspend fun removePaymentMethod(details: String) =
-        ds.removePaymentMethod(details)
 }

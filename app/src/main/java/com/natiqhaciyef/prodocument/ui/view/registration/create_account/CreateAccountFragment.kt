@@ -109,7 +109,7 @@ class CreateAccountFragment(
     private fun finishButtonClickAction(userModel: MappedUserModel?) {
         userModel?.let {
             binding.apply {
-                val email = createAccountEmailInput.text.toString()
+                val email = createAccountEmailInput.getInputResult()
                 val password = createAccountPasswordInput.getPasswordText()
                 userModel.email = email
                 userModel.password = password
@@ -156,7 +156,7 @@ class CreateAccountFragment(
 
     private fun emailValidation() {
         binding.apply {
-            createAccountEmailInput.doOnTextChanged { text, start, before, count ->
+            createAccountEmailInput.listenUserInput { text, start, before, count ->
                 finishButton.isEnabled = checkEmailAcceptanceCondition(text)
                         && checkPasswordAcceptanceCondition(createAccountPasswordInput.getPasswordText())
             }
@@ -167,14 +167,14 @@ class CreateAccountFragment(
         binding.apply {
             createAccountPasswordInput.customDoOnTextChangeListener { text, _, _, _ ->
                 finishButton.isEnabled = checkPasswordAcceptanceCondition(text)
-                        && checkEmailAcceptanceCondition(createAccountEmailInput.text)
+                        && checkEmailAcceptanceCondition(createAccountEmailInput.getInputResult())
             }
         }
 
         binding.apply {
             createAccountConfirmPasswordInput.customDoOnTextChangeListener { text, _, _, _ ->
                 finishButton.isEnabled = checkPasswordAcceptanceCondition(text)
-                        && checkEmailAcceptanceCondition(createAccountEmailInput.text)
+                        && checkEmailAcceptanceCondition(createAccountEmailInput.getInputResult())
             }
         }
     }

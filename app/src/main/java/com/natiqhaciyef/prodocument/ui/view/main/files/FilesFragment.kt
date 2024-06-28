@@ -15,6 +15,7 @@ import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.files.contract.FileContract
 import com.natiqhaciyef.prodocument.ui.view.main.files.viewmodel.FileViewModel
 import com.natiqhaciyef.prodocument.ui.view.main.home.adapter.FileItemAdapter
+import com.natiqhaciyef.prodocument.ui.view.main.profile.model.ParamsUIModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.KClass
 
@@ -27,6 +28,7 @@ class FilesFragment(
     private lateinit var fileAdapter: FileItemAdapter
     private var list: MutableList<MappedMaterialModel> = mutableListOf()
     private var sortingTypeClick: Boolean = false
+    private var storedMaterial: MappedMaterialModel? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -52,6 +54,10 @@ class FilesFragment(
 
                 if (state.material != null) {
                     fileClickAction(state.material!!)
+                }
+
+                if (state.params != null){
+                    optionClickAction(state.params!!)
                 }
             }
         }
@@ -108,7 +114,11 @@ class FilesFragment(
             filesRecyclerView.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             filesRecyclerView.adapter = fileAdapter
-            fileAdapter.onClickAction = { fileClickEvent(it) }
+            fileAdapter.onClickAction = { fileClickEvent(it.id) }
+            fileAdapter.optionAction = {
+                storedMaterial = it
+                optionClickEvent()
+            }
         }
     }
 
@@ -124,6 +134,20 @@ class FilesFragment(
 
         with(binding) {
             sortIcon.setOnClickListener { sortFilesClickEvent() }
+        }
+    }
+
+    private fun optionClickEvent(){
+        viewModel.postEvent(FileContract.FileEvent.GetAllFileParams(requireContext()))
+    }
+
+    private fun optionClickAction(params: List<ParamsUIModel>){
+        // add bottom sheet here
+        storedMaterial?.let {
+            FileBottomSheetOptionFragment(it, params).show(
+                if (!isAdded) return else this.childFragmentManager,
+                FileBottomSheetOptionFragment::class.simpleName
+            )
         }
     }
 

@@ -69,7 +69,7 @@ class MergePdfsFragment(
                     NavigationManager.HOME_ROUTE
                 )
             }
-            adapter?.removeAction = { removeFileButtonClickAction(it) }
+            adapter?.removeAction = { removeFileButtonClickAction(it.id) }
         }
     }
 
