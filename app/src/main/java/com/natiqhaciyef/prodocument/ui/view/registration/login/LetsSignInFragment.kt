@@ -52,7 +52,9 @@ class LetsSignInFragment(
             appleSignInButton.setOnClickListener { }
 
             goToSignInButton.setOnClickListener { navigate(R.id.loginFragment) }
-            goToSignUpButtonText.setOnClickListener { navigate(R.id.completeProfileFragment) }
+            goToSignUpButtonText.setOnClickListener {
+                navigate(LetsSignInFragmentDirections.actionLetsSignInFragmentToCompleteProfileFragment())
+            }
         }
     }
 

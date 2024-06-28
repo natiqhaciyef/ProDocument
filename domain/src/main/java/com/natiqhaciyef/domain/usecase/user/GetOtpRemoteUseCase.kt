@@ -1,4 +1,4 @@
-package com.natiqhaciyef.domain.usecase.user.remote
+package com.natiqhaciyef.domain.usecase.user
 
 import com.natiqhaciyef.common.constants.ONE
 import com.natiqhaciyef.common.model.CRUDModel
@@ -17,14 +17,14 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 @UseCase
-class SendOtpRemoteUseCase @Inject constructor(
+class GetOtpRemoteUseCase @Inject constructor(
     userRepository: UserRepository
 ) : BaseUseCase<UserRepository, String, CRUDModel?>(userRepository) {
 
     override fun operate(data: String): Flow<Resource<CRUDModel?>> = flow {
         emit(Resource.loading(null))
+        val result = repository.getOtp(data)
 
-        val result = repository.sendOtp(data)
         when (result) {
             is NetworkResult.Success -> {
                 val model = result.data.toModel()

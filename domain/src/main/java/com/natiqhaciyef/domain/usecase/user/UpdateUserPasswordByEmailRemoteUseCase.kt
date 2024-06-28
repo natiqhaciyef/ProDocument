@@ -1,12 +1,12 @@
-package com.natiqhaciyef.domain.usecase.user.remote
+package com.natiqhaciyef.domain.usecase.user
 
 import com.natiqhaciyef.common.constants.ONE
-import com.natiqhaciyef.common.model.Resource
-import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.common.constants.TWO_HUNDRED
 import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
 import com.natiqhaciyef.common.constants.UNKNOWN_ERROR
+import com.natiqhaciyef.common.model.Resource
+import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.data.mapper.toMapped
 import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.core.base.usecase.BaseUseCase
@@ -19,16 +19,17 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 @UseCase
-class SignInRemoteUseCase @Inject constructor(
+class UpdateUserPasswordByEmailRemoteUseCase @Inject constructor(
     userRepository: UserRepository
 ) : BaseUseCase<UserRepository, Map<String, String>, MappedTokenModel>(userRepository) {
 
     override fun operate(data: Map<String, String>): Flow<Resource<MappedTokenModel>> = flow {
+        emit(Resource.loading(null))
         val email = data[USER_EMAIL].toString()
         val password = data[USER_PASSWORD].toString()
 
-        emit(Resource.loading(null))
-        val result = repository.signIn(email, password)
+        val result = repository.updateUserPasswordByEmail(email, password)
+
         when (result) {
             is NetworkResult.Success -> {
                 val model = result.data.toMapped()

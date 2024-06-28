@@ -1,42 +1,42 @@
-package com.natiqhaciyef.domain.usecase.user.remote
+package com.natiqhaciyef.domain.usecase.user
 
 import com.natiqhaciyef.common.constants.ONE
-import com.natiqhaciyef.common.model.CRUDModel
-import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.common.constants.TWO_HUNDRED
 import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
 import com.natiqhaciyef.common.constants.UNKNOWN_ERROR
-import com.natiqhaciyef.data.mapper.toModel
-import com.natiqhaciyef.data.network.NetworkResult
+import com.natiqhaciyef.common.model.Resource
+import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.core.base.usecase.BaseUseCase
 import com.natiqhaciyef.core.base.usecase.UseCase
+import com.natiqhaciyef.common.model.mapped.MappedUserModel
+import com.natiqhaciyef.data.mapper.toMapped
+import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 @UseCase
-class GetOtpRemoteUseCase @Inject constructor(
+class CreateUserRemoteUseCase @Inject constructor(
     userRepository: UserRepository
-) : BaseUseCase<UserRepository, String, CRUDModel?>(userRepository) {
+) : BaseUseCase<UserRepository, MappedUserModel, MappedTokenModel?>(userRepository) {
 
-    override fun operate(data: String): Flow<Resource<CRUDModel?>> = flow {
+    override fun operate(data: MappedUserModel): Flow<Resource<MappedTokenModel?>> = flow {
         emit(Resource.loading(null))
-        val result = repository.getOtp(data)
 
-        when (result) {
+        when (val result = repository.createAccount(data)) {
             is NetworkResult.Success -> {
-                val model = result.data.toModel()
+                val model = result.data.toMapped()
 
-                if (model.resultCode in TWO_HUNDRED..TWO_HUNDRED_NINETY_NINE)
+                if (model.result?.resultCode in TWO_HUNDRED..TWO_HUNDRED_NINETY_NINE)
                     emit(Resource.success(data = model))
                 else
                     emit(
                         Resource.error(
                             data = model,
-                            msg = "${model.resultCode}: ${model.message}",
-                            exception = Exception(model.message)
+                            msg = "${model.result?.resultCode}: ${model.result?.message}",
+                            exception = Exception(model.result?.message)
                         )
                     )
             }
@@ -62,4 +62,5 @@ class GetOtpRemoteUseCase @Inject constructor(
             }
         }
     }
+
 }

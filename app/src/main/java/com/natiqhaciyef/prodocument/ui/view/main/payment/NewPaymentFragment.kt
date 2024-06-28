@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.get
 import androidx.core.widget.doOnTextChanged
+import com.natiqhaciyef.common.constants.FOUR
 import com.natiqhaciyef.common.constants.HUNDRED
 import com.natiqhaciyef.common.constants.NINE
+import com.natiqhaciyef.common.constants.SIXTEEN
 import com.natiqhaciyef.common.constants.SPACE
 import com.natiqhaciyef.common.constants.TEN
 import com.natiqhaciyef.common.constants.TWO_HUNDRED
@@ -79,9 +82,11 @@ class NewPaymentFragment(
 
     private fun inputConfig() {
         with(binding) {
-            cardNumberFieldInput.addTextChangedListener(CardNumberMaskingListener(cardNumberField))
+            cardNumberFieldInput.setMaxLength(SIXTEEN)
+            cvvFieldInput.setMaxLength(FOUR)
+            cardNumberFieldInput.listenUserInputWithAddTextWatcher(CardNumberMaskingListener(cardNumberField))
             expireDateFieldInput.addTextChangedListener(ExpireMaskingListener(expirationInput))
-            cardHolderFieldInput.doOnTextChanged { text, start, before, count ->
+            cardHolderFieldInput.listenUserInput { text, start, before, count ->
                 cardHolderNameInput.text = text
             }
         }
@@ -93,13 +98,13 @@ class NewPaymentFragment(
                 if (cardHolderNameInput.text.contains(SPACE) &&
                     cardNumberField.text.isNotEmpty() &&
                     expirationInput.text.isNotEmpty() &&
-                    cvvFieldInput.text.isNotEmpty()
+                    cvvFieldInput.getInputResult().isNotEmpty()
                 )
                     addButtonClickEvent(
                         cardHolderName = cardHolderNameInput.text.toString(),
                         cardNumber = cardNumberField.text.toString(),
                         expireDate = expirationInput.text.toString(),
-                        cvv = cvvFieldInput.text.toString()
+                        cvv = cvvFieldInput.getInputResult()
                     )
             }
         }

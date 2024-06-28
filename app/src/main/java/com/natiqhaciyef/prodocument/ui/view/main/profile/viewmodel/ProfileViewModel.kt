@@ -19,8 +19,8 @@ import com.natiqhaciyef.domain.usecase.app.GetProscanDetailsUseCase
 import com.natiqhaciyef.domain.usecase.app.GetProscanSectionsUseCase
 import com.natiqhaciyef.domain.usecase.payment.remote.GetPaymentHistoryUseCase
 import com.natiqhaciyef.domain.usecase.subscription.GetPickedPlanUseCase
-import com.natiqhaciyef.domain.usecase.user.remote.GetUserByTokenRemoteUseCase
-import com.natiqhaciyef.domain.usecase.user.remote.GetUserStaticsUseCase
+import com.natiqhaciyef.domain.usecase.user.GetUserByTokenRemoteUseCase
+import com.natiqhaciyef.domain.usecase.user.GetUserStaticsUseCase
 import com.natiqhaciyef.prodocument.ui.view.main.profile.contract.ProfileContract
 import com.natiqhaciyef.prodocument.ui.view.main.profile.model.FieldType
 import com.natiqhaciyef.prodocument.ui.view.main.profile.model.ParamsUIModel

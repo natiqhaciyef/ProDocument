@@ -1,4 +1,4 @@
-package com.natiqhaciyef.domain.usecase.user.remote
+package com.natiqhaciyef.domain.usecase.user
 
 import com.natiqhaciyef.common.constants.MAPPED_NULL_DATA
 import com.natiqhaciyef.common.constants.ONE

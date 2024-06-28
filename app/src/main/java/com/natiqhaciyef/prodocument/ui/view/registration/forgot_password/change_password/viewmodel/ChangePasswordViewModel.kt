@@ -6,9 +6,8 @@ import com.natiqhaciyef.common.constants.CHANGE_PASSWORD_SUCCESS
 import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.core.base.ui.BaseViewModel
-import com.natiqhaciyef.domain.usecase.user.remote.UpdateUserPasswordByEmailRemoteUseCase
+import com.natiqhaciyef.domain.usecase.user.UpdateUserPasswordByEmailRemoteUseCase
 import com.natiqhaciyef.core.model.ResultType
-import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.change_password.contract.ChangePasswordContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest

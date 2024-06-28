@@ -114,8 +114,8 @@ class LoginFragment(
 
     private fun loginButtonClickEvent() {
         binding.apply {
-            val email = loginEmailInput.text.toString()
-            val password = loginPasswordInput.text.toString()
+            val email = loginEmailInput.getInputResult()
+            val password = loginPasswordInput.text
 
             viewModel.postEvent(LoginContract
                 .LoginEvent.LoginClickEvent(ctx = requireContext(), email = email, password = password))
@@ -136,7 +136,7 @@ class LoginFragment(
 
     private fun emailValidation() {
         binding.apply {
-            loginEmailInput.doOnTextChanged { text, start, before, count ->
+            loginEmailInput.listenUserInput { text, start, before, count ->
                 signInButton.isEnabled = checkEmailAcceptanceCondition(text)
                         && checkPasswordAcceptanceCondition(loginPasswordInput.getPasswordText())
             }
@@ -147,7 +147,7 @@ class LoginFragment(
         binding.apply {
             loginPasswordInput.customDoOnTextChangeListener { text, _, _, _ ->
                 signInButton.isEnabled = checkPasswordAcceptanceCondition(text)
-                        && checkEmailAcceptanceCondition(loginEmailInput.text)
+                        && checkEmailAcceptanceCondition(loginEmailInput.getInputResult())
             }
         }
     }
