@@ -52,8 +52,8 @@ class OnboardingViewModel @Inject constructor(
         if (user != null) {
             action(HOME_ROUTE)
         } else {
-//            action(HOME_ROUTE)
-            action(REGISTER_ROUTE)
+            action(HOME_ROUTE)
+//            action(REGISTER_ROUTE)
         }
     }
 

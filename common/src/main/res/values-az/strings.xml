@@ -206,6 +206,13 @@
     <!--  Files titles  -->
     <string name="total_file_amount_title">Toplam: %1$s fayl</string>
     <string name="search_file">Fayl axtar…</string>
+    <string name="save_to_device">Cihazda Saxla</string>
+    <string name="export_to">İxrac et …</string>
+    <string name="add_digital_signature">Rəqəmsal İmza Əlavə et</string>
+    <string name="rename">Yenidən Adlandır</string>
+    <string name="move_to_folder">Qovluqda Yerləşdir</string>
+    <string name="print">Çap Et</string>
+    <string name="delete">Sil</string>
 
     <!-- Premium -->
     <string name="subscription_price_text"><![CDATA[<font size="36">%1$s</font> <font size="24">/ %2$s</font>]]></string>

@@ -126,8 +126,8 @@ class HomeFragment(
                 requireContext()
             )
 
-            fileAdapter.onClickAction = { materialId ->
-                fileClickEvent(materialId)
+            fileAdapter.onClickAction = { material ->
+                fileClickEvent(material.id)
             }
 
             binding.apply {

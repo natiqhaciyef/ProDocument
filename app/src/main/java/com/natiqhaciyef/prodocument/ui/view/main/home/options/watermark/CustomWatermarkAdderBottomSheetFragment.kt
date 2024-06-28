@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.custom
+package com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,9 +10,8 @@ import com.google.android.material.textfield.TextInputEditText
 import com.natiqhaciyef.common.constants.ONE
 import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.prodocument.databinding.FragmentCustomWatermarkAdderBottomSheetBinding
+import com.natiqhaciyef.prodocument.ui.custom.ViewPagerAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.behaviour.WatermarkTypes
-import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.AddImageWatermarkFragment
-import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.AddTextWatermarkFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 

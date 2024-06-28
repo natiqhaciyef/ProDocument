@@ -15,9 +15,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import coil.load
-import com.natiqhaciyef.common.helpers.loadImage
 import com.natiqhaciyef.prodocument.databinding.FragmentAddImageWatermarkBinding
-import com.natiqhaciyef.prodocument.ui.custom.CustomWatermarkAdderBottomSheetFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
