@@ -145,7 +145,7 @@ class MergePdfsFragment(
     }
 
     private fun mergeButtonAction(mappedMaterialModel: MappedMaterialModel) {
-        // navigation to success page
+        // INSERT: action after backend sent result
     }
 
     private fun removeFileButtonClickAction(id: String) {

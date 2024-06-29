@@ -12,63 +12,28 @@ class SplitMaterialMockGenerator(
     override var takenRequest: SplitRequest
 ) : BaseMockGenerator<SplitRequest, List<MaterialResponse>>(){
 
-    override var createdMock: List<MaterialResponse> = listOf(
-        MaterialResponse(
-            id = "materialId - 1",
-            publishDate = getNow(),
-            image = "image",
-            title = "title",
-            description = "description",
-            type = "type",
-            url = "url",
-            result = CRUDResponse(
-                resultCode = TWO_HUNDRED_NINETY_NINE,
-                message = "Mock crud"
-            )
-        ),
-        MaterialResponse(
-            id = "materialId - 2",
-            publishDate = getNow(),
-            image = "image",
-            title = "title",
-            description = "description",
-            type = "type",
-            url = "url",
-            result = CRUDResponse(
-                resultCode = TWO_HUNDRED_NINETY_NINE,
-                message = "Mock crud"
-            )
-        )
-    )
+    override var createdMock: List<MaterialResponse> =
+        MaterialMockManager.splitMaterial(takenRequest)
 
     override fun getMock(
         request: SplitRequest,
         action: (SplitRequest) -> List<MaterialResponse>?
-    ): List<MaterialResponse> =
-        if (request == takenRequest){
-            createdMock
-        }else{
-            action.invoke(request) ?: throw Companion.MockRequestException()
-        }
+    ): List<MaterialResponse> {
+        if (request == takenRequest)
+            return createdMock
+
+        return MaterialMockManager.splitMaterial(takenRequest, true)
+    }
 
     companion object SplitMaterialMockGenerator{
+        private const val TITLE = "title"
+        private const val FIRST_LINE = "first line"
+        private const val LAST_LINE = "last line"
         val customRequest = SplitRequest(
-            title = "title",
-            material = MaterialResponse(
-                id = "materialId",
-                publishDate = getNow(),
-                image = "image",
-                title = "title",
-                description = "description",
-                type = "type",
-                url = "url",
-                result = CRUDResponse(
-                    resultCode = TWO_HUNDRED_NINETY_NINE,
-                    message = "Mock crud"
-                )
-            ),
-            firstLine = "first",
-            lastLine = "last"
+            title = TITLE,
+            material = MaterialMockManager.getEmptyMaterial(),
+            firstLine = FIRST_LINE,
+            lastLine = LAST_LINE
         )
     }
 }
