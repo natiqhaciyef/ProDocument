@@ -4,8 +4,7 @@ import android.content.Context
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.core.base.ui.BaseViewModel
-import com.natiqhaciyef.domain.usecase.user.remote.SignInRemoteUseCase
-import com.natiqhaciyef.prodocument.R
+import com.natiqhaciyef.domain.usecase.user.SignInRemoteUseCase
 import com.natiqhaciyef.prodocument.ui.view.registration.login.contract.LoginContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest

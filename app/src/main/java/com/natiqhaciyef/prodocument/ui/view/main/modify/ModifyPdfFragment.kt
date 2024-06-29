@@ -23,7 +23,7 @@ import com.natiqhaciyef.prodocument.databinding.FragmentModifyPdfBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.HOME_ROUTE
 import com.natiqhaciyef.prodocument.ui.custom.CustomMaterialOptionsBottomSheetFragment
-import com.natiqhaciyef.prodocument.ui.custom.CustomWatermarkAdderBottomSheetFragment
+import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.CustomWatermarkAdderBottomSheetFragment
 import com.natiqhaciyef.core.model.CategoryItem
 import com.natiqhaciyef.prodocument.ui.manager.CameraManager.Companion.createAndShareFile
 import com.natiqhaciyef.prodocument.ui.manager.CameraManager.Companion.getAddressOfFile

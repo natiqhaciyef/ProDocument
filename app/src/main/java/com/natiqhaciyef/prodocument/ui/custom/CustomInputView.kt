@@ -1,14 +1,19 @@
 package com.natiqhaciyef.prodocument.ui.custom
 
+import android.R.attr.maxLength
 import android.app.DatePickerDialog
 import android.content.Context
+import android.text.Editable
+import android.text.InputFilter
+import android.text.InputFilter.LengthFilter
 import android.text.InputType
+import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import com.natiqhaciyef.common.R
 import androidx.core.widget.doOnTextChanged
+import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.constants.DATE_OVER_FLOW_ERROR
 import com.natiqhaciyef.common.constants.EMPTY_STRING
 import com.natiqhaciyef.common.constants.ZERO
@@ -16,6 +21,7 @@ import com.natiqhaciyef.prodocument.databinding.CustomInputViewBinding
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+
 
 class CustomInputView(
     private val ctx: Context,
@@ -47,14 +53,34 @@ class CustomInputView(
         binding?.customInputEditText?.doOnTextChanged(action)
     }
 
+    fun listenUserInputWithAddTextWatcher(textWatcher: TextWatcher) {
+        binding?.customInputEditText?.addTextChangedListener(textWatcher)
+    }
+
+    fun listenUserInputWithRemoveTextWatcher(textWatcher: TextWatcher) {
+        binding?.customInputEditText?.removeTextChangedListener(textWatcher)
+    }
+
+    fun setMaxLength(length: Int) {
+        binding?.customInputEditText?.filters = arrayOf<InputFilter>(LengthFilter(length))
+    }
+
     fun insertInput(inputData: String, title: String? = null) {
         if (title != null)
             binding?.customTitleText?.text = title
         binding?.customInputEditText?.setText(inputData)
     }
 
+    fun parseSelection(inputLength: Int) {
+        binding?.customInputEditText?.setSelection(inputLength)
+    }
+
     fun getInputResult(): String {
         return binding?.customInputEditText?.text?.toString() ?: EMPTY_STRING
+    }
+
+    fun getEditableText(): Editable {
+        return binding!!.customInputEditText.editableText
     }
 
     private fun getCustomInputType(inpType: String) = when (inpType) {
@@ -133,7 +159,7 @@ class CustomInputView(
             binding?.customInputEditText?.setText(DATE_OVER_FLOW_ERROR)
     }
 
-    companion object{
+    companion object {
         const val format = "dd/MM/yyyy"
         const val TEXT_TYPE = "0x1"
         const val EMAIL_TYPE = "0x2"

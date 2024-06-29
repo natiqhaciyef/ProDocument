@@ -1,42 +1,42 @@
-package com.natiqhaciyef.domain.usecase.user.remote
+package com.natiqhaciyef.domain.usecase.user
 
 import com.natiqhaciyef.common.constants.ONE
+import com.natiqhaciyef.common.model.CRUDModel
+import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.common.constants.TWO_HUNDRED
 import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
 import com.natiqhaciyef.common.constants.UNKNOWN_ERROR
-import com.natiqhaciyef.common.model.Resource
-import com.natiqhaciyef.common.model.mapped.MappedTokenModel
+import com.natiqhaciyef.data.mapper.toModel
+import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.core.base.usecase.BaseUseCase
 import com.natiqhaciyef.core.base.usecase.UseCase
-import com.natiqhaciyef.common.model.mapped.MappedUserModel
-import com.natiqhaciyef.data.mapper.toMapped
-import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 @UseCase
-class CreateUserRemoteUseCase @Inject constructor(
+class SendOtpRemoteUseCase @Inject constructor(
     userRepository: UserRepository
-) : BaseUseCase<UserRepository, MappedUserModel, MappedTokenModel?>(userRepository) {
+) : BaseUseCase<UserRepository, String, CRUDModel?>(userRepository) {
 
-    override fun operate(data: MappedUserModel): Flow<Resource<MappedTokenModel?>> = flow {
+    override fun operate(data: String): Flow<Resource<CRUDModel?>> = flow {
         emit(Resource.loading(null))
 
-        when (val result = repository.createAccount(data)) {
+        val result = repository.sendOtp(data)
+        when (result) {
             is NetworkResult.Success -> {
-                val model = result.data.toMapped()
+                val model = result.data.toModel()
 
-                if (model.result?.resultCode in TWO_HUNDRED..TWO_HUNDRED_NINETY_NINE)
+                if (model.resultCode in TWO_HUNDRED..TWO_HUNDRED_NINETY_NINE)
                     emit(Resource.success(data = model))
                 else
                     emit(
                         Resource.error(
                             data = model,
-                            msg = "${model.result?.resultCode}: ${model.result?.message}",
-                            exception = Exception(model.result?.message)
+                            msg = "${model.resultCode}: ${model.message}",
+                            exception = Exception(model.message)
                         )
                     )
             }
@@ -62,5 +62,4 @@ class CreateUserRemoteUseCase @Inject constructor(
             }
         }
     }
-
 }

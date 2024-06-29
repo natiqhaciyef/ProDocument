@@ -11,48 +11,27 @@ class WatermarkMaterialMockGenerator(
     override var takenRequest: WatermarkRequest
 ) : BaseMockGenerator<WatermarkRequest, MaterialResponse>() {
 
-    override var createdMock = MaterialResponse(
-        id = "materialId",
-        publishDate = getNow(),
-        image = "image",
-        title = "title",
-        description = "description",
-        type = "type",
-        url = "url",
-        result = CRUDResponse(
-            resultCode = TWO_HUNDRED_NINETY_NINE,
-            message = "Mock crud"
-        )
-    )
+    override var createdMock =
+        MaterialMockManager.watermarkMaterial(takenRequest)
 
     override fun getMock(
         request: WatermarkRequest,
         action: (WatermarkRequest) -> MaterialResponse?
     ): MaterialResponse {
-        return if (request.watermark == takenRequest.watermark){
-            createdMock
-        }else{
-            action.invoke(request) ?: throw Companion.MockRequestException()
-        }
+        if (request == takenRequest)
+            return createdMock
+
+        return MaterialMockManager.watermarkMaterial(takenRequest, true)
     }
 
     companion object WatermarkMaterialMockGenerator{
+        private const val TITLE = "title"
+        private const val WATERMARK = "watermark"
+
         val customRequest = WatermarkRequest(
-            title = "watermark",
-            material = MaterialResponse(
-                id = "materialId",
-                publishDate = getNow(),
-                image = "image",
-                title = "title",
-                description = "description",
-                type = "type",
-                url = "url",
-                result = CRUDResponse(
-                    resultCode = TWO_HUNDRED_NINETY_NINE,
-                    message = "Mock crud"
-                )
-            ),
-            watermark = "watermark"
+            title = TITLE,
+            material = MaterialMockManager.getEmptyMaterial(),
+            watermark = WATERMARK
         )
     }
 }

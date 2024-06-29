@@ -11,7 +11,7 @@ import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.FragmentPreferencesBinding
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.profile.contract.ProfileContract
-import com.natiqhaciyef.prodocument.ui.view.main.profile.params.preferences.adapter.PreferencesAdapter
+import com.natiqhaciyef.prodocument.ui.view.main.profile.params.preferences.adapter.ParamsAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.profile.model.ParamsUIModel
 import com.natiqhaciyef.prodocument.ui.view.main.profile.viewmodel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,7 +22,7 @@ class PreferencesFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentPreferencesBinding = FragmentPreferencesBinding::inflate,
     override val viewModelClass: KClass<ProfileViewModel> = ProfileViewModel::class
 ) : BaseFragment<FragmentPreferencesBinding, ProfileViewModel, ProfileContract.ProfileState, ProfileContract.ProfileEvent, ProfileContract.ProfileEffect>() {
-    private var prefAdapter: PreferencesAdapter? = null
+    private var prefAdapter: ParamsAdapter? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -70,7 +70,7 @@ class PreferencesFragment(
     }
 
     private fun recyclerViewConfig(list: MutableList<ParamsUIModel>){
-        prefAdapter = PreferencesAdapter(requireContext(), list)
+        prefAdapter = ParamsAdapter(requireContext(), list)
         with(binding.preferencesRecyclerView){
             adapter = prefAdapter
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)

@@ -17,4 +17,10 @@
         <attr name="customDropDownTitle" format="string"/>
     </declare-styleable>
 
+    <declare-styleable name="com.natiqhaciyef.prodocument.ui.custom.CustomFilePreview">
+        <attr name="optionIconVisibility" format="boolean"/>
+        <attr name="shareIconVisibility" format="boolean"/>
+        <attr name="removeIconVisibility" format="boolean"/>
+    </declare-styleable>
+
 </resources>
