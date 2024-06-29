@@ -21,7 +21,7 @@ class GetAllMaterialsMockGenerator(override var takenRequest: String) :
                 image = "image",
                 title = "title",
                 description = "description",
-                type = "type",
+                type = "PDF",
                 url = "url",
                 result = CRUDResponse(
                     resultCode = TWO_HUNDRED_NINETY_NINE,
@@ -34,7 +34,7 @@ class GetAllMaterialsMockGenerator(override var takenRequest: String) :
                 image = "image2",
                 title = "file",
                 description = "description2",
-                type = "type2",
+                type = "PDF",
                 url = "url2",
                 result = CRUDResponse(
                     resultCode = TWO_HUNDRED_NINETY_NINE,
@@ -47,7 +47,7 @@ class GetAllMaterialsMockGenerator(override var takenRequest: String) :
                 image = "image2",
                 title = "tossed file",
                 description = "description2",
-                type = "type2",
+                type = "PDF",
                 url = "url2",
                 result = CRUDResponse(
                     resultCode = TWO_HUNDRED_NINETY_NINE,

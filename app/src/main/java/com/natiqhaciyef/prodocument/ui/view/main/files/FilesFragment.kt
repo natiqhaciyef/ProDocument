@@ -144,7 +144,9 @@ class FilesFragment(
     private fun optionClickAction(params: List<ParamsUIModel>){
         // add bottom sheet here
         storedMaterial?.let {
-            FileBottomSheetOptionFragment(it, params).show(
+            FileBottomSheetOptionFragment(it, params){
+                // INSERT: remove action
+            }.show(
                 if (!isAdded) return else this.childFragmentManager,
                 FileBottomSheetOptionFragment::class.simpleName
             )

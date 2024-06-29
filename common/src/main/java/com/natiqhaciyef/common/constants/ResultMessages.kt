@@ -37,7 +37,7 @@ const val PASSWORD_RESETTING_FAILED = "Password resetting failed"
 const val WRONG_FILLED_FIELD = "Wrong filled field(s)"
 
 const val INVALID_TOKEN = "Invalid Token"
-
+const val DOWNLOAD_FAILED = "Download Failed!"
 const val DATA_NOT_FOUND = "Data not found"
 const val DOCUMENT_NOT_FOUND = "Document(s) not found"
 const val APPLICATION_UNDER_THE_TEST =
@@ -68,5 +68,6 @@ const val RESET_PASSWORD_SUCCESS = "Reset link sent successfully"
 const val USER_FOUND_SUCCESS = "User successfully found"
 const val DATA_LOADED_SUCCESSFULLY = "Data loaded successfully"
 const val SUCCESS = "Success"
+const val DOWNLOAD_SUCCEED = "Download Succeed!"
 const val CHANGE_PASSWORD_SUCCESS = "Your password changed now!"
 const val PHOTO_CAPTURED_SUCCEED = "Photo capture succeeded"

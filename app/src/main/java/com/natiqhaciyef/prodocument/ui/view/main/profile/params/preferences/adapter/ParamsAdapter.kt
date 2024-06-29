@@ -41,7 +41,7 @@ class ParamsAdapter(
         when (item.fieldType) {
             FieldType.SPACE -> {
                 holder.itemView.setOnClickListener { action.invoke(item) }
-                spaceConfig(holder.binding)
+                spaceConfig(holder.binding, item)
             }
 
             FieldType.LINE -> { lineConfig(holder.binding) }
@@ -64,6 +64,8 @@ class ParamsAdapter(
             if (preferenceTitle.visibility == View.VISIBLE) {
                 prefixIcon.visibility = View.VISIBLE
                 prefixIcon.setImageResource(item.fieldIcon!!)
+                preferenceTitle.setOnClickListener {action.invoke(item) }
+                prefixIcon.setOnClickListener { action.invoke(item) }
             }
         }
     }
@@ -77,12 +79,13 @@ class ParamsAdapter(
         }
     }
 
-    private fun spaceConfig(binding: RecyclerParamsItemBinding){
+    private fun spaceConfig(binding: RecyclerParamsItemBinding, item: ParamsUIModel){
         with(binding){
             switchIcon.visibility = View.INVISIBLE
             goDetailsIcon.visibility = View.GONE
-            preferenceLine.visibility = View.INVISIBLE
-            preferenceTitle.visibility = View.INVISIBLE
+            preferenceLine.visibility = View.GONE
+            preferenceTitle.visibility = View.VISIBLE
+            preferenceTitle.text = item.title
         }
     }
 

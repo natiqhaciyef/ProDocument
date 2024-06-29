@@ -80,6 +80,9 @@
                 android:name="resourceBundle"
                 app:argType="android.os.Bundle" />
         </action>
+        <action
+            android:id="@+id/action_filesFragment_to_watermark_nav_graph"
+            app:destination="@id/watermark_nav_graph" />
     </fragment>
     <fragment
         android:id="@+id/premiumFragment"
@@ -96,4 +99,5 @@
         tools:layout="@layout/fragment_recent_files" />
     <include app:graph="@navigation/pick_file_nav_graph" />
     <include app:graph="@navigation/profile_details_nav_graph" />
+    <include app:graph="@navigation/watermark_nav_graph" />
 </navigation>

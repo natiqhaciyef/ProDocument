@@ -14,6 +14,8 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
+import com.natiqhaciyef.common.constants.DOWNLOAD_FAILED
+import com.natiqhaciyef.common.constants.DOWNLOAD_SUCCEED
 import com.natiqhaciyef.common.constants.EMPTY_STRING
 import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
@@ -96,13 +98,12 @@ fun getIntentFileType(type: String) = when (type) {
 fun startDownloadingFile(
     file: MappedMaterialModel,
     context: Context,
-    success: (String) -> Unit,
-    failed: (String) -> Unit,
-    running: () -> Unit,
+    success: (String) -> Unit = {},
+    failed: (String) -> Unit = { },
+    running: () -> Unit = {},
 ) {
     val data = Data.Builder()
     val workManager = WorkManager.getInstance(context)
-    val failedResult = "Downloading failed!"
 
     data.apply {
         putString(
@@ -138,13 +139,14 @@ fun startDownloadingFile(
                 when (it.state) {
                     WorkInfo.State.SUCCEEDED -> {
                         success(
-                            it.outputData.getString(FileDownloadWorker.FileParams.KEY_FILE_URI)
-                                ?: EMPTY_STRING
+//                            it.outputData.getString(FileDownloadWorker.FileParams.KEY_FILE_URI)
+//                                ?: EMPTY_STRING
+                            DOWNLOAD_SUCCEED
                         )
                     }
 
                     WorkInfo.State.FAILED -> {
-                        failed(failedResult)
+                        failed(DOWNLOAD_FAILED)
                     }
 
                     WorkInfo.State.RUNNING -> {
