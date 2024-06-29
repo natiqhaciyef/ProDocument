@@ -15,6 +15,7 @@ import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.ui.manager.FileManager
 import com.natiqhaciyef.prodocument.ui.manager.NavigationManager
 import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.navigateByRouteTitle
+import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.home.adapter.FileItemAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.merge.contract.MergePdfContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.merge.viewmodel.MergePdfViewModel
@@ -49,27 +50,15 @@ class MergePdfsFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = FileItemAdapter(
-            filesList,
-            requireContext().getString(R.string.merge_pdf)
-        )
+        activityConfigs()
+        setFileListEmptyCheckConfig()
+        setFilesCountConfigurations()
+        recyclerViewConfig()
 
         with(binding) {
-            setFileListEmptyCheckConfig()
-            setFilesCountConfigurations()
-            materialsRecyclerView.adapter = adapter
-            materialsRecyclerView.layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-
             addMoreFilesButton.setOnClickListener { FileManager.getFile(fileRequestLauncher) }
             mergeButton.setOnClickListener { mergeButtonEvent(filesList) }
-            goBackIcon.setOnClickListener {
-                navigateByRouteTitle(
-                    this@MergePdfsFragment,
-                    NavigationManager.HOME_ROUTE
-                )
-            }
-            adapter?.removeAction = { removeFileButtonClickAction(it.id) }
+            goBackIcon.setOnClickListener { navigateByRouteTitle(this@MergePdfsFragment, NavigationManager.HOME_ROUTE) }
         }
     }
 
@@ -108,6 +97,26 @@ class MergePdfsFragment(
                 progressBar.isIndeterminate = false
             }
         }
+    }
+
+    private fun activityConfigs() {
+        (activity as MainActivity).binding.apply {
+            materialToolbar.visibility = View.GONE
+        }
+    }
+
+    private fun recyclerViewConfig() {
+        adapter = FileItemAdapter(
+            filesList,
+            requireContext().getString(R.string.merge_pdf)
+        )
+
+        with(binding) {
+            materialsRecyclerView.adapter = adapter
+            materialsRecyclerView.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        }
+        adapter?.removeAction = { removeFileButtonClickAction(it.id) }
     }
 
     private fun setFilesCountConfigurations() {

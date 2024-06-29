@@ -95,10 +95,10 @@ fun getIntentFileType(type: String) = when (type) {
 
 fun startDownloadingFile(
     file: MappedMaterialModel,
+    context: Context,
     success: (String) -> Unit,
     failed: (String) -> Unit,
     running: () -> Unit,
-    context: Context
 ) {
     val data = Data.Builder()
     val workManager = WorkManager.getInstance(context)

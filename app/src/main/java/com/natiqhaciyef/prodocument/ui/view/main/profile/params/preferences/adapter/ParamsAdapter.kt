@@ -39,13 +39,19 @@ class ParamsAdapter(
         holder.binding.preferenceLayout.setBackgroundColor(ctx.getColor(backgroundColor))
 
         when (item.fieldType) {
-            FieldType.SPACE -> { spaceConfig(holder.binding) }
+            FieldType.SPACE -> {
+                holder.itemView.setOnClickListener { action.invoke(item) }
+                spaceConfig(holder.binding)
+            }
 
             FieldType.LINE -> { lineConfig(holder.binding) }
 
             FieldType.TITLE -> { titleConfig(item, holder.binding) }
 
-            FieldType.NAVIGATION -> { navigationConfig(item, holder.binding, action)  }
+            FieldType.NAVIGATION -> {
+                holder.itemView.setOnClickListener { action.invoke(item) }
+                navigationConfig(item, holder.binding, action)
+            }
 
             FieldType.SWITCH -> { switchConfig(item, holder.binding, action)  }
 
