@@ -13,7 +13,7 @@ import com.natiqhaciyef.common.R
 import com.natiqhaciyef.core.base.ui.BaseRecyclerViewAdapter
 import com.natiqhaciyef.prodocument.ui.custom.CustomMaterialOptionsBottomSheetFragment
 import com.natiqhaciyef.core.model.CategoryItem
-import com.natiqhaciyef.prodocument.ui.manager.CameraManager.Companion.createAndShareFile
+import com.natiqhaciyef.prodocument.ui.manager.FileManager.createAndShareFile
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 
 class FileItemAdapter(
@@ -27,11 +27,15 @@ class FileItemAdapter(
             RecyclerFilesItemViewBinding.inflate(LayoutInflater.from(context), viewGroup, bool)
         }
 
-    var onClickAction: (String) -> Unit = {
+    var onClickAction: (MappedMaterialModel) -> Unit = {
 
     }
 
-    var removeAction: (String) -> Unit = {
+    var removeAction: (MappedMaterialModel) -> Unit = {
+
+    }
+
+    var optionAction: (MappedMaterialModel) -> Unit = {
 
     }
 
@@ -52,33 +56,24 @@ class FileItemAdapter(
 
 
     private fun configOfMerge(binding: RecyclerFilesItemViewBinding) {
-        binding.fileShareIcon.visibility = View.GONE
-        binding.fileOptionMenuIcon.visibility = View.GONE
-        binding.fileRemoveIcon.visibility = View.VISIBLE
-
-        val paramsTitle = binding.fileTitleText.layoutParams as ConstraintLayout.LayoutParams
-        paramsTitle.endToStart = binding.fileRemoveIcon.id
-
-        val paramsDate = binding.fileTitleText.layoutParams as ConstraintLayout.LayoutParams
-        paramsDate.endToStart = binding.fileRemoveIcon.id
+        with(binding) {
+            customFilePreview.changeBothIconsVisibility(View.GONE)
+            customFilePreview.changeRemoveIconVisibility(View.VISIBLE)
+        }
     }
 
     private fun configOfHome(binding: RecyclerFilesItemViewBinding) {
-        binding.fileShareIcon.visibility = View.VISIBLE
-        binding.fileOptionMenuIcon.visibility = View.VISIBLE
-        binding.fileRemoveIcon.visibility = View.GONE
-
-        val paramsTitle = binding.fileTitleText.layoutParams as ConstraintLayout.LayoutParams
-        paramsTitle.endToStart = binding.fileShareIcon.id
-
-        val paramsDate = binding.fileTitleText.layoutParams as ConstraintLayout.LayoutParams
-        paramsDate.endToStart = binding.fileShareIcon.id
+        with(binding) {
+            customFilePreview.changeBothIconsVisibility(View.VISIBLE)
+            customFilePreview.changeRemoveIconVisibility(View.GONE)
+        }
     }
 
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         val view = holder.binding
         val file = list[position]
+        view.customFilePreview.bind()
 
         when (type) {
             holder.context.getString(R.string.scan_code), holder.context.getString(R.string.default_type) -> {
@@ -90,12 +85,15 @@ class FileItemAdapter(
             }
         }
 
-        view.fileTitleText.text = file.title
-        view.fileDateText.text = file.createdDate
-        view.filePreviewImage.load(file.image)
-        view.fileRemoveIcon.setOnClickListener { removeAction.invoke(file.id) }
-        holder.itemView.setOnClickListener { onClickAction.invoke(file.id) }
-        view.fileShareIcon.setOnClickListener {
+        view.customFilePreview.setCustomTitle(file.title)
+        view.customFilePreview.setCustomDate(file.createdDate)
+        view.customFilePreview.setImageIcon(file.image)
+
+        view.customFilePreview.addActionToRemove { removeAction.invoke(file) }
+        view.customFilePreview.addActionToOptions { optionAction.invoke(file) }
+        holder.itemView.setOnClickListener { onClickAction.invoke(file) }
+
+        view.customFilePreview.addActionToShare {
             if (fragment != null && context != null) {
                 showBottomSheetDialog(
                     material = file,

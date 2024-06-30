@@ -24,6 +24,7 @@
     <string name="next">Next</string>
     <string name="select">Select</string>
     <string name="continue_">Continue</string>
+    <string name="change_password">Change Password</string>
     <string name="save_changes">Save changes</string>
     <string name="pick_from_gallery">Pick from gallery</string>
     <string name="add">Add</string>
@@ -96,7 +97,7 @@
 
 
     <!-- Lets sign in -->
-    <string name="lets_sign_in_title">Let’s you in</string>
+    <string name="lets_sign_in_title">Let’s get started</string>
     <string name="continue_with_platform_title">Continue with platform</string>
     <string name="continue_with_platform_name">Continue with %1$s</string>
     <string name="sign_in_with_password">Sign in with password</string>
@@ -148,11 +149,11 @@
 
     <!-- Scan -->
     <string name="scan_qr_title">Scan QR Code</string>
-    <string name="scan_image_title">Scan Image Code</string>
-    <string name="scan_live_title">Live Recognition Code</string>
+    <string name="scan_image_title">Scan Image</string>
+    <string name="scan_live_title">Live Recognition</string>
     <string name="scan_qr_description">Please point the camera at the QR Code</string>
     <string name="scan_live_description">Please set the camera at the view</string>
-    <string name="scan_image_description">Please capture and set camera at the Image</string>
+    <string name="scan_image_description">Please set camera and capture image</string>
     <string name="title_count">Scanned file %1$s</string>
 
     <!--  Merge pdf  -->
@@ -204,7 +205,15 @@
 
     <!--  Files titles  -->
     <string name="total_file_amount_title">Total: %1$s file(s)</string>
-    <string name="search_file">Search file...</string>
+    <string name="search_file">Search file…</string>
+    <string name="save_to_device">Save to Device</string>
+    <string name="export_to">Export to …</string>
+    <string name="add_digital_signature">Add Digital Signature</string>
+    <string name="rename">Rename</string>
+    <string name="move_to_folder">Move to Folder</string>
+    <string name="print">Print</string>
+    <string name="delete">Delete</string>
+
 
     <!-- Premium -->
     <string name="subscription_price_text"><![CDATA[<font size="36">%1$s</font> <font size="24">/ %2$s</font>]]></string>
@@ -218,7 +227,7 @@
     <string name="google_pay">Google Pay</string>
     <string name="apple_pay">Apple Pay</string>
     <string name="other">Other</string>
-    <string name="select_payment_method">Select Payment</string>
+    <string name="select_payment_method">Pick Payment Method</string>
     <string name="review_summary">Review Summary</string>
     <string name="add_new_payment">Add New Payment</string>
     <string name="card_number_default">●●●● ●●●● ●●●● ●●●●</string>
@@ -245,7 +254,7 @@
 
     <!-- Profile account -->
     <string name="captured_files_size_ratio">%2$s %1$s / %3$s %1$s</string>
-    <string name="go_to_premium">Go to Premium</string>
+    <string name="go_to_premium">Switch Premium</string>
     <string name="enjoy_all_benefits">Enjoy all the benefits</string>
 
     <string name="personal_info">Personal Info</string>
@@ -258,6 +267,8 @@
     <string name="help_center">Help Center</string>
     <string name="about_proscan">About Proscan</string>
     <string name="logout">Logout</string>
+    <string name="logout_description">Are you sure you want to log out?</string>
+    <string name="yes_logout">Yes, logout</string>
 
     <string name="account">Account</string>
     
@@ -294,6 +305,34 @@
     <string name="sms_authenticator">SMS Authenticator</string>
     <string name="google_authenticator">Google Authenticator</string>
     <string name="device_management">Device Management</string>
+
+    <string name="biometric_subtitle">Put your finger on the icon</string>
+    <string name="biometric_details">The app uses fingerprint for secured authentication</string>
+    <string name="package_">package</string>
+
+    <!-- Help center -->
+    <string name="faq">FAQ</string>
+    <string name="contact_us">Contact Us</string>
+    
+    <string name="contact_us_lowercase">Contact us</string>
+    <string name="whatsapp">WhatsApp</string>
+    <string name="instagram">Instagram</string>
+    <string name="facebook">Facebook</string>
+    <string name="twitter">Twitter</string>
+    <string name="website">Website</string>
+    
+    <!-- About Us -->
+    <string name="job_vacancies">Job Vacancies</string>
+    <string name="teams">Teams</string>
+    <string name="partners">Partners</string>
+    <string name="accessibility">Accessibility</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="feedback">Feedback</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="visit_our_website">Visit Our Website</string>
+    <string name="follow_us_on_social_medias">Follow us on Social Medias</string>
+    <string name="proscan_title_and_version">%1$s v%2$s</string>
+    <string name="graph_percentage">%1$s %</string>
 
 
 </resources>

@@ -15,7 +15,7 @@ import com.natiqhaciyef.common.model.payment.PaymentResultType
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.core.model.FileTypes.PNG
 import com.natiqhaciyef.prodocument.databinding.FragmentPaymentResultBinding
-import com.natiqhaciyef.prodocument.ui.manager.CameraManager.Companion.createAndShareFile
+import com.natiqhaciyef.prodocument.ui.manager.FileManager.createAndShareFile
 import com.natiqhaciyef.prodocument.ui.manager.NavigationManager
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.payment.contract.PaymentContract

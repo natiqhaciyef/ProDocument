@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/graphCardView"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:layout_marginHorizontal="24dp"
+    android:layout_marginVertical="12dp"
+    android:background="@color/white"
+    app:cardCornerRadius="16dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/graphConstraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ImageView
+            android:id="@+id/graphCategoryIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="12dp"
+            android:src="@drawable/watermark_menu_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/graphCategoryTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:gravity="center_vertical"
+            android:fontFamily="@font/urbanist_bold"
+            android:textSize="16sp"
+            android:textColor="@color/grayscale_900"
+            app:layout_constraintEnd_toStartOf="@id/graphCategoryPercentage"
+            app:layout_constraintBottom_toBottomOf="@id/graphCategoryIcon"
+            app:layout_constraintStart_toEndOf="@id/graphCategoryIcon"
+            app:layout_constraintTop_toTopOf="@id/graphCategoryIcon" />
+
+        <TextView
+            android:id="@+id/graphCategoryPercentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@color/primary_900"
+            android:fontFamily="@font/urbanist_semibold"
+            app:layout_constraintBottom_toBottomOf="@id/graphCategoryIcon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/graphCategoryIcon" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

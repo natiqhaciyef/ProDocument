@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import com.natiqhaciyef.common.model.payment.PaymentHistoryModel
 import com.natiqhaciyef.core.base.ui.BaseRecyclerViewAdapter
 import com.natiqhaciyef.common.R
+import com.natiqhaciyef.common.constants.FORMATTED_NUMBER_TWO
 import com.natiqhaciyef.common.model.Currency
 import com.natiqhaciyef.prodocument.databinding.RecyclerPaymentHistoryItemBinding
 
@@ -19,7 +20,7 @@ class PaymentHistoryAdapter(
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         val item = list[position]
-        val price = "%.2f".format(item.price)
+        val price = FORMATTED_NUMBER_TWO.format(item.price)
         with(holder.binding){
             backgroundImage.setImageResource(item.icon)
             paymentHistoryTitle.text = ctx.getString(R.string.plan_title_template, item.title)

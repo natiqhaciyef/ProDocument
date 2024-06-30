@@ -1,5 +1,6 @@
 package com.natiqhaciyef.prodocument.ui.view.main.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,12 +13,15 @@ import com.natiqhaciyef.prodocument.ui.view.main.profile.model.AccountSettingMod
 import com.natiqhaciyef.prodocument.databinding.FragmentProfileBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.common.R
+import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.prodocument.ui.manager.LanguageManager
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.profile.adapter.AccountParametersAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.profile.contract.ProfileContract
+import com.natiqhaciyef.prodocument.ui.view.main.profile.params.LogOutFragment
 import com.natiqhaciyef.prodocument.ui.view.main.profile.params.language.LanguageFragment
 import com.natiqhaciyef.prodocument.ui.view.main.profile.viewmodel.ProfileViewModel
+import com.natiqhaciyef.prodocument.ui.view.registration.RegistrationActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.KClass
 
@@ -99,9 +103,7 @@ class ProfileFragment(
 
     private fun recyclerviewConfig(list: MutableList<AccountSettingModel>) {
         adapter = AccountParametersAdapter(this, list)
-        adapter?.onClickAction = { title ->
-            adapterClickNavigation(title)
-        }
+        adapter?.onClickAction = { title -> adapterClickNavigation(title) }
         with(binding) {
             recyclerSettingsView.adapter = adapter
             recyclerSettingsView.layoutManager =
@@ -117,7 +119,7 @@ class ProfileFragment(
             profileDetailsTopbar.initAccountDetails(
                 user = user,
                 subscriptionType = plan.title,
-                filled = 0.0,
+                filled = ZERO.toDouble(),
                 total = plan.size,
                 type = plan.sizeType
             )
@@ -131,7 +133,7 @@ class ProfileFragment(
             LanguageManager.setLocaleLang(lang = language.title, requireContext())
             LanguageManager.loadLocale(requireContext())
         }.show(
-            this.childFragmentManager,
+            if (!isAdded) return else this.childFragmentManager,
             LanguageFragment::class.simpleName
         )
     }
@@ -139,7 +141,18 @@ class ProfileFragment(
     private fun adapterClickNavigation(title: String) {
         when (title.lowercase()) {
             requireContext().getString(R.string.language).lowercase() -> {
-                viewModel.postEvent(ProfileContract.ProfileEvent.GetAllSupportedLanguages(requireContext()))
+                viewModel.postEvent(
+                    ProfileContract.ProfileEvent.GetAllSupportedLanguages(
+                        requireContext()
+                    )
+                )
+            }
+
+            requireContext().getString(R.string.logout).lowercase() -> {
+                LogOutFragment { onLogOutClick() }.show(
+                    if (!isAdded) return else this.childFragmentManager,
+                    LogOutFragment::class.simpleName
+                )
             }
 
             else -> {
@@ -148,5 +161,14 @@ class ProfileFragment(
                 navigate(action)
             }
         }
+    }
+
+    private fun onLogOutClick() {
+        navigate(requireActivity(), RegistrationActivity::class.java, true)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.postEvent(ProfileContract.ProfileEvent.ClearState)
     }
 }

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/grayscale_50"
     tools:context=".ui.view.registration.create_account.CreateAccountFragment">
 
     <ProgressBar
@@ -75,38 +76,25 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/createAccountTitle" />
 
-        <TextView
-            android:id="@+id/createAccountEmailTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="24dp"
-            android:fontFamily="@font/urbanist_bold"
-            android:text="@string/email"
-            android:textColor="@color/grayscale_900"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/createAccountDescription" />
 
-        <EditText
+        <com.natiqhaciyef.prodocument.ui.custom.CustomInputView
             android:id="@+id/createAccountEmailInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="24dp"
             android:background="@drawable/custom_registration_input_background"
             android:fontFamily="@font/urbanist_bold"
             android:gravity="center_vertical"
-            android:hint="@string/email"
-            android:inputType="textEmailAddress"
             android:paddingVertical="10dp"
             android:textColor="@color/grayscale_900"
             android:textColorHint="@color/grayscale_500"
             android:textSize="16sp"
+            app:customInputType="email"
+            app:customHint="@string/email"
+            app:customTitle="@string/email"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/createAccountEmailTitle" />
+            app:layout_constraintTop_toBottomOf="@id/createAccountDescription" />
 
 
         <com.natiqhaciyef.prodocument.ui.custom.CustomPasswordInputEditText

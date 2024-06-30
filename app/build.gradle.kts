@@ -149,10 +149,11 @@ dependencies {
     implementation("com.google.dagger:hilt-android:$daggerVersion")
     kapt("com.google.dagger:hilt-android-compiler:$daggerVersion")
 
-    //Animation Library & Swipe Refresh Layout & ViewPager
+    //Animation Library & Swipe Refresh Layout & ViewPager & Chart and graph library
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:$swipeLayoutVersion")
     implementation("com.airbnb.android:lottie:$lottieVersion")
     implementation("androidx.viewpager2:viewpager2:$viewPagerVersion")
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
     //Work manager
     implementation("androidx.work:work-runtime-ktx:$workManagerVersion")

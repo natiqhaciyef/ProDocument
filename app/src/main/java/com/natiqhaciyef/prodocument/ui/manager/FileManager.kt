@@ -12,16 +12,21 @@ import android.provider.OpenableColumns
 import android.util.Log
 import android.webkit.MimeTypeMap
 import androidx.activity.result.ActivityResultLauncher
+import androidx.core.content.FileProvider
+import androidx.core.net.toUri
+import androidx.fragment.app.Fragment
 import com.github.barteksc.pdfviewer.PDFView
 import com.github.barteksc.pdfviewer.listener.OnDrawListener
 import com.github.barteksc.pdfviewer.listener.OnErrorListener
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener
 import com.github.barteksc.pdfviewer.listener.OnPageScrollListener
+import com.google.mlkit.vision.documentscanner.GmsDocumentScannerOptions
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.constants.EMPTY_STRING
 import com.natiqhaciyef.common.constants.FIVE
 import com.natiqhaciyef.common.constants.ONE
+import com.natiqhaciyef.common.constants.THIRTY
 import com.natiqhaciyef.common.constants.THREE
 import com.natiqhaciyef.common.constants.TWENTY
 import com.natiqhaciyef.common.constants.TWO
@@ -30,8 +35,11 @@ import com.natiqhaciyef.common.helpers.getNow
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.model.FileTypes
 import com.natiqhaciyef.core.model.FileTypes.ALL_FILES
+import com.natiqhaciyef.domain.worker.config.getIntentFileType
+import com.natiqhaciyef.prodocument.BuildConfig
 import com.natiqhaciyef.prodocument.ui.util.DefaultImplModels
 import com.shockwave.pdfium.PdfDocument
+import java.io.File
 import java.util.UUID
 
 
@@ -44,6 +52,11 @@ object FileManager {
     private var pageNumber = ZERO
     private var pageTotalCount = ZERO
     private var pagePositionOffset = ZERO.toFloat()
+    private const val PDF_EXTENSION = ".pdf"
+    private const val PNG_EXTENSION = ".png"
+    private const val DOCX_EXTENSION = ".docx"
+    private const val PROVIDER = "provider"
+    private const val SHARE_DATE_USING = "Share data using"
     private var pdfMetadata: PdfDocument.Meta? = null
     private var TITLE_EQUAL = "title = "
     private var AUTHOR_EQUAL = "author = "
@@ -173,4 +186,122 @@ object FileManager {
             .load()
     else
         null
+
+
+    fun Fragment.createAndShareFile(
+        material: MappedMaterialModel,
+        isShare: Boolean = true
+    ) = when (material.type) {
+        FileTypes.URL -> {
+            shareFile(listOf(material.url), FileTypes.URL, isShare)
+        }
+
+        FileTypes.PDF -> {
+            shareFile(listOf(material.url), FileTypes.PDF, isShare)
+        }
+
+        FileTypes.DOCX -> {
+            shareFile(listOf(material.url), FileTypes.DOCX, isShare)
+        }
+
+        FileTypes.JPEG -> {
+            shareFile(listOf(material.image.toUri(), material.url), FileTypes.JPEG, isShare)
+        }
+
+        FileTypes.PNG -> {
+            shareFile(listOf(material.image.toUri(), material.url), FileTypes.PNG, isShare)
+        }
+
+        else -> {
+            listOf()
+        }
+    }
+
+    private fun Fragment.shareFile(
+        urls: List<Uri>,
+        fileType: String,
+        isShare: Boolean = true
+    ): List<Uri?> {
+        val list = mutableListOf<Uri?>()
+        val sharingIntent = Intent(Intent.ACTION_SEND)
+
+        when(fileType){
+            FileTypes.URL -> {
+                if (urls.isNotEmpty()) {
+                    val url = urls[ZERO].toString().replace(PDF_EXTENSION, EMPTY_STRING).toUri()
+                    val address = getAddressOfFile(requireContext(), url)
+                    list.add(address)
+
+                    sharingIntent.apply {
+                        type = getIntentFileType(fileType)
+                        putExtra(Intent.EXTRA_TEXT, url.toString())
+                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    }
+                }
+            }
+
+            FileTypes.PDF -> {
+                if (urls.isNotEmpty()) {
+                    val externalUri = getAddressOfFile(requireContext(), urls[ZERO])
+                    if (isShare)
+                        sharingIntent.apply {
+                            type = getIntentFileType(fileType)
+                            putExtra(Intent.EXTRA_STREAM, externalUri)
+                            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                        }
+                    list.add(externalUri)
+                }
+            }
+
+            FileTypes.DOCX -> {
+                val url = urls[ZERO].toString().replace(PDF_EXTENSION, DOCX_EXTENSION).toUri()
+                val address = getAddressOfFile(requireContext(), url)
+                list.add(address)
+
+                sharingIntent.apply {
+                    type = getIntentFileType(fileType)
+                    putExtra(Intent.EXTRA_STREAM, url.toString())
+                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                }
+            }
+
+            FileTypes.PNG, FileTypes.JPEG -> {
+                val url = urls[ZERO].toString().replace(PDF_EXTENSION, PNG_EXTENSION).toUri()
+                val address = getAddressOfFile(requireContext(), url)
+                list.add(address)
+
+                sharingIntent.apply {
+                    type = getIntentFileType(fileType)
+                    putExtra(Intent.EXTRA_STREAM, url.toString())
+                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                }
+            }
+
+            else -> {
+                for (url in urls) {
+                    list.add(getAddressOfFile(requireContext(), url))
+                }
+
+                if (isShare)
+                    sharingIntent.apply {
+                        type = getIntentFileType(fileType)
+                        putExtra(Intent.EXTRA_STREAM, list[ZERO])
+                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    }
+            }
+        }
+
+        startActivity(Intent.createChooser(sharingIntent, SHARE_DATE_USING))
+        return list
+    }
+
+    fun getAddressOfFile(context: Context, uri: Uri?) = if (uri != null) {
+        FileProvider.getUriForFile(
+            context,
+            "${BuildConfig.APPLICATION_ID}.$PROVIDER",
+            File(uri.path.toString())
+        )
+    }else {
+        null
+    }
 }

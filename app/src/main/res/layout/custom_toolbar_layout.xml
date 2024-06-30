@@ -100,7 +100,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="9"
-                android:background="@drawable/custom_search_input_background"
+                android:background="@drawable/custom_toolbar_search_background"
                 android:fontFamily="@font/urbanist_medium"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"

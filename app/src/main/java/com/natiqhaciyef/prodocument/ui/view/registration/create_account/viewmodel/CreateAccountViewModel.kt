@@ -2,13 +2,11 @@ package com.natiqhaciyef.prodocument.ui.view.registration.create_account.viewmod
 
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.constants.EMPTY_FIELD
-import com.natiqhaciyef.common.helpers.getNow
+import com.natiqhaciyef.common.constants.NULL
 import com.natiqhaciyef.common.model.Status
-import com.natiqhaciyef.common.model.ui.UIResult
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
 import com.natiqhaciyef.core.base.ui.BaseViewModel
-import com.natiqhaciyef.domain.usecase.user.remote.CreateUserRemoteUseCase
-import com.natiqhaciyef.domain.usecase.user.local.InsertUserLocalUseCase
+import com.natiqhaciyef.domain.usecase.user.CreateUserRemoteUseCase
 import com.natiqhaciyef.prodocument.ui.view.registration.create_account.contract.CreateAccountContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -17,7 +15,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CreateAccountViewModel @Inject constructor(
-    private val saveUserToLocalUseCase: InsertUserLocalUseCase,
     private val createUserRemoteUseCase: CreateUserRemoteUseCase,
 ) : BaseViewModel<CreateAccountContract.CreateAccountState, CreateAccountContract.CreateAccountEvent, CreateAccountContract.CreateAccountEffect>() {
 
@@ -37,27 +34,13 @@ class CreateAccountViewModel @Inject constructor(
         viewModelScope.launch {
             if (
                 model.email.isNotEmpty()
-                && model.email != "null"
+                && model.email != NULL
                 && model.password.isNotEmpty()
-                && model.password != "null"
+                && model.password != NULL
             ) {
                 onSuccess()
             } else {
                 onFail(Exception(EMPTY_FIELD))
-            }
-        }
-    }
-
-
-    fun saveToDatabase(
-        model: MappedUserModel?,
-    ) {
-        viewModelScope.launch {
-            model?.let {
-                val uiResult = UIResult(id = "0", data = model, publishDate = getNow())
-                saveUserToLocalUseCase.run(uiResult).collectLatest {
-                    // have to change
-                }
             }
         }
     }

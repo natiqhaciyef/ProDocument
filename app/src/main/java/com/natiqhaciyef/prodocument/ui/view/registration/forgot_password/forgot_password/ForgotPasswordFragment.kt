@@ -27,7 +27,7 @@ class ForgotPasswordFragment(
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             goBackIcon.setOnClickListener { navigateBack() }
-            continueButton.setOnClickListener { onClickEvent(forgotPasswordEmailInput.text.toString()) }
+            continueButton.setOnClickListener { onClickEvent(forgotPasswordEmailInput.getInputResult()) }
         }
         emailValidation()
     }
@@ -41,7 +41,7 @@ class ForgotPasswordFragment(
             else -> {
                 changeVisibilityOfProgressBar()
                 if (state.result != null){
-                    onClickAction(binding.forgotPasswordEmailInput.text.toString())
+                    onClickAction(binding.forgotPasswordEmailInput.getInputResult())
                 }
             }
         }
@@ -72,7 +72,7 @@ class ForgotPasswordFragment(
 
     private fun emailValidation() {
         binding.apply {
-            forgotPasswordEmailInput.doOnTextChanged { text, start, before, count ->
+            forgotPasswordEmailInput.listenUserInput{ text, start, before, count ->
                 continueButton.isEnabled = checkEmailAcceptanceCondition(text)
             }
         }

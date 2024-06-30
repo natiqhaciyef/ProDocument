@@ -44,5 +44,8 @@
         <action
             android:id="@+id/action_letsSignInFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_letsSignInFragment_to_completeProfileFragment"
+            app:destination="@id/completeProfileFragment" />
     </fragment>
 </navigation>

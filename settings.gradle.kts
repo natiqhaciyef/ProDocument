@@ -12,7 +12,7 @@ dependencyResolutionManagement {
         mavenCentral()
         jcenter()
 //        maven { url = uri("http://jcenter.bintray.com") }
-//        maven { url = uri("https://jitpack.io") }
+        maven { url = uri("https://jitpack.io") }
     }
 }
 
@@ -22,3 +22,4 @@ include(":common")
 include(":data")
 include(":domain")
 include(":core")
+include(":uikit")

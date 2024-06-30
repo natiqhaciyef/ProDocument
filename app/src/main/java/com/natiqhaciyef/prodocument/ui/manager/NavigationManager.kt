@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
+import com.natiqhaciyef.prodocument.ui.view.main.files.FileBottomSheetOptionFragment
 import com.natiqhaciyef.prodocument.ui.view.main.home.HomeFragment
 import com.natiqhaciyef.prodocument.ui.view.main.premium.SubscriptionFragment
 import com.natiqhaciyef.prodocument.ui.view.onboarding.OnboardingActivity
@@ -184,7 +185,7 @@ object NavigationManager {
     fun navigateByRouteTitle(fragment: Fragment, title: String, bundle: Bundle? = null) {
         when (title) {
             COMPRESS_ROUTE, SPLIT_ROUTE, PROTECT_ROUTE, E_SIGN_ROUTE -> {
-                if (fragment is HomeFragment && bundle != null) {
+                if ((fragment is HomeFragment || (fragment is FileBottomSheetOptionFragment)) && bundle != null) {
                     val customBundle = bundleOf()
                     customBundle.putBundle(RESOURCE_BUNDLE, bundle)
 
@@ -194,7 +195,7 @@ object NavigationManager {
             }
 
             PAYMENT_ROUTE -> {
-                if (fragment is SubscriptionFragment && bundle != null){
+                if (fragment is SubscriptionFragment && bundle != null) {
                     val customBundle = bundleOf()
                     customBundle.putBundle(DATASET_BUNDLE, bundle)
 

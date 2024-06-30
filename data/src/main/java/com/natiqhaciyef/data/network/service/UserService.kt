@@ -2,6 +2,7 @@ package com.natiqhaciyef.data.network.service
 
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.data.network.NetworkConfig
+import com.natiqhaciyef.data.network.response.GraphDetailsListResponse
 import com.natiqhaciyef.data.network.response.TokenResponse
 import com.natiqhaciyef.data.network.response.UserResponse
 import retrofit2.Response
@@ -56,6 +57,11 @@ interface UserService {
         @Field("email") email: String,
         @Field("password") password: String,
     ): Response<TokenResponse>
+
+    @POST("")
+    suspend fun getUserStatics(
+        @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String
+    ): Response<GraphDetailsListResponse>
 
     @GET("")
     suspend fun logout(

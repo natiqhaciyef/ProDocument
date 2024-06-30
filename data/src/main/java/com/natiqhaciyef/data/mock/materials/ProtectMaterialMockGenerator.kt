@@ -16,47 +16,23 @@ class ProtectMaterialMockGenerator(
     override var takenRequest: ProtectRequest
 ) : BaseMockGenerator<ProtectRequest, MaterialResponse>() {
     override var createdMock: MaterialResponse =
-        MaterialResponse(
-            id = "materialId",
-            publishDate = getNow(),
-            image = "image",
-            title = "title",
-            description = "description",
-            type = "type",
-            url = "url",
-            result = CRUDResponse(
-                resultCode = TWO_HUNDRED_NINETY_NINE,
-                message = "Mock crud"
-            ),
-            protectionKey = "Protected"
-        )
+        MaterialMockManager.protectMaterial(takenRequest.key, takenRequest.material)
 
     override fun getMock(
         request: ProtectRequest,
         action: (ProtectRequest) -> MaterialResponse?
     ): MaterialResponse {
-        return if (request.key == takenRequest.key && request.material.title == takenRequest.material.title)
-            createdMock
-        else
-            action.invoke(request) ?: throw Companion.MockRequestException()
+        if (request.key == takenRequest.key && request.material.title == takenRequest.material.title)
+            return createdMock
+
+        return MaterialMockManager.protectMaterial(takenRequest.key, takenRequest.material, true)
     }
 
     companion object ProtectMaterialMockGenerator{
+        private const val PROTECTED = "Protected"
         val customRequest = ProtectRequest(
-            material = MaterialResponse(
-                id = "materialId",
-                publishDate = getNow(),
-                image = "image",
-                title = "title",
-                description = "description",
-                type = "type",
-                url = EMPTY_STRING,
-                result = CRUDResponse(
-                    resultCode = TWO_HUNDRED_NINETY_NINE,
-                    message = "Mock crud"
-                )
-            ),
-            key = "Protected"
+            material = MaterialMockManager.getEmptyMaterial(),
+            key = PROTECTED
         )
     }
 }

@@ -34,8 +34,8 @@ class MaterialDataSource(
 ) {
 
     suspend fun getAllFiles() = withContext(Dispatchers.IO) {
-        val mock = generateMockerClass(GetAllMaterialsMockGenerator::class, manager.generateToken())
-            .getMock(NetworkConfig.HEADER_AUTHORIZATION_TYPE + MATERIAL_TOKEN_MOCK_KEY) { null }
+        val mock = generateMockerClass(GetAllMaterialsMockGenerator::class, Unit)
+            .getMock(Unit) { null }
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.getMaterials(token = manager.generateToken())
@@ -44,10 +44,8 @@ class MaterialDataSource(
 
     suspend fun getFileById(materialId: String) = withContext(Dispatchers.IO) {
         val requestHeader = manager.generateToken()
-        val map =
-            mapOf(MATERIAL_TOKEN_MOCK_KEY to requestHeader, MATERIAL_ID_MOCK_KEY to materialId)
-        val mock = generateMockerClass(GetMaterialByIdMockGenerator::class, map)
-            .getMock(GetMaterialByIdMockGenerator.customRequest) { null }
+        val mock = generateMockerClass(GetMaterialByIdMockGenerator::class, MATERIAL_ID_MOCK_KEY)
+            .getMock(MATERIAL_ID_MOCK_KEY) { null }
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.getMaterialById(materialId = materialId, token = requestHeader)
@@ -57,10 +55,8 @@ class MaterialDataSource(
     suspend fun createMaterialById(materialModel: MaterialResponse) =
         withContext(Dispatchers.IO) {
             val requestHeader = manager.generateToken()
-            val map =
-                mapOf(MATERIAL_MOCK_KEY to materialModel, MATERIAL_TOKEN_MOCK_KEY to requestHeader)
 
-            val mock = generateMockerClass(CreateMaterialMockGenerator::class, map)
+            val mock = generateMockerClass(CreateMaterialMockGenerator::class, materialModel)
                 .getMock(CreateMaterialMockGenerator.customRequest) { null }
 
             handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
@@ -79,10 +75,8 @@ class MaterialDataSource(
     suspend fun removeMaterialById(materialId: String) =
         withContext(Dispatchers.IO) {
             val requestHeader = manager.generateToken()
-            val map =
-                mapOf(MATERIAL_TOKEN_MOCK_KEY to requestHeader, MATERIAL_ID_MOCK_KEY to materialId)
-            val mock = generateMockerClass(RemoveMaterialMockGenerator::class, map)
-                .getMock(RemoveMaterialMockGenerator.customRequest) { null }
+            val mock = generateMockerClass(RemoveMaterialMockGenerator::class, MATERIAL_ID_MOCK_KEY)
+                .getMock(MATERIAL_ID_MOCK_KEY) { null }
 
             handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
                 service.removeMaterialById(
@@ -95,9 +89,7 @@ class MaterialDataSource(
     suspend fun updateMaterialById(materialModel: MaterialResponse) =
         withContext(Dispatchers.IO) {
             val requestHeader = manager.generateToken()
-            val map =
-                mapOf(MATERIAL_MOCK_KEY to materialModel, MATERIAL_TOKEN_MOCK_KEY to requestHeader)
-            val mock = generateMockerClass(UpdateMaterialMockGenerator::class, map)
+            val mock = generateMockerClass(UpdateMaterialMockGenerator::class,materialModel)
                 .getMock(UpdateMaterialMockGenerator.customRequest) { null }
 
             handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {

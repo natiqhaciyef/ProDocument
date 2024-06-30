@@ -10,44 +10,19 @@ import com.natiqhaciyef.data.network.NetworkConfig
 import com.natiqhaciyef.data.network.response.MaterialResponse
 
 class GetMaterialByIdMockGenerator(
-    override var takenRequest: Map<String, String>
-) : BaseMockGenerator<Map<String, String>, MaterialResponse>() {
+    override var takenRequest: String
+) : BaseMockGenerator<String, MaterialResponse>() {
 
-    override var createdMock: MaterialResponse = MaterialResponse(
-        id = "materialId",
-        publishDate = getNow(),
-        image = "image",
-        title = "title",
-        description = "description",
-        type = "type",
-        url = "url",
-        result = CRUDResponse(
-            resultCode = TWO_HUNDRED_NINETY_NINE,
-            message = "Mock material"
-        )
-    )
+    override var createdMock: MaterialResponse =
+        MaterialMockManager.getMaterialById(MATERIAL_ID_MOCK_KEY)
 
     override fun getMock(
-        request: Map<String, String>,
-        action: (Map<String, String>) -> MaterialResponse?
+        request: String,
+        action: (String) -> MaterialResponse?
     ): MaterialResponse {
-        val materialId = request[MATERIAL_ID_MOCK_KEY]
-        val token = request[MATERIAL_TOKEN_MOCK_KEY]
+        if (request == takenRequest)
+            return createdMock
 
-        return if (
-            materialId == takenRequest[MATERIAL_ID_MOCK_KEY]
-            && token == takenRequest[MATERIAL_TOKEN_MOCK_KEY]
-        ) {
-            createdMock
-        } else {
-            action.invoke(request) ?: throw Companion.MockRequestException()
-        }
-    }
-
-    companion object GetMaterialByIdMockGenerator {
-        val customRequest = mapOf(
-            MATERIAL_TOKEN_MOCK_KEY to NetworkConfig.HEADER_AUTHORIZATION_TYPE + MATERIAL_TOKEN_MOCK_KEY,
-            MATERIAL_ID_MOCK_KEY to MATERIAL_ID_MOCK_KEY
-        )
+        return MaterialMockManager.getMaterialById(takenRequest)
     }
 }

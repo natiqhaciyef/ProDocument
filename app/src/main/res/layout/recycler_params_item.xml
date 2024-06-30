@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginVertical="12dp"
     android:layout_marginHorizontal="24dp"
+    android:background="@color/grayscale_50"
     >
 
     <View
@@ -27,10 +28,22 @@
         android:textSize="18sp"
         android:textColor="@color/grayscale_900"
         android:gravity="center_vertical"
+        android:layout_marginStart="16dp"
         android:fontFamily="@font/urbanist_bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/prefixIcon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <ImageView
+        android:id="@+id/prefixIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/dowload_bs_icon"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         />
 
@@ -58,6 +71,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:thumbTint="@color/primary_900"
         app:trackTint="@color/primary_200" />
+
+    <ImageView
+        android:id="@+id/lockIcon"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:visibility="gone"
+        android:src="@drawable/lock_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/grayscale_900" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

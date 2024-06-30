@@ -19,10 +19,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.widget.doOnTextChanged
 import com.google.android.material.snackbar.Snackbar
 import com.natiqhaciyef.common.constants.DATE_OVER_FLOW_ERROR
 import com.natiqhaciyef.common.constants.EMPTY_STRING
+import com.natiqhaciyef.common.constants.FORMATTED_DATE
+import com.natiqhaciyef.common.constants.FORMATTED_NUMBER_ONE
+import com.natiqhaciyef.common.constants.THIRTEEN
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.FragmentCompleteProfileBinding
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
@@ -51,13 +53,14 @@ class CompleteProfileFragment(
     private var currentSelectedTime: Long = 0L
     private var imageData: Uri? = null
     private var genderSelection: String = "Not-selected"
-    private val genderList = resources.getStringArray(com.natiqhaciyef.common.R.array.genders)
+    private var genderList = arrayOf<String>()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val calendar = Calendar.getInstance()
         registerPermissionForGallery()
+        genderList = resources.getStringArray(com.natiqhaciyef.common.R.array.genders)
 
         binding.apply {
             datePickerDialog(calendar)
@@ -175,9 +178,9 @@ class CompleteProfileFragment(
             viewModel.postEvent(
                 CompleteProfileContract.CompleteUiEvent.CollectUserData(
                     MappedUserModel(
-                        name = completeProfileFullNameInput.text.toString(),
+                        name = completeProfileFullNameInput.getInputResult(),
                         email = EMPTY_STRING,
-                        phoneNumber = completeProfilePhoneNumberInput.text.toString(),
+                        phoneNumber = completeProfilePhoneNumberInput.getInputResult(),
                         gender = genderSelection,
                         birthDate = completeProfileDOBInput.text.toString(),
                         imageUrl = imageData.toString(),
@@ -241,7 +244,7 @@ class CompleteProfileFragment(
 
     private fun changeCalendar(calendar: Calendar) {
         currentSelectedTime = calendar.timeInMillis
-        val format = "dd/MM/yyyy"
+        val format = FORMATTED_DATE
         val sdf = SimpleDateFormat(format, Locale.UK)
         val date = sdf.format(calendar.time)
         if (calendar.time.time < System.currentTimeMillis())
@@ -252,9 +255,9 @@ class CompleteProfileFragment(
 
     private fun fullNameValidation() {
         binding.apply {
-            completeProfileFullNameInput.doOnTextChanged { text, start, before, count ->
+            completeProfileFullNameInput.listenUserInput { text, start, before, count ->
                 continueButton.isEnabled = checkFullNameAcceptanceCondition(text)
-                        && checkPhoneAcceptanceCondition(completeProfilePhoneNumberInput.text)
+                        && checkPhoneAcceptanceCondition(completeProfilePhoneNumberInput.getInputResult())
                         && checkGenderAcceptanceCondition(completeProfileGenderDropDownItem.text)
                         && checkDateAcceptanceCondition()
             }
@@ -263,14 +266,15 @@ class CompleteProfileFragment(
 
     private fun phoneValidation() {
         binding.apply {
-            completeProfilePhoneNumberInput.addTextChangedListener(object : TextWatcher {
+            completeProfilePhoneNumberInput.setMaxLength(THIRTEEN)
+            completeProfilePhoneNumberInput.listenUserInputWithAddTextWatcher(object : TextWatcher {
                 override fun beforeTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
                 }
 
                 override fun onTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
                     continueButton.isEnabled = checkPhoneAcceptanceCondition(text)
-                            && checkFullNameAcceptanceCondition(completeProfileFullNameInput.text)
+                            && checkFullNameAcceptanceCondition(completeProfileFullNameInput.getInputResult())
                             && checkGenderAcceptanceCondition(completeProfileGenderDropDownItem.text)
                             && checkDateAcceptanceCondition()
                 }
@@ -278,15 +282,15 @@ class CompleteProfileFragment(
                 override fun afterTextChanged(text: Editable?) {
                     text?.let {
                         val formattedNumber =
-                            formatPhoneNumber(completeProfilePhoneNumberInput.editableText.toString())
+                            formatPhoneNumber(completeProfilePhoneNumberInput.getEditableText().toString())
                         if (formattedNumber != it.toString()) {
-                            completeProfilePhoneNumberInput.removeTextChangedListener(this)
+                            completeProfilePhoneNumberInput.listenUserInputWithRemoveTextWatcher(this)
 
                             // Prevent IndexOutOfBoundsException
-                            completeProfilePhoneNumberInput.setText(formattedNumber)
-                            completeProfilePhoneNumberInput.setSelection(formattedNumber.length)
+                            completeProfilePhoneNumberInput.insertInput(formattedNumber)
+                            completeProfilePhoneNumberInput.parseSelection(formattedNumber.length)
 
-                            completeProfilePhoneNumberInput.addTextChangedListener(this)
+                            completeProfilePhoneNumberInput.listenUserInputWithAddTextWatcher(this)
                         }
                     }
                 }
@@ -300,8 +304,8 @@ class CompleteProfileFragment(
                 genderSelection = adapterView.getItemAtPosition(p).toString()
 
                 continueButton.isEnabled =
-                    checkPhoneAcceptanceCondition(completeProfilePhoneNumberInput.text)
-                            && checkFullNameAcceptanceCondition(completeProfileFullNameInput.text)
+                    checkPhoneAcceptanceCondition(completeProfilePhoneNumberInput.getInputResult())
+                            && checkFullNameAcceptanceCondition(completeProfileFullNameInput.getInputResult())
                             && checkGenderAcceptanceCondition(genderSelection)
                             && checkDateAcceptanceCondition()
             }

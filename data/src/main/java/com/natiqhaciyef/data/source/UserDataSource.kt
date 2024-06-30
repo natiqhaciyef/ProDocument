@@ -5,11 +5,10 @@ import com.natiqhaciyef.common.constants.USER_EMAIL_MOCK_KEY
 import com.natiqhaciyef.common.constants.USER_PASSWORD_MOCK_KEY
 import com.natiqhaciyef.common.constants.USER_TOKEN_MOCK_KEY
 import com.natiqhaciyef.core.base.mock.generateMockerClass
-import com.natiqhaciyef.data.local.dao.UserDao
-import com.natiqhaciyef.data.local.entity.UserEntity
 import com.natiqhaciyef.data.mock.users.AccountMockGenerator
 import com.natiqhaciyef.data.mock.users.OtpMockGenerator
 import com.natiqhaciyef.data.mock.users.GetUserMockGenerator
+import com.natiqhaciyef.data.mock.users.GetUserStatisticsMockGenerator
 import com.natiqhaciyef.data.mock.users.LogOutMockGenerator
 import com.natiqhaciyef.data.mock.users.SignInMockGenerator
 import com.natiqhaciyef.data.network.LoadType
@@ -22,8 +21,7 @@ import kotlinx.coroutines.withContext
 
 class UserDataSource(
     private val manager: TokenManager,
-    private val service: UserService,
-    private val dao: UserDao
+    private val service: UserService
 ) {
     // network
     suspend fun getUserFromNetwork() = withContext(Dispatchers.IO) {
@@ -99,6 +97,16 @@ class UserDataSource(
         }
     }
 
+    suspend fun getUserStatics() = withContext(Dispatchers.IO){
+        val requestHeader = manager.generateToken()
+        val mock = generateMockerClass(GetUserStatisticsMockGenerator::class, Unit)
+            .getMock(Unit) { null }
+
+        handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
+            service.getUserStatics(requestHeader)
+        }
+    }
+
     suspend fun logout() = withContext(Dispatchers.IO) {
         val requestHeader = manager.generateToken()
         val mock = generateMockerClass(LogOutMockGenerator::class, Unit)
@@ -107,22 +115,4 @@ class UserDataSource(
             service.logout(requestHeader)
         }
     }
-
-    // local
-    suspend fun getUserFromLocal() = withContext(Dispatchers.IO) {
-        dao.getAllUser()
-    }
-
-    suspend fun insertToLocal(userEntity: UserEntity) = withContext(Dispatchers.IO) {
-        dao.insertUser(userEntity)
-    }
-
-    suspend fun removeFromLocal(userEntity: UserEntity) = withContext(Dispatchers.IO) {
-        dao.removeUser(userEntity)
-    }
-
-    suspend fun updateFromLocal(userEntity: UserEntity) = withContext(Dispatchers.IO) {
-        dao.updateUser(userEntity)
-    }
-
 }

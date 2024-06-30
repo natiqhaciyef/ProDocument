@@ -1,5 +1,6 @@
 package com.natiqhaciyef.prodocument.ui.view.main
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
@@ -12,6 +13,7 @@ import coil.size.Dimension
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.ActivityMainBinding
 import com.natiqhaciyef.core.base.ui.BaseActivity
+import com.natiqhaciyef.prodocument.ui.manager.DarkModeManager
 import com.natiqhaciyef.prodocument.ui.manager.LanguageManager
 import com.natiqhaciyef.prodocument.ui.manager.RememberUserManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,12 +37,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             supportFragmentManager.findFragmentById(R.id.fragmentContainerViewHome) as NavHostFragment
         NavigationUI.setupWithNavController(binding.bottomNavBar, navHostFragment.navController)
 
-        val appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.homeFragment,
-            R.id.filesFragment,
-            R.id.premiumFragment,
-            R.id.profileFragment
-        ))
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.homeFragment,
+                R.id.filesFragment,
+                R.id.premiumFragment,
+                R.id.profileFragment
+            )
+        )
         binding.materialToolbar.setupWithNavController(
             navHostFragment.navController,
             appBarConfiguration
@@ -51,6 +55,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         actionBar?.setDisplayShowHomeEnabled(false)
         actionBar?.setDisplayHomeAsUpEnabled(false)
+
+        println(DarkModeManager(this).getCurrentMode())
     }
 
 
