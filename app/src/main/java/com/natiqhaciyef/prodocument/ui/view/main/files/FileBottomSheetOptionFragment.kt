@@ -13,7 +13,7 @@ import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.domain.worker.config.startDownloadingFile
 import com.natiqhaciyef.prodocument.databinding.FragmentFileBottomSheetOptionBinding
-import com.natiqhaciyef.prodocument.ui.manager.CameraManager.Companion.createAndShareFile
+import com.natiqhaciyef.prodocument.ui.manager.FileManager.createAndShareFile
 import com.natiqhaciyef.prodocument.ui.manager.NavigationManager
 import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.COMPRESS_ROUTE
 import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.COMPRESS_TYPE

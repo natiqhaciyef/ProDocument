@@ -13,7 +13,7 @@ import com.natiqhaciyef.common.R
 import com.natiqhaciyef.core.base.ui.BaseRecyclerViewAdapter
 import com.natiqhaciyef.prodocument.ui.custom.CustomMaterialOptionsBottomSheetFragment
 import com.natiqhaciyef.core.model.CategoryItem
-import com.natiqhaciyef.prodocument.ui.manager.CameraManager.Companion.createAndShareFile
+import com.natiqhaciyef.prodocument.ui.manager.FileManager.createAndShareFile
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 
 class FileItemAdapter(

@@ -372,139 +372,21 @@ class CameraManager(
         }
     }
 
+
+
     companion object {
-        val cameraScannerDefaultOptions = GmsDocumentScannerOptions.Builder()
-            .setGalleryImportAllowed(true)
-            .setPageLimit(THIRTY)
-            .setResultFormats(RESULT_FORMAT_PDF, RESULT_FORMAT_JPEG)
-            .setScannerMode(SCANNER_MODE_FULL)
-            .build()
-
-        fun Fragment.createAndShareFile(
-            material: MappedMaterialModel,
-            isShare: Boolean = true
-        ) = when (material.type) {
-            URL -> {
-                shareFile(listOf(material.url), URL, isShare)
-            }
-
-            PDF -> {
-                shareFile(listOf(material.url), PDF, isShare)
-            }
-
-            DOCX -> {
-                shareFile(listOf(material.url), DOCX, isShare)
-            }
-
-            JPEG -> {
-                shareFile(listOf(material.image.toUri(), material.url), JPEG, isShare)
-            }
-
-            PNG -> {
-                shareFile(listOf(material.image.toUri(), material.url), PNG, isShare)
-            }
-
-            else -> {
-                listOf()
-            }
-        }
-
-        private fun Fragment.shareFile(
-            urls: List<Uri>,
-            fileType: String,
-            isShare: Boolean = true
-        ): List<Uri?> {
-            val list = mutableListOf<Uri?>()
-            val sharingIntent = Intent(Intent.ACTION_SEND)
-
-            when(fileType){
-                URL -> {
-                    if (urls.isNotEmpty()) {
-                        val url = urls[ZERO].toString().replace(PDF_EXTENSION, EMPTY_STRING).toUri()
-                        val address = getAddressOfFile(requireContext(), url)
-                        list.add(address)
-
-                        sharingIntent.apply {
-                            type = getIntentFileType(fileType)
-                            putExtra(Intent.EXTRA_TEXT, url.toString())
-                            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                        }
-                    }
-                }
-
-                PDF -> {
-                    if (urls.isNotEmpty()) {
-                        val externalUri = getAddressOfFile(requireContext(), urls[ZERO])
-                        if (isShare)
-                            sharingIntent.apply {
-                                type = getIntentFileType(fileType)
-                                putExtra(Intent.EXTRA_STREAM, externalUri)
-                                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                            }
-                        list.add(externalUri)
-                    }
-                }
-
-                DOCX -> {
-                    val url = urls[ZERO].toString().replace(PDF_EXTENSION, DOCX_EXTENSION).toUri()
-                    val address = getAddressOfFile(requireContext(), url)
-                    list.add(address)
-
-                    sharingIntent.apply {
-                        type = getIntentFileType(fileType)
-                        putExtra(Intent.EXTRA_STREAM, url.toString())
-                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                    }
-                }
-
-                PNG, JPEG -> {
-                    val url = urls[ZERO].toString().replace(PDF_EXTENSION, PNG_EXTENSION).toUri()
-                    val address = getAddressOfFile(requireContext(), url)
-                    list.add(address)
-
-                    sharingIntent.apply {
-                        type = getIntentFileType(fileType)
-                        putExtra(Intent.EXTRA_STREAM, url.toString())
-                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                    }
-                }
-
-                else -> {
-                    for (url in urls) {
-                        list.add(getAddressOfFile(requireContext(), url))
-                    }
-
-                    if (isShare)
-                        sharingIntent.apply {
-                            type = getIntentFileType(fileType)
-                            putExtra(Intent.EXTRA_STREAM, list[ZERO])
-                            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                        }
-                }
-            }
-
-            startActivity(Intent.createChooser(sharingIntent, SHARE_DATE_USING))
-            return list
-        }
-
-        fun getAddressOfFile(context: Context, uri: Uri?) = if (uri != null) {
-            FileProvider.getUriForFile(
-                context,
-                "${BuildConfig.APPLICATION_ID}.$PROVIDER",
-                File(uri.path.toString())
-            )
-        }else {
-            null
-        }
-
-        private const val PDF_EXTENSION = ".pdf"
-        private const val PNG_EXTENSION = ".png"
-        private const val DOCX_EXTENSION = ".docx"
-        private const val PROVIDER = "provider"
-
-        private const val SHARE_DATE_USING = "Share data using"
         const val TAG = "ACTION_STAFF_CAMERA"
         private const val FILE_NAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
         const val PICTURES_SLASH_CAMERAX_IMAGE = "Pictures/CameraX-Image"
+
+        val cameraScannerDefaultOptions = GmsDocumentScannerOptions.Builder()
+            .setGalleryImportAllowed(true)
+            .setPageLimit(THIRTY)
+            .setResultFormats(
+                GmsDocumentScannerOptions.RESULT_FORMAT_PDF,
+                GmsDocumentScannerOptions.RESULT_FORMAT_JPEG
+            )
+            .setScannerMode(GmsDocumentScannerOptions.SCANNER_MODE_FULL)
+            .build()
     }
 }

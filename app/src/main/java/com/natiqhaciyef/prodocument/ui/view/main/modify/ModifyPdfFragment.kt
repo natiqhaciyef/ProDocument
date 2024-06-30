@@ -25,8 +25,8 @@ import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.HOME_ROUTE
 import com.natiqhaciyef.prodocument.ui.custom.CustomMaterialOptionsBottomSheetFragment
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.CustomWatermarkAdderBottomSheetFragment
 import com.natiqhaciyef.core.model.CategoryItem
-import com.natiqhaciyef.prodocument.ui.manager.CameraManager.Companion.createAndShareFile
-import com.natiqhaciyef.prodocument.ui.manager.CameraManager.Companion.getAddressOfFile
+import com.natiqhaciyef.prodocument.ui.manager.FileManager.createAndShareFile
+import com.natiqhaciyef.prodocument.ui.manager.FileManager.getAddressOfFile
 import com.natiqhaciyef.prodocument.ui.manager.FileManager.createSafePdfUriLoader
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_LIST_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_MATERIAL
