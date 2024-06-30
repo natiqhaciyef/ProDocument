@@ -56,16 +56,16 @@ class FileItemAdapter(
 
 
     private fun configOfMerge(binding: RecyclerFilesItemViewBinding) {
-        with(binding) {
-            customFilePreview.changeBothIconsVisibility(View.GONE)
-            customFilePreview.changeRemoveIconVisibility(View.VISIBLE)
+        with(binding.customFilePreview) {
+            changeBothIconsVisibility(View.GONE)
+            changeRemoveIconVisibility(View.VISIBLE)
         }
     }
 
     private fun configOfHome(binding: RecyclerFilesItemViewBinding) {
-        with(binding) {
-            customFilePreview.changeBothIconsVisibility(View.VISIBLE)
-            customFilePreview.changeRemoveIconVisibility(View.GONE)
+        with(binding.customFilePreview) {
+            changeBothIconsVisibility(View.VISIBLE)
+            changeRemoveIconVisibility(View.GONE)
         }
     }
 
@@ -85,24 +85,25 @@ class FileItemAdapter(
             }
         }
 
-        view.customFilePreview.setCustomTitle(file.title)
-        view.customFilePreview.setCustomDate(file.createdDate)
-        view.customFilePreview.setImageIcon(file.image)
+        with(view){
+            customFilePreview.setCustomTitle(file.title)
+            customFilePreview.setCustomDate(file.createdDate)
+            customFilePreview.setImageIcon(file.image)
 
-        view.customFilePreview.addActionToRemove { removeAction.invoke(file) }
-        view.customFilePreview.addActionToOptions { optionAction.invoke(file) }
-        holder.itemView.setOnClickListener { onClickAction.invoke(file) }
-
-        view.customFilePreview.addActionToShare {
-            if (fragment != null && context != null) {
-                showBottomSheetDialog(
-                    material = file,
-                    shareOptions = (fragment!!.requireActivity() as MainActivity).getShareOptionsList(
-                        context = context!!
+            customFilePreview.addActionToRemove { removeAction.invoke(file) }
+            customFilePreview.addActionToOptions { optionAction.invoke(file) }
+            customFilePreview.addActionToShare {
+                if (fragment != null && context != null) {
+                    showBottomSheetDialog(
+                        material = file,
+                        shareOptions = (fragment!!.requireActivity() as MainActivity).getShareOptionsList(
+                            context = context!!
+                        )
                     )
-                )
+                }
             }
         }
+        holder.itemView.setOnClickListener { onClickAction.invoke(file) }
     }
 
     private fun shareFile(material: MappedMaterialModel) = fragment?.createAndShareFile(

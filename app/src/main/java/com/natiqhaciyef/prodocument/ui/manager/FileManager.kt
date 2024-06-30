@@ -111,10 +111,10 @@ object FileManager {
     }
 
     fun getFile(fileRequestLauncher: ActivityResultLauncher<Intent>) {
+        val uri = Uri.parse(CONTENT_URI)
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
             type = ALL_FILES
-            val uri = Uri.parse(CONTENT_URI)
             putExtra(DocumentsContract.EXTRA_INITIAL_URI, uri)
         }
         fileRequestLauncher.launch(intent)

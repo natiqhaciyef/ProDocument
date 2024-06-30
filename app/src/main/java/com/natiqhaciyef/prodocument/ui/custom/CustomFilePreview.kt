@@ -161,7 +161,7 @@ class CustomFilePreview(
     }
 
     fun addActionToRemove(onClick: (MappedMaterialModel?) -> Unit) {
-        binding?.fileOptionMenuIcon?.setOnClickListener { onClick.invoke(material) }
+        binding?.fileRemoveIcon?.setOnClickListener { onClick.invoke(material) }
     }
 
     fun itemOnClick(onClickEvent: (MappedMaterialModel?) -> Unit) {
