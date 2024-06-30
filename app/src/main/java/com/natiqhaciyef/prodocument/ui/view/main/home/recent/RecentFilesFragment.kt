@@ -13,9 +13,9 @@ import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.core.store.AppStorePrefKeys.TOKEN_KEY
 import com.natiqhaciyef.prodocument.databinding.FragmentRecentFilesBinding
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
-import com.natiqhaciyef.prodocument.ui.view.main.home.adapter.FileItemAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.home.recent.contract.RecentFilesContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.recent.viewmodel.RecentFilesViewModel
+import com.natiqhaciyef.uikit.adapter.FileItemAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlin.reflect.KClass

@@ -17,8 +17,8 @@ import com.natiqhaciyef.common.constants.EIGHTEEN
 import com.natiqhaciyef.prodocument.databinding.RecyclerParamsItemBinding
 import com.natiqhaciyef.prodocument.ui.manager.FingerPrintManager
 import com.natiqhaciyef.prodocument.ui.manager.RememberUserManager
-import com.natiqhaciyef.prodocument.ui.view.main.profile.model.FieldType
-import com.natiqhaciyef.prodocument.ui.view.main.profile.model.ParamsUIModel
+import com.natiqhaciyef.common.model.FieldType
+import com.natiqhaciyef.common.model.ParamsUIModel
 
 class SecurityParamsAdapter(
     private val activity: AppCompatActivity,

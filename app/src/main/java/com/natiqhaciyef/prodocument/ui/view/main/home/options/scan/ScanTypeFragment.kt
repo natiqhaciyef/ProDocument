@@ -13,7 +13,7 @@ import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.behaviour.CameraTypes
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.contract.ScanContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.viewmodel.ScanViewModel
-import com.natiqhaciyef.prodocument.ui.custom.ViewPagerAdapter
+import com.natiqhaciyef.uikit.adapter.ViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.KClass
 

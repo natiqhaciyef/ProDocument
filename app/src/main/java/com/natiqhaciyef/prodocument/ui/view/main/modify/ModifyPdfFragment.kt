@@ -22,7 +22,7 @@ import com.natiqhaciyef.core.store.AppStorePrefKeys.TITLE_COUNT_KEY
 import com.natiqhaciyef.prodocument.databinding.FragmentModifyPdfBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.HOME_ROUTE
-import com.natiqhaciyef.prodocument.ui.custom.CustomMaterialOptionsBottomSheetFragment
+import com.natiqhaciyef.prodocument.ui.view.main.home.CustomMaterialOptionsBottomSheetFragment
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.CustomWatermarkAdderBottomSheetFragment
 import com.natiqhaciyef.core.model.CategoryItem
 import com.natiqhaciyef.prodocument.ui.manager.FileManager.createAndShareFile

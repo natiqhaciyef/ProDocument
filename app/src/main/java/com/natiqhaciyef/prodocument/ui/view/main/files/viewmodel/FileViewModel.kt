@@ -11,8 +11,8 @@ import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.constants.EMPTY_STRING
 import com.natiqhaciyef.prodocument.ui.view.main.files.FilesFragment
 import com.natiqhaciyef.prodocument.ui.view.main.files.contract.FileContract
-import com.natiqhaciyef.prodocument.ui.view.main.profile.model.FieldType
-import com.natiqhaciyef.prodocument.ui.view.main.profile.model.ParamsUIModel
+import com.natiqhaciyef.common.model.FieldType
+import com.natiqhaciyef.common.model.ParamsUIModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

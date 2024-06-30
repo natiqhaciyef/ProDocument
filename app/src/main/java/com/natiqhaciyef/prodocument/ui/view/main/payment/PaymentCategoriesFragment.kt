@@ -19,7 +19,7 @@ import com.natiqhaciyef.prodocument.ui.util.BUNDLE_SUBSCRIPTION_PLAN
 import com.natiqhaciyef.prodocument.ui.manager.NavigationManager
 import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.HOME_ROUTE
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
-import com.natiqhaciyef.prodocument.ui.view.main.payment.adapter.PaymentMethodsAdapter
+import com.natiqhaciyef.uikit.adapter.PaymentMethodsAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.payment.contract.PaymentContract
 import com.natiqhaciyef.prodocument.ui.view.main.payment.viewmodel.PaymentViewModel
 import dagger.hilt.android.AndroidEntryPoint

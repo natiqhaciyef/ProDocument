@@ -7,7 +7,7 @@
     android:background="@color/dark_3"
     tools:context=".ui.view.main.home.options.e_sign.ESignFragment">
 
-    <com.natiqhaciyef.prodocument.ui.custom.CustomCanvasView
+    <com.natiqhaciyef.uikit.custom.CustomCanvasView
         android:id="@+id/customCanvasDrawView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

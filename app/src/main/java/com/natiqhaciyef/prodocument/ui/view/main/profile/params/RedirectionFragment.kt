@@ -8,7 +8,8 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.natiqhaciyef.prodocument.databinding.FragmentRedirectionBinding
-import com.natiqhaciyef.prodocument.ui.view.main.profile.model.Settings
+import com.natiqhaciyef.common.model.Settings
+import com.natiqhaciyef.prodocument.ui.view.main.profile.ProfileFragment.Companion.stringToNavigation
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,7 +24,7 @@ class RedirectionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val args: RedirectionFragmentArgs by navArgs()
-        val navigateOptions = Settings.stringToNavigation(args.settingTitle)
+        val navigateOptions = stringToNavigation(args.settingTitle)
         navigateOptions?.let {
             findNavController().navigate(it)
         }

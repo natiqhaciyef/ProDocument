@@ -14,7 +14,7 @@ import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.databinding.FragmentSubscriptionBinding
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_SUBSCRIPTION_PLAN
 import com.natiqhaciyef.prodocument.ui.manager.NavigationManager
-import com.natiqhaciyef.prodocument.ui.view.main.premium.adapter.FeatureAdapter
+import com.natiqhaciyef.uikit.adapter.FeatureAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.premium.contract.PremiumContract
 import com.natiqhaciyef.prodocument.ui.view.main.premium.viewmodel.PremiumViewModel
 import dagger.hilt.android.AndroidEntryPoint

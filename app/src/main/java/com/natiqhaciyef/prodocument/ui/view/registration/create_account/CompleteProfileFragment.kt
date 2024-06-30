@@ -204,7 +204,7 @@ class CompleteProfileFragment(
 
     private fun genderDropDownConfig() {
         val genderAdapter =
-            ArrayAdapter(requireContext(), R.layout.drop_down_gender_item, genderList)
+            ArrayAdapter(requireContext(), com.natiqhaciyef.uikit.R.layout.drop_down_gender_item, genderList)
 
         binding.apply {
             completeProfileGenderDropDownItem.hint =

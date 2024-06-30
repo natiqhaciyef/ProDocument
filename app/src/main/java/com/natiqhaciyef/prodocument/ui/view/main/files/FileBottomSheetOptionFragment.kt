@@ -23,7 +23,7 @@ import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.PROTECT_ROUTE
 import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.PROTECT_TYPE
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TYPE
-import com.natiqhaciyef.prodocument.ui.view.main.profile.model.ParamsUIModel
+import com.natiqhaciyef.common.model.ParamsUIModel
 import com.natiqhaciyef.prodocument.ui.view.main.profile.params.preferences.adapter.ParamsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 

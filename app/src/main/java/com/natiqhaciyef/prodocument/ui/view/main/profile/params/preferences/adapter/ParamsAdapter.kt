@@ -5,15 +5,13 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewGroup.MarginLayoutParams
 import androidx.annotation.ColorRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.natiqhaciyef.core.base.ui.BaseRecyclerViewAdapter
-import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.RecyclerParamsItemBinding
-import com.natiqhaciyef.prodocument.ui.view.main.profile.model.FieldType
-import com.natiqhaciyef.prodocument.ui.view.main.profile.model.ParamsUIModel
+import com.natiqhaciyef.common.model.FieldType
+import com.natiqhaciyef.common.model.ParamsUIModel
 
 
 class ParamsAdapter(

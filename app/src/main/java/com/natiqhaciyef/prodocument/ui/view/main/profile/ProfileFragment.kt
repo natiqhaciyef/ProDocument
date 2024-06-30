@@ -1,6 +1,5 @@
 package com.natiqhaciyef.prodocument.ui.view.main.profile
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,14 +8,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.natiqhaciyef.common.model.LanguageModel
 import com.natiqhaciyef.common.model.mapped.MappedSubscriptionModel
 import com.natiqhaciyef.common.model.mapped.MappedUserWithoutPasswordModel
-import com.natiqhaciyef.prodocument.ui.view.main.profile.model.AccountSettingModel
+import com.natiqhaciyef.common.model.AccountSettingModel
 import com.natiqhaciyef.prodocument.databinding.FragmentProfileBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.constants.ZERO
+import com.natiqhaciyef.common.model.Settings
+import com.natiqhaciyef.prodocument.ui.manager.DarkModeManager
 import com.natiqhaciyef.prodocument.ui.manager.LanguageManager
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
-import com.natiqhaciyef.prodocument.ui.view.main.profile.adapter.AccountParametersAdapter
+import com.natiqhaciyef.uikit.adapter.AccountParametersAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.profile.contract.ProfileContract
 import com.natiqhaciyef.prodocument.ui.view.main.profile.params.LogOutFragment
 import com.natiqhaciyef.prodocument.ui.view.main.profile.params.language.LanguageFragment
@@ -32,6 +33,7 @@ class ProfileFragment(
     override val viewModelClass: KClass<ProfileViewModel> = ProfileViewModel::class
 ) : BaseFragment<FragmentProfileBinding, ProfileViewModel, ProfileContract.ProfileState, ProfileContract.ProfileEvent, ProfileContract.ProfileEffect>() {
     private var adapter: AccountParametersAdapter? = null
+    private val darkModeManager = DarkModeManager(requireContext())
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -102,8 +104,14 @@ class ProfileFragment(
     }
 
     private fun recyclerviewConfig(list: MutableList<AccountSettingModel>) {
-        adapter = AccountParametersAdapter(this, list)
+        adapter = AccountParametersAdapter(this, list, darkModeManager.getCurrentMode())
         adapter?.onClickAction = { title -> adapterClickNavigation(title) }
+        adapter?.switchIconClickAction = {
+            darkModeManager.updateCurrentMode()
+            navigate(com.natiqhaciyef.prodocument.R.id.profileFragment)
+            darkModeManager.changeModeToggle()
+        }
+
         with(binding) {
             recyclerSettingsView.adapter = adapter
             recyclerSettingsView.layoutManager =
@@ -129,7 +137,6 @@ class ProfileFragment(
     private fun initLanguages(list: MutableList<LanguageModel>) {
         LanguageFragment.list = list
         LanguageFragment { language ->
-            // change language
             LanguageManager.setLocaleLang(lang = language.title, requireContext())
             LanguageManager.loadLocale(requireContext())
         }.show(
@@ -170,5 +177,29 @@ class ProfileFragment(
     override fun onPause() {
         super.onPause()
         viewModel.postEvent(ProfileContract.ProfileEvent.ClearState)
+    }
+
+    companion object{
+        fun settingEnumToNavigation(settings: Settings) = when(settings){
+            Settings.PERSONAL_INFO -> { com.natiqhaciyef.prodocument.R.id.personalInfoFragment }
+            Settings.PREFERENCE -> { com.natiqhaciyef.prodocument.R.id.preferencesFragment }
+            Settings.SECURITY -> { com.natiqhaciyef.prodocument.R.id.securityFragment }
+            Settings.PAYMENT_HISTORY -> { com.natiqhaciyef.prodocument.R.id.paymentHistoryFragment }
+            Settings.CATEGORY_GRAPH -> { com.natiqhaciyef.prodocument.R.id.categoryGraphFragment }
+            Settings.HELP_CENTER -> { com.natiqhaciyef.prodocument.R.id.helpCenterFragment }
+            Settings.ABOUT_PROSCAN -> { com.natiqhaciyef.prodocument.R.id.aboutProscanFragment }
+            else -> { null }
+        }
+
+        fun stringToNavigation(str: String) = when(str){
+            Settings.PERSONAL_INFO.name -> { com.natiqhaciyef.prodocument.R.id.personalInfoFragment }
+            Settings.PREFERENCE.name -> { com.natiqhaciyef.prodocument.R.id.preferencesFragment }
+            Settings.SECURITY.name -> { com.natiqhaciyef.prodocument.R.id.securityFragment }
+            Settings.PAYMENT_HISTORY.name -> { com.natiqhaciyef.prodocument.R.id.paymentHistoryFragment }
+            Settings.CATEGORY_GRAPH.name -> { com.natiqhaciyef.prodocument.R.id.categoryGraphFragment }
+            Settings.HELP_CENTER.name -> { com.natiqhaciyef.prodocument.R.id.helpCenterFragment }
+            Settings.ABOUT_PROSCAN.name -> { com.natiqhaciyef.prodocument.R.id.aboutProscanFragment }
+            else -> { null }
+        }
     }
 }

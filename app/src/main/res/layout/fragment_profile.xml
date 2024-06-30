@@ -28,7 +28,7 @@
             android:layout_height="match_parent">
 
 
-            <com.natiqhaciyef.prodocument.ui.custom.CustomProfileDetailsView
+            <com.natiqhaciyef.uikit.custom.CustomProfileDetailsView
                 android:id="@+id/profileDetailsTopbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.natiqhaciyef.prodocument.ui.custom.CustomSubscriptionBannerView
+            <com.natiqhaciyef.uikit.custom.CustomSubscriptionBannerView
                 android:id="@+id/customSubscriptionBanner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -10,7 +10,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.R
-import com.natiqhaciyef.common.constants.AMPERSAND
 import com.natiqhaciyef.common.constants.EMPTY_STRING
 import com.natiqhaciyef.common.constants.LINE
 import com.natiqhaciyef.common.constants.SPACE
@@ -20,9 +19,9 @@ import com.natiqhaciyef.prodocument.ui.manager.FileManager
 import com.natiqhaciyef.prodocument.ui.manager.NavigationManager
 import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
-import com.natiqhaciyef.prodocument.ui.view.main.home.adapter.FileItemAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.merge.contract.MergePdfContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.merge.viewmodel.MergePdfViewModel
+import com.natiqhaciyef.uikit.adapter.FileItemAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlin.reflect.KClass

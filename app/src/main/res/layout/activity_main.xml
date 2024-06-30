@@ -8,7 +8,7 @@
     tools:context=".ui.view.main.MainActivity">
 
 
-    <com.natiqhaciyef.prodocument.ui.custom.CustomToolbarLayout
+    <com.natiqhaciyef.uikit.custom.CustomToolbarLayout
         android:id="@+id/materialToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
