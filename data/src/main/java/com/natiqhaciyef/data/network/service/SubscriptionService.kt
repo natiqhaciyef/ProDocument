@@ -2,7 +2,7 @@ package com.natiqhaciyef.data.network.service
 
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.data.network.NetworkConfig
-import com.natiqhaciyef.data.network.response.SubscriptionResponse
+import com.natiqhaciyef.domain.network.response.SubscriptionResponse
 import retrofit2.Response
 import retrofit2.http.Field
 import retrofit2.http.GET

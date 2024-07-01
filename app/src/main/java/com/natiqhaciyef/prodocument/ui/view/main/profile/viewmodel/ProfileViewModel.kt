@@ -17,7 +17,7 @@ import com.natiqhaciyef.domain.usecase.app.GetCountriesUseCase
 import com.natiqhaciyef.domain.usecase.app.GetFaqListUseCase
 import com.natiqhaciyef.domain.usecase.app.GetProscanDetailsUseCase
 import com.natiqhaciyef.domain.usecase.app.GetProscanSectionsUseCase
-import com.natiqhaciyef.domain.usecase.payment.remote.GetPaymentHistoryUseCase
+import com.natiqhaciyef.domain.usecase.payment.GetPaymentHistoryUseCase
 import com.natiqhaciyef.domain.usecase.subscription.GetPickedPlanUseCase
 import com.natiqhaciyef.domain.usecase.user.GetUserByTokenRemoteUseCase
 import com.natiqhaciyef.domain.usecase.user.GetUserStaticsUseCase

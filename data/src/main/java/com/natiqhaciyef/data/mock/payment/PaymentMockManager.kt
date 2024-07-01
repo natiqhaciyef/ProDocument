@@ -19,15 +19,15 @@ import com.natiqhaciyef.common.model.payment.PaymentMethods
 import com.natiqhaciyef.common.model.payment.PaymentTypes
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.data.mock.subscription.SubscriptionMockManager
-import com.natiqhaciyef.data.network.request.PaymentModel
-import com.natiqhaciyef.data.network.request.PaymentRequest
-import com.natiqhaciyef.data.network.request.QrCodeRequest
-import com.natiqhaciyef.data.network.response.ChequePayloadModel
-import com.natiqhaciyef.data.network.response.PaymentChequeResponse
-import com.natiqhaciyef.data.network.response.PaymentPickModel
-import com.natiqhaciyef.data.network.response.QrPaymentResponse
-import com.natiqhaciyef.data.network.response.SubscriptionPlanPaymentDetails
-import com.natiqhaciyef.data.network.response.SubscriptionResponse
+import com.natiqhaciyef.domain.network.request.PaymentModel
+import com.natiqhaciyef.domain.network.request.PaymentRequest
+import com.natiqhaciyef.domain.network.request.QrCodeRequest
+import com.natiqhaciyef.domain.network.response.ChequePayloadModel
+import com.natiqhaciyef.domain.network.response.PaymentChequeResponse
+import com.natiqhaciyef.domain.network.response.PaymentPickModel
+import com.natiqhaciyef.domain.network.response.QrPaymentResponse
+import com.natiqhaciyef.domain.network.response.SubscriptionPlanPaymentDetails
+import com.natiqhaciyef.domain.network.response.SubscriptionResponse
 import java.util.concurrent.Flow.Subscription
 
 object PaymentMockManager {

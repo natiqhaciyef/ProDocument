@@ -3,8 +3,8 @@ package com.natiqhaciyef.data.mock.users
 import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
-import com.natiqhaciyef.data.network.response.TokenResponse
-import com.natiqhaciyef.data.network.response.UserResponse
+import com.natiqhaciyef.domain.network.response.TokenResponse
+import com.natiqhaciyef.domain.network.response.UserResponse
 import java.util.UUID
 
 class AccountMockGenerator(

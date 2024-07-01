@@ -2,11 +2,11 @@ package com.natiqhaciyef.domain.repository
 
 import com.natiqhaciyef.core.base.repository.BaseRepository
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
-import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.core.CRUDResponse
-import com.natiqhaciyef.data.network.response.GraphDetailsListResponse
-import com.natiqhaciyef.data.network.response.TokenResponse
-import com.natiqhaciyef.data.network.response.UserResponse
+import com.natiqhaciyef.domain.network.NetworkResult
+import com.natiqhaciyef.domain.network.response.GraphDetailsListResponse
+import com.natiqhaciyef.domain.network.response.TokenResponse
+import com.natiqhaciyef.domain.network.response.UserResponse
 
 interface UserRepository : BaseRepository {
 

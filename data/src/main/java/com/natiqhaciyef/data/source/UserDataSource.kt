@@ -11,15 +11,16 @@ import com.natiqhaciyef.data.mock.users.GetUserMockGenerator
 import com.natiqhaciyef.data.mock.users.GetUserStatisticsMockGenerator
 import com.natiqhaciyef.data.mock.users.LogOutMockGenerator
 import com.natiqhaciyef.data.mock.users.SignInMockGenerator
-import com.natiqhaciyef.data.network.LoadType
-import com.natiqhaciyef.data.network.handleNetworkResponse
+import com.natiqhaciyef.domain.network.LoadType
+import com.natiqhaciyef.domain.network.handleNetworkResponse
 import com.natiqhaciyef.data.network.manager.TokenManager
-import com.natiqhaciyef.data.network.response.UserResponse
+import com.natiqhaciyef.domain.network.response.UserResponse
 import com.natiqhaciyef.data.network.service.UserService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class UserDataSource(
+class UserDataSource @Inject constructor(
     private val manager: TokenManager,
     private val service: UserService
 ) {

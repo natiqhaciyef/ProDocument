@@ -5,7 +5,7 @@ import com.natiqhaciyef.common.constants.USER_EMAIL_MOCK_KEY
 import com.natiqhaciyef.common.constants.USER_PASSWORD_MOCK_KEY
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
-import com.natiqhaciyef.data.network.response.TokenResponse
+import com.natiqhaciyef.domain.network.response.TokenResponse
 import java.util.UUID
 
 class SignInMockGenerator(

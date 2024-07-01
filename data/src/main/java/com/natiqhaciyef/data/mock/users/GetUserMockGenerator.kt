@@ -4,7 +4,7 @@ import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
 import com.natiqhaciyef.common.helpers.getNow
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
-import com.natiqhaciyef.data.network.response.UserResponse
+import com.natiqhaciyef.domain.network.response.UserResponse
 
 class GetUserMockGenerator(
     override var takenRequest: Unit

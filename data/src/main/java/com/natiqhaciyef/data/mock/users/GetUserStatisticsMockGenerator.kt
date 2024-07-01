@@ -1,8 +1,8 @@
 package com.natiqhaciyef.data.mock.users
 
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
-import com.natiqhaciyef.data.network.response.GraphDetailModel
-import com.natiqhaciyef.data.network.response.GraphDetailsListResponse
+import com.natiqhaciyef.domain.network.response.GraphDetailModel
+import com.natiqhaciyef.domain.network.response.GraphDetailsListResponse
 
 class GetUserStatisticsMockGenerator(
     override var takenRequest: Unit

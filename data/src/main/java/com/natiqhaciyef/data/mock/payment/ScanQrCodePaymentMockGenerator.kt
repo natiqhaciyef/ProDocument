@@ -9,10 +9,10 @@ import com.natiqhaciyef.common.model.payment.PaymentDetails
 import com.natiqhaciyef.common.model.payment.PaymentMethods
 import com.natiqhaciyef.common.model.payment.PaymentTypes
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
-import com.natiqhaciyef.data.network.request.QrCodeRequest
-import com.natiqhaciyef.data.network.response.PaymentChequeResponse
-import com.natiqhaciyef.data.network.response.QrPaymentResponse
-import com.natiqhaciyef.data.network.response.SubscriptionPlanPaymentDetails
+import com.natiqhaciyef.domain.network.request.QrCodeRequest
+import com.natiqhaciyef.domain.network.response.PaymentChequeResponse
+import com.natiqhaciyef.domain.network.response.QrPaymentResponse
+import com.natiqhaciyef.domain.network.response.SubscriptionPlanPaymentDetails
 
 class ScanQrCodePaymentMockGenerator(
     override var takenRequest: QrCodeRequest

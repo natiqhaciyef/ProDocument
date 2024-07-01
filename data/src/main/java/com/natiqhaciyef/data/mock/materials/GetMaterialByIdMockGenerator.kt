@@ -7,7 +7,7 @@ import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
 import com.natiqhaciyef.data.network.NetworkConfig
-import com.natiqhaciyef.data.network.response.MaterialResponse
+import com.natiqhaciyef.domain.network.response.MaterialResponse
 
 class GetMaterialByIdMockGenerator(
     override var takenRequest: String

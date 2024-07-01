@@ -1,6 +1,6 @@
 package com.natiqhaciyef.data.network.service
 
-import com.natiqhaciyef.data.network.response.TokenResponse
+import com.natiqhaciyef.domain.network.response.TokenResponse
 import retrofit2.http.POST
 
 interface TokenService {

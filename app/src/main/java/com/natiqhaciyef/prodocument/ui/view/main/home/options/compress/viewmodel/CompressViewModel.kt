@@ -5,7 +5,7 @@ import com.natiqhaciyef.common.model.Quality
 import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.base.ui.BaseViewModel
-import com.natiqhaciyef.domain.usecase.material.compress.CompressMaterialUseCase
+import com.natiqhaciyef.domain.usecase.material.CompressMaterialUseCase
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.compress.contract.CompressContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest

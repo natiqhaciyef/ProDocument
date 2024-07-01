@@ -12,7 +12,7 @@ import com.natiqhaciyef.domain.usecase.MATERIAL_E_SIGN
 import com.natiqhaciyef.domain.usecase.MATERIAL_E_SIGN_BITMAP
 import com.natiqhaciyef.domain.usecase.MATERIAL_MODEL
 import com.natiqhaciyef.domain.usecase.POSITIONS_LIST
-import com.natiqhaciyef.domain.usecase.material.e_sign.ESignMaterialUseCase
+import com.natiqhaciyef.domain.usecase.material.ESignMaterialUseCase
 import com.natiqhaciyef.uikit.custom.CustomCanvasView
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.e_sign.contract.ESignContract
 import dagger.hilt.android.lifecycle.HiltViewModel

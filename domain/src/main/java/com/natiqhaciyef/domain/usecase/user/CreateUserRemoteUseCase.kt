@@ -10,9 +10,9 @@ import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.core.base.usecase.BaseUseCase
 import com.natiqhaciyef.core.base.usecase.UseCase
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
-import com.natiqhaciyef.data.mapper.toMapped
-import com.natiqhaciyef.data.network.NetworkResult
+import com.natiqhaciyef.domain.mapper.toMapped
 import com.natiqhaciyef.domain.repository.UserRepository
+import com.natiqhaciyef.domain.network.NetworkResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject

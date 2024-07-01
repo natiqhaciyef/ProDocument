@@ -8,8 +8,8 @@ import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.common.constants.UNKNOWN_ERROR
 import com.natiqhaciyef.core.base.usecase.BaseUseCase
 import com.natiqhaciyef.core.base.usecase.UseCase
-import com.natiqhaciyef.data.mapper.toMapped
-import com.natiqhaciyef.data.network.NetworkResult
+import com.natiqhaciyef.domain.mapper.toMapped
+import com.natiqhaciyef.domain.network.NetworkResult
 import com.natiqhaciyef.domain.repository.SubscriptionRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

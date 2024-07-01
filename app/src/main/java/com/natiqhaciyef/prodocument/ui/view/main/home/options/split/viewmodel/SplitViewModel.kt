@@ -8,7 +8,7 @@ import com.natiqhaciyef.domain.usecase.MATERIAL_FIRST_LINE
 import com.natiqhaciyef.domain.usecase.MATERIAL_LAST_LINE
 import com.natiqhaciyef.domain.usecase.MATERIAL_MODEL
 import com.natiqhaciyef.domain.usecase.MATERIAL_TITLE
-import com.natiqhaciyef.domain.usecase.material.split.SplitMaterialUseCase
+import com.natiqhaciyef.domain.usecase.material.SplitMaterialUseCase
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.split.contract.SplitContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest

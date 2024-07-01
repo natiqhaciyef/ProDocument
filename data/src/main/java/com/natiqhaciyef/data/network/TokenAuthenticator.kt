@@ -1,7 +1,7 @@
 package com.natiqhaciyef.data.network
 
 import com.natiqhaciyef.common.constants.EMPTY_STRING
-import com.natiqhaciyef.data.mapper.toMapped
+import com.natiqhaciyef.domain.mapper.toMapped
 import com.natiqhaciyef.data.network.manager.TokenManager
 import com.natiqhaciyef.data.network.service.TokenService
 import kotlinx.coroutines.runBlocking

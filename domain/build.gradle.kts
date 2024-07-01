@@ -2,6 +2,8 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
+    id("kotlin-parcelize")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -39,7 +41,7 @@ dependencies {
     val retrofitVersion = "2.9.0"
     val okHttpLoggingInterceptorVersion = "5.0.0-alpha.3"
 
-    implementation(project(":data"))
+//    implementation(project(":data"))
     implementation(project(":core"))
     implementation(project(":common"))
     implementation("androidx.core:core-ktx:1.12.0")
