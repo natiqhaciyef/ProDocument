@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.view.main.profile.params.preferences.adapter
+package com.natiqhaciyef.uikit.adapter
 
 import android.content.Context
 import android.util.TypedValue
@@ -9,9 +9,9 @@ import androidx.annotation.ColorRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.natiqhaciyef.core.base.ui.BaseRecyclerViewAdapter
-import com.natiqhaciyef.prodocument.databinding.RecyclerParamsItemBinding
 import com.natiqhaciyef.common.model.FieldType
 import com.natiqhaciyef.common.model.ParamsUIModel
+import com.natiqhaciyef.uikit.databinding.RecyclerParamsItemBinding
 
 
 class ParamsAdapter(

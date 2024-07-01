@@ -1,12 +1,10 @@
-package com.natiqhaciyef.prodocument.ui.manager
+package com.natiqhaciyef.prodocument.ui.util
 
 import android.content.ContentValues
 import android.content.Context
-import android.content.Intent
 import android.icu.text.SimpleDateFormat
 import android.net.Uri
 import android.os.Build
-import com.natiqhaciyef.prodocument.BuildConfig
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
@@ -21,9 +19,6 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
-import androidx.core.net.toUri
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import com.google.mlkit.vision.barcode.BarcodeScanner
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
@@ -37,24 +32,16 @@ import com.google.mlkit.vision.documentscanner.GmsDocumentScannerOptions.SCANNER
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
-import com.natiqhaciyef.common.constants.EMPTY_STRING
 import com.natiqhaciyef.common.constants.PHOTO_CAPTURED_FAILED
 import com.natiqhaciyef.common.constants.PHOTO_CAPTURED_SUCCEED
 import com.natiqhaciyef.common.constants.THIRTY
 import com.natiqhaciyef.common.constants.ZERO
-import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
-import com.natiqhaciyef.core.model.FileTypes.DOCX
 import com.natiqhaciyef.core.model.FileTypes.JPEG
-import com.natiqhaciyef.core.model.FileTypes.PDF
-import com.natiqhaciyef.core.model.FileTypes.PNG
-import com.natiqhaciyef.core.model.FileTypes.URL
-import com.natiqhaciyef.domain.worker.config.getIntentFileType
-import java.io.File
 import java.util.Locale
 import java.util.concurrent.Executors
 
 
-class CameraManager(
+class CameraUtil(
     private val context: Context,
     private val lifecycle: LifecycleOwner,
 ) {
@@ -373,7 +360,6 @@ class CameraManager(
     }
 
 
-
     companion object {
         const val TAG = "ACTION_STAFF_CAMERA"
         private const val FILE_NAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
@@ -382,11 +368,8 @@ class CameraManager(
         val cameraScannerDefaultOptions = GmsDocumentScannerOptions.Builder()
             .setGalleryImportAllowed(true)
             .setPageLimit(THIRTY)
-            .setResultFormats(
-                GmsDocumentScannerOptions.RESULT_FORMAT_PDF,
-                GmsDocumentScannerOptions.RESULT_FORMAT_JPEG
-            )
-            .setScannerMode(GmsDocumentScannerOptions.SCANNER_MODE_FULL)
+            .setResultFormats(RESULT_FORMAT_PDF, RESULT_FORMAT_JPEG)
+            .setScannerMode(SCANNER_MODE_FULL)
             .build()
     }
 }

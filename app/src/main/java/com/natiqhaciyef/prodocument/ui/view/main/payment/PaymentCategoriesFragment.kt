@@ -16,8 +16,8 @@ import com.natiqhaciyef.prodocument.databinding.FragmentPaymentCategoriesBinding
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_CHEQUE_PAYMENT
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_PAYMENT
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_SUBSCRIPTION_PLAN
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.HOME_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.HOME_ROUTE
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.uikit.adapter.PaymentMethodsAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.payment.contract.PaymentContract
@@ -114,7 +114,7 @@ class PaymentCategoriesFragment(
 
     private fun onToolbarBackPressAction(bnw: BottomNavigationView){
         bnw.visibility = View.VISIBLE
-        NavigationManager.navigateByRouteTitle(this, HOME_ROUTE)
+        NavigationUtil.navigateByRouteTitle(this, HOME_ROUTE)
     }
 
     private fun onScanIconClickAction() {

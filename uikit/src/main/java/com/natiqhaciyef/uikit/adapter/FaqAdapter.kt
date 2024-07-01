@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.view.main.profile.params.helpcenter.adapter
+package com.natiqhaciyef.uikit.adapter
 
 import android.animation.LayoutTransition
 import android.content.Context
@@ -9,7 +9,7 @@ import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import com.natiqhaciyef.common.model.FaqModel
 import com.natiqhaciyef.core.base.ui.BaseRecyclerViewAdapter
-import com.natiqhaciyef.prodocument.databinding.RecyclerFaqItemBinding
+import com.natiqhaciyef.uikit.databinding.RecyclerFaqItemBinding
 
 class FaqAdapter(faqList: MutableList<FaqModel>) :
     BaseRecyclerViewAdapter<FaqModel, RecyclerFaqItemBinding>(faqList) {

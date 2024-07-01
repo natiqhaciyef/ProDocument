@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.manager
+package com.natiqhaciyef.prodocument.ui.util
 
 import android.app.Activity
 import android.content.Context
@@ -18,7 +18,7 @@ import com.natiqhaciyef.prodocument.ui.view.onboarding.OnboardingActivity
 import com.natiqhaciyef.prodocument.ui.view.registration.RegistrationActivity
 
 
-object NavigationManager {
+object NavigationUtil {
     const val RESOURCE_BUNDLE = "resourceBundle"
     const val DATASET_BUNDLE = "datasetBundle"
 

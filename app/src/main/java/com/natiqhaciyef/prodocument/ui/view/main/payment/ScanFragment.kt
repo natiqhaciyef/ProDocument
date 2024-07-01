@@ -20,7 +20,7 @@ import com.natiqhaciyef.common.model.mapped.MappedSubscriptionModel
 import com.natiqhaciyef.common.model.payment.MappedPaymentModel
 import com.natiqhaciyef.prodocument.databinding.FragmentScanBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
-import com.natiqhaciyef.prodocument.ui.manager.PermissionManager
+import com.natiqhaciyef.uikit.manager.PermissionManager
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_CHEQUE_PAYMENT
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_PAYMENT
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_SUBSCRIPTION_PLAN

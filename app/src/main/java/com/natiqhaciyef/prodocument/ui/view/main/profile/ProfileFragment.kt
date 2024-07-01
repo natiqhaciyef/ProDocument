@@ -14,8 +14,8 @@ import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.common.model.Settings
-import com.natiqhaciyef.prodocument.ui.manager.DarkModeManager
-import com.natiqhaciyef.prodocument.ui.manager.LanguageManager
+import com.natiqhaciyef.uikit.manager.DarkModeManager
+import com.natiqhaciyef.uikit.manager.LanguageManager
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.uikit.adapter.AccountParametersAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.profile.contract.ProfileContract

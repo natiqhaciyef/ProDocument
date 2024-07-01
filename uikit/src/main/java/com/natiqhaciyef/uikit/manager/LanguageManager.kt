@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.manager
+package com.natiqhaciyef.uikit.manager
 
 import android.app.Activity
 import android.content.Context

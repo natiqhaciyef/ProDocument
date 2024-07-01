@@ -1,12 +1,12 @@
-package com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.adapter
+package com.natiqhaciyef.uikit.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.natiqhaciyef.prodocument.databinding.RecyclerCategoryItemBinding
 import com.natiqhaciyef.core.base.ui.BaseRecyclerViewAdapter
 import com.natiqhaciyef.core.model.CategoryItem
+import com.natiqhaciyef.uikit.databinding.RecyclerCategoryItemBinding
 
 class ShareCategoryAdapter(
     dataList: MutableList<CategoryItem>

@@ -1,11 +1,11 @@
-package com.natiqhaciyef.prodocument.ui.view.main.profile.params.aboutproscan.adapter
+package com.natiqhaciyef.uikit.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.natiqhaciyef.common.model.ProscanSectionModel
 import com.natiqhaciyef.core.base.ui.BaseRecyclerViewAdapter
-import com.natiqhaciyef.prodocument.databinding.RecyclerSectionItemBinding
+import com.natiqhaciyef.uikit.databinding.RecyclerSectionItemBinding
 
 class SectionsAdapter(
     sectionsList: MutableList<ProscanSectionModel>,

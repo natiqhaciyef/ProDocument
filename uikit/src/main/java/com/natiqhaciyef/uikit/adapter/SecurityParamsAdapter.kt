@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.view.main.profile.params.security.adapter
+package com.natiqhaciyef.uikit.adapter
 
 import android.content.Context
 import android.content.Intent
@@ -14,11 +14,11 @@ import androidx.core.content.ContextCompat
 import com.natiqhaciyef.core.base.ui.BaseRecyclerViewAdapter
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.constants.EIGHTEEN
-import com.natiqhaciyef.prodocument.databinding.RecyclerParamsItemBinding
-import com.natiqhaciyef.prodocument.ui.manager.FingerPrintManager
-import com.natiqhaciyef.prodocument.ui.manager.RememberUserManager
 import com.natiqhaciyef.common.model.FieldType
 import com.natiqhaciyef.common.model.ParamsUIModel
+import com.natiqhaciyef.uikit.databinding.RecyclerParamsItemBinding
+import com.natiqhaciyef.uikit.manager.FingerPrintManager
+import com.natiqhaciyef.uikit.manager.RememberUserManager
 
 class SecurityParamsAdapter(
     private val activity: AppCompatActivity,

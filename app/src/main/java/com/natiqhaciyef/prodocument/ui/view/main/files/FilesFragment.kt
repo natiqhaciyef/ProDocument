@@ -11,13 +11,14 @@ import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.databinding.FragmentFilesBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.core.model.CategoryItem
-import com.natiqhaciyef.prodocument.ui.manager.FileManager.createAndShareFile
+import com.natiqhaciyef.uikit.manager.FileManager.createAndShareFile
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_MATERIAL
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.files.contract.FileContract
 import com.natiqhaciyef.prodocument.ui.view.main.files.viewmodel.FileViewModel
 import com.natiqhaciyef.prodocument.ui.view.main.home.CustomMaterialOptionsBottomSheetFragment
 import com.natiqhaciyef.common.model.ParamsUIModel
+import com.natiqhaciyef.prodocument.BuildConfig
 import com.natiqhaciyef.uikit.adapter.FileItemAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.KClass
@@ -219,6 +220,7 @@ class FilesFragment(
     }
 
     private fun shareFile(material: MappedMaterialModel) = this.createAndShareFile(
+        applicationId = BuildConfig.APPLICATION_ID,
         material = material,
         isShare = true
     )

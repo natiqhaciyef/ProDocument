@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.manager
+package com.natiqhaciyef.uikit.manager
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -21,12 +21,10 @@ import com.github.barteksc.pdfviewer.listener.OnErrorListener
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener
 import com.github.barteksc.pdfviewer.listener.OnPageScrollListener
-import com.google.mlkit.vision.documentscanner.GmsDocumentScannerOptions
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.constants.EMPTY_STRING
 import com.natiqhaciyef.common.constants.FIVE
 import com.natiqhaciyef.common.constants.ONE
-import com.natiqhaciyef.common.constants.THIRTY
 import com.natiqhaciyef.common.constants.THREE
 import com.natiqhaciyef.common.constants.TWENTY
 import com.natiqhaciyef.common.constants.TWO
@@ -36,15 +34,22 @@ import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.model.FileTypes
 import com.natiqhaciyef.core.model.FileTypes.ALL_FILES
 import com.natiqhaciyef.domain.worker.config.getIntentFileType
-import com.natiqhaciyef.prodocument.BuildConfig
-import com.natiqhaciyef.prodocument.ui.util.DefaultImplModels
 import com.shockwave.pdfium.PdfDocument
 import java.io.File
 import java.util.UUID
 
 
 object FileManager {
-    private fun getDefaultMockFile() = DefaultImplModels.mappedMaterialModel
+    private fun getDefaultMockFile() = MappedMaterialModel(
+        id = "$ZERO",
+        image = EMPTY_STRING,
+        title = EMPTY_STRING,
+        description = null,
+        createdDate = EMPTY_STRING,
+        type = EMPTY_STRING,
+        url = EMPTY_STRING.toUri(),
+        result = null
+    )
 
     private const val TAG = "PDF LOADER TAG"
     private const val CONTENT_TITLE = "content://"
@@ -189,27 +194,28 @@ object FileManager {
 
 
     fun Fragment.createAndShareFile(
+        applicationId: String,
         material: MappedMaterialModel,
         isShare: Boolean = true
     ) = when (material.type) {
         FileTypes.URL -> {
-            shareFile(listOf(material.url), FileTypes.URL, isShare)
+            shareFile(applicationId, listOf(material.url), FileTypes.URL, isShare)
         }
 
         FileTypes.PDF -> {
-            shareFile(listOf(material.url), FileTypes.PDF, isShare)
+            shareFile(applicationId, listOf(material.url), FileTypes.PDF, isShare)
         }
 
         FileTypes.DOCX -> {
-            shareFile(listOf(material.url), FileTypes.DOCX, isShare)
+            shareFile(applicationId, listOf(material.url), FileTypes.DOCX, isShare)
         }
 
         FileTypes.JPEG -> {
-            shareFile(listOf(material.image.toUri(), material.url), FileTypes.JPEG, isShare)
+            shareFile(applicationId, listOf(material.image.toUri(), material.url), FileTypes.JPEG, isShare)
         }
 
         FileTypes.PNG -> {
-            shareFile(listOf(material.image.toUri(), material.url), FileTypes.PNG, isShare)
+            shareFile(applicationId, listOf(material.image.toUri(), material.url), FileTypes.PNG, isShare)
         }
 
         else -> {
@@ -218,6 +224,7 @@ object FileManager {
     }
 
     private fun Fragment.shareFile(
+        applicationId: String,
         urls: List<Uri>,
         fileType: String,
         isShare: Boolean = true
@@ -229,7 +236,7 @@ object FileManager {
             FileTypes.URL -> {
                 if (urls.isNotEmpty()) {
                     val url = urls[ZERO].toString().replace(PDF_EXTENSION, EMPTY_STRING).toUri()
-                    val address = getAddressOfFile(requireContext(), url)
+                    val address = getAddressOfFile(applicationId, requireContext(), url)
                     list.add(address)
 
                     sharingIntent.apply {
@@ -242,7 +249,7 @@ object FileManager {
 
             FileTypes.PDF -> {
                 if (urls.isNotEmpty()) {
-                    val externalUri = getAddressOfFile(requireContext(), urls[ZERO])
+                    val externalUri = getAddressOfFile(applicationId, requireContext(), urls[ZERO])
                     if (isShare)
                         sharingIntent.apply {
                             type = getIntentFileType(fileType)
@@ -255,7 +262,7 @@ object FileManager {
 
             FileTypes.DOCX -> {
                 val url = urls[ZERO].toString().replace(PDF_EXTENSION, DOCX_EXTENSION).toUri()
-                val address = getAddressOfFile(requireContext(), url)
+                val address = getAddressOfFile(applicationId, requireContext(), url)
                 list.add(address)
 
                 sharingIntent.apply {
@@ -267,7 +274,7 @@ object FileManager {
 
             FileTypes.PNG, FileTypes.JPEG -> {
                 val url = urls[ZERO].toString().replace(PDF_EXTENSION, PNG_EXTENSION).toUri()
-                val address = getAddressOfFile(requireContext(), url)
+                val address = getAddressOfFile(applicationId, requireContext(), url)
                 list.add(address)
 
                 sharingIntent.apply {
@@ -279,7 +286,7 @@ object FileManager {
 
             else -> {
                 for (url in urls) {
-                    list.add(getAddressOfFile(requireContext(), url))
+                    list.add(getAddressOfFile(applicationId, requireContext(), url))
                 }
 
                 if (isShare)
@@ -295,10 +302,10 @@ object FileManager {
         return list
     }
 
-    fun getAddressOfFile(context: Context, uri: Uri?) = if (uri != null) {
+    fun getAddressOfFile(applicationId: String, context: Context, uri: Uri?) = if (uri != null) {
         FileProvider.getUriForFile(
             context,
-            "${BuildConfig.APPLICATION_ID}.$PROVIDER",
+            "$applicationId.$PROVIDER",
             File(uri.path.toString())
         )
     }else {

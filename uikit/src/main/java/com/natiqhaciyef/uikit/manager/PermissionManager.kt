@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.manager
+package com.natiqhaciyef.uikit.manager
 
 import android.Manifest
 import android.app.AlertDialog
@@ -7,9 +7,9 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.natiqhaciyef.common.helpers.capitalizeFirstLetter
-import com.natiqhaciyef.prodocument.ui.manager.PermissionManager.Permission.Companion.PERMISSION
-import com.natiqhaciyef.prodocument.ui.manager.PermissionManager.Permission.Companion.PERMISSION_REQUIREMENT
-import com.natiqhaciyef.prodocument.ui.manager.PermissionManager.Permission.Companion.YES
+import com.natiqhaciyef.uikit.manager.PermissionManager.Permission.Companion.PERMISSION
+import com.natiqhaciyef.uikit.manager.PermissionManager.Permission.Companion.PERMISSION_REQUIREMENT
+import com.natiqhaciyef.uikit.manager.PermissionManager.Permission.Companion.YES
 
 class PermissionManager private constructor(
     private val fragment: Fragment,

@@ -12,7 +12,7 @@ import com.natiqhaciyef.common.constants.FOUR
 import com.natiqhaciyef.prodocument.databinding.FragmentHomeBinding
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.navigateByRouteTitle
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TYPE
 import com.natiqhaciyef.prodocument.ui.util.UiList

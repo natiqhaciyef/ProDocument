@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.view.main.profile.params.helpcenter.adapter
+package com.natiqhaciyef.uikit.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.common.model.CategoryModel
 import com.natiqhaciyef.core.base.ui.BaseRecyclerViewAdapter
 import com.natiqhaciyef.common.R
-import com.natiqhaciyef.prodocument.databinding.RecyclerFaqCategoryItemBinding
+import com.natiqhaciyef.uikit.databinding.RecyclerFaqCategoryItemBinding
 
 class CategoryAdapter(
     private val ctx: Context,

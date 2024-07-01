@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
 import com.natiqhaciyef.common.constants.EMPTY_FIELD
 import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
@@ -13,8 +12,8 @@ import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.core.store.AppStorePrefKeys.TOKEN_KEY
 import com.natiqhaciyef.prodocument.databinding.FragmentLoginBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.HOME_ROUTE
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.navigateByActivityTitle
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.HOME_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.navigateByActivityTitle
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkEmailAcceptanceCondition
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkPasswordAcceptanceCondition
 import com.natiqhaciyef.prodocument.ui.view.registration.login.contract.LoginContract

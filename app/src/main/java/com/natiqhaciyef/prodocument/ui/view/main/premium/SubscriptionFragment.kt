@@ -13,7 +13,7 @@ import com.natiqhaciyef.common.model.mapped.MappedSubscriptionModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.databinding.FragmentSubscriptionBinding
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_SUBSCRIPTION_PLAN
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil
 import com.natiqhaciyef.uikit.adapter.FeatureAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.premium.contract.PremiumContract
 import com.natiqhaciyef.prodocument.ui.view.main.premium.viewmodel.PremiumViewModel
@@ -91,6 +91,6 @@ class SubscriptionFragment(
     private fun goToPayment(selectedPlan: MappedSubscriptionModel) {
         // navigate to payment
         val bundle = bundleOf(BUNDLE_SUBSCRIPTION_PLAN to selectedPlan)
-        NavigationManager.navigateByRouteTitle(this, NavigationManager.PAYMENT_ROUTE, bundle)
+        NavigationUtil.navigateByRouteTitle(this, NavigationUtil.PAYMENT_ROUTE, bundle)
     }
 }

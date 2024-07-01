@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.view.main.profile.params.language.adapter
+package com.natiqhaciyef.uikit.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import com.natiqhaciyef.common.model.LanguageModel
 import com.natiqhaciyef.core.base.ui.BaseRecyclerViewAdapter
 import com.natiqhaciyef.common.R
-import com.natiqhaciyef.prodocument.databinding.RecyclerLanguageItemBinding
+import com.natiqhaciyef.uikit.databinding.RecyclerLanguageItemBinding
 
 
 class LanguageAdapter(

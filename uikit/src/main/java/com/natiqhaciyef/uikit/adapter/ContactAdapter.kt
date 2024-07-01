@@ -1,11 +1,11 @@
-package com.natiqhaciyef.prodocument.ui.view.main.profile.params.helpcenter.adapter
+package com.natiqhaciyef.uikit.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.natiqhaciyef.common.model.ContactMethods
 import com.natiqhaciyef.core.base.ui.BaseRecyclerViewAdapter
-import com.natiqhaciyef.prodocument.databinding.RecyclerContactItemBinding
+import com.natiqhaciyef.uikit.databinding.RecyclerContactItemBinding
 
 class ContactAdapter(
     contactMethods: MutableList<ContactMethods>

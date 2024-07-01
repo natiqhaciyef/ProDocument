@@ -15,9 +15,9 @@ import com.natiqhaciyef.common.constants.LINE
 import com.natiqhaciyef.common.constants.SPACE
 import com.natiqhaciyef.prodocument.databinding.FragmentMergePdfsBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
-import com.natiqhaciyef.prodocument.ui.manager.FileManager
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.navigateByRouteTitle
+import com.natiqhaciyef.uikit.manager.FileManager
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.merge.contract.MergePdfContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.merge.viewmodel.MergePdfViewModel
@@ -63,7 +63,7 @@ class MergePdfsFragment(
             addMoreFilesButton.setOnClickListener { FileManager.getFile(fileRequestLauncher) }
             mergeButton.setOnClickListener { mergeButtonEvent(filesList) }
             goBackIcon.setOnClickListener {
-                navigateByRouteTitle(this@MergePdfsFragment, NavigationManager.HOME_ROUTE)
+                navigateByRouteTitle(this@MergePdfsFragment, NavigationUtil.HOME_ROUTE)
             }
         }
     }

@@ -51,10 +51,12 @@ dependencies {
     val epoxyVersion = "5.1.3"
     val lifecycleVersion = "2.5.1"
     val viewPagerVersion = "1.0.0"
+
     val cameraXVersion = "1.3.1"
     val mlKitBarcodeVersion = "18.3.0"
     val mlKitRecognizerVersion = "19.0.0"
     val scannerMlKitVersion = "16.0.0-beta1"
+
     val zxingVersion = "4.3.0"
     val dataStoreVersion = "1.0.0"
     val coilVersion = "2.5.0"
@@ -62,6 +64,7 @@ dependencies {
     val navigationVersion = "2.5.3"
     val encryptedSharedPrefVersion = "1.1.0-alpha06"
     val pdfViewerVersion = "2.3.0"
+
     val workManagerVersion = "2.8.1"
     val swipeLayoutVersion = "1.1.0"
     val retrofitVersion = "2.9.0"
@@ -128,6 +131,7 @@ dependencies {
 
     //Gson
     implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
+    implementation("com.google.guava:guava:31.0.1-android")
 
     //Fragment ktx
     implementation("androidx.fragment:fragment-ktx:$fragmentVersion")
@@ -168,9 +172,6 @@ dependencies {
 
     //Reflection
     implementation(kotlin("reflect"))
-
-    //Fingerprint
-    implementation("androidx.biometric:biometric:1.2.0-alpha05")
 
     // TestImplementations
     implementation("androidx.test:core:1.5.0")

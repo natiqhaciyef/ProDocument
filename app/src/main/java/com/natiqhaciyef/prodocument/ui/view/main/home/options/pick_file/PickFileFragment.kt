@@ -13,12 +13,12 @@ import com.natiqhaciyef.common.constants.EMPTY_STRING
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.databinding.FragmentPickFileBinding
-import com.natiqhaciyef.prodocument.ui.manager.FileManager
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.COMPRESS_TYPE
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.E_SIGN_TYPE
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.PROTECT_TYPE
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.SPLIT_TYPE
+import com.natiqhaciyef.uikit.manager.FileManager
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.COMPRESS_TYPE
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.E_SIGN_TYPE
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.PROTECT_TYPE
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.SPLIT_TYPE
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TITLE
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TYPE
@@ -143,9 +143,9 @@ class PickFileFragment(
     }
 
     private fun goBackIconClickAction() {
-        NavigationManager.navigateByRouteTitle(
+        NavigationUtil.navigateByRouteTitle(
             this@PickFileFragment,
-            NavigationManager.HOME_ROUTE
+            NavigationUtil.HOME_ROUTE
         )
     }
 }

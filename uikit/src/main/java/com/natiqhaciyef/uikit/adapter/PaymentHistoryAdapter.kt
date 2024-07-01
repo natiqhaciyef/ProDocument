@@ -1,4 +1,4 @@
-package com.natiqhaciyef.prodocument.ui.view.main.profile.params.paymenthistory.adapter
+package com.natiqhaciyef.uikit.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,8 +7,7 @@ import com.natiqhaciyef.common.model.payment.PaymentHistoryModel
 import com.natiqhaciyef.core.base.ui.BaseRecyclerViewAdapter
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.constants.FORMATTED_NUMBER_TWO
-import com.natiqhaciyef.common.model.Currency
-import com.natiqhaciyef.prodocument.databinding.RecyclerPaymentHistoryItemBinding
+import com.natiqhaciyef.uikit.databinding.RecyclerPaymentHistoryItemBinding
 
 class PaymentHistoryAdapter(
     private val ctx: Context,
