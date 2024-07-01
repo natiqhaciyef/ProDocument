@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.bumptech.glide.Glide
 import com.natiqhaciyef.common.constants.FORMATTED_NUMBER_ONE
 import com.natiqhaciyef.common.constants.HUNDRED
 import com.natiqhaciyef.common.helpers.loadImage
@@ -31,17 +32,17 @@ class CustomProfileDetailsView(
     ) {
         val customSize = FORMATTED_NUMBER_ONE.format(filled)
         val totalSize = total.toString()
-        binding?.let {
-            it.accountFullName.text = user.name
-            it.accountUserImage.loadImage(user.imageUrl)
-            it.accountSubscriptionType.text = subscriptionType.title
-            it.storageSizeRatio.text = context.getString(
+        binding?.apply {
+            accountFullName.text = user.name
+            accountUserImage.loadImage(user.imageUrl)
+            accountSubscriptionType.text = subscriptionType.title
+            storageSizeRatio.text = context.getString(
                 com.natiqhaciyef.common.R.string.captured_files_size_ratio,
                 type.name,
                 customSize,
                 totalSize
             )
-            it.loadLevelOfFilesPerUser.progress = (filled.toInt() / total) * HUNDRED
+            loadLevelOfFilesPerUser.progress = (filled.toInt() / total) * HUNDRED
         }
     }
 }

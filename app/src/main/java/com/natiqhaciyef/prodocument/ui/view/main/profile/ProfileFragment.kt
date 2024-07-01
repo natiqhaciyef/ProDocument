@@ -33,10 +33,11 @@ class ProfileFragment(
     override val viewModelClass: KClass<ProfileViewModel> = ProfileViewModel::class
 ) : BaseFragment<FragmentProfileBinding, ProfileViewModel, ProfileContract.ProfileState, ProfileContract.ProfileEvent, ProfileContract.ProfileEffect>() {
     private var adapter: AccountParametersAdapter? = null
-    private val darkModeManager = DarkModeManager(requireContext())
+    private var darkModeManager: DarkModeManager? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        darkModeManager = DarkModeManager(requireContext())
         viewModel.postEvent(ProfileContract.ProfileEvent.GetSettings)
         viewModel.postEvent(ProfileContract.ProfileEvent.GetAccountInfo)
         activityConfig()
@@ -104,18 +105,20 @@ class ProfileFragment(
     }
 
     private fun recyclerviewConfig(list: MutableList<AccountSettingModel>) {
-        adapter = AccountParametersAdapter(this, list, darkModeManager.getCurrentMode())
-        adapter?.onClickAction = { title -> adapterClickNavigation(title) }
-        adapter?.switchIconClickAction = {
-            darkModeManager.updateCurrentMode()
-            navigate(com.natiqhaciyef.prodocument.R.id.profileFragment)
-            darkModeManager.changeModeToggle()
-        }
+        if (darkModeManager != null) {
+            adapter = AccountParametersAdapter(this, list, darkModeManager!!.getCurrentMode())
+            adapter?.onClickAction = { title -> adapterClickNavigation(title) }
+            adapter?.switchIconClickAction = {
+                darkModeManager?.updateCurrentMode()
+                navigate(com.natiqhaciyef.prodocument.R.id.profileFragment)
+                darkModeManager?.changeModeToggle()
+            }
 
-        with(binding) {
-            recyclerSettingsView.adapter = adapter
-            recyclerSettingsView.layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            with(binding) {
+                recyclerSettingsView.adapter = adapter
+                recyclerSettingsView.layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            }
         }
     }
 
