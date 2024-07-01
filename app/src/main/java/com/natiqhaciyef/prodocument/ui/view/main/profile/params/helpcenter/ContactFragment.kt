@@ -9,7 +9,7 @@ import com.natiqhaciyef.common.model.ContactMethods
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.databinding.FragmentContactBinding
 import com.natiqhaciyef.prodocument.ui.view.main.profile.contract.ProfileContract
-import com.natiqhaciyef.prodocument.ui.view.main.profile.params.helpcenter.adapter.ContactAdapter
+import com.natiqhaciyef.uikit.adapter.ContactAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.profile.viewmodel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.KClass

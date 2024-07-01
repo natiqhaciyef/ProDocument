@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "189031400492",
+    "project_id": "proscan-9c8f2",
+    "storage_bucket": "proscan-9c8f2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:189031400492:android:1139655549df7ca7f53d89",
+        "android_client_info": {
+          "package_name": "com.natiqhaciyef.prodocument"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_vjJwYpOfwHDdTt1hn5-x1-_6rFG18vA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:189031400492:android:907da585b1570e2ff53d89",
+        "android_client_info": {
+          "package_name": "com.natiqhaciyef.uikit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_vjJwYpOfwHDdTt1hn5-x1-_6rFG18vA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

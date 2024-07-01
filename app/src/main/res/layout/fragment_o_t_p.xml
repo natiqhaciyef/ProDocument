@@ -61,7 +61,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/otpTitleText" />
 
-    <com.natiqhaciyef.prodocument.ui.custom.CustomOTPInput
+    <com.natiqhaciyef.uikit.custom.CustomOTPInput
         android:id="@+id/customOTPView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

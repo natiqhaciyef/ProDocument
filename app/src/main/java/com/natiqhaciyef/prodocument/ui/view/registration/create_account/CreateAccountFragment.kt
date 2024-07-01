@@ -1,25 +1,24 @@
 package com.natiqhaciyef.prodocument.ui.view.registration.create_account
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
 import com.natiqhaciyef.core.store.AppStorePrefKeys.TOKEN_KEY
 import com.natiqhaciyef.prodocument.R
-import com.natiqhaciyef.prodocument.databinding.AlertDialogResultViewBinding
 import com.natiqhaciyef.prodocument.databinding.FragmentCreateAccountBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkEmailAcceptanceCondition
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkPasswordAcceptanceCondition
+import com.natiqhaciyef.prodocument.ui.view.registration.RegistrationActivity
 import com.natiqhaciyef.prodocument.ui.view.registration.create_account.contract.CreateAccountContract
 import com.natiqhaciyef.prodocument.ui.view.registration.create_account.viewmodel.CreateAccountViewModel
+import com.natiqhaciyef.uikit.alert.AlertDialogManager.createResultAlertDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlin.reflect.KClass
@@ -139,19 +138,10 @@ class CreateAccountFragment(
     }
 
     private fun createResultAlertDialog() {
-        val binding = AlertDialogResultViewBinding.inflate(layoutInflater)
-        val resultDialog =
-            AlertDialog.Builder(requireContext(), com.natiqhaciyef.common.R.style.CustomAlertDialog)
-                .setView(binding.root)
-                .setCancelable(true)
-                .create()
-
-        binding.resultButton.setOnClickListener {
+        (requireActivity() as RegistrationActivity).createResultAlertDialog(){ resultDialog ->
             resultDialog.dismiss()
             navigate(R.id.loginFragment)
         }
-
-        resultDialog.show()
     }
 
     private fun emailValidation() {

@@ -14,6 +14,7 @@ const val STAR = "*"
 const val AT_THE_RATE_SIGN = "@"
 const val HASH = "#"
 const val EQUAL = "="
+const val LINE = "-"
 
 
 const val NULL = "null"

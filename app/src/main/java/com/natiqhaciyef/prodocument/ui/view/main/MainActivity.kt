@@ -1,25 +1,17 @@
 package com.natiqhaciyef.prodocument.ui.view.main
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
-import coil.size.Dimension
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.ActivityMainBinding
 import com.natiqhaciyef.core.base.ui.BaseActivity
-import com.natiqhaciyef.prodocument.ui.manager.DarkModeManager
-import com.natiqhaciyef.prodocument.ui.manager.LanguageManager
-import com.natiqhaciyef.prodocument.ui.manager.RememberUserManager
+import com.natiqhaciyef.uikit.manager.DarkModeManager
+import com.natiqhaciyef.uikit.manager.LanguageManager
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>() {

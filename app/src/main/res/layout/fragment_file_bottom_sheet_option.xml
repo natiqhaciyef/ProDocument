@@ -21,7 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.natiqhaciyef.prodocument.ui.custom.CustomFilePreview
+    <com.natiqhaciyef.uikit.custom.CustomFilePreview
         android:id="@+id/customFilePreview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

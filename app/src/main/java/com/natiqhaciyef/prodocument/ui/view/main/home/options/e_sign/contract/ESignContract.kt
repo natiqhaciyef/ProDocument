@@ -5,7 +5,7 @@ import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.base.ui.UiEffect
 import com.natiqhaciyef.core.base.ui.UiEvent
 import com.natiqhaciyef.core.base.ui.UiState
-import com.natiqhaciyef.prodocument.ui.custom.CustomCanvasView
+import com.natiqhaciyef.uikit.custom.CustomCanvasView
 
 object ESignContract {
 

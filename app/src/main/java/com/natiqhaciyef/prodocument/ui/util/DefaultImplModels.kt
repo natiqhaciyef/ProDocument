@@ -16,15 +16,4 @@ object DefaultImplModels {
         birthDate = EMPTY_STRING,
         imageUrl = EMPTY_STRING
     )
-
-    val mappedMaterialModel = MappedMaterialModel(
-        id = "$ZERO",
-        image = EMPTY_STRING,
-        title = EMPTY_STRING,
-        description = null,
-        createdDate = EMPTY_STRING,
-        type = EMPTY_STRING,
-        url = EMPTY_STRING.toUri(),
-        result = null
-    )
 }

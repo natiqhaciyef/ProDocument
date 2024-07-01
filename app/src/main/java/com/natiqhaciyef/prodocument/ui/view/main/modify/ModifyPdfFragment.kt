@@ -21,21 +21,22 @@ import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.store.AppStorePrefKeys.TITLE_COUNT_KEY
 import com.natiqhaciyef.prodocument.databinding.FragmentModifyPdfBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.HOME_ROUTE
-import com.natiqhaciyef.prodocument.ui.custom.CustomMaterialOptionsBottomSheetFragment
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.HOME_ROUTE
+import com.natiqhaciyef.prodocument.ui.view.main.home.CustomMaterialOptionsBottomSheetFragment
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.CustomWatermarkAdderBottomSheetFragment
 import com.natiqhaciyef.core.model.CategoryItem
-import com.natiqhaciyef.prodocument.ui.manager.FileManager.createAndShareFile
-import com.natiqhaciyef.prodocument.ui.manager.FileManager.getAddressOfFile
-import com.natiqhaciyef.prodocument.ui.manager.FileManager.createSafePdfUriLoader
+import com.natiqhaciyef.prodocument.BuildConfig
+import com.natiqhaciyef.uikit.manager.FileManager.createAndShareFile
+import com.natiqhaciyef.uikit.manager.FileManager.getAddressOfFile
+import com.natiqhaciyef.uikit.manager.FileManager.createSafePdfUriLoader
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_LIST_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TITLE
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TYPE
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.COMPRESS_TYPE
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.PROTECT_TYPE
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.SPLIT_TYPE
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.navigateByRouteTitle
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.COMPRESS_TYPE
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.PROTECT_TYPE
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.SPLIT_TYPE
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.modify.contract.ModifyPdfContract
 import com.natiqhaciyef.prodocument.ui.view.main.modify.viewmodel.ModifyPdfViewModel
@@ -169,7 +170,7 @@ class ModifyPdfFragment(
         with(binding) {
             pdfView.visibility = View.VISIBLE
             imageView.visibility = View.GONE
-            uriAddress = getAddressOfFile(requireContext(), material.url) ?: EMPTY_STRING.toUri()
+            uriAddress = getAddressOfFile(BuildConfig.APPLICATION_ID, requireContext(), material.url) ?: EMPTY_STRING.toUri()
             pdfView.createSafePdfUriLoader(uriAddress!!)
             saveButton.setOnClickListener {
                 saveButtonClickEvent(material)
@@ -183,7 +184,7 @@ class ModifyPdfFragment(
         with(binding) {
             pdfView.visibility = View.VISIBLE
             imageView.visibility = View.GONE
-            uriAddress = getAddressOfFile(requireContext(), mappedMaterialModel.url) ?: EMPTY_STRING.toUri()
+            uriAddress = getAddressOfFile(BuildConfig.APPLICATION_ID, requireContext(), mappedMaterialModel.url) ?: EMPTY_STRING.toUri()
             pdfView.createSafePdfUriLoader(uriAddress!!)
 
             val pdfParams = pdfView.layoutParams as ConstraintLayout.LayoutParams
@@ -357,6 +358,7 @@ class ModifyPdfFragment(
     }
 
     private fun shareFile(material: MappedMaterialModel) = createAndShareFile(
+        applicationId = BuildConfig.APPLICATION_ID,
         material = material,
         isShare = true
     )

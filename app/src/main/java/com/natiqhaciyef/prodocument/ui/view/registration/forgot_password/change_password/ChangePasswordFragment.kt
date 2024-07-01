@@ -1,25 +1,21 @@
 package com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.change_password
 
-import android.app.Dialog
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
-import android.view.WindowManager
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.core.store.AppStorePrefKeys.TOKEN_KEY
 import com.natiqhaciyef.prodocument.R
-import com.natiqhaciyef.prodocument.databinding.AlertDialogResultViewBinding
 import com.natiqhaciyef.prodocument.databinding.FragmentChangePasswordBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkPasswordAcceptanceCondition
+import com.natiqhaciyef.prodocument.ui.view.registration.RegistrationActivity
 import com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.change_password.contract.ChangePasswordContract
 import com.natiqhaciyef.prodocument.ui.view.registration.forgot_password.change_password.viewmodel.ChangePasswordViewModel
+import com.natiqhaciyef.uikit.alert.AlertDialogManager.createDynamicResultAlertDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlin.reflect.KClass
@@ -58,7 +54,9 @@ class ChangePasswordFragment(
 
             else -> {
                 changeVisibilityOfProgressBar()
-                if (state.tokenModel != null){ tokenStoring(tokenState = state.tokenModel!!) }
+                if (state.tokenModel != null) {
+                    tokenStoring(tokenState = state.tokenModel!!)
+                }
             }
         }
     }
@@ -106,33 +104,11 @@ class ChangePasswordFragment(
     }
 
     private fun createResultAlertDialog(resultIcon: Int, successMsg: String, description: String) {
-        val binding = AlertDialogResultViewBinding.inflate(layoutInflater)
-        val dialog = Dialog(requireContext())
-        dialog.apply {
-            requestWindowFeature(Window.FEATURE_NO_TITLE)
-            setCancelable(true)
-            setContentView(binding.root)
-
-            binding.resultIcon.setImageResource(com.natiqhaciyef.common.R.drawable.result_dialog_container_icon)
-            binding.resultTypeImage.setImageResource(resultIcon)
-            binding.resultTitle.text = getString(
-                com.natiqhaciyef.common.R.string.change_password_alert_dialog_title,
-                successMsg.lowercase()
-            )
-
-            binding.resultDescription.text = description
-
-            binding.resultButton.setOnClickListener {
-                navigate(R.id.loginFragment)
-                dismiss()
-            }
-
-            window?.setFlags(
-                WindowManager.LayoutParams.FLAG_DIM_BEHIND,
-                WindowManager.LayoutParams.FLAG_BLUR_BEHIND
-            )
-            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            show()
+        (requireActivity() as RegistrationActivity).createDynamicResultAlertDialog(
+            resultIcon, successMsg, description
+        ) {
+            navigate(R.id.loginFragment)
+            it.dismiss()
         }
     }
 

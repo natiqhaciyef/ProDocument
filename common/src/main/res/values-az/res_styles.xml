@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="com.natiqhaciyef.prodocument.ui.custom.CustomInputView">
+    <declare-styleable name="com.natiqhaciyef.uikit.custom.CustomInputView">
         <attr name="customHint" format="string"/>
         <attr name="customTitle" format="string"/>
         <attr name="customInputType" format="integer">
@@ -12,7 +12,7 @@
         </attr>
     </declare-styleable>
 
-    <declare-styleable name="com.natiqhaciyef.prodocument.ui.custom.CustomExpandedDropDownCardView">
+    <declare-styleable name="com.natiqhaciyef.uikit.custom.CustomExpandedDropDownCardView">
         <attr name="customDropDownHint" format="string"/>
         <attr name="customDropDownTitle" format="string"/>
     </declare-styleable>

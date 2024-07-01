@@ -23,13 +23,11 @@ import com.google.android.material.snackbar.Snackbar
 import com.natiqhaciyef.common.constants.DATE_OVER_FLOW_ERROR
 import com.natiqhaciyef.common.constants.EMPTY_STRING
 import com.natiqhaciyef.common.constants.FORMATTED_DATE
-import com.natiqhaciyef.common.constants.FORMATTED_NUMBER_ONE
 import com.natiqhaciyef.common.constants.THIRTEEN
-import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.FragmentCompleteProfileBinding
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
-import com.natiqhaciyef.prodocument.ui.manager.PermissionManager.Permission.Companion.PERMISSION_REQUEST
+import com.natiqhaciyef.uikit.manager.PermissionManager.Permission.Companion.PERMISSION_REQUEST
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkFullNameAcceptanceCondition
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkGenderAcceptanceCondition
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkPhoneAcceptanceCondition
@@ -204,7 +202,7 @@ class CompleteProfileFragment(
 
     private fun genderDropDownConfig() {
         val genderAdapter =
-            ArrayAdapter(requireContext(), R.layout.drop_down_gender_item, genderList)
+            ArrayAdapter(requireContext(), com.natiqhaciyef.uikit.R.layout.drop_down_gender_item, genderList)
 
         binding.apply {
             completeProfileGenderDropDownItem.hint =

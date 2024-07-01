@@ -9,7 +9,6 @@ import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.common.model.payment.MappedPaymentChequeModel
 import com.natiqhaciyef.common.model.payment.MappedPaymentModel
-import com.natiqhaciyef.common.model.payment.MappedPaymentPickModel
 import com.natiqhaciyef.common.model.payment.MappedSubscriptionPlanPaymentDetails
 import com.natiqhaciyef.core.base.ui.BaseViewModel
 import com.natiqhaciyef.domain.usecase.PAYMENT_MODEL
@@ -18,17 +17,15 @@ import com.natiqhaciyef.domain.usecase.QR_CODE
 import com.natiqhaciyef.domain.usecase.payment.remote.GetAllSavedPaymentMethodsUseCase
 import com.natiqhaciyef.domain.usecase.payment.remote.GetChequePdfUseCase
 import com.natiqhaciyef.domain.usecase.payment.remote.GetPaymentDataUseCase
-import com.natiqhaciyef.domain.usecase.payment.remote.GetPickedPaymentDetailsUseCase
 import com.natiqhaciyef.domain.usecase.payment.remote.ScanQrCodePaymentUseCase
 import com.natiqhaciyef.domain.usecase.payment.remote.StartPaymentUseCase
-import com.natiqhaciyef.prodocument.ui.manager.CameraManager
+import com.natiqhaciyef.prodocument.ui.util.CameraUtil
 import com.natiqhaciyef.prodocument.ui.view.main.payment.contract.PaymentContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import java.util.concurrent.Flow.Subscription
 import javax.inject.Inject
 
 @HiltViewModel
@@ -40,7 +37,7 @@ class PaymentViewModel @Inject constructor(
     private val getChequePdfUseCase: GetChequePdfUseCase,
     private val scanQrCodePaymentUseCase: ScanQrCodePaymentUseCase
 ) : BaseViewModel<PaymentContract.PaymentState, PaymentContract.PaymentEvent, PaymentContract.PaymentEffect>() {
-    private val cameraReaderLiveData = MutableLiveData<CameraManager?>(null)
+    private val cameraReaderLiveData = MutableLiveData<CameraUtil?>(null)
 
     @ExperimentalGetImage
     override fun onEventUpdate(event: PaymentContract.PaymentEvent) {
@@ -200,7 +197,7 @@ class PaymentViewModel @Inject constructor(
         onSuccess: (Any) -> Unit = { }
     ) {
         if (cameraReaderLiveData.value == null) {
-            cameraReaderLiveData.value = CameraManager(context, lifecycle)
+            cameraReaderLiveData.value = CameraUtil(context, lifecycle)
         }
 
         cameraReaderLiveData.value?.openBarcodeScanner(preview, onSuccess)

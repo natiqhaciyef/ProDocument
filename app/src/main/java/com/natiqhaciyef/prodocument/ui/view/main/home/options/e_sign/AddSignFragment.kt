@@ -15,7 +15,7 @@ import com.natiqhaciyef.common.helpers.toResponseString
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.databinding.FragmentAddSignBinding
-import com.natiqhaciyef.prodocument.ui.manager.FileManager.createSafePdfUriLoader
+import com.natiqhaciyef.uikit.manager.FileManager.createSafePdfUriLoader
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_SIGN_BITMAP
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.e_sign.contract.ESignContract

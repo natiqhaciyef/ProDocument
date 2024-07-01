@@ -13,18 +13,19 @@ import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.domain.worker.config.startDownloadingFile
 import com.natiqhaciyef.prodocument.databinding.FragmentFileBottomSheetOptionBinding
-import com.natiqhaciyef.prodocument.ui.manager.FileManager.createAndShareFile
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.COMPRESS_ROUTE
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.COMPRESS_TYPE
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.E_SIGN_ROUTE
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.E_SIGN_TYPE
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.PROTECT_ROUTE
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.PROTECT_TYPE
+import com.natiqhaciyef.uikit.manager.FileManager.createAndShareFile
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.COMPRESS_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.COMPRESS_TYPE
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.E_SIGN_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.E_SIGN_TYPE
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.PROTECT_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.PROTECT_TYPE
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TYPE
-import com.natiqhaciyef.prodocument.ui.view.main.profile.model.ParamsUIModel
-import com.natiqhaciyef.prodocument.ui.view.main.profile.params.preferences.adapter.ParamsAdapter
+import com.natiqhaciyef.common.model.ParamsUIModel
+import com.natiqhaciyef.prodocument.BuildConfig
+import com.natiqhaciyef.uikit.adapter.ParamsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -91,7 +92,7 @@ class FileBottomSheetOptionFragment(
                 }
 
                 getString(R.string.export_to) -> {
-                    createAndShareFile(material = material, isShare = true)
+                    createAndShareFile(applicationId = BuildConfig.APPLICATION_ID, material = material, isShare = true)
                 }
 
                 getString(R.string.add_watermark) -> {
@@ -101,7 +102,7 @@ class FileBottomSheetOptionFragment(
 
                 getString(R.string.add_digital_signature) -> {
                     resourceBundle.putString(BUNDLE_TYPE, E_SIGN_TYPE)
-                    NavigationManager.navigateByRouteTitle(
+                    NavigationUtil.navigateByRouteTitle(
                         this@FileBottomSheetOptionFragment,
                         E_SIGN_ROUTE,
                         resourceBundle
@@ -120,7 +121,7 @@ class FileBottomSheetOptionFragment(
 
                 getString(R.string.protect_pdf) -> {
                     resourceBundle.putString(BUNDLE_TYPE, PROTECT_TYPE)
-                    NavigationManager.navigateByRouteTitle(
+                    NavigationUtil.navigateByRouteTitle(
                         this@FileBottomSheetOptionFragment,
                         PROTECT_ROUTE,
                         resourceBundle
@@ -129,7 +130,7 @@ class FileBottomSheetOptionFragment(
 
                 getString(R.string.compress_pdf) -> {
                     resourceBundle.putString(BUNDLE_TYPE, COMPRESS_TYPE)
-                    NavigationManager.navigateByRouteTitle(
+                    NavigationUtil.navigateByRouteTitle(
                         this@FileBottomSheetOptionFragment,
                         COMPRESS_ROUTE,
                         resourceBundle
