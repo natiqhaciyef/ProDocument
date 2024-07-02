@@ -1,5 +1,6 @@
 package com.natiqhaciyef.domain.mapper
 
+import com.google.gson.annotations.SerializedName
 import com.natiqhaciyef.common.constants.EMPTY_STRING
 import com.natiqhaciyef.common.model.ui.UIResult
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
@@ -19,6 +20,9 @@ fun MappedUserModel.toMappedUserWithoutPassword(): MappedUserWithoutPasswordMode
         country = this.country,
         city = this.city,
         street = this.street,
+        isBiometricEnabled = this.isBiometricEnabled,
+        subscription = this.subscription,
+        reports = this.reports
     )
 }
 
@@ -34,6 +38,9 @@ fun UserResponse.toMapped(): MappedUserModel {
         country = this.country,
         city = this.city,
         street = this.street,
+        isBiometricEnabled = this.isBiometricEnabled,
+        subscription = this.subscription.toMapped(),
+        reports = this.reports.toMappedList()
     )
 }
 
@@ -60,6 +67,9 @@ fun UserResponse.toUIResult(): UIResult<MappedUserModel>? {
             country = this.country,
             city = this.city,
             street = this.street,
+            isBiometricEnabled = this.isBiometricEnabled,
+            subscription = this.subscription.toMapped(),
+            reports = this.reports.toMappedList()
         )
 
         UIResult(
@@ -87,6 +97,9 @@ fun MappedUserModel.toResponse(): UserResponse =
         city = this.city,
         street = this.street,
         publishDate = EMPTY_STRING,
+        isBiometricEnabled = this.isBiometricEnabled,
+        reports = this.reports.toResponse(),
+        subscription = this.subscription.toResponse(),
         result = null
     )
 
@@ -114,6 +127,9 @@ fun UIResult<MappedUserModel>.toResponse(): UserResponse? {
             city = this.data.city,
             street = this.data.street,
             publishDate = this.publishDate,
+            isBiometricEnabled = this.data.isBiometricEnabled,
+            subscription = this.data.subscription.toResponse(),
+            reports = this.data.reports.toResponse(),
             result = this.result?.toResponse()
         )
     } else {

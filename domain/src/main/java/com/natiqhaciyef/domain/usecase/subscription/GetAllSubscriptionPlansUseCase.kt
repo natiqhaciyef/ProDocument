@@ -26,18 +26,7 @@ class GetAllSubscriptionPlansUseCase @Inject constructor(
         when (val result = repository.getAllSubscriptionPlans()) {
             is NetworkResult.Success -> {
                 val mapped = result.data.map { it.toMapped() }
-
-                if (!mapped.contains(null))
-                    emit(Resource.success(mapped.filterNotNull()))
-                else
-                    emit(
-                        Resource.error(
-                            msg = MAPPED_NULL_DATA,
-                            exception = Exception(MAPPED_NULL_DATA),
-                            data = null
-                        )
-                    )
-
+                emit(Resource.success(mapped))
             }
 
             is NetworkResult.Error -> {
