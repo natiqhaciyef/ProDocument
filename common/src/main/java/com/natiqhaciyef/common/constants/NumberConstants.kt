@@ -39,6 +39,7 @@ const val FOUR_HUNDRED = 400
 const val FOUR_HUNDRED_ONE = 401
 const val FOUR_HUNDRED_THREE = 403
 const val FOUR_HUNDRED_FOUR = 404
+const val FOUR_HUNDRED_SIX = 406
 const val FOUR_HUNDRED_NINE = 409
 const val FOUR_HUNDRED_ELEVEN = 411
 const val FIVE_HUNDRED = 500

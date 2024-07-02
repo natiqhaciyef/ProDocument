@@ -1,4 +1,4 @@
-package com.natiqhaciyef.data.impl
+package com.natiqhaciyef.data.repository
 
 import com.natiqhaciyef.domain.network.NetworkResult
 import com.natiqhaciyef.domain.network.response.SubscriptionResponse

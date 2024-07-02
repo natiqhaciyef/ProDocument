@@ -28,7 +28,7 @@ class CustomPasswordInputEditText(
     }
 
     fun getPasswordText(): String =
-        (binding?.passwordInput?.text != null).toString()
+        binding?.passwordInput?.text.toString()
 
 
     fun setPasswordHintText(text: String) = binding?.passwordInput?.setHint(text)

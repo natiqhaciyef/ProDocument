@@ -1,4 +1,4 @@
-package com.natiqhaciyef.data.impl
+package com.natiqhaciyef.data.repository
 
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.domain.network.NetworkResult
