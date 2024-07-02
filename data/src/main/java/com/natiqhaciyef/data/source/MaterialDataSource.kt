@@ -44,7 +44,7 @@ class MaterialDataSource @Inject constructor(
 
     suspend fun getFileById(materialId: String) = withContext(Dispatchers.IO) {
         val requestHeader = manager.generateToken()
-        val mock = generateMockerClass(GetMaterialByIdMockGenerator::class, MATERIAL_ID_MOCK_KEY)
+        val mock = generateMockerClass(GetMaterialByIdMockGenerator::class, materialId)
             .getMock(MATERIAL_ID_MOCK_KEY) { null }
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {

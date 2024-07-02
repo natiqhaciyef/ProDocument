@@ -14,7 +14,7 @@ class GetMaterialByIdMockGenerator(
 ) : BaseMockGenerator<String, MaterialResponse>() {
 
     override var createdMock: MaterialResponse =
-        MaterialMockManager.getMaterialById(MATERIAL_ID_MOCK_KEY)
+        MaterialMockManager.getMaterialById(takenRequest)
 
     override fun getMock(
         request: String,

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.fragment.app.clearFragmentResult
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
@@ -28,6 +29,7 @@ class FilesFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentFilesBinding = FragmentFilesBinding::inflate,
     override val viewModelClass: KClass<FileViewModel> = FileViewModel::class
 ) : BaseFragment<FragmentFilesBinding, FileViewModel, FileContract.FileState, FileContract.FileEvent, FileContract.FileEffect>() {
+    private var params = listOf<ParamsUIModel>()
     private var bundle = bundleOf()
     private lateinit var fileAdapter: FileItemAdapter
     private var list: MutableList<MappedMaterialModel> = mutableListOf()
@@ -61,7 +63,8 @@ class FilesFragment(
                 }
 
                 if (state.params != null) {
-                    optionClickAction(state.params!!)
+                    params = state.params!!
+                    optionClickAction(state)
                 }
             }
         }
@@ -165,10 +168,15 @@ class FilesFragment(
         viewModel.postEvent(FileContract.FileEvent.GetAllFileParams(requireContext()))
     }
 
-    private fun optionClickAction(params: List<ParamsUIModel>) {
+    private fun optionClickAction(state: FileContract.FileState) {
         // add bottom sheet here
         storedMaterial?.let {
-            FileBottomSheetOptionFragment(it, params) {
+            FileBottomSheetOptionFragment(it, params,
+                dismissAction = {
+                    holdCurrentState(state)
+                    getFilesEvent()
+                }
+            ) {
                 // INSERT: remove action
             }.show(
                 if (!isAdded) return else this.childFragmentManager,
