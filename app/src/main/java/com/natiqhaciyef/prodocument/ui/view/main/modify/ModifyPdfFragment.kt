@@ -41,7 +41,7 @@ import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.modify.contract.ModifyPdfContract
 import com.natiqhaciyef.prodocument.ui.view.main.modify.viewmodel.ModifyPdfViewModel
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.CaptureImageFragment
-import com.natiqhaciyef.prodocument.ui.view.main.payment.ScanFragment
+import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.ScanFragment
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.WatermarkFragment.Companion.WATERMARK_TYPE
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -133,6 +133,7 @@ class ModifyPdfFragment(
             is ModifyPdfContract.ModifyPdfEffect.CreateMaterialFailEffect -> {
 
             }
+
             else -> {}
         }
     }
@@ -157,7 +158,10 @@ class ModifyPdfFragment(
         with(binding) {
             imageView.visibility = View.VISIBLE
             pdfView.visibility = View.GONE
-            imageView.load(material.image)
+            if (material.url.toString().isNotEmpty())
+                imageView.load(material.url)
+            else
+                imageView.load(material.image)
             saveButton.setOnClickListener {
                 saveButtonClickEvent(material)
             }
@@ -170,7 +174,9 @@ class ModifyPdfFragment(
         with(binding) {
             pdfView.visibility = View.VISIBLE
             imageView.visibility = View.GONE
-            uriAddress = getAddressOfFile(BuildConfig.APPLICATION_ID, requireContext(), material.url) ?: EMPTY_STRING.toUri()
+            uriAddress =
+                getAddressOfFile(BuildConfig.APPLICATION_ID, requireContext(), material.url)
+                    ?: EMPTY_STRING.toUri()
             pdfView.createSafePdfUriLoader(uriAddress!!)
             saveButton.setOnClickListener {
                 saveButtonClickEvent(material)
@@ -184,7 +190,11 @@ class ModifyPdfFragment(
         with(binding) {
             pdfView.visibility = View.VISIBLE
             imageView.visibility = View.GONE
-            uriAddress = getAddressOfFile(BuildConfig.APPLICATION_ID, requireContext(), mappedMaterialModel.url) ?: EMPTY_STRING.toUri()
+            uriAddress = getAddressOfFile(
+                BuildConfig.APPLICATION_ID,
+                requireContext(),
+                mappedMaterialModel.url
+            ) ?: EMPTY_STRING.toUri()
             pdfView.createSafePdfUriLoader(uriAddress!!)
 
             val pdfParams = pdfView.layoutParams as ConstraintLayout.LayoutParams
@@ -220,11 +230,16 @@ class ModifyPdfFragment(
                 // continue button event
             }
 
-            optionsIconButton.setOnClickListener { showWatermarkBottomSheetDialog(material = material, title = title ?: EMPTY_STRING) }
+            optionsIconButton.setOnClickListener {
+                showWatermarkBottomSheetDialog(
+                    material = material,
+                    title = title ?: EMPTY_STRING
+                )
+            }
         }
     }
 
-    private fun splitConfig(materials: List<MappedMaterialModel>){
+    private fun splitConfig(materials: List<MappedMaterialModel>) {
         with(binding) {
             pdfView.visibility = View.VISIBLE
             imageView.visibility = View.GONE
@@ -250,7 +265,12 @@ class ModifyPdfFragment(
             bottomNavBar.visibility = View.GONE
         }
 
-        binding.goBackIcon.setOnClickListener { navigateByRouteTitle(this@ModifyPdfFragment,HOME_ROUTE) }
+        binding.goBackIcon.setOnClickListener {
+            navigateByRouteTitle(
+                this@ModifyPdfFragment,
+                HOME_ROUTE
+            )
+        }
     }
 
     private fun getOptionsEvent() {
@@ -293,7 +313,10 @@ class ModifyPdfFragment(
         )
     }
 
-    private fun saveButtonClickAction(result: CRUDModel? = null, material: MappedMaterialModel? = null) {
+    private fun saveButtonClickAction(
+        result: CRUDModel? = null,
+        material: MappedMaterialModel? = null
+    ) {
         // action after save file
         println(material)
     }

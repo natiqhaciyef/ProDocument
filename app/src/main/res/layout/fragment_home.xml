@@ -8,7 +8,7 @@
     tools:context=".ui.view.main.home.HomeFragment">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabImageIcon"
+        android:id="@+id/fabGalleryIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
@@ -30,7 +30,7 @@
         android:foregroundTint="@color/white"
         android:src="@drawable/camera_icon"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/fabImageIcon"
+        app:layout_constraintEnd_toStartOf="@id/fabGalleryIcon"
         app:shapeAppearanceOverlay="@style/RoundedCornerImage"
         app:tint="@color/white" />
 
