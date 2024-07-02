@@ -21,13 +21,13 @@ import com.google.mlkit.vision.documentscanner.GmsDocumentScanning
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanningResult
 import com.natiqhaciyef.common.helpers.loadImage
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
-import com.natiqhaciyef.prodocument.ui.manager.CameraManager
+import com.natiqhaciyef.prodocument.ui.util.CameraUtil
 import com.natiqhaciyef.prodocument.databinding.FragmentCaptureImageBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TYPE
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.HOME_ROUTE
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.navigateByRouteTitle
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.HOME_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.behaviour.CameraTypes
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.contract.ScanContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.viewmodel.ScanViewModel
@@ -44,7 +44,7 @@ class CaptureImageFragment(
     private var bundle = bundleOf()
     private var imageUri: Uri? = null
     private var scanner =
-        GmsDocumentScanning.getClient(CameraManager.cameraScannerDefaultOptions)
+        GmsDocumentScanning.getClient(CameraUtil.cameraScannerDefaultOptions)
 
     private val scannerLauncher =
         registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->

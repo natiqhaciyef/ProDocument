@@ -7,13 +7,14 @@ import android.view.ViewGroup
 import androidx.camera.core.ExperimentalGetImage
 import com.google.android.material.tabs.TabLayoutMediator
 import com.natiqhaciyef.common.constants.ONE
+import com.natiqhaciyef.common.constants.TWO
 import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.prodocument.databinding.FragmentScanTypeBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.behaviour.CameraTypes
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.contract.ScanContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.viewmodel.ScanViewModel
-import com.natiqhaciyef.prodocument.ui.custom.ViewPagerAdapter
+import com.natiqhaciyef.uikit.adapter.ViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.KClass
 
@@ -35,6 +36,7 @@ class ScanTypeFragment(
     private fun viewPagerInitConfig() {
         binding.apply {
             val fragments = listOf(
+                ScanFragment(),
                 LiveRecognitionFragment(),
                 CaptureImageFragment(),
             )
@@ -43,9 +45,11 @@ class ScanTypeFragment(
 
             TabLayoutMediator(scanTabLayout, scanViewPager) { tab, position ->
                 tab.text = when (position) {
-                    ZERO -> { CameraTypes.LIVE_SCANNER.title }
+                    ZERO -> { CameraTypes.QR_CODE_SCREEN.title }
 
-                    ONE -> { CameraTypes.CAPTURE_IMAGE_SCREEN.title }
+                    ONE -> { CameraTypes.LIVE_SCANNER.title }
+
+                    TWO -> { CameraTypes.CAPTURE_IMAGE_SCREEN.title }
 
                     else -> {
                         CameraTypes.QR_CODE_SCREEN.title

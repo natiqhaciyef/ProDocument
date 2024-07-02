@@ -7,10 +7,10 @@ import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
 import com.natiqhaciyef.common.constants.UNKNOWN_ERROR
 import com.natiqhaciyef.common.model.CRUDModel
 import com.natiqhaciyef.common.model.Resource
-import com.natiqhaciyef.data.mapper.toModel
-import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.core.base.usecase.BaseUseCase
 import com.natiqhaciyef.core.base.usecase.UseCase
+import com.natiqhaciyef.domain.mapper.toModel
+import com.natiqhaciyef.domain.network.NetworkResult
 import com.natiqhaciyef.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

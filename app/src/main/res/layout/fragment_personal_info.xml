@@ -35,7 +35,7 @@
             app:layout_constraintTop_toTopOf="@id/userImage"
             app:layout_constraintVertical_bias="1.0" />
 
-        <com.natiqhaciyef.prodocument.ui.custom.CustomInputView
+        <com.natiqhaciyef.uikit.custom.CustomInputView
             android:id="@+id/fullNameInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/userImage" />
 
-        <com.natiqhaciyef.prodocument.ui.custom.CustomInputView
+        <com.natiqhaciyef.uikit.custom.CustomInputView
             android:id="@+id/emailInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fullNameInput" />
 
-        <com.natiqhaciyef.prodocument.ui.custom.CustomInputView
+        <com.natiqhaciyef.uikit.custom.CustomInputView
             android:id="@+id/phoneNumberInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/emailInput" />
 
-        <com.natiqhaciyef.prodocument.ui.custom.CustomExpandedDropDownCardView
+        <com.natiqhaciyef.uikit.custom.CustomExpandedDropDownCardView
             android:id="@+id/genderInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/phoneNumberInput" />
 
-        <com.natiqhaciyef.prodocument.ui.custom.CustomInputView
+        <com.natiqhaciyef.uikit.custom.CustomInputView
             android:id="@+id/dateOfBirthInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -94,7 +94,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/genderInput" />
 
-        <com.natiqhaciyef.prodocument.ui.custom.CustomExpandedDropDownCardView
+        <com.natiqhaciyef.uikit.custom.CustomExpandedDropDownCardView
             android:id="@+id/countryInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -105,7 +105,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dateOfBirthInput" />
 
-        <com.natiqhaciyef.prodocument.ui.custom.CustomInputView
+        <com.natiqhaciyef.uikit.custom.CustomInputView
             android:id="@+id/cityInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -118,7 +118,7 @@
             app:layout_constraintTop_toBottomOf="@+id/countryInput" />
 
 
-        <com.natiqhaciyef.prodocument.ui.custom.CustomInputView
+        <com.natiqhaciyef.uikit.custom.CustomInputView
             android:id="@+id/streetAddressInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

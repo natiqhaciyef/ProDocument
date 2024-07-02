@@ -14,11 +14,10 @@ import com.natiqhaciyef.common.model.CategoryModel
 import com.natiqhaciyef.common.model.FaqModel
 import com.natiqhaciyef.common.model.QuestionCategories
 import com.natiqhaciyef.core.base.ui.BaseFragment
-import com.natiqhaciyef.core.model.CategoryItem
 import com.natiqhaciyef.prodocument.databinding.FragmentFaqBinding
 import com.natiqhaciyef.prodocument.ui.view.main.profile.contract.ProfileContract
-import com.natiqhaciyef.prodocument.ui.view.main.profile.params.helpcenter.adapter.CategoryAdapter
-import com.natiqhaciyef.prodocument.ui.view.main.profile.params.helpcenter.adapter.FaqAdapter
+import com.natiqhaciyef.uikit.adapter.CategoryAdapter
+import com.natiqhaciyef.uikit.adapter.FaqAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.profile.viewmodel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.KClass

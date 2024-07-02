@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
     id("kotlin-parcelize")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -43,6 +44,7 @@ dependencies {
 
     implementation(project(":core"))
     implementation(project(":common"))
+    implementation(project(":domain"))
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -54,7 +56,6 @@ dependencies {
     //Data store
     implementation("androidx.datastore:datastore-preferences:$dataStoreVersion")
     implementation("androidx.security:security-crypto:$dataStoreVersion")
-
 
     //Dagger hilt
     implementation("com.google.dagger:hilt-android:$daggerVersion")

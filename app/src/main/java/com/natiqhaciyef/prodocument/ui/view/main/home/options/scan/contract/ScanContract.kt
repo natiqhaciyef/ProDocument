@@ -23,15 +23,6 @@ object ScanContract {
             var onSuccess: (Any) -> Unit = { }
         ) : ScanEvent()
 
-        data class StartQrCameraEvent(
-            var context: Context,
-            var lifecycle: LifecycleOwner,
-            var preview: PreviewView,
-            var type: CameraTypes,
-            var view: View? = null,
-            var onSuccess: (Any) -> Unit = { }
-        ) : ScanEvent()
-
         data class CreateMaterialEvent(
             var title: String? = null,
             var uri: Uri? = null,

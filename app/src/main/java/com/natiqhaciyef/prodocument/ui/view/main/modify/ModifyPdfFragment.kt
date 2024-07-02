@@ -21,26 +21,27 @@ import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.store.AppStorePrefKeys.TITLE_COUNT_KEY
 import com.natiqhaciyef.prodocument.databinding.FragmentModifyPdfBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.HOME_ROUTE
-import com.natiqhaciyef.prodocument.ui.custom.CustomMaterialOptionsBottomSheetFragment
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.HOME_ROUTE
+import com.natiqhaciyef.prodocument.ui.view.main.home.CustomMaterialOptionsBottomSheetFragment
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.CustomWatermarkAdderBottomSheetFragment
 import com.natiqhaciyef.core.model.CategoryItem
-import com.natiqhaciyef.prodocument.ui.manager.CameraManager.Companion.createAndShareFile
-import com.natiqhaciyef.prodocument.ui.manager.CameraManager.Companion.getAddressOfFile
-import com.natiqhaciyef.prodocument.ui.manager.FileManager.createSafePdfUriLoader
+import com.natiqhaciyef.prodocument.BuildConfig
+import com.natiqhaciyef.uikit.manager.FileManager.createAndShareFile
+import com.natiqhaciyef.uikit.manager.FileManager.getAddressOfFile
+import com.natiqhaciyef.uikit.manager.FileManager.createSafePdfUriLoader
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_LIST_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TITLE
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TYPE
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.COMPRESS_TYPE
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.PROTECT_TYPE
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.SPLIT_TYPE
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.navigateByRouteTitle
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.COMPRESS_TYPE
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.PROTECT_TYPE
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.SPLIT_TYPE
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.modify.contract.ModifyPdfContract
 import com.natiqhaciyef.prodocument.ui.view.main.modify.viewmodel.ModifyPdfViewModel
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.CaptureImageFragment
-import com.natiqhaciyef.prodocument.ui.view.main.payment.ScanFragment
+import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.ScanFragment
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.WatermarkFragment.Companion.WATERMARK_TYPE
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -132,6 +133,7 @@ class ModifyPdfFragment(
             is ModifyPdfContract.ModifyPdfEffect.CreateMaterialFailEffect -> {
 
             }
+
             else -> {}
         }
     }
@@ -156,7 +158,10 @@ class ModifyPdfFragment(
         with(binding) {
             imageView.visibility = View.VISIBLE
             pdfView.visibility = View.GONE
-            imageView.load(material.image)
+            if (material.url.toString().isNotEmpty())
+                imageView.load(material.url)
+            else
+                imageView.load(material.image)
             saveButton.setOnClickListener {
                 saveButtonClickEvent(material)
             }
@@ -169,7 +174,9 @@ class ModifyPdfFragment(
         with(binding) {
             pdfView.visibility = View.VISIBLE
             imageView.visibility = View.GONE
-            uriAddress = getAddressOfFile(requireContext(), material.url) ?: EMPTY_STRING.toUri()
+            uriAddress =
+                getAddressOfFile(BuildConfig.APPLICATION_ID, requireContext(), material.url)
+                    ?: EMPTY_STRING.toUri()
             pdfView.createSafePdfUriLoader(uriAddress!!)
             saveButton.setOnClickListener {
                 saveButtonClickEvent(material)
@@ -183,7 +190,11 @@ class ModifyPdfFragment(
         with(binding) {
             pdfView.visibility = View.VISIBLE
             imageView.visibility = View.GONE
-            uriAddress = getAddressOfFile(requireContext(), mappedMaterialModel.url) ?: EMPTY_STRING.toUri()
+            uriAddress = getAddressOfFile(
+                BuildConfig.APPLICATION_ID,
+                requireContext(),
+                mappedMaterialModel.url
+            ) ?: EMPTY_STRING.toUri()
             pdfView.createSafePdfUriLoader(uriAddress!!)
 
             val pdfParams = pdfView.layoutParams as ConstraintLayout.LayoutParams
@@ -219,11 +230,16 @@ class ModifyPdfFragment(
                 // continue button event
             }
 
-            optionsIconButton.setOnClickListener { showWatermarkBottomSheetDialog(material = material, title = title ?: EMPTY_STRING) }
+            optionsIconButton.setOnClickListener {
+                showWatermarkBottomSheetDialog(
+                    material = material,
+                    title = title ?: EMPTY_STRING
+                )
+            }
         }
     }
 
-    private fun splitConfig(materials: List<MappedMaterialModel>){
+    private fun splitConfig(materials: List<MappedMaterialModel>) {
         with(binding) {
             pdfView.visibility = View.VISIBLE
             imageView.visibility = View.GONE
@@ -249,7 +265,12 @@ class ModifyPdfFragment(
             bottomNavBar.visibility = View.GONE
         }
 
-        binding.goBackIcon.setOnClickListener { navigateByRouteTitle(this@ModifyPdfFragment,HOME_ROUTE) }
+        binding.goBackIcon.setOnClickListener {
+            navigateByRouteTitle(
+                this@ModifyPdfFragment,
+                HOME_ROUTE
+            )
+        }
     }
 
     private fun getOptionsEvent() {
@@ -292,7 +313,10 @@ class ModifyPdfFragment(
         )
     }
 
-    private fun saveButtonClickAction(result: CRUDModel? = null, material: MappedMaterialModel? = null) {
+    private fun saveButtonClickAction(
+        result: CRUDModel? = null,
+        material: MappedMaterialModel? = null
+    ) {
         // action after save file
         println(material)
     }
@@ -357,6 +381,7 @@ class ModifyPdfFragment(
     }
 
     private fun shareFile(material: MappedMaterialModel) = createAndShareFile(
+        applicationId = BuildConfig.APPLICATION_ID,
         material = material,
         isShare = true
     )

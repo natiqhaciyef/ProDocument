@@ -1,29 +1,42 @@
 package com.natiqhaciyef.prodocument.ui.view.main.home
 
+import android.Manifest
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.OptIn
+import androidx.camera.core.ExperimentalGetImage
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.natiqhaciyef.common.R
+import com.natiqhaciyef.common.constants.EMPTY_STRING
 import com.natiqhaciyef.common.constants.FOUR
 import com.natiqhaciyef.prodocument.databinding.FragmentHomeBinding
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.navigateByRouteTitle
+import com.natiqhaciyef.core.model.FileTypes
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TYPE
+import com.natiqhaciyef.prodocument.ui.util.DefaultImplModels
 import com.natiqhaciyef.prodocument.ui.util.UiList
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
-import com.natiqhaciyef.prodocument.ui.view.main.home.adapter.FileItemAdapter
-import com.natiqhaciyef.prodocument.ui.view.main.home.adapter.MenuAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.home.contract.HomeContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.viewmodel.HomeViewModel
+import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.ScanFragment.Companion.SCAN_QR_TYPE
+import com.natiqhaciyef.uikit.adapter.FileItemAdapter
+import com.natiqhaciyef.uikit.adapter.MenuAdapter
+import com.natiqhaciyef.uikit.manager.PermissionManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.KClass
 
+@ExperimentalGetImage
 @AndroidEntryPoint
 class HomeFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentHomeBinding = FragmentHomeBinding::inflate,
@@ -32,10 +45,41 @@ class HomeFragment(
     private var resourceBundle = bundleOf()
     private lateinit var menuAdapter: MenuAdapter
     private lateinit var fileAdapter: FileItemAdapter
+    private var imageUri: Uri? = null
+
+    private val registerForGalleryPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted)
+                startGalleryConfig()
+        }
+    private val galleryClickIntent = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.data != null)
+                intentAction.invoke(result.data!!)
+        }
+    private val intentAction: (Intent) -> Unit = { intent ->
+        imageUri = intent.data
+        if (imageUri != null) {
+            resourceBundle.putString(BUNDLE_TYPE, SCAN_QR_TYPE)
+            resourceBundle.putParcelable(
+                BUNDLE_MATERIAL, DefaultImplModels.mappedMaterialModel.copy(
+                    title = intent.dataString ?: EMPTY_STRING,
+                    url = imageUri!!,
+                    type = FileTypes.URL
+                )
+            )
+
+            val action = HomeFragmentDirections
+                .actionHomeFragmentToPreviewMaterialNavGraph(resourceBundle)
+            navigate(action)
+        }
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        config()
+        activityConfig()
+        fabGalleryConfig()
+        cameraConfig()
     }
 
     override fun onStateChange(state: HomeContract.HomeUiState) {
@@ -79,7 +123,7 @@ class HomeFragment(
         }
     }
 
-    private fun config() {
+    private fun activityConfig() {
         (activity as MainActivity).binding.apply {
             bottomNavBar.visibility = View.VISIBLE
             materialToolbar.visibility = View.VISIBLE
@@ -144,7 +188,8 @@ class HomeFragment(
 
     private fun fileClickAction(material: MappedMaterialModel) {
         resourceBundle.putParcelable(BUNDLE_MATERIAL, material)
-        val action = HomeFragmentDirections.actionHomeFragmentToPreviewMaterialNavGraph(resourceBundle)
+        val action =
+            HomeFragmentDirections.actionHomeFragmentToPreviewMaterialNavGraph(resourceBundle)
         navigate(action)
     }
 
@@ -152,6 +197,34 @@ class HomeFragment(
         binding.rightArrowIcon.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToRecentFilesFragment()
             navigate(action)
+        }
+    }
+
+    @OptIn(ExperimentalGetImage::class)
+    private fun fabGalleryConfig() {
+        binding.fabGalleryIcon.setOnClickListener {
+            PermissionManager.Builder(this@HomeFragment, false)
+                .addPermissionLauncher(registerForGalleryPermission)
+                .request(PermissionManager.Permission.createCustomPermission(Manifest.permission.READ_EXTERNAL_STORAGE))
+                .checkPermission { startGalleryConfig() }
+                .build()
+        }
+    }
+
+    private fun startGalleryConfig() {
+        val intent =
+            Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        galleryClickIntent.launch(intent)
+    }
+
+    private fun cameraConfig() {
+        binding.fabCameraIcon.setOnClickListener {
+            val action = HomeFragmentDirections.actionHomeFragmentToScanNavGraph()
+            navigate(action)
+            (activity as MainActivity).binding.apply {
+                bottomNavBar.visibility = View.GONE
+                materialToolbar.visibility = View.GONE
+            }
         }
     }
 }

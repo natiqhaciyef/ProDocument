@@ -3,8 +3,8 @@ package com.natiqhaciyef.data.source
 import com.natiqhaciyef.core.base.mock.generateMockerClass
 import com.natiqhaciyef.data.mock.subscription.GetAllSubscriptionPlansMockGenerator
 import com.natiqhaciyef.data.mock.subscription.GetPickedSubscriptionMockGenerator
-import com.natiqhaciyef.data.network.LoadType
-import com.natiqhaciyef.data.network.handleNetworkResponse
+import com.natiqhaciyef.domain.network.LoadType
+import com.natiqhaciyef.domain.network.handleNetworkResponse
 import com.natiqhaciyef.data.network.manager.TokenManager
 import com.natiqhaciyef.data.network.service.SubscriptionService
 import kotlinx.coroutines.Dispatchers

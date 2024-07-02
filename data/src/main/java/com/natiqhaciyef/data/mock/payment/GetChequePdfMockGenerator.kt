@@ -1,7 +1,7 @@
 package com.natiqhaciyef.data.mock.payment
 
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
-import com.natiqhaciyef.data.network.response.ChequePayloadModel
+import com.natiqhaciyef.domain.network.response.ChequePayloadModel
 
 class GetChequePdfMockGenerator(
     override var takenRequest: String

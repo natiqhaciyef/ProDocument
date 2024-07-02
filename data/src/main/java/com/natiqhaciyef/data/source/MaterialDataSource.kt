@@ -5,9 +5,9 @@ import com.natiqhaciyef.core.base.mock.generateMockerClass
 import com.natiqhaciyef.data.mock.materials.CompressMaterialMockGenerator
 import com.natiqhaciyef.data.mock.materials.CreateMaterialMockGenerator
 import com.natiqhaciyef.data.mock.materials.ESignMaterialMockGenerator
-import com.natiqhaciyef.data.network.LoadType
-import com.natiqhaciyef.data.network.handleNetworkResponse
-import com.natiqhaciyef.data.network.response.MaterialResponse
+import com.natiqhaciyef.domain.network.LoadType
+import com.natiqhaciyef.domain.network.handleNetworkResponse
+import com.natiqhaciyef.domain.network.response.MaterialResponse
 import com.natiqhaciyef.data.network.service.MaterialService
 import com.natiqhaciyef.data.mock.materials.GetAllMaterialsMockGenerator
 import com.natiqhaciyef.data.mock.materials.GetMaterialByIdMockGenerator
@@ -17,18 +17,18 @@ import com.natiqhaciyef.data.mock.materials.RemoveMaterialMockGenerator
 import com.natiqhaciyef.data.mock.materials.SplitMaterialMockGenerator
 import com.natiqhaciyef.data.mock.materials.UpdateMaterialMockGenerator
 import com.natiqhaciyef.data.mock.materials.WatermarkMaterialMockGenerator
-import com.natiqhaciyef.data.network.NetworkConfig
 import com.natiqhaciyef.data.network.manager.TokenManager
-import com.natiqhaciyef.data.network.request.CompressRequest
-import com.natiqhaciyef.data.network.request.ESignRequest
-import com.natiqhaciyef.data.network.request.MergeRequest
-import com.natiqhaciyef.data.network.request.ProtectRequest
-import com.natiqhaciyef.data.network.request.SplitRequest
-import com.natiqhaciyef.data.network.request.WatermarkRequest
+import com.natiqhaciyef.domain.network.request.CompressRequest
+import com.natiqhaciyef.domain.network.request.ESignRequest
+import com.natiqhaciyef.domain.network.request.MergeRequest
+import com.natiqhaciyef.domain.network.request.ProtectRequest
+import com.natiqhaciyef.domain.network.request.SplitRequest
+import com.natiqhaciyef.domain.network.request.WatermarkRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class MaterialDataSource(
+class MaterialDataSource @Inject constructor(
     private val manager: TokenManager,
     private val service: MaterialService
 ) {
@@ -44,7 +44,7 @@ class MaterialDataSource(
 
     suspend fun getFileById(materialId: String) = withContext(Dispatchers.IO) {
         val requestHeader = manager.generateToken()
-        val mock = generateMockerClass(GetMaterialByIdMockGenerator::class, MATERIAL_ID_MOCK_KEY)
+        val mock = generateMockerClass(GetMaterialByIdMockGenerator::class, materialId)
             .getMock(MATERIAL_ID_MOCK_KEY) { null }
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {

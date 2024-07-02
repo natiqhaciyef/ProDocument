@@ -4,8 +4,8 @@ import com.natiqhaciyef.common.model.payment.PaymentDetails
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.constants.ZERO
-import com.natiqhaciyef.data.network.request.PaymentModel
-import com.natiqhaciyef.data.network.response.PaymentPickModel
+import com.natiqhaciyef.domain.network.request.PaymentModel
+import com.natiqhaciyef.domain.network.response.PaymentPickModel
 
 class GetPickedPaymentDetailsMockGenerator(
     override var takenRequest: PaymentPickModel

@@ -2,8 +2,8 @@ package com.natiqhaciyef.data.mock.materials
 
 import com.natiqhaciyef.common.model.Quality
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
-import com.natiqhaciyef.data.network.request.CompressRequest
-import com.natiqhaciyef.data.network.response.MaterialResponse
+import com.natiqhaciyef.domain.network.request.CompressRequest
+import com.natiqhaciyef.domain.network.response.MaterialResponse
 
 class CompressMaterialMockGenerator(
     override var takenRequest: CompressRequest

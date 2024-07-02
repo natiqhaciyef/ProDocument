@@ -14,9 +14,10 @@ import com.natiqhaciyef.common.model.payment.MappedPaymentChequeModel
 import com.natiqhaciyef.common.model.payment.PaymentResultType
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.core.model.FileTypes.PNG
+import com.natiqhaciyef.prodocument.BuildConfig
 import com.natiqhaciyef.prodocument.databinding.FragmentPaymentResultBinding
-import com.natiqhaciyef.prodocument.ui.manager.CameraManager.Companion.createAndShareFile
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager
+import com.natiqhaciyef.uikit.manager.FileManager.createAndShareFile
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.payment.contract.PaymentContract
 import com.natiqhaciyef.prodocument.ui.view.main.payment.viewmodel.PaymentViewModel
@@ -78,7 +79,7 @@ class PaymentResultFragment(
         with(binding){
             chequeResultDataConfig(chequeModel.paymentResult)
             continueButton.setOnClickListener {
-                NavigationManager.navigateByRouteTitle(this@PaymentResultFragment, NavigationManager.HOME_ROUTE)
+                NavigationUtil.navigateByRouteTitle(this@PaymentResultFragment, NavigationUtil.HOME_ROUTE)
             }
             chequeTitle.setOnClickListener { shareCheque(payload ?: EMPTY_STRING) }
             viewCheque.setOnClickListener { shareCheque(payload ?: EMPTY_STRING) }
@@ -113,15 +114,18 @@ class PaymentResultFragment(
     }
 
     private fun shareCheque(image: String){
-        createAndShareFile(material = MappedMaterialModel(
-            id = chequeId,
-            image = image,
-            title = title,
-            description = null,
-            createdDate = getNow(),
-            type = PNG,
-            url = image.toUri(),
-        ))
+        createAndShareFile(
+            applicationId = BuildConfig.APPLICATION_ID,
+            material = MappedMaterialModel(
+                id = chequeId,
+                image = image,
+                title = title,
+                description = null,
+                createdDate = getNow(),
+                type = PNG,
+                url = image.toUri(),
+            )
+        )
     }
 
 

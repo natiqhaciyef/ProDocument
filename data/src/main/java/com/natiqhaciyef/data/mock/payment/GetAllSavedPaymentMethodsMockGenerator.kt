@@ -1,7 +1,7 @@
 package com.natiqhaciyef.data.mock.payment
 
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
-import com.natiqhaciyef.data.network.request.PaymentModel
+import com.natiqhaciyef.domain.network.request.PaymentModel
 
 class GetAllSavedPaymentMethodsMockGenerator(
     override var takenRequest: Unit

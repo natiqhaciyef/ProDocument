@@ -1,7 +1,7 @@
 package com.natiqhaciyef.data.mock.subscription
 
 import com.natiqhaciyef.common.constants.ONE
-import com.natiqhaciyef.data.network.response.SubscriptionResponse
+import com.natiqhaciyef.domain.network.response.SubscriptionResponse
 
 object SubscriptionMockManager {
     private val subscriptionList = mutableListOf(

@@ -3,7 +3,7 @@ package com.natiqhaciyef.data.mock.materials
 import com.natiqhaciyef.common.constants.MATERIAL_MOCK_KEY
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
-import com.natiqhaciyef.data.network.response.MaterialResponse
+import com.natiqhaciyef.domain.network.response.MaterialResponse
 
 class CreateMaterialMockGenerator(
     override var takenRequest: MaterialResponse

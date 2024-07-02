@@ -1,15 +1,15 @@
 package com.natiqhaciyef.data.network.service
 
-import com.natiqhaciyef.data.network.request.MergeRequest
-import com.natiqhaciyef.data.network.request.SplitRequest
-import com.natiqhaciyef.data.network.request.WatermarkRequest
+import com.natiqhaciyef.domain.network.request.MergeRequest
+import com.natiqhaciyef.domain.network.request.SplitRequest
+import com.natiqhaciyef.domain.network.request.WatermarkRequest
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.data.network.NetworkConfig
-import com.natiqhaciyef.data.network.request.CompressRequest
-import com.natiqhaciyef.data.network.request.ESignRequest
-import com.natiqhaciyef.data.network.request.ProtectRequest
-import com.natiqhaciyef.data.network.response.MaterialResponse
-import com.natiqhaciyef.data.network.response.ListMaterialResponse
+import com.natiqhaciyef.domain.network.request.CompressRequest
+import com.natiqhaciyef.domain.network.request.ESignRequest
+import com.natiqhaciyef.domain.network.request.ProtectRequest
+import com.natiqhaciyef.domain.network.response.MaterialResponse
+import com.natiqhaciyef.domain.network.response.ListMaterialResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Field

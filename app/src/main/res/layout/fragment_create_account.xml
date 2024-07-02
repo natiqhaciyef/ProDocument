@@ -77,7 +77,7 @@
             app:layout_constraintTop_toBottomOf="@id/createAccountTitle" />
 
 
-        <com.natiqhaciyef.prodocument.ui.custom.CustomInputView
+        <com.natiqhaciyef.uikit.custom.CustomInputView
             android:id="@+id/createAccountEmailInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -97,7 +97,7 @@
             app:layout_constraintTop_toBottomOf="@id/createAccountDescription" />
 
 
-        <com.natiqhaciyef.prodocument.ui.custom.CustomPasswordInputEditText
+        <com.natiqhaciyef.uikit.custom.CustomPasswordInputEditText
             android:id="@+id/createAccountPasswordInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -107,7 +107,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/createAccountEmailInput" />
 
-        <com.natiqhaciyef.prodocument.ui.custom.CustomPasswordInputEditText
+        <com.natiqhaciyef.uikit.custom.CustomPasswordInputEditText
             android:id="@+id/createAccountConfirmPasswordInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -117,7 +117,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/createAccountPasswordInput" />
 
-        <com.natiqhaciyef.prodocument.ui.custom.CustomRememberMeButton
+        <com.natiqhaciyef.uikit.custom.CustomRememberMeButton
             android:id="@+id/rememberMeCheckBoxImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

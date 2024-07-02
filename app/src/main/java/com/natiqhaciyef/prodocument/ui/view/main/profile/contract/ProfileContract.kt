@@ -9,13 +9,13 @@ import com.natiqhaciyef.common.model.MappedGraphDetailModel
 import com.natiqhaciyef.common.model.ProScanInfoModel
 import com.natiqhaciyef.common.model.ProscanSectionModel
 import com.natiqhaciyef.common.model.mapped.MappedSubscriptionModel
-import com.natiqhaciyef.prodocument.ui.view.main.profile.model.AccountSettingModel
+import com.natiqhaciyef.common.model.AccountSettingModel
 import com.natiqhaciyef.common.model.mapped.MappedUserWithoutPasswordModel
 import com.natiqhaciyef.common.model.payment.PaymentHistoryModel
 import com.natiqhaciyef.core.base.ui.UiEffect
 import com.natiqhaciyef.core.base.ui.UiEvent
 import com.natiqhaciyef.core.base.ui.UiState
-import com.natiqhaciyef.prodocument.ui.view.main.profile.model.ParamsUIModel
+import com.natiqhaciyef.common.model.ParamsUIModel
 
 object ProfileContract {
 

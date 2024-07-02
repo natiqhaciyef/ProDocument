@@ -6,7 +6,7 @@ import com.natiqhaciyef.common.constants.UNKNOWN_ERROR
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.core.base.usecase.BaseUseCase
 import com.natiqhaciyef.core.base.usecase.UseCase
-import com.natiqhaciyef.data.network.NetworkResult
+import com.natiqhaciyef.domain.network.NetworkResult
 import com.natiqhaciyef.domain.repository.AppRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

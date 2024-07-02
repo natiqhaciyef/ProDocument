@@ -3,16 +3,14 @@ package com.natiqhaciyef.prodocument.ui.view.main.modify.viewmodel
 import android.app.Activity
 import android.content.Context
 import androidx.lifecycle.viewModelScope
-import com.natiqhaciyef.common.helpers.toJsonString
 import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.base.ui.BaseViewModel
 import com.natiqhaciyef.domain.usecase.MATERIAL_MODEL
 import com.natiqhaciyef.domain.usecase.MATERIAL_TITLE
 import com.natiqhaciyef.domain.usecase.MATERIAL_WATERMARK
-import com.natiqhaciyef.domain.usecase.USER_EMAIL
 import com.natiqhaciyef.domain.usecase.material.CreateMaterialUseCase
-import com.natiqhaciyef.domain.usecase.material.watermark.WatermarkMaterialUseCase
+import com.natiqhaciyef.domain.usecase.material.WatermarkMaterialUseCase
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.modify.contract.ModifyPdfContract
 import dagger.hilt.android.lifecycle.HiltViewModel

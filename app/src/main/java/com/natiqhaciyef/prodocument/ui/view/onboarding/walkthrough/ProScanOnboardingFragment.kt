@@ -8,9 +8,9 @@ import androidx.lifecycle.lifecycleScope
 import com.natiqhaciyef.common.model.mapped.MappedUserWithoutPasswordModel
 import com.natiqhaciyef.prodocument.databinding.FragmentProScanOnboardingBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.WALKTHROUGH_ROUTE
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.navigateByActivityTitle
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.navigateByRouteTitle
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.WALKTHROUGH_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.navigateByActivityTitle
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.view.onboarding.walkthrough.contract.OnBoardingContract
 import com.natiqhaciyef.prodocument.ui.view.onboarding.walkthrough.viewmodel.OnboardingViewModel
 import dagger.hilt.android.AndroidEntryPoint

@@ -30,6 +30,7 @@ class AddPasswordFileFragment(
         bundle = argument.resourceBundle
         material = bundle.getParcelable(BUNDLE_MATERIAL)
         config()
+        backButtonConfig()
     }
 
     override fun onStateChange(state: ProtectFileContract.ProtectFileState) {
@@ -81,6 +82,10 @@ class AddPasswordFileFragment(
                 protectButton.isEnabled = charSequence?.toString() == filePassword.getPasswordText()
             }
         }
+    }
+
+    private fun backButtonConfig(){
+        binding.goBackIcon.setOnClickListener { navigateBack() }
     }
 
     private fun checkPasswordConfirmation(): Boolean {

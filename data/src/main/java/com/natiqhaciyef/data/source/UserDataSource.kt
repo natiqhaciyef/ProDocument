@@ -6,20 +6,23 @@ import com.natiqhaciyef.common.constants.USER_PASSWORD_MOCK_KEY
 import com.natiqhaciyef.common.constants.USER_TOKEN_MOCK_KEY
 import com.natiqhaciyef.core.base.mock.generateMockerClass
 import com.natiqhaciyef.data.mock.users.AccountMockGenerator
+import com.natiqhaciyef.data.mock.users.AccountMockGenerator.CreateAccountMockGenerator.CREATE_TYPE
+import com.natiqhaciyef.data.mock.users.AccountMockGenerator.CreateAccountMockGenerator.UPDATE_TYPE
 import com.natiqhaciyef.data.mock.users.OtpMockGenerator
 import com.natiqhaciyef.data.mock.users.GetUserMockGenerator
 import com.natiqhaciyef.data.mock.users.GetUserStatisticsMockGenerator
 import com.natiqhaciyef.data.mock.users.LogOutMockGenerator
 import com.natiqhaciyef.data.mock.users.SignInMockGenerator
-import com.natiqhaciyef.data.network.LoadType
-import com.natiqhaciyef.data.network.handleNetworkResponse
+import com.natiqhaciyef.domain.network.LoadType
+import com.natiqhaciyef.domain.network.handleNetworkResponse
 import com.natiqhaciyef.data.network.manager.TokenManager
-import com.natiqhaciyef.data.network.response.UserResponse
+import com.natiqhaciyef.domain.network.response.UserResponse
 import com.natiqhaciyef.data.network.service.UserService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class UserDataSource(
+class UserDataSource @Inject constructor(
     private val manager: TokenManager,
     private val service: UserService
 ) {
@@ -37,6 +40,7 @@ class UserDataSource(
     suspend fun createAccountFromNetwork(
         userModel: UserResponse
     ) = withContext(Dispatchers.IO) {
+        AccountMockGenerator.type = CREATE_TYPE
         val mock = generateMockerClass(AccountMockGenerator::class, userModel)
             .getMock(AccountMockGenerator.customRequest) { null }
 
@@ -54,8 +58,7 @@ class UserDataSource(
     }
 
     suspend fun signInFromNetwork(
-        email: String,
-        password: String
+        email: String, password: String
     ) = withContext(Dispatchers.IO) {
         val map = mapOf(USER_EMAIL_MOCK_KEY to email, USER_PASSWORD_MOCK_KEY to password)
         val mock = generateMockerClass(SignInMockGenerator::class, map)
@@ -88,6 +91,8 @@ class UserDataSource(
         email: String,
         password: String
     ) = withContext(Dispatchers.IO) {
+        AccountMockGenerator.type = UPDATE_TYPE
+
         val map = mapOf(USER_EMAIL_MOCK_KEY to email, USER_PASSWORD_MOCK_KEY to password)
         val mock = generateMockerClass(AccountMockGenerator::class, map)
             .getMock(AccountMockGenerator.customRequest) { null }

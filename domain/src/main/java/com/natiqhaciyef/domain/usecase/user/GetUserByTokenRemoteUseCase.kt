@@ -11,9 +11,9 @@ import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.common.constants.TWO_HUNDRED
 import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
 import com.natiqhaciyef.common.constants.UNKNOWN_ERROR
-import com.natiqhaciyef.data.network.NetworkResult
-import com.natiqhaciyef.data.mapper.toMappedUserWithoutPassword
-import com.natiqhaciyef.data.mapper.toUIResult
+import com.natiqhaciyef.domain.mapper.toMappedUserWithoutPassword
+import com.natiqhaciyef.domain.mapper.toUIResult
+import com.natiqhaciyef.domain.network.NetworkResult
 import com.natiqhaciyef.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

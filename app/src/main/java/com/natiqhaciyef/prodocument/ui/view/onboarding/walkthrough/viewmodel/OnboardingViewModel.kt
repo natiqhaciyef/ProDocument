@@ -5,8 +5,8 @@ import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.common.model.mapped.MappedUserWithoutPasswordModel
 import com.natiqhaciyef.core.base.ui.BaseViewModel
 import com.natiqhaciyef.domain.usecase.user.GetUserByTokenRemoteUseCase
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.HOME_ROUTE
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.REGISTER_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.HOME_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.REGISTER_ROUTE
 import com.natiqhaciyef.prodocument.ui.view.onboarding.walkthrough.contract.OnBoardingContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -75,7 +75,7 @@ class OnboardingViewModel @Inject constructor(
                     }
 
                     Status.ERROR -> {
-//                            setBaseState(getCurrentBaseState().copy(isLoading = false, user = result.data?.data))
+                            setBaseState(getCurrentBaseState().copy(isLoading = false))
                     }
                 }
             }

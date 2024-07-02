@@ -4,7 +4,6 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import androidx.core.view.drawToBitmap
 import androidx.lifecycle.viewModelScope
-import androidx.test.core.view.captureToBitmap
 import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.base.ui.BaseViewModel
@@ -13,8 +12,8 @@ import com.natiqhaciyef.domain.usecase.MATERIAL_E_SIGN
 import com.natiqhaciyef.domain.usecase.MATERIAL_E_SIGN_BITMAP
 import com.natiqhaciyef.domain.usecase.MATERIAL_MODEL
 import com.natiqhaciyef.domain.usecase.POSITIONS_LIST
-import com.natiqhaciyef.domain.usecase.material.e_sign.ESignMaterialUseCase
-import com.natiqhaciyef.prodocument.ui.custom.CustomCanvasView
+import com.natiqhaciyef.domain.usecase.material.ESignMaterialUseCase
+import com.natiqhaciyef.uikit.custom.CustomCanvasView
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.e_sign.contract.ESignContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest

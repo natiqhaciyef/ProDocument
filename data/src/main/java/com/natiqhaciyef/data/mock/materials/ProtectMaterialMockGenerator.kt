@@ -9,8 +9,8 @@ import com.natiqhaciyef.common.model.CRUDModel
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
-import com.natiqhaciyef.data.network.request.ProtectRequest
-import com.natiqhaciyef.data.network.response.MaterialResponse
+import com.natiqhaciyef.domain.network.request.ProtectRequest
+import com.natiqhaciyef.domain.network.response.MaterialResponse
 
 class ProtectMaterialMockGenerator(
     override var takenRequest: ProtectRequest

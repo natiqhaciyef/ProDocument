@@ -8,8 +8,8 @@ import com.natiqhaciyef.common.model.CategoryModel
 import com.natiqhaciyef.common.model.ContactMethods
 import com.natiqhaciyef.common.model.LanguageModel
 import com.natiqhaciyef.common.model.QuestionCategories
-import com.natiqhaciyef.prodocument.ui.view.main.profile.model.AccountSettingModel
-import com.natiqhaciyef.prodocument.ui.view.main.profile.model.Settings
+import com.natiqhaciyef.common.model.AccountSettingModel
+import com.natiqhaciyef.common.model.Settings
 import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.common.model.mapped.MappedUserWithoutPasswordModel
 import com.natiqhaciyef.core.base.ui.BaseViewModel
@@ -17,13 +17,13 @@ import com.natiqhaciyef.domain.usecase.app.GetCountriesUseCase
 import com.natiqhaciyef.domain.usecase.app.GetFaqListUseCase
 import com.natiqhaciyef.domain.usecase.app.GetProscanDetailsUseCase
 import com.natiqhaciyef.domain.usecase.app.GetProscanSectionsUseCase
-import com.natiqhaciyef.domain.usecase.payment.remote.GetPaymentHistoryUseCase
+import com.natiqhaciyef.domain.usecase.payment.GetPaymentHistoryUseCase
 import com.natiqhaciyef.domain.usecase.subscription.GetPickedPlanUseCase
 import com.natiqhaciyef.domain.usecase.user.GetUserByTokenRemoteUseCase
 import com.natiqhaciyef.domain.usecase.user.GetUserStaticsUseCase
 import com.natiqhaciyef.prodocument.ui.view.main.profile.contract.ProfileContract
-import com.natiqhaciyef.prodocument.ui.view.main.profile.model.FieldType
-import com.natiqhaciyef.prodocument.ui.view.main.profile.model.ParamsUIModel
+import com.natiqhaciyef.common.model.FieldType
+import com.natiqhaciyef.common.model.ParamsUIModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

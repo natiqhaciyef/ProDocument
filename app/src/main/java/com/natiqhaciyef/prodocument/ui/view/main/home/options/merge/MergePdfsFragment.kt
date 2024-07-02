@@ -10,15 +10,18 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.R
+import com.natiqhaciyef.common.constants.EMPTY_STRING
+import com.natiqhaciyef.common.constants.LINE
+import com.natiqhaciyef.common.constants.SPACE
 import com.natiqhaciyef.prodocument.databinding.FragmentMergePdfsBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
-import com.natiqhaciyef.prodocument.ui.manager.FileManager
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager
-import com.natiqhaciyef.prodocument.ui.manager.NavigationManager.navigateByRouteTitle
+import com.natiqhaciyef.uikit.manager.FileManager
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
-import com.natiqhaciyef.prodocument.ui.view.main.home.adapter.FileItemAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.merge.contract.MergePdfContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.merge.viewmodel.MergePdfViewModel
+import com.natiqhaciyef.uikit.adapter.FileItemAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlin.reflect.KClass
@@ -40,6 +43,7 @@ class MergePdfsFragment(
                             activity = requireActivity(),
                             uri = intent.data!!
                         ) { file ->
+                            configFileTitle(file.title)
                             filesList.add(file)
                             configOfChangeFileList()
                             continueButtonEnabled()
@@ -58,7 +62,9 @@ class MergePdfsFragment(
         with(binding) {
             addMoreFilesButton.setOnClickListener { FileManager.getFile(fileRequestLauncher) }
             mergeButton.setOnClickListener { mergeButtonEvent(filesList) }
-            goBackIcon.setOnClickListener { navigateByRouteTitle(this@MergePdfsFragment, NavigationManager.HOME_ROUTE) }
+            goBackIcon.setOnClickListener {
+                navigateByRouteTitle(this@MergePdfsFragment, NavigationUtil.HOME_ROUTE)
+            }
         }
     }
 
@@ -105,11 +111,33 @@ class MergePdfsFragment(
         }
     }
 
+    private fun configFileTitle(title: String) {
+        with(binding) {
+            val totalTitle = usernameMergedTitle.text.toString()
+            if (totalTitle != EMPTY_STRING && totalTitle != SPACE)
+                usernameMergedTitle.setText("$totalTitle $LINE $title")
+            else
+                usernameMergedTitle.setText(title)
+        }
+    }
+
+    private fun removeFileTitle(title: String) {
+        with(binding.usernameMergedTitle) {
+            var totalTitle = text.toString()
+            if (totalTitle.endsWith(title)) {
+                totalTitle = totalTitle.removeSuffix(title)
+                totalTitle = totalTitle.removeSuffix(LINE + SPACE)
+            } else {
+                totalTitle = totalTitle.removePrefix(title)
+                totalTitle = totalTitle.removePrefix(SPACE + LINE)
+            }
+
+            setText(totalTitle)
+        }
+    }
+
     private fun recyclerViewConfig() {
-        adapter = FileItemAdapter(
-            filesList,
-            requireContext().getString(R.string.merge_pdf)
-        )
+        adapter = FileItemAdapter(filesList, requireContext().getString(R.string.merge_pdf))
 
         with(binding) {
             materialsRecyclerView.adapter = adapter
@@ -149,8 +177,9 @@ class MergePdfsFragment(
     }
 
     private fun removeFileButtonClickAction(id: String) {
-        filesList.removeIf { it.id == id }
-        adapter?.list = filesList
+        val file = filesList.first { it.id == id }
+        removeFileTitle(file.title)
+        filesList.remove(file)
         configOfChangeFileList()
     }
 

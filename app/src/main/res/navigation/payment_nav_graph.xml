@@ -51,9 +51,9 @@
     </fragment>
     <fragment
         android:id="@+id/scanFragment"
-        android:name="com.natiqhaciyef.prodocument.ui.view.main.payment.ScanFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.payment.ScanQrFragment"
         android:label="fragment_scan"
-        tools:layout="@layout/fragment_scan" >
+        tools:layout="@layout/fragment_scan_qr" >
         <action
             android:id="@+id/action_scanFragment_to_paymentDetailsFragment"
             app:destination="@id/paymentDetailsFragment" />

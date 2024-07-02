@@ -5,8 +5,8 @@ import com.natiqhaciyef.common.constants.TWELVE
 import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.common.model.payment.PaymentDetails
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
-import com.natiqhaciyef.data.network.response.PaymentChequeResponse
-import com.natiqhaciyef.data.network.response.SubscriptionPlanPaymentDetails
+import com.natiqhaciyef.domain.network.response.PaymentChequeResponse
+import com.natiqhaciyef.domain.network.response.SubscriptionPlanPaymentDetails
 
 class GetPaymentHistoryDetailsMockGenerator(
     override var takenRequest: String

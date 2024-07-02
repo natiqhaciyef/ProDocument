@@ -103,7 +103,7 @@
                 app:layout_constraintTop_toTopOf="@id/completeProfileAccountImage"
                 app:layout_constraintVertical_bias="1.0" />
 
-            <com.natiqhaciyef.prodocument.ui.custom.CustomInputView
+            <com.natiqhaciyef.uikit.custom.CustomInputView
                 android:id="@+id/completeProfileFullNameInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -116,7 +116,7 @@
                 app:layout_constraintTop_toBottomOf="@id/completeProfileAccountImage"
                 />
 
-            <com.natiqhaciyef.prodocument.ui.custom.CustomInputView
+            <com.natiqhaciyef.uikit.custom.CustomInputView
                 android:id="@+id/completeProfilePhoneNumberInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

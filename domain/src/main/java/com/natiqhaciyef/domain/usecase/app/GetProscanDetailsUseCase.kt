@@ -7,8 +7,8 @@ import com.natiqhaciyef.core.base.usecase.BaseUseCase
 import com.natiqhaciyef.core.base.usecase.UseCase
 import com.natiqhaciyef.common.model.ProScanInfoModel
 import com.natiqhaciyef.common.model.Resource
-import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.domain.repository.AppRepository
+import com.natiqhaciyef.domain.network.NetworkResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject

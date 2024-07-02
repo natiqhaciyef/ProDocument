@@ -7,10 +7,10 @@ import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.common.constants.TWO_HUNDRED
 import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
 import com.natiqhaciyef.common.constants.UNKNOWN_ERROR
-import com.natiqhaciyef.data.mapper.toMapped
-import com.natiqhaciyef.data.network.NetworkResult
 import com.natiqhaciyef.core.base.usecase.BaseUseCase
 import com.natiqhaciyef.core.base.usecase.UseCase
+import com.natiqhaciyef.domain.mapper.toMapped
+import com.natiqhaciyef.domain.network.NetworkResult
 import com.natiqhaciyef.domain.repository.UserRepository
 import com.natiqhaciyef.domain.usecase.USER_EMAIL
 import com.natiqhaciyef.domain.usecase.USER_PASSWORD
@@ -26,10 +26,9 @@ class SignInRemoteUseCase @Inject constructor(
     override fun operate(data: Map<String, String>): Flow<Resource<MappedTokenModel>> = flow {
         val email = data[USER_EMAIL].toString()
         val password = data[USER_PASSWORD].toString()
-
         emit(Resource.loading(null))
-        val result = repository.signIn(email, password)
-        when (result) {
+
+        when (val result = repository.signIn(email, password)) {
             is NetworkResult.Success -> {
                 val model = result.data.toMapped()
 
