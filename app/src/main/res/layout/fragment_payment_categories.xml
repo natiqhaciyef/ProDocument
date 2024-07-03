@@ -20,6 +20,60 @@
         />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/errorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/addIcon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/plus_icon"
+            android:tint="@color/red"
+            app:layout_constraintVertical_bias="0.40"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.15"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/emptyPaymentMethod"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="48dp"
+            android:layout_marginStart="20dp"
+            android:textSize="18sp"
+            android:textColor="@color/red"
+            android:fontFamily="@font/urbanist_bold"
+            app:layout_constraintVertical_bias="0.1"
+            android:layout_marginBottom="20dp"
+            android:text="@string/add_new_payment_method_result"
+            app:layout_constraintStart_toEndOf="@id/addIcon"
+            app:layout_constraintTop_toTopOf="@id/addIcon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/addIcon"
+            />
+
+        <ImageView
+            android:layout_width="220dp"
+            android:layout_height="6dp"
+            android:layout_marginBottom="88dp"
+            android:src="@drawable/arrow_line_icon"
+            android:scaleType="centerCrop"
+            android:rotation="90"
+            app:layout_constraintHorizontal_bias="0.4"
+            app:layout_constraintVertical_bias="0.5"
+            app:layout_constraintTop_toBottomOf="@id/emptyPaymentMethod"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/addIcon"
+            app:layout_constraintEnd_toEndOf="@id/emptyPaymentMethod"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/uiLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">

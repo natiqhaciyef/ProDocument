@@ -29,12 +29,10 @@ class ContactFragment(
 
     override fun onStateChange(state: ProfileContract.ProfileState) {
         when {
-            state.isLoading -> {
-
-            }
+            state.isLoading -> changeVisibilityOfProgressBar(true)
 
             else -> {
-
+                changeVisibilityOfProgressBar()
                 if (state.contactMethods != null)
                     contactRecyclerConfig(state.contactMethods!!)
             }
@@ -43,6 +41,20 @@ class ContactFragment(
 
     override fun onEffectUpdate(effect: ProfileContract.ProfileEffect) {
 
+    }
+
+    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
+        if (isVisible) {
+            binding.apply {
+                progressBar.visibility = View.VISIBLE
+                progressBar.isIndeterminate = true
+            }
+        } else {
+            binding.apply {
+                progressBar.visibility = View.GONE
+                progressBar.isIndeterminate = false
+            }
+        }
     }
 
 

@@ -27,6 +27,7 @@ import com.natiqhaciyef.common.constants.THIRTEEN
 import com.natiqhaciyef.prodocument.databinding.FragmentCompleteProfileBinding
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
+import com.natiqhaciyef.prodocument.ui.util.DefaultImplModels
 import com.natiqhaciyef.uikit.manager.PermissionManager.Permission.Companion.PERMISSION_REQUEST
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkFullNameAcceptanceCondition
 import com.natiqhaciyef.prodocument.ui.util.InputAcceptanceConditions.checkGenderAcceptanceCondition
@@ -175,14 +176,12 @@ class CompleteProfileFragment(
         binding.apply {
             viewModel.postEvent(
                 CompleteProfileContract.CompleteUiEvent.CollectUserData(
-                    MappedUserModel(
+                    DefaultImplModels.mappedUserModel.copy(
                         name = completeProfileFullNameInput.getInputResult(),
-                        email = EMPTY_STRING,
                         phoneNumber = completeProfilePhoneNumberInput.getInputResult(),
                         gender = genderSelection,
                         birthDate = completeProfileDOBInput.text.toString(),
-                        imageUrl = imageData.toString(),
-                        password = EMPTY_STRING
+                        imageUrl = imageData.toString()
                     )
                 )
             )

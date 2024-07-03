@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.ExperimentalGetImage
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.net.toUri
@@ -15,6 +16,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import coil.load
 import com.natiqhaciyef.common.constants.EMPTY_STRING
+import com.natiqhaciyef.common.constants.TWO_HUNDRED
+import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
 import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.common.model.CRUDModel
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
@@ -26,6 +29,7 @@ import com.natiqhaciyef.prodocument.ui.view.main.home.CustomMaterialOptionsBotto
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.CustomWatermarkAdderBottomSheetFragment
 import com.natiqhaciyef.core.model.CategoryItem
 import com.natiqhaciyef.prodocument.BuildConfig
+import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.uikit.manager.FileManager.createAndShareFile
 import com.natiqhaciyef.uikit.manager.FileManager.getAddressOfFile
 import com.natiqhaciyef.uikit.manager.FileManager.createSafePdfUriLoader
@@ -40,9 +44,10 @@ import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.modify.contract.ModifyPdfContract
 import com.natiqhaciyef.prodocument.ui.view.main.modify.viewmodel.ModifyPdfViewModel
-import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.CaptureImageFragment
-import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.ScanFragment
+import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.CaptureImageFragment.Companion.CAPTURE_IMAGE_TYPE
+import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.ScanFragment.Companion.SCAN_QR_TYPE
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.WatermarkFragment.Companion.WATERMARK_TYPE
+import com.natiqhaciyef.uikit.alert.AlertDialogManager.createResultAlertDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlin.reflect.KClass
@@ -58,6 +63,7 @@ class ModifyPdfFragment(
     private var type: String? = null
     private var title: String? = null
     private var uriAddress: Uri? = null
+    private var resultDescription: String = EMPTY_STRING
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -71,13 +77,13 @@ class ModifyPdfFragment(
         binding.apply {
             material?.let { file ->
                 countTitle()
-
+                resultDescription = resultTitleFilter(type ?: EMPTY_STRING)
                 when (type) {
-                    ScanFragment.SCAN_QR_TYPE -> {
+                    SCAN_QR_TYPE -> {
                         scanQrConfig(file)
                     }
 
-                    CaptureImageFragment.CAPTURE_IMAGE_TYPE -> {
+                    CAPTURE_IMAGE_TYPE -> {
                         captureImageConfig(file)
                     }
 
@@ -89,18 +95,15 @@ class ModifyPdfFragment(
                         watermarkConfig(file)
                     }
 
-                    SPLIT_TYPE ->{
-                        val list = (data.resourceBundle.getParcelableArray(BUNDLE_LIST_MATERIAL) as Array<MappedMaterialModel>).toList()
+                    SPLIT_TYPE -> {
+                        val list =
+                            (data.resourceBundle.getParcelableArray(BUNDLE_LIST_MATERIAL) as Array<MappedMaterialModel>).toList()
                         splitConfig(list)
                     }
 
-                    PROTECT_TYPE ->{
+                    PROTECT_TYPE -> { /* INSERT: add action */ }
 
-                    }
-
-                    COMPRESS_TYPE ->{
-
-                    }
+                    COMPRESS_TYPE -> { /* INSERT: add action */ }
 
                     null -> { /* create effect */ }
 
@@ -123,7 +126,8 @@ class ModifyPdfFragment(
                 if (state.optionsList != null)
                     showBottomSheetDialog(state.optionsList!!)
 
-                saveButtonClickAction(material = state.material, result = state.result)
+                if (state.result != null)
+                    saveButtonClickAction(result = state.result!!)
             }
         }
     }
@@ -313,12 +317,31 @@ class ModifyPdfFragment(
         )
     }
 
-    private fun saveButtonClickAction(
-        result: CRUDModel? = null,
-        material: MappedMaterialModel? = null
-    ) {
-        // action after save file
-        println(material)
+    private fun saveButtonClickAction(result: CRUDModel) {
+        val description = if (result.resultCode in TWO_HUNDRED..TWO_HUNDRED_NINETY_NINE)
+            getString(com.natiqhaciyef.common.R.string.file_created_success_description, resultDescription)
+        else
+            getString(com.natiqhaciyef.common.R.string.file_created_failed_description, resultDescription)
+
+        (requireActivity() as AppCompatActivity).createResultAlertDialog(
+            title = result.message,
+            description = description,
+            buttonText = getString(com.natiqhaciyef.common.R.string.continue_),
+        ){ dialog ->
+            navigateBack()
+            dialog.dismiss()
+        }
+    }
+
+    private fun resultTitleFilter(title: String) = when(title){
+        SCAN_QR_TYPE -> SCANNED
+        CAPTURE_IMAGE_TYPE -> CAPTURED
+        PREVIEW_IMAGE -> PREVIEW
+        WATERMARK_TYPE -> WATERMARK_INSERTED
+        SPLIT_TYPE -> SPLIT
+        PROTECT_TYPE -> PROTECTED
+        COMPRESS_TYPE -> COMPRESSED
+        else -> { EMPTY_STRING }
     }
 
     private fun saveButtonClickEvent(materialModel: MappedMaterialModel?) {
@@ -395,5 +418,12 @@ class ModifyPdfFragment(
 
     companion object {
         const val PREVIEW_IMAGE = "PreviewImage"
+        private const val CAPTURED = "Captured"
+        private const val SCANNED = "Scanned"
+        private const val PREVIEW = "Previewed"
+        private const val WATERMARK_INSERTED = "Watermark inserted"
+        private const val SPLIT = "Split"
+        private const val PROTECTED = "Protected"
+        private const val COMPRESSED = "Compressed"
     }
 }

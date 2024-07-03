@@ -83,6 +83,8 @@ class HomeViewModel @Inject constructor(
                                 result.exception
                             )
                         )
+
+                        setBaseState(getCurrentBaseState().copy(isLoading = false))
                     }
 
                     Status.LOADING -> {

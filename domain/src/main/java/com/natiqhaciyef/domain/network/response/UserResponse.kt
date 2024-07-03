@@ -2,6 +2,8 @@ package com.natiqhaciyef.domain.network.response
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import com.natiqhaciyef.common.constants.EMPTY_STRING
+import com.natiqhaciyef.common.model.MappedGraphDetailModel
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.core.base.network.BaseNetworkModel
 import kotlinx.parcelize.Parcelize
@@ -30,8 +32,14 @@ data class UserResponse(
     var password: String,
     @SerializedName("publishDate")
     var publishDate: String,
+    @SerializedName("isBiometricEnabled")
+    var isBiometricEnabled: Boolean,
     @SerializedName("result")
-    override var result: CRUDResponse?
+    override var result: CRUDResponse?,
+    @SerializedName("subscription")
+    var subscription: SubscriptionResponse,
+    @SerializedName("reports")
+    var reports: GraphDetailsListResponse
 ) : BaseNetworkModel, Parcelable
 
 // data = split as a parameters of UserModel

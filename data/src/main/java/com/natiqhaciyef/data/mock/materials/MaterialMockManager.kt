@@ -56,7 +56,7 @@ object MaterialMockManager {
     fun getEmptyMaterial() = material
 
     fun getMaterialById(id: String): MaterialResponse {
-        return materialList.first { it.id == id }
+        return materialList.first { it.id == id }.copy(result = crudResponse)
     }
 
     fun getAllMaterials(): ListMaterialResponse {
@@ -235,6 +235,6 @@ object MaterialMockManager {
 
 
     fun getCrudResult(reason: String, code: Int = TWO_HUNDRED_NINETY_NINE): CRUDResponse {
-        return crudResponse.copy(message = "$reason $CRUD_MOCK", resultCode = code)
+        return crudResponse.copy(message = reason, resultCode = code)
     }
 }

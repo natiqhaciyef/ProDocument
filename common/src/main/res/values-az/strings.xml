@@ -228,7 +228,7 @@
     <string name="other">Digər</string>
     <string name="select_payment_method">Ödəniş Metodu Seçin</string>
     <string name="review_summary">Ümumi Baxış</string>
-    <string name="add_new_payment">Yeni Ödəniş Metodu Əlavə Et</string>
+    <string name="add_new_payment">+ Yeni Ödəniş Metodu Əlavə Et</string>
     <string name="card_number_default">●●●● ●●●● ●●●● ●●●●</string>
     <string name="card">Kart</string>
     <string name="card_holder_name_title">Kart Sahibinin Adı</string>

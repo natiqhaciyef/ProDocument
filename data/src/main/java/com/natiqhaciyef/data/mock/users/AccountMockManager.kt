@@ -8,6 +8,7 @@ import com.natiqhaciyef.common.constants.SPACE
 import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
 import com.natiqhaciyef.common.constants.USER_NOT_FOUND
 import com.natiqhaciyef.core.CRUDResponse
+import com.natiqhaciyef.data.mock.subscription.SubscriptionMockManager
 import com.natiqhaciyef.domain.network.response.GraphDetailModel
 import com.natiqhaciyef.domain.network.response.GraphDetailsListResponse
 import com.natiqhaciyef.domain.network.response.TokenResponse
@@ -34,6 +35,9 @@ object AccountMockManager {
         country = "England",
         city = "Brighton",
         street = "Mr Allen street 12",
+        isBiometricEnabled = false,
+        subscription = SubscriptionMockManager.getAllSubscriptions().first(),
+        reports = GraphDetailsListResponse(details = listOf()),
         result = CRUDResponse(
             resultCode = TWO_HUNDRED_NINETY_NINE,
             message = "Mock user"

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.natiqhaciyef.common.helpers.secondWordFirstLetterLowercase
 import com.natiqhaciyef.common.model.payment.PaymentHistoryModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.R
@@ -33,11 +34,19 @@ class PaymentHistoryFragment(
     override fun onStateChange(state: ProfileContract.ProfileState) {
         when {
             state.isLoading -> {
+                errorResultConfig()
+                changeVisibilityOfProgressBar(true)
+            }
 
+            state.paymentsHistory.isNullOrEmpty() -> {
+                errorResultConfig(true)
+                changeVisibilityOfProgressBar()
             }
 
             else -> {
-                if (state.paymentsHistory != null){
+                errorResultConfig()
+                changeVisibilityOfProgressBar()
+                if (state.paymentsHistory != null) {
                     recyclerConfig(state.paymentsHistory!!.toMutableList())
                 }
             }
@@ -46,6 +55,33 @@ class PaymentHistoryFragment(
 
     override fun onEffectUpdate(effect: ProfileContract.ProfileEffect) {
 
+    }
+
+    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
+        if (isVisible) {
+            binding.apply {
+                progressBar.visibility = View.VISIBLE
+                progressBar.isIndeterminate = true
+            }
+        } else {
+            binding.apply {
+                progressBar.visibility = View.GONE
+                progressBar.isIndeterminate = false
+            }
+        }
+    }
+
+    private fun errorResultConfig(isVisible: Boolean = false) {
+        if (isVisible) {
+            val title = getString(com.natiqhaciyef.common.R.string.payment_history)
+                .secondWordFirstLetterLowercase()
+            val resultText = getString(com.natiqhaciyef.common.R.string.empty_list_result, title)
+
+            binding.errorTitle.text = resultText
+            binding.errorTitle.visibility = View.VISIBLE
+        } else {
+            binding.errorTitle.visibility = View.GONE
+        }
     }
 
     private fun activityConfig() {
