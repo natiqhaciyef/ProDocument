@@ -22,7 +22,7 @@ class CreateMaterialMockGenerator(
     }
 
     companion object CreateMaterialMockGenerator {
-        private const val CREATE_MATERIAL = "create material"
+        private const val CREATE_MATERIAL = "Material created"
         val customRequest = MaterialMockManager
             .getEmptyMaterial()
     }

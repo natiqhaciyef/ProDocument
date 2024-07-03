@@ -25,7 +25,7 @@ class UpdateMaterialMockGenerator(
     }
 
     companion object UpdateMaterialMockGenerator {
-        private const val UPDATE = "UPDATE"
+        private const val UPDATE = "Material updated"
         val customRequest = MaterialMockManager.getEmptyMaterial()
     }
 }

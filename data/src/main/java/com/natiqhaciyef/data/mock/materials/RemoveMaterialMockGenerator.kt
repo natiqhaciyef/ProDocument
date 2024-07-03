@@ -24,6 +24,6 @@ class RemoveMaterialMockGenerator(
     }
 
     companion object RemoveMaterialMockGenerator {
-        private const val REMOVE = "remove"
+        private const val REMOVE = "Material removed"
     }
 }

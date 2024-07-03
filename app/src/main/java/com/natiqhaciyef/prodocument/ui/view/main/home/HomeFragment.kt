@@ -28,8 +28,11 @@ import com.natiqhaciyef.prodocument.ui.util.DefaultImplModels
 import com.natiqhaciyef.prodocument.ui.util.UiList
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.home.contract.HomeContract
+import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.CaptureImageFragment
+import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.CaptureImageFragment.Companion.CAPTURE_IMAGE_TYPE
 import com.natiqhaciyef.prodocument.ui.view.main.home.viewmodel.HomeViewModel
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.ScanFragment.Companion.SCAN_QR_TYPE
+import com.natiqhaciyef.prodocument.ui.view.main.modify.ModifyPdfFragment.Companion.PREVIEW_IMAGE
 import com.natiqhaciyef.uikit.adapter.FileItemAdapter
 import com.natiqhaciyef.uikit.adapter.MenuAdapter
 import com.natiqhaciyef.uikit.manager.PermissionManager
@@ -188,6 +191,7 @@ class HomeFragment(
 
     private fun fileClickAction(material: MappedMaterialModel) {
         resourceBundle.putParcelable(BUNDLE_MATERIAL, material)
+        resourceBundle.putString(BUNDLE_TYPE, PREVIEW_IMAGE)
         val action =
             HomeFragmentDirections.actionHomeFragmentToPreviewMaterialNavGraph(resourceBundle)
         navigate(action)

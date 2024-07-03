@@ -7,10 +7,14 @@ import android.graphics.drawable.ColorDrawable
 import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import com.natiqhaciyef.common.constants.EMPTY_STRING
 import com.natiqhaciyef.uikit.databinding.AlertDialogResultViewBinding
 
 object AlertDialogManager {
     fun AppCompatActivity.createResultAlertDialog(
+        title: String = EMPTY_STRING,
+        description: String = EMPTY_STRING,
+        buttonText: String = EMPTY_STRING,
         applyDialogDetails: (AlertDialog) -> Unit = {},
         resultClickAction: (AlertDialog) -> Unit = {}
     ) {
@@ -23,8 +27,19 @@ object AlertDialogManager {
 
         applyDialogDetails.invoke(resultDialog)
 
-        binding.resultButton.setOnClickListener {
-            resultClickAction.invoke(resultDialog)
+        with(binding) {
+            resultButton.setOnClickListener {
+                resultClickAction.invoke(resultDialog)
+            }
+
+            if (title.isNotEmpty())
+                resultTitle.text = title
+
+            if (description.isNotEmpty())
+                resultDescription.text = description
+
+            if (buttonText.isNotEmpty())
+                resultButton.text = buttonText
         }
 
         resultDialog.show()
