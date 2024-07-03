@@ -18,8 +18,8 @@ import androidx.navigation.fragment.navArgs
 import com.natiqhaciyef.common.helpers.toDetails
 import com.natiqhaciyef.common.model.mapped.MappedSubscriptionModel
 import com.natiqhaciyef.common.model.payment.MappedPaymentModel
-import com.natiqhaciyef.prodocument.databinding.FragmentScanBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
+import com.natiqhaciyef.prodocument.databinding.FragmentScanQrBinding
 import com.natiqhaciyef.uikit.manager.PermissionManager
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_CHEQUE_PAYMENT
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_PAYMENT
@@ -32,10 +32,10 @@ import kotlin.reflect.KClass
 
 @ExperimentalGetImage
 @AndroidEntryPoint
-class ScanFragment(
-    override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentScanBinding = FragmentScanBinding::inflate,
+class ScanQrFragment(
+    override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentScanQrBinding = FragmentScanQrBinding::inflate,
     override val viewModelClass: KClass<PaymentViewModel> = PaymentViewModel::class
-) : BaseFragment<FragmentScanBinding, PaymentViewModel, PaymentContract.PaymentState, PaymentContract.PaymentEvent, PaymentContract.PaymentEffect>() {
+) : BaseFragment<FragmentScanQrBinding, PaymentViewModel, PaymentContract.PaymentState, PaymentContract.PaymentEvent, PaymentContract.PaymentEffect>() {
     private var resourceBundle = bundleOf()
     private var selectedImage: Uri? = null
     private val registerForCameraPermissionResult =
@@ -61,7 +61,7 @@ class ScanFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val args: ScanFragmentArgs by navArgs()
+        val args: ScanQrFragmentArgs by navArgs()
         resourceBundle = args.datasetBundle
         activityConfig()
         with(binding) {
@@ -91,7 +91,7 @@ class ScanFragment(
                     resourceBundle.putParcelable(BUNDLE_CHEQUE_PAYMENT, cheque)
                     resourceBundle.putParcelable(BUNDLE_PAYMENT, paymentModel)
 
-                    val action = ScanFragmentDirections.actionScanFragmentToPaymentDetailsFragment(resourceBundle)
+                    val action = ScanQrFragmentDirections.actionScanFragmentToPaymentDetailsFragment(resourceBundle)
                     navigate(action)
                 }
             }
@@ -173,7 +173,7 @@ class ScanFragment(
     }
 
     private fun checkGalleryPermission() {
-        PermissionManager.Builder(this@ScanFragment, false)
+        PermissionManager.Builder(this@ScanQrFragment, false)
             .addPermissionLauncher(registerForGalleryPermissionResult)
             .request(PermissionManager.Permission.createCustomPermission(Manifest.permission.READ_EXTERNAL_STORAGE))
             .checkPermission { startGalleryConfig() }
@@ -190,9 +190,5 @@ class ScanFragment(
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-    }
-
-    companion object {
-        const val SCAN_QR_TYPE = "scan-qr-type"
     }
 }

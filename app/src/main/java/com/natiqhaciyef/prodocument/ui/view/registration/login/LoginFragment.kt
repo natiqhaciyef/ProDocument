@@ -44,7 +44,7 @@ class LoginFragment(
             else -> {
                 changeVisibilityOfProgressBar()
                 if (state.tokenModel != null){
-                    loginButtonClickAction(state.tokenModel!!)
+                    navigateByActivityTitle(HOME_ROUTE, requireActivity(),true)
                 }
             }
         }
@@ -114,21 +114,10 @@ class LoginFragment(
     private fun loginButtonClickEvent() {
         binding.apply {
             val email = loginEmailInput.getInputResult()
-            val password = loginPasswordInput.text
+            val password = loginPasswordInput.getPasswordText()
 
             viewModel.postEvent(LoginContract
-                .LoginEvent.LoginClickEvent(ctx = requireContext(), email = email, password = password))
-        }
-    }
-
-    private fun loginButtonClickAction(token: MappedTokenModel){
-        lifecycleScope.launch {
-            dataStore.saveParcelableClassData(
-                context = requireContext(),
-                data = token,
-                key = TOKEN_KEY
-            )
-            navigateByActivityTitle(HOME_ROUTE, requireActivity(),true)
+                .LoginEvent.LoginClickEvent(ctx = requireContext(), email = email, password = password, dataStore = dataStore))
         }
     }
 

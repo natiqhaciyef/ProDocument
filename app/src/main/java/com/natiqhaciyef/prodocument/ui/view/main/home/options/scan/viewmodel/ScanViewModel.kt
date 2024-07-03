@@ -47,16 +47,6 @@ class ScanViewModel @Inject constructor() : BaseViewModel<ScanContract.ScanState
                 )
             }
 
-            is ScanContract.ScanEvent.StartQrCameraEvent -> {
-                startCamera(
-                    event.context,
-                    event.lifecycle,
-                    event.preview,
-                    event.type,
-                    event.view,
-                    event.onSuccess
-                )
-            }
 
             is ScanContract.ScanEvent.ClearStateEvent -> {
                 setBaseState(getCurrentBaseState().copy(isLoading = false, material = null))

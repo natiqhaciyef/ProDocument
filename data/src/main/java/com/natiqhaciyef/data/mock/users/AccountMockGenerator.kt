@@ -8,44 +8,34 @@ import com.natiqhaciyef.domain.network.response.UserResponse
 import java.util.UUID
 
 class AccountMockGenerator(
-    override var takenRequest: UserResponse
+    override var takenRequest: UserResponse,
 ) : BaseMockGenerator<UserResponse, TokenResponse>() {
+
     override var createdMock: TokenResponse =
-        TokenResponse(
-            accessToken = "${UUID.randomUUID()}",
-            result = CRUDResponse(
-                resultCode = TWO_HUNDRED_NINETY_NINE,
-                message = "Mock token"
-            ),
-            refreshToken = "email@gmail.com"
-        )
+        if (type == CREATE_TYPE)
+            AccountMockManager.createUser(takenRequest)
+        else
+            AccountMockManager.updateUser(takenRequest)
 
     override fun getMock(
         request: UserResponse,
         action: (UserResponse) -> TokenResponse?
     ): TokenResponse {
-        return if (request == takenRequest){
-            createdMock
-        }else{
-            action.invoke(request) ?: throw Companion.MockRequestException()
-        }
+        if (type == CREATE_TYPE)
+            AccountMockManager.createUser(takenRequest)
+        else if(type == UPDATE_TYPE)
+            AccountMockManager.updateUser(takenRequest)
+
+
+        return AccountMockManager.createUser(takenRequest)
     }
 
+    companion object CreateAccountMockGenerator {
+        const val CREATE_TYPE = "CREATE USER"
+        const val UPDATE_TYPE = "UPDATE USER"
 
-    companion object CreateAccountMockGenerator{
-        val customRequest = UserResponse(
-            fullName = "Steve Wooden",
-            phoneNumber = "+44 20 0001 0002",
-            gender = "Male",
-            dateOfBirth = "12.04.2000",
-            imageUrl = "https://minecraftfaces.com/wp-content/bigfaces/big-steve-face.png",
-            email = "steve@minecraft.com",
-            password = "steve123",
-            publishDate = "09.03.2024",
-            country = "England",
-            city = "Brighton",
-            street = "Mr Allen street 12",
-            result = null
-        )
+        val customRequest = AccountMockManager.getUser()
+        var type: String = CREATE_TYPE
+
     }
 }

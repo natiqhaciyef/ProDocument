@@ -26,10 +26,9 @@ class SignInRemoteUseCase @Inject constructor(
     override fun operate(data: Map<String, String>): Flow<Resource<MappedTokenModel>> = flow {
         val email = data[USER_EMAIL].toString()
         val password = data[USER_PASSWORD].toString()
-
         emit(Resource.loading(null))
-        val result = repository.signIn(email, password)
-        when (result) {
+
+        when (val result = repository.signIn(email, password)) {
             is NetworkResult.Success -> {
                 val model = result.data.toMapped()
 

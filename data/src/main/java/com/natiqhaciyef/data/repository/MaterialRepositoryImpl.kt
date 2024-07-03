@@ -1,4 +1,4 @@
-package com.natiqhaciyef.data.impl
+package com.natiqhaciyef.data.repository
 
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.domain.mapper.toMaterialResponse

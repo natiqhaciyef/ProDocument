@@ -8,11 +8,17 @@ import com.natiqhaciyef.domain.network.response.GraphDetailModel
 import com.natiqhaciyef.domain.network.response.GraphDetailsListResponse
 
 
-fun GraphDetailsListResponse.toMappedList(): List<MappedGraphDetailModel>{
+fun GraphDetailsListResponse.toMappedList(): List<MappedGraphDetailModel> {
     return this.details.map { it.toMapped() }
 }
 
-fun GraphDetailModel.toMapped(): MappedGraphDetailModel{
+fun List<MappedGraphDetailModel>.toResponse(): GraphDetailsListResponse {
+    return GraphDetailsListResponse(
+        details = this.map { it.toResponse() }
+    )
+}
+
+fun GraphDetailModel.toMapped(): MappedGraphDetailModel {
     return MappedGraphDetailModel(
         title = this.title,
         icon = GraphCategory.stringToIcon(this.type),
@@ -21,7 +27,7 @@ fun GraphDetailModel.toMapped(): MappedGraphDetailModel{
     )
 }
 
-fun MappedGraphDetailModel.toMapped(): GraphDetailModel {
+fun MappedGraphDetailModel.toResponse(): GraphDetailModel {
     return GraphDetailModel(
         title = this.title,
         type = GraphCategory.iconToString(this.icon),

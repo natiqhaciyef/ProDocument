@@ -1,10 +1,10 @@
 package com.natiqhaciyef.data.di
 
-import com.natiqhaciyef.data.impl.AppRepositoryImpl
-import com.natiqhaciyef.data.impl.MaterialRepositoryImpl
-import com.natiqhaciyef.data.impl.PaymentRepositoryImpl
-import com.natiqhaciyef.data.impl.SubscriptionRepositoryImpl
-import com.natiqhaciyef.data.impl.UserRepositoryImpl
+import com.natiqhaciyef.data.repository.AppRepositoryImpl
+import com.natiqhaciyef.data.repository.MaterialRepositoryImpl
+import com.natiqhaciyef.data.repository.PaymentRepositoryImpl
+import com.natiqhaciyef.data.repository.SubscriptionRepositoryImpl
+import com.natiqhaciyef.data.repository.UserRepositoryImpl
 import com.natiqhaciyef.domain.repository.AppRepository
 import com.natiqhaciyef.domain.repository.MaterialRepository
 import com.natiqhaciyef.domain.repository.PaymentRepository

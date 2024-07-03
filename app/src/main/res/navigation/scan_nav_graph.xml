@@ -35,4 +35,18 @@
     </fragment>
     <include app:graph="@navigation/preview_material_nav_graph"
         />
+    <fragment
+        android:id="@+id/scanFragment2"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.ScanFragment"
+        android:label="fragment_scan"
+        tools:layout="@layout/fragment_scan" >
+        <action
+            android:id="@+id/action_scanFragment2_to_preview_material_nav_graph"
+            app:destination="@id/preview_material_nav_graph" >
+            <argument
+                android:name="resourceBundle"
+                app:argType="android.os.Bundle"
+                />
+        </action>
+    </fragment>
 </navigation>

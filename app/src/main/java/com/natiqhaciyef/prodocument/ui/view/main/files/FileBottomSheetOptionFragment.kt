@@ -32,6 +32,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class FileBottomSheetOptionFragment(
     private val material: MappedMaterialModel,
     var list: List<ParamsUIModel>,
+    var dismissAction: () -> Unit = {},
     var removeEvent: (MappedMaterialModel) -> Unit = {}
 ) : BottomSheetDialogFragment() {
     private var _binding: FragmentFileBottomSheetOptionBinding? = null
@@ -163,6 +164,13 @@ class FileBottomSheetOptionFragment(
 
     override fun onCancel(dialog: DialogInterface) {
         super.onCancel(dialog)
-        dialog.dismiss()
+        dialog.cancel()
+        dismissAction.invoke()
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        dialog.cancel()
+        dismissAction.invoke()
     }
 }
