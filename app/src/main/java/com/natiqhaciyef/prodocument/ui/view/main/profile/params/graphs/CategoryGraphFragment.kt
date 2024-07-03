@@ -38,9 +38,12 @@ class CategoryGraphFragment(
 
     override fun onStateChange(state: ProfileContract.ProfileState) {
         when {
-            state.isLoading -> {}
+            state.isLoading -> {
+                changeVisibilityOfProgressBar(true)
+            }
 
             else -> {
+                changeVisibilityOfProgressBar()
                 if (state.userStatistics != null)
                     recyclerViewConfig(statistics = state.userStatistics!!)
             }
@@ -50,6 +53,23 @@ class CategoryGraphFragment(
     override fun onEffectUpdate(effect: ProfileContract.ProfileEffect) {
 
     }
+
+    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
+        if (isVisible) {
+            binding.apply {
+                uiLayout.visibility = View.GONE
+                progressBar.visibility = View.VISIBLE
+                progressBar.isIndeterminate = true
+            }
+        } else {
+            binding.apply {
+                uiLayout.visibility = View.VISIBLE
+                progressBar.visibility = View.GONE
+                progressBar.isIndeterminate = false
+            }
+        }
+    }
+
 
     private fun activityConfig() {
         (activity as MainActivity).also {

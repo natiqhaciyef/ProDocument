@@ -51,7 +51,8 @@ class FileViewModel @Inject constructor(
                 when (result.status) {
                     Status.SUCCESS -> {
                         if (result.data != null) {
-                            setBaseState(getCurrentBaseState().copy(list = result.data!!))
+                            setBaseState(getCurrentBaseState().copy(list = result.data!!, isLoading = false))
+//                            setBaseState(getCurrentBaseState().copy(isLoading = false))
                         }
                     }
 

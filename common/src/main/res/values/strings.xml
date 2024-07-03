@@ -61,6 +61,10 @@
     <string name="payment_failed">Payment Failed</string>
     <string name="payment_reversed">Payment Reversed</string>
     <string name="payment_waiting">Payment Waiting</string>
+    <string name="empty_list_result">%1$s is empty</string>
+    <string name="add_new_payment_method_result">You have never used payment methods in Proscan app, Click the \"Add new payment\" button.</string>
+    <string name="files_not_inserted_yet_result">You have never modified files and that is why the files are not shown. Go to home page and start using functionalities.</string>
+    <string name="nothing_modified_yet_result">Nothing modified</string>
 
 
     <!-- Onboarding & Walkthrough -->
@@ -229,7 +233,7 @@
     <string name="other">Other</string>
     <string name="select_payment_method">Pick Payment Method</string>
     <string name="review_summary">Review Summary</string>
-    <string name="add_new_payment">Add New Payment</string>
+    <string name="add_new_payment">+ Add New Payment</string>
     <string name="card_number_default">●●●● ●●●● ●●●● ●●●●</string>
     <string name="card">Card</string>
     <string name="card_holder_name_title">Card Holder Name</string>

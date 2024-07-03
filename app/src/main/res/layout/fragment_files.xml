@@ -32,6 +32,7 @@
         >
 
         <ImageView
+            android:id="@+id/notFoundImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/material_not_found_icon"
@@ -39,6 +40,7 @@
             />
 
         <TextView
+            android:id="@+id/notFoundTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="48dp"
@@ -50,6 +52,7 @@
             />
 
         <TextView
+            android:id="@+id/notFoundDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"

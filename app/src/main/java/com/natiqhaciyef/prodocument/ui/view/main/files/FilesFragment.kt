@@ -46,9 +46,15 @@ class FilesFragment(
         when {
             state.isLoading -> {
                 changeVisibilityOfProgressBar(true)
+                errorResultConfig()
+            }
+
+            state.list.isNullOrEmpty() -> {
+                errorResultConfig(true)
             }
 
             else -> {
+                errorResultConfig()
                 changeVisibilityOfProgressBar()
 
                 if (state.list != null) {
@@ -92,6 +98,20 @@ class FilesFragment(
                 progressBar.visibility = View.GONE
                 progressBar.isIndeterminate = false
                 notFoundLayout.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun errorResultConfig(isVisible: Boolean = false){
+        with(binding){
+            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
+
+            if (isVisible){
+                notFoundDescription.text = getString(R.string.files_not_inserted_yet_result)
+                notFoundTitle.text = getString(R.string.nothing_modified_yet_result)
+            }else{
+                notFoundDescription.text = getString(R.string.not_found_result_description)
+                notFoundTitle.text = getString(R.string.not_found_result_title)
             }
         }
     }

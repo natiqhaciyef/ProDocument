@@ -40,12 +40,10 @@ class FAQFragment(
 
     override fun onStateChange(state: ProfileContract.ProfileState) {
         when {
-            state.isLoading -> {
-
-            }
+            state.isLoading -> changeVisibilityOfProgressBar(true)
 
             else -> {
-
+                changeVisibilityOfProgressBar()
                 if (state.faqList != null) {
                     baseList = state.faqList?.toMutableList()
                     questionsRecyclerConfig()
@@ -61,6 +59,23 @@ class FAQFragment(
     override fun onEffectUpdate(effect: ProfileContract.ProfileEffect) {
 
     }
+
+    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
+        if (isVisible) {
+            binding.apply {
+                uiLayout.visibility = View.GONE
+                progressBar.visibility = View.VISIBLE
+                progressBar.isIndeterminate = true
+            }
+        } else {
+            binding.apply {
+                uiLayout.visibility = View.VISIBLE
+                progressBar.visibility = View.GONE
+                progressBar.isIndeterminate = false
+            }
+        }
+    }
+
 
     private fun categoryRecyclerConfig(list: List<CategoryModel>) {
         with(binding) {
@@ -117,6 +132,10 @@ class FAQFragment(
         val resultList = faqList.filter {
             if (isCategory) it.category == text else it.title.contains(text)
         }
+
+
+        binding.notFoundLayout.visibility =
+            if (resultList.isEmpty()) View.VISIBLE else View.GONE
 
         if (isCategory && text == QuestionCategories.ALL.title)
             faqAdapter?.updateList(baseList!!)
