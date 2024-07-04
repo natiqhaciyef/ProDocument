@@ -13,6 +13,13 @@
         <argument
             android:name="resourceBundle"
             app:argType="android.os.Bundle" />
+        <action
+            android:id="@+id/action_addPasswordFileFragment_to_preview_material_nav_graph"
+            app:destination="@id/preview_material_nav_graph" >
+            <argument
+                android:name="resourceBundle"
+                app:argType="android.os.Bundle" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/pickFileFragment"
@@ -66,7 +73,7 @@
                 app:argType="android.os.Bundle" />
         </action>
         <argument
-            android:name="resourceBundle"
+            android:name="resBundle"
             app:argType="android.os.Bundle" />
     </fragment>
     <fragment

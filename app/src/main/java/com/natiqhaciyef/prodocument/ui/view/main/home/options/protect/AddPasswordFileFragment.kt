@@ -6,10 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.navArgs
+import com.natiqhaciyef.common.constants.EIGHT
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.databinding.FragmentAddPasswordFileBinding
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_MATERIAL
+import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TYPE
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.PROTECT_TYPE
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.protect.contract.ProtectFileContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.protect.viewmodel.ProtectFileViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,15 +23,15 @@ class AddPasswordFileFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentAddPasswordFileBinding = FragmentAddPasswordFileBinding::inflate,
     override val viewModelClass: KClass<ProtectFileViewModel> = ProtectFileViewModel::class
 ) : BaseFragment<FragmentAddPasswordFileBinding, ProtectFileViewModel, ProtectFileContract.ProtectFileState, ProtectFileContract.ProtectFileEvent, ProtectFileContract.ProtectFileEffect>() {
-    private var bundle = bundleOf()
+    private var resourceBundle = bundleOf()
     private var material: MappedMaterialModel? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         textConfiguration()
         val argument: AddPasswordFileFragmentArgs by navArgs()
-        bundle = argument.resourceBundle
-        material = bundle.getParcelable(BUNDLE_MATERIAL)
+        resourceBundle = argument.resourceBundle
+        material = resourceBundle.getParcelable(BUNDLE_MATERIAL)
         config()
         backButtonConfig()
     }
@@ -36,7 +39,11 @@ class AddPasswordFileFragment(
     override fun onStateChange(state: ProtectFileContract.ProtectFileState) {
         when{
             state.isLoading -> {}
-            else -> {}
+            else -> {
+
+                if (state.material != null)
+                    protectFileAction(state.material!!)
+            }
         }
     }
 
@@ -63,6 +70,14 @@ class AddPasswordFileFragment(
         }
     }
 
+    private fun protectFileAction(material: MappedMaterialModel){
+        resourceBundle.putParcelable(BUNDLE_MATERIAL, material)
+        resourceBundle.putString(BUNDLE_TYPE, PROTECT_TYPE)
+
+        val action = AddPasswordFileFragmentDirections
+            .actionAddPasswordFileFragmentToPreviewMaterialNavGraph(resourceBundle)
+        navigate(action)
+    }
 
     private fun textConfiguration() {
         with(binding) {
@@ -89,6 +104,6 @@ class AddPasswordFileFragment(
     }
 
     private fun checkPasswordConfirmation(): Boolean {
-        return binding.filePassword.getPasswordText() == binding.filePasswordConfirm.getPasswordText()
+        return binding.filePassword.getPasswordText() == binding.filePasswordConfirm.getPasswordText() && binding.filePassword.getPasswordText().length >= EIGHT
     }
 }

@@ -25,13 +25,11 @@ import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TYPE
 import com.natiqhaciyef.prodocument.ui.util.DefaultImplModels
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.SCAN_QR_TYPE
 import com.natiqhaciyef.prodocument.ui.util.UiList
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.home.contract.HomeContract
-import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.CaptureImageFragment
-import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.CaptureImageFragment.Companion.CAPTURE_IMAGE_TYPE
 import com.natiqhaciyef.prodocument.ui.view.main.home.viewmodel.HomeViewModel
-import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.ScanFragment.Companion.SCAN_QR_TYPE
 import com.natiqhaciyef.prodocument.ui.view.main.modify.ModifyPdfFragment.Companion.PREVIEW_IMAGE
 import com.natiqhaciyef.uikit.adapter.FileItemAdapter
 import com.natiqhaciyef.uikit.adapter.MenuAdapter
@@ -108,7 +106,6 @@ class HomeFragment(
         when (effect) {
             is HomeContract.HomeEffect.FindMaterialByIdFailedEffect -> {}
             is HomeContract.HomeEffect.MaterialListLoadingFailedEffect -> {}
-            else -> {}
         }
     }
 

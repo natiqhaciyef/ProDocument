@@ -144,16 +144,16 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
 
+    //Dagger hilt
+    implementation("com.google.dagger:hilt-android:$daggerVersion")
+    kapt("com.google.dagger:hilt-android-compiler:$daggerVersion")
+
     //Image & document loader library
     implementation("com.github.bumptech.glide:glide:4.15.1")
     annotationProcessor("com.github.bumptech.glide:compiler:4.14.2")
     implementation("io.coil-kt:coil:$coilVersion")
     implementation("com.github.barteksc:android-pdf-viewer:$pdfViewerVersion")
-
-
-    //Dagger hilt
-    implementation("com.google.dagger:hilt-android:$daggerVersion")
-    kapt("com.google.dagger:hilt-android-compiler:$daggerVersion")
+    implementation("com.github.Dimezis:BlurView:version-2.0.3")
 
     //Animation Library & Swipe Refresh Layout & ViewPager & Chart and graph library
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:$swipeLayoutVersion")

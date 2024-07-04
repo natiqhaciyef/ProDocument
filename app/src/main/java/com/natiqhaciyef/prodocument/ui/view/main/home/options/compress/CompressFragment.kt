@@ -9,12 +9,15 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.navArgs
+import coil.load
 import com.natiqhaciyef.common.constants.ONE
+import com.natiqhaciyef.common.constants.SPACE
 import com.natiqhaciyef.common.constants.THREE
 import com.natiqhaciyef.common.constants.TWO
 import com.natiqhaciyef.common.model.Quality
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
+import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.FragmentCompressBinding
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_MATERIAL
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.compress.contract.CompressContract
@@ -30,9 +33,10 @@ class CompressFragment(
     private var resourceBundle = bundleOf()
     private var quality: Quality? = null
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val data: CompressFragmentArgs by navArgs()
+        resourceBundle = data.resBundle
         config()
     }
 
@@ -56,13 +60,12 @@ class CompressFragment(
 
     }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun config() {
-        val data: CompressFragmentArgs by navArgs()
-        resourceBundle = data.resourceBundle
+        val material = resourceBundle.getParcelable<MappedMaterialModel>(BUNDLE_MATERIAL)
         radioGroupChooseAction()
 
         binding.compressButton.setOnClickListener { compressButtonClickEvent() }
+        material?.let { previewPdfConfig(it) }
     }
 
     private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
@@ -79,6 +82,15 @@ class CompressFragment(
         }
     }
 
+    private fun previewPdfConfig(material: MappedMaterialModel) {
+        with(binding) {
+            filePreviewImage.load(material.image)
+            fileTitleText.text = material.title
+            fileDetailsText.text = material.description
+                ?: getString(com.natiqhaciyef.common.R.string.file_description_result)
+        }
+    }
+
     @SuppressLint("ResourceType")
     private fun radioButtonConfig() {
         with(binding) {
@@ -88,7 +100,6 @@ class CompressFragment(
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun radioGroupChooseAction() {
         radioButtonConfig()
         with(binding) {
@@ -102,16 +113,18 @@ class CompressFragment(
 
                     else -> { Quality.STANDARD }
                 }
+
+                if (i in ONE..THREE)
+                    compressButton.isEnabled = true
             }
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun compressButtonClickEvent() {
         val material =
-            resourceBundle.getParcelable(BUNDLE_MATERIAL, MappedMaterialModel::class.java)
+            resourceBundle.getParcelable<MappedMaterialModel>(BUNDLE_MATERIAL)
 
-        if (material != null && quality != null){
+        if (material != null && quality != null) {
             viewModel
                 .postEvent(
                     CompressContract.CompressEvent.CompressMaterialEvent(
@@ -122,9 +135,10 @@ class CompressFragment(
         }
     }
 
-    private fun compressButtonClickAction(material: MappedMaterialModel){
+    private fun compressButtonClickAction(material: MappedMaterialModel) {
         resourceBundle.putParcelable(BUNDLE_MATERIAL, material)
-        val action = CompressFragmentDirections.actionCompressFragmentToPreviewMaterialNavGraph(resourceBundle)
+        val action = CompressFragmentDirections
+            .actionCompressFragmentToPreviewMaterialNavGraph(resourceBundle)
         navigate(action)
     }
 }
