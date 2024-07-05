@@ -12,7 +12,7 @@ class MergeMaterialsMockGenerator(
     override var takenRequest: MergeRequest
 ) : BaseMockGenerator<MergeRequest, MaterialResponse>() {
     override var createdMock: MaterialResponse =
-        MaterialMockManager.mergeMaterial(takenRequest.list)
+        MaterialMockManager.mergeMaterial(takenRequest, true)
 
     override fun getMock(
         request: MergeRequest,
@@ -21,7 +21,7 @@ class MergeMaterialsMockGenerator(
         if (request == takenRequest)
             return createdMock
 
-        return MaterialMockManager.mergeMaterial(takenRequest.list, true)
+        return MaterialMockManager.mergeMaterial(takenRequest, true)
     }
 
     companion object MergeMaterialsMockGenerator {

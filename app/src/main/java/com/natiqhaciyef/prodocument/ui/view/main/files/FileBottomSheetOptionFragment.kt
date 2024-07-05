@@ -24,6 +24,7 @@ import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.PROTECT_TYPE
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TYPE
 import com.natiqhaciyef.common.model.ParamsUIModel
+import com.natiqhaciyef.core.base.ui.BaseBottomSheetFragment
 import com.natiqhaciyef.prodocument.BuildConfig
 import com.natiqhaciyef.uikit.adapter.ParamsAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,21 +33,15 @@ import dagger.hilt.android.AndroidEntryPoint
 class FileBottomSheetOptionFragment(
     private val material: MappedMaterialModel,
     var list: List<ParamsUIModel>,
-    var dismissAction: () -> Unit = {},
-    var removeEvent: (MappedMaterialModel) -> Unit = {}
-) : BottomSheetDialogFragment() {
-    private var _binding: FragmentFileBottomSheetOptionBinding? = null
-    private val binding: FragmentFileBottomSheetOptionBinding
-        get() = _binding!!
+    override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentFileBottomSheetOptionBinding =
+        FragmentFileBottomSheetOptionBinding::inflate,
+    override var onClickAction: () -> Unit = {},
+    override var onItemClickAction: (MappedMaterialModel) -> Unit = {},
+) : BaseBottomSheetFragment<FragmentFileBottomSheetOptionBinding, MappedMaterialModel>() {
     private var paramsAdapter: ParamsAdapter? = null
     private val resourceBundle: Bundle = bundleOf()
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentFileBottomSheetOptionBinding.inflate(inflater, container, false)
-        return binding.root
+    override var onDismissAndCancelAction = {
+        onClickAction.invoke()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -150,7 +145,7 @@ class FileBottomSheetOptionFragment(
                 }
 
                 getString(R.string.delete) -> {
-                    removeEvent.invoke(material)
+                    onItemClickAction.invoke(material)
                 }
 
                 else -> {}
@@ -160,17 +155,5 @@ class FileBottomSheetOptionFragment(
 
     private fun customToastTemplate(title: String){
         Toast.makeText(requireContext(), title, Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onCancel(dialog: DialogInterface) {
-        super.onCancel(dialog)
-        dialog.cancel()
-        dismissAction.invoke()
-    }
-
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-        dialog.cancel()
-        dismissAction.invoke()
     }
 }

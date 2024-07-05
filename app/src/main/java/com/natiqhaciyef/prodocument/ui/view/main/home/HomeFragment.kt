@@ -14,24 +14,24 @@ import androidx.camera.core.ExperimentalGetImage
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.constants.EMPTY_STRING
 import com.natiqhaciyef.common.constants.FOUR
 import com.natiqhaciyef.prodocument.databinding.FragmentHomeBinding
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
+import com.natiqhaciyef.core.base.ui.BaseRecyclerHolderStatefulFragment
 import com.natiqhaciyef.core.model.FileTypes
 import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TYPE
 import com.natiqhaciyef.prodocument.ui.util.DefaultImplModels
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.SCAN_QR_TYPE
 import com.natiqhaciyef.prodocument.ui.util.UiList
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.home.contract.HomeContract
-import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.CaptureImageFragment
-import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.CaptureImageFragment.Companion.CAPTURE_IMAGE_TYPE
 import com.natiqhaciyef.prodocument.ui.view.main.home.viewmodel.HomeViewModel
-import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.ScanFragment.Companion.SCAN_QR_TYPE
 import com.natiqhaciyef.prodocument.ui.view.main.modify.ModifyPdfFragment.Companion.PREVIEW_IMAGE
 import com.natiqhaciyef.uikit.adapter.FileItemAdapter
 import com.natiqhaciyef.uikit.adapter.MenuAdapter
@@ -44,10 +44,12 @@ import kotlin.reflect.KClass
 class HomeFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentHomeBinding = FragmentHomeBinding::inflate,
     override val viewModelClass: KClass<HomeViewModel> = HomeViewModel::class
-) : BaseFragment<FragmentHomeBinding, HomeViewModel, HomeContract.HomeUiState, HomeContract.HomeEvent, HomeContract.HomeEffect>() {
+) : BaseRecyclerHolderStatefulFragment<
+        FragmentHomeBinding, HomeViewModel, MappedMaterialModel, FileItemAdapter,
+        HomeContract.HomeUiState, HomeContract.HomeEvent, HomeContract.HomeEffect>() {
     private var resourceBundle = bundleOf()
     private lateinit var menuAdapter: MenuAdapter
-    private lateinit var fileAdapter: FileItemAdapter
+    override var adapter: FileItemAdapter? = null
     private var imageUri: Uri? = null
 
     private val registerForGalleryPermission =
@@ -55,7 +57,8 @@ class HomeFragment(
             if (isGranted)
                 startGalleryConfig()
         }
-    private val galleryClickIntent = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+    private val galleryClickIntent =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.data != null)
                 intentAction.invoke(result.data!!)
         }
@@ -77,7 +80,6 @@ class HomeFragment(
         }
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activityConfig()
@@ -94,7 +96,8 @@ class HomeFragment(
             else -> {
                 changeVisibilityOfProgressBar()
 
-                fileAdapterConfig(state.list)
+                if (state.list != null)
+                    recyclerViewConfig(state.list!!)
 
                 if (state.material != null) {
                     // navigate to single file action
@@ -108,7 +111,6 @@ class HomeFragment(
         when (effect) {
             is HomeContract.HomeEffect.FindMaterialByIdFailedEffect -> {}
             is HomeContract.HomeEffect.MaterialListLoadingFailedEffect -> {}
-            else -> {}
         }
     }
 
@@ -164,24 +166,23 @@ class HomeFragment(
         }
     }
 
-    private fun fileAdapterConfig(list: List<MappedMaterialModel>?) {
-        list?.let {
-            fileAdapter = FileItemAdapter(
-                list.toMutableList(),
-                requireContext().getString(R.string.default_type),
-                this,
-                requireContext()
-            )
 
-            fileAdapter.onClickAction = { material ->
-                fileClickEvent(material.id)
-            }
+    override fun recyclerViewConfig(list: List<MappedMaterialModel>) {
+        adapter = FileItemAdapter(
+            list.toMutableList(),
+            requireContext().getString(R.string.default_type),
+            this,
+            requireContext()
+        )
 
-            binding.apply {
-                filesRecyclerView.adapter = fileAdapter
-                filesRecyclerView.layoutManager =
-                    LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            }
+        adapter?.onClickAction = { material ->
+            fileClickEvent(material.id)
+        }
+
+        binding.apply {
+            filesRecyclerView.adapter = adapter
+            filesRecyclerView.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         }
     }
 

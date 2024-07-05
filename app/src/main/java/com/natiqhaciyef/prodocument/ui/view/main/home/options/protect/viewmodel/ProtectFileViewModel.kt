@@ -21,7 +21,6 @@ class ProtectFileViewModel @Inject constructor(
             is ProtectFileContract.ProtectFileEvent.ProtectFileWithKeyEvent -> {
                 protectMaterial(material = event.material, key = event.key)
             }
-            else -> {}
         }
     }
 
@@ -32,17 +31,11 @@ class ProtectFileViewModel @Inject constructor(
                     when (result.status) {
                         Status.SUCCESS -> {
                             if (result.data != null)
-                                setBaseState(
-                                    getCurrentBaseState().copy(
-                                        isLoading = false,
-                                        material = result.data
-                                    )
-                                )
+                                setBaseState(getCurrentBaseState().copy(isLoading = false, material = result.data))
                         }
 
                         Status.ERROR -> {
                             setBaseState(getCurrentBaseState().copy(isLoading = false))
-                            // effect
                         }
 
                         Status.LOADING -> {

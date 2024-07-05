@@ -16,7 +16,7 @@ class ProtectMaterialMockGenerator(
     override var takenRequest: ProtectRequest
 ) : BaseMockGenerator<ProtectRequest, MaterialResponse>() {
     override var createdMock: MaterialResponse =
-        MaterialMockManager.protectMaterial(takenRequest.key, takenRequest.material)
+        MaterialMockManager.protectMaterial(takenRequest.key, takenRequest.material, true)
 
     override fun getMock(
         request: ProtectRequest,

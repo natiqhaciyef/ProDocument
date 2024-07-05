@@ -9,10 +9,12 @@ import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.core.model.FileTypes.PDF
 import com.natiqhaciyef.core.model.FileTypes.URL
+import com.natiqhaciyef.domain.network.request.MergeRequest
 import com.natiqhaciyef.domain.network.request.SplitRequest
 import com.natiqhaciyef.domain.network.request.WatermarkRequest
 import com.natiqhaciyef.domain.network.response.ListMaterialResponse
 import com.natiqhaciyef.domain.network.response.MaterialResponse
+import kotlinx.coroutines.flow.merge
 
 object MaterialMockManager {
     private const val CRUD_MOCK = "crud mock"
@@ -43,8 +45,8 @@ object MaterialMockManager {
 
     private val materialList = mutableListOf(
         material.copy(id = "$MATERIAL_ID $ONE", title = PROTECT),
-        material.copy(id = "$MATERIAL_ID $TWO", title = COMPRESS),
-        material.copy(id = "$MATERIAL_ID $THREE", title = E_SIGN),
+//        material.copy(id = "$MATERIAL_ID $TWO", title = COMPRESS),
+//        material.copy(id = "$MATERIAL_ID $THREE", title = E_SIGN),
     )
 
 
@@ -87,7 +89,7 @@ object MaterialMockManager {
         return result
     }
 
-    fun updateMaterial(customMaterial: MaterialResponse, title: String): CRUDResponse{
+    fun updateMaterial(customMaterial: MaterialResponse, title: String): CRUDResponse {
         val result = if (materialList.any { it.id == customMaterial.id })
             getCrudResult(title)
         else
@@ -106,7 +108,7 @@ object MaterialMockManager {
         customMaterial: MaterialResponse,
         isModifiedMock: Boolean = false
     ): MaterialResponse {
-        val result = customMaterial.result
+        val result = material.result
         val prevId = customMaterial.id
 
         return if (isModifiedMock)
@@ -127,37 +129,41 @@ object MaterialMockManager {
         customMaterial: MaterialResponse,
         isModifiedMock: Boolean = false
     ): MaterialResponse {
-        val result = customMaterial.result
         val prevId = customMaterial.id
 
         return if (isModifiedMock)
             customMaterial.copy(
                 id = "$MODIFIED $prevId",
                 protectionKey = protectionKey,
-                result = result?.copy(message = "$PROTECT $CRUD_MOCK")
+                result = crudResponse.copy(message = "$PROTECT $CRUD_MOCK", resultCode = TWO_HUNDRED_NINETY_NINE)
             )
         else
             customMaterial.copy(
                 protectionKey = protectionKey,
-                result = result?.copy(message = "$PROTECT $CRUD_MOCK")
+                result = crudResponse.copy(message = "$PROTECT $CRUD_MOCK", resultCode = TWO_HUNDRED_NINETY_NINE)
             )
     }
 
     fun mergeMaterial(
-        list: List<MaterialResponse>,
+        mergeRequest: MergeRequest,
         isModifiedMock: Boolean = false
     ): MaterialResponse {
         var idTops = EMPTY_STRING
         val result = material.result
-        list.forEach { idTops = " ${it.id}" }
+        mergeRequest.list.forEach { idTops = " ${it.id}" }
 
         return if (isModifiedMock)
             material.copy(
                 id = "$MODIFIED $idTops",
+                title = mergeRequest.title,
                 result = result?.copy(message = "$MERGE $CRUD_MOCK")
             )
         else
-            material.copy(id = idTops, result = result?.copy(message = "$MERGE $CRUD_MOCK"))
+            material.copy(
+                id = idTops,
+                title = mergeRequest.title,
+                result = result?.copy(message = "$MERGE $CRUD_MOCK")
+            )
     }
 
     fun eSignMaterial(

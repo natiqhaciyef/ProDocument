@@ -5,12 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
-import androidx.fragment.app.clearFragmentResult
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.databinding.FragmentFilesBinding
-import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.core.model.CategoryItem
 import com.natiqhaciyef.uikit.manager.FileManager.createAndShareFile
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_MATERIAL
@@ -19,6 +17,7 @@ import com.natiqhaciyef.prodocument.ui.view.main.files.contract.FileContract
 import com.natiqhaciyef.prodocument.ui.view.main.files.viewmodel.FileViewModel
 import com.natiqhaciyef.prodocument.ui.view.main.home.CustomMaterialOptionsBottomSheetFragment
 import com.natiqhaciyef.common.model.ParamsUIModel
+import com.natiqhaciyef.core.base.ui.BaseRecyclerHolderStatefulFragment
 import com.natiqhaciyef.prodocument.BuildConfig
 import com.natiqhaciyef.uikit.adapter.FileItemAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,10 +27,12 @@ import kotlin.reflect.KClass
 class FilesFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentFilesBinding = FragmentFilesBinding::inflate,
     override val viewModelClass: KClass<FileViewModel> = FileViewModel::class
-) : BaseFragment<FragmentFilesBinding, FileViewModel, FileContract.FileState, FileContract.FileEvent, FileContract.FileEffect>() {
+) : BaseRecyclerHolderStatefulFragment<
+        FragmentFilesBinding, FileViewModel, MappedMaterialModel, FileItemAdapter,
+        FileContract.FileState, FileContract.FileEvent, FileContract.FileEffect>() {
     private var params = listOf<ParamsUIModel>()
     private var bundle = bundleOf()
-    private lateinit var fileAdapter: FileItemAdapter
+    override var adapter: FileItemAdapter? = null
     private var list: MutableList<MappedMaterialModel> = mutableListOf()
     private var sortingTypeClick: Boolean = false
     private var storedMaterial: MappedMaterialModel? = null
@@ -51,7 +52,7 @@ class FilesFragment(
                 errorResultConfig()
             }
 
-            state.list.isNullOrEmpty() -> {
+            state.list.isNullOrEmpty() && state.params.isNullOrEmpty() -> {
                 errorResultConfig(true)
             }
 
@@ -60,8 +61,7 @@ class FilesFragment(
                 changeVisibilityOfProgressBar()
 
                 if (state.list != null) {
-                    list = state.list!!.toMutableList()
-                    recyclerViewConfig(list)
+                    recyclerViewConfig(state.list!!)
                 }
 
                 if (state.material != null) {
@@ -120,9 +120,7 @@ class FilesFragment(
     }
 
     private fun getFilesEvent() {
-        getToken { token ->
-            viewModel.postEvent(FileContract.FileEvent.GetAllMaterials)
-        }
+        viewModel.postEvent(FileContract.FileEvent.GetAllMaterials)
     }
 
     private fun fileFilter() {
@@ -139,13 +137,12 @@ class FilesFragment(
         }
     }
 
-    private fun recyclerViewConfig(list: MutableList<MappedMaterialModel>) {
+    override fun recyclerViewConfig(list: List<MappedMaterialModel>) {
         with(binding) {
             fileTotalAmountTitle.text =
                 getString(R.string.total_file_amount_title, "${list.size}")
-            fileAdapter =
-                FileItemAdapter(
-                    list,
+            adapter = FileItemAdapter(
+                    list.toMutableList(),
                     requireContext().getString(R.string.scan_code),
                     this@FilesFragment,
                     requireContext()
@@ -153,14 +150,14 @@ class FilesFragment(
 
             filesRecyclerView.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            filesRecyclerView.adapter = fileAdapter
-            fileAdapter.onClickAction = { fileClickEvent(it.id) }
-            fileAdapter.optionAction = {
+            filesRecyclerView.adapter = adapter
+            adapter?.onClickAction = { fileClickEvent(it.id) }
+            adapter?.optionAction = {
                 storedMaterial = it
                 optionClickEvent()
             }
 
-            fileAdapter.bottomSheetDialogOpen = {
+            adapter?.bottomSheetDialogOpen = {
                 showBottomSheetDialog(
                     it,
                     (requireActivity() as MainActivity).getShareOptionsList(context = requireContext())
@@ -192,7 +189,7 @@ class FilesFragment(
         // add bottom sheet here
         storedMaterial?.let {
             FileBottomSheetOptionFragment(it, params,
-                dismissAction = {
+                onClickAction = {
                     holdCurrentState(state)
                     getFilesEvent()
                 }

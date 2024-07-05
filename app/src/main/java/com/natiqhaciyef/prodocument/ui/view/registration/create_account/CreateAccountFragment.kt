@@ -138,7 +138,7 @@ class CreateAccountFragment(
     }
 
     private fun createResultAlertDialog() {
-        (requireActivity() as RegistrationActivity).createResultAlertDialog(){ resultDialog ->
+        (requireActivity() as RegistrationActivity).createResultAlertDialog{ resultDialog ->
             resultDialog.dismiss()
             navigate(R.id.loginFragment)
         }

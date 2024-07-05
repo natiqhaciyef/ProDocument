@@ -105,7 +105,14 @@ class ChangePasswordFragment(
 
     private fun createResultAlertDialog(resultIcon: Int, successMsg: String, description: String) {
         (requireActivity() as RegistrationActivity).createDynamicResultAlertDialog(
-            resultIcon, successMsg, description
+            title = getString(
+                com.natiqhaciyef.common.R.string.change_password_alert_dialog_title,
+                successMsg.lowercase()
+            ),
+            buttonText = getString(com.natiqhaciyef.common.R.string.go_to_login),
+            resultIconId = resultIcon,
+            successMsg = successMsg,
+            description = description
         ) {
             navigate(R.id.loginFragment)
             it.dismiss()

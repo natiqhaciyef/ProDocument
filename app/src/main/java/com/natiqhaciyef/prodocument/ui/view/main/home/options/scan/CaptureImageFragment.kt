@@ -26,6 +26,7 @@ import com.natiqhaciyef.prodocument.databinding.FragmentCaptureImageBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TYPE
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.CAPTURE_IMAGE_TYPE
 import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.HOME_ROUTE
 import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.behaviour.CameraTypes
@@ -261,7 +262,6 @@ class CaptureImageFragment(
     }
 
     companion object {
-        const val CAPTURE_IMAGE_TYPE = "capture-image-type"
         const val SCANNED_FILE_DEFAULT_TITLE = "Scanned file title"
     }
 }

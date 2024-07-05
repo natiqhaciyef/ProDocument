@@ -7,34 +7,26 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.natiqhaciyef.common.model.payment.MappedPaymentModel
+import com.natiqhaciyef.core.base.ui.BaseBottomSheetFragment
+import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.databinding.FragmentCustomPaymentMethodsBinding
 import com.natiqhaciyef.uikit.adapter.PaymentMethodsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class CustomPaymentMethodsFragment(
+    override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentCustomPaymentMethodsBinding =
+        FragmentCustomPaymentMethodsBinding::inflate,
     val list: List<MappedPaymentModel> = listOf(),
-    private var paymentMethodClickAction: (MappedPaymentModel) -> Unit = {}
-) : BottomSheetDialogFragment() {
-    private var _binding: FragmentCustomPaymentMethodsBinding? = null
-    private val binding: FragmentCustomPaymentMethodsBinding
-        get() = _binding!!
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentCustomPaymentMethodsBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    override var onItemClickAction: (MappedPaymentModel) -> Unit = {}
+) : BaseBottomSheetFragment<FragmentCustomPaymentMethodsBinding, MappedPaymentModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val adapter = PaymentMethodsAdapter(list = list.toMutableList())
         adapter.onClickAction = {
-            paymentMethodClickAction.invoke(it)
+            onItemClickAction.invoke(it)
             this.dismiss()
         }
 

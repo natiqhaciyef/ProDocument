@@ -42,11 +42,13 @@ class PickFileFragment(
                             activity = requireActivity(),
                             uri = intent.data!!
                         ) { file ->
-                            val title = binding.usernamePickFileInput.text.toString()
-                            fileConfig(file)
-                            binding.continueButton.isEnabled = true
-                            binding.continueButton.setOnClickListener {
-                                continueButtonAction(file, title)
+                            with(binding){
+                                val title = usernamePickFileInput.text.toString()
+                                fileConfig(file)
+                                continueButton.isEnabled = true
+                                continueButton.setOnClickListener {
+                                    continueButtonAction(file, title.ifEmpty { file.title })
+                                }
                             }
                         }
                 }

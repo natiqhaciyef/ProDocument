@@ -146,7 +146,4 @@ class ScanFragment(
     }
 
 
-    companion object {
-        const val SCAN_QR_TYPE = "scan-qr-type"
-    }
 }
