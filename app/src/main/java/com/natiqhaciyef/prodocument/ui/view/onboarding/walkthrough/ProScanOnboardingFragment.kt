@@ -8,6 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import com.natiqhaciyef.common.model.mapped.MappedUserWithoutPasswordModel
 import com.natiqhaciyef.prodocument.databinding.FragmentProScanOnboardingBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
+import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.WALKTHROUGH_ROUTE
 import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.navigateByActivityTitle
 import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.navigateByRouteTitle
@@ -30,7 +31,7 @@ class ProScanOnboardingFragment(
     }
 
     override fun onStateChange(state: OnBoardingContract.OnboardingState) {
-        when{
+        when {
             state.isLoading -> {}
             else -> {
                 onBoardingEvent(user = state.user)
@@ -42,19 +43,17 @@ class ProScanOnboardingFragment(
 
     }
 
-    private fun getTokenLocalStored() {
-        lifecycleScope.launch {
-            viewModel.postEvent(OnBoardingContract.OnBoardingEvent.GetUserByTokenEvent)
-        }
-    }
-
-    private fun onBoardingEvent(user: MappedUserWithoutPasswordModel?){
-        viewModel.postEvent(OnBoardingContract.OnBoardingEvent.OnboardingEvent(user){ route ->
+    private fun onBoardingEvent(user: MappedUserWithoutPasswordModel?) {
+        viewModel.postEvent(OnBoardingContract.OnBoardingEvent.OnboardingEvent(user) { route ->
             lifecycleScope.launch {
-                if (dataStore.readBoolean(requireContext()))
-                    navigateByActivityTitle(route, requireActivity(),true)
-                else
-                    navigateByRouteTitle(this@ProScanOnboardingFragment,WALKTHROUGH_ROUTE)
+                if (user?.isBiometricEnabled == false) {
+                    if (dataStore.readBoolean(requireContext()))
+                        navigateByActivityTitle(route, requireActivity(), true)
+                    else
+                        navigateByRouteTitle(this@ProScanOnboardingFragment, WALKTHROUGH_ROUTE)
+                } else {
+                    navigate(R.id.registrationRedirectionFragment)
+                }
             }
         })
     }

@@ -174,6 +174,9 @@ dependencies {
     //Reflection
     implementation(kotlin("reflect"))
 
+    // Fingerprint
+    implementation("androidx.biometric:biometric:1.2.0-alpha05")
+
     // TestImplementations
     implementation("androidx.test:core:1.5.0")
     testImplementation("junit:junit:4.13.2")
