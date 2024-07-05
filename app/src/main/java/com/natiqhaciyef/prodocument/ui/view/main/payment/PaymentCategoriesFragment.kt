@@ -9,9 +9,11 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.natiqhaciyef.common.constants.EMPTY_STRING
+import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.model.mapped.MappedSubscriptionModel
 import com.natiqhaciyef.common.model.payment.MappedPaymentModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
+import com.natiqhaciyef.core.base.ui.BaseRecyclerHolderStatefulFragment
 import com.natiqhaciyef.prodocument.databinding.FragmentPaymentCategoriesBinding
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_CHEQUE_PAYMENT
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_PAYMENT
@@ -30,8 +32,10 @@ import kotlin.reflect.KClass
 class PaymentCategoriesFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentPaymentCategoriesBinding = FragmentPaymentCategoriesBinding::inflate,
     override val viewModelClass: KClass<PaymentViewModel> = PaymentViewModel::class
-) : BaseFragment<FragmentPaymentCategoriesBinding, PaymentViewModel, PaymentContract.PaymentState, PaymentContract.PaymentEvent, PaymentContract.PaymentEffect>() {
-    private var adapter: PaymentMethodsAdapter? = null
+) : BaseRecyclerHolderStatefulFragment<
+        FragmentPaymentCategoriesBinding, PaymentViewModel, MappedPaymentModel, PaymentMethodsAdapter,
+        PaymentContract.PaymentState, PaymentContract.PaymentEvent, PaymentContract.PaymentEffect>() {
+    override var adapter: PaymentMethodsAdapter? = null
     private var resourceBundle = bundleOf()
     private var paymentModel: MappedPaymentModel? = null
     private var pickedSubscriptionModel: MappedSubscriptionModel? = null
@@ -138,7 +142,7 @@ class PaymentCategoriesFragment(
         navigate(action)
     }
 
-    private fun recyclerViewConfig(list: List<MappedPaymentModel>) {
+    override fun recyclerViewConfig(list: List<MappedPaymentModel>) {
         adapter = PaymentMethodsAdapter(list = list.toMutableList())
         adapter?.onClickAction = {
             // navigate to details screen with loading screen

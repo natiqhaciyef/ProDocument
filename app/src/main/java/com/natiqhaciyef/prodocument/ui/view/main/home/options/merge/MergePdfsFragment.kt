@@ -17,6 +17,7 @@ import com.natiqhaciyef.common.constants.SPACE
 import com.natiqhaciyef.common.constants.TWO
 import com.natiqhaciyef.prodocument.databinding.FragmentMergePdfsBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
+import com.natiqhaciyef.core.base.ui.BaseRecyclerHolderStatefulFragment
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TITLE
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TYPE
@@ -35,9 +36,11 @@ import kotlin.reflect.KClass
 class MergePdfsFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentMergePdfsBinding = FragmentMergePdfsBinding::inflate,
     override val viewModelClass: KClass<MergePdfViewModel> = MergePdfViewModel::class
-) : BaseFragment<FragmentMergePdfsBinding, MergePdfViewModel, MergePdfContract.MergePdfState, MergePdfContract.MergePdfEvent, MergePdfContract.MergePdfEffect>() {
+) : BaseRecyclerHolderStatefulFragment<
+        FragmentMergePdfsBinding, MergePdfViewModel, MappedMaterialModel, FileItemAdapter,
+        MergePdfContract.MergePdfState, MergePdfContract.MergePdfEvent, MergePdfContract.MergePdfEffect>() {
     private val filesList = mutableListOf<MappedMaterialModel>()
-    private var adapter: FileItemAdapter? = null
+    override var adapter: FileItemAdapter? = null
     private var resourceBundle: Bundle = bundleOf()
 
     private val fileRequestLauncher =
@@ -51,6 +54,7 @@ class MergePdfsFragment(
                         ) { file ->
                             configFileTitle(file.title)
                             filesList.add(file)
+                            recyclerViewConfig(filesList)
                             configOfChangeFileList()
                             continueButtonEnabled()
                         }
@@ -63,7 +67,6 @@ class MergePdfsFragment(
         activityConfigs()
         setFileListEmptyCheckConfig()
         setFilesCountConfigurations()
-        recyclerViewConfig()
 
         with(binding) {
             addMoreFilesButton.setOnClickListener { FileManager.getFile(fileRequestLauncher) }
@@ -72,6 +75,17 @@ class MergePdfsFragment(
                 navigateByRouteTitle(this@MergePdfsFragment, NavigationUtil.HOME_ROUTE)
             }
         }
+    }
+
+    override fun recyclerViewConfig(list: List<MappedMaterialModel>) {
+        adapter = FileItemAdapter(filesList, requireContext().getString(R.string.merge_pdf))
+
+        with(binding) {
+            materialsRecyclerView.adapter = adapter
+            materialsRecyclerView.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        }
+        adapter?.removeAction = { removeFileButtonClickAction(it.id) }
     }
 
     override fun onStateChange(state: MergePdfContract.MergePdfState) {
@@ -142,17 +156,6 @@ class MergePdfsFragment(
         }
     }
 
-    private fun recyclerViewConfig() {
-        adapter = FileItemAdapter(filesList, requireContext().getString(R.string.merge_pdf))
-
-        with(binding) {
-            materialsRecyclerView.adapter = adapter
-            materialsRecyclerView.layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        }
-        adapter?.removeAction = { removeFileButtonClickAction(it.id) }
-    }
-
     private fun setFilesCountConfigurations() {
         lifecycleScope.launch {
             binding.mergeDescriptionText.text =
@@ -184,7 +187,9 @@ class MergePdfsFragment(
         resourceBundle.putString(BUNDLE_TITLE, title)
         resourceBundle.putString(BUNDLE_TYPE, MERGE_PDF)
 
-        val action = MergePdfsFragmentDirections.actionMergePdfsFragmentToPreviewMaterialNavGraph(resourceBundle)
+        val action = MergePdfsFragmentDirections.actionMergePdfsFragmentToPreviewMaterialNavGraph(
+            resourceBundle
+        )
         navigate(action)
     }
 
@@ -199,7 +204,7 @@ class MergePdfsFragment(
         binding.mergeButton.isEnabled = filesList.size >= TWO
     }
 
-    companion object{
+    companion object {
         const val MERGE_PDF = "MergePDF"
     }
 }

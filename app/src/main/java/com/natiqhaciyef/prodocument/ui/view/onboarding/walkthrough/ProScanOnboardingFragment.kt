@@ -26,7 +26,7 @@ class ProScanOnboardingFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // for initial state
-        onBoardingEvent(null)
+        viewModel.postEvent(OnBoardingContract.OnBoardingEvent.GetUserByTokenEvent)
 //         getTokenLocalStored()
     }
 
@@ -46,13 +46,15 @@ class ProScanOnboardingFragment(
     private fun onBoardingEvent(user: MappedUserWithoutPasswordModel?) {
         viewModel.postEvent(OnBoardingContract.OnBoardingEvent.OnboardingEvent(user) { route ->
             lifecycleScope.launch {
-                if (user?.isBiometricEnabled == false) {
-                    if (dataStore.readBoolean(requireContext()))
-                        navigateByActivityTitle(route, requireActivity(), true)
-                    else
-                        navigateByRouteTitle(this@ProScanOnboardingFragment, WALKTHROUGH_ROUTE)
-                } else {
-                    navigate(R.id.registrationRedirectionFragment)
+                user?.let {
+                    if (!it.isBiometricEnabled) {
+                        if (dataStore.readBoolean(requireContext()))
+                            navigateByActivityTitle(route, requireActivity(), true)
+                        else
+                            navigateByRouteTitle(this@ProScanOnboardingFragment, WALKTHROUGH_ROUTE)
+                    } else {
+                        navigate(R.id.registrationRedirectionFragment)
+                    }
                 }
             }
         })

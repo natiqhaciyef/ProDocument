@@ -14,6 +14,7 @@ import com.github.mikephil.charting.utils.MPPointF
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.natiqhaciyef.common.model.MappedGraphDetailModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
+import com.natiqhaciyef.core.base.ui.BaseRecyclerHolderStatefulFragment
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.FragmentCategoryGraphBinding
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
@@ -27,8 +28,9 @@ import kotlin.reflect.KClass
 class CategoryGraphFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentCategoryGraphBinding = FragmentCategoryGraphBinding::inflate,
     override val viewModelClass: KClass<ProfileViewModel> = ProfileViewModel::class
-) : BaseFragment<FragmentCategoryGraphBinding, ProfileViewModel, ProfileContract.ProfileState, ProfileContract.ProfileEvent, ProfileContract.ProfileEffect>() {
-    private var adapter: GraphDetailsAdapter? = null
+) : BaseRecyclerHolderStatefulFragment<FragmentCategoryGraphBinding, ProfileViewModel, MappedGraphDetailModel,
+        GraphDetailsAdapter, ProfileContract.ProfileState, ProfileContract.ProfileEvent, ProfileContract.ProfileEffect>() {
+    override var adapter: GraphDetailsAdapter? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,7 +47,7 @@ class CategoryGraphFragment(
             else -> {
                 changeVisibilityOfProgressBar()
                 if (state.userStatistics != null)
-                    recyclerViewConfig(statistics = state.userStatistics!!)
+                    recyclerViewConfig(state.userStatistics!!)
             }
         }
     }
@@ -98,8 +100,8 @@ class CategoryGraphFragment(
         navigate(R.id.profileFragment)
     }
 
-    private fun recyclerViewConfig(statistics: List<MappedGraphDetailModel>) {
-        adapter = GraphDetailsAdapter(requireContext(), statistics.toMutableList())
+    override fun recyclerViewConfig(list: List<MappedGraphDetailModel>) {
+        adapter = GraphDetailsAdapter(requireContext(), list.toMutableList())
 
         with(binding) {
             recyclerCategoriesView.adapter = adapter
@@ -107,7 +109,7 @@ class CategoryGraphFragment(
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         }
 
-        pieChartConfig(statistics)
+        pieChartConfig(list)
     }
 
     private fun pieChartConfig(statistics: List<MappedGraphDetailModel>) {

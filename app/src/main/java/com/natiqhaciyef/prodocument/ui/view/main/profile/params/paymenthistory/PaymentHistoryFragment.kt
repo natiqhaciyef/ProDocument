@@ -9,6 +9,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.natiqhaciyef.common.helpers.secondWordFirstLetterLowercase
 import com.natiqhaciyef.common.model.payment.PaymentHistoryModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
+import com.natiqhaciyef.core.base.ui.BaseRecyclerHolderStatefulFragment
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.FragmentPaymentHistoryBinding
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
@@ -22,8 +23,10 @@ import kotlin.reflect.KClass
 class PaymentHistoryFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentPaymentHistoryBinding = FragmentPaymentHistoryBinding::inflate,
     override val viewModelClass: KClass<ProfileViewModel> = ProfileViewModel::class
-) : BaseFragment<FragmentPaymentHistoryBinding, ProfileViewModel, ProfileContract.ProfileState, ProfileContract.ProfileEvent, ProfileContract.ProfileEffect>() {
-    private var paymentAdapter: PaymentHistoryAdapter? = null
+) : BaseRecyclerHolderStatefulFragment<
+        FragmentPaymentHistoryBinding, ProfileViewModel, PaymentHistoryModel, PaymentHistoryAdapter,
+        ProfileContract.ProfileState, ProfileContract.ProfileEvent, ProfileContract.ProfileEffect>() {
+    override var adapter: PaymentHistoryAdapter? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,7 +50,7 @@ class PaymentHistoryFragment(
                 errorResultConfig()
                 changeVisibilityOfProgressBar()
                 if (state.paymentsHistory != null) {
-                    recyclerConfig(state.paymentsHistory!!.toMutableList())
+                    recyclerViewConfig(state.paymentsHistory!!)
                 }
             }
         }
@@ -113,10 +116,10 @@ class PaymentHistoryFragment(
         navigate(R.id.profileFragment)
     }
 
-    private fun recyclerConfig(list: MutableList<PaymentHistoryModel>) {
-        paymentAdapter = PaymentHistoryAdapter(requireContext(), list)
+    override fun recyclerViewConfig(list: List<PaymentHistoryModel>) {
+        adapter = PaymentHistoryAdapter(requireContext(), list.toMutableList())
         with(binding) {
-            recyclerPaymentHistoryView.adapter = paymentAdapter
+            recyclerPaymentHistoryView.adapter = adapter
             recyclerPaymentHistoryView.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         }
