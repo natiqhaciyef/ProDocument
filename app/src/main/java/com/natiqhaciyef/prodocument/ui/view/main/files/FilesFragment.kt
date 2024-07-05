@@ -5,12 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
-import androidx.fragment.app.clearFragmentResult
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.databinding.FragmentFilesBinding
-import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.core.model.CategoryItem
 import com.natiqhaciyef.uikit.manager.FileManager.createAndShareFile
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_MATERIAL
@@ -54,7 +52,7 @@ class FilesFragment(
                 errorResultConfig()
             }
 
-            state.list.isNullOrEmpty() -> {
+            state.list.isNullOrEmpty() && state.params.isNullOrEmpty() -> {
                 errorResultConfig(true)
             }
 
@@ -122,9 +120,7 @@ class FilesFragment(
     }
 
     private fun getFilesEvent() {
-        getToken { token ->
-            viewModel.postEvent(FileContract.FileEvent.GetAllMaterials)
-        }
+        viewModel.postEvent(FileContract.FileEvent.GetAllMaterials)
     }
 
     private fun fileFilter() {
@@ -145,8 +141,7 @@ class FilesFragment(
         with(binding) {
             fileTotalAmountTitle.text =
                 getString(R.string.total_file_amount_title, "${list.size}")
-            adapter =
-                FileItemAdapter(
+            adapter = FileItemAdapter(
                     list.toMutableList(),
                     requireContext().getString(R.string.scan_code),
                     this@FilesFragment,
@@ -194,7 +189,7 @@ class FilesFragment(
         // add bottom sheet here
         storedMaterial?.let {
             FileBottomSheetOptionFragment(it, params,
-                dismissAction = {
+                onClickAction = {
                     holdCurrentState(state)
                     getFilesEvent()
                 }

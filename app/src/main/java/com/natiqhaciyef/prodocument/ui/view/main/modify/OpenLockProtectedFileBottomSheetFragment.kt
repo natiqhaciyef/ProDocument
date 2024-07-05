@@ -1,32 +1,20 @@
 package com.natiqhaciyef.prodocument.ui.view.main.modify
 
-import android.content.DialogInterface
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.natiqhaciyef.common.constants.EIGHT
-import com.natiqhaciyef.prodocument.R
+import com.natiqhaciyef.core.base.ui.BaseBottomSheetFragment
 import com.natiqhaciyef.prodocument.databinding.FragmentOpenLockProtectedFileBottomSheetBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class OpenLockProtectedFileBottomSheetFragment(
-    var confirmButtonClickAction: (String) -> Unit = {}
-) : BottomSheetDialogFragment() {
-    private var _binding: FragmentOpenLockProtectedFileBottomSheetBinding? = null
-    private val binding: FragmentOpenLockProtectedFileBottomSheetBinding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentOpenLockProtectedFileBottomSheetBinding
-            .inflate(inflater, container, false)
-        return binding.root
-    }
+    override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentOpenLockProtectedFileBottomSheetBinding =
+        FragmentOpenLockProtectedFileBottomSheetBinding::inflate,
+    override var onItemClickAction: (String) -> Unit = {},
+) : BaseBottomSheetFragment<FragmentOpenLockProtectedFileBottomSheetBinding, String>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,7 +26,7 @@ class OpenLockProtectedFileBottomSheetFragment(
             filePassword.changeVisibility()
 
             protectButton.setOnClickListener {
-                confirmButtonClickAction.invoke(filePassword.getPasswordText())
+                onItemClickAction.invoke(filePassword.getPasswordText())
                 dialog?.dismiss()
             }
             protectedButtonEnabledCondition()
@@ -53,15 +41,5 @@ class OpenLockProtectedFileBottomSheetFragment(
                 }
             }
         }
-    }
-
-    override fun onCancel(dialog: DialogInterface) {
-        super.onCancel(dialog)
-        dialog.cancel()
-    }
-
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-        dialog.cancel()
     }
 }

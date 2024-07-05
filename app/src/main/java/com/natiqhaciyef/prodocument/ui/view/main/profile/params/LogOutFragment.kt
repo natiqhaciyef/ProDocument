@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.natiqhaciyef.core.base.ui.BaseBottomSheetFragment
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.FragmentLogOutBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -13,19 +14,10 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class LogOutFragment(
+    override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentLogOutBinding =
+        FragmentLogOutBinding::inflate,
     private var onYesClick: () -> Unit = {},
-) : BottomSheetDialogFragment() {
-    private var _binding: FragmentLogOutBinding? = null
-    private val binding: FragmentLogOutBinding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentLogOutBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
+) : BaseBottomSheetFragment<FragmentLogOutBinding, Unit>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
