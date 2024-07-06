@@ -113,7 +113,8 @@ class ModifyPdfFragment(
                     else -> {}
                 }
 
-                titleButtonChangeAction()
+                if (type != PROTECT_TYPE)
+                    titleButtonChangeAction()
             }
         }
     }
@@ -279,21 +280,26 @@ class ModifyPdfFragment(
 
     @RequiresApi(Build.VERSION_CODES.S)
     private fun protectConfig(material: MappedMaterialModel) {
+        var isLocked = true
         with(binding) {
             pdfView.visibility = View.VISIBLE
             protectionIcon.visibility = View.VISIBLE
             blurView.visibility = View.VISIBLE
             pdfView.createSafePdfUriLoader(material.url)
             blurConfig(true)
+            modifyIconButton.visibility = View.VISIBLE
+            modifyIconButton.setImageResource(com.natiqhaciyef.common.R.drawable.modify_icon)
 
             protectionIcon.setOnClickListener {
-                OpenLockProtectedFileBottomSheetFragment{
+                OpenLockProtectedFileBottomSheetFragment {
                     if (it == material.protectionKey) {
+                        isLocked = false
                         blurView.visibility = View.GONE
                         protectionIcon.visibility = View.GONE
+                        modifyIconButton.setImageResource(com.natiqhaciyef.common.R.drawable.lock_icon)
                     }
                 }.show(
-                    if(!isAdded) return@setOnClickListener else childFragmentManager,
+                    if (!isAdded) return@setOnClickListener else childFragmentManager,
                     OpenLockProtectedFileBottomSheetFragment::class.simpleName
                 )
             }
@@ -301,9 +307,23 @@ class ModifyPdfFragment(
             val params = pdfTitleText.layoutParams as ConstraintLayout.LayoutParams
             params.endToStart = optionsIconButton.id
 
+            modifyIconButton.setOnClickListener {
+                blurView.visibility = View.VISIBLE
+                protectionIcon.visibility = View.VISIBLE
+                optionsIconButton.visibility = View.VISIBLE
+                isLocked = !isLocked
+
+                if (isLocked) {
+                    modifyIconButton.setImageResource(com.natiqhaciyef.common.R.drawable.modify_icon)
+                    titleButtonChangeAction()
+                }else {
+                    modifyIconButton.setImageResource(com.natiqhaciyef.common.R.drawable.lock_icon)
+                }
+            }
+
+
             saveButton.text = getString(com.natiqhaciyef.common.R.string.save)
             pdfTitleText.setText(title ?: material.title)
-            modifyIconButton.visibility = View.VISIBLE
             saveButton.setOnClickListener { saveButtonClickEvent(material) }
 
             optionsIconButton.setOnClickListener { getOptionsEvent() }
