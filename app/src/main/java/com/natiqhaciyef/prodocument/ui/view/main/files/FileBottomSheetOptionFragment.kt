@@ -146,6 +146,7 @@ class FileBottomSheetOptionFragment(
 
                 getString(R.string.delete) -> {
                     onItemClickAction.invoke(material)
+                    dialog?.dismiss()
                 }
 
                 else -> {}

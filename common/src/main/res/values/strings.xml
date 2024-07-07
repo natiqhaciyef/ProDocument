@@ -68,6 +68,9 @@
     <string name="nothing_modified_yet_result">Nothing modified</string>
     <string name="file_created_success_description">%1$s file saving succeed</string>
     <string name="file_created_failed_description">%1$s file saving failed</string>
+    <string name="remove_title_result">Confirmation</string>
+    <string name="remove_description_result">Are you sure about deleting file ?</string>
+    <string name="remove_button_result">Delete</string>
 
 
     <!-- Onboarding & Walkthrough -->

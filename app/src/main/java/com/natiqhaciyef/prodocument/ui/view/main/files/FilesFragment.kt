@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.natiqhaciyef.common.R
@@ -19,7 +20,9 @@ import com.natiqhaciyef.prodocument.ui.view.main.home.CustomMaterialOptionsBotto
 import com.natiqhaciyef.common.model.ParamsUIModel
 import com.natiqhaciyef.core.base.ui.BaseRecyclerHolderStatefulFragment
 import com.natiqhaciyef.prodocument.BuildConfig
+import com.natiqhaciyef.prodocument.ui.view.main.home.contract.HomeContract
 import com.natiqhaciyef.uikit.adapter.FileItemAdapter
+import com.natiqhaciyef.uikit.alert.AlertDialogManager.createDynamicResultAlertDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.KClass
 
@@ -52,7 +55,7 @@ class FilesFragment(
                 errorResultConfig()
             }
 
-            state.list.isNullOrEmpty() && state.params.isNullOrEmpty() -> {
+            state.list.isNullOrEmpty() && state.params.isNullOrEmpty() && state.result == null -> {
                 errorResultConfig(true)
             }
 
@@ -72,6 +75,9 @@ class FilesFragment(
                     params = state.params!!
                     optionClickAction(state)
                 }
+
+                if (state.result != null)
+                    getFilesEvent()
             }
         }
     }
@@ -187,14 +193,14 @@ class FilesFragment(
 
     private fun optionClickAction(state: FileContract.FileState) {
         // add bottom sheet here
-        storedMaterial?.let {
-            FileBottomSheetOptionFragment(it, params,
+        storedMaterial?.let { material ->
+            FileBottomSheetOptionFragment(material, params,
                 onClickAction = {
                     holdCurrentState(state)
                     getFilesEvent()
                 }
             ) {
-                // INSERT: remove action
+                removeFile(material)
             }.show(
                 if (!isAdded) return else this.childFragmentManager,
                 FileBottomSheetOptionFragment::class.simpleName
@@ -202,6 +208,17 @@ class FilesFragment(
         }
     }
 
+    private fun removeFile(material: MappedMaterialModel){
+        (requireActivity() as AppCompatActivity).createDynamicResultAlertDialog(
+            title = requireContext().getString(R.string.remove_title_result),
+            description = requireContext().getString(R.string.remove_description_result),
+            buttonText = requireContext().getString(R.string.remove_button_result),
+            resultIconId = R.drawable.delete_bs_icon
+        ) {
+            viewModel.postEvent(FileContract.FileEvent.RemoveMaterial(material.id))
+            it.dismiss()
+        }
+    }
 
     private fun fileClickEvent(id: String) {
         viewModel.postEvent(

@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.OptIn
+import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.ExperimentalGetImage
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.GridLayoutManager
@@ -39,6 +40,7 @@ import com.natiqhaciyef.prodocument.ui.view.main.home.viewmodel.HomeViewModel
 import com.natiqhaciyef.prodocument.ui.view.main.modify.ModifyPdfFragment.Companion.PREVIEW_IMAGE
 import com.natiqhaciyef.uikit.adapter.FileItemAdapter
 import com.natiqhaciyef.uikit.adapter.MenuAdapter
+import com.natiqhaciyef.uikit.alert.AlertDialogManager.createDynamicResultAlertDialog
 import com.natiqhaciyef.uikit.manager.PermissionManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.KClass
@@ -86,7 +88,10 @@ class HomeFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.postEvent(HomeContract.HomeEvent.GetAllMaterials)
         activityConfig()
+        menuAdapterConfig()
+        recentFilesClickAction()
         fabGalleryConfig()
         cameraConfig()
     }
@@ -103,10 +108,11 @@ class HomeFragment(
                 if (state.list != null)
                     recyclerViewConfig(state.list!!)
 
-                if (state.material != null) {
-                    // navigate to single file action
+                if (state.material != null)
                     fileClickAction(state.material!!)
-                }
+
+                if (state.result != null)
+                    viewModel.postEvent(HomeContract.HomeEvent.GetAllMaterials)
             }
         }
     }
@@ -142,9 +148,6 @@ class HomeFragment(
             materialToolbar.setVisibilitySearch(View.GONE)
             materialToolbar.setVisibilityToolbar(View.VISIBLE)
         }
-        viewModel.postEvent(HomeContract.HomeEvent.GetAllMaterials)
-        menuAdapterConfig()
-        recentFilesClickAction()
     }
 
     private fun menuAdapterConfig() {
@@ -232,11 +235,23 @@ class HomeFragment(
                 viewModel.postEvent(HomeContract.HomeEvent.GetAllMaterials)
             }
         ) {
-            // INSERT: remove action
+            removeFile(it)
         }.show(
             if (!isAdded) return else this.childFragmentManager,
             FileBottomSheetOptionFragment::class.simpleName
         )
+    }
+
+    private fun removeFile(material: MappedMaterialModel){
+        (requireActivity() as AppCompatActivity).createDynamicResultAlertDialog(
+            title = requireContext().getString(R.string.remove_title_result),
+            description = requireContext().getString(R.string.remove_description_result),
+            buttonText = requireContext().getString(R.string.remove_button_result),
+            resultIconId = R.drawable.delete_bs_icon
+        ) {
+            viewModel.postEvent(HomeContract.HomeEvent.RemoveMaterial(material.id))
+            it.dismiss()
+        }
     }
 
     private fun startGalleryConfig() {

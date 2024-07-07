@@ -13,16 +13,20 @@ import com.natiqhaciyef.prodocument.ui.view.main.files.FilesFragment
 import com.natiqhaciyef.prodocument.ui.view.main.files.contract.FileContract
 import com.natiqhaciyef.common.model.FieldType
 import com.natiqhaciyef.common.model.ParamsUIModel
+import com.natiqhaciyef.domain.usecase.material.RemoveMaterialByIdUseCase
 import com.natiqhaciyef.prodocument.ui.util.getOptions
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class FileViewModel @Inject constructor(
     private val getAllMaterialsRemoteUseCase: GetAllMaterialsRemoteUseCase,
-    private val getMaterialByIdRemoteUseCase: GetMaterialByIdRemoteUseCase
+    private val getMaterialByIdRemoteUseCase: GetMaterialByIdRemoteUseCase,
+    private val removeMaterialByIdUseCase: RemoveMaterialByIdUseCase
 ) : BaseViewModel<FileContract.FileState, FileContract.FileEvent, FileContract.FileEffect>() {
 
     override fun onEventUpdate(event: FileContract.FileEvent) {
@@ -42,6 +46,10 @@ class FileViewModel @Inject constructor(
 
             is FileContract.FileEvent.GetAllFileParams -> {
                 generateParams(event.context)
+            }
+
+            is FileContract.FileEvent.RemoveMaterial -> {
+                removeMaterial(event.materialId)
             }
         }
     }
@@ -126,6 +134,26 @@ class FileViewModel @Inject constructor(
             postEffect(FileContract.FileEffect.FilteredFileNotFoundEffect)
         }
     }
+
+    private fun removeMaterial(materialId: String){
+        removeMaterialByIdUseCase.operate(materialId).onEach { result ->
+            when(result.status){
+                Status.SUCCESS -> {
+                    if (result.data != null)
+                        setBaseState(getCurrentBaseState().copy(result = result.data, isLoading = false))
+                }
+
+                Status.ERROR -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = false))
+                }
+
+                Status.LOADING -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = true))
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
 
     private fun generateParams(ctx: Context){
         setBaseState(getCurrentBaseState().copy(params = getOptions(ctx)))

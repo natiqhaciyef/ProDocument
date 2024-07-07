@@ -75,7 +75,7 @@ class MaterialDataSource @Inject constructor(
     suspend fun removeMaterialById(materialId: String) =
         withContext(Dispatchers.IO) {
             val requestHeader = manager.generateToken()
-            val mock = generateMockerClass(RemoveMaterialMockGenerator::class, MATERIAL_ID_MOCK_KEY)
+            val mock = generateMockerClass(RemoveMaterialMockGenerator::class, materialId)
                 .getMock(MATERIAL_ID_MOCK_KEY) { null }
 
             handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
