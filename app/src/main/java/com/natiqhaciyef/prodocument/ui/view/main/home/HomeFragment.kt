@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.constants.EMPTY_STRING
 import com.natiqhaciyef.common.constants.FOUR
+import com.natiqhaciyef.common.model.ParamsUIModel
 import com.natiqhaciyef.prodocument.databinding.FragmentHomeBinding
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
@@ -29,7 +30,10 @@ import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TYPE
 import com.natiqhaciyef.prodocument.ui.util.DefaultImplModels
 import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.SCAN_QR_TYPE
 import com.natiqhaciyef.prodocument.ui.util.UiList
+import com.natiqhaciyef.prodocument.ui.util.getOptions
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
+import com.natiqhaciyef.prodocument.ui.view.main.files.FileBottomSheetOptionFragment
+import com.natiqhaciyef.prodocument.ui.view.main.files.contract.FileContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.contract.HomeContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.viewmodel.HomeViewModel
 import com.natiqhaciyef.prodocument.ui.view.main.modify.ModifyPdfFragment.Companion.PREVIEW_IMAGE
@@ -179,6 +183,11 @@ class HomeFragment(
             fileClickEvent(material.id)
         }
 
+        adapter?.optionAction = { material ->
+            val params = getOptions(requireContext())
+            optionClickAction(material, params)
+        }
+
         binding.apply {
             filesRecyclerView.adapter = adapter
             filesRecyclerView.layoutManager =
@@ -214,6 +223,20 @@ class HomeFragment(
                 .checkPermission { startGalleryConfig() }
                 .build()
         }
+    }
+
+    private fun optionClickAction(material: MappedMaterialModel, params: List<ParamsUIModel>) {
+        // add bottom sheet here
+        FileBottomSheetOptionFragment(material, params,
+            onClickAction = {
+                viewModel.postEvent(HomeContract.HomeEvent.GetAllMaterials)
+            }
+        ) {
+            // INSERT: remove action
+        }.show(
+            if (!isAdded) return else this.childFragmentManager,
+            FileBottomSheetOptionFragment::class.simpleName
+        )
     }
 
     private fun startGalleryConfig() {
