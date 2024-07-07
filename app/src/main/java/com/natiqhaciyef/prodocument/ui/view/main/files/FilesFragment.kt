@@ -194,7 +194,7 @@ class FilesFragment(
     private fun optionClickAction(state: FileContract.FileState) {
         // add bottom sheet here
         storedMaterial?.let { material ->
-            FileBottomSheetOptionFragment(material, params,
+            FileBottomSheetOptionFragment(this , material, params,
                 onClickAction = {
                     holdCurrentState(state)
                     getFilesEvent()

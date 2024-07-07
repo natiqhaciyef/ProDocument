@@ -230,7 +230,7 @@ class HomeFragment(
 
     private fun optionClickAction(material: MappedMaterialModel, params: List<ParamsUIModel>) {
         // add bottom sheet here
-        FileBottomSheetOptionFragment(material, params,
+        FileBottomSheetOptionFragment(this, material, params,
             onClickAction = {
                 viewModel.postEvent(HomeContract.HomeEvent.GetAllMaterials)
             }
