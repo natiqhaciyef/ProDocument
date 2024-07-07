@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.domain.worker.config.startDownloadingFile
@@ -26,12 +25,8 @@ import com.natiqhaciyef.prodocument.ui.util.BUNDLE_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TYPE
 import com.natiqhaciyef.common.model.ParamsUIModel
 import com.natiqhaciyef.core.base.ui.BaseBottomSheetFragment
-import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.BuildConfig
-import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.SPLIT_TYPE
-import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.WATERMARK_TYPE
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
-import com.natiqhaciyef.prodocument.ui.view.main.home.HomeFragmentDirections
 import com.natiqhaciyef.uikit.adapter.ParamsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -99,15 +94,13 @@ class FileBottomSheetOptionFragment(
                 }
 
                 getString(R.string.add_watermark) -> {
-                    resourceBundle.putString(BUNDLE_TYPE, WATERMARK_TYPE)
-                    val action = if (fragment is FilesFragment)
-                        FilesFragmentDirections.actionFilesFragmentToWatermarkNavGraph()
-                    else
-                        HomeFragmentDirections.actionHomeFragmentToPickFileNavGraph(resourceBundle)
-                    (fragment as BaseFragment<*, *, *, *, *>).navigate(action)
+                    activityConfig()
+                    val action = FilesFragmentDirections.actionFilesFragmentToWatermarkNavGraph()
+                    (parentFragment as FilesFragment).navigate(action)
                 }
 
                 getString(R.string.add_digital_signature) -> {
+                    activityConfig()
                     resourceBundle.putString(BUNDLE_TYPE, E_SIGN_TYPE)
                     NavigationUtil.navigateByRouteTitle(
                         this@FileBottomSheetOptionFragment,
@@ -117,23 +110,19 @@ class FileBottomSheetOptionFragment(
                 }
 
                 getString(R.string.split_pdf) -> {
-                    resourceBundle.putString(BUNDLE_TYPE, SPLIT_TYPE)
-                    val action = if (fragment is FilesFragment)
-                        FilesFragmentDirections.actionFilesFragmentToScanNavGraph()
-                    else
-                        HomeFragmentDirections.actionHomeFragmentToPickFileNavGraph(resourceBundle)
-                    (fragment as BaseFragment<*, *, *, *, *>).navigate(action)
+                    activityConfig()
+                    val action = FilesFragmentDirections.actionFilesFragmentToScanNavGraph()
+                    (parentFragment as FilesFragment).navigate(action)
                 }
 
                 getString(R.string.merge_pdf) -> {
-                    val action = if (fragment is FilesFragment)
-                        FilesFragmentDirections.actionFilesFragmentToMergeNavGraph()
-                    else
-                        HomeFragmentDirections.actionHomeFragmentToMergeNavGraph()
-                    (fragment as BaseFragment<*, *, *, *, *>).navigate(action)
+                    activityConfig()
+                    val action = FilesFragmentDirections.actionFilesFragmentToMergeNavGraph()
+                    (parentFragment as FilesFragment).navigate(action)
                 }
 
                 getString(R.string.protect_pdf) -> {
+                    activityConfig()
                     resourceBundle.putString(BUNDLE_TYPE, PROTECT_TYPE)
                     NavigationUtil.navigateByRouteTitle(
                         this@FileBottomSheetOptionFragment,
@@ -143,6 +132,7 @@ class FileBottomSheetOptionFragment(
                 }
 
                 getString(R.string.compress_pdf) -> {
+                    activityConfig()
                     resourceBundle.putString(BUNDLE_TYPE, COMPRESS_TYPE)
                     NavigationUtil.navigateByRouteTitle(
                         this@FileBottomSheetOptionFragment,
@@ -152,12 +142,11 @@ class FileBottomSheetOptionFragment(
                 }
 
                 getString(R.string.rename) -> {
+                    activityConfig()
                     resourceBundle.putParcelable(BUNDLE_MATERIAL, material)
-                    val action = if (fragment is FilesFragment)
-                        FilesFragmentDirections.actionFilesFragmentToPreviewMaterialNavGraph(resourceBundle)
-                    else
-                        HomeFragmentDirections.actionHomeFragmentToPreviewMaterialNavGraph(resourceBundle)
-                    (fragment as BaseFragment<*, *, *, *, *>).navigate(action)
+                    val action = FilesFragmentDirections
+                        .actionFilesFragmentToPreviewMaterialNavGraph(resourceBundle)
+                    (parentFragment as FilesFragment).navigate(action)
                 }
 
                 getString(R.string.print) -> {
@@ -171,7 +160,7 @@ class FileBottomSheetOptionFragment(
 
                 else -> {}
             }
-            activityConfig()
+
         }
     }
 

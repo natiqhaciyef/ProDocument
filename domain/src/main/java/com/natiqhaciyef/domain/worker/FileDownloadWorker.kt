@@ -45,9 +45,6 @@ class FileDownloadWorker(
         val fileName = inputData.getString(FileParams.KEY_FILE_NAME) ?: EMPTY_STRING
         val fileType = inputData.getString(FileParams.KEY_FILE_TYPE) ?: EMPTY_STRING
 
-        Log.d("TAG", "doWork: $fileUrl | $fileName | $fileType")
-
-
         if (fileName.isEmpty()
             || fileType.isEmpty()
             || fileUrl.isEmpty()
@@ -83,8 +80,10 @@ class FileDownloadWorker(
                 Manifest.permission.POST_NOTIFICATIONS
             ) != PackageManager.PERMISSION_GRANTED
         ) {
+            println("In")
             return Result.failure()
         }
+        println("Out")
         NotificationManagerCompat.from(context)
             .notify(NotificationConstants.NOTIFICATION_ID, builder.build())
 
@@ -95,6 +94,7 @@ class FileDownloadWorker(
             context = context
         )
 
+        println(uri)
         NotificationManagerCompat.from(context).cancel(NotificationConstants.NOTIFICATION_ID)
         return if (uri != null) {
             Result.success(workDataOf(FileParams.KEY_FILE_URI to uri.toString()))
