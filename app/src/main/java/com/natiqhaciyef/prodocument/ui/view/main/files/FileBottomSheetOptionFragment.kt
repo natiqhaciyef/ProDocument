@@ -1,19 +1,29 @@
 package com.natiqhaciyef.prodocument.ui.view.main.files
 
-import android.content.DialogInterface
+import android.app.Activity
+import android.app.Dialog
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.natiqhaciyef.common.R
+import com.natiqhaciyef.common.model.ParamsUIModel
+import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
+import com.natiqhaciyef.core.base.ui.BaseBottomSheetFragment
 import com.natiqhaciyef.domain.worker.config.startDownloadingFile
+import com.natiqhaciyef.prodocument.BuildConfig
 import com.natiqhaciyef.prodocument.databinding.FragmentFileBottomSheetOptionBinding
-import com.natiqhaciyef.uikit.manager.FileManager.createAndShareFile
+import com.natiqhaciyef.prodocument.ui.util.BUNDLE_MATERIAL
+import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TYPE
 import com.natiqhaciyef.prodocument.ui.util.NavigationUtil
 import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.COMPRESS_ROUTE
 import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.COMPRESS_TYPE
@@ -21,14 +31,11 @@ import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.E_SIGN_ROUTE
 import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.E_SIGN_TYPE
 import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.PROTECT_ROUTE
 import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.PROTECT_TYPE
-import com.natiqhaciyef.prodocument.ui.util.BUNDLE_MATERIAL
-import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TYPE
-import com.natiqhaciyef.common.model.ParamsUIModel
-import com.natiqhaciyef.core.base.ui.BaseBottomSheetFragment
-import com.natiqhaciyef.prodocument.BuildConfig
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.uikit.adapter.ParamsAdapter
+import com.natiqhaciyef.uikit.manager.FileManager.createAndShareFile
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class FileBottomSheetOptionFragment(
@@ -50,6 +57,28 @@ class FileBottomSheetOptionFragment(
         super.onViewCreated(view, savedInstanceState)
         customMaterialPreviewConfig()
         recyclerViewConfig()
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = BottomSheetDialog(requireContext(), theme)
+        dialog.setOnShowListener {
+
+            val bottomSheetDialog = it as BottomSheetDialog
+            val parentLayout =
+                bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+            parentLayout?.let { parent ->
+                val behaviour = BottomSheetBehavior.from(parent)
+                setupFullHeight(parent)
+                behaviour.state = BottomSheetBehavior.STATE_EXPANDED
+            }
+        }
+        return dialog
+    }
+
+    private fun setupFullHeight(bottomSheet: View) {
+        val layoutParams = bottomSheet.layoutParams
+        layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT
+        bottomSheet.layoutParams = layoutParams
     }
 
     private fun customMaterialPreviewConfig() {
