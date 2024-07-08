@@ -1,4 +1,4 @@
-package com.natiqhaciyef.domain.network
+package com.natiqhaciyef.core.base.network
 
 import com.natiqhaciyef.common.constants.NULL_PROPERTY
 import retrofit2.HttpException

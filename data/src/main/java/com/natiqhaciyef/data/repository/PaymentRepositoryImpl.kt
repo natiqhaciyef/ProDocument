@@ -1,7 +1,7 @@
 package com.natiqhaciyef.data.repository
 
 import com.natiqhaciyef.core.CRUDResponse
-import com.natiqhaciyef.domain.network.NetworkResult
+import com.natiqhaciyef.core.base.network.NetworkResult
 import com.natiqhaciyef.domain.network.request.PaymentModel
 import com.natiqhaciyef.domain.network.request.PaymentRequest
 import com.natiqhaciyef.domain.network.request.QrCodeRequest

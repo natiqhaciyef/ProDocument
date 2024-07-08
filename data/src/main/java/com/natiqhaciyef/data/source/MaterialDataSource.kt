@@ -5,8 +5,8 @@ import com.natiqhaciyef.core.base.mock.generateMockerClass
 import com.natiqhaciyef.data.mock.materials.CompressMaterialMockGenerator
 import com.natiqhaciyef.data.mock.materials.CreateMaterialMockGenerator
 import com.natiqhaciyef.data.mock.materials.ESignMaterialMockGenerator
-import com.natiqhaciyef.domain.network.LoadType
-import com.natiqhaciyef.domain.network.handleNetworkResponse
+import com.natiqhaciyef.core.base.network.LoadType
+import com.natiqhaciyef.core.base.network.handleNetworkResponse
 import com.natiqhaciyef.domain.network.response.MaterialResponse
 import com.natiqhaciyef.data.network.service.MaterialService
 import com.natiqhaciyef.data.mock.materials.GetAllMaterialsMockGenerator

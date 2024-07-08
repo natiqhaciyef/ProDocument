@@ -10,8 +10,8 @@ import com.natiqhaciyef.data.mock.payment.GetPaymentHistoryDetailsMockGenerator
 import com.natiqhaciyef.data.mock.payment.GetPaymentHistoryMockGenerator
 import com.natiqhaciyef.data.mock.payment.ScanQrCodePaymentMockGenerator
 import com.natiqhaciyef.data.mock.payment.StartPaymentMockGenerator
-import com.natiqhaciyef.domain.network.LoadType
-import com.natiqhaciyef.domain.network.handleNetworkResponse
+import com.natiqhaciyef.core.base.network.LoadType
+import com.natiqhaciyef.core.base.network.handleNetworkResponse
 import com.natiqhaciyef.data.network.manager.TokenManager
 import com.natiqhaciyef.domain.network.request.PaymentModel
 import com.natiqhaciyef.domain.network.request.PaymentRequest

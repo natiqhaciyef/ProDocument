@@ -3,7 +3,7 @@ package com.natiqhaciyef.domain.repository
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.core.base.repository.BaseRepository
-import com.natiqhaciyef.domain.network.NetworkResult
+import com.natiqhaciyef.core.base.network.NetworkResult
 import com.natiqhaciyef.domain.network.request.CompressRequest
 import com.natiqhaciyef.domain.network.request.ESignRequest
 import com.natiqhaciyef.domain.network.request.MergeRequest

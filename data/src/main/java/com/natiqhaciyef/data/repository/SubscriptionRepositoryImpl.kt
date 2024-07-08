@@ -1,6 +1,6 @@
 package com.natiqhaciyef.data.repository
 
-import com.natiqhaciyef.domain.network.NetworkResult
+import com.natiqhaciyef.core.base.network.NetworkResult
 import com.natiqhaciyef.domain.network.response.SubscriptionResponse
 import com.natiqhaciyef.data.source.SubscriptionDataSource
 import com.natiqhaciyef.domain.repository.SubscriptionRepository
