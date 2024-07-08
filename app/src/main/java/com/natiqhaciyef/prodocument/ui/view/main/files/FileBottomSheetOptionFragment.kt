@@ -1,22 +1,28 @@
 package com.natiqhaciyef.prodocument.ui.view.main.files
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.print.PrintManager
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
+import android.widget.FrameLayout
 import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.natiqhaciyef.common.R
+import com.natiqhaciyef.common.constants.HUNDRED
+import com.natiqhaciyef.common.constants.NINETY
+import com.natiqhaciyef.common.constants.SEVENTY_TWO
+import com.natiqhaciyef.common.constants.SIX
+import com.natiqhaciyef.common.constants.SIXTY
 import com.natiqhaciyef.common.model.ParamsUIModel
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.base.ui.BaseBottomSheetFragment
@@ -69,19 +75,49 @@ class FileBottomSheetOptionFragment(
             val parentLayout =
                 bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
             parentLayout?.let { parent ->
-                val behaviour = BottomSheetBehavior.from(parent)
-                setupFullHeight(parent)
-                behaviour.state = BottomSheetBehavior.STATE_EXPANDED
+                setupRatio(bottomSheetDialog)
             }
         }
         return dialog
     }
 
-    private fun setupFullHeight(bottomSheet: View) {
-        val layoutParams = bottomSheet.layoutParams
-        layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT
-        bottomSheet.layoutParams = layoutParams
+    private fun setupRatio(bottomSheetDialog: BottomSheetDialog) {
+        val expandedHeight: Int //Height of bottom sheet in expanded state
+        val bottomSheet =
+            bottomSheetDialog.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet) ?: return
+
+        //Retrieve bottom sheet parameters
+        BottomSheetBehavior.from(bottomSheet).state = BottomSheetBehavior.STATE_COLLAPSED
+        val bottomSheetLayoutParams = bottomSheet.layoutParams
+        bottomSheetLayoutParams.height = getBottomSheetDialogDefaultHeight()
+
+        expandedHeight = bottomSheetLayoutParams.height
+        val peekHeight =
+            (expandedHeight / 1.3) //Peek height to 70% of expanded height (Change based on your view)
+
+        //Setup bottom sheet
+        bottomSheet.layoutParams = bottomSheetLayoutParams
+        BottomSheetBehavior.from(bottomSheet).skipCollapsed = false
+        BottomSheetBehavior.from(bottomSheet).peekHeight = peekHeight.toInt()
+        BottomSheetBehavior.from(bottomSheet).isHideable = true
+
+        //OPTIONAL - Setting up recyclerview margins
+        val recyclerLayoutParams = binding.recyclerFileActionsView.layoutParams as ConstraintLayout.LayoutParams
+        val k = ((SEVENTY_TWO - SIXTY) / SEVENTY_TWO).toFloat()
+        recyclerLayoutParams.bottomMargin = (k * SEVENTY_TWO).toInt()
+        binding.recyclerFileActionsView.setLayoutParams(recyclerLayoutParams)
     }
+
+    private fun getBottomSheetDialogDefaultHeight(): Int {
+        return getWindowHeight()
+    }
+
+    private fun getWindowHeight(): Int {
+        val displayMetrics = DisplayMetrics()
+        fragment.requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
+        return displayMetrics.heightPixels
+    }
+
 
     private fun customMaterialPreviewConfig() {
         with(binding) {

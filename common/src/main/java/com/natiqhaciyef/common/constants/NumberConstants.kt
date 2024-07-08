@@ -27,10 +27,12 @@ const val THIRTY = 30
 const val THIRTY_ONE = 31
 const val THIRTY_TWO = 32
 const val THIRTY_SIX = 36
+const val FORTY = 40
 const val FIFTY = 50
 const val SIXTY = 60
 const val SIXTY_FOUR = 64
 const val SEVENTY_TWO = 72
+const val NINETY = 90
 const val NINETY_NINE = 99
 
 const val HUNDRED = 100
