@@ -1,15 +1,16 @@
 package com.natiqhaciyef.prodocument.ui.view.main.files
 
-import android.app.Activity
 import android.app.Dialog
+import android.content.Context
+import android.net.Uri
 import android.os.Bundle
-import android.util.DisplayMetrics
+import android.print.PrintManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.FrameLayout
 import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,6 +33,7 @@ import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.E_SIGN_TYPE
 import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.PROTECT_ROUTE
 import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.PROTECT_TYPE
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
+import com.natiqhaciyef.uikit.adapter.FilePrintAdapter
 import com.natiqhaciyef.uikit.adapter.ParamsAdapter
 import com.natiqhaciyef.uikit.manager.FileManager.createAndShareFile
 import dagger.hilt.android.AndroidEntryPoint
@@ -179,7 +181,7 @@ class FileBottomSheetOptionFragment(
                 }
 
                 getString(R.string.print) -> {
-                    // INSERT: print screen
+                    startPrintJob(material)
                 }
 
                 getString(R.string.delete) -> {
@@ -191,6 +193,12 @@ class FileBottomSheetOptionFragment(
             }
 
         }
+    }
+
+    private fun startPrintJob(mappedMaterialModel: MappedMaterialModel) {
+        val printManager = requireActivity().getSystemService(Context.PRINT_SERVICE) as PrintManager
+        val printAdapter = FilePrintAdapter(requireContext(), mappedMaterialModel)
+        printManager.print(getString(R.string.document), printAdapter, null)
     }
 
     private fun activityConfig(){

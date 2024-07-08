@@ -50,6 +50,7 @@
     <string name="proscan">ProScan</string>
     <string name="file">Files</string>
     <string name="default_type">Default</string>
+    <string name="document">Document</string>
 
 
     <!-- Result -->

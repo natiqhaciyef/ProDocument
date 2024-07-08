@@ -52,6 +52,7 @@ const val MAPPED_NULL_DATA = "Mapped null data"
 const val ERROR = "Error"
 
 const val PHOTO_CAPTURED_FAILED = "Photo capture failed"
+const val PAGE_COUNT_CALCULATION_FAILED = "Page count calculation failed."
 
 
 // warning
