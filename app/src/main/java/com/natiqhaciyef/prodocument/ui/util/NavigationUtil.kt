@@ -27,11 +27,13 @@ object NavigationUtil {
     const val ONBOARDING_MAIN_DEEPLINK = "prodoc://onboarding/main"
     const val HOME_MAIN_DEEPLINK = "prodoc://home/main"
 
+    const val WATERMARK_TYPE = "WatermarkType"
     const val PROTECT_TYPE = "ProtectPdfType"
     const val SPLIT_TYPE = "SplitPdfType"
     const val COMPRESS_TYPE = "CompressPdfType"
     const val E_SIGN_TYPE = "E-SignType"
-
+    const val CAPTURE_IMAGE_TYPE = "CaptureImageType"
+    const val SCAN_QR_TYPE = "ScanQrType"
 
     // Routes
     const val HOME_ROUTE = "Home"

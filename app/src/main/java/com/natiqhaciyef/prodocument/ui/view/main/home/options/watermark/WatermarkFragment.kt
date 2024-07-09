@@ -16,6 +16,7 @@ import com.natiqhaciyef.prodocument.ui.util.BUNDLE_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TITLE
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TYPE
 import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.HOME_ROUTE
+import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.WATERMARK_TYPE
 import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.navigateByRouteTitle
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.contract.WatermarkContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.viewmodel.WatermarkViewModel
@@ -119,9 +120,5 @@ class WatermarkFragment(
 
     private fun goBackIconClickAction() {
         navigateByRouteTitle(this@WatermarkFragment, HOME_ROUTE)
-    }
-
-    companion object {
-        const val WATERMARK_TYPE = "Watermark"
     }
 }

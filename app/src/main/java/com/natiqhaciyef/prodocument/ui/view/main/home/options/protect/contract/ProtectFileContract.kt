@@ -21,6 +21,6 @@ object ProtectFileContract {
 
     data class ProtectFileState(
         override var isLoading: Boolean = false,
-        val material: MappedMaterialModel? = null
+        var material: MappedMaterialModel? = null
     ) : UiState
 }

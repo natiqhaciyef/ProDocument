@@ -9,9 +9,11 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.natiqhaciyef.common.constants.EMPTY_STRING
+import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.model.mapped.MappedSubscriptionModel
 import com.natiqhaciyef.common.model.payment.MappedPaymentModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
+import com.natiqhaciyef.core.base.ui.BaseRecyclerHolderStatefulFragment
 import com.natiqhaciyef.prodocument.databinding.FragmentPaymentCategoriesBinding
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_CHEQUE_PAYMENT
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_PAYMENT
@@ -30,8 +32,10 @@ import kotlin.reflect.KClass
 class PaymentCategoriesFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentPaymentCategoriesBinding = FragmentPaymentCategoriesBinding::inflate,
     override val viewModelClass: KClass<PaymentViewModel> = PaymentViewModel::class
-) : BaseFragment<FragmentPaymentCategoriesBinding, PaymentViewModel, PaymentContract.PaymentState, PaymentContract.PaymentEvent, PaymentContract.PaymentEffect>() {
-    private var adapter: PaymentMethodsAdapter? = null
+) : BaseRecyclerHolderStatefulFragment<
+        FragmentPaymentCategoriesBinding, PaymentViewModel, MappedPaymentModel, PaymentMethodsAdapter,
+        PaymentContract.PaymentState, PaymentContract.PaymentEvent, PaymentContract.PaymentEffect>() {
+    override var adapter: PaymentMethodsAdapter? = null
     private var resourceBundle = bundleOf()
     private var paymentModel: MappedPaymentModel? = null
     private var pickedSubscriptionModel: MappedSubscriptionModel? = null
@@ -39,7 +43,9 @@ class PaymentCategoriesFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.postEvent(PaymentContract.PaymentEvent.GetAllStoredPaymentMethods)
         activityConfig()
+
         val arg: PaymentCategoriesFragmentArgs by navArgs()
         resourceBundle = arg.datasetBundle
         pickedSubscriptionModel = resourceBundle.getParcelable(BUNDLE_SUBSCRIPTION_PLAN)
@@ -48,21 +54,31 @@ class PaymentCategoriesFragment(
     }
 
     override fun onStateChange(state: PaymentContract.PaymentState) {
+        println(state)
         when {
             state.isLoading -> {
                 changeVisibilityOfProgressBar(true)
+                errorListConfig()
+            }
+
+            state.paymentMethodsList.isNullOrEmpty() -> {
+                errorListConfig(true)
+                changeVisibilityOfProgressBar()
             }
 
             else -> {
                 changeVisibilityOfProgressBar()
+                errorListConfig()
 
                 if (state.paymentMethodsList != null)
                     recyclerViewConfig(state.paymentMethodsList!!)
 
-                if (state.cheque != null){
+                if (state.cheque != null) {
                     resourceBundle.putParcelable(BUNDLE_CHEQUE_PAYMENT, state.cheque!!)
                     resourceBundle.putParcelable(BUNDLE_PAYMENT, paymentModel)
-                    val action = PaymentCategoriesFragmentDirections.actionPaymentCategoriesFragmentToPaymentDetailsFragment(resourceBundle)
+                    val action =
+                        PaymentCategoriesFragmentDirections
+                            .actionPaymentCategoriesFragmentToPaymentDetailsFragment(resourceBundle)
                     navigate(action)
                 }
             }
@@ -89,6 +105,11 @@ class PaymentCategoriesFragment(
         }
     }
 
+    private fun errorListConfig(isVisible: Boolean = false) {
+        binding.errorLayout.visibility =
+            if (isVisible) View.VISIBLE else View.GONE
+    }
+
     private fun activityConfig() {
         (activity as MainActivity).also {
             with(it.binding) {
@@ -108,21 +129,20 @@ class PaymentCategoriesFragment(
                 }
             }
         }
-
-        viewModel.postEvent(PaymentContract.PaymentEvent.GetAllStoredPaymentMethods)
     }
 
-    private fun onToolbarBackPressAction(bnw: BottomNavigationView){
+    private fun onToolbarBackPressAction(bnw: BottomNavigationView) {
         bnw.visibility = View.VISIBLE
         NavigationUtil.navigateByRouteTitle(this, HOME_ROUTE)
     }
 
     private fun onScanIconClickAction() {
-        val action = PaymentCategoriesFragmentDirections.actionPaymentCategoriesFragmentToScanFragment(resourceBundle)
+        val action = PaymentCategoriesFragmentDirections
+                .actionPaymentCategoriesFragmentToScanFragment(resourceBundle)
         navigate(action)
     }
 
-    private fun recyclerViewConfig(list: List<MappedPaymentModel>) {
+    override fun recyclerViewConfig(list: List<MappedPaymentModel>) {
         adapter = PaymentMethodsAdapter(list = list.toMutableList())
         adapter?.onClickAction = {
             // navigate to details screen with loading screen
@@ -141,8 +161,9 @@ class PaymentCategoriesFragment(
 
     }
 
-    private fun addNewPaymentMethodButtonClick(){
-        val action = PaymentCategoriesFragmentDirections.actionPaymentCategoriesFragmentToNewPaymentFragment()
+    private fun addNewPaymentMethodButtonClick() {
+        val action = PaymentCategoriesFragmentDirections
+            .actionPaymentCategoriesFragmentToNewPaymentFragment()
         navigate(action)
     }
 }

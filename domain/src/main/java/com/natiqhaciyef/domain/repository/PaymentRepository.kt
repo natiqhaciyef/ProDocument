@@ -2,14 +2,14 @@ package com.natiqhaciyef.domain.repository
 
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.core.base.repository.BaseRepository
-import com.natiqhaciyef.data.network.NetworkResult
-import com.natiqhaciyef.data.network.request.PaymentModel
-import com.natiqhaciyef.data.network.request.PaymentRequest
-import com.natiqhaciyef.data.network.request.QrCodeRequest
-import com.natiqhaciyef.data.network.response.ChequePayloadModel
-import com.natiqhaciyef.data.network.response.PaymentChequeResponse
-import com.natiqhaciyef.data.network.response.PaymentPickModel
-import com.natiqhaciyef.data.network.response.QrPaymentResponse
+import com.natiqhaciyef.core.base.network.NetworkResult
+import com.natiqhaciyef.domain.network.request.PaymentModel
+import com.natiqhaciyef.domain.network.request.PaymentRequest
+import com.natiqhaciyef.domain.network.request.QrCodeRequest
+import com.natiqhaciyef.domain.network.response.ChequePayloadModel
+import com.natiqhaciyef.domain.network.response.PaymentChequeResponse
+import com.natiqhaciyef.domain.network.response.PaymentPickModel
+import com.natiqhaciyef.domain.network.response.QrPaymentResponse
 
 interface PaymentRepository: BaseRepository {
 

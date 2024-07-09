@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.base.ui.BaseViewModel
-import com.natiqhaciyef.domain.usecase.material.protect.ProtectMaterialUseCase
+import com.natiqhaciyef.domain.usecase.material.ProtectMaterialUseCase
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.protect.contract.ProtectFileContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -21,7 +21,6 @@ class ProtectFileViewModel @Inject constructor(
             is ProtectFileContract.ProtectFileEvent.ProtectFileWithKeyEvent -> {
                 protectMaterial(material = event.material, key = event.key)
             }
-            else -> {}
         }
     }
 
@@ -32,17 +31,11 @@ class ProtectFileViewModel @Inject constructor(
                     when (result.status) {
                         Status.SUCCESS -> {
                             if (result.data != null)
-                                setBaseState(
-                                    getCurrentBaseState().copy(
-                                        isLoading = false,
-                                        material = result.data
-                                    )
-                                )
+                                setBaseState(getCurrentBaseState().copy(isLoading = false, material = result.data))
                         }
 
                         Status.ERROR -> {
                             setBaseState(getCurrentBaseState().copy(isLoading = false))
-                            // effect
                         }
 
                         Status.LOADING -> {

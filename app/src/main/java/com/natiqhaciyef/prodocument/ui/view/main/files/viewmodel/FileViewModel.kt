@@ -13,15 +13,20 @@ import com.natiqhaciyef.prodocument.ui.view.main.files.FilesFragment
 import com.natiqhaciyef.prodocument.ui.view.main.files.contract.FileContract
 import com.natiqhaciyef.common.model.FieldType
 import com.natiqhaciyef.common.model.ParamsUIModel
+import com.natiqhaciyef.domain.usecase.material.RemoveMaterialByIdUseCase
+import com.natiqhaciyef.prodocument.ui.util.getOptions
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class FileViewModel @Inject constructor(
     private val getAllMaterialsRemoteUseCase: GetAllMaterialsRemoteUseCase,
-    private val getMaterialByIdRemoteUseCase: GetMaterialByIdRemoteUseCase
+    private val getMaterialByIdRemoteUseCase: GetMaterialByIdRemoteUseCase,
+    private val removeMaterialByIdUseCase: RemoveMaterialByIdUseCase
 ) : BaseViewModel<FileContract.FileState, FileContract.FileEvent, FileContract.FileEffect>() {
 
     override fun onEventUpdate(event: FileContract.FileEvent) {
@@ -42,6 +47,10 @@ class FileViewModel @Inject constructor(
             is FileContract.FileEvent.GetAllFileParams -> {
                 generateParams(event.context)
             }
+
+            is FileContract.FileEvent.RemoveMaterial -> {
+                removeMaterial(event.materialId)
+            }
         }
     }
 
@@ -51,7 +60,7 @@ class FileViewModel @Inject constructor(
                 when (result.status) {
                     Status.SUCCESS -> {
                         if (result.data != null) {
-                            setBaseState(getCurrentBaseState().copy(list = result.data!!))
+                            setBaseState(getCurrentBaseState().copy(list = result.data!!, isLoading = false))
                         }
                     }
 
@@ -126,25 +135,28 @@ class FileViewModel @Inject constructor(
         }
     }
 
-    private fun generateParams(ctx: Context){
-        val paramsList = mutableListOf(
-            ParamsUIModel(ctx.getString(R.string.save_to_device), FieldType.NAVIGATION,true, R.drawable.dowload_bs_icon),
-            ParamsUIModel(ctx.getString(R.string.export_to), FieldType.NAVIGATION,true, R.drawable.export_bs_to),
-            ParamsUIModel(EMPTY_STRING, FieldType.LINE),
-            ParamsUIModel(ctx.getString(R.string.add_watermark), FieldType.SPACE,true, R.drawable.watermark_bs_icon),
-            ParamsUIModel(ctx.getString(R.string.add_digital_signature), FieldType.SPACE,true, R.drawable.esign_bs_icon),
-            ParamsUIModel(ctx.getString(R.string.split_pdf), FieldType.SPACE,true, R.drawable.split_bs_icon),
-            ParamsUIModel(ctx.getString(R.string.merge_pdf), FieldType.SPACE,true, R.drawable.merge_bs_icon),
-            ParamsUIModel(ctx.getString(R.string.protect_pdf), FieldType.SPACE,true, R.drawable.password_bs_icon),
-            ParamsUIModel(ctx.getString(R.string.compress_pdf), FieldType.SPACE,true, R.drawable.compress_bs_icon),
-            ParamsUIModel(EMPTY_STRING, FieldType.LINE),
-            ParamsUIModel(ctx.getString(R.string.rename), FieldType.SPACE,true, R.drawable.edit_bs_icon),
-            ParamsUIModel(ctx.getString(R.string.move_to_folder), FieldType.SPACE,true, R.drawable.folder_bs_icon),
-            ParamsUIModel(ctx.getString(R.string.print), FieldType.SPACE,true, R.drawable.print_bs_icon),
-            ParamsUIModel(ctx.getString(R.string.delete), FieldType.SPACE,true, R.drawable.delete_bs_icon),
-        )
+    private fun removeMaterial(materialId: String){
+        removeMaterialByIdUseCase.operate(materialId).onEach { result ->
+            when(result.status){
+                Status.SUCCESS -> {
+                    if (result.data != null)
+                        setBaseState(getCurrentBaseState().copy(result = result.data, isLoading = false))
+                }
 
-        setBaseState(getCurrentBaseState().copy(params = paramsList))
+                Status.ERROR -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = false))
+                }
+
+                Status.LOADING -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = true))
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+
+    private fun generateParams(ctx: Context){
+        setBaseState(getCurrentBaseState().copy(params = getOptions(ctx)))
     }
 
     override fun getInitialState(): FileContract.FileState = FileContract.FileState()

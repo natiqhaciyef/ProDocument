@@ -2,13 +2,13 @@ package com.natiqhaciyef.data.network.service
 
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.data.network.NetworkConfig
-import com.natiqhaciyef.data.network.request.PaymentModel
-import com.natiqhaciyef.data.network.request.PaymentRequest
-import com.natiqhaciyef.data.network.request.QrCodeRequest
-import com.natiqhaciyef.data.network.response.ChequePayloadModel
-import com.natiqhaciyef.data.network.response.PaymentChequeResponse
-import com.natiqhaciyef.data.network.response.PaymentPickModel
-import com.natiqhaciyef.data.network.response.QrPaymentResponse
+import com.natiqhaciyef.domain.network.request.PaymentModel
+import com.natiqhaciyef.domain.network.request.PaymentRequest
+import com.natiqhaciyef.domain.network.request.QrCodeRequest
+import com.natiqhaciyef.domain.network.response.ChequePayloadModel
+import com.natiqhaciyef.domain.network.response.PaymentChequeResponse
+import com.natiqhaciyef.domain.network.response.PaymentPickModel
+import com.natiqhaciyef.domain.network.response.QrPaymentResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Field

@@ -5,7 +5,7 @@ import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
 import com.natiqhaciyef.common.model.payment.PaymentDetails
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
-import com.natiqhaciyef.data.network.request.PaymentModel
+import com.natiqhaciyef.domain.network.request.PaymentModel
 
 class InsertNewPaymentMethodMockGenerator(
     override var takenRequest: PaymentModel

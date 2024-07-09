@@ -1,5 +1,6 @@
 package com.natiqhaciyef.prodocument.ui.view.main.home.contract
 
+import com.natiqhaciyef.common.model.CRUDModel
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.base.ui.UiEffect
 import com.natiqhaciyef.core.base.ui.UiEvent
@@ -10,7 +11,9 @@ object HomeContract {
     sealed class HomeEvent: UiEvent {
         data object GetAllMaterials : HomeEvent()
 
-        class GetMaterialById(val id: String) : HomeEvent()
+        data class GetMaterialById(val id: String) : HomeEvent()
+
+        data class RemoveMaterial(val materialId: String): HomeEvent()
     }
 
     sealed class HomeEffect: UiEffect {
@@ -28,6 +31,7 @@ object HomeContract {
     data class HomeUiState(
         var list: List<MappedMaterialModel>? = null,
         var material: MappedMaterialModel? = null,
+        var result: CRUDModel? = null,
         override var isLoading: Boolean = false,
     ): UiState
 }

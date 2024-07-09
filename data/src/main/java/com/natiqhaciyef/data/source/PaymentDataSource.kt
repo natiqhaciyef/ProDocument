@@ -10,19 +10,20 @@ import com.natiqhaciyef.data.mock.payment.GetPaymentHistoryDetailsMockGenerator
 import com.natiqhaciyef.data.mock.payment.GetPaymentHistoryMockGenerator
 import com.natiqhaciyef.data.mock.payment.ScanQrCodePaymentMockGenerator
 import com.natiqhaciyef.data.mock.payment.StartPaymentMockGenerator
-import com.natiqhaciyef.data.network.LoadType
-import com.natiqhaciyef.data.network.handleNetworkResponse
+import com.natiqhaciyef.core.base.network.LoadType
+import com.natiqhaciyef.core.base.network.handleNetworkResponse
 import com.natiqhaciyef.data.network.manager.TokenManager
-import com.natiqhaciyef.data.network.request.PaymentModel
-import com.natiqhaciyef.data.network.request.PaymentRequest
-import com.natiqhaciyef.data.network.request.QrCodeRequest
-import com.natiqhaciyef.data.network.response.PaymentChequeResponse
-import com.natiqhaciyef.data.network.response.PaymentPickModel
+import com.natiqhaciyef.domain.network.request.PaymentModel
+import com.natiqhaciyef.domain.network.request.PaymentRequest
+import com.natiqhaciyef.domain.network.request.QrCodeRequest
+import com.natiqhaciyef.domain.network.response.PaymentChequeResponse
+import com.natiqhaciyef.domain.network.response.PaymentPickModel
 import com.natiqhaciyef.data.network.service.PaymentService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class PaymentDataSource(
+class PaymentDataSource @Inject constructor(
     private val manager: TokenManager,
     private val service: PaymentService
 ) {

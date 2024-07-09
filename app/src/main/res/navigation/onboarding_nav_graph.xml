@@ -19,8 +19,20 @@
         <action
             android:id="@+id/action_proScanOnboardingFragment_to_walkthrough_nav_graph"
             app:destination="@id/walkthrough_nav_graph" />
+        <action
+            android:id="@+id/action_proScanOnboardingFragment_to_registrationRedirectionFragment"
+            app:destination="@id/registrationRedirectionFragment" />
     </fragment>
     <include app:graph="@navigation/registration_nav_graph" />
     <include app:graph="@navigation/home_nav_graph" />
     <include app:graph="@navigation/walkthrough_nav_graph" />
+    <fragment
+        android:id="@+id/registrationRedirectionFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.onboarding.walkthrough.RegistrationRedirectionFragment"
+        android:label="fragment_registration_redirection"
+        tools:layout="@layout/fragment_registration_redirection" >
+        <action
+            android:id="@+id/action_registrationRedirectionFragment_to_home_nav_graph"
+            app:destination="@id/home_nav_graph" />
+    </fragment>
 </navigation>

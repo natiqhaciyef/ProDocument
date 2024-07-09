@@ -14,11 +14,12 @@ import com.natiqhaciyef.core.base.ui.BaseViewModel
 import com.natiqhaciyef.domain.usecase.PAYMENT_MODEL
 import com.natiqhaciyef.domain.usecase.PICKED_SUBSCRIPTION_PLAN
 import com.natiqhaciyef.domain.usecase.QR_CODE
-import com.natiqhaciyef.domain.usecase.payment.remote.GetAllSavedPaymentMethodsUseCase
-import com.natiqhaciyef.domain.usecase.payment.remote.GetChequePdfUseCase
-import com.natiqhaciyef.domain.usecase.payment.remote.GetPaymentDataUseCase
-import com.natiqhaciyef.domain.usecase.payment.remote.ScanQrCodePaymentUseCase
-import com.natiqhaciyef.domain.usecase.payment.remote.StartPaymentUseCase
+import com.natiqhaciyef.domain.usecase.payment.GetAllSavedPaymentMethodsUseCase
+import com.natiqhaciyef.domain.usecase.payment.GetChequePdfUseCase
+import com.natiqhaciyef.domain.usecase.payment.GetPaymentDataUseCase
+import com.natiqhaciyef.domain.usecase.payment.InsertNewPaymentMethodUseCase
+import com.natiqhaciyef.domain.usecase.payment.ScanQrCodePaymentUseCase
+import com.natiqhaciyef.domain.usecase.payment.StartPaymentUseCase
 import com.natiqhaciyef.prodocument.ui.util.CameraUtil
 import com.natiqhaciyef.prodocument.ui.view.main.payment.contract.PaymentContract
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,7 +32,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PaymentViewModel @Inject constructor(
     private val getAllSavedPaymentMethodsUseCase: GetAllSavedPaymentMethodsUseCase,
-    private val insertNewPaymentMethodRemoteUseCase: com.natiqhaciyef.domain.usecase.payment.remote.InsertNewPaymentMethodUseCase,
+    private val insertNewPaymentMethodRemoteUseCase: InsertNewPaymentMethodUseCase,
     private val startPaymentUseCase: StartPaymentUseCase,
     private val getPaymentDataUseCase: GetPaymentDataUseCase,
     private val getChequePdfUseCase: GetChequePdfUseCase,

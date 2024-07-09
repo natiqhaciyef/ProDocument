@@ -9,5 +9,14 @@
         android:id="@+id/mergePdfsFragment"
         android:name="com.natiqhaciyef.prodocument.ui.view.main.home.options.merge.MergePdfsFragment"
         android:label="fragment_merge_pdfs"
-        tools:layout="@layout/fragment_merge_pdfs" />
+        tools:layout="@layout/fragment_merge_pdfs" >
+        <action
+            android:id="@+id/action_mergePdfsFragment_to_preview_material_nav_graph"
+            app:destination="@id/preview_material_nav_graph" >
+            <argument
+                android:name="resourceBundle"
+                app:argType="android.os.Bundle" />
+        </action>
+    </fragment>
+    <include app:graph="@navigation/preview_material_nav_graph" />
 </navigation>

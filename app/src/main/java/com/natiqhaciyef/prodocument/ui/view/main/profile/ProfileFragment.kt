@@ -14,6 +14,7 @@ import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.common.model.Settings
+import com.natiqhaciyef.core.base.ui.BaseRecyclerHolderStatefulFragment
 import com.natiqhaciyef.uikit.manager.DarkModeManager
 import com.natiqhaciyef.uikit.manager.LanguageManager
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
@@ -31,8 +32,10 @@ import kotlin.reflect.KClass
 class ProfileFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentProfileBinding = FragmentProfileBinding::inflate,
     override val viewModelClass: KClass<ProfileViewModel> = ProfileViewModel::class
-) : BaseFragment<FragmentProfileBinding, ProfileViewModel, ProfileContract.ProfileState, ProfileContract.ProfileEvent, ProfileContract.ProfileEffect>() {
-    private var adapter: AccountParametersAdapter? = null
+) : BaseRecyclerHolderStatefulFragment<
+        FragmentProfileBinding, ProfileViewModel, AccountSettingModel, AccountParametersAdapter,
+        ProfileContract.ProfileState, ProfileContract.ProfileEvent, ProfileContract.ProfileEffect>() {
+    override var adapter: AccountParametersAdapter? = null
     private var darkModeManager: DarkModeManager? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,7 +56,7 @@ class ProfileFragment(
                 changeVisibilityOfProgressBar()
 
                 if (state.settingList != null)
-                    recyclerviewConfig(state.settingList!!)
+                    recyclerViewConfig(state.settingList!!)
 
                 if (state.pickedPlan != null && state.user != null)
                     initAccountInfo(state.user!!, state.pickedPlan!!)
@@ -104,9 +107,9 @@ class ProfileFragment(
         }
     }
 
-    private fun recyclerviewConfig(list: MutableList<AccountSettingModel>) {
+    override fun recyclerViewConfig(list: List<AccountSettingModel>) {
         if (darkModeManager != null) {
-            adapter = AccountParametersAdapter(this, list, darkModeManager!!.getCurrentMode())
+            adapter = AccountParametersAdapter(this, list.toMutableList(), darkModeManager!!.getCurrentMode())
             adapter?.onClickAction = { title -> adapterClickNavigation(title) }
             adapter?.switchIconClickAction = {
                 darkModeManager?.updateCurrentMode()
@@ -183,17 +186,6 @@ class ProfileFragment(
     }
 
     companion object{
-        fun settingEnumToNavigation(settings: Settings) = when(settings){
-            Settings.PERSONAL_INFO -> { com.natiqhaciyef.prodocument.R.id.personalInfoFragment }
-            Settings.PREFERENCE -> { com.natiqhaciyef.prodocument.R.id.preferencesFragment }
-            Settings.SECURITY -> { com.natiqhaciyef.prodocument.R.id.securityFragment }
-            Settings.PAYMENT_HISTORY -> { com.natiqhaciyef.prodocument.R.id.paymentHistoryFragment }
-            Settings.CATEGORY_GRAPH -> { com.natiqhaciyef.prodocument.R.id.categoryGraphFragment }
-            Settings.HELP_CENTER -> { com.natiqhaciyef.prodocument.R.id.helpCenterFragment }
-            Settings.ABOUT_PROSCAN -> { com.natiqhaciyef.prodocument.R.id.aboutProscanFragment }
-            else -> { null }
-        }
-
         fun stringToNavigation(str: String) = when(str){
             Settings.PERSONAL_INFO.name -> { com.natiqhaciyef.prodocument.R.id.personalInfoFragment }
             Settings.PREFERENCE.name -> { com.natiqhaciyef.prodocument.R.id.preferencesFragment }

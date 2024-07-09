@@ -4,10 +4,13 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Paint
 import android.graphics.RectF
+import android.graphics.pdf.PdfRenderer
 import android.net.Uri
 import android.provider.DocumentsContract
+import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.util.Log
 import android.webkit.MimeTypeMap
@@ -35,6 +38,7 @@ import com.natiqhaciyef.core.model.FileTypes
 import com.natiqhaciyef.core.model.FileTypes.ALL_FILES
 import com.natiqhaciyef.domain.worker.config.getIntentFileType
 import com.shockwave.pdfium.PdfDocument
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.util.UUID
 
@@ -59,6 +63,7 @@ object FileManager {
     private var pagePositionOffset = ZERO.toFloat()
     private const val PDF_EXTENSION = ".pdf"
     private const val PNG_EXTENSION = ".png"
+    private const val JPG_EXTENSION = ".jpg"
     private const val DOCX_EXTENSION = ".docx"
     private const val PROVIDER = "provider"
     private const val SHARE_DATE_USING = "Share data using"
@@ -84,14 +89,35 @@ object FileManager {
                 val displayName = it.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
                 val fileType = MimeTypeMap.getSingleton()
                     .getExtensionFromMimeType(activity.contentResolver.getType(uri))
-                val file = createFileObject(
-                    uri = uri,
-                    title = displayName,
-                    type = fileType,
-                    image = uri.toString().removePrefix(CONTENT_TITLE)
-                )
+                activity.contentResolver
+                    .openFileDescriptor(uri, "r")
+                    ?.use { parcelFileDescriptor ->
+                        val pdfRenderer = PdfRenderer(parcelFileDescriptor).openPage(0)
+                        val bitmap = Bitmap.createBitmap(
+                            pdfRenderer.width,
+                            pdfRenderer.height,
+                            Bitmap.Config.ARGB_8888
+                        )
+                        pdfRenderer.render(
+                            bitmap,
+                            null,
+                            null,
+                            PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY
+                        )
+                        pdfRenderer.close()
 
-                action(file)
+                        val uriOfPreview =
+                            getImageUri(inContext = activity.applicationContext, inImage = bitmap)
+
+                        val file = createFileObject(
+                            uri = uri,
+                            title = displayName,
+                            type = fileType,
+                            image = uriOfPreview.toString()
+                        )
+
+                        action(file)
+                    }
             }
         }
     }
@@ -146,8 +172,8 @@ object FileManager {
         val meta: PdfDocument.Meta = pdfView.documentMeta
         Log.e(TAG, TITLE_EQUAL + meta.title)
         Log.e(TAG, AUTHOR_EQUAL + meta.author)
-        Log.e(TAG,  SUBJECT_EQUAL + meta.subject)
-        Log.e(TAG,  KEYWORD_EQUAL + meta.keywords)
+        Log.e(TAG, SUBJECT_EQUAL + meta.subject)
+        Log.e(TAG, KEYWORD_EQUAL + meta.keywords)
         Log.e(TAG, CREATOR_EQUAL + meta.creator)
         Log.e(TAG, PRODUCER_EQUAL + meta.producer)
         Log.e(TAG, CREATION_DATE_EQUAL + meta.creationDate)
@@ -211,11 +237,21 @@ object FileManager {
         }
 
         FileTypes.JPEG -> {
-            shareFile(applicationId, listOf(material.image.toUri(), material.url), FileTypes.JPEG, isShare)
+            shareFile(
+                applicationId,
+                listOf(material.image.toUri(), material.url),
+                FileTypes.JPEG,
+                isShare
+            )
         }
 
         FileTypes.PNG -> {
-            shareFile(applicationId, listOf(material.image.toUri(), material.url), FileTypes.PNG, isShare)
+            shareFile(
+                applicationId,
+                listOf(material.image.toUri(), material.url),
+                FileTypes.PNG,
+                isShare
+            )
         }
 
         else -> {
@@ -232,7 +268,7 @@ object FileManager {
         val list = mutableListOf<Uri?>()
         val sharingIntent = Intent(Intent.ACTION_SEND)
 
-        when(fileType){
+        when (fileType) {
             FileTypes.URL -> {
                 if (urls.isNotEmpty()) {
                     val url = urls[ZERO].toString().replace(PDF_EXTENSION, EMPTY_STRING).toUri()
@@ -308,7 +344,15 @@ object FileManager {
             "$applicationId.$PROVIDER",
             File(uri.path.toString())
         )
-    }else {
+    } else {
         null
+    }
+
+    fun getImageUri(inContext: Context, inImage: Bitmap): Uri {
+        val bytes = ByteArrayOutputStream()
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        val path =
+            MediaStore.Images.Media.insertImage(inContext.contentResolver, inImage, "Title", null)
+        return Uri.parse(path)
     }
 }

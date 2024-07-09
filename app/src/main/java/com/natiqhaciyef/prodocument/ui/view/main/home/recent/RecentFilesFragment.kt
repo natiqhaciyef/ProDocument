@@ -10,6 +10,7 @@ import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.model.mapped.MappedTokenModel
+import com.natiqhaciyef.core.base.ui.BaseRecyclerHolderStatefulFragment
 import com.natiqhaciyef.core.store.AppStorePrefKeys.TOKEN_KEY
 import com.natiqhaciyef.prodocument.databinding.FragmentRecentFilesBinding
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
@@ -25,14 +26,16 @@ import kotlin.reflect.KClass
 class RecentFilesFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentRecentFilesBinding = FragmentRecentFilesBinding::inflate,
     override val viewModelClass: KClass<RecentFilesViewModel> = RecentFilesViewModel::class
-) : BaseFragment<FragmentRecentFilesBinding, RecentFilesViewModel, RecentFilesContract.RecentFilesState, RecentFilesContract.RecentFilesEvent, RecentFilesContract.RecentFilesEffect>() {
+) : BaseRecyclerHolderStatefulFragment<
+        FragmentRecentFilesBinding, RecentFilesViewModel, MappedMaterialModel, FileItemAdapter,
+        RecentFilesContract.RecentFilesState, RecentFilesContract.RecentFilesEvent, RecentFilesContract.RecentFilesEffect>() {
     private var list: List<MappedMaterialModel> = listOf()
-    private var fileAdapter: FileItemAdapter? = null
+    override var adapter: FileItemAdapter? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activityConfig()
-        getMaterialsEvent()
+        viewModel.postEvent(RecentFilesContract.RecentFilesEvent.GetAllMaterials)
     }
 
     override fun onStateChange(state: RecentFilesContract.RecentFilesState) {
@@ -41,7 +44,7 @@ class RecentFilesFragment(
             else -> {
                 if (state.list != null) {
                     list = state.list!!
-                    adapterConfig()
+                    recyclerViewConfig(list)
                 }
             }
         }
@@ -65,15 +68,8 @@ class RecentFilesFragment(
         }
     }
 
-    private fun getMaterialsEvent() {
-        lifecycleScope.launch {
-            val token = dataStore.readParcelableClassData(requireContext(), MappedTokenModel::class.java, TOKEN_KEY)
-            viewModel.postEvent(RecentFilesContract.RecentFilesEvent.GetAllMaterials)
-        }
-    }
-
-    private fun adapterConfig() {
-        fileAdapter =
+    override fun recyclerViewConfig(list: List<MappedMaterialModel>) {
+        adapter =
             FileItemAdapter(
                 dataList = list.toMutableList(),
                 type = requireContext().getString(R.string.default_type),
@@ -81,7 +77,7 @@ class RecentFilesFragment(
                 context = requireContext()
             )
 
-        binding.filesRecyclerView.adapter = fileAdapter
+        binding.filesRecyclerView.adapter = adapter
         binding.filesRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
     }

@@ -1,7 +1,7 @@
 package com.natiqhaciyef.data.mock.subscription
 
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
-import com.natiqhaciyef.data.network.response.SubscriptionResponse
+import com.natiqhaciyef.domain.network.response.SubscriptionResponse
 
 class GetPickedSubscriptionMockGenerator(
     override var takenRequest: String

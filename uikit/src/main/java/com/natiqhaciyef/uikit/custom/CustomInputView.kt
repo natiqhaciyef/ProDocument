@@ -84,7 +84,7 @@ class CustomInputView(
 
     private fun getCustomInputType(inpType: String) = when (inpType) {
         TEXT_TYPE -> InputType.TYPE_CLASS_TEXT
-        EMAIL_TYPE -> InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS + InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS
+        EMAIL_TYPE -> InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS
         NUMBER_TYPE -> InputType.TYPE_CLASS_NUMBER
         DECIMAL_TYPE -> InputType.TYPE_CLASS_NUMBER + InputType.TYPE_NUMBER_FLAG_DECIMAL + InputType.TYPE_NUMBER_FLAG_SIGNED
         NULL_TYPE -> InputType.TYPE_NULL

@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.FragmentSecurityBinding
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.profile.contract.ProfileContract
 import com.natiqhaciyef.common.model.ParamsUIModel
+import com.natiqhaciyef.core.base.ui.BaseRecyclerHolderStatefulFragment
 import com.natiqhaciyef.uikit.adapter.SecurityParamsAdapter
 import com.natiqhaciyef.prodocument.ui.view.main.profile.viewmodel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,8 +22,10 @@ import kotlin.reflect.KClass
 class SecurityFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentSecurityBinding = FragmentSecurityBinding::inflate,
     override val viewModelClass: KClass<ProfileViewModel> = ProfileViewModel::class
-) : BaseFragment<FragmentSecurityBinding, ProfileViewModel, ProfileContract.ProfileState, ProfileContract.ProfileEvent, ProfileContract.ProfileEffect>() {
-    private var paramAdapter: SecurityParamsAdapter? = null
+) : BaseRecyclerHolderStatefulFragment<
+        FragmentSecurityBinding, ProfileViewModel, ParamsUIModel, SecurityParamsAdapter,
+        ProfileContract.ProfileState, ProfileContract.ProfileEvent, ProfileContract.ProfileEffect>() {
+    override var adapter: SecurityParamsAdapter? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -33,11 +35,12 @@ class SecurityFragment(
 
     override fun onStateChange(state: ProfileContract.ProfileState) {
         when {
-            state.isLoading -> {}
+            state.isLoading -> changeVisibilityOfProgressBar(true)
 
             else -> {
+                changeVisibilityOfProgressBar()
                 if (state.paramsUIModelList != null) {
-                    recyclerConfig(state.paramsUIModelList!!)
+                    recyclerViewConfig(state.paramsUIModelList!!)
                 }
             }
         }
@@ -45,6 +48,22 @@ class SecurityFragment(
 
     override fun onEffectUpdate(effect: ProfileContract.ProfileEffect) {
 
+    }
+
+    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
+        if (isVisible) {
+            binding.apply {
+                uiLayout.visibility = View.GONE
+                progressBar.visibility = View.VISIBLE
+                progressBar.isIndeterminate = true
+            }
+        } else {
+            binding.apply {
+                uiLayout.visibility = View.VISIBLE
+                progressBar.visibility = View.GONE
+                progressBar.isIndeterminate = false
+            }
+        }
     }
 
     private fun activityConfig() {
@@ -71,11 +90,11 @@ class SecurityFragment(
         navigate(R.id.profileFragment)
     }
 
-    private fun recyclerConfig(list: MutableList<ParamsUIModel>) {
-        paramAdapter = SecurityParamsAdapter((requireActivity() as MainActivity), list)
+    override fun recyclerViewConfig(list: List<ParamsUIModel>) {
+        adapter = SecurityParamsAdapter((requireActivity() as MainActivity), list.toMutableList())
 
         with(binding) {
-            recyclerSecurityParamsView.adapter = paramAdapter
+            recyclerSecurityParamsView.adapter = adapter
             recyclerSecurityParamsView.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         }

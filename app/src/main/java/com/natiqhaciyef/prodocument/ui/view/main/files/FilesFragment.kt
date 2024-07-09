@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.OptIn
+import androidx.appcompat.app.AppCompatActivity
+import androidx.camera.core.ExperimentalGetImage
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.databinding.FragmentFilesBinding
-import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.core.model.CategoryItem
 import com.natiqhaciyef.uikit.manager.FileManager.createAndShareFile
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_MATERIAL
@@ -18,8 +20,14 @@ import com.natiqhaciyef.prodocument.ui.view.main.files.contract.FileContract
 import com.natiqhaciyef.prodocument.ui.view.main.files.viewmodel.FileViewModel
 import com.natiqhaciyef.prodocument.ui.view.main.home.CustomMaterialOptionsBottomSheetFragment
 import com.natiqhaciyef.common.model.ParamsUIModel
+import com.natiqhaciyef.core.base.ui.BaseRecyclerHolderStatefulFragment
 import com.natiqhaciyef.prodocument.BuildConfig
+import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TYPE
+import com.natiqhaciyef.prodocument.ui.view.main.home.contract.HomeContract
+import com.natiqhaciyef.prodocument.ui.view.main.modify.ModifyPdfFragment
+import com.natiqhaciyef.prodocument.ui.view.main.modify.ModifyPdfFragment.Companion.PREVIEW_IMAGE
 import com.natiqhaciyef.uikit.adapter.FileItemAdapter
+import com.natiqhaciyef.uikit.alert.AlertDialogManager.createDynamicResultAlertDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.KClass
 
@@ -27,9 +35,12 @@ import kotlin.reflect.KClass
 class FilesFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentFilesBinding = FragmentFilesBinding::inflate,
     override val viewModelClass: KClass<FileViewModel> = FileViewModel::class
-) : BaseFragment<FragmentFilesBinding, FileViewModel, FileContract.FileState, FileContract.FileEvent, FileContract.FileEffect>() {
+) : BaseRecyclerHolderStatefulFragment<
+        FragmentFilesBinding, FileViewModel, MappedMaterialModel, FileItemAdapter,
+        FileContract.FileState, FileContract.FileEvent, FileContract.FileEffect>() {
+    private var params = listOf<ParamsUIModel>()
     private var bundle = bundleOf()
-    private lateinit var fileAdapter: FileItemAdapter
+    override var adapter: FileItemAdapter? = null
     private var list: MutableList<MappedMaterialModel> = mutableListOf()
     private var sortingTypeClick: Boolean = false
     private var storedMaterial: MappedMaterialModel? = null
@@ -46,14 +57,19 @@ class FilesFragment(
         when {
             state.isLoading -> {
                 changeVisibilityOfProgressBar(true)
+                errorResultConfig()
+            }
+
+            state.material == null && state.list.isNullOrEmpty() && state.params.isNullOrEmpty() && state.result == null -> {
+                errorResultConfig(true)
             }
 
             else -> {
+                errorResultConfig()
                 changeVisibilityOfProgressBar()
 
                 if (state.list != null) {
-                    list = state.list!!.toMutableList()
-                    recyclerViewConfig(list)
+                    recyclerViewConfig(state.list!!)
                 }
 
                 if (state.material != null) {
@@ -61,8 +77,12 @@ class FilesFragment(
                 }
 
                 if (state.params != null) {
-                    optionClickAction(state.params!!)
+                    params = state.params!!
+                    optionClickAction(state)
                 }
+
+                if (state.result != null)
+                    getFilesEvent()
             }
         }
     }
@@ -96,10 +116,22 @@ class FilesFragment(
         }
     }
 
-    private fun getFilesEvent() {
-        getToken { token ->
-            viewModel.postEvent(FileContract.FileEvent.GetAllMaterials)
+    private fun errorResultConfig(isVisible: Boolean = false){
+        with(binding){
+            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
+
+            if (isVisible){
+                notFoundDescription.text = getString(R.string.files_not_inserted_yet_result)
+                notFoundTitle.text = getString(R.string.nothing_modified_yet_result)
+            }else{
+                notFoundDescription.text = getString(R.string.not_found_result_description)
+                notFoundTitle.text = getString(R.string.not_found_result_title)
+            }
         }
+    }
+
+    private fun getFilesEvent() {
+        viewModel.postEvent(FileContract.FileEvent.GetAllMaterials)
     }
 
     private fun fileFilter() {
@@ -116,13 +148,12 @@ class FilesFragment(
         }
     }
 
-    private fun recyclerViewConfig(list: MutableList<MappedMaterialModel>) {
+    override fun recyclerViewConfig(list: List<MappedMaterialModel>) {
         with(binding) {
             fileTotalAmountTitle.text =
                 getString(R.string.total_file_amount_title, "${list.size}")
-            fileAdapter =
-                FileItemAdapter(
-                    list,
+            adapter = FileItemAdapter(
+                    list.toMutableList(),
                     requireContext().getString(R.string.scan_code),
                     this@FilesFragment,
                     requireContext()
@@ -130,14 +161,14 @@ class FilesFragment(
 
             filesRecyclerView.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            filesRecyclerView.adapter = fileAdapter
-            fileAdapter.onClickAction = { fileClickEvent(it.id) }
-            fileAdapter.optionAction = {
+            filesRecyclerView.adapter = adapter
+            adapter?.onClickAction = { fileClickEvent(it.id) }
+            adapter?.optionAction = {
                 storedMaterial = it
                 optionClickEvent()
             }
 
-            fileAdapter.bottomSheetDialogOpen = {
+            adapter?.bottomSheetDialogOpen = {
                 showBottomSheetDialog(
                     it,
                     (requireActivity() as MainActivity).getShareOptionsList(context = requireContext())
@@ -165,11 +196,16 @@ class FilesFragment(
         viewModel.postEvent(FileContract.FileEvent.GetAllFileParams(requireContext()))
     }
 
-    private fun optionClickAction(params: List<ParamsUIModel>) {
+    private fun optionClickAction(state: FileContract.FileState) {
         // add bottom sheet here
-        storedMaterial?.let {
-            FileBottomSheetOptionFragment(it, params) {
-                // INSERT: remove action
+        storedMaterial?.let { material ->
+            FileBottomSheetOptionFragment(this , material, params,
+                onClickAction = {
+                    holdCurrentState(state)
+                    getFilesEvent()
+                }
+            ) {
+                removeFile(material)
             }.show(
                 if (!isAdded) return else this.childFragmentManager,
                 FileBottomSheetOptionFragment::class.simpleName
@@ -177,15 +213,26 @@ class FilesFragment(
         }
     }
 
-
-    private fun fileClickEvent(id: String) {
-        viewModel.postEvent(
-            FileContract.FileEvent.GetMaterialById(id = id)
-        )
+    private fun removeFile(material: MappedMaterialModel){
+        (requireActivity() as AppCompatActivity).createDynamicResultAlertDialog(
+            title = requireContext().getString(R.string.remove_title_result),
+            description = requireContext().getString(R.string.remove_description_result),
+            buttonText = requireContext().getString(R.string.remove_button_result),
+            resultIconId = R.drawable.delete_bs_icon
+        ) {
+            viewModel.postEvent(FileContract.FileEvent.RemoveMaterial(material.id))
+            it.dismiss()
+        }
     }
 
+    private fun fileClickEvent(id: String) {
+        viewModel.postEvent(FileContract.FileEvent.GetMaterialById(id = id))
+    }
+
+    @OptIn(ExperimentalGetImage::class)
     private fun fileClickAction(material: MappedMaterialModel) {
         bundle.putParcelable(BUNDLE_MATERIAL, material)
+        bundle.putString(BUNDLE_TYPE, PREVIEW_IMAGE)
         val action = FilesFragmentDirections.actionFilesFragmentToPreviewMaterialNavGraph(bundle)
         navigate(action)
     }

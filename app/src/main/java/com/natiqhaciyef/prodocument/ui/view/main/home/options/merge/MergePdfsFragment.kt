@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
@@ -13,8 +14,13 @@ import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.constants.EMPTY_STRING
 import com.natiqhaciyef.common.constants.LINE
 import com.natiqhaciyef.common.constants.SPACE
+import com.natiqhaciyef.common.constants.TWO
 import com.natiqhaciyef.prodocument.databinding.FragmentMergePdfsBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
+import com.natiqhaciyef.core.base.ui.BaseRecyclerHolderStatefulFragment
+import com.natiqhaciyef.prodocument.ui.util.BUNDLE_MATERIAL
+import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TITLE
+import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TYPE
 import com.natiqhaciyef.uikit.manager.FileManager
 import com.natiqhaciyef.prodocument.ui.util.NavigationUtil
 import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.navigateByRouteTitle
@@ -30,9 +36,12 @@ import kotlin.reflect.KClass
 class MergePdfsFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentMergePdfsBinding = FragmentMergePdfsBinding::inflate,
     override val viewModelClass: KClass<MergePdfViewModel> = MergePdfViewModel::class
-) : BaseFragment<FragmentMergePdfsBinding, MergePdfViewModel, MergePdfContract.MergePdfState, MergePdfContract.MergePdfEvent, MergePdfContract.MergePdfEffect>() {
+) : BaseRecyclerHolderStatefulFragment<
+        FragmentMergePdfsBinding, MergePdfViewModel, MappedMaterialModel, FileItemAdapter,
+        MergePdfContract.MergePdfState, MergePdfContract.MergePdfEvent, MergePdfContract.MergePdfEffect>() {
     private val filesList = mutableListOf<MappedMaterialModel>()
-    private var adapter: FileItemAdapter? = null
+    override var adapter: FileItemAdapter? = null
+    private var resourceBundle: Bundle = bundleOf()
 
     private val fileRequestLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -45,6 +54,7 @@ class MergePdfsFragment(
                         ) { file ->
                             configFileTitle(file.title)
                             filesList.add(file)
+                            recyclerViewConfig(filesList)
                             configOfChangeFileList()
                             continueButtonEnabled()
                         }
@@ -57,7 +67,6 @@ class MergePdfsFragment(
         activityConfigs()
         setFileListEmptyCheckConfig()
         setFilesCountConfigurations()
-        recyclerViewConfig()
 
         with(binding) {
             addMoreFilesButton.setOnClickListener { FileManager.getFile(fileRequestLauncher) }
@@ -66,6 +75,17 @@ class MergePdfsFragment(
                 navigateByRouteTitle(this@MergePdfsFragment, NavigationUtil.HOME_ROUTE)
             }
         }
+    }
+
+    override fun recyclerViewConfig(list: List<MappedMaterialModel>) {
+        adapter = FileItemAdapter(filesList, requireContext().getString(R.string.merge_pdf))
+
+        with(binding) {
+            materialsRecyclerView.adapter = adapter
+            materialsRecyclerView.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        }
+        adapter?.removeAction = { removeFileButtonClickAction(it.id) }
     }
 
     override fun onStateChange(state: MergePdfContract.MergePdfState) {
@@ -136,17 +156,6 @@ class MergePdfsFragment(
         }
     }
 
-    private fun recyclerViewConfig() {
-        adapter = FileItemAdapter(filesList, requireContext().getString(R.string.merge_pdf))
-
-        with(binding) {
-            materialsRecyclerView.adapter = adapter
-            materialsRecyclerView.layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        }
-        adapter?.removeAction = { removeFileButtonClickAction(it.id) }
-    }
-
     private fun setFilesCountConfigurations() {
         lifecycleScope.launch {
             binding.mergeDescriptionText.text =
@@ -173,7 +182,15 @@ class MergePdfsFragment(
     }
 
     private fun mergeButtonAction(mappedMaterialModel: MappedMaterialModel) {
-        // INSERT: action after backend sent result
+        val title = binding.usernameMergedTitle.text.toString()
+        resourceBundle.putParcelable(BUNDLE_MATERIAL, mappedMaterialModel)
+        resourceBundle.putString(BUNDLE_TITLE, title)
+        resourceBundle.putString(BUNDLE_TYPE, MERGE_PDF)
+
+        val action = MergePdfsFragmentDirections.actionMergePdfsFragmentToPreviewMaterialNavGraph(
+            resourceBundle
+        )
+        navigate(action)
     }
 
     private fun removeFileButtonClickAction(id: String) {
@@ -184,6 +201,10 @@ class MergePdfsFragment(
     }
 
     private fun continueButtonEnabled() {
-        binding.mergeButton.isEnabled = filesList.size >= 2
+        binding.mergeButton.isEnabled = filesList.size >= TWO
+    }
+
+    companion object {
+        const val MERGE_PDF = "MergePDF"
     }
 }

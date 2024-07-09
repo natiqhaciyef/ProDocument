@@ -3,7 +3,13 @@ package com.natiqhaciyef.prodocument.ui.view.registration.login.viewmodel
 import android.content.Context
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.model.Status
+import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.core.base.ui.BaseViewModel
+import com.natiqhaciyef.core.store.AppStorePref
+import com.natiqhaciyef.core.store.AppStorePrefKeys
+import com.natiqhaciyef.domain.network.response.TokenResponse
+import com.natiqhaciyef.domain.usecase.USER_EMAIL
+import com.natiqhaciyef.domain.usecase.USER_PASSWORD
 import com.natiqhaciyef.domain.usecase.user.SignInRemoteUseCase
 import com.natiqhaciyef.prodocument.ui.view.registration.login.contract.LoginContract
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,6 +25,7 @@ class LoginViewModel @Inject constructor(
     override fun onEventUpdate(event: LoginContract.LoginEvent) {
         when (event) {
             is LoginContract.LoginEvent.LoginClickEvent -> signIn(
+                event.dataStore,
                 event.ctx,
                 event.email,
                 event.password
@@ -37,14 +44,12 @@ class LoginViewModel @Inject constructor(
     private fun signInWithFacebook() {}
 
     private fun signIn(
+        dataStore: AppStorePref,
         ctx: Context,
         email: String,
         password: String
     ) {
-        val map = mapOf(
-            ctx.getString(com.natiqhaciyef.common.R.string.email_str) to email,
-            ctx.getString(com.natiqhaciyef.common.R.string.password_str) to password
-        )
+        val map = mapOf(USER_EMAIL to email, USER_PASSWORD to password)
         viewModelScope.launch {
             if (email != ctx.getString(com.natiqhaciyef.common.R.string.null_)
                 && email.isNotEmpty()
@@ -55,6 +60,11 @@ class LoginViewModel @Inject constructor(
                     when (result.status) {
                         Status.SUCCESS -> {
                             if (result.data != null) {
+                                storeUser(
+                                    dataStore = dataStore,
+                                    context = ctx,
+                                    token = result.data!!
+                                )
                                 setBaseState(
                                     getCurrentBaseState().copy(
                                         isLoading = false,
@@ -83,6 +93,16 @@ class LoginViewModel @Inject constructor(
                 postEffect(LoginContract.LoginEffect.EmptyFieldEffect)
 //                Exception(ErrorMessages.EMPTY_FIELD)
             }
+        }
+    }
+
+    private fun storeUser(dataStore: AppStorePref, context: Context, token: MappedTokenModel) {
+        viewModelScope.launch {
+            dataStore.saveParcelableClassData(
+                context = context,
+                data = token,
+                key = AppStorePrefKeys.TOKEN_KEY
+            )
         }
     }
 

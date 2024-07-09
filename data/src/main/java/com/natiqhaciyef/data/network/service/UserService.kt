@@ -2,9 +2,9 @@ package com.natiqhaciyef.data.network.service
 
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.data.network.NetworkConfig
-import com.natiqhaciyef.data.network.response.GraphDetailsListResponse
-import com.natiqhaciyef.data.network.response.TokenResponse
-import com.natiqhaciyef.data.network.response.UserResponse
+import com.natiqhaciyef.domain.network.response.GraphDetailsListResponse
+import com.natiqhaciyef.domain.network.response.TokenResponse
+import com.natiqhaciyef.domain.network.response.UserResponse
 import retrofit2.Response
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded

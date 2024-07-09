@@ -12,6 +12,7 @@ import com.natiqhaciyef.common.helpers.loadImage
 import com.natiqhaciyef.common.model.ProScanInfoModel
 import com.natiqhaciyef.common.model.ProscanSectionModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
+import com.natiqhaciyef.core.base.ui.BaseRecyclerHolderStatefulFragment
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.FragmentAboutProscanBinding
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
@@ -25,8 +26,9 @@ import kotlin.reflect.KClass
 class AboutProscanFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentAboutProscanBinding = FragmentAboutProscanBinding::inflate,
     override val viewModelClass: KClass<ProfileViewModel> = ProfileViewModel::class
-) : BaseFragment<FragmentAboutProscanBinding, ProfileViewModel, ProfileContract.ProfileState, ProfileContract.ProfileEvent, ProfileContract.ProfileEffect>() {
-    private var adapter: SectionsAdapter? = null
+) : BaseRecyclerHolderStatefulFragment<FragmentAboutProscanBinding, ProfileViewModel, ProscanSectionModel,
+        SectionsAdapter, ProfileContract.ProfileState, ProfileContract.ProfileEvent, ProfileContract.ProfileEffect>() {
+    override var adapter: SectionsAdapter? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,7 +49,7 @@ class AboutProscanFragment(
                 }
 
                 if (state.proscanSections != null) {
-                    sectionsRecyclerConfig(state.proscanSections!!)
+                    recyclerViewConfig(state.proscanSections!!)
                 }
             }
         }
@@ -94,7 +96,7 @@ class AboutProscanFragment(
         }
     }
 
-    private fun sectionsRecyclerConfig(list: List<ProscanSectionModel>) {
+    override fun recyclerViewConfig(list: List<ProscanSectionModel>) {
         adapter = SectionsAdapter(list.toMutableList())
         with(binding) {
             recyclerDetailsView.adapter = adapter

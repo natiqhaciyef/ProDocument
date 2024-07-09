@@ -1,11 +1,8 @@
 package com.natiqhaciyef.domain.worker.config
 
-import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
-import android.os.Build
 import android.os.Environment
-import android.provider.MediaStore
 import androidx.core.net.toUri
 import androidx.work.Constraints
 import androidx.work.Data
@@ -16,8 +13,6 @@ import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.natiqhaciyef.common.constants.DOWNLOAD_FAILED
 import com.natiqhaciyef.common.constants.DOWNLOAD_SUCCEED
-import com.natiqhaciyef.common.constants.EMPTY_STRING
-import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.model.FileTypes.DOCX
 import com.natiqhaciyef.core.model.FileTypes.URL
@@ -28,7 +23,6 @@ import com.natiqhaciyef.core.model.FileTypes.PNG
 import com.natiqhaciyef.domain.worker.FileDownloadWorker
 import java.io.File
 import java.io.FileOutputStream
-import java.net.URL
 import java.util.UUID
 
 
@@ -40,49 +34,19 @@ fun getSavedFileUri(
     context: Context
 ): Uri? {
     val mimeType = getIntentFileType(fileType) // different types of files will have different mime type
-    val downloadTag = "Download"
 
     if (mimeType.isEmpty()) return null
-
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-        val contentValues = ContentValues().apply {
-            put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
-            put(MediaStore.MediaColumns.MIME_TYPE, mimeType)
-            put(MediaStore.MediaColumns.RELATIVE_PATH, downloadTag)
-        }
-
-        val resolver = context.contentResolver
-
-        val uri = resolver.insert(
-            MediaStore.Downloads.EXTERNAL_CONTENT_URI,
-            contentValues
-        )
-
-        return if (uri != null) {
-            URL(fileUrl).openStream().use { input ->
-                resolver.openOutputStream(uri).use { output ->
-                    input.copyTo(output!!, DEFAULT_BUFFER_SIZE)
-                }
-            }
-            uri
-        } else {
-            null
-        }
-
-    } else {
 
         val target = File(
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
             fileName
         )
-        URL(fileUrl).openStream().use { input ->
+        context.contentResolver.openInputStream(fileUrl.toUri()).use { input ->
             FileOutputStream(target).use { output ->
-                input.copyTo(output)
+                input?.copyTo(output)
             }
         }
-
         return target.toUri()
-    }
 }
 
 fun getIntentFileType(type: String) = when (type) {
@@ -105,20 +69,17 @@ fun startDownloadingFile(
     val data = Data.Builder()
     val workManager = WorkManager.getInstance(context)
 
+
     data.apply {
-        putString(
-            FileDownloadWorker.FileParams.KEY_FILE_NAME,
-            "${file.title} (${UUID.randomUUID()})"
-        )
+        putString(FileDownloadWorker.FileParams.KEY_FILE_NAME, "${file.title} (${UUID.randomUUID()})")
         putString(FileDownloadWorker.FileParams.KEY_FILE_URL, file.url.toString())
-        putString(FileDownloadWorker.FileParams.KEY_FILE_TYPE, file.type)
+        putString(FileDownloadWorker.FileParams.KEY_FILE_TYPE, file.type.uppercase())
     }
 
 
     val constraints = Constraints.Builder()
         .setRequiredNetworkType(NetworkType.CONNECTED)
-//        .setRequiresStorageNotLow(true)
-        .setRequiresBatteryNotLow(true)
+        .setRequiresStorageNotLow(true)
         .build()
 
     val fileDownloadWorker = OneTimeWorkRequestBuilder<FileDownloadWorker>()
@@ -153,9 +114,7 @@ fun startDownloadingFile(
                         running()
                     }
 
-                    else -> {
-                        failed(SOMETHING_WENT_WRONG)
-                    }
+                    else -> {}
                 }
             }
         }

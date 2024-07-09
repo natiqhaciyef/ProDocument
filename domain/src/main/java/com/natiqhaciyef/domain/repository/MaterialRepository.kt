@@ -1,17 +1,17 @@
 package com.natiqhaciyef.domain.repository
 
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
-import com.natiqhaciyef.data.network.NetworkResult
-import com.natiqhaciyef.data.network.request.MergeRequest
-import com.natiqhaciyef.data.network.request.SplitRequest
-import com.natiqhaciyef.data.network.request.WatermarkRequest
 import com.natiqhaciyef.core.CRUDResponse
-import com.natiqhaciyef.data.network.response.MaterialResponse
-import com.natiqhaciyef.data.network.response.ListMaterialResponse
 import com.natiqhaciyef.core.base.repository.BaseRepository
-import com.natiqhaciyef.data.network.request.CompressRequest
-import com.natiqhaciyef.data.network.request.ESignRequest
-import com.natiqhaciyef.data.network.request.ProtectRequest
+import com.natiqhaciyef.core.base.network.NetworkResult
+import com.natiqhaciyef.domain.network.request.CompressRequest
+import com.natiqhaciyef.domain.network.request.ESignRequest
+import com.natiqhaciyef.domain.network.request.MergeRequest
+import com.natiqhaciyef.domain.network.request.ProtectRequest
+import com.natiqhaciyef.domain.network.request.SplitRequest
+import com.natiqhaciyef.domain.network.request.WatermarkRequest
+import com.natiqhaciyef.domain.network.response.ListMaterialResponse
+import com.natiqhaciyef.domain.network.response.MaterialResponse
 
 interface MaterialRepository : BaseRepository {
 
