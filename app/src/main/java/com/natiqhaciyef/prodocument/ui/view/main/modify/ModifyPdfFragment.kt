@@ -39,6 +39,7 @@ import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.HOME_ROUTE
 import com.natiqhaciyef.prodocument.ui.view.main.home.CustomMaterialOptionsBottomSheetFragment
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.CustomWatermarkAdderBottomSheetFragment
 import com.natiqhaciyef.core.model.CategoryItem
+import com.natiqhaciyef.core.store.AppStorePrefKeys.WATERMARK_EXPLANATION_KEY
 import com.natiqhaciyef.prodocument.BuildConfig
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.uikit.manager.FileManager.createAndShareFile
@@ -243,6 +244,21 @@ class ModifyPdfFragment(
             val params = pdfTitleText.layoutParams as ConstraintLayout.LayoutParams
             params.endToStart = optionsIconButton.id
 
+            lifecycleScope.launch {
+                if (!dataStore.readBoolean(requireContext(), WATERMARK_EXPLANATION_KEY)) {
+                    blurView.visibility = View.VISIBLE
+                    watermarkLayout.visibility = View.VISIBLE
+                    blurConfig(true)
+                }
+            }
+
+            understandButton.setOnClickListener {
+                blurView.visibility = View.GONE
+                watermarkLayout.visibility = View.GONE
+                lifecycleScope.launch {
+                    dataStore.saveBoolean(requireContext(), true, WATERMARK_EXPLANATION_KEY)
+                }
+            }
 
             saveButton.text = getString(com.natiqhaciyef.common.R.string.continue_)
             pdfTitleText.setText(title ?: material.title)

@@ -34,6 +34,7 @@
     <string name="go_to_login">Go to Login</string>
     <string name="sign_in">Sign in</string>
     <string name="save">Save</string>
+    <string name="understand">Understand</string>
     <string name="confirm">Confirm</string>
     <string name="select_plan">Select Plan</string>
     <string name="confirm_payment">Confirm Payment</string>
@@ -186,6 +187,7 @@
     <string name="add_watermark">Add Watermark</string>
     <string name="watermark_input">Insert tag</string>
     <string name="watermark_add_image">+ Add Image</string>
+    <string name="watermark_info_text">If you want to add watermark to your file click displayed button. Tap to screen and continue.</string>
 
     <!--  Split  -->
     <string name="split_file">Split file</string>

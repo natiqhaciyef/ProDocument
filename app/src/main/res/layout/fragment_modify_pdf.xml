@@ -147,6 +147,69 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/topbarLayout" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/watermarkLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            android:elevation="10dp"
+            app:layout_constraintTop_toBottomOf="@id/topbarLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            >
+
+            <ImageView
+                android:id="@+id/watermarkLineIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/simple_line_up"
+                android:scaleType="centerCrop"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintVertical_bias="0.05"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:tint="@color/red"
+                />
+
+            <TextView
+                android:id="@+id/watermarkExplanationText"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:textSize="18sp"
+                android:textColor="@color/red"
+                android:fontFamily="@font/urbanist_bold"
+                android:gravity="end"
+                android:text="@string/watermark_info_text"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintVertical_bias="1"
+                app:layout_constraintTop_toTopOf="@id/watermarkLineIcon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/watermarkLineIcon"
+                app:layout_constraintBottom_toBottomOf="@id/watermarkLineIcon"
+                />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/understandButton"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:textAllCaps="false"
+                android:textSize="14sp"
+                android:fontFamily="@font/urbanist_semibold"
+                android:textColor="@color/primary_900"
+                android:text="@string/understand"
+                app:layout_constraintHorizontal_bias="1"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/custom_button_background"
+                app:layout_constraintTop_toBottomOf="@id/watermarkExplanationText"
+                app:layout_constraintStart_toStartOf="@id/watermarkExplanationText"
+                app:layout_constraintEnd_toEndOf="@id/watermarkLineIcon"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <ImageView
             android:id="@+id/protectionIcon"
             android:layout_width="50dp"
