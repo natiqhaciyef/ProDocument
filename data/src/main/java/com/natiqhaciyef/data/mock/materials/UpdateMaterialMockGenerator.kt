@@ -2,6 +2,7 @@ package com.natiqhaciyef.data.mock.materials
 
 import com.natiqhaciyef.common.constants.MATERIAL_MOCK_KEY
 import com.natiqhaciyef.common.constants.MATERIAL_TOKEN_MOCK_KEY
+import com.natiqhaciyef.common.constants.MOCK_ERROR_OCCURRED_DUE_TO_NULL_RETURN
 import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
@@ -12,16 +13,21 @@ class UpdateMaterialMockGenerator(
     override var takenRequest: MaterialResponse
 ) : BaseMockGenerator<MaterialResponse, CRUDResponse>() {
     override var createdMock: CRUDResponse =
-        MaterialMockManager.getCrudResult(UPDATE)
+        MaterialMockManager.updateMaterial(customMaterial = takenRequest, UPDATE)
 
     override fun getMock(
-        request: MaterialResponse,
-        action: (MaterialResponse) -> CRUDResponse?
+        action: ((MaterialResponse) -> CRUDResponse?)?
     ): CRUDResponse {
-        if (takenRequest == request)
-            return createdMock
+        if (action != null)
+            try {
+                return action.invoke(takenRequest) ?: throw Companion.MockRequestException(
+                    MOCK_ERROR_OCCURRED_DUE_TO_NULL_RETURN
+                )
+            } catch (e: Exception) {
+                println(e)
+            }
 
-        return MaterialMockManager.updateMaterial(customMaterial = takenRequest, UPDATE)
+        return createdMock
     }
 
     companion object UpdateMaterialMockGenerator {

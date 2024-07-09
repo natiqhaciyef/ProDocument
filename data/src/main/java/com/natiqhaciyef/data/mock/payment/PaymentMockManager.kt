@@ -31,6 +31,7 @@ import com.natiqhaciyef.domain.network.response.SubscriptionResponse
 import java.util.concurrent.Flow.Subscription
 
 object PaymentMockManager {
+    private var crudTitle = "crud result"
     private var mockQrCode = "mockQrCode"
     private var balance = HUNDRED.toDouble()
     private var paymentRequest: PaymentRequest? = null
@@ -74,34 +75,32 @@ object PaymentMockManager {
         ),
     )
     private val chequeList = mutableListOf<PaymentChequeResponse>()
+    private var crudResponse = CRUDResponse(
+        resultCode = TWO_HUNDRED_NINETY_NINE,
+        message = crudTitle
+    )
 
     fun startPayment(chequeModel: PaymentChequeResponse): CRUDResponse {
         if (chequeModel.totalAmount > balance)
-            return CRUDResponse(
+            return crudResponse.copy(
                 resultCode = FOUR_HUNDRED_NINE,
-                message = "mock result fail"
+                message = "$crudTitle failed"
             )
 
         balance -= chequeModel.totalAmount
 
-        return CRUDResponse(
-            resultCode = TWO_HUNDRED_NINETY_NINE,
-            message = "mock result success"
-        )
+        return crudResponse.copy(message = "$crudTitle succeed")
     }
 
     fun insertNewPayment(paymentModel: PaymentModel): CRUDResponse {
         if (!paymentsList.contains(paymentModel))
             paymentsList.add(paymentModel)
         return if (paymentsList.contains(paymentModel))
-            CRUDResponse(
-                resultCode = TWO_HUNDRED_NINETY_NINE,
-                message = "mock result success"
-            )
+            crudResponse.copy(message = "$crudTitle succeed")
         else
-            CRUDResponse(
+            crudResponse.copy(
                 resultCode = FIVE_HUNDRED,
-                message = "mock result fail"
+                message = "$crudTitle failed"
             )
     }
 
@@ -109,14 +108,11 @@ object PaymentMockManager {
         if (!chequeList.contains(chequeModel))
             chequeList.add(chequeModel)
         return if (chequeList.contains(chequeModel))
-            CRUDResponse(
-                resultCode = TWO_HUNDRED_NINETY_NINE,
-                message = "mock result success"
-            )
+            crudResponse.copy(message = "$crudTitle succeed")
         else
-            CRUDResponse(
+            crudResponse.copy(
                 resultCode = FIVE_HUNDRED,
-                message = "mock result fail"
+                message = "$crudTitle failed"
             )
     }
 
@@ -180,14 +176,15 @@ object PaymentMockManager {
         return chequeList.find { it.checkId == chequeId } ?: chequeList.first()
     }
 
-    fun getChequePayload(chequeId: String): ChequePayloadModel? {
+    fun getChequePayload(chequeId: String): ChequePayloadModel {
         return if (chequeList.any { it.checkId == chequeId })
             ChequePayloadModel(payload = "Payload")
         else
-            null
+            ChequePayloadModel(payload = "Failed")
+
     }
 
-    fun getPickedPaymentDetails(picked: PaymentPickModel): PaymentModel? {
+    fun getPickedPaymentDetails(picked: PaymentPickModel): PaymentModel {
         return paymentsList.find {
             val item = it.paymentDetails.cardNumber
 
@@ -198,7 +195,7 @@ object PaymentMockManager {
                             item.length - ONE
                         )
                     )
-        }
+        } ?: paymentsList.first()
     }
 
     fun scanQrCodePayment(qrCode: QrCodeRequest): QrPaymentResponse {
@@ -237,4 +234,6 @@ object PaymentMockManager {
         else
             qrResult.copy(cheque = qrResult.cheque.copy(paymentResult = "FAILED"))
     }
+
+    fun getResult() = crudResponse
 }

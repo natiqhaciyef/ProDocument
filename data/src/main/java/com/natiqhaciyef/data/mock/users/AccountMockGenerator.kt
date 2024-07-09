@@ -1,5 +1,6 @@
 package com.natiqhaciyef.data.mock.users
 
+import com.natiqhaciyef.common.constants.MOCK_ERROR_OCCURRED_DUE_TO_NULL_RETURN
 import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
@@ -18,16 +19,23 @@ class AccountMockGenerator(
             AccountMockManager.updateUser(takenRequest)
 
     override fun getMock(
-        request: UserResponse,
-        action: (UserResponse) -> TokenResponse?
+        action: ((UserResponse) -> TokenResponse?)?
     ): TokenResponse {
-        if (type == CREATE_TYPE)
-            AccountMockManager.createUser(takenRequest)
-        else if(type == UPDATE_TYPE)
-            AccountMockManager.updateUser(takenRequest)
+        if (action != null)
+            try {
+                return action.invoke(takenRequest) ?: throw Companion.MockRequestException(
+                    MOCK_ERROR_OCCURRED_DUE_TO_NULL_RETURN
+                )
+            } catch (e: Exception) {
+                println(e)
+            }
 
 
-        return AccountMockManager.createUser(takenRequest)
+        return when (type) {
+            CREATE_TYPE -> AccountMockManager.createUser(takenRequest)
+            UPDATE_TYPE -> AccountMockManager.updateUser(takenRequest)
+            else -> return AccountMockManager.createUser(takenRequest)
+        }
     }
 
     companion object CreateAccountMockGenerator {

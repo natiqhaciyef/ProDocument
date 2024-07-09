@@ -1,5 +1,6 @@
 package com.natiqhaciyef.data.mock.subscription
 
+import com.natiqhaciyef.common.constants.MOCK_ERROR_OCCURRED_DUE_TO_NULL_RETURN
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
 import com.natiqhaciyef.domain.network.response.SubscriptionResponse
 
@@ -7,28 +8,21 @@ class GetPickedSubscriptionMockGenerator(
     override var takenRequest: String
 ) : BaseMockGenerator<String, SubscriptionResponse>() {
     override var createdMock: SubscriptionResponse =
-        SubscriptionResponse(
-            title = "Week unit",
-            price = 4.99,
-            perTime = 1,
-            timeType = "week",
-            description = "no description",
-            features = listOf("Something", "Empty", "Unit", "Void", "No limit"),
-            expireDate = "0.00.0",
-            backgroundColor = "orange",
-            size = 1024,
-            sizeType = "MB",
-            token = "subscriptionToken-3"
-        )
+        SubscriptionMockManager.getPickedPlan(takenRequest)
 
     override fun getMock(
-        request: String,
-        action: (String) -> SubscriptionResponse?
+        action: ((String) -> SubscriptionResponse?)?
     ): SubscriptionResponse {
-        if (request == takenRequest)
-            return createdMock
+        if (action != null)
+            try {
+                return action.invoke(takenRequest) ?: throw Companion.MockRequestException(
+                    MOCK_ERROR_OCCURRED_DUE_TO_NULL_RETURN
+                )
+            } catch (e: Exception) {
+                println(e)
+            }
 
-        return SubscriptionMockManager.getPickedPlan(takenRequest)
+        return createdMock
     }
 
     companion object GetPickedSubscriptionMockGenerator{

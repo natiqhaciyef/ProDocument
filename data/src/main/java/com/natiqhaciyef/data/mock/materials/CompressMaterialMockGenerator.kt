@@ -1,5 +1,6 @@
 package com.natiqhaciyef.data.mock.materials
 
+import com.natiqhaciyef.common.constants.MOCK_ERROR_OCCURRED_DUE_TO_NULL_RETURN
 import com.natiqhaciyef.common.model.Quality
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
 import com.natiqhaciyef.domain.network.request.CompressRequest
@@ -9,17 +10,21 @@ class CompressMaterialMockGenerator(
     override var takenRequest: CompressRequest
 ) : BaseMockGenerator<CompressRequest, MaterialResponse>() {
     override var createdMock: MaterialResponse =
-        MaterialMockManager.compressMaterial(takenRequest.quality, takenRequest.material)
+        MaterialMockManager.compressMaterial(takenRequest.quality, takenRequest.material, true)
 
 
     override fun getMock(
-        request: CompressRequest,
-        action: (CompressRequest) -> MaterialResponse?
+        action: ((CompressRequest) -> MaterialResponse?)?
     ): MaterialResponse {
-        if (request.quality == takenRequest.quality)
-            return createdMock
-
-        return MaterialMockManager.compressMaterial(takenRequest.quality, takenRequest.material, true)
+        if (action != null)
+            try {
+                return action.invoke(takenRequest) ?: throw Companion.MockRequestException(
+                    MOCK_ERROR_OCCURRED_DUE_TO_NULL_RETURN
+                )
+            } catch (e: Exception) {
+                println(e)
+            }
+        return createdMock
     }
 
     companion object CompressMaterialMockGenerator{

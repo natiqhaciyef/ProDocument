@@ -1,5 +1,6 @@
 package com.natiqhaciyef.data.mock.materials
 
+import com.natiqhaciyef.common.constants.MOCK_ERROR_OCCURRED_DUE_TO_NULL_RETURN
 import com.natiqhaciyef.common.constants.TWO_HUNDRED
 import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
 import com.natiqhaciyef.common.helpers.getNow
@@ -13,16 +14,22 @@ class SplitMaterialMockGenerator(
 ) : BaseMockGenerator<SplitRequest, List<MaterialResponse>>(){
 
     override var createdMock: List<MaterialResponse> =
-        MaterialMockManager.splitMaterial(takenRequest)
+        MaterialMockManager.splitMaterial(takenRequest, true)
+
 
     override fun getMock(
-        request: SplitRequest,
-        action: (SplitRequest) -> List<MaterialResponse>?
+        action: ((SplitRequest) -> List<MaterialResponse>?)?
     ): List<MaterialResponse> {
-        if (request == takenRequest)
-            return createdMock
+        if (action != null)
+            try {
+                return action.invoke(takenRequest) ?: throw Companion.MockRequestException(
+                    MOCK_ERROR_OCCURRED_DUE_TO_NULL_RETURN
+                )
+            } catch (e: Exception) {
+                println(e)
+            }
 
-        return MaterialMockManager.splitMaterial(takenRequest, true)
+        return createdMock
     }
 
     companion object SplitMaterialMockGenerator{
