@@ -1,7 +1,9 @@
 package com.natiqhaciyef.data.mock.payment
 
 
+import com.natiqhaciyef.common.constants.MOCK_ERROR_OCCURRED_DUE_TO_NULL_RETURN
 import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
+import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.common.model.payment.PaymentDetails
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
@@ -10,25 +12,27 @@ import com.natiqhaciyef.domain.network.request.PaymentModel
 class InsertNewPaymentMethodMockGenerator(
     override var takenRequest: PaymentModel
 ) : BaseMockGenerator<PaymentModel, CRUDResponse>() {
-    override var createdMock: CRUDResponse = CRUDResponse(
-        resultCode = TWO_HUNDRED_NINETY_NINE,
-        message = "mock result success"
-    )
-
+    override var createdMock: CRUDResponse =
+        PaymentMockManager.getResult()
 
     override fun getMock(
-        request: PaymentModel,
-        action: (PaymentModel) -> CRUDResponse?
+        action: ((PaymentModel) -> CRUDResponse?)?
     ): CRUDResponse {
-        if (request == takenRequest)
-            return createdMock
+        if (action != null)
+            try {
+                return action.invoke(takenRequest) ?: throw Companion.MockRequestException(
+                    MOCK_ERROR_OCCURRED_DUE_TO_NULL_RETURN
+                )
+            } catch (e: Exception) {
+                println(e)
+            }
 
-        return PaymentMockManager.insertNewPayment(takenRequest)
+        return createdMock
     }
 
     companion object InsertNewPaymentMethodMockGenerator{
         val customRequest = PaymentModel(
-            merchantId = 0,
+            merchantId = ZERO,
             paymentType = "QR",
             paymentMethod = "VISA",
             paymentDetails = PaymentDetails(

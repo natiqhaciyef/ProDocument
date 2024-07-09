@@ -56,4 +56,18 @@ object SubscriptionMockManager {
     fun getAllSubscriptions(): MutableList<SubscriptionResponse> {
         return subscriptionList
     }
+
+    fun getSubscription() = SubscriptionResponse(
+        title = "Week unit",
+        price = 4.99,
+        perTime = 1,
+        timeType = "week",
+        description = "no description",
+        features = listOf("Something", "Empty", "Unit", "Void", "No limit"),
+        expireDate = "0.00.0",
+        backgroundColor = "orange",
+        size = 1024,
+        sizeType = "MB",
+        token = "subscriptionToken-3"
+    )
 }

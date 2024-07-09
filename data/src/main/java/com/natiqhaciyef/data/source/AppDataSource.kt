@@ -15,7 +15,7 @@ class AppDataSource @Inject constructor(val service: AppService) {
 
     suspend fun getFaqList() = withContext(Dispatchers.IO) {
         val mock = generateMockerClass(GetFaqListMockGenerator::class, Unit)
-            .getMock(Unit) { null }
+            .getMock { null }
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.getFaqList()
         }
@@ -23,7 +23,7 @@ class AppDataSource @Inject constructor(val service: AppService) {
 
     suspend fun getProscanDetails() = withContext(Dispatchers.IO) {
         val mock = generateMockerClass(GetProscanDetailsMockGenerator::class, Unit)
-            .getMock(Unit) { null }
+            .getMock(null)
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.getProscanDetails()
         }
@@ -31,7 +31,7 @@ class AppDataSource @Inject constructor(val service: AppService) {
 
     suspend fun getProscanSections() = withContext(Dispatchers.IO) {
         val mock = generateMockerClass(GetProscanSectionsMockGenerator::class, Unit)
-            .getMock(Unit) { null }
+            .getMock(null)
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.getProscanSections()
         }

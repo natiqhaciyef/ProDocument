@@ -13,13 +13,12 @@ abstract class BaseMockGenerator<In, Out : Any> {
     fun createInstance(): BaseMockGenerator<In, Out> = this
 
     abstract fun getMock(
-        request: In,
-        action: (In) -> Out?
+        action: ((In) -> Out?)?
     ): Out
 
 
     companion object{
-        class MockRequestException: Exception(NOT_VALID_REQUEST)
+        class MockRequestException(val result: String?): Exception(result ?: NOT_VALID_REQUEST)
     }
 }
 

@@ -1,5 +1,6 @@
 package com.natiqhaciyef.data.mock.payment
 
+import com.natiqhaciyef.common.constants.MOCK_ERROR_OCCURRED_DUE_TO_NULL_RETURN
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
 import com.natiqhaciyef.domain.network.response.ChequePayloadModel
 
@@ -7,13 +8,21 @@ class GetChequePdfMockGenerator(
     override var takenRequest: String
 ) : BaseMockGenerator<String, ChequePayloadModel>() {
     override var createdMock: ChequePayloadModel =
-        ChequePayloadModel(payload = "Payload")
+        PaymentMockManager.getChequePayload(takenRequest)
 
     override fun getMock(
-        request: String,
-        action: (String) -> ChequePayloadModel?
+        action: ((String) -> ChequePayloadModel?)?
     ): ChequePayloadModel {
-        return PaymentMockManager.getChequePayload(takenRequest) ?: createdMock
+        if (action != null)
+            try {
+                return action.invoke(takenRequest) ?: throw Companion.MockRequestException(
+                    MOCK_ERROR_OCCURRED_DUE_TO_NULL_RETURN
+                )
+            } catch (e: Exception) {
+                println(e)
+            }
+
+        return createdMock
     }
 
     companion object GetChequePdfMockGenerator{

@@ -1,5 +1,6 @@
 package com.natiqhaciyef.data.mock.payment
 
+import com.natiqhaciyef.common.constants.MOCK_ERROR_OCCURRED_DUE_TO_NULL_RETURN
 import com.natiqhaciyef.common.constants.TWELVE
 import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
 import com.natiqhaciyef.common.constants.ZERO
@@ -13,16 +14,21 @@ class StartPaymentMockGenerator(
     override var takenRequest: PaymentChequeResponse
 ) : BaseMockGenerator<PaymentChequeResponse, CRUDResponse>() {
     override var createdMock: CRUDResponse =
-        CRUDResponse(
-            resultCode = TWO_HUNDRED_NINETY_NINE,
-            message = "mock result success"
-        )
+        PaymentMockManager.startPayment(takenRequest)
 
     override fun getMock(
-        request: PaymentChequeResponse,
-        action: (PaymentChequeResponse) -> CRUDResponse?
+        action: ((PaymentChequeResponse) -> CRUDResponse?)?
     ): CRUDResponse {
-        return PaymentMockManager.startPayment(takenRequest)
+        if (action != null)
+            try {
+                return action.invoke(takenRequest) ?: throw Companion.MockRequestException(
+                    MOCK_ERROR_OCCURRED_DUE_TO_NULL_RETURN
+                )
+            } catch (e: Exception) {
+                println(e)
+            }
+
+        return createdMock
     }
 
     companion object StartPaymentMockGenerator {

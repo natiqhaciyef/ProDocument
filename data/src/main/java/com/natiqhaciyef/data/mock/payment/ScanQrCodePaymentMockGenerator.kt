@@ -1,5 +1,6 @@
 package com.natiqhaciyef.data.mock.payment
 
+import com.natiqhaciyef.common.constants.MOCK_ERROR_OCCURRED_DUE_TO_NULL_RETURN
 import com.natiqhaciyef.common.constants.NINETY_NINE
 import com.natiqhaciyef.common.constants.ONE
 import com.natiqhaciyef.common.constants.ZERO
@@ -18,43 +19,21 @@ class ScanQrCodePaymentMockGenerator(
     override var takenRequest: QrCodeRequest
 ) : BaseMockGenerator<QrCodeRequest, QrPaymentResponse>() {
     override var createdMock: QrPaymentResponse =
-        QrPaymentResponse(
-            merchantId = NINETY_NINE,
-            paymentType = PaymentTypes.QR.name,
-            paymentMethod = PaymentMethods.GOOGLE_PAY.name,
-            cheque = PaymentChequeResponse(
-                checkId = "mock-cheque-key-indexed-1-qr",
-                title = "Beginner",
-                description = "Empty description",
-                subscriptionDetails = SubscriptionPlanPaymentDetails(
-                    expirationTimeType = Time.MONTH.title,
-                    expirationTime = ONE,
-                    price = 4.99,
-                    fee = 0.5,
-                    discount = ZERO.toDouble()
-                ),
-                totalAmount = 5.49,
-                currency = Currency.USD.name,
-                paymentDetails = PaymentDetails(
-                    cardHolder = "Tahir Isazade",
-                    cardNumber = "1111 2222 3333 4444",
-                    expireDate = "00/00",
-                    currency = Currency.USD.name,
-                    cvv = "001"
-                ),
-                paymentResult = "SUCCESS",
-                date = "00.00.0000 00:00"
-            )
-        )
+        PaymentMockManager.scanQrCodePayment(takenRequest)
 
     override fun getMock(
-        request: QrCodeRequest,
-        action: (QrCodeRequest) -> QrPaymentResponse?
+        action: ((QrCodeRequest) -> QrPaymentResponse?)?
     ): QrPaymentResponse {
-        if (request == takenRequest)
-            return createdMock
+        if (action != null)
+            try {
+                return action.invoke(takenRequest) ?: throw Companion.MockRequestException(
+                    MOCK_ERROR_OCCURRED_DUE_TO_NULL_RETURN
+                )
+            } catch (e: Exception) {
+                println(e)
+            }
 
-        return PaymentMockManager.scanQrCodePayment(takenRequest)
+        return createdMock
     }
 
     companion object ScanQrCodePaymentMockGenerator{

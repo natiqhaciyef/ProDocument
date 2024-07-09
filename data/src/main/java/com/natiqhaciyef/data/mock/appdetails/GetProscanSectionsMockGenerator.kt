@@ -1,5 +1,6 @@
 package com.natiqhaciyef.data.mock.appdetails
 
+import com.natiqhaciyef.common.constants.MOCK_ERROR_OCCURRED_DUE_TO_NULL_RETURN
 import com.natiqhaciyef.common.model.ProscanSectionModel
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
 
@@ -10,9 +11,17 @@ class GetProscanSectionsMockGenerator(
         AppDetailsMockManager.getProscanSections()
 
     override fun getMock(
-        request: Unit,
-        action: (Unit) -> List<ProscanSectionModel>?
+        action: ((Unit) -> List<ProscanSectionModel>?)?
     ): List<ProscanSectionModel> {
+        if (action != null)
+            try {
+                return action.invoke(takenRequest) ?: throw Companion.MockRequestException(
+                    MOCK_ERROR_OCCURRED_DUE_TO_NULL_RETURN
+                )
+            } catch (e: Exception) {
+                println(e)
+            }
+
         return createdMock
     }
 }
