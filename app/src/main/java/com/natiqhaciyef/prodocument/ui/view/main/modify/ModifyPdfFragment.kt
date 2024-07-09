@@ -212,12 +212,12 @@ class ModifyPdfFragment(
         with(binding) {
             pdfView.visibility = View.VISIBLE
             imageView.visibility = View.GONE
-            uriAddress = getAddressOfFile(
-                BuildConfig.APPLICATION_ID,
-                requireContext(),
-                mappedMaterialModel.url
-            ) ?: EMPTY_STRING.toUri()
-            pdfView.createSafePdfUriLoader(uriAddress!!)
+//            uriAddress = getAddressOfFile(
+//                BuildConfig.APPLICATION_ID,
+//                requireContext(),
+//                mappedMaterialModel.url
+//            ) ?: EMPTY_STRING.toUri()
+            pdfView.createSafePdfUriLoader(mappedMaterialModel.url)
 
             val pdfParams = pdfView.layoutParams as ConstraintLayout.LayoutParams
             pdfParams.bottomMargin = ZERO

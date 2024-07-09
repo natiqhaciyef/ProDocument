@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
+import androidx.camera.core.ExperimentalGetImage
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.natiqhaciyef.common.R
@@ -20,7 +22,10 @@ import com.natiqhaciyef.prodocument.ui.view.main.home.CustomMaterialOptionsBotto
 import com.natiqhaciyef.common.model.ParamsUIModel
 import com.natiqhaciyef.core.base.ui.BaseRecyclerHolderStatefulFragment
 import com.natiqhaciyef.prodocument.BuildConfig
+import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TYPE
 import com.natiqhaciyef.prodocument.ui.view.main.home.contract.HomeContract
+import com.natiqhaciyef.prodocument.ui.view.main.modify.ModifyPdfFragment
+import com.natiqhaciyef.prodocument.ui.view.main.modify.ModifyPdfFragment.Companion.PREVIEW_IMAGE
 import com.natiqhaciyef.uikit.adapter.FileItemAdapter
 import com.natiqhaciyef.uikit.alert.AlertDialogManager.createDynamicResultAlertDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -55,7 +60,7 @@ class FilesFragment(
                 errorResultConfig()
             }
 
-            state.list.isNullOrEmpty() && state.params.isNullOrEmpty() && state.result == null -> {
+            state.material == null && state.list.isNullOrEmpty() && state.params.isNullOrEmpty() && state.result == null -> {
                 errorResultConfig(true)
             }
 
@@ -221,13 +226,13 @@ class FilesFragment(
     }
 
     private fun fileClickEvent(id: String) {
-        viewModel.postEvent(
-            FileContract.FileEvent.GetMaterialById(id = id)
-        )
+        viewModel.postEvent(FileContract.FileEvent.GetMaterialById(id = id))
     }
 
+    @OptIn(ExperimentalGetImage::class)
     private fun fileClickAction(material: MappedMaterialModel) {
         bundle.putParcelable(BUNDLE_MATERIAL, material)
+        bundle.putString(BUNDLE_TYPE, PREVIEW_IMAGE)
         val action = FilesFragmentDirections.actionFilesFragmentToPreviewMaterialNavGraph(bundle)
         navigate(action)
     }
