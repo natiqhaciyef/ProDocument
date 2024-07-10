@@ -9,6 +9,11 @@
         <item name="android:backgroundTint">@drawable/button_enable_selector</item>
     </style>
 
+    <style name="EnabledSwitch" parent="Widget.Material3.CompoundButton.MaterialSwitch">
+        <item name="thumbIcon">@drawable/switch_icon_enable_selector</item>
+        <item name="thumbTint">@drawable/switch_enable_selector</item>
+    </style>
+
     <style name="RoundedCornerImage">
         <item name="cornerSize">50%</item>
     </style>

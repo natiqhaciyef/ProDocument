@@ -47,13 +47,13 @@
         android:layout_width="wrap_content"
         android:layout_height="28dp"
         android:checked="false"
+        style="@style/EnabledSwitch"
         android:visibility="gone"
         app:trackDecorationTint="@color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:thumbTint="@color/primary_900"
-        app:trackTint="@color/primary_200" />
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
