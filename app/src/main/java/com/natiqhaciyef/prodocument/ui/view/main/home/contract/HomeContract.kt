@@ -8,24 +8,24 @@ import com.natiqhaciyef.core.base.ui.UiState
 
 object HomeContract {
 
-    sealed class HomeEvent: UiEvent {
-        data object GetAllMaterials : HomeEvent()
+    sealed interface HomeEvent: UiEvent {
+        data object GetAllMaterials : HomeEvent
 
-        data class GetMaterialById(val id: String) : HomeEvent()
+        data class GetMaterialById(val id: String) : HomeEvent
 
-        data class RemoveMaterial(val materialId: String): HomeEvent()
+        data class RemoveMaterial(val materialId: String): HomeEvent
     }
 
-    sealed class HomeEffect: UiEffect {
+    sealed interface HomeEffect: UiEffect {
         data class MaterialListLoadingFailedEffect(
             var message: String? = null,
             var error: Exception? = null
-        ) : HomeEffect()
+        ) : HomeEffect
 
         data class FindMaterialByIdFailedEffect(
             var message: String? = null,
             var error: Exception? = null
-        ): HomeEffect()
+        ): HomeEffect
     }
 
     data class HomeUiState(

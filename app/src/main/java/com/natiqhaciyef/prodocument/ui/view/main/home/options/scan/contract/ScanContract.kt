@@ -13,7 +13,7 @@ import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.behaviour.Cam
 
 object ScanContract {
 
-    sealed class ScanEvent : UiEvent {
+    sealed interface ScanEvent : UiEvent {
         data class StartCameraEvent(
             var context: Context,
             var lifecycle: LifecycleOwner,
@@ -21,22 +21,22 @@ object ScanContract {
             var type: CameraTypes,
             var view: View? = null,
             var onSuccess: (Any) -> Unit = { }
-        ) : ScanEvent()
+        ) : ScanEvent
 
         data class CreateMaterialEvent(
             var title: String? = null,
             var uri: Uri? = null,
             var image: String? = null
-        ) : ScanEvent()
+        ) : ScanEvent
 
-        data object ClearStateEvent : ScanEvent()
+        data object ClearStateEvent : ScanEvent
     }
 
-    sealed class ScanEffect : UiEffect {
+    sealed interface ScanEffect : UiEffect {
         data class ReadQrCodeFailedEffect(
             var message: String? = null,
             var exception: Exception? = null
-        ): ScanEffect()
+        ): ScanEffect
     }
 
     data class ScanState(

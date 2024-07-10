@@ -7,16 +7,16 @@ import com.natiqhaciyef.core.base.ui.UiState
 
 object SplitContract {
 
-    sealed class SplitEvent : UiEvent {
+    sealed interface SplitEvent : UiEvent {
         data class SplitPdfByLinesEvent(
             val title: String,
             val firstLine: String,
             val lastLine: String,
             val material: MappedMaterialModel
-        ): SplitEvent()
+        ): SplitEvent
     }
 
-    sealed class SplitEffect : UiEffect {
+    sealed interface SplitEffect : UiEffect {
 
     }
 

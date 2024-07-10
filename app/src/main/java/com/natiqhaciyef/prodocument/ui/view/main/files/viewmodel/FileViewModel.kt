@@ -7,12 +7,8 @@ import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.base.ui.BaseViewModel
 import com.natiqhaciyef.domain.usecase.material.GetAllMaterialsRemoteUseCase
 import com.natiqhaciyef.domain.usecase.material.GetMaterialByIdRemoteUseCase
-import com.natiqhaciyef.common.R
-import com.natiqhaciyef.common.constants.EMPTY_STRING
 import com.natiqhaciyef.prodocument.ui.view.main.files.FilesFragment
 import com.natiqhaciyef.prodocument.ui.view.main.files.contract.FileContract
-import com.natiqhaciyef.common.model.FieldType
-import com.natiqhaciyef.common.model.ParamsUIModel
 import com.natiqhaciyef.domain.usecase.material.RemoveMaterialByIdUseCase
 import com.natiqhaciyef.prodocument.ui.util.getOptions
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -144,7 +140,7 @@ class FileViewModel @Inject constructor(
                 }
 
                 Status.ERROR -> {
-                    setBaseState(getCurrentBaseState().copy(isLoading = false))
+                    setBaseState(IDLE)
                 }
 
                 Status.LOADING -> {

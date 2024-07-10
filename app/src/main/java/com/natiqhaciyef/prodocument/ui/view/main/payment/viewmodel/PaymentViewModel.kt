@@ -84,7 +84,7 @@ class PaymentViewModel @Inject constructor(
                     }
 
                     Status.ERROR -> {
-                        setBaseState(getCurrentBaseState().copy(isLoading = false))
+                        setBaseState(IDLE)
                     }
 
                     Status.LOADING -> {
@@ -105,7 +105,7 @@ class PaymentViewModel @Inject constructor(
                     }
 
                     Status.ERROR -> {
-                        setBaseState(getCurrentBaseState().copy(isLoading = false))
+                        setBaseState(IDLE)
                     }
 
                     Status.LOADING -> {
@@ -131,7 +131,7 @@ class PaymentViewModel @Inject constructor(
                     }
 
                     Status.ERROR -> {
-                        setBaseState(getCurrentBaseState().copy(isLoading = false))
+                        setBaseState(IDLE)
                     }
 
                     Status.LOADING -> {
@@ -156,7 +156,7 @@ class PaymentViewModel @Inject constructor(
                         if (result.data != null)
                             setBaseState(getCurrentBaseState().copy(isLoading = false, paymentResult = result.data))
                         else
-                            setBaseState(getCurrentBaseState().copy(isLoading = false))
+                            setBaseState(IDLE)
                     }
 
                     Status.LOADING -> {
@@ -179,7 +179,7 @@ class PaymentViewModel @Inject constructor(
                     }
 
                     Status.ERROR -> {
-                        setBaseState(getCurrentBaseState().copy(isLoading = false))
+                        setBaseState(IDLE)
                     }
 
                     Status.LOADING -> {
@@ -213,7 +213,7 @@ class PaymentViewModel @Inject constructor(
                 }
 
                 Status.ERROR -> {
-                    setBaseState(getCurrentBaseState().copy(isLoading = false))
+                    setBaseState(IDLE)
                 }
 
                 Status.LOADING -> {

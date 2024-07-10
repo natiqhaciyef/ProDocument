@@ -9,34 +9,34 @@ import com.natiqhaciyef.core.base.ui.UiState
 import com.natiqhaciyef.common.model.ParamsUIModel
 
 object FileContract {
-    sealed class FileEvent : UiEvent {
+    sealed interface FileEvent : UiEvent {
 
-        data class GetMaterialById(val id: String) : FileEvent()
+        data class GetMaterialById(val id: String) : FileEvent
 
-        data class GetAllFileParams(val context: Context) : FileEvent()
+        data class GetAllFileParams(val context: Context) : FileEvent
 
-        data object GetAllMaterials : FileEvent()
+        data object GetAllMaterials : FileEvent
 
-        data class RemoveMaterial(val materialId: String) : FileEvent()
+        data class RemoveMaterial(val materialId: String) : FileEvent
 
         data class SortMaterials(
             var list: MutableList<MappedMaterialModel>,
             var type: String
-        ) : FileEvent()
+        ) : FileEvent
 
         data class FileFilterEvent(
             var list: MutableList<MappedMaterialModel>,
             var text: String
-        ): FileEvent()
+        ): FileEvent
     }
 
-    sealed class FileEffect : UiEffect {
+    sealed interface FileEffect : UiEffect {
         data class FindMaterialByIdFailedEffect(
             var message: String? = null,
             var error: Exception? = null
-        ) : FileEffect()
+        ) : FileEffect
 
-        data object FilteredFileNotFoundEffect : FileEffect()
+        data object FilteredFileNotFoundEffect : FileEffect
     }
 
     data class FileState(
