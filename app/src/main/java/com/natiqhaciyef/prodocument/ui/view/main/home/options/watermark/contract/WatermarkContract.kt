@@ -6,11 +6,11 @@ import com.natiqhaciyef.core.base.ui.UiState
 
 object WatermarkContract {
 
-    sealed class WatermarkEvent : UiEvent {
+    sealed interface WatermarkEvent : UiEvent {
 
     }
 
-    sealed class WatermarkEffect : UiEffect {
+    sealed interface WatermarkEffect : UiEffect {
 
     }
 

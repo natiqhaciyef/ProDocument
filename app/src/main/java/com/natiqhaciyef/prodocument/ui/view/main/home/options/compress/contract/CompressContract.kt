@@ -8,14 +8,14 @@ import com.natiqhaciyef.core.base.ui.UiState
 
 object CompressContract {
 
-    sealed class CompressEvent : UiEvent{
+    sealed interface CompressEvent : UiEvent{
         data class CompressMaterialEvent(
             var material: MappedMaterialModel,
             var quality: Quality
-        ): CompressEvent()
+        ): CompressEvent
     }
 
-    sealed class CompressEffect : UiEffect
+    sealed interface CompressEffect : UiEffect
 
     data class CompressState(
         override var isLoading: Boolean = false,
