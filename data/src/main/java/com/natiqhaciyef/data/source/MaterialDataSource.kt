@@ -5,8 +5,8 @@ import com.natiqhaciyef.core.base.mock.generateMockerClass
 import com.natiqhaciyef.data.mock.materials.CompressMaterialMockGenerator
 import com.natiqhaciyef.data.mock.materials.CreateMaterialMockGenerator
 import com.natiqhaciyef.data.mock.materials.ESignMaterialMockGenerator
-import com.natiqhaciyef.domain.network.LoadType
-import com.natiqhaciyef.domain.network.handleNetworkResponse
+import com.natiqhaciyef.core.base.network.LoadType
+import com.natiqhaciyef.core.base.network.handleNetworkResponse
 import com.natiqhaciyef.domain.network.response.MaterialResponse
 import com.natiqhaciyef.data.network.service.MaterialService
 import com.natiqhaciyef.data.mock.materials.GetAllMaterialsMockGenerator
@@ -35,7 +35,7 @@ class MaterialDataSource @Inject constructor(
 
     suspend fun getAllFiles() = withContext(Dispatchers.IO) {
         val mock = generateMockerClass(GetAllMaterialsMockGenerator::class, Unit)
-            .getMock(Unit) { null }
+            .getMock(null)
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.getMaterials(token = manager.generateToken())
@@ -45,7 +45,7 @@ class MaterialDataSource @Inject constructor(
     suspend fun getFileById(materialId: String) = withContext(Dispatchers.IO) {
         val requestHeader = manager.generateToken()
         val mock = generateMockerClass(GetMaterialByIdMockGenerator::class, materialId)
-            .getMock(MATERIAL_ID_MOCK_KEY) { null }
+            .getMock(null)
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.getMaterialById(materialId = materialId, token = requestHeader)
@@ -57,7 +57,7 @@ class MaterialDataSource @Inject constructor(
             val requestHeader = manager.generateToken()
 
             val mock = generateMockerClass(CreateMaterialMockGenerator::class, materialModel)
-                .getMock(CreateMaterialMockGenerator.customRequest) { null }
+                .getMock(null)
 
             handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
                 service.createMaterialById(
@@ -75,8 +75,8 @@ class MaterialDataSource @Inject constructor(
     suspend fun removeMaterialById(materialId: String) =
         withContext(Dispatchers.IO) {
             val requestHeader = manager.generateToken()
-            val mock = generateMockerClass(RemoveMaterialMockGenerator::class, MATERIAL_ID_MOCK_KEY)
-                .getMock(MATERIAL_ID_MOCK_KEY) { null }
+            val mock = generateMockerClass(RemoveMaterialMockGenerator::class, materialId)
+                .getMock(null)
 
             handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
                 service.removeMaterialById(
@@ -90,7 +90,7 @@ class MaterialDataSource @Inject constructor(
         withContext(Dispatchers.IO) {
             val requestHeader = manager.generateToken()
             val mock = generateMockerClass(UpdateMaterialMockGenerator::class,materialModel)
-                .getMock(UpdateMaterialMockGenerator.customRequest) { null }
+                .getMock(null)
 
             handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
                 service.updateMaterialById(
@@ -111,7 +111,7 @@ class MaterialDataSource @Inject constructor(
     ) = withContext(Dispatchers.IO) {
         val requestHeader = manager.generateToken()
         val mock = generateMockerClass(MergeMaterialsMockGenerator::class, data)
-            .getMock(MergeMaterialsMockGenerator.customRequest) { null }
+            .getMock(null)
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.mergeMaterials(token = requestHeader, data = data)
@@ -122,7 +122,7 @@ class MaterialDataSource @Inject constructor(
         withContext(Dispatchers.IO) {
             val requestHeader = manager.generateToken()
             val mock = generateMockerClass(WatermarkMaterialMockGenerator::class, data)
-                .getMock(WatermarkMaterialMockGenerator.customRequest) { null }
+                .getMock(null)
 
             handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
                 service.watermarkMaterial(token = requestHeader, data = data)
@@ -134,7 +134,7 @@ class MaterialDataSource @Inject constructor(
     ) = withContext(Dispatchers.IO) {
         val requestHeader = manager.generateToken()
         val mock = generateMockerClass(SplitMaterialMockGenerator::class, data)
-            .getMock(SplitMaterialMockGenerator.customRequest) { null }
+            .getMock(null)
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.splitMaterial(token = requestHeader, data = data)
@@ -146,7 +146,7 @@ class MaterialDataSource @Inject constructor(
     ) = withContext(Dispatchers.IO) {
         val requestHeader = manager.generateToken()
         val mock = generateMockerClass(ProtectMaterialMockGenerator::class, data)
-            .getMock(ProtectMaterialMockGenerator.customRequest) { null }
+            .getMock(null)
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.protectMaterial(token = requestHeader, data = data)
@@ -158,7 +158,7 @@ class MaterialDataSource @Inject constructor(
     ) = withContext(Dispatchers.IO){
         val requestHeader = manager.generateToken()
         val mock = generateMockerClass(CompressMaterialMockGenerator::class, data)
-            .getMock(CompressMaterialMockGenerator.customRequest) { null }
+            .getMock(null)
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.compressMaterial(token = requestHeader, data = data)
@@ -170,7 +170,7 @@ class MaterialDataSource @Inject constructor(
     ) = withContext(Dispatchers.IO){
         val requestHeader = manager.generateToken()
         val mock = generateMockerClass(ESignMaterialMockGenerator::class, data)
-            .getMock(ESignMaterialMockGenerator.customRequest) { null }
+            .getMock(null)
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.eSignMaterial(token = requestHeader, data = data)

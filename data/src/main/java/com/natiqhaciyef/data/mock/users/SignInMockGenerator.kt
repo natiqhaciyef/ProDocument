@@ -1,5 +1,6 @@
 package com.natiqhaciyef.data.mock.users
 
+import com.natiqhaciyef.common.constants.MOCK_ERROR_OCCURRED_DUE_TO_NULL_RETURN
 import com.natiqhaciyef.common.constants.USER_EMAIL_MOCK_KEY
 import com.natiqhaciyef.common.constants.USER_PASSWORD_MOCK_KEY
 import com.natiqhaciyef.core.base.mock.BaseMockGenerator
@@ -15,9 +16,16 @@ class SignInMockGenerator(
         )
 
     override fun getMock(
-        request: Map<String, String>,
-        action: (Map<String, String>) -> TokenResponse?
+        action: ((Map<String, String>) -> TokenResponse?)?
     ): TokenResponse {
+        if (action != null)
+            try {
+                return action.invoke(takenRequest) ?: throw Companion.MockRequestException(
+                    MOCK_ERROR_OCCURRED_DUE_TO_NULL_RETURN
+                )
+            } catch (e: Exception) {
+                println(e)
+            }
 
         return AccountMockManager.signIn(
             takenRequest[USER_EMAIL_MOCK_KEY].toString(),

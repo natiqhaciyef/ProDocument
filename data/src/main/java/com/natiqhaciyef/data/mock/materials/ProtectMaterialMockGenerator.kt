@@ -2,6 +2,7 @@ package com.natiqhaciyef.data.mock.materials
 
 import androidx.core.net.toUri
 import com.natiqhaciyef.common.constants.EMPTY_STRING
+import com.natiqhaciyef.common.constants.MOCK_ERROR_OCCURRED_DUE_TO_NULL_RETURN
 import com.natiqhaciyef.common.constants.TWO
 import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
 import com.natiqhaciyef.common.helpers.getNow
@@ -19,13 +20,18 @@ class ProtectMaterialMockGenerator(
         MaterialMockManager.protectMaterial(takenRequest.key, takenRequest.material, true)
 
     override fun getMock(
-        request: ProtectRequest,
-        action: (ProtectRequest) -> MaterialResponse?
+        action: ((ProtectRequest) -> MaterialResponse?)?
     ): MaterialResponse {
-        if (request.key == takenRequest.key && request.material.title == takenRequest.material.title)
-            return createdMock
+        if (action != null)
+            try {
+                return action.invoke(takenRequest) ?: throw Companion.MockRequestException(
+                    MOCK_ERROR_OCCURRED_DUE_TO_NULL_RETURN
+                )
+            } catch (e: Exception) {
+                println(e)
+            }
 
-        return MaterialMockManager.protectMaterial(takenRequest.key, takenRequest.material, true)
+        return createdMock
     }
 
     companion object ProtectMaterialMockGenerator{

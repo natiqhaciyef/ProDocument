@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.natiqhaciyef.common.constants.EMPTY_STRING
+import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.common.constants.TWENTY_FOUR
 import com.natiqhaciyef.common.model.CategoryModel
 import com.natiqhaciyef.common.model.FaqModel
@@ -43,10 +44,20 @@ class FAQFragment(
 
     override fun onStateChange(state: ProfileContract.ProfileState) {
         when {
-            state.isLoading -> changeVisibilityOfProgressBar(true)
+            state.isLoading -> {
+                changeVisibilityOfProgressBar(true)
+                errorResultConfig()
+            }
+
+            isIdleState(state) -> {
+                errorResultConfig(true)
+                changeVisibilityOfProgressBar()
+            }
 
             else -> {
                 changeVisibilityOfProgressBar()
+                errorResultConfig()
+
                 if (state.faqList != null) {
                     baseList = state.faqList?.toMutableList()
                     recyclerViewConfig(state.faqList!!)
@@ -76,6 +87,16 @@ class FAQFragment(
                 progressBar.visibility = View.GONE
                 progressBar.isIndeterminate = false
             }
+        }
+    }
+
+    private fun errorResultConfig(isVisible: Boolean = false){
+        with(binding){
+            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
+            uiLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
+
+            notFoundDescription.text = getString(com.natiqhaciyef.common.R.string.files_loading_error_description_result)
+            notFoundTitle.text = SOMETHING_WENT_WRONG
         }
     }
 

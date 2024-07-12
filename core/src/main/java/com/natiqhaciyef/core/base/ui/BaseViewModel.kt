@@ -53,11 +53,11 @@ abstract class BaseViewModel<State : UiState, Event : UiEvent, Effect : UiEffect
         viewModelScope.launch { _state.emit(state) }
     }
 
-    fun getHoldState(): State{
+    fun getHoldState(): State {
         return holdState
     }
 
-    fun holdBaseState(state: State){
+    fun holdBaseState(state: State) {
         holdState = state
     }
 
@@ -69,7 +69,7 @@ abstract class BaseViewModel<State : UiState, Event : UiEvent, Effect : UiEffect
         viewModelScope.launch { _event.emit(event) }
     }
 
-    suspend fun updateEvent(event: Event){
+    suspend fun updateEvent(event: Event) {
         _event.emit(event)
     }
 

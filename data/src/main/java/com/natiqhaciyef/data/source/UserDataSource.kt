@@ -13,8 +13,8 @@ import com.natiqhaciyef.data.mock.users.GetUserMockGenerator
 import com.natiqhaciyef.data.mock.users.GetUserStatisticsMockGenerator
 import com.natiqhaciyef.data.mock.users.LogOutMockGenerator
 import com.natiqhaciyef.data.mock.users.SignInMockGenerator
-import com.natiqhaciyef.domain.network.LoadType
-import com.natiqhaciyef.domain.network.handleNetworkResponse
+import com.natiqhaciyef.core.base.network.LoadType
+import com.natiqhaciyef.core.base.network.handleNetworkResponse
 import com.natiqhaciyef.data.network.manager.TokenManager
 import com.natiqhaciyef.domain.network.response.UserResponse
 import com.natiqhaciyef.data.network.service.UserService
@@ -30,7 +30,7 @@ class UserDataSource @Inject constructor(
     suspend fun getUserFromNetwork() = withContext(Dispatchers.IO) {
         val requestHeader = manager.generateToken()
         val mock = generateMockerClass(GetUserMockGenerator::class, Unit)
-            .getMock(Unit) { null }
+            .getMock(null)
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.getUser(requestHeader)
@@ -42,7 +42,7 @@ class UserDataSource @Inject constructor(
     ) = withContext(Dispatchers.IO) {
         AccountMockGenerator.type = CREATE_TYPE
         val mock = generateMockerClass(AccountMockGenerator::class, userModel)
-            .getMock(AccountMockGenerator.customRequest) { null }
+            .getMock(null)
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.createAccount(
@@ -62,7 +62,7 @@ class UserDataSource @Inject constructor(
     ) = withContext(Dispatchers.IO) {
         val map = mapOf(USER_EMAIL_MOCK_KEY to email, USER_PASSWORD_MOCK_KEY to password)
         val mock = generateMockerClass(SignInMockGenerator::class, map)
-            .getMock(SignInMockGenerator.customRequest) { null }
+            .getMock(null)
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.signIn(email, password)
@@ -71,7 +71,7 @@ class UserDataSource @Inject constructor(
 
     suspend fun getOtpFromNetwork(email: String) = withContext(Dispatchers.IO) {
         val mock = generateMockerClass(OtpMockGenerator::class, email)
-            .getMock(USER_TOKEN_MOCK_KEY) { null }
+            .getMock(null)
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.getOtp(email)
@@ -80,7 +80,7 @@ class UserDataSource @Inject constructor(
 
     suspend fun sendOtpToNetwork(otp: String) = withContext(Dispatchers.IO) {
         val mock = generateMockerClass(OtpMockGenerator::class, otp)
-            .getMock(OTP_MOCK_KEY) { null }
+            .getMock(null)
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.sendOtp(otp)
@@ -95,7 +95,7 @@ class UserDataSource @Inject constructor(
 
         val map = mapOf(USER_EMAIL_MOCK_KEY to email, USER_PASSWORD_MOCK_KEY to password)
         val mock = generateMockerClass(AccountMockGenerator::class, map)
-            .getMock(AccountMockGenerator.customRequest) { null }
+            .getMock(null)
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.updateUserPasswordByEmail(email, password)
@@ -105,7 +105,7 @@ class UserDataSource @Inject constructor(
     suspend fun getUserStatics() = withContext(Dispatchers.IO){
         val requestHeader = manager.generateToken()
         val mock = generateMockerClass(GetUserStatisticsMockGenerator::class, Unit)
-            .getMock(Unit) { null }
+            .getMock(null)
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.getUserStatics(requestHeader)
@@ -115,7 +115,7 @@ class UserDataSource @Inject constructor(
     suspend fun logout() = withContext(Dispatchers.IO) {
         val requestHeader = manager.generateToken()
         val mock = generateMockerClass(LogOutMockGenerator::class, Unit)
-            .getMock(Unit) { null }
+            .getMock(null)
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.logout(requestHeader)
         }

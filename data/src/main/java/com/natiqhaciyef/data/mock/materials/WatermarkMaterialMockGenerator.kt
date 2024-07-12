@@ -1,5 +1,6 @@
 package com.natiqhaciyef.data.mock.materials
 
+import com.natiqhaciyef.common.constants.MOCK_ERROR_OCCURRED_DUE_TO_NULL_RETURN
 import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
 import com.natiqhaciyef.common.helpers.getNow
 import com.natiqhaciyef.domain.network.request.WatermarkRequest
@@ -12,16 +13,22 @@ class WatermarkMaterialMockGenerator(
 ) : BaseMockGenerator<WatermarkRequest, MaterialResponse>() {
 
     override var createdMock =
-        MaterialMockManager.watermarkMaterial(takenRequest)
+        MaterialMockManager.watermarkMaterial(takenRequest, true)
 
     override fun getMock(
-        request: WatermarkRequest,
-        action: (WatermarkRequest) -> MaterialResponse?
+        action: ((WatermarkRequest) -> MaterialResponse?)?
     ): MaterialResponse {
-        if (request == takenRequest)
-            return createdMock
+        if (action != null)
+            try {
+                return action.invoke(takenRequest) ?: throw Companion.MockRequestException(
+                    MOCK_ERROR_OCCURRED_DUE_TO_NULL_RETURN
+                )
+            } catch (e: Exception) {
+                println(e)
+            }
 
-        return MaterialMockManager.watermarkMaterial(takenRequest, true)
+
+        return createdMock
     }
 
     companion object WatermarkMaterialMockGenerator{

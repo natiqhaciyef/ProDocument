@@ -11,23 +11,23 @@ import com.natiqhaciyef.core.model.CategoryItem
 
 object ModifyPdfContract {
 
-    sealed class ModifyPdfEvent : UiEvent {
-        data class CreateMaterialEvent(var material: MappedMaterialModel) : ModifyPdfEvent()
+    sealed interface ModifyPdfEvent : UiEvent {
+        data class CreateMaterialEvent(var material: MappedMaterialModel) : ModifyPdfEvent
 
         data class GetShareOptions(val context: Context,
                                    var activity: BaseActivity<*>
-        ): ModifyPdfEvent()
+        ): ModifyPdfEvent
 
         data class WatermarkMaterialEvent(var title: String,
                                           var mappedMaterialModel: MappedMaterialModel,
-                                          var watermark: String): ModifyPdfEvent()
+                                          var watermark: String): ModifyPdfEvent
     }
 
-    sealed class ModifyPdfEffect : UiEffect {
+    sealed interface ModifyPdfEffect : UiEffect {
         data class CreateMaterialFailEffect(
             var message: String? = null,
             var exception: Exception? = null
-        ): ModifyPdfEffect()
+        ): ModifyPdfEffect
 
     }
 

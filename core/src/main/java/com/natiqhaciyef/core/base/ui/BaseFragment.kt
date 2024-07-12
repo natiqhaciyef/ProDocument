@@ -138,6 +138,10 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel<State, Event, E
         }
     }
 
+    fun isIdleState(state: State): Boolean{
+        return state.isPropertiesNull(state)
+    }
+
     fun holdCurrentState(state: State){
         viewModel.holdBaseState(state)
     }

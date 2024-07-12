@@ -12,6 +12,7 @@ import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.utils.MPPointF
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.common.model.MappedGraphDetailModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.core.base.ui.BaseRecyclerHolderStatefulFragment
@@ -42,10 +43,18 @@ class CategoryGraphFragment(
         when {
             state.isLoading -> {
                 changeVisibilityOfProgressBar(true)
+                errorResultConfig()
+            }
+
+            isIdleState(state) -> {
+                errorResultConfig(true)
+                changeVisibilityOfProgressBar()
             }
 
             else -> {
                 changeVisibilityOfProgressBar()
+                errorResultConfig()
+
                 if (state.userStatistics != null)
                     recyclerViewConfig(state.userStatistics!!)
             }
@@ -69,6 +78,16 @@ class CategoryGraphFragment(
                 progressBar.visibility = View.GONE
                 progressBar.isIndeterminate = false
             }
+        }
+    }
+
+    private fun errorResultConfig(isVisible: Boolean = false){
+        with(binding){
+            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
+            uiLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
+
+            notFoundDescription.text = getString(com.natiqhaciyef.common.R.string.files_loading_error_description_result)
+            notFoundTitle.text = SOMETHING_WENT_WRONG
         }
     }
 

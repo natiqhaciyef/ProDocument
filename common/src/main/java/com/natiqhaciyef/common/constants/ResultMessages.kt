@@ -48,10 +48,12 @@ const val WRONG_FILLED_ALL_INPUTS_REASON =
 const val WRONG_FILLED_EMAIL_INPUT_REASON = "Email is not correct filled"
 
 const val UNKNOWN_ERROR = "Unknown error"
+const val MOCK_ERROR_OCCURRED_DUE_TO_NULL_RETURN = "Mock error occurred due to null return"
 const val MAPPED_NULL_DATA = "Mapped null data"
 const val ERROR = "Error"
 
 const val PHOTO_CAPTURED_FAILED = "Photo capture failed"
+const val PAGE_COUNT_CALCULATION_FAILED = "Page count calculation failed."
 
 
 // warning

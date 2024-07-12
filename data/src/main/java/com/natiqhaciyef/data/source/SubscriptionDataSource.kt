@@ -3,8 +3,8 @@ package com.natiqhaciyef.data.source
 import com.natiqhaciyef.core.base.mock.generateMockerClass
 import com.natiqhaciyef.data.mock.subscription.GetAllSubscriptionPlansMockGenerator
 import com.natiqhaciyef.data.mock.subscription.GetPickedSubscriptionMockGenerator
-import com.natiqhaciyef.domain.network.LoadType
-import com.natiqhaciyef.domain.network.handleNetworkResponse
+import com.natiqhaciyef.core.base.network.LoadType
+import com.natiqhaciyef.core.base.network.handleNetworkResponse
 import com.natiqhaciyef.data.network.manager.TokenManager
 import com.natiqhaciyef.data.network.service.SubscriptionService
 import kotlinx.coroutines.Dispatchers
@@ -19,7 +19,7 @@ class SubscriptionDataSource @Inject constructor(
     suspend fun getAllSubscriptionPlans() = withContext(Dispatchers.IO) {
         val requestHeader = manager.generateToken()
         val mock = generateMockerClass(GetAllSubscriptionPlansMockGenerator::class, Unit)
-            .getMock(Unit) { null }
+            .getMock(null)
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.getAllSubscriptionPlans(token = requestHeader)
@@ -29,7 +29,7 @@ class SubscriptionDataSource @Inject constructor(
     suspend fun getPickedPlan(email: String) = withContext(Dispatchers.IO) {
         val requestHeader = manager.generateToken()
         val mock = generateMockerClass(GetPickedSubscriptionMockGenerator::class, email)
-            .getMock(GetPickedSubscriptionMockGenerator.customRequest) { null }
+            .getMock(null)
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.getPickedSubscriptionPlan(token = requestHeader, email = email)

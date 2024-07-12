@@ -11,6 +11,7 @@ import androidx.core.os.bundleOf
 import androidx.navigation.fragment.navArgs
 import coil.load
 import com.natiqhaciyef.common.constants.ONE
+import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.common.constants.SPACE
 import com.natiqhaciyef.common.constants.THREE
 import com.natiqhaciyef.common.constants.TWO
@@ -45,9 +46,16 @@ class CompressFragment(
         when {
             state.isLoading -> {
                 changeVisibilityOfProgressBar(true)
+                errorResultConfig(false)
+            }
+
+            isIdleState(state) -> {
+                changeVisibilityOfProgressBar()
+                errorResultConfig()
             }
 
             else -> {
+                errorResultConfig(false)
                 changeVisibilityOfProgressBar()
 
                 if (state.material != null)
@@ -81,6 +89,17 @@ class CompressFragment(
             }
         }
     }
+
+    private fun errorResultConfig(isVisible: Boolean = true){
+        with(binding){
+            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
+            uiLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
+
+            notFoundDescription.text = getString(com.natiqhaciyef.common.R.string.files_loading_error_description_result)
+            notFoundTitle.text = SOMETHING_WENT_WRONG
+        }
+    }
+
 
     private fun previewPdfConfig(material: MappedMaterialModel) {
         with(binding) {

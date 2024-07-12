@@ -34,6 +34,7 @@
     <string name="go_to_login">Go to Login</string>
     <string name="sign_in">Sign in</string>
     <string name="save">Save</string>
+    <string name="understand">Understand</string>
     <string name="confirm">Confirm</string>
     <string name="select_plan">Select Plan</string>
     <string name="confirm_payment">Confirm Payment</string>
@@ -50,6 +51,7 @@
     <string name="proscan">ProScan</string>
     <string name="file">Files</string>
     <string name="default_type">Default</string>
+    <string name="document">Document</string>
 
 
     <!-- Result -->
@@ -68,6 +70,10 @@
     <string name="nothing_modified_yet_result">Nothing modified</string>
     <string name="file_created_success_description">%1$s file saving succeed</string>
     <string name="file_created_failed_description">%1$s file saving failed</string>
+    <string name="remove_title_result">Confirmation</string>
+    <string name="remove_description_result">Are you sure about deleting file ?</string>
+    <string name="remove_button_result">Delete</string>
+    <string name="files_loading_error_description_result">Loading files failed. Reload screen and check your internet connection.</string>
 
 
     <!-- Onboarding & Walkthrough -->
@@ -182,6 +188,7 @@
     <string name="add_watermark">Add Watermark</string>
     <string name="watermark_input">Insert tag</string>
     <string name="watermark_add_image">+ Add Image</string>
+    <string name="watermark_info_text">If you want to add watermark to your file click displayed button. Tap to screen and continue.</string>
 
     <!--  Split  -->
     <string name="split_file">Split file</string>

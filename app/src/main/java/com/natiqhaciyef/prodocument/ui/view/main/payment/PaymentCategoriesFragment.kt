@@ -9,10 +9,8 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.natiqhaciyef.common.constants.EMPTY_STRING
-import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.model.mapped.MappedSubscriptionModel
 import com.natiqhaciyef.common.model.payment.MappedPaymentModel
-import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.core.base.ui.BaseRecyclerHolderStatefulFragment
 import com.natiqhaciyef.prodocument.databinding.FragmentPaymentCategoriesBinding
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_CHEQUE_PAYMENT
@@ -58,20 +56,24 @@ class PaymentCategoriesFragment(
         when {
             state.isLoading -> {
                 changeVisibilityOfProgressBar(true)
-                errorListConfig()
+                emptyListConfig()
             }
 
-            state.paymentMethodsList.isNullOrEmpty() -> {
-                errorListConfig(true)
+            isIdleState(state) -> {
+                // add error case
                 changeVisibilityOfProgressBar()
             }
 
             else -> {
                 changeVisibilityOfProgressBar()
-                errorListConfig()
+                emptyListConfig()
 
-                if (state.paymentMethodsList != null)
-                    recyclerViewConfig(state.paymentMethodsList!!)
+                if (state.paymentMethodsList != null) {
+                    if (state.paymentMethodsList!!.isNotEmpty())
+                        recyclerViewConfig(state.paymentMethodsList!!)
+                    else
+                        emptyListConfig(true)
+                }
 
                 if (state.cheque != null) {
                     resourceBundle.putParcelable(BUNDLE_CHEQUE_PAYMENT, state.cheque!!)
@@ -105,7 +107,7 @@ class PaymentCategoriesFragment(
         }
     }
 
-    private fun errorListConfig(isVisible: Boolean = false) {
+    private fun emptyListConfig(isVisible: Boolean = false) {
         binding.errorLayout.visibility =
             if (isVisible) View.VISIBLE else View.GONE
     }
@@ -138,7 +140,7 @@ class PaymentCategoriesFragment(
 
     private fun onScanIconClickAction() {
         val action = PaymentCategoriesFragmentDirections
-                .actionPaymentCategoriesFragmentToScanFragment(resourceBundle)
+            .actionPaymentCategoriesFragmentToScanFragment(resourceBundle)
         navigate(action)
     }
 

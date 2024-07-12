@@ -4,9 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.OptIn
+import androidx.appcompat.app.AppCompatActivity
+import androidx.camera.core.ExperimentalGetImage
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.natiqhaciyef.common.R
+import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.databinding.FragmentFilesBinding
 import com.natiqhaciyef.core.model.CategoryItem
@@ -19,7 +23,10 @@ import com.natiqhaciyef.prodocument.ui.view.main.home.CustomMaterialOptionsBotto
 import com.natiqhaciyef.common.model.ParamsUIModel
 import com.natiqhaciyef.core.base.ui.BaseRecyclerHolderStatefulFragment
 import com.natiqhaciyef.prodocument.BuildConfig
+import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TYPE
+import com.natiqhaciyef.prodocument.ui.view.main.modify.ModifyPdfFragment.Companion.PREVIEW_IMAGE
 import com.natiqhaciyef.uikit.adapter.FileItemAdapter
+import com.natiqhaciyef.uikit.alert.AlertDialogManager.createDynamicResultAlertDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.KClass
 
@@ -49,15 +56,21 @@ class FilesFragment(
         when {
             state.isLoading -> {
                 changeVisibilityOfProgressBar(true)
-                errorResultConfig()
             }
 
-            state.list.isNullOrEmpty() && state.params.isNullOrEmpty() -> {
-                errorResultConfig(true)
+            isIdleState(state)-> {
+                changeVisibilityOfProgressBar()
+                errorResultConfig()
             }
 
             else -> {
-                errorResultConfig()
+                if (
+                    state.material == null
+                    && state.list.isNullOrEmpty()
+                    && state.params.isNullOrEmpty()
+                    && state.result == null
+                ) { emptyResultConfig(true) }
+
                 changeVisibilityOfProgressBar()
 
                 if (state.list != null) {
@@ -72,6 +85,9 @@ class FilesFragment(
                     params = state.params!!
                     optionClickAction(state)
                 }
+
+                if (state.result != null)
+                    getFilesEvent()
             }
         }
     }
@@ -105,14 +121,24 @@ class FilesFragment(
         }
     }
 
-    private fun errorResultConfig(isVisible: Boolean = false){
+    private fun errorResultConfig(isVisible: Boolean = true){
         with(binding){
             notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
+            uiLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
 
-            if (isVisible){
+            notFoundDescription.text = getString(R.string.files_loading_error_description_result)
+            notFoundTitle.text = SOMETHING_WENT_WRONG
+        }
+    }
+
+    private fun emptyResultConfig(isVisible: Boolean = false) {
+        with(binding) {
+            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
+
+            if (isVisible) {
                 notFoundDescription.text = getString(R.string.files_not_inserted_yet_result)
                 notFoundTitle.text = getString(R.string.nothing_modified_yet_result)
-            }else{
+            } else {
                 notFoundDescription.text = getString(R.string.not_found_result_description)
                 notFoundTitle.text = getString(R.string.not_found_result_title)
             }
@@ -142,11 +168,11 @@ class FilesFragment(
             fileTotalAmountTitle.text =
                 getString(R.string.total_file_amount_title, "${list.size}")
             adapter = FileItemAdapter(
-                    list.toMutableList(),
-                    requireContext().getString(R.string.scan_code),
-                    this@FilesFragment,
-                    requireContext()
-                )
+                list.toMutableList(),
+                requireContext().getString(R.string.scan_code),
+                this@FilesFragment,
+                requireContext()
+            )
 
             filesRecyclerView.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -187,14 +213,14 @@ class FilesFragment(
 
     private fun optionClickAction(state: FileContract.FileState) {
         // add bottom sheet here
-        storedMaterial?.let {
-            FileBottomSheetOptionFragment(it, params,
+        storedMaterial?.let { material ->
+            FileBottomSheetOptionFragment(this, material, params,
                 onClickAction = {
                     holdCurrentState(state)
                     getFilesEvent()
                 }
             ) {
-                // INSERT: remove action
+                removeFile(material)
             }.show(
                 if (!isAdded) return else this.childFragmentManager,
                 FileBottomSheetOptionFragment::class.simpleName
@@ -202,15 +228,26 @@ class FilesFragment(
         }
     }
 
-
-    private fun fileClickEvent(id: String) {
-        viewModel.postEvent(
-            FileContract.FileEvent.GetMaterialById(id = id)
-        )
+    private fun removeFile(material: MappedMaterialModel) {
+        (requireActivity() as AppCompatActivity).createDynamicResultAlertDialog(
+            title = requireContext().getString(R.string.remove_title_result),
+            description = requireContext().getString(R.string.remove_description_result),
+            buttonText = requireContext().getString(R.string.remove_button_result),
+            resultIconId = R.drawable.delete_bs_icon
+        ) {
+            viewModel.postEvent(FileContract.FileEvent.RemoveMaterial(material.id))
+            it.dismiss()
+        }
     }
 
+    private fun fileClickEvent(id: String) {
+        viewModel.postEvent(FileContract.FileEvent.GetMaterialById(id = id))
+    }
+
+    @OptIn(ExperimentalGetImage::class)
     private fun fileClickAction(material: MappedMaterialModel) {
         bundle.putParcelable(BUNDLE_MATERIAL, material)
+        bundle.putString(BUNDLE_TYPE, PREVIEW_IMAGE)
         val action = FilesFragmentDirections.actionFilesFragmentToPreviewMaterialNavGraph(bundle)
         navigate(action)
     }

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.common.helpers.secondWordFirstLetterLowercase
 import com.natiqhaciyef.common.model.payment.PaymentHistoryModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
@@ -37,13 +38,21 @@ class PaymentHistoryFragment(
     override fun onStateChange(state: ProfileContract.ProfileState) {
         when {
             state.isLoading -> {
-                errorResultConfig()
+                emptyResultConfig()
                 changeVisibilityOfProgressBar(true)
+                errorResultConfig()
             }
 
             state.paymentsHistory.isNullOrEmpty() -> {
-                errorResultConfig(true)
+                emptyResultConfig(true)
                 changeVisibilityOfProgressBar()
+                errorResultConfig()
+            }
+
+            isIdleState(state) -> {
+                emptyResultConfig()
+                changeVisibilityOfProgressBar()
+                errorResultConfig(true)
             }
 
             else -> {
@@ -74,7 +83,18 @@ class PaymentHistoryFragment(
         }
     }
 
-    private fun errorResultConfig(isVisible: Boolean = false) {
+
+    private fun errorResultConfig(isVisible: Boolean = false){
+        with(binding){
+            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
+            recyclerPaymentHistoryView.visibility = if (isVisible) View.GONE else View.VISIBLE
+
+            notFoundDescription.text = getString(com.natiqhaciyef.common.R.string.files_loading_error_description_result)
+            notFoundTitle.text = SOMETHING_WENT_WRONG
+        }
+    }
+
+    private fun emptyResultConfig(isVisible: Boolean = false) {
         if (isVisible) {
             val title = getString(com.natiqhaciyef.common.R.string.payment_history)
                 .secondWordFirstLetterLowercase()

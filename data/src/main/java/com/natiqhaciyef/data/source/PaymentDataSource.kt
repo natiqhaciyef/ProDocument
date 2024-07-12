@@ -10,8 +10,8 @@ import com.natiqhaciyef.data.mock.payment.GetPaymentHistoryDetailsMockGenerator
 import com.natiqhaciyef.data.mock.payment.GetPaymentHistoryMockGenerator
 import com.natiqhaciyef.data.mock.payment.ScanQrCodePaymentMockGenerator
 import com.natiqhaciyef.data.mock.payment.StartPaymentMockGenerator
-import com.natiqhaciyef.domain.network.LoadType
-import com.natiqhaciyef.domain.network.handleNetworkResponse
+import com.natiqhaciyef.core.base.network.LoadType
+import com.natiqhaciyef.core.base.network.handleNetworkResponse
 import com.natiqhaciyef.data.network.manager.TokenManager
 import com.natiqhaciyef.domain.network.request.PaymentModel
 import com.natiqhaciyef.domain.network.request.PaymentRequest
@@ -31,7 +31,7 @@ class PaymentDataSource @Inject constructor(
     suspend fun getPaymentData(payment: PaymentRequest) = withContext(Dispatchers.IO) {
         val requestHeader = manager.generateToken()
         val mock = generateMockerClass(GetPaymentDataPaymentMockGenerator::class, payment)
-            .getMock(GetPaymentDataPaymentMockGenerator.customRequest) { null }
+            .getMock(null)
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.getPaymentData(token = requestHeader, paymentData = payment)
@@ -41,7 +41,7 @@ class PaymentDataSource @Inject constructor(
     suspend fun startPayment(cheque: PaymentChequeResponse) = withContext(Dispatchers.IO){
         val requestHeader = manager.generateToken()
         val mock = generateMockerClass(StartPaymentMockGenerator::class, cheque)
-            .getMock(StartPaymentMockGenerator.customRequest) { null }
+            .getMock(null)
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.startPayment(token = requestHeader, cheque = cheque)
@@ -51,7 +51,7 @@ class PaymentDataSource @Inject constructor(
     suspend fun getChequePdf(checkId: String) = withContext(Dispatchers.IO) {
         val requestHeader = manager.generateToken()
         val mock = generateMockerClass(GetChequePdfMockGenerator::class, checkId)
-            .getMock(GetChequePdfMockGenerator.CUSTOM_REQUEST) { null }
+            .getMock(null)
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.getChequePdf(token = requestHeader, checkId = checkId)
@@ -61,7 +61,7 @@ class PaymentDataSource @Inject constructor(
     suspend fun getAllSavedPaymentMethods() = withContext(Dispatchers.IO) {
         val requestHeader = manager.generateToken()
         val mock = generateMockerClass(GetAllSavedPaymentMethodsMockGenerator::class, Unit)
-            .getMock(Unit) { null }
+            .getMock(null)
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.getAllSavedPaymentMethods(token = requestHeader)
@@ -73,7 +73,7 @@ class PaymentDataSource @Inject constructor(
             val requestHeader = manager.generateToken()
             val mock =
                 generateMockerClass(GetPickedPaymentDetailsMockGenerator::class, paymentPickModel)
-                    .getMock(GetPickedPaymentDetailsMockGenerator.customRequest) { null }
+                    .getMock(null)
 
             handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
                 service.getPickedPaymentDetails(
@@ -88,7 +88,7 @@ class PaymentDataSource @Inject constructor(
             val requestHeader = manager.generateToken()
             val mock =
                 generateMockerClass(InsertNewPaymentMethodMockGenerator::class, paymentModel)
-                    .getMock(InsertNewPaymentMethodMockGenerator.customRequest) { null }
+                    .getMock(null)
 
             handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
                 service.insertNewPaymentMethod(
@@ -102,7 +102,7 @@ class PaymentDataSource @Inject constructor(
         withContext(Dispatchers.IO) {
             val requestHeader = manager.generateToken()
             val mock = generateMockerClass(GetPaymentHistoryMockGenerator::class, Unit)
-                .getMock(Unit){ null }
+                .getMock(null)
 
             handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
                 service.getPaymentHistory(token = requestHeader)
@@ -113,7 +113,7 @@ class PaymentDataSource @Inject constructor(
         withContext(Dispatchers.IO){
             val requestHeader = manager.generateToken()
             val mock = generateMockerClass(GetPaymentHistoryDetailsMockGenerator::class, chequeId)
-                .getMock(GetPaymentHistoryDetailsMockGenerator.customRequest) { null }
+                .getMock(null)
 
             handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
                 service.getPaymentHistoryDetails(token = requestHeader, chequeId = chequeId)
@@ -124,7 +124,7 @@ class PaymentDataSource @Inject constructor(
         withContext(Dispatchers.IO) {
             val requestHeader = manager.generateToken()
             val mock = generateMockerClass(ScanQrCodePaymentMockGenerator::class, qrCodeRequest)
-                .getMock(ScanQrCodePaymentMockGenerator.customRequest) { null }
+                .getMock(null)
 
             handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
                 service.scanQrCodePayment(token = requestHeader, qrCodeRequest = qrCodeRequest)

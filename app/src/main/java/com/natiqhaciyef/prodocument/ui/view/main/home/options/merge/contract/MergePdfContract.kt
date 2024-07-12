@@ -7,15 +7,15 @@ import com.natiqhaciyef.core.base.ui.UiState
 import java.lang.Exception
 
 object MergePdfContract {
-    sealed class MergePdfEvent : UiEvent {
-        data class MergeMaterialsEvent(var title: String, var list: List<MappedMaterialModel>) : MergePdfEvent()
+    sealed interface MergePdfEvent : UiEvent {
+        data class MergeMaterialsEvent(var title: String, var list: List<MappedMaterialModel>) : MergePdfEvent
     }
 
-    sealed class MergePdfEffect : UiEffect {
+    sealed interface MergePdfEffect : UiEffect {
         data class MergeFailedEffect(
             var message: String? = null,
             var exception: Exception? = null
-        ) : MergePdfEffect()
+        ) : MergePdfEffect
     }
 
     data class MergePdfState(

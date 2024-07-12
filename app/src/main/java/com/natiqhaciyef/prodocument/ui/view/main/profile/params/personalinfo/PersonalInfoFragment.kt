@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.common.helpers.loadImage
 import com.natiqhaciyef.common.model.mapped.MappedUserWithoutPasswordModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
@@ -32,10 +33,19 @@ class PersonalInfoFragment(
     override fun onStateChange(state: ProfileContract.ProfileState) {
         when {
             state.isLoading -> {
+                changeVisibilityOfProgressBar(true)
+                errorResultConfig()
+            }
 
+            isIdleState(state) -> {
+                errorResultConfig(true)
+                changeVisibilityOfProgressBar()
             }
 
             else -> {
+                errorResultConfig()
+                changeVisibilityOfProgressBar()
+
                 if (state.user != null && state.countries == null) {
                     postEvent(ProfileContract.ProfileEvent.GetCountries)
                     holdCurrentState(state)
@@ -51,6 +61,32 @@ class PersonalInfoFragment(
 
     }
 
+    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
+        if (isVisible) {
+            binding.apply {
+                uiLayout.visibility = View.GONE
+                progressBar.visibility = View.VISIBLE
+                progressBar.isIndeterminate = true
+            }
+        } else {
+            binding.apply {
+                uiLayout.visibility = View.VISIBLE
+                progressBar.visibility = View.GONE
+                progressBar.isIndeterminate = false
+            }
+        }
+    }
+
+    private fun errorResultConfig(isVisible: Boolean = false){
+        with(binding){
+            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
+            uiLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
+
+            notFoundDescription.text = getString(com.natiqhaciyef.common.R.string.files_loading_error_description_result)
+            notFoundTitle.text = SOMETHING_WENT_WRONG
+        }
+    }
+
     private fun activityConfig() {
         (activity as MainActivity).also {
             with(it.binding) {
@@ -61,9 +97,7 @@ class PersonalInfoFragment(
                     setTitleToolbar(getString(com.natiqhaciyef.common.R.string.personal_info))
                     changeVisibility(View.VISIBLE)
                     changeAppIcon(com.natiqhaciyef.common.R.drawable.back_arrow_icon) {
-                        onToolbarBackPressAction(
-                            bottomNavBar
-                        )
+                        onToolbarBackPressAction(bottomNavBar)
                     }
                     appIconVisibility(View.VISIBLE)
                     setVisibilitySearch(View.GONE)

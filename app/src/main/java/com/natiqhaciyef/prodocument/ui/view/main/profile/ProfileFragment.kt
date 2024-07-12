@@ -12,6 +12,7 @@ import com.natiqhaciyef.common.model.AccountSettingModel
 import com.natiqhaciyef.prodocument.databinding.FragmentProfileBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.common.R
+import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.common.model.Settings
 import com.natiqhaciyef.core.base.ui.BaseRecyclerHolderStatefulFragment
@@ -50,10 +51,17 @@ class ProfileFragment(
         when {
             state.isLoading -> {
                 changeVisibilityOfProgressBar(true)
+                errorResultConfig()
+            }
+
+            isIdleState(state) -> {
+                changeVisibilityOfProgressBar()
+                errorResultConfig(true)
             }
 
             else -> {
                 changeVisibilityOfProgressBar()
+                errorResultConfig()
 
                 if (state.settingList != null)
                     recyclerViewConfig(state.settingList!!)
@@ -87,6 +95,16 @@ class ProfileFragment(
                 progressBar.visibility = View.GONE
                 progressBar.isIndeterminate = false
             }
+        }
+    }
+
+    private fun errorResultConfig(isVisible: Boolean = false){
+        with(binding){
+            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
+            uiLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
+
+            notFoundDescription.text = getString(com.natiqhaciyef.common.R.string.files_loading_error_description_result)
+            notFoundTitle.text = SOMETHING_WENT_WRONG
         }
     }
 

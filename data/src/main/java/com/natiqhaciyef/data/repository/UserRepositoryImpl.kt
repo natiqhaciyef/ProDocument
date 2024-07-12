@@ -2,7 +2,7 @@ package com.natiqhaciyef.data.repository
 
 import com.natiqhaciyef.common.model.mapped.MappedUserModel
 import com.natiqhaciyef.domain.mapper.toResponse
-import com.natiqhaciyef.domain.network.NetworkResult
+import com.natiqhaciyef.core.base.network.NetworkResult
 import com.natiqhaciyef.domain.network.response.GraphDetailsListResponse
 import com.natiqhaciyef.data.source.UserDataSource
 import com.natiqhaciyef.domain.repository.UserRepository

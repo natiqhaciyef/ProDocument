@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.natiqhaciyef.common.R
+import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.common.model.mapped.MappedSubscriptionModel
 import com.natiqhaciyef.prodocument.databinding.FragmentPremiumBinding
 import com.natiqhaciyef.core.base.ui.BaseFragment
@@ -32,13 +33,19 @@ class PremiumFragment(
         when{
             state.isLoading -> {
                 changeVisibilityOfProgressBar(true)
+                errorResultConfig()
             }
 
             state.subscriptions.isNullOrEmpty() -> {
                 viewModel.postEvent(PremiumContract.PremiumEvent.GetAllSubscriptionPlans)
             }
 
+            isIdleState(state) -> {
+                errorResultConfig(true)
+            }
+
             else -> {
+                errorResultConfig()
                 changeVisibilityOfProgressBar()
 
                 if (state.subscriptions != null){
@@ -62,6 +69,16 @@ class PremiumFragment(
                 progressBar.visibility = View.GONE
                 progressBar.isIndeterminate = false
             }
+        }
+    }
+
+    private fun errorResultConfig(isVisible: Boolean = false){
+        with(binding){
+            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
+            uiLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
+
+            notFoundDescription.text = getString(com.natiqhaciyef.common.R.string.files_loading_error_description_result)
+            notFoundTitle.text = SOMETHING_WENT_WRONG
         }
     }
 

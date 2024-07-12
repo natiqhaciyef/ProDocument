@@ -10,6 +10,7 @@ import com.natiqhaciyef.common.constants.FOUR
 import com.natiqhaciyef.common.constants.HUNDRED
 import com.natiqhaciyef.common.constants.NINE
 import com.natiqhaciyef.common.constants.SIXTEEN
+import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.common.constants.SPACE
 import com.natiqhaciyef.common.constants.TEN
 import com.natiqhaciyef.common.constants.TWO_HUNDRED
@@ -45,11 +46,20 @@ class NewPaymentFragment(
     override fun onStateChange(state: PaymentContract.PaymentState) {
         when {
             state.isLoading -> {
+                changeVisibilityOfProgressBar(true)
+                errorResultConfig()
+            }
 
+            isIdleState(state) -> {
+                errorResultConfig(true)
+                changeVisibilityOfProgressBar()
             }
 
             else -> {
-                    if (state.paymentResult?.resultCode in TWO_HUNDRED..TWO_HUNDRED_NINETY_NINE){
+                errorResultConfig()
+                changeVisibilityOfProgressBar()
+
+                if (state.paymentResult?.resultCode in TWO_HUNDRED..TWO_HUNDRED_NINETY_NINE) {
                     addButtonClickAction()
                 }
             }
@@ -78,6 +88,33 @@ class NewPaymentFragment(
 
     private fun onCloseButtonClickAction() {
 
+    }
+
+    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
+        if (isVisible) {
+            binding.apply {
+                uiLayout.visibility = View.GONE
+                progressBar.visibility = View.VISIBLE
+                progressBar.isIndeterminate = true
+            }
+        } else {
+            binding.apply {
+                uiLayout.visibility = View.VISIBLE
+                progressBar.visibility = View.GONE
+                progressBar.isIndeterminate = false
+            }
+        }
+    }
+
+    private fun errorResultConfig(isVisible: Boolean = false) {
+        with(binding) {
+            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
+            uiLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
+
+            notFoundDescription.text =
+                getString(com.natiqhaciyef.common.R.string.files_loading_error_description_result)
+            notFoundTitle.text = SOMETHING_WENT_WRONG
+        }
     }
 
     private fun inputConfig() {
@@ -134,7 +171,7 @@ class NewPaymentFragment(
         )
     }
 
-    private fun addButtonClickAction(){
+    private fun addButtonClickAction() {
         navigateBack()
     }
 }

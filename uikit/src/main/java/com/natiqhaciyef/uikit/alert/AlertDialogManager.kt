@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.Window
 import android.view.WindowManager
+import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import com.natiqhaciyef.common.constants.EMPTY_STRING
 import com.natiqhaciyef.common.constants.ZERO
@@ -50,7 +51,7 @@ object AlertDialogManager {
         title: String = EMPTY_STRING,
         description: String = EMPTY_STRING,
         buttonText: String = EMPTY_STRING,
-        resultIconId: Int = ZERO,
+        @DrawableRes resultIconId: Int = ZERO,
         successMsg: String = EMPTY_STRING,
         resultClickAction: (Dialog) -> Unit = {}
     ) {

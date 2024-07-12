@@ -1,7 +1,7 @@
 package com.natiqhaciyef.data.repository
 
 import com.natiqhaciyef.common.model.FaqModel
-import com.natiqhaciyef.domain.network.NetworkResult
+import com.natiqhaciyef.core.base.network.NetworkResult
 import com.natiqhaciyef.common.model.ProScanInfoModel
 import com.natiqhaciyef.common.model.ProscanSectionModel
 import com.natiqhaciyef.data.source.AppDataSource

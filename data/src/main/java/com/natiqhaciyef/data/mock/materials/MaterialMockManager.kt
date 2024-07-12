@@ -15,6 +15,7 @@ import com.natiqhaciyef.domain.network.request.WatermarkRequest
 import com.natiqhaciyef.domain.network.response.ListMaterialResponse
 import com.natiqhaciyef.domain.network.response.MaterialResponse
 import kotlinx.coroutines.flow.merge
+import java.util.UUID
 
 object MaterialMockManager {
     private const val CRUD_MOCK = "crud mock"
@@ -74,7 +75,8 @@ object MaterialMockManager {
     }
 
     fun createMaterial(material: MaterialResponse, title: String): CRUDResponse {
-        materialList.add(material)
+        val customMaterial = material.copy(id = "${UUID.randomUUID()}")
+        materialList.add(customMaterial)
         return getCrudResult(title)
     }
 

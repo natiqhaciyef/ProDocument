@@ -18,6 +18,50 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <LinearLayout
+        android:id="@+id/notFoundLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/notFoundImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/material_not_found_icon"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/notFoundTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:fontFamily="@font/urbanist_bold"
+            android:text="@string/not_found_result_title"
+            android:textAlignment="center"
+            android:textColor="@color/grayscale_900"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/notFoundDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/urbanist_regular"
+            android:text="@string/not_found_result_description"
+            android:textAlignment="center"
+            android:textColor="@color/grayscale_900"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
     <ScrollView
         android:id="@+id/uiLayout"
         android:layout_width="match_parent"

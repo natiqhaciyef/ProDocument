@@ -4,7 +4,7 @@ import com.natiqhaciyef.common.model.FaqModel
 import com.natiqhaciyef.core.base.repository.BaseRepository
 import com.natiqhaciyef.common.model.ProScanInfoModel
 import com.natiqhaciyef.common.model.ProscanSectionModel
-import com.natiqhaciyef.domain.network.NetworkResult
+import com.natiqhaciyef.core.base.network.NetworkResult
 
 interface AppRepository: BaseRepository {
 

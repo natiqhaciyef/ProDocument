@@ -27,6 +27,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import coil.load
 import com.natiqhaciyef.common.constants.EMPTY_STRING
+import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.common.constants.TWO_HUNDRED
 import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
 import com.natiqhaciyef.common.constants.ZERO
@@ -39,6 +40,7 @@ import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.HOME_ROUTE
 import com.natiqhaciyef.prodocument.ui.view.main.home.CustomMaterialOptionsBottomSheetFragment
 import com.natiqhaciyef.prodocument.ui.view.main.home.options.watermark.CustomWatermarkAdderBottomSheetFragment
 import com.natiqhaciyef.core.model.CategoryItem
+import com.natiqhaciyef.core.store.AppStorePrefKeys.WATERMARK_EXPLANATION_KEY
 import com.natiqhaciyef.prodocument.BuildConfig
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.uikit.manager.FileManager.createAndShareFile
@@ -113,7 +115,8 @@ class ModifyPdfFragment(
                     else -> {}
                 }
 
-                titleButtonChangeAction()
+                if (type != PROTECT_TYPE)
+                    titleButtonChangeAction()
             }
         }
     }
@@ -121,11 +124,19 @@ class ModifyPdfFragment(
     override fun onStateChange(state: ModifyPdfContract.ModifyPdfState) {
         when {
             state.isLoading -> {
+                changeVisibilityOfProgressBar(true)
+                errorResultConfig()
+            }
+
+            isIdleState(state) -> {
                 changeVisibilityOfProgressBar()
+                errorResultConfig(true)
             }
 
             else -> {
-                changeVisibilityOfProgressBar(false)
+                errorResultConfig()
+                changeVisibilityOfProgressBar()
+
                 if (state.optionsList != null)
                     showBottomSheetDialog(state.optionsList!!)
 
@@ -174,6 +185,16 @@ class ModifyPdfFragment(
         }
     }
 
+    private fun errorResultConfig(isVisible: Boolean = false){
+        with(binding){
+            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
+            uiLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
+
+            notFoundDescription.text = getString(com.natiqhaciyef.common.R.string.files_loading_error_description_result)
+            notFoundTitle.text = SOMETHING_WENT_WRONG
+        }
+    }
+
     private fun scanQrConfig(material: MappedMaterialModel) {
         with(binding) {
             imageView.visibility = View.VISIBLE
@@ -210,12 +231,12 @@ class ModifyPdfFragment(
         with(binding) {
             pdfView.visibility = View.VISIBLE
             imageView.visibility = View.GONE
-            uriAddress = getAddressOfFile(
-                BuildConfig.APPLICATION_ID,
-                requireContext(),
-                mappedMaterialModel.url
-            ) ?: EMPTY_STRING.toUri()
-            pdfView.createSafePdfUriLoader(uriAddress!!)
+//            uriAddress = getAddressOfFile(
+//                BuildConfig.APPLICATION_ID,
+//                requireContext(),
+//                mappedMaterialModel.url
+//            ) ?: EMPTY_STRING.toUri()
+            pdfView.createSafePdfUriLoader(mappedMaterialModel.url)
 
             val pdfParams = pdfView.layoutParams as ConstraintLayout.LayoutParams
             pdfParams.bottomMargin = ZERO
@@ -242,6 +263,21 @@ class ModifyPdfFragment(
             val params = pdfTitleText.layoutParams as ConstraintLayout.LayoutParams
             params.endToStart = optionsIconButton.id
 
+            lifecycleScope.launch {
+                if (!dataStore.readBoolean(requireContext(), WATERMARK_EXPLANATION_KEY)) {
+                    blurView.visibility = View.VISIBLE
+                    watermarkLayout.visibility = View.VISIBLE
+                    blurConfig(true)
+                }
+            }
+
+            understandButton.setOnClickListener {
+                blurView.visibility = View.GONE
+                watermarkLayout.visibility = View.GONE
+                lifecycleScope.launch {
+                    dataStore.saveBoolean(requireContext(), true, WATERMARK_EXPLANATION_KEY)
+                }
+            }
 
             saveButton.text = getString(com.natiqhaciyef.common.R.string.continue_)
             pdfTitleText.setText(title ?: material.title)
@@ -279,21 +315,26 @@ class ModifyPdfFragment(
 
     @RequiresApi(Build.VERSION_CODES.S)
     private fun protectConfig(material: MappedMaterialModel) {
+        var isLocked = true
         with(binding) {
             pdfView.visibility = View.VISIBLE
             protectionIcon.visibility = View.VISIBLE
             blurView.visibility = View.VISIBLE
             pdfView.createSafePdfUriLoader(material.url)
             blurConfig(true)
+            modifyIconButton.visibility = View.VISIBLE
+            modifyIconButton.setImageResource(com.natiqhaciyef.common.R.drawable.modify_icon)
 
             protectionIcon.setOnClickListener {
-                OpenLockProtectedFileBottomSheetFragment{
+                OpenLockProtectedFileBottomSheetFragment {
                     if (it == material.protectionKey) {
+                        isLocked = false
                         blurView.visibility = View.GONE
                         protectionIcon.visibility = View.GONE
+                        modifyIconButton.setImageResource(com.natiqhaciyef.common.R.drawable.lock_icon)
                     }
                 }.show(
-                    if(!isAdded) return@setOnClickListener else childFragmentManager,
+                    if (!isAdded) return@setOnClickListener else childFragmentManager,
                     OpenLockProtectedFileBottomSheetFragment::class.simpleName
                 )
             }
@@ -301,9 +342,23 @@ class ModifyPdfFragment(
             val params = pdfTitleText.layoutParams as ConstraintLayout.LayoutParams
             params.endToStart = optionsIconButton.id
 
+            modifyIconButton.setOnClickListener {
+                blurView.visibility = View.VISIBLE
+                protectionIcon.visibility = View.VISIBLE
+                optionsIconButton.visibility = View.VISIBLE
+                isLocked = !isLocked
+
+                if (isLocked) {
+                    modifyIconButton.setImageResource(com.natiqhaciyef.common.R.drawable.modify_icon)
+                    titleButtonChangeAction()
+                }else {
+                    modifyIconButton.setImageResource(com.natiqhaciyef.common.R.drawable.lock_icon)
+                }
+            }
+
+
             saveButton.text = getString(com.natiqhaciyef.common.R.string.save)
             pdfTitleText.setText(title ?: material.title)
-            modifyIconButton.visibility = View.VISIBLE
             saveButton.setOnClickListener { saveButtonClickEvent(material) }
 
             optionsIconButton.setOnClickListener { getOptionsEvent() }

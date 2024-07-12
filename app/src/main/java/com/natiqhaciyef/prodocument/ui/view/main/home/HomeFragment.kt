@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.OptIn
+import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.ExperimentalGetImage
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.GridLayoutManager
@@ -18,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.constants.EMPTY_STRING
 import com.natiqhaciyef.common.constants.FOUR
+import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
+import com.natiqhaciyef.common.model.ParamsUIModel
 import com.natiqhaciyef.prodocument.databinding.FragmentHomeBinding
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
@@ -29,12 +32,16 @@ import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TYPE
 import com.natiqhaciyef.prodocument.ui.util.DefaultImplModels
 import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.SCAN_QR_TYPE
 import com.natiqhaciyef.prodocument.ui.util.UiList
+import com.natiqhaciyef.prodocument.ui.util.getOptions
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
+import com.natiqhaciyef.prodocument.ui.view.main.files.FileBottomSheetOptionFragment
+import com.natiqhaciyef.prodocument.ui.view.main.files.contract.FileContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.contract.HomeContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.viewmodel.HomeViewModel
 import com.natiqhaciyef.prodocument.ui.view.main.modify.ModifyPdfFragment.Companion.PREVIEW_IMAGE
 import com.natiqhaciyef.uikit.adapter.FileItemAdapter
 import com.natiqhaciyef.uikit.adapter.MenuAdapter
+import com.natiqhaciyef.uikit.alert.AlertDialogManager.createDynamicResultAlertDialog
 import com.natiqhaciyef.uikit.manager.PermissionManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.KClass
@@ -82,7 +89,10 @@ class HomeFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.postEvent(HomeContract.HomeEvent.GetAllMaterials)
         activityConfig()
+        menuAdapterConfig()
+        recentFilesClickAction()
         fabGalleryConfig()
         cameraConfig()
     }
@@ -91,18 +101,26 @@ class HomeFragment(
         when {
             state.isLoading -> {
                 changeVisibilityOfProgressBar(true)
+                errorResultConfig()
+            }
+
+            isIdleState(state) -> {
+                changeVisibilityOfProgressBar()
+                errorResultConfig(true)
             }
 
             else -> {
+                errorResultConfig()
                 changeVisibilityOfProgressBar()
 
                 if (state.list != null)
                     recyclerViewConfig(state.list!!)
 
-                if (state.material != null) {
-                    // navigate to single file action
+                if (state.material != null)
                     fileClickAction(state.material!!)
-                }
+
+                if (state.result != null)
+                    viewModel.postEvent(HomeContract.HomeEvent.GetAllMaterials)
             }
         }
     }
@@ -117,14 +135,32 @@ class HomeFragment(
     private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
         if (isVisible) {
             binding.apply {
+                uiLayout.visibility = View.GONE
                 progressBarIndicator.visibility = View.VISIBLE
                 progressBarIndicator.isIndeterminate = true
+                fabCameraIcon.visibility = View.GONE
+                fabGalleryIcon.visibility = View.GONE
             }
         } else {
             binding.apply {
+                uiLayout.visibility = View.VISIBLE
                 progressBarIndicator.visibility = View.GONE
                 progressBarIndicator.isIndeterminate = false
+                fabCameraIcon.visibility = View.VISIBLE
+                fabGalleryIcon.visibility = View.VISIBLE
             }
+        }
+    }
+
+    private fun errorResultConfig(isVisible: Boolean = false){
+        with(binding){
+            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
+            uiLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
+
+            notFoundDescription.text = getString(com.natiqhaciyef.common.R.string.files_loading_error_description_result)
+            notFoundTitle.text = SOMETHING_WENT_WRONG
+            fabCameraIcon.visibility = View.GONE
+            fabGalleryIcon.visibility = View.GONE
         }
     }
 
@@ -138,9 +174,6 @@ class HomeFragment(
             materialToolbar.setVisibilitySearch(View.GONE)
             materialToolbar.setVisibilityToolbar(View.VISIBLE)
         }
-        viewModel.postEvent(HomeContract.HomeEvent.GetAllMaterials)
-        menuAdapterConfig()
-        recentFilesClickAction()
     }
 
     private fun menuAdapterConfig() {
@@ -179,6 +212,11 @@ class HomeFragment(
             fileClickEvent(material.id)
         }
 
+        adapter?.optionAction = { material ->
+            val params = getOptions(requireContext())
+            optionClickAction(material, params)
+        }
+
         binding.apply {
             filesRecyclerView.adapter = adapter
             filesRecyclerView.layoutManager =
@@ -213,6 +251,32 @@ class HomeFragment(
                 .request(PermissionManager.Permission.createCustomPermission(Manifest.permission.READ_EXTERNAL_STORAGE))
                 .checkPermission { startGalleryConfig() }
                 .build()
+        }
+    }
+
+    private fun optionClickAction(material: MappedMaterialModel, params: List<ParamsUIModel>) {
+        // add bottom sheet here
+        FileBottomSheetOptionFragment(this, material, params,
+            onClickAction = {
+                viewModel.postEvent(HomeContract.HomeEvent.GetAllMaterials)
+            }
+        ) {
+            removeFile(it)
+        }.show(
+            if (!isAdded) return else this.childFragmentManager,
+            FileBottomSheetOptionFragment::class.simpleName
+        )
+    }
+
+    private fun removeFile(material: MappedMaterialModel){
+        (requireActivity() as AppCompatActivity).createDynamicResultAlertDialog(
+            title = requireContext().getString(R.string.remove_title_result),
+            description = requireContext().getString(R.string.remove_description_result),
+            buttonText = requireContext().getString(R.string.remove_button_result),
+            resultIconId = R.drawable.delete_bs_icon
+        ) {
+            viewModel.postEvent(HomeContract.HomeEvent.RemoveMaterial(material.id))
+            it.dismiss()
         }
     }
 

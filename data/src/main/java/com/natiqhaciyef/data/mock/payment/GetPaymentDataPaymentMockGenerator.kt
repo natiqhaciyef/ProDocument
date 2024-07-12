@@ -1,5 +1,6 @@
 package com.natiqhaciyef.data.mock.payment
 
+import com.natiqhaciyef.common.constants.MOCK_ERROR_OCCURRED_DUE_TO_NULL_RETURN
 import com.natiqhaciyef.common.constants.THIRTY_SIX
 import com.natiqhaciyef.common.constants.TWELVE
 import com.natiqhaciyef.common.constants.ZERO
@@ -14,38 +15,21 @@ class GetPaymentDataPaymentMockGenerator(
     override var takenRequest: PaymentRequest
 ) : BaseMockGenerator<PaymentRequest, PaymentChequeResponse>() {
     override var createdMock: PaymentChequeResponse =
-        PaymentChequeResponse(
-            checkId = "mock-key-id",
-            title = "Payment food",
-            description = "Payment refund is not available",
-            subscriptionDetails = SubscriptionPlanPaymentDetails(
-                expirationTime = TWELVE,
-                expirationTimeType = "Month",
-                price = THIRTY_SIX.toDouble(),
-                fee = 2.26,
-                discount = ZERO.toDouble()
-            ),
-            totalAmount = 38.26,
-            currency = "USD",
-            paymentDetails = PaymentDetails(
-                cardHolder = "Username",
-                cardNumber = "0000 1111 2222 3333",
-                expireDate = "12/19",
-                currency = "USD",
-                cvv = "909"
-            ),
-            paymentResult = "SUCCESS",
-            date = "00.00.0000 00:00"
-        )
+        PaymentMockManager.getPayment(payment = takenRequest)
 
     override fun getMock(
-        request: PaymentRequest,
-        action: (PaymentRequest) -> PaymentChequeResponse?
+        action: ((PaymentRequest) -> PaymentChequeResponse?)?
     ): PaymentChequeResponse {
-        if (request == takenRequest)
-            return createdMock
+        if (action != null)
+            try {
+                return action.invoke(takenRequest) ?: throw Companion.MockRequestException(
+                    MOCK_ERROR_OCCURRED_DUE_TO_NULL_RETURN
+                )
+            } catch (e: Exception) {
+                println(e)
+            }
 
-        return PaymentMockManager.getPayment(payment = takenRequest)
+        return createdMock
     }
 
     companion object StartPaymentMockGenerator{

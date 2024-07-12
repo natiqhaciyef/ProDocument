@@ -19,6 +19,7 @@ import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanning
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanningResult
+import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.common.helpers.loadImage
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.ui.util.CameraUtil
@@ -113,6 +114,10 @@ class CaptureImageFragment(
                 changeVisibilityOfProgressBar()
             }
 
+            isIdleState(state) -> {
+                errorResultConfig(true)
+            }
+
             else ->{
                 changeVisibilityOfProgressBar(false)
 
@@ -142,6 +147,16 @@ class CaptureImageFragment(
                 progressBar.visibility = View.GONE
                 progressBar.isIndeterminate = false
             }
+        }
+    }
+
+    private fun errorResultConfig(isVisible: Boolean = true){
+        with(binding){
+            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
+            uiLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
+
+            notFoundDescription.text = getString(com.natiqhaciyef.common.R.string.files_loading_error_description_result)
+            notFoundTitle.text = SOMETHING_WENT_WRONG
         }
     }
 

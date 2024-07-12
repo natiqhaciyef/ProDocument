@@ -7,15 +7,15 @@ import com.natiqhaciyef.core.base.ui.UiState
 
 object ProtectFileContract {
 
-    sealed class ProtectFileEvent : UiEvent {
+    sealed interface ProtectFileEvent : UiEvent {
         data class ProtectFileWithKeyEvent(
             val key: String,
             val material: MappedMaterialModel
-        ) : ProtectFileEvent()
+        ) : ProtectFileEvent
     }
 
 
-    sealed class ProtectFileEffect : UiEffect {
+    sealed interface ProtectFileEffect : UiEffect {
 
     }
 

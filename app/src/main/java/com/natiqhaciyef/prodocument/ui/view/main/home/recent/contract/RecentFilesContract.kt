@@ -7,11 +7,11 @@ import com.natiqhaciyef.core.base.ui.UiState
 
 object RecentFilesContract {
 
-    sealed class RecentFilesEvent: UiEvent{
-        data object GetAllMaterials : RecentFilesEvent()
+    sealed interface RecentFilesEvent: UiEvent{
+        data object GetAllMaterials : RecentFilesEvent
     }
 
-    sealed class RecentFilesEffect: UiEffect{
+    sealed interface RecentFilesEffect: UiEffect{
 
     }
 
