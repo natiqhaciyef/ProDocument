@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,151 +7,212 @@
     android:background="@color/grayscale_50"
     tools:context=".ui.view.main.profile.params.personalinfo.PersonalInfoFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/primary_900"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/notFoundLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/notFoundImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/material_not_found_icon"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/notFoundTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:fontFamily="@font/urbanist_bold"
+            android:text="@string/not_found_result_title"
+            android:textAlignment="center"
+            android:textColor="@color/grayscale_900"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/notFoundDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/urbanist_regular"
+            android:text="@string/not_found_result_description"
+            android:textAlignment="center"
+            android:textColor="@color/grayscale_900"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/uiLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/userImage"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginTop="24dp"
-            android:src="@drawable/profile_account_icon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/RoundedCornerImage" />
-
-        <ImageView
-            android:id="@+id/completeProfileAccountImageEditIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/profile_edit_icon"
-            app:layout_constraintBottom_toBottomOf="@id/userImage"
-            app:layout_constraintEnd_toEndOf="@id/userImage"
-            app:layout_constraintHorizontal_bias="0.95"
-            app:layout_constraintStart_toStartOf="@id/userImage"
-            app:layout_constraintTop_toTopOf="@id/userImage"
-            app:layout_constraintVertical_bias="1.0" />
-
-        <com.natiqhaciyef.uikit.custom.CustomInputView
-            android:id="@+id/fullNameInput"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            app:customHint="@string/full_name"
-            app:customInputType="text"
-            app:customTitle="@string/full_name"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/userImage" />
-
-        <com.natiqhaciyef.uikit.custom.CustomInputView
-            android:id="@+id/emailInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            app:customHint="@string/email"
-            app:customInputType="email"
-            app:customTitle="@string/email"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fullNameInput" />
-
-        <com.natiqhaciyef.uikit.custom.CustomInputView
-            android:id="@+id/phoneNumberInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            app:customHint="@string/phone_number_example"
-            app:customInputType="number"
-            app:customTitle="@string/phone_number"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/emailInput" />
-
-        <com.natiqhaciyef.uikit.custom.CustomExpandedDropDownCardView
-            android:id="@+id/genderInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            app:customDropDownHint="@string/gender"
-            app:customDropDownTitle="@string/gender"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/phoneNumberInput" />
-
-        <com.natiqhaciyef.uikit.custom.CustomInputView
-            android:id="@+id/dateOfBirthInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            app:customHint="@string/date_of_birth_example"
-            app:customInputType="dob"
-            app:customTitle="@string/date_of_birth"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/genderInput" />
-
-        <com.natiqhaciyef.uikit.custom.CustomExpandedDropDownCardView
-            android:id="@+id/countryInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            app:customDropDownHint="@string/country"
-            app:customDropDownTitle="@string/country"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dateOfBirthInput" />
-
-        <com.natiqhaciyef.uikit.custom.CustomInputView
-            android:id="@+id/cityInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            app:customHint="@string/city"
-            app:customInputType="text"
-            app:customTitle="@string/city"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/countryInput" />
+            android:layout_height="match_parent">
 
 
-        <com.natiqhaciyef.uikit.custom.CustomInputView
-            android:id="@+id/streetAddressInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            app:customHint="@string/street_address"
-            app:customInputType="text"
-            app:customTitle="@string/street_address"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cityInput" />
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/userImage"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="24dp"
+                android:src="@drawable/profile_account_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/RoundedCornerImage" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/continueButton"
-            style="@style/EnabledButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="32dp"
-            app:layout_constraintVertical_bias="0.0"
-            android:layout_marginBottom="24dp"
-            android:background="@drawable/custom_button_background"
-            android:enabled="false"
-            android:fontFamily="@font/urbanist_bold"
-            android:text="@string/save_changes"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/streetAddressInput" />
+            <ImageView
+                android:id="@+id/completeProfileAccountImageEditIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/profile_edit_icon"
+                app:layout_constraintBottom_toBottomOf="@id/userImage"
+                app:layout_constraintEnd_toEndOf="@id/userImage"
+                app:layout_constraintHorizontal_bias="0.95"
+                app:layout_constraintStart_toStartOf="@id/userImage"
+                app:layout_constraintTop_toTopOf="@id/userImage"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <com.natiqhaciyef.uikit.custom.CustomInputView
+                android:id="@+id/fullNameInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:customHint="@string/full_name"
+                app:customInputType="text"
+                app:customTitle="@string/full_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/userImage" />
+
+            <com.natiqhaciyef.uikit.custom.CustomInputView
+                android:id="@+id/emailInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:customHint="@string/email"
+                app:customInputType="email"
+                app:customTitle="@string/email"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fullNameInput" />
+
+            <com.natiqhaciyef.uikit.custom.CustomInputView
+                android:id="@+id/phoneNumberInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:customHint="@string/phone_number_example"
+                app:customInputType="number"
+                app:customTitle="@string/phone_number"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/emailInput" />
+
+            <com.natiqhaciyef.uikit.custom.CustomExpandedDropDownCardView
+                android:id="@+id/genderInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:customDropDownHint="@string/gender"
+                app:customDropDownTitle="@string/gender"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/phoneNumberInput" />
+
+            <com.natiqhaciyef.uikit.custom.CustomInputView
+                android:id="@+id/dateOfBirthInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:customHint="@string/date_of_birth_example"
+                app:customInputType="dob"
+                app:customTitle="@string/date_of_birth"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/genderInput" />
+
+            <com.natiqhaciyef.uikit.custom.CustomExpandedDropDownCardView
+                android:id="@+id/countryInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:customDropDownHint="@string/country"
+                app:customDropDownTitle="@string/country"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dateOfBirthInput" />
+
+            <com.natiqhaciyef.uikit.custom.CustomInputView
+                android:id="@+id/cityInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:customHint="@string/city"
+                app:customInputType="text"
+                app:customTitle="@string/city"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/countryInput" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.natiqhaciyef.uikit.custom.CustomInputView
+                android:id="@+id/streetAddressInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:customHint="@string/street_address"
+                app:customInputType="text"
+                app:customTitle="@string/street_address"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cityInput" />
 
-</ScrollView>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/continueButton"
+                style="@style/EnabledButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/custom_button_background"
+                android:enabled="false"
+                android:fontFamily="@font/urbanist_bold"
+                android:text="@string/save_changes"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/streetAddressInput"
+                app:layout_constraintVertical_bias="0.0" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

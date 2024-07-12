@@ -21,7 +21,7 @@
 
     <LinearLayout
         android:id="@+id/notFoundLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
@@ -33,7 +33,7 @@
 
         <ImageView
             android:id="@+id/notFoundImage"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/material_not_found_icon"
             android:visibility="visible"

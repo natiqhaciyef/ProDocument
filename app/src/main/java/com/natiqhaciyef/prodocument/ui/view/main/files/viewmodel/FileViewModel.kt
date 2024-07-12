@@ -140,7 +140,7 @@ class FileViewModel @Inject constructor(
                 }
 
                 Status.ERROR -> {
-                    setBaseState(IDLE)
+                    setBaseState(getCurrentBaseState().copy(isLoading = false))
                 }
 
                 Status.LOADING -> {

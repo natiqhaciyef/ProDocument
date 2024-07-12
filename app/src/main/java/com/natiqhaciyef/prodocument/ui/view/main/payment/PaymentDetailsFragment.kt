@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
 import com.natiqhaciyef.common.constants.FORMATTED_NUMBER_TWO
+import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.common.constants.TWO_HUNDRED
 import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
 import com.natiqhaciyef.common.model.Currency
@@ -50,10 +51,19 @@ class PaymentDetailsFragment(
     override fun onStateChange(state: PaymentContract.PaymentState) {
         when {
             state.isLoading -> {
+                changeVisibilityOfProgressBar(true)
+                errorResultConfig()
+            }
 
+            isIdleState(state) -> {
+                changeVisibilityOfProgressBar()
+                errorResultConfig(true)
             }
 
             else -> {
+                changeVisibilityOfProgressBar()
+                errorResultConfig()
+
                 if (chequeModel != null && state.paymentResult != null) {
                     if (state.paymentResult!!.resultCode in TWO_HUNDRED..TWO_HUNDRED_NINETY_NINE)
                         confirmButtonAction(chequeModel!!)
@@ -65,6 +75,32 @@ class PaymentDetailsFragment(
                     paymentBottomSheetConfig(state.paymentMethodsList!!)
                 }
             }
+        }
+    }
+
+    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
+        if (isVisible) {
+            binding.apply {
+                uiLayout.visibility = View.GONE
+                progressBar.visibility = View.VISIBLE
+                progressBar.isIndeterminate = true
+            }
+        } else {
+            binding.apply {
+                uiLayout.visibility = View.VISIBLE
+                progressBar.visibility = View.GONE
+                progressBar.isIndeterminate = false
+            }
+        }
+    }
+
+    private fun errorResultConfig(isVisible: Boolean = false){
+        with(binding){
+            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
+            uiLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
+
+            notFoundDescription.text = getString(com.natiqhaciyef.common.R.string.files_loading_error_description_result)
+            notFoundTitle.text = SOMETHING_WENT_WRONG
         }
     }
 

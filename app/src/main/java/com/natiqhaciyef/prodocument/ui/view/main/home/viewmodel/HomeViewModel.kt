@@ -2,7 +2,6 @@ package com.natiqhaciyef.prodocument.ui.view.main.home.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.model.Status
-import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.base.ui.BaseViewModel
 import com.natiqhaciyef.domain.usecase.material.GetAllMaterialsRemoteUseCase
 import com.natiqhaciyef.domain.usecase.material.GetMaterialByIdRemoteUseCase
@@ -92,7 +91,6 @@ class HomeViewModel @Inject constructor(
                                 result.exception
                             )
                         )
-
                         setBaseState(getCurrentBaseState().copy(isLoading = false))
                     }
 

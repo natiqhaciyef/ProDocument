@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.FragmentPreferencesBinding
@@ -34,11 +35,21 @@ class PreferencesFragment(
     }
 
     override fun onStateChange(state: ProfileContract.ProfileState) {
-        when{
-            state.isLoading -> { changeVisibilityOfProgressBar(true) }
+        when {
+            state.isLoading -> {
+                changeVisibilityOfProgressBar(true)
+                errorResultConfig()
+            }
+
+            isIdleState(state) -> {
+                changeVisibilityOfProgressBar()
+                errorResultConfig(true)
+            }
 
             else -> {
                 changeVisibilityOfProgressBar()
+                errorResultConfig()
+
                 if (state.paramsUIModelList != null)
                     recyclerViewConfig(state.paramsUIModelList!!)
             }
@@ -63,6 +74,18 @@ class PreferencesFragment(
         }
     }
 
+    private fun errorResultConfig(isVisible: Boolean = false) {
+        with(binding) {
+            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
+            preferencesRecyclerView.visibility = if (isVisible) View.GONE else View.VISIBLE
+
+            notFoundDescription.text =
+                getString(com.natiqhaciyef.common.R.string.files_loading_error_description_result)
+            notFoundTitle.text = SOMETHING_WENT_WRONG
+        }
+    }
+
+
     private fun activityConfig() {
         (activity as MainActivity).also {
             with(it.binding) {
@@ -74,7 +97,7 @@ class PreferencesFragment(
                     appIconVisibility(View.VISIBLE)
                     setVisibilitySearch(View.GONE)
                     setVisibilityOptionsMenu(View.GONE)
-                    changeAppIcon(com.natiqhaciyef.common.R.drawable.back_arrow_icon){
+                    changeAppIcon(com.natiqhaciyef.common.R.drawable.back_arrow_icon) {
                         onToolbarBackPressAction(bottomNavBar)
                     }
                 }

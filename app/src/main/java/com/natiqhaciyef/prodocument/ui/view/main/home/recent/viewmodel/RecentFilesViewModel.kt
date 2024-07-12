@@ -32,7 +32,7 @@ class RecentFilesViewModel @Inject constructor(
                     }
 
                     Status.ERROR -> {
-
+                        setBaseState(getCurrentBaseState().copy(isLoading = false))
                     }
 
                     Status.LOADING -> {

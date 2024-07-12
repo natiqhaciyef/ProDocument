@@ -10,6 +10,7 @@ import androidx.camera.core.ExperimentalGetImage
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.natiqhaciyef.common.R
+import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.databinding.FragmentFilesBinding
 import com.natiqhaciyef.core.model.CategoryItem
@@ -23,8 +24,6 @@ import com.natiqhaciyef.common.model.ParamsUIModel
 import com.natiqhaciyef.core.base.ui.BaseRecyclerHolderStatefulFragment
 import com.natiqhaciyef.prodocument.BuildConfig
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TYPE
-import com.natiqhaciyef.prodocument.ui.view.main.home.contract.HomeContract
-import com.natiqhaciyef.prodocument.ui.view.main.modify.ModifyPdfFragment
 import com.natiqhaciyef.prodocument.ui.view.main.modify.ModifyPdfFragment.Companion.PREVIEW_IMAGE
 import com.natiqhaciyef.uikit.adapter.FileItemAdapter
 import com.natiqhaciyef.uikit.alert.AlertDialogManager.createDynamicResultAlertDialog
@@ -57,15 +56,21 @@ class FilesFragment(
         when {
             state.isLoading -> {
                 changeVisibilityOfProgressBar(true)
-                errorResultConfig()
             }
 
-            state.material == null && state.list.isNullOrEmpty() && state.params.isNullOrEmpty() && state.result == null -> {
-                errorResultConfig(true)
+            isIdleState(state)-> {
+                changeVisibilityOfProgressBar()
+                errorResultConfig()
             }
 
             else -> {
-                errorResultConfig()
+                if (
+                    state.material == null
+                    && state.list.isNullOrEmpty()
+                    && state.params.isNullOrEmpty()
+                    && state.result == null
+                ) { emptyResultConfig(true) }
+
                 changeVisibilityOfProgressBar()
 
                 if (state.list != null) {
@@ -116,14 +121,24 @@ class FilesFragment(
         }
     }
 
-    private fun errorResultConfig(isVisible: Boolean = false){
+    private fun errorResultConfig(isVisible: Boolean = true){
         with(binding){
             notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
+            uiLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
 
-            if (isVisible){
+            notFoundDescription.text = getString(R.string.files_loading_error_description_result)
+            notFoundTitle.text = SOMETHING_WENT_WRONG
+        }
+    }
+
+    private fun emptyResultConfig(isVisible: Boolean = false) {
+        with(binding) {
+            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
+
+            if (isVisible) {
                 notFoundDescription.text = getString(R.string.files_not_inserted_yet_result)
                 notFoundTitle.text = getString(R.string.nothing_modified_yet_result)
-            }else{
+            } else {
                 notFoundDescription.text = getString(R.string.not_found_result_description)
                 notFoundTitle.text = getString(R.string.not_found_result_title)
             }
@@ -153,11 +168,11 @@ class FilesFragment(
             fileTotalAmountTitle.text =
                 getString(R.string.total_file_amount_title, "${list.size}")
             adapter = FileItemAdapter(
-                    list.toMutableList(),
-                    requireContext().getString(R.string.scan_code),
-                    this@FilesFragment,
-                    requireContext()
-                )
+                list.toMutableList(),
+                requireContext().getString(R.string.scan_code),
+                this@FilesFragment,
+                requireContext()
+            )
 
             filesRecyclerView.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -199,7 +214,7 @@ class FilesFragment(
     private fun optionClickAction(state: FileContract.FileState) {
         // add bottom sheet here
         storedMaterial?.let { material ->
-            FileBottomSheetOptionFragment(this , material, params,
+            FileBottomSheetOptionFragment(this, material, params,
                 onClickAction = {
                     holdCurrentState(state)
                     getFilesEvent()
@@ -213,7 +228,7 @@ class FilesFragment(
         }
     }
 
-    private fun removeFile(material: MappedMaterialModel){
+    private fun removeFile(material: MappedMaterialModel) {
         (requireActivity() as AppCompatActivity).createDynamicResultAlertDialog(
             title = requireContext().getString(R.string.remove_title_result),
             description = requireContext().getString(R.string.remove_description_result),

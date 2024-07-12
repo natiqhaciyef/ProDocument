@@ -73,6 +73,7 @@
     <string name="remove_title_result">Confirmation</string>
     <string name="remove_description_result">Are you sure about deleting file ?</string>
     <string name="remove_button_result">Delete</string>
+    <string name="files_loading_error_description_result">Loading files failed. Reload screen and check your internet connection.</string>
 
 
     <!-- Onboarding & Walkthrough -->

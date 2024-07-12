@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.navArgs
+import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.prodocument.databinding.FragmentESignBinding
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_SIGN_BITMAP
@@ -36,10 +37,19 @@ class ESignFragment(
     override fun onStateChange(state: ESignContract.ESignState) {
         when {
             state.isLoading -> {
+                changeVisibilityOfProgressBar(true)
+                errorResultConfig(false)
+            }
 
+            isIdleState(state) -> {
+                changeVisibilityOfProgressBar(false)
+                errorResultConfig()
             }
 
             else -> {
+                changeVisibilityOfProgressBar(false)
+                errorResultConfig(false)
+
                 if (state.signBitmap != null)
                     continueButtonClickAction(state.signBitmap!!)
             }
@@ -48,6 +58,30 @@ class ESignFragment(
 
     override fun onEffectUpdate(effect: ESignContract.ESignEffect) {
 
+    }
+
+    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
+        if (isVisible) {
+            binding.apply {
+                progressBar.visibility = View.VISIBLE
+                progressBar.isIndeterminate = true
+            }
+        } else {
+            binding.apply {
+                progressBar.visibility = View.GONE
+                progressBar.isIndeterminate = false
+            }
+        }
+    }
+
+    private fun errorResultConfig(isVisible: Boolean = true){
+        with(binding){
+            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
+            uiLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
+
+            notFoundDescription.text = getString(com.natiqhaciyef.common.R.string.files_loading_error_description_result)
+            notFoundTitle.text = SOMETHING_WENT_WRONG
+        }
     }
 
     private fun continueButtonClickAction(signBitmap: Bitmap) {

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.common.R
+import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.common.model.mapped.MappedTokenModel
 import com.natiqhaciyef.core.base.ui.BaseRecyclerHolderStatefulFragment
 import com.natiqhaciyef.core.store.AppStorePrefKeys.TOKEN_KEY
@@ -40,8 +41,20 @@ class RecentFilesFragment(
 
     override fun onStateChange(state: RecentFilesContract.RecentFilesState) {
         when {
-            state.isLoading -> {}
+            state.isLoading -> {
+                changeVisibilityOfProgressBar(true)
+                errorResultConfig()
+            }
+
+            isIdleState(state)-> {
+                changeVisibilityOfProgressBar()
+                errorResultConfig(true)
+            }
+
             else -> {
+                changeVisibilityOfProgressBar()
+                errorResultConfig()
+
                 if (state.list != null) {
                     list = state.list!!
                     recyclerViewConfig(list)
@@ -55,18 +68,47 @@ class RecentFilesFragment(
     }
 
     private fun activityConfig() {
-        (activity as MainActivity).also {
-            it.binding.bottomNavBar.visibility = View.GONE
-            it.binding.materialToolbar.visibility = View.VISIBLE
-            it.binding.materialToolbar.visibility = View.VISIBLE
-            it.binding.materialToolbar.setTitleToolbar(getString(com.natiqhaciyef.common.R.string.recent_files))
-            it.binding.materialToolbar.changeVisibility(View.VISIBLE)
-            it.binding.materialToolbar.appIconVisibility(View.GONE)
-            it.binding.materialToolbar.setVisibilityOptionsMenu(View.GONE)
-            it.binding.materialToolbar.setVisibilitySearch(View.VISIBLE)
-            it.binding.materialToolbar.setVisibilityToolbar(View.VISIBLE)
+        (activity as MainActivity).binding.apply {
+            bottomNavBar.visibility = View.GONE
+            materialToolbar.visibility = View.VISIBLE
+            materialToolbar.visibility = View.VISIBLE
+            materialToolbar.setTitleToolbar(getString(com.natiqhaciyef.common.R.string.recent_files))
+            materialToolbar.changeVisibility(View.VISIBLE)
+            materialToolbar.appIconVisibility(View.GONE)
+            materialToolbar.setVisibilityOptionsMenu(View.GONE)
+            materialToolbar.setVisibilitySearch(View.VISIBLE)
+            materialToolbar.setVisibilityToolbar(View.VISIBLE)
         }
     }
+
+    private fun errorResultConfig(isVisible: Boolean = false){
+        with(binding){
+            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
+            filesRecyclerView.visibility = if (isVisible) View.GONE else View.VISIBLE
+
+            notFoundDescription.text = getString(R.string.files_loading_error_description_result)
+            notFoundTitle.text = SOMETHING_WENT_WRONG
+        }
+    }
+
+    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
+        if (isVisible) {
+            binding.apply {
+                filesRecyclerView.visibility = View.GONE
+                progressBar.visibility = View.VISIBLE
+                progressBar.isIndeterminate = true
+                notFoundLayout.visibility = View.GONE
+            }
+        } else {
+            binding.apply {
+                filesRecyclerView.visibility = View.VISIBLE
+                progressBar.visibility = View.GONE
+                progressBar.isIndeterminate = false
+                notFoundLayout.visibility = View.GONE
+            }
+        }
+    }
+
 
     override fun recyclerViewConfig(list: List<MappedMaterialModel>) {
         adapter =

@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.navArgs
+import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.common.helpers.toResponseString
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
@@ -43,12 +44,17 @@ class AddSignFragment(
         when {
             state.isLoading -> {
                 changeVisibilityOfProgressBar(true)
+                errorResultConfig(false)
+            }
+
+            isIdleState(state) -> {
+                changeVisibilityOfProgressBar(false)
+                errorResultConfig(true)
             }
 
             else -> {
+                errorResultConfig(false)
                 changeVisibilityOfProgressBar(false)
-
-
             }
         }
     }
@@ -69,9 +75,18 @@ class AddSignFragment(
         }
     }
 
+    private fun errorResultConfig(isVisible: Boolean = true){
+        with(binding){
+            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
+            uiLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
+
+            notFoundDescription.text = getString(com.natiqhaciyef.common.R.string.files_loading_error_description_result)
+            notFoundTitle.text = SOMETHING_WENT_WRONG
+        }
+    }
+
 
     private fun config() {
-
         val material = resBundle.getParcelable<MappedMaterialModel>(BUNDLE_MATERIAL)
         val signBitmap = resBundle.getParcelable<Bitmap>(BUNDLE_SIGN_BITMAP)
 

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.common.model.ContactMethods
 import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.core.base.ui.BaseRecyclerHolderStatefulFragment
@@ -32,10 +33,20 @@ class ContactFragment(
 
     override fun onStateChange(state: ProfileContract.ProfileState) {
         when {
-            state.isLoading -> changeVisibilityOfProgressBar(true)
+            state.isLoading -> {
+                changeVisibilityOfProgressBar(true)
+                errorResultConfig()
+            }
+
+            isIdleState(state) -> {
+                changeVisibilityOfProgressBar()
+                errorResultConfig(true)
+            }
 
             else -> {
                 changeVisibilityOfProgressBar()
+                errorResultConfig()
+
                 if (state.contactMethods != null)
                     recyclerViewConfig(state.contactMethods!!)
             }
@@ -57,6 +68,16 @@ class ContactFragment(
                 progressBar.visibility = View.GONE
                 progressBar.isIndeterminate = false
             }
+        }
+    }
+
+    private fun errorResultConfig(isVisible: Boolean = false){
+        with(binding){
+            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
+            recyclerContactView.visibility = if (isVisible) View.GONE else View.VISIBLE
+
+            notFoundDescription.text = getString(com.natiqhaciyef.common.R.string.files_loading_error_description_result)
+            notFoundTitle.text = SOMETHING_WENT_WRONG
         }
     }
 

@@ -59,7 +59,7 @@ class PaymentCategoriesFragment(
                 emptyListConfig()
             }
 
-            state == viewModel.IDLE -> {
+            isIdleState(state) -> {
                 // add error case
                 changeVisibilityOfProgressBar()
             }

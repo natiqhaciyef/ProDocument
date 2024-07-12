@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.constants.EMPTY_STRING
 import com.natiqhaciyef.common.constants.FOUR
+import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.common.model.ParamsUIModel
 import com.natiqhaciyef.prodocument.databinding.FragmentHomeBinding
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
@@ -100,9 +101,16 @@ class HomeFragment(
         when {
             state.isLoading -> {
                 changeVisibilityOfProgressBar(true)
+                errorResultConfig()
+            }
+
+            isIdleState(state) -> {
+                changeVisibilityOfProgressBar()
+                errorResultConfig(true)
             }
 
             else -> {
+                errorResultConfig()
                 changeVisibilityOfProgressBar()
 
                 if (state.list != null)
@@ -127,14 +135,32 @@ class HomeFragment(
     private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
         if (isVisible) {
             binding.apply {
+                uiLayout.visibility = View.GONE
                 progressBarIndicator.visibility = View.VISIBLE
                 progressBarIndicator.isIndeterminate = true
+                fabCameraIcon.visibility = View.GONE
+                fabGalleryIcon.visibility = View.GONE
             }
         } else {
             binding.apply {
+                uiLayout.visibility = View.VISIBLE
                 progressBarIndicator.visibility = View.GONE
                 progressBarIndicator.isIndeterminate = false
+                fabCameraIcon.visibility = View.VISIBLE
+                fabGalleryIcon.visibility = View.VISIBLE
             }
+        }
+    }
+
+    private fun errorResultConfig(isVisible: Boolean = false){
+        with(binding){
+            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
+            uiLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
+
+            notFoundDescription.text = getString(com.natiqhaciyef.common.R.string.files_loading_error_description_result)
+            notFoundTitle.text = SOMETHING_WENT_WRONG
+            fabCameraIcon.visibility = View.GONE
+            fabGalleryIcon.visibility = View.GONE
         }
     }
 

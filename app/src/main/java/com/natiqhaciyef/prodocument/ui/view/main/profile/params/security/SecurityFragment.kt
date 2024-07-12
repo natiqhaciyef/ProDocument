@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.FragmentSecurityBinding
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
@@ -35,7 +36,15 @@ class SecurityFragment(
 
     override fun onStateChange(state: ProfileContract.ProfileState) {
         when {
-            state.isLoading -> changeVisibilityOfProgressBar(true)
+            state.isLoading -> {
+                changeVisibilityOfProgressBar(true)
+                errorResultConfig()
+            }
+
+            isIdleState(state) -> {
+                errorResultConfig(true)
+                changeVisibilityOfProgressBar()
+            }
 
             else -> {
                 changeVisibilityOfProgressBar()
@@ -65,6 +74,17 @@ class SecurityFragment(
             }
         }
     }
+
+    private fun errorResultConfig(isVisible: Boolean = false){
+        with(binding){
+            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
+            uiLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
+
+            notFoundDescription.text = getString(com.natiqhaciyef.common.R.string.files_loading_error_description_result)
+            notFoundTitle.text = SOMETHING_WENT_WRONG
+        }
+    }
+
 
     private fun activityConfig() {
         (activity as MainActivity).also {

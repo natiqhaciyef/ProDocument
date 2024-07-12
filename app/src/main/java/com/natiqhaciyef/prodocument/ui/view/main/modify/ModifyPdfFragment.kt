@@ -27,6 +27,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import coil.load
 import com.natiqhaciyef.common.constants.EMPTY_STRING
+import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.common.constants.TWO_HUNDRED
 import com.natiqhaciyef.common.constants.TWO_HUNDRED_NINETY_NINE
 import com.natiqhaciyef.common.constants.ZERO
@@ -123,11 +124,19 @@ class ModifyPdfFragment(
     override fun onStateChange(state: ModifyPdfContract.ModifyPdfState) {
         when {
             state.isLoading -> {
+                changeVisibilityOfProgressBar(true)
+                errorResultConfig()
+            }
+
+            isIdleState(state) -> {
                 changeVisibilityOfProgressBar()
+                errorResultConfig(true)
             }
 
             else -> {
-                changeVisibilityOfProgressBar(false)
+                errorResultConfig()
+                changeVisibilityOfProgressBar()
+
                 if (state.optionsList != null)
                     showBottomSheetDialog(state.optionsList!!)
 
@@ -173,6 +182,16 @@ class ModifyPdfFragment(
                 progressBar.visibility = View.GONE
                 progressBar.isIndeterminate = false
             }
+        }
+    }
+
+    private fun errorResultConfig(isVisible: Boolean = false){
+        with(binding){
+            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
+            uiLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
+
+            notFoundDescription.text = getString(com.natiqhaciyef.common.R.string.files_loading_error_description_result)
+            notFoundTitle.text = SOMETHING_WENT_WRONG
         }
     }
 

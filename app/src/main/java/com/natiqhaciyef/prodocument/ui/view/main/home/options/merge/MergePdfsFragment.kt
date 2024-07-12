@@ -13,6 +13,7 @@ import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.constants.EMPTY_STRING
 import com.natiqhaciyef.common.constants.LINE
+import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.common.constants.SPACE
 import com.natiqhaciyef.common.constants.TWO
 import com.natiqhaciyef.prodocument.databinding.FragmentMergePdfsBinding
@@ -92,10 +93,18 @@ class MergePdfsFragment(
         when {
             state.isLoading -> {
                 changeVisibilityOfProgressBar(true)
+                errorResultConfig()
+            }
+
+            isIdleState(state) -> {
+                errorResultConfig(true)
+                changeVisibilityOfProgressBar()
             }
 
             else -> {
-                changeVisibilityOfProgressBar(false)
+                errorResultConfig()
+                changeVisibilityOfProgressBar()
+
                 if (state.mappedMaterialModel != null) {
                     mergeButtonAction(state.mappedMaterialModel!!)
                 }
@@ -122,6 +131,16 @@ class MergePdfsFragment(
                 progressBar.visibility = View.GONE
                 progressBar.isIndeterminate = false
             }
+        }
+    }
+
+    private fun errorResultConfig(isVisible: Boolean = false){
+        with(binding){
+            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
+            uiLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
+
+            notFoundDescription.text = getString(com.natiqhaciyef.common.R.string.files_loading_error_description_result)
+            notFoundTitle.text = SOMETHING_WENT_WRONG
         }
     }
 
