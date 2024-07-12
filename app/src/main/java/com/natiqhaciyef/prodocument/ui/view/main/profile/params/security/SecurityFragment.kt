@@ -48,6 +48,7 @@ class SecurityFragment(
 
             else -> {
                 changeVisibilityOfProgressBar()
+                errorResultConfig()
                 if (state.paramsUIModelList != null) {
                     recyclerViewConfig(state.paramsUIModelList!!)
                 }

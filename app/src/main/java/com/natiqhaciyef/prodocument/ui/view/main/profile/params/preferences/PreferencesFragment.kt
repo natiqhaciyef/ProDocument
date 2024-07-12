@@ -112,8 +112,9 @@ class PreferencesFragment(
 
     override fun recyclerViewConfig(list: List<ParamsUIModel>){
         adapter = ParamsAdapter(requireContext(), list.toMutableList())
-        with(binding.preferencesRecyclerView){
-            adapter = adapter
+        binding.preferencesRecyclerView.adapter = adapter
+        binding.preferencesRecyclerView.apply {
+            visibility = View.VISIBLE
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         }
     }
