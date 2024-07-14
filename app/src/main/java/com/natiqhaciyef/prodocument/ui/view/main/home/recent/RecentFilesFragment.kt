@@ -42,18 +42,15 @@ class RecentFilesFragment(
     override fun onStateChange(state: RecentFilesContract.RecentFilesState) {
         when {
             state.isLoading -> {
-                changeVisibilityOfProgressBar(true)
-                errorResultConfig()
+                binding.uiLayout.loadingState(true)
             }
 
             isIdleState(state)-> {
-                changeVisibilityOfProgressBar()
-                errorResultConfig(true)
+                binding.uiLayout.errorState(true)
             }
 
             else -> {
-                changeVisibilityOfProgressBar()
-                errorResultConfig()
+                binding.uiLayout.successState()
 
                 if (state.list != null) {
                     list = state.list!!
@@ -80,35 +77,6 @@ class RecentFilesFragment(
             materialToolbar.setVisibilityToolbar(View.VISIBLE)
         }
     }
-
-    private fun errorResultConfig(isVisible: Boolean = false){
-        with(binding){
-            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
-            filesRecyclerView.visibility = if (isVisible) View.GONE else View.VISIBLE
-
-            notFoundDescription.text = getString(R.string.files_loading_error_description_result)
-            notFoundTitle.text = SOMETHING_WENT_WRONG
-        }
-    }
-
-    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
-        if (isVisible) {
-            binding.apply {
-                filesRecyclerView.visibility = View.GONE
-                progressBar.visibility = View.VISIBLE
-                progressBar.isIndeterminate = true
-                notFoundLayout.visibility = View.GONE
-            }
-        } else {
-            binding.apply {
-                filesRecyclerView.visibility = View.VISIBLE
-                progressBar.visibility = View.GONE
-                progressBar.isIndeterminate = false
-                notFoundLayout.visibility = View.GONE
-            }
-        }
-    }
-
 
     override fun recyclerViewConfig(list: List<MappedMaterialModel>) {
         adapter =

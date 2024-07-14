@@ -100,18 +100,15 @@ class HomeFragment(
     override fun onStateChange(state: HomeContract.HomeUiState) {
         when {
             state.isLoading -> {
-                changeVisibilityOfProgressBar(true)
-                errorResultConfig()
+                binding.uiLayout.loadingState(true)
             }
 
             isIdleState(state) -> {
-                changeVisibilityOfProgressBar()
-                errorResultConfig(true)
+                binding.uiLayout.errorState(true)
             }
 
             else -> {
-                errorResultConfig()
-                changeVisibilityOfProgressBar()
+                binding.uiLayout.successState()
 
                 if (state.list != null)
                     recyclerViewConfig(state.list!!)
@@ -129,38 +126,6 @@ class HomeFragment(
         when (effect) {
             is HomeContract.HomeEffect.FindMaterialByIdFailedEffect -> {}
             is HomeContract.HomeEffect.MaterialListLoadingFailedEffect -> {}
-        }
-    }
-
-    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
-        if (isVisible) {
-            binding.apply {
-                uiLayout.visibility = View.GONE
-                progressBarIndicator.visibility = View.VISIBLE
-                progressBarIndicator.isIndeterminate = true
-                fabCameraIcon.visibility = View.GONE
-                fabGalleryIcon.visibility = View.GONE
-            }
-        } else {
-            binding.apply {
-                uiLayout.visibility = View.VISIBLE
-                progressBarIndicator.visibility = View.GONE
-                progressBarIndicator.isIndeterminate = false
-                fabCameraIcon.visibility = View.VISIBLE
-                fabGalleryIcon.visibility = View.VISIBLE
-            }
-        }
-    }
-
-    private fun errorResultConfig(isVisible: Boolean = false){
-        with(binding){
-            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
-            uiLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
-
-            notFoundDescription.text = getString(com.natiqhaciyef.common.R.string.files_loading_error_description_result)
-            notFoundTitle.text = SOMETHING_WENT_WRONG
-            fabCameraIcon.visibility = View.GONE
-            fabGalleryIcon.visibility = View.GONE
         }
     }
 
@@ -198,7 +163,6 @@ class HomeFragment(
             homeRecyclerMenubar.isScrollContainer = false
         }
     }
-
 
     override fun recyclerViewConfig(list: List<MappedMaterialModel>) {
         adapter = FileItemAdapter(

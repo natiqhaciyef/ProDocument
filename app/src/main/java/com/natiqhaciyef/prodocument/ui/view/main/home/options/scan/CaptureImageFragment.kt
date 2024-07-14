@@ -36,7 +36,6 @@ import com.natiqhaciyef.prodocument.ui.view.main.home.options.scan.viewmodel.Sca
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.KClass
 
-//val inset = context.convertDpToPixel(16)
 
 @ExperimentalGetImage @AndroidEntryPoint
 class CaptureImageFragment(
@@ -111,15 +110,11 @@ class CaptureImageFragment(
     override fun onStateChange(state: ScanContract.ScanState) {
         when{
             state.isLoading -> {
-                changeVisibilityOfProgressBar()
-            }
-
-            isIdleState(state) -> {
-                errorResultConfig(true)
+                binding.uiLayout.loadingState(true)
             }
 
             else ->{
-                changeVisibilityOfProgressBar(false)
+                binding.uiLayout.successState()
 
                 if (state.material != null){
                     imageResultAction(state.material!!)
@@ -129,35 +124,7 @@ class CaptureImageFragment(
     }
 
     override fun onEffectUpdate(effect: ScanContract.ScanEffect) {
-//        when(effect){
-//
-//        }
-    }
 
-    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
-        if (isVisible) {
-            binding.apply {
-                uiLayout.visibility = View.GONE
-                progressBar.visibility = View.VISIBLE
-                progressBar.isIndeterminate = true
-            }
-        } else {
-            binding.apply {
-                uiLayout.visibility = View.VISIBLE
-                progressBar.visibility = View.GONE
-                progressBar.isIndeterminate = false
-            }
-        }
-    }
-
-    private fun errorResultConfig(isVisible: Boolean = true){
-        with(binding){
-            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
-            uiLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
-
-            notFoundDescription.text = getString(com.natiqhaciyef.common.R.string.files_loading_error_description_result)
-            notFoundTitle.text = SOMETHING_WENT_WRONG
-        }
     }
 
     override fun onResume() {

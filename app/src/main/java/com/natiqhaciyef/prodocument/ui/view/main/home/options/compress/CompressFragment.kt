@@ -45,18 +45,11 @@ class CompressFragment(
     override fun onStateChange(state: CompressContract.CompressState) {
         when {
             state.isLoading -> {
-                changeVisibilityOfProgressBar(true)
-                errorResultConfig(false)
-            }
-
-            isIdleState(state) -> {
-                changeVisibilityOfProgressBar()
-                errorResultConfig()
+                binding.uiLayout.loadingState(true)
             }
 
             else -> {
-                errorResultConfig(false)
-                changeVisibilityOfProgressBar()
+                binding.uiLayout.successState()
 
                 if (state.material != null)
                     compressButtonClickAction(state.material!!)
@@ -74,30 +67,6 @@ class CompressFragment(
 
         binding.compressButton.setOnClickListener { compressButtonClickEvent() }
         material?.let { previewPdfConfig(it) }
-    }
-
-    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
-        if (isVisible) {
-            binding.apply {
-                progressBar.visibility = View.VISIBLE
-                progressBar.isIndeterminate = true
-            }
-        } else {
-            binding.apply {
-                progressBar.visibility = View.GONE
-                progressBar.isIndeterminate = false
-            }
-        }
-    }
-
-    private fun errorResultConfig(isVisible: Boolean = true){
-        with(binding){
-            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
-            uiLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
-
-            notFoundDescription.text = getString(com.natiqhaciyef.common.R.string.files_loading_error_description_result)
-            notFoundTitle.text = SOMETHING_WENT_WRONG
-        }
     }
 
 

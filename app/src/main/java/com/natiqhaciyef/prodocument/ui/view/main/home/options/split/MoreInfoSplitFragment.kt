@@ -39,19 +39,11 @@ class MoreInfoSplitFragment(
 
     override fun onStateChange(state: SplitContract.SplitState) {
         when {
-            state.isLoading -> {
-                changeVisibilityOfProgressBar(true)
-                errorResultConfig()
-            }
-
-            isIdleState(state) -> {
-                changeVisibilityOfProgressBar(false)
-                errorResultConfig(true)
-            }
+            state.isLoading -> binding.uiLayout.loadingState(true)
 
             else -> {
-                changeVisibilityOfProgressBar()
-                errorResultConfig()
+                binding.uiLayout.successState()
+                
                 if (state.materialList != null)
                     continueButtonClickAction(state.materialList!!)
             }
@@ -60,32 +52,6 @@ class MoreInfoSplitFragment(
 
     override fun onEffectUpdate(effect: SplitContract.SplitEffect) {
 
-    }
-
-    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
-        if (isVisible) {
-            binding.apply {
-                uiLayout.visibility = View.GONE
-                progressBar.visibility = View.VISIBLE
-                progressBar.isIndeterminate = true
-            }
-        } else {
-            binding.apply {
-                uiLayout.visibility = View.VISIBLE
-                progressBar.visibility = View.GONE
-                progressBar.isIndeterminate = false
-            }
-        }
-    }
-
-    private fun errorResultConfig(isVisible: Boolean = false){
-        with(binding){
-            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
-            uiLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
-
-            notFoundDescription.text = getString(com.natiqhaciyef.common.R.string.files_loading_error_description_result)
-            notFoundTitle.text = SOMETHING_WENT_WRONG
-        }
     }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)

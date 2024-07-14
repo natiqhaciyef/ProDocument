@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.ExperimentalGetImage
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.natiqhaciyef.common.R
+import com.natiqhaciyef.common.constants.ELEMENT_NOT_FOUND
 import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.databinding.FragmentFilesBinding
@@ -55,23 +57,23 @@ class FilesFragment(
     override fun onStateChange(state: FileContract.FileState) {
         when {
             state.isLoading -> {
-                changeVisibilityOfProgressBar(true)
+                binding.uiLayout.loadingState(true)
             }
 
-            isIdleState(state)-> {
-                changeVisibilityOfProgressBar()
-                errorResultConfig()
+            isIdleState(state) -> {
+                binding.uiLayout.errorState(isVisible = true, isModified = false)
             }
 
             else -> {
+                binding.uiLayout.successState()
                 if (
                     state.material == null
-                    && state.list.isNullOrEmpty()
-                    && state.params.isNullOrEmpty()
+                    && state.list!!.isEmpty()
+                    && state.params!!.isEmpty()
                     && state.result == null
-                ) { emptyResultConfig(true) }
-
-                changeVisibilityOfProgressBar()
+                ) {
+                    emptyResultConfig(true)
+                }
 
                 if (state.list != null) {
                     recyclerViewConfig(state.list!!)
@@ -95,7 +97,7 @@ class FilesFragment(
     override fun onEffectUpdate(effect: FileContract.FileEffect) {
         when (effect) {
             is FileContract.FileEffect.FilteredFileNotFoundEffect -> {
-                notFoundResult()
+                Toast.makeText(requireContext(), ELEMENT_NOT_FOUND, Toast.LENGTH_SHORT).show()
             }
 
             is FileContract.FileEffect.FindMaterialByIdFailedEffect -> {}
@@ -103,44 +105,19 @@ class FilesFragment(
         }
     }
 
-    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
-        if (isVisible) {
-            binding.apply {
-                uiLayout.visibility = View.GONE
-                progressBar.visibility = View.VISIBLE
-                progressBar.isIndeterminate = true
-                notFoundLayout.visibility = View.GONE
-            }
-        } else {
-            binding.apply {
-                uiLayout.visibility = View.VISIBLE
-                progressBar.visibility = View.GONE
-                progressBar.isIndeterminate = false
-                notFoundLayout.visibility = View.GONE
-            }
-        }
-    }
-
-    private fun errorResultConfig(isVisible: Boolean = true){
-        with(binding){
-            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
-            uiLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
-
-            notFoundDescription.text = getString(R.string.files_loading_error_description_result)
-            notFoundTitle.text = SOMETHING_WENT_WRONG
-        }
-    }
 
     private fun emptyResultConfig(isVisible: Boolean = false) {
         with(binding) {
-            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
-
             if (isVisible) {
-                notFoundDescription.text = getString(R.string.files_not_inserted_yet_result)
-                notFoundTitle.text = getString(R.string.nothing_modified_yet_result)
+                uiLayout.customizeErrorState(
+                    title = getString(R.string.nothing_modified_yet_result),
+                    description = getString(R.string.files_not_inserted_yet_result),
+                )
             } else {
-                notFoundDescription.text = getString(R.string.not_found_result_description)
-                notFoundTitle.text = getString(R.string.not_found_result_title)
+                uiLayout.customizeErrorState(
+                    title = getString(R.string.not_found_result_title),
+                    description = getString(R.string.not_found_result_description)
+                )
             }
         }
     }
@@ -258,14 +235,6 @@ class FilesFragment(
             viewModel.postEvent(FileContract.FileEvent.SortMaterials(list = list, type = A2Z))
         else
             viewModel.postEvent(FileContract.FileEvent.SortMaterials(list = list, type = Z2A))
-    }
-
-    private fun notFoundResult() {
-        with(binding) {
-            progressBar.visibility = View.GONE
-            uiLayout.visibility = View.GONE
-            notFoundLayout.visibility = View.VISIBLE
-        }
     }
 
     private fun showBottomSheetDialog(
