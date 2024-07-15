@@ -18,6 +18,7 @@ data class MappedMaterialModel(
     var quality: Quality? = null,
     var isProtected: Boolean = false,
     var protectionKey: String? = null,
+    var folderId: String? = null,
     var downloadedUri: String? = null,
     var isDownloading: Boolean = false,
     var result: CRUDModel? = null

@@ -12,9 +12,7 @@ import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.utils.MPPointF
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
-import com.natiqhaciyef.common.model.MappedGraphDetailModel
-import com.natiqhaciyef.core.base.ui.BaseFragment
+import com.natiqhaciyef.common.model.mapped.MappedGraphDetailModel
 import com.natiqhaciyef.core.base.ui.BaseRecyclerHolderStatefulFragment
 import com.natiqhaciyef.prodocument.R
 import com.natiqhaciyef.prodocument.databinding.FragmentCategoryGraphBinding

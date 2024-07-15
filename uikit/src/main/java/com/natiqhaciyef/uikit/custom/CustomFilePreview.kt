@@ -4,9 +4,12 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import coil.load
 import com.natiqhaciyef.common.R
+import com.natiqhaciyef.common.constants.SIXTEEN
+import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.uikit.databinding.CustomFilesPreviewBinding
 
@@ -68,6 +71,27 @@ class CustomFilePreview(
         binding?.filePreviewImage?.load(icon)
     }
 
+    fun setImageIcon(@DrawableRes id: Int) {
+        binding?.filePreviewImage?.setImageResource(id)
+    }
+
+    fun setFilesCount(count: Int) {
+        binding?.filesCountText?.text = context.getString(R.string.count_of_files, count.toString())
+    }
+
+    fun changeFilesCountVisibility(visibility: Int) {
+        binding?.apply {
+            filesCountText.visibility = visibility
+            if (visibility == View.VISIBLE) {
+                val paramsFileDateText = fileDateText.layoutParams as LayoutParams
+                paramsFileDateText.topToBottom = filesCountText.id
+            } else {
+                val paramsFileDateText = fileDateText.layoutParams as LayoutParams
+                paramsFileDateText.topToBottom = fileTitleText.id
+            }
+        }
+    }
+
     fun changeShareIconVisibility(visibility: Int) {
         binding?.apply {
             fileShareIcon.visibility = visibility
@@ -101,7 +125,7 @@ class CustomFilePreview(
                     val params = fileShareIcon.layoutParams as LayoutParams
                     params.endToEnd = filePreviewConstraintLayout.id
                     val marginParams = fileShareIcon.layoutParams as MarginLayoutParams
-                    marginParams.setMargins(0, 0, 16, 0)
+                    marginParams.setMargins(ZERO, ZERO, SIXTEEN, ZERO)
                 } else {
                     val params = fileTitleText.layoutParams as LayoutParams
                     params.endToEnd = filePreviewConstraintLayout.id
@@ -112,7 +136,7 @@ class CustomFilePreview(
                     params.endToStart = fileOptionMenuIcon.id
 
                     val marginParams = fileShareIcon.layoutParams as MarginLayoutParams
-                    marginParams.setMargins(0, 0, 16, 0)
+                    marginParams.setMargins(ZERO, ZERO, SIXTEEN, ZERO)
                 } else {
                     val params = fileTitleText.layoutParams as LayoutParams
                     params.endToStart = fileOptionMenuIcon.id
@@ -131,7 +155,6 @@ class CustomFilePreview(
             }
         }
     }
-
 
     fun changeBothIconsVisibility(visibility: Int) {
         binding?.apply {

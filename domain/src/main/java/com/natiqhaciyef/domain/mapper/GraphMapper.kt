@@ -2,7 +2,7 @@ package com.natiqhaciyef.domain.mapper
 
 import com.natiqhaciyef.common.constants.FORMATTED_NUMBER_TWO
 import com.natiqhaciyef.common.model.GraphCategory
-import com.natiqhaciyef.common.model.MappedGraphDetailModel
+import com.natiqhaciyef.common.model.mapped.MappedGraphDetailModel
 import com.natiqhaciyef.common.model.ui.Color
 import com.natiqhaciyef.domain.network.response.GraphDetailModel
 import com.natiqhaciyef.domain.network.response.GraphDetailsListResponse

@@ -1,4 +1,4 @@
-package com.natiqhaciyef.common.model
+package com.natiqhaciyef.common.model.mapped
 
 import android.os.Parcelable
 import androidx.annotation.ColorRes

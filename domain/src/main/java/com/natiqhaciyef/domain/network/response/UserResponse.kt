@@ -2,8 +2,6 @@ package com.natiqhaciyef.domain.network.response
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import com.natiqhaciyef.common.constants.EMPTY_STRING
-import com.natiqhaciyef.common.model.MappedGraphDetailModel
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.core.base.network.BaseNetworkModel
 import kotlinx.parcelize.Parcelize

@@ -2,7 +2,7 @@ package com.natiqhaciyef.core.base.network
 
 
 
-abstract class IOModel{
-    abstract var id: String
-    abstract var publishDate: String
+interface IOModel{
+    var id: String
+    var publishDate: String
 }

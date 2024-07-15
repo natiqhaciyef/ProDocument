@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.navigation.fragment.navArgs
 import com.natiqhaciyef.common.constants.EMPTY_STRING
-import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.common.constants.SPACE
 import com.natiqhaciyef.common.helpers.getNow
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel

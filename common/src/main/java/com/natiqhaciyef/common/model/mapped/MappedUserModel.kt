@@ -1,9 +1,7 @@
 package com.natiqhaciyef.common.model.mapped
 
 import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
 import com.natiqhaciyef.common.constants.EMPTY_STRING
-import com.natiqhaciyef.common.model.MappedGraphDetailModel
 import kotlinx.parcelize.Parcelize
 
 

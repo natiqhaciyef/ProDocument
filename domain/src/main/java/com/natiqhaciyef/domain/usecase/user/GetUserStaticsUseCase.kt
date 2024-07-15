@@ -1,6 +1,6 @@
 package com.natiqhaciyef.domain.usecase.user
 
-import com.natiqhaciyef.common.model.MappedGraphDetailModel
+import com.natiqhaciyef.common.model.mapped.MappedGraphDetailModel
 import com.natiqhaciyef.common.model.Resource
 import com.natiqhaciyef.core.base.usecase.BaseUseCase
 import com.natiqhaciyef.core.base.usecase.UseCase

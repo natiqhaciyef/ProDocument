@@ -5,8 +5,12 @@ import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.base.ui.BaseViewModel
+import com.natiqhaciyef.data.mock.materials.GetAllFoldersMockGenerator
+import com.natiqhaciyef.domain.usecase.material.GetAllFoldersUseCase
 import com.natiqhaciyef.domain.usecase.material.GetAllMaterialsRemoteUseCase
+import com.natiqhaciyef.domain.usecase.material.GetAllMaterialsWithoutFolderUseCase
 import com.natiqhaciyef.domain.usecase.material.GetMaterialByIdRemoteUseCase
+import com.natiqhaciyef.domain.usecase.material.GetMaterialsByFolderIdUseCase
 import com.natiqhaciyef.prodocument.ui.view.main.files.FilesFragment
 import com.natiqhaciyef.prodocument.ui.view.main.files.contract.FileContract
 import com.natiqhaciyef.domain.usecase.material.RemoveMaterialByIdUseCase
@@ -20,43 +24,64 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FileViewModel @Inject constructor(
-    private val getAllMaterialsRemoteUseCase: GetAllMaterialsRemoteUseCase,
+    private val getAllFoldersUseCase: GetAllFoldersUseCase,
     private val getMaterialByIdRemoteUseCase: GetMaterialByIdRemoteUseCase,
-    private val removeMaterialByIdUseCase: RemoveMaterialByIdUseCase
+    private val getMaterialsByFolderId: GetMaterialsByFolderIdUseCase,
+    private val getAllMaterialsWithoutFolderUseCase: GetAllMaterialsWithoutFolderUseCase,
+    private val removeMaterialByIdUseCase: RemoveMaterialByIdUseCase,
 ) : BaseViewModel<FileContract.FileState, FileContract.FileEvent, FileContract.FileEffect>() {
 
     override fun onEventUpdate(event: FileContract.FileEvent) {
         when (event) {
             is FileContract.FileEvent.GetAllMaterials -> getAllMaterials() /* event.email */
-            is FileContract.FileEvent.GetMaterialById -> {
-                getMaterialById(event.id)
-            }
 
-            is FileContract.FileEvent.SortMaterials -> {
-                sortMaterials(event.list, event.type)
-            }
+            is FileContract.FileEvent.GetAllFolders -> getAllFolders()
 
-            is FileContract.FileEvent.FileFilterEvent -> {
-                filterList(event.list, event.text)
-            }
+            is FileContract.FileEvent.GetMaterialById -> getMaterialById(event.id)
 
-            is FileContract.FileEvent.GetAllFileParams -> {
-                generateParams(event.context)
-            }
+            is FileContract.FileEvent.GetMaterialsByFolderId -> getAllMaterialByFolderId(event.folderId)
 
-            is FileContract.FileEvent.RemoveMaterial -> {
-                removeMaterial(event.materialId)
-            }
+            is FileContract.FileEvent.SortMaterials -> sortMaterials(event.list, event.type)
+
+            is FileContract.FileEvent.FileFilterEvent -> filterList(event.list, event.text)
+
+            is FileContract.FileEvent.GetAllFileParams -> generateParams(event.context)
+
+            is FileContract.FileEvent.RemoveMaterial -> removeMaterial(event.materialId)
+
+            is FileContract.FileEvent.Clear -> clearState()
         }
     }
 
     private fun getAllMaterials() {
         viewModelScope.launch {
-            getAllMaterialsRemoteUseCase.invoke().collectLatest { result ->
+            getAllMaterialsWithoutFolderUseCase.invoke().collectLatest { result ->
                 when (result.status) {
                     Status.SUCCESS -> {
                         if (result.data != null) {
                             setBaseState(getCurrentBaseState().copy(list = result.data!!, isLoading = false))
+                        }
+                    }
+
+                    Status.ERROR -> {
+                        setBaseState(getCurrentBaseState().copy(isLoading = false))
+                    }
+
+                    Status.LOADING -> {
+                        setBaseState(getCurrentBaseState().copy(isLoading = true))
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getAllFolders() {
+        viewModelScope.launch {
+            getAllFoldersUseCase.invoke().collectLatest { result ->
+                when (result.status) {
+                    Status.SUCCESS -> {
+                        if (result.data != null) {
+                            setBaseState(getHoldState().copy(folders = result.data!!, isLoading = false))
                         }
                     }
 
@@ -100,6 +125,34 @@ class FileViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun getAllMaterialByFolderId(folderId: String){
+        getMaterialsByFolderId.operate(folderId).onEach { result ->
+            when(result.status){
+                Status.SUCCESS -> {
+                    if (result.data != null)
+                        setBaseState(
+                            getCurrentBaseState().copy(
+                                isLoading = false,
+                                list = result.data!!
+                            )
+                        )
+                }
+
+                Status.ERROR -> {
+                    postEffect(
+                        FileContract.FileEffect
+                            .FindMaterialByIdFailedEffect(result.message, result.exception)
+                    )
+                    setBaseState(getCurrentBaseState().copy(isLoading = false))
+                }
+
+                Status.LOADING -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = true))
+                }
+            }
+        }.launchIn(viewModelScope)
     }
 
     private fun sortMaterials(
@@ -153,6 +206,10 @@ class FileViewModel @Inject constructor(
 
     private fun generateParams(ctx: Context){
         setBaseState(getCurrentBaseState().copy(params = getOptions(ctx)))
+    }
+
+    private fun clearState(){
+        setBaseState(getCurrentBaseState())
     }
 
     override fun getInitialState(): FileContract.FileState = FileContract.FileState()

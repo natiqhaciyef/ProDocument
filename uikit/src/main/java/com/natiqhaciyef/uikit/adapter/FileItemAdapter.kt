@@ -7,25 +7,25 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.R
+import com.natiqhaciyef.common.model.mapped.MappedFolderModel
 import com.natiqhaciyef.core.base.ui.BaseRecyclerViewAdapter
 import com.natiqhaciyef.uikit.databinding.RecyclerFilesItemViewBinding
 
 class FileItemAdapter(
-    dataList: MutableList<MappedMaterialModel>,
+    dataList: MutableList<Any>,
     private val type: String,
     private var fragment: Fragment? = null,
-    private var context: Context? = null
-) : BaseRecyclerViewAdapter<MappedMaterialModel, RecyclerFilesItemViewBinding>(dataList) {
+) : BaseRecyclerViewAdapter<Any, RecyclerFilesItemViewBinding>(dataList) {
     override val binding: (Context, ViewGroup, Boolean) -> RecyclerFilesItemViewBinding =
         { context, viewGroup, bool ->
             RecyclerFilesItemViewBinding.inflate(LayoutInflater.from(context), viewGroup, bool)
         }
 
-    var onClickAction: (MappedMaterialModel) -> Unit = {
+    var onFileClickAction: (MappedMaterialModel) -> Unit = {
 
     }
 
-    var removeAction: (MappedMaterialModel) -> Unit = {
+    var removeFileAction: (MappedMaterialModel) -> Unit = {
 
     }
 
@@ -33,7 +33,9 @@ class FileItemAdapter(
 
     }
 
-    var bottomSheetDialogOpen: (MappedMaterialModel) -> Unit = {
+    var onFolderClickAction: (MappedFolderModel) -> Unit = {}
+
+    var bottomSheetMaterialDialogOpen: (MappedMaterialModel) -> Unit = {
 
     }
 
@@ -57,30 +59,51 @@ class FileItemAdapter(
         val file = list[position]
         view.customFilePreview.bind()
 
-        when (type) {
-            holder.context.getString(R.string.scan_code), holder.context.getString(R.string.default_type) -> {
-                configOfHome(view)
-            }
+        when (file) {
+            is MappedMaterialModel -> {
+                when (type) {
+                    holder.context.getString(R.string.scan_code), holder.context.getString(R.string.default_type) -> {
+                        configOfHome(view)
+                    }
 
-            holder.context.getString(R.string.merge_pdf) -> {
-                configOfMerge(view)
-            }
-        }
-
-        with(view){
-            customFilePreview.setCustomTitle(file.title)
-            customFilePreview.setCustomDate(file.createdDate)
-            customFilePreview.setImageIcon(file.image)
-
-            customFilePreview.addActionToRemove { removeAction.invoke(file) }
-            customFilePreview.addActionToOptions { optionAction.invoke(file) }
-            customFilePreview.addActionToShare {
-
-                if (fragment != null && context != null) {
-                    bottomSheetDialogOpen.invoke(file)
+                    holder.context.getString(R.string.merge_pdf) -> {
+                        configOfMerge(view)
+                    }
                 }
+
+                with(view.customFilePreview) {
+                    changeFilesCountVisibility(View.GONE)
+                    setCustomTitle(file.title)
+                    setCustomDate(file.createdDate)
+                    setImageIcon(file.image)
+
+                    addActionToRemove { removeFileAction.invoke(file) }
+                    addActionToOptions { optionAction.invoke(file) }
+                    addActionToShare {
+
+                        if (fragment != null && context != null) {
+                            bottomSheetMaterialDialogOpen.invoke(file)
+                        }
+                    }
+                }
+                holder.itemView.setOnClickListener { onFileClickAction.invoke(file) }
+            }
+
+            is MappedFolderModel -> {
+                with(view.customFilePreview) {
+                    changeFilesCountVisibility(View.VISIBLE)
+                    setCustomTitle(file.title)
+                    setFilesCount(file.filesCount)
+                    setCustomDate(file.createdDate)
+
+                    if (file.icon != null)
+                        setImageIcon(file.icon!!)
+                    else
+                        setImageIcon(R.drawable.folder_filled_icon)
+
+                }
+                holder.itemView.setOnClickListener { onFolderClickAction.invoke(file) }
             }
         }
-        holder.itemView.setOnClickListener { onClickAction.invoke(file) }
     }
 }

@@ -28,7 +28,7 @@ class RecentFilesFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentRecentFilesBinding = FragmentRecentFilesBinding::inflate,
     override val viewModelClass: KClass<RecentFilesViewModel> = RecentFilesViewModel::class
 ) : BaseRecyclerHolderStatefulFragment<
-        FragmentRecentFilesBinding, RecentFilesViewModel, MappedMaterialModel, FileItemAdapter,
+        FragmentRecentFilesBinding, RecentFilesViewModel, Any, FileItemAdapter,
         RecentFilesContract.RecentFilesState, RecentFilesContract.RecentFilesEvent, RecentFilesContract.RecentFilesEffect>() {
     private var list: List<MappedMaterialModel> = listOf()
     override var adapter: FileItemAdapter? = null
@@ -78,13 +78,12 @@ class RecentFilesFragment(
         }
     }
 
-    override fun recyclerViewConfig(list: List<MappedMaterialModel>) {
+    override fun recyclerViewConfig(list: List<Any>) {
         adapter =
             FileItemAdapter(
                 dataList = list.toMutableList(),
                 type = requireContext().getString(R.string.default_type),
-                fragment = this,
-                context = requireContext()
+                fragment = this
             )
 
         binding.filesRecyclerView.adapter = adapter

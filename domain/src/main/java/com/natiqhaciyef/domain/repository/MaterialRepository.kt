@@ -10,6 +10,7 @@ import com.natiqhaciyef.domain.network.request.MergeRequest
 import com.natiqhaciyef.domain.network.request.ProtectRequest
 import com.natiqhaciyef.domain.network.request.SplitRequest
 import com.natiqhaciyef.domain.network.request.WatermarkRequest
+import com.natiqhaciyef.domain.network.response.FolderResponse
 import com.natiqhaciyef.domain.network.response.ListMaterialResponse
 import com.natiqhaciyef.domain.network.response.MaterialResponse
 
@@ -17,7 +18,15 @@ interface MaterialRepository : BaseRepository {
 
     suspend fun getAllMaterials(): NetworkResult<ListMaterialResponse>
 
+    suspend fun getAllMaterialsWithoutFolder(): NetworkResult<List<MaterialResponse>>
+
     suspend fun getMaterialById(materialId: String): NetworkResult<MaterialResponse>
+
+    suspend fun getAllFolders(): NetworkResult<List<FolderResponse>>
+
+    suspend fun getFolderById(folderId: String): NetworkResult<FolderResponse>
+
+    suspend fun getMaterialsByFolderId(folderId: String): NetworkResult<List<MaterialResponse>>
 
     suspend fun createMaterial(materialModel: MappedMaterialModel): NetworkResult<CRUDResponse>
 
