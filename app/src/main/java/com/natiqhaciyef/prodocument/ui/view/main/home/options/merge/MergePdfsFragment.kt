@@ -13,11 +13,9 @@ import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.constants.EMPTY_STRING
 import com.natiqhaciyef.common.constants.LINE
-import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.common.constants.SPACE
 import com.natiqhaciyef.common.constants.TWO
 import com.natiqhaciyef.prodocument.databinding.FragmentMergePdfsBinding
-import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.core.base.ui.BaseRecyclerHolderStatefulFragment
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_MATERIAL
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TITLE
@@ -38,7 +36,7 @@ class MergePdfsFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentMergePdfsBinding = FragmentMergePdfsBinding::inflate,
     override val viewModelClass: KClass<MergePdfViewModel> = MergePdfViewModel::class
 ) : BaseRecyclerHolderStatefulFragment<
-        FragmentMergePdfsBinding, MergePdfViewModel, MappedMaterialModel, FileItemAdapter,
+        FragmentMergePdfsBinding, MergePdfViewModel, Any, FileItemAdapter,
         MergePdfContract.MergePdfState, MergePdfContract.MergePdfEvent, MergePdfContract.MergePdfEffect>() {
     private val filesList = mutableListOf<MappedMaterialModel>()
     override var adapter: FileItemAdapter? = null
@@ -78,32 +76,25 @@ class MergePdfsFragment(
         }
     }
 
-    override fun recyclerViewConfig(list: List<MappedMaterialModel>) {
-        adapter = FileItemAdapter(filesList, requireContext().getString(R.string.merge_pdf))
+    override fun recyclerViewConfig(list: List<Any>) {
+        adapter = FileItemAdapter(list.toMutableList(), requireContext().getString(R.string.merge_pdf))
 
         with(binding) {
             materialsRecyclerView.adapter = adapter
             materialsRecyclerView.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         }
-        adapter?.removeAction = { removeFileButtonClickAction(it.id) }
+        adapter?.removeFileAction = { removeFileButtonClickAction(it.id) }
     }
 
     override fun onStateChange(state: MergePdfContract.MergePdfState) {
         when {
             state.isLoading -> {
-                changeVisibilityOfProgressBar(true)
-                errorResultConfig()
-            }
-
-            isIdleState(state) -> {
-                errorResultConfig(true)
-                changeVisibilityOfProgressBar()
+                binding.uiLayout.loadingState(true)
             }
 
             else -> {
-                errorResultConfig()
-                changeVisibilityOfProgressBar()
+                binding.uiLayout.successState()
 
                 if (state.mappedMaterialModel != null) {
                     mergeButtonAction(state.mappedMaterialModel!!)
@@ -115,32 +106,6 @@ class MergePdfsFragment(
     override fun onEffectUpdate(effect: MergePdfContract.MergePdfEffect) {
         when (effect) {
             is MergePdfContract.MergePdfEffect.MergeFailedEffect -> {}
-        }
-    }
-
-    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
-        if (isVisible) {
-            binding.apply {
-                uiLayout.visibility = View.GONE
-                progressBar.visibility = View.VISIBLE
-                progressBar.isIndeterminate = true
-            }
-        } else {
-            binding.apply {
-                uiLayout.visibility = View.VISIBLE
-                progressBar.visibility = View.GONE
-                progressBar.isIndeterminate = false
-            }
-        }
-    }
-
-    private fun errorResultConfig(isVisible: Boolean = false){
-        with(binding){
-            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
-            uiLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
-
-            notFoundDescription.text = getString(com.natiqhaciyef.common.R.string.files_loading_error_description_result)
-            notFoundTitle.text = SOMETHING_WENT_WRONG
         }
     }
 
@@ -188,7 +153,7 @@ class MergePdfsFragment(
     }
 
     private fun configOfChangeFileList() {
-        adapter?.list = filesList
+        adapter?.updateList(filesList.toMutableList())
         setFilesCountConfigurations()
         setFileListEmptyCheckConfig()
         adapter?.notifyDataSetChanged()

@@ -7,7 +7,9 @@ import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.data.network.NetworkConfig
 import com.natiqhaciyef.domain.network.request.CompressRequest
 import com.natiqhaciyef.domain.network.request.ESignRequest
+import com.natiqhaciyef.domain.network.request.FolderRequest
 import com.natiqhaciyef.domain.network.request.ProtectRequest
+import com.natiqhaciyef.domain.network.response.FolderResponse
 import com.natiqhaciyef.domain.network.response.MaterialResponse
 import com.natiqhaciyef.domain.network.response.ListMaterialResponse
 import retrofit2.Response
@@ -27,10 +29,32 @@ interface MaterialService {
     ): Response<ListMaterialResponse>
 
     @GET("")
+    suspend fun getMaterialsWithoutFolder(
+        @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String,
+    ): Response<List<MaterialResponse>>
+
+    @GET("")
     suspend fun getMaterialById(
         @Query("id") materialId: String,
         @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String
     ): Response<MaterialResponse>
+
+    @GET("")
+    suspend fun getAllFolders(
+        @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String
+    ): Response<List<FolderResponse>>
+
+    @GET("")
+    suspend fun getFolderById(
+        @Query("id") folderId: String,
+        @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String
+    ): Response<FolderResponse>
+
+    @GET("")
+    suspend fun getMaterialsByFolderId(
+        @Query("folderId") folderId: String,
+        @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String
+    ): Response<List<MaterialResponse>>
 
     @POST("")
     @FormUrlEncoded
@@ -42,6 +66,12 @@ interface MaterialService {
         @Field("description") description: String,
         @Field("type") type: String,
         @Field("url") url: String,
+    ): Response<CRUDResponse>
+
+    @POST("")
+    suspend fun createFolder(
+        @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String,
+        @Body data: FolderRequest
     ): Response<CRUDResponse>
 
     @POST("")

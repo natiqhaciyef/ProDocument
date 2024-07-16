@@ -41,6 +41,16 @@ class LiveRecognitionFragment(
         binding.goBackIcon.setOnClickListener { goBackIconAction() }
     }
 
+    override fun onStateChange(state: ScanContract.ScanState) {
+        when{
+            state.isLoading -> binding.uiLayout.loadingState(true)
+
+            else -> {
+                binding.uiLayout.successState()
+            }
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         checkCameraPermission()

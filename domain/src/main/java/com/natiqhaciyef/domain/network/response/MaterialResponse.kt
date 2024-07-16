@@ -28,9 +28,11 @@ data class MaterialResponse(
     var quality: String? = null,
     @SerializedName("protectionKey")
     var protectionKey: String? = null,
+    @SerializedName("folderId")
+    var folderId: String? = null,
     @SerializedName("result")
     override var result: CRUDResponse? = null,
-) : IOModel(), BaseNetworkModel, Parcelable
+) : IOModel, BaseNetworkModel, Parcelable
 
 
 @Parcelize
@@ -43,4 +45,27 @@ data class ListMaterialResponse(
     override var result: CRUDResponse?,
     @SerializedName("publish_date")
     override var publishDate: String
-) : IOModel(), BaseNetworkModel
+) : IOModel, BaseNetworkModel
+
+
+@Parcelize
+data class FolderResponse(
+    @SerializedName("id")
+    var id: String,
+    @SerializedName("title")
+    var title: String,
+    @SerializedName("description")
+    var description: String,
+    @SerializedName("protectionKey")
+    var protectionKey: String?,
+    @SerializedName("icon")
+    var icon: String?,
+    @SerializedName("type")
+    var type: String,
+    @SerializedName("createdDate")
+    var createdDate: String,
+    @SerializedName("filesCount")
+    var filesCount: Int,
+    @SerializedName("result")
+    override var result: CRUDResponse? = null,
+) : Parcelable, BaseNetworkModel

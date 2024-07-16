@@ -5,7 +5,7 @@ import com.natiqhaciyef.common.model.CategoryModel
 import com.natiqhaciyef.common.model.ContactMethods
 import com.natiqhaciyef.common.model.FaqModel
 import com.natiqhaciyef.common.model.LanguageModel
-import com.natiqhaciyef.common.model.MappedGraphDetailModel
+import com.natiqhaciyef.common.model.mapped.MappedGraphDetailModel
 import com.natiqhaciyef.common.model.ProScanInfoModel
 import com.natiqhaciyef.common.model.ProscanSectionModel
 import com.natiqhaciyef.common.model.mapped.MappedSubscriptionModel

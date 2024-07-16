@@ -7,10 +7,15 @@ import com.natiqhaciyef.data.mock.materials.CreateMaterialMockGenerator
 import com.natiqhaciyef.data.mock.materials.ESignMaterialMockGenerator
 import com.natiqhaciyef.core.base.network.LoadType
 import com.natiqhaciyef.core.base.network.handleNetworkResponse
+import com.natiqhaciyef.data.mock.materials.CreateFolderMockGenerator
+import com.natiqhaciyef.data.mock.materials.GetAllFoldersMockGenerator
 import com.natiqhaciyef.domain.network.response.MaterialResponse
 import com.natiqhaciyef.data.network.service.MaterialService
 import com.natiqhaciyef.data.mock.materials.GetAllMaterialsMockGenerator
+import com.natiqhaciyef.data.mock.materials.GetAllMaterialsWithoutFolderMockGenerator
+import com.natiqhaciyef.data.mock.materials.GetFolderByIdMockGenerator
 import com.natiqhaciyef.data.mock.materials.GetMaterialByIdMockGenerator
+import com.natiqhaciyef.data.mock.materials.GetMaterialsByFolderIdMockGenerator
 import com.natiqhaciyef.data.mock.materials.MergeMaterialsMockGenerator
 import com.natiqhaciyef.data.mock.materials.ProtectMaterialMockGenerator
 import com.natiqhaciyef.data.mock.materials.RemoveMaterialMockGenerator
@@ -20,6 +25,7 @@ import com.natiqhaciyef.data.mock.materials.WatermarkMaterialMockGenerator
 import com.natiqhaciyef.data.network.manager.TokenManager
 import com.natiqhaciyef.domain.network.request.CompressRequest
 import com.natiqhaciyef.domain.network.request.ESignRequest
+import com.natiqhaciyef.domain.network.request.FolderRequest
 import com.natiqhaciyef.domain.network.request.MergeRequest
 import com.natiqhaciyef.domain.network.request.ProtectRequest
 import com.natiqhaciyef.domain.network.request.SplitRequest
@@ -34,13 +40,25 @@ class MaterialDataSource @Inject constructor(
 ) {
 
     suspend fun getAllFiles() = withContext(Dispatchers.IO) {
+        val requestHeader = manager.generateToken()
         val mock = generateMockerClass(GetAllMaterialsMockGenerator::class, Unit)
             .getMock(null)
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
-            service.getMaterials(token = manager.generateToken())
+            service.getMaterials(token = requestHeader)
         }
     }
+
+    suspend fun getAllFilesWithoutFolder() = withContext(Dispatchers.IO) {
+        val requestHeader = manager.generateToken()
+        val mock = generateMockerClass(GetAllMaterialsWithoutFolderMockGenerator::class, Unit)
+            .getMock(null)
+
+        handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
+            service.getMaterialsWithoutFolder(token = requestHeader)
+        }
+    }
+
 
     suspend fun getFileById(materialId: String) = withContext(Dispatchers.IO) {
         val requestHeader = manager.generateToken()
@@ -49,6 +67,33 @@ class MaterialDataSource @Inject constructor(
 
         handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
             service.getMaterialById(materialId = materialId, token = requestHeader)
+        }
+    }
+
+    suspend fun getAllFolders() = withContext(Dispatchers.IO){
+        val requestHeader = manager.generateToken()
+        val mock = generateMockerClass(GetAllFoldersMockGenerator::class, Unit)
+            .getMock { null }
+        handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
+            service.getAllFolders(token = requestHeader)
+        }
+    }
+
+    suspend fun getFolderById(folderId: String) = withContext(Dispatchers.IO){
+        val requestHeader = manager.generateToken()
+        val mock = generateMockerClass(GetFolderByIdMockGenerator::class, folderId)
+            .getMock { null }
+        handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
+            service.getFolderById(token = requestHeader, folderId = folderId)
+        }
+    }
+
+    suspend fun getMaterialsByFolderId(folderId: String) = withContext(Dispatchers.IO){
+        val requestHeader = manager.generateToken()
+        val mock = generateMockerClass(GetMaterialsByFolderIdMockGenerator::class, folderId)
+            .getMock { null }
+        handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
+            service.getMaterialsByFolderId(token = requestHeader, folderId = folderId)
         }
     }
 
@@ -69,6 +114,18 @@ class MaterialDataSource @Inject constructor(
                     type = materialModel.type,
                     url = materialModel.url
                 )
+            }
+        }
+
+    suspend fun createFolder(folderRequest: FolderRequest) =
+        withContext(Dispatchers.IO) {
+            val requestHeader = manager.generateToken()
+
+            val mock = generateMockerClass(CreateFolderMockGenerator::class, folderRequest)
+                .getMock(null)
+
+            handleNetworkResponse(mock = mock, handlingType = LoadType.MOCK) {
+                service.createFolder(token = requestHeader, data = folderRequest)
             }
         }
 

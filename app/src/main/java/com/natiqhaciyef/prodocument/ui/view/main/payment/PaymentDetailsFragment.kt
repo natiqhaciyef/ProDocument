@@ -50,19 +50,10 @@ class PaymentDetailsFragment(
 
     override fun onStateChange(state: PaymentContract.PaymentState) {
         when {
-            state.isLoading -> {
-                changeVisibilityOfProgressBar(true)
-                errorResultConfig()
-            }
-
-            isIdleState(state) -> {
-                changeVisibilityOfProgressBar()
-                errorResultConfig(true)
-            }
+            state.isLoading -> binding.uiLayout.loadingState(true)
 
             else -> {
-                changeVisibilityOfProgressBar()
-                errorResultConfig()
+                binding.uiLayout.successState()
 
                 if (chequeModel != null && state.paymentResult != null) {
                     if (state.paymentResult!!.resultCode in TWO_HUNDRED..TWO_HUNDRED_NINETY_NINE)
@@ -75,32 +66,6 @@ class PaymentDetailsFragment(
                     paymentBottomSheetConfig(state.paymentMethodsList!!)
                 }
             }
-        }
-    }
-
-    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
-        if (isVisible) {
-            binding.apply {
-                uiLayout.visibility = View.GONE
-                progressBar.visibility = View.VISIBLE
-                progressBar.isIndeterminate = true
-            }
-        } else {
-            binding.apply {
-                uiLayout.visibility = View.VISIBLE
-                progressBar.visibility = View.GONE
-                progressBar.isIndeterminate = false
-            }
-        }
-    }
-
-    private fun errorResultConfig(isVisible: Boolean = false){
-        with(binding){
-            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
-            uiLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
-
-            notFoundDescription.text = getString(com.natiqhaciyef.common.R.string.files_loading_error_description_result)
-            notFoundTitle.text = SOMETHING_WENT_WRONG
         }
     }
 

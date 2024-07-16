@@ -60,6 +60,16 @@ class PickFileFragment(
         config()
     }
 
+    override fun onStateChange(state: PickFileContract.PickFileState) {
+        when{
+            state.isLoading -> binding.uiLayout.loadingState(true)
+
+            else -> {
+                binding.uiLayout.successState()
+            }
+        }
+    }
+
     private fun config() {
         val args: PickFileFragmentArgs by navArgs()
         resBundle = args.resourceBundle

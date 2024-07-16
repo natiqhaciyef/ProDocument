@@ -36,18 +36,13 @@ class SecurityFragment(
 
     override fun onStateChange(state: ProfileContract.ProfileState) {
         when {
-            state.isLoading -> {
-                changeVisibilityOfProgressBar(true)
-                errorResultConfig()
-            }
+            state.isLoading -> binding.uiLayout.loadingState(true)
 
-            isIdleState(state) -> {
-                errorResultConfig(true)
-                changeVisibilityOfProgressBar()
-            }
+            isIdleState(state) -> binding.uiLayout.errorState(true)
 
             else -> {
-                changeVisibilityOfProgressBar()
+                binding.uiLayout.successState()
+
                 if (state.paramsUIModelList != null) {
                     recyclerViewConfig(state.paramsUIModelList!!)
                 }
@@ -58,33 +53,6 @@ class SecurityFragment(
     override fun onEffectUpdate(effect: ProfileContract.ProfileEffect) {
 
     }
-
-    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
-        if (isVisible) {
-            binding.apply {
-                uiLayout.visibility = View.GONE
-                progressBar.visibility = View.VISIBLE
-                progressBar.isIndeterminate = true
-            }
-        } else {
-            binding.apply {
-                uiLayout.visibility = View.VISIBLE
-                progressBar.visibility = View.GONE
-                progressBar.isIndeterminate = false
-            }
-        }
-    }
-
-    private fun errorResultConfig(isVisible: Boolean = false){
-        with(binding){
-            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
-            uiLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
-
-            notFoundDescription.text = getString(com.natiqhaciyef.common.R.string.files_loading_error_description_result)
-            notFoundTitle.text = SOMETHING_WENT_WRONG
-        }
-    }
-
 
     private fun activityConfig() {
         (activity as MainActivity).also {

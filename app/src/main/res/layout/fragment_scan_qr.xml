@@ -1,70 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.natiqhaciyef.core.base.ui.BaseXmlConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/uiLayout"
     android:background="@color/black"
     tools:context=".ui.view.main.payment.ScanQrFragment">
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:indeterminateTint="@color/primary_900"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
-
-    <LinearLayout
-        android:id="@+id/notFoundLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/notFoundImage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/material_not_found_icon"
-            android:visibility="visible" />
-
-        <TextView
-            android:id="@+id/notFoundTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
-            android:fontFamily="@font/urbanist_bold"
-            android:text="@string/not_found_result_title"
-            android:textAlignment="center"
-            android:textColor="@color/grayscale_100"
-            android:textSize="22sp" />
-
-        <TextView
-            android:id="@+id/notFoundDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="16dp"
-            android:fontFamily="@font/urbanist_regular"
-            android:text="@string/not_found_result_description"
-            android:textAlignment="center"
-            android:textColor="@color/grayscale_100"
-            android:textSize="16sp" />
-
-    </LinearLayout>
-
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/uiLayout"
         android:background="@color/black"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -200,4 +144,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</com.natiqhaciyef.core.base.ui.BaseXmlConstraintLayout>

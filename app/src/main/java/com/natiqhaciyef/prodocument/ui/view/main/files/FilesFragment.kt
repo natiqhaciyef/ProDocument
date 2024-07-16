@@ -4,13 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.ExperimentalGetImage
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.natiqhaciyef.common.R
-import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
+import com.natiqhaciyef.common.constants.ELEMENT_NOT_FOUND
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.prodocument.databinding.FragmentFilesBinding
 import com.natiqhaciyef.core.model.CategoryItem
@@ -23,6 +24,7 @@ import com.natiqhaciyef.prodocument.ui.view.main.home.CustomMaterialOptionsBotto
 import com.natiqhaciyef.common.model.ParamsUIModel
 import com.natiqhaciyef.core.base.ui.BaseRecyclerHolderStatefulFragment
 import com.natiqhaciyef.prodocument.BuildConfig
+import com.natiqhaciyef.prodocument.ui.util.BUNDLE_ID
 import com.natiqhaciyef.prodocument.ui.util.BUNDLE_TYPE
 import com.natiqhaciyef.prodocument.ui.view.main.modify.ModifyPdfFragment.Companion.PREVIEW_IMAGE
 import com.natiqhaciyef.uikit.adapter.FileItemAdapter
@@ -35,10 +37,10 @@ class FilesFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentFilesBinding = FragmentFilesBinding::inflate,
     override val viewModelClass: KClass<FileViewModel> = FileViewModel::class
 ) : BaseRecyclerHolderStatefulFragment<
-        FragmentFilesBinding, FileViewModel, MappedMaterialModel, FileItemAdapter,
+        FragmentFilesBinding, FileViewModel, Any, FileItemAdapter,
         FileContract.FileState, FileContract.FileEvent, FileContract.FileEffect>() {
     private var params = listOf<ParamsUIModel>()
-    private var bundle = bundleOf()
+    private var resBundle = bundleOf()
     override var adapter: FileItemAdapter? = null
     private var list: MutableList<MappedMaterialModel> = mutableListOf()
     private var sortingTypeClick: Boolean = false
@@ -48,32 +50,35 @@ class FilesFragment(
         super.onViewCreated(view, savedInstanceState)
         // collect state
         config()
-        getFilesEvent()
+        getFilesAndFoldersEvent()
         fileFilter()
     }
 
     override fun onStateChange(state: FileContract.FileState) {
         when {
-            state.isLoading -> {
-                changeVisibilityOfProgressBar(true)
-            }
+            state.isLoading -> binding.uiLayout.loadingState(true)
 
-            isIdleState(state)-> {
-                changeVisibilityOfProgressBar()
-                errorResultConfig()
-            }
+            isIdleState(state) -> binding.uiLayout.errorState(isVisible = true, isModified = false)
 
             else -> {
+                binding.uiLayout.successState()
                 if (
                     state.material == null
-                    && state.list.isNullOrEmpty()
-                    && state.params.isNullOrEmpty()
+                    && !state.list.isNullOrEmpty()
+                    && !state.params.isNullOrEmpty()
                     && state.result == null
-                ) { emptyResultConfig(true) }
+                )
+                    emptyResultConfig(true)
+                else
+                    emptyResultConfig()
 
-                changeVisibilityOfProgressBar()
-
-                if (state.list != null) {
+                if (state.folders != null && state.list != null) {
+                    val customList = mutableListOf<Any>()
+                    customList.addAll(state.folders!!)
+                    customList.addAll(state.list!!)
+                    recyclerViewConfig(customList)
+                } else if (state.list != null) {
+                    holdCurrentState(state)
                     recyclerViewConfig(state.list!!)
                 }
 
@@ -87,7 +92,7 @@ class FilesFragment(
                 }
 
                 if (state.result != null)
-                    getFilesEvent()
+                    getFilesAndFoldersEvent()
             }
         }
     }
@@ -95,95 +100,74 @@ class FilesFragment(
     override fun onEffectUpdate(effect: FileContract.FileEffect) {
         when (effect) {
             is FileContract.FileEffect.FilteredFileNotFoundEffect -> {
-                notFoundResult()
+                Toast.makeText(requireContext(), ELEMENT_NOT_FOUND, Toast.LENGTH_SHORT).show()
             }
 
             is FileContract.FileEffect.FindMaterialByIdFailedEffect -> {}
-            else -> {}
         }
     }
 
-    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
-        if (isVisible) {
-            binding.apply {
-                uiLayout.visibility = View.GONE
-                progressBar.visibility = View.VISIBLE
-                progressBar.isIndeterminate = true
-                notFoundLayout.visibility = View.GONE
-            }
-        } else {
-            binding.apply {
-                uiLayout.visibility = View.VISIBLE
-                progressBar.visibility = View.GONE
-                progressBar.isIndeterminate = false
-                notFoundLayout.visibility = View.GONE
-            }
-        }
-    }
-
-    private fun errorResultConfig(isVisible: Boolean = true){
-        with(binding){
-            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
-            uiLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
-
-            notFoundDescription.text = getString(R.string.files_loading_error_description_result)
-            notFoundTitle.text = SOMETHING_WENT_WRONG
-        }
-    }
 
     private fun emptyResultConfig(isVisible: Boolean = false) {
         with(binding) {
-            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
-
             if (isVisible) {
-                notFoundDescription.text = getString(R.string.files_not_inserted_yet_result)
-                notFoundTitle.text = getString(R.string.nothing_modified_yet_result)
+                uiLayout.customizeErrorState(
+                    title = getString(R.string.nothing_modified_yet_result),
+                    description = getString(R.string.files_not_inserted_yet_result),
+                )
             } else {
-                notFoundDescription.text = getString(R.string.not_found_result_description)
-                notFoundTitle.text = getString(R.string.not_found_result_title)
+                uiLayout.customizeErrorState(
+                    title = getString(R.string.not_found_result_title),
+                    description = getString(R.string.not_found_result_description)
+                )
             }
         }
     }
 
-    private fun getFilesEvent() {
+    private fun getFilesAndFoldersEvent() {
         viewModel.postEvent(FileContract.FileEvent.GetAllMaterials)
+        viewModel.postEvent(FileContract.FileEvent.GetAllFolders)
     }
 
     private fun fileFilter() {
         (activity as MainActivity).binding.materialToolbar.listenSearchText { charSequence, i, i2, i3 ->
             if (!charSequence.isNullOrEmpty())
                 viewModel.postEvent(
-                    FileContract.FileEvent.FileFilterEvent(
-                        list,
-                        charSequence.toString()
-                    )
+                    FileContract.FileEvent.FileFilterEvent(list, charSequence.toString())
                 )
             else
-                getFilesEvent()
+                getFilesAndFoldersEvent()
         }
     }
 
-    override fun recyclerViewConfig(list: List<MappedMaterialModel>) {
+    override fun recyclerViewConfig(list: List<Any>) {
         with(binding) {
             fileTotalAmountTitle.text =
                 getString(R.string.total_file_amount_title, "${list.size}")
             adapter = FileItemAdapter(
                 list.toMutableList(),
                 requireContext().getString(R.string.scan_code),
-                this@FilesFragment,
-                requireContext()
+                this@FilesFragment
             )
 
             filesRecyclerView.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             filesRecyclerView.adapter = adapter
-            adapter?.onClickAction = { fileClickEvent(it.id) }
+            adapter?.onFileClickAction = { fileClickEvent(it.id) }
             adapter?.optionAction = {
                 storedMaterial = it
                 optionClickEvent()
             }
 
-            adapter?.bottomSheetDialogOpen = {
+            adapter?.onFolderClickAction = {
+                resBundle.putString(BUNDLE_ID, it.id)
+                viewModel.postEvent(FileContract.FileEvent.Clear)
+                val action =
+                    FilesFragmentDirections.actionFilesFragmentToFolderDetailsFragment(resBundle)
+                navigate(action)
+            }
+
+            adapter?.bottomSheetMaterialDialogOpen = {
                 showBottomSheetDialog(
                     it,
                     (requireActivity() as MainActivity).getShareOptionsList(context = requireContext())
@@ -193,17 +177,25 @@ class FilesFragment(
     }
 
     private fun config() {
-        (activity as MainActivity).also {
-            it.binding.bottomNavBar.visibility = View.VISIBLE
-            it.binding.materialToolbar.visibility = View.VISIBLE
-            it.binding.materialToolbar.setTitleToolbar(getString(R.string.files))
-            it.binding.materialToolbar.changeVisibility(View.VISIBLE)
-            it.binding.materialToolbar.setVisibilityOptionsMenu(View.VISIBLE)
-            it.binding.materialToolbar.setVisibilitySearch(View.VISIBLE)
+        (activity as MainActivity).binding.apply {
+            bottomNavBar.visibility = View.VISIBLE
+            materialToolbar.visibility = View.VISIBLE
+            materialToolbar.setTitleToolbar(getString(R.string.files))
+            materialToolbar.changeVisibility(View.VISIBLE)
+            materialToolbar.setVisibilityOptionsMenu(View.VISIBLE)
+            materialToolbar.setVisibilitySearch(View.VISIBLE)
         }
 
         with(binding) {
             sortIcon.setOnClickListener { sortFilesClickEvent() }
+            fabAddIcon.setOnClickListener {
+                CreateFolderFragment {
+                    viewModel.postEvent(FileContract.FileEvent.CreateFolder(it))
+                }.show(
+                    if (!isAdded) return@setOnClickListener else this@FilesFragment.childFragmentManager,
+                    CreateFolderFragment::class.simpleName
+                )
+            }
         }
     }
 
@@ -214,11 +206,18 @@ class FilesFragment(
     private fun optionClickAction(state: FileContract.FileState) {
         // add bottom sheet here
         storedMaterial?.let { material ->
-            FileBottomSheetOptionFragment(this, material, params,
+            FileBottomSheetOptionFragment(
+                this, material, params,
+                moveToFolderClickAction = {
+                    resBundle.putParcelable(BUNDLE_MATERIAL, it)
+                    val action =
+                        FilesFragmentDirections.actionFilesFragmentToMoveToFolderFragment(resBundle)
+                    navigate(action)
+                },
                 onClickAction = {
                     holdCurrentState(state)
-                    getFilesEvent()
-                }
+                    getFilesAndFoldersEvent()
+                },
             ) {
                 removeFile(material)
             }.show(
@@ -246,9 +245,9 @@ class FilesFragment(
 
     @OptIn(ExperimentalGetImage::class)
     private fun fileClickAction(material: MappedMaterialModel) {
-        bundle.putParcelable(BUNDLE_MATERIAL, material)
-        bundle.putString(BUNDLE_TYPE, PREVIEW_IMAGE)
-        val action = FilesFragmentDirections.actionFilesFragmentToPreviewMaterialNavGraph(bundle)
+        resBundle.putParcelable(BUNDLE_MATERIAL, material)
+        resBundle.putString(BUNDLE_TYPE, PREVIEW_IMAGE)
+        val action = FilesFragmentDirections.actionFilesFragmentToPreviewMaterialNavGraph(resBundle)
         navigate(action)
     }
 
@@ -258,14 +257,6 @@ class FilesFragment(
             viewModel.postEvent(FileContract.FileEvent.SortMaterials(list = list, type = A2Z))
         else
             viewModel.postEvent(FileContract.FileEvent.SortMaterials(list = list, type = Z2A))
-    }
-
-    private fun notFoundResult() {
-        with(binding) {
-            progressBar.visibility = View.GONE
-            uiLayout.visibility = View.GONE
-            notFoundLayout.visibility = View.VISIBLE
-        }
     }
 
     private fun showBottomSheetDialog(

@@ -34,129 +34,76 @@
         app:shapeAppearanceOverlay="@style/RoundedCornerImage"
         app:tint="@color/white" />
 
-    <LinearLayout
-        android:id="@+id/notFoundLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/notFoundImage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/material_not_found_icon"
-            android:visibility="visible" />
-
-        <TextView
-            android:id="@+id/notFoundTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
-            android:fontFamily="@font/urbanist_bold"
-            android:text="@string/not_found_result_title"
-            android:textAlignment="center"
-            android:textColor="@color/grayscale_900"
-            android:textSize="22sp" />
-
-        <TextView
-            android:id="@+id/notFoundDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="16dp"
-            android:fontFamily="@font/urbanist_regular"
-            android:text="@string/not_found_result_description"
-            android:textAlignment="center"
-            android:textColor="@color/grayscale_900"
-            android:textSize="16sp" />
-
-    </LinearLayout>
-
-    <ProgressBar
-        android:id="@+id/progressBarIndicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:visibility="gone"
-        android:layout_marginVertical="100dp"
-        android:indeterminateTint="@color/primary_900"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-
-
-
-    <ScrollView
+    <com.natiqhaciyef.core.base.ui.BaseXmlConstraintLayout
         android:id="@+id/uiLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/homeRecyclerMenubar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:isScrollContainer="false"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
-            <View
-                android:id="@+id/singleLine"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="24dp"
-                android:background="@drawable/long_simple_line"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/homeRecyclerMenubar" />
+                android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/recentFileTitle"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="24dp"
-                android:fontFamily="@font/urbanist_bold"
-                android:gravity="center_vertical"
-                android:text="@string/recent_files"
-                android:textColor="@color/grayscale_900"
-                android:textSize="22sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/singleLine" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/homeRecyclerMenubar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:isScrollContainer="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/rightArrowIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/right_arrow_icon"
-                app:layout_constraintBottom_toBottomOf="@id/recentFileTitle"
-                app:layout_constraintEnd_toEndOf="@id/recentFileTitle"
-                app:layout_constraintTop_toTopOf="@id/recentFileTitle" />
+                <View
+                    android:id="@+id/singleLine"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="24dp"
+                    android:background="@drawable/long_simple_line"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/homeRecyclerMenubar" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/filesRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/recentFileTitle" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+                <TextView
+                    android:id="@+id/recentFileTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="@font/urbanist_bold"
+                    android:gravity="center_vertical"
+                    android:text="@string/recent_files"
+                    android:textColor="@color/grayscale_900"
+                    android:textSize="22sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/singleLine" />
+
+                <ImageView
+                    android:id="@+id/rightArrowIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/right_arrow_icon"
+                    app:layout_constraintBottom_toBottomOf="@id/recentFileTitle"
+                    app:layout_constraintEnd_toEndOf="@id/recentFileTitle"
+                    app:layout_constraintTop_toTopOf="@id/recentFileTitle" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/filesRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/recentFileTitle" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+    </com.natiqhaciyef.core.base.ui.BaseXmlConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

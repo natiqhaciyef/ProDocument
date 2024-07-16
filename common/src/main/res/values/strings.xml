@@ -227,6 +227,9 @@
     <string name="move_to_folder">Move to Folder</string>
     <string name="print">Print</string>
     <string name="delete">Delete</string>
+    <string name="count_of_files">%1$s file(s)</string>
+    <string name="folder_title">Folder title</string>
+    <string name="folder_description">Folder description</string>
 
 
     <!-- Premium -->

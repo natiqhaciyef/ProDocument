@@ -58,11 +58,10 @@ class AccountParametersAdapter(
             }
 
             else -> {
+                holder.itemView.setOnClickListener { onClickAction?.invoke(item.type.name) }
                 holder.binding.goDetailsIcon.setOnClickListener { onClickAction?.invoke(item.type.name) }
             }
         }
-
-        holder.itemView.setOnClickListener { onClickAction?.invoke(item.type.name) }
     }
 
 

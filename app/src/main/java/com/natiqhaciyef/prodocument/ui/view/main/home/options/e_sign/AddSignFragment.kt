@@ -43,45 +43,12 @@ class AddSignFragment(
     override fun onStateChange(state: ESignContract.ESignState) {
         when {
             state.isLoading -> {
-                changeVisibilityOfProgressBar(true)
-                errorResultConfig(false)
-            }
-
-            isIdleState(state) -> {
-                changeVisibilityOfProgressBar(false)
-                errorResultConfig(true)
+                binding.uiLayout.loadingState(true)
             }
 
             else -> {
-                errorResultConfig(false)
-                changeVisibilityOfProgressBar(false)
+                binding.uiLayout.successState()
             }
-        }
-    }
-
-    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
-        if (isVisible) {
-            binding.apply {
-                uiLayout.visibility = View.GONE
-                progressBar.visibility = View.VISIBLE
-                progressBar.isIndeterminate = true
-            }
-        } else {
-            binding.apply {
-                uiLayout.visibility = View.VISIBLE
-                progressBar.visibility = View.GONE
-                progressBar.isIndeterminate = false
-            }
-        }
-    }
-
-    private fun errorResultConfig(isVisible: Boolean = true){
-        with(binding){
-            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
-            uiLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
-
-            notFoundDescription.text = getString(com.natiqhaciyef.common.R.string.files_loading_error_description_result)
-            notFoundTitle.text = SOMETHING_WENT_WRONG
         }
     }
 

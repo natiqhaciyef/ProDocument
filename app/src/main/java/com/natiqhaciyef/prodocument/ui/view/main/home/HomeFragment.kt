@@ -15,15 +15,12 @@ import androidx.camera.core.ExperimentalGetImage
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.natiqhaciyef.common.R
 import com.natiqhaciyef.common.constants.EMPTY_STRING
 import com.natiqhaciyef.common.constants.FOUR
-import com.natiqhaciyef.common.constants.SOMETHING_WENT_WRONG
 import com.natiqhaciyef.common.model.ParamsUIModel
 import com.natiqhaciyef.prodocument.databinding.FragmentHomeBinding
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
-import com.natiqhaciyef.core.base.ui.BaseFragment
 import com.natiqhaciyef.core.base.ui.BaseRecyclerHolderStatefulFragment
 import com.natiqhaciyef.core.model.FileTypes
 import com.natiqhaciyef.prodocument.ui.util.NavigationUtil.navigateByRouteTitle
@@ -35,7 +32,6 @@ import com.natiqhaciyef.prodocument.ui.util.UiList
 import com.natiqhaciyef.prodocument.ui.util.getOptions
 import com.natiqhaciyef.prodocument.ui.view.main.MainActivity
 import com.natiqhaciyef.prodocument.ui.view.main.files.FileBottomSheetOptionFragment
-import com.natiqhaciyef.prodocument.ui.view.main.files.contract.FileContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.contract.HomeContract
 import com.natiqhaciyef.prodocument.ui.view.main.home.viewmodel.HomeViewModel
 import com.natiqhaciyef.prodocument.ui.view.main.modify.ModifyPdfFragment.Companion.PREVIEW_IMAGE
@@ -52,7 +48,7 @@ class HomeFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentHomeBinding = FragmentHomeBinding::inflate,
     override val viewModelClass: KClass<HomeViewModel> = HomeViewModel::class
 ) : BaseRecyclerHolderStatefulFragment<
-        FragmentHomeBinding, HomeViewModel, MappedMaterialModel, FileItemAdapter,
+        FragmentHomeBinding, HomeViewModel, Any, FileItemAdapter,
         HomeContract.HomeUiState, HomeContract.HomeEvent, HomeContract.HomeEffect>() {
     private var resourceBundle = bundleOf()
     private lateinit var menuAdapter: MenuAdapter
@@ -100,18 +96,15 @@ class HomeFragment(
     override fun onStateChange(state: HomeContract.HomeUiState) {
         when {
             state.isLoading -> {
-                changeVisibilityOfProgressBar(true)
-                errorResultConfig()
+                binding.uiLayout.loadingState(true)
             }
 
             isIdleState(state) -> {
-                changeVisibilityOfProgressBar()
-                errorResultConfig(true)
+                binding.uiLayout.errorState(true)
             }
 
             else -> {
-                errorResultConfig()
-                changeVisibilityOfProgressBar()
+                binding.uiLayout.successState()
 
                 if (state.list != null)
                     recyclerViewConfig(state.list!!)
@@ -129,38 +122,6 @@ class HomeFragment(
         when (effect) {
             is HomeContract.HomeEffect.FindMaterialByIdFailedEffect -> {}
             is HomeContract.HomeEffect.MaterialListLoadingFailedEffect -> {}
-        }
-    }
-
-    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
-        if (isVisible) {
-            binding.apply {
-                uiLayout.visibility = View.GONE
-                progressBarIndicator.visibility = View.VISIBLE
-                progressBarIndicator.isIndeterminate = true
-                fabCameraIcon.visibility = View.GONE
-                fabGalleryIcon.visibility = View.GONE
-            }
-        } else {
-            binding.apply {
-                uiLayout.visibility = View.VISIBLE
-                progressBarIndicator.visibility = View.GONE
-                progressBarIndicator.isIndeterminate = false
-                fabCameraIcon.visibility = View.VISIBLE
-                fabGalleryIcon.visibility = View.VISIBLE
-            }
-        }
-    }
-
-    private fun errorResultConfig(isVisible: Boolean = false){
-        with(binding){
-            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
-            uiLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
-
-            notFoundDescription.text = getString(com.natiqhaciyef.common.R.string.files_loading_error_description_result)
-            notFoundTitle.text = SOMETHING_WENT_WRONG
-            fabCameraIcon.visibility = View.GONE
-            fabGalleryIcon.visibility = View.GONE
         }
     }
 
@@ -199,16 +160,15 @@ class HomeFragment(
         }
     }
 
-
-    override fun recyclerViewConfig(list: List<MappedMaterialModel>) {
+    override fun recyclerViewConfig(list: List<Any>) {
         adapter = FileItemAdapter(
             list.toMutableList(),
             requireContext().getString(R.string.default_type),
             this,
-            requireContext()
+            false
         )
 
-        adapter?.onClickAction = { material ->
+        adapter?.onFileClickAction = { material ->
             fileClickEvent(material.id)
         }
 

@@ -74,15 +74,14 @@
             android:id="@+id/action_filesFragment_to_merge_nav_graph"
             app:destination="@id/merge_nav_graph" />
         <action
-            android:id="@+id/action_filesFragment_to_preview_material_nav_graph2"
-            app:destination="@id/preview_material_nav_graph" >
-            <argument
-                android:name="resourceBundle"
-                app:argType="android.os.Bundle" />
-        </action>
-        <action
             android:id="@+id/action_filesFragment_to_watermark_nav_graph"
             app:destination="@id/watermark_nav_graph" />
+        <action
+            android:id="@+id/action_filesFragment_to_folderDetailsFragment"
+            app:destination="@id/folderDetailsFragment" />
+        <action
+            android:id="@+id/action_filesFragment_to_moveToFolderFragment"
+            app:destination="@id/moveToFolderFragment" />
     </fragment>
     <fragment
         android:id="@+id/premiumFragment"
@@ -100,4 +99,45 @@
     <include app:graph="@navigation/pick_file_nav_graph" />
     <include app:graph="@navigation/profile_details_nav_graph" />
     <include app:graph="@navigation/watermark_nav_graph" />
+    <fragment
+        android:id="@+id/folderDetailsFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.files.FolderDetailsFragment"
+        android:label="fragment_folder_details"
+        tools:layout="@layout/fragment_folder_details" >
+        <argument
+            android:name="resourceBundle"
+            app:argType="android.os.Bundle" />
+        <action
+            android:id="@+id/action_folderDetailsFragment_to_preview_material_nav_graph"
+            app:destination="@id/preview_material_nav_graph" >
+            <argument
+                android:name="resourceBundle"
+                app:argType="android.os.Bundle" />
+        </action>
+        <action
+            android:id="@+id/action_folderDetailsFragment_to_pick_file_nav_graph"
+            app:destination="@id/pick_file_nav_graph" >
+            <argument
+                android:name="resourceBundle"
+                app:argType="android.os.Bundle" />
+        </action>
+        <action
+            android:id="@+id/action_folderDetailsFragment_to_merge_nav_graph"
+            app:destination="@id/merge_nav_graph" />
+        <action
+            android:id="@+id/action_folderDetailsFragment_to_watermark_nav_graph"
+            app:destination="@id/watermark_nav_graph" />
+        <action
+            android:id="@+id/action_folderDetailsFragment_to_scan_nav_graph"
+            app:destination="@id/scan_nav_graph" />
+    </fragment>
+    <fragment
+        android:id="@+id/moveToFolderFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.files.MoveToFolderFragment"
+        android:label="fragment_move_to_folder"
+        tools:layout="@layout/fragment_move_to_folder" >
+        <argument
+            android:name="resourceBundle"
+            app:argType="android.os.Bundle" />
+    </fragment>
 </navigation>

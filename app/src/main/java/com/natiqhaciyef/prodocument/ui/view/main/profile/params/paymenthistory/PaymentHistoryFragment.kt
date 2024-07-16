@@ -37,27 +37,19 @@ class PaymentHistoryFragment(
 
     override fun onStateChange(state: ProfileContract.ProfileState) {
         when {
-            state.isLoading -> {
-                emptyResultConfig()
-                changeVisibilityOfProgressBar(true)
-                errorResultConfig()
-            }
+            state.isLoading -> binding.uiLayout.loadingState(true)
 
-            state.paymentsHistory.isNullOrEmpty() -> {
-                emptyResultConfig(true)
-                changeVisibilityOfProgressBar()
-                errorResultConfig()
-            }
-
-            isIdleState(state) -> {
-                emptyResultConfig()
-                changeVisibilityOfProgressBar()
-                errorResultConfig(true)
-            }
+            isIdleState(state) -> binding.uiLayout.errorState(isVisible = true, isModified = false)
 
             else -> {
-                errorResultConfig()
-                changeVisibilityOfProgressBar()
+                binding.uiLayout.successState()
+
+                if (state.paymentsHistory.isNullOrEmpty()) {
+                    emptyResultConfig(true)
+                }else{
+                    emptyResultConfig(false)
+                }
+
                 if (state.paymentsHistory != null) {
                     recyclerViewConfig(state.paymentsHistory!!)
                 }
@@ -67,31 +59,6 @@ class PaymentHistoryFragment(
 
     override fun onEffectUpdate(effect: ProfileContract.ProfileEffect) {
 
-    }
-
-    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
-        if (isVisible) {
-            binding.apply {
-                progressBar.visibility = View.VISIBLE
-                progressBar.isIndeterminate = true
-            }
-        } else {
-            binding.apply {
-                progressBar.visibility = View.GONE
-                progressBar.isIndeterminate = false
-            }
-        }
-    }
-
-
-    private fun errorResultConfig(isVisible: Boolean = false){
-        with(binding){
-            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
-            recyclerPaymentHistoryView.visibility = if (isVisible) View.GONE else View.VISIBLE
-
-            notFoundDescription.text = getString(com.natiqhaciyef.common.R.string.files_loading_error_description_result)
-            notFoundTitle.text = SOMETHING_WENT_WRONG
-        }
     }
 
     private fun emptyResultConfig(isVisible: Boolean = false) {

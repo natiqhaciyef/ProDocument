@@ -27,58 +27,26 @@ class PremiumFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         config()
+        viewModel.postEvent(PremiumContract.PremiumEvent.GetAllSubscriptionPlans)
     }
 
     override fun onStateChange(state: PremiumContract.PremiumState) {
         when{
-            state.isLoading -> {
-                changeVisibilityOfProgressBar(true)
-                errorResultConfig()
-            }
+            state.isLoading -> binding.uiLayout.loadingState(true)
 
             state.subscriptions.isNullOrEmpty() -> {
                 viewModel.postEvent(PremiumContract.PremiumEvent.GetAllSubscriptionPlans)
             }
 
-            isIdleState(state) -> {
-                errorResultConfig(true)
-            }
+            isIdleState(state) -> binding.uiLayout.errorState(true)
 
             else -> {
-                errorResultConfig()
-                changeVisibilityOfProgressBar()
+                binding.uiLayout.successState()
 
                 if (state.subscriptions != null){
                     viewPagerConfiguration(state.subscriptions!!)
                 }
             }
-        }
-    }
-
-
-    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
-        if (isVisible) {
-            binding.apply {
-                uiLayout.visibility = View.GONE
-                progressBar.visibility = View.VISIBLE
-                progressBar.isIndeterminate = true
-            }
-        } else {
-            binding.apply {
-                uiLayout.visibility = View.VISIBLE
-                progressBar.visibility = View.GONE
-                progressBar.isIndeterminate = false
-            }
-        }
-    }
-
-    private fun errorResultConfig(isVisible: Boolean = false){
-        with(binding){
-            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
-            uiLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
-
-            notFoundDescription.text = getString(com.natiqhaciyef.common.R.string.files_loading_error_description_result)
-            notFoundTitle.text = SOMETHING_WENT_WRONG
         }
     }
 
@@ -96,10 +64,15 @@ class PremiumFragment(
 
     private fun viewPagerConfiguration(list: List<MappedSubscriptionModel>){
         for (subscriptionModel in list){
-            plansFragmentList.add(SubscriptionFragment(subscription = subscriptionModel))
+            plansFragmentList.add(SubscriptionFragment(subscription = subscriptionModel, clearAction = { clear() }))
         }
         val adapter = ViewPagerAdapter(plansFragmentList, this)
         binding.subscriptionViewPager.adapter = adapter
         binding.subscriptionViewPager.setPageTransformer(ZoomOutPageTransformer())
+    }
+
+    private fun clear(){
+        postEvent(PremiumContract.PremiumEvent.Clear)
+        plansFragmentList.clear()
     }
 }

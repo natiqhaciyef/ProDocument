@@ -54,24 +54,18 @@ class PaymentCategoriesFragment(
     override fun onStateChange(state: PaymentContract.PaymentState) {
         println(state)
         when {
-            state.isLoading -> {
-                changeVisibilityOfProgressBar(true)
-                emptyListConfig()
-            }
+            state.isLoading -> binding.uiLayout.loadingState(true)
 
-            isIdleState(state) -> {
-                // add error case
-                changeVisibilityOfProgressBar()
-            }
+            isIdleState(state) -> binding.uiLayout.errorState(true)
 
             else -> {
-                changeVisibilityOfProgressBar()
-                emptyListConfig()
+                binding.uiLayout.successState()
 
                 if (state.paymentMethodsList != null) {
-                    if (state.paymentMethodsList!!.isNotEmpty())
+                    if (state.paymentMethodsList!!.isNotEmpty()) {
                         recyclerViewConfig(state.paymentMethodsList!!)
-                    else
+                        emptyListConfig(false)
+                    }else
                         emptyListConfig(true)
                 }
 
@@ -91,24 +85,8 @@ class PaymentCategoriesFragment(
 
     }
 
-    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
-        if (isVisible) {
-            binding.apply {
-                uiLayout.visibility = View.GONE
-                progressBar.visibility = View.VISIBLE
-                progressBar.isIndeterminate = true
-            }
-        } else {
-            binding.apply {
-                uiLayout.visibility = View.VISIBLE
-                progressBar.visibility = View.GONE
-                progressBar.isIndeterminate = false
-            }
-        }
-    }
-
     private fun emptyListConfig(isVisible: Boolean = false) {
-        binding.errorLayout.visibility =
+        binding.emptyListLayout.visibility =
             if (isVisible) View.VISIBLE else View.GONE
     }
 

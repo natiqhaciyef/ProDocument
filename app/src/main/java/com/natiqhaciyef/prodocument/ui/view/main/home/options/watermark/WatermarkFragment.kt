@@ -57,45 +57,12 @@ class WatermarkFragment(
 
     override fun onStateChange(state: WatermarkContract.WatermarkState) {
         when {
-            state.isLoading -> {
-                changeVisibilityOfProgressBar(true)
-                errorResultConfig()
-            }
-
-            isIdleState(state) -> {
-                errorResultConfig(true)
-                changeVisibilityOfProgressBar()
-            }
+            state.isLoading -> binding.uiLayout.loadingState(true)
 
             else -> {
-                changeVisibilityOfProgressBar()
-            }
-        }
-    }
+                binding.uiLayout.successState()
 
-    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
-        if (isVisible) {
-            binding.apply {
-                uiLayout.visibility = View.GONE
-                progressBar.visibility = View.VISIBLE
-                progressBar.isIndeterminate = true
             }
-        } else {
-            binding.apply {
-                uiLayout.visibility = View.VISIBLE
-                progressBar.visibility = View.GONE
-                progressBar.isIndeterminate = false
-            }
-        }
-    }
-
-    private fun errorResultConfig(isVisible: Boolean = false){
-        with(binding){
-            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
-            uiLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
-
-            notFoundDescription.text = getString(com.natiqhaciyef.common.R.string.files_loading_error_description_result)
-            notFoundTitle.text = SOMETHING_WENT_WRONG
         }
     }
 

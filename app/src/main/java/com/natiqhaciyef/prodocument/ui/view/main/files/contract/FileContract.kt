@@ -7,6 +7,8 @@ import com.natiqhaciyef.core.base.ui.UiEffect
 import com.natiqhaciyef.core.base.ui.UiEvent
 import com.natiqhaciyef.core.base.ui.UiState
 import com.natiqhaciyef.common.model.ParamsUIModel
+import com.natiqhaciyef.common.model.mapped.MappedFolderModel
+import com.natiqhaciyef.domain.network.request.FolderRequest
 
 object FileContract {
     sealed interface FileEvent : UiEvent {
@@ -17,7 +19,15 @@ object FileContract {
 
         data object GetAllMaterials : FileEvent
 
+        data object GetAllFolders : FileEvent
+
+        data class GetMaterialsByFolderId(val folderId: String) : FileEvent
+
+        data class CreateFolder(val folderRequest: FolderRequest) : FileEvent
+
         data class RemoveMaterial(val materialId: String) : FileEvent
+
+        data class UpdateMaterial(val material: MappedMaterialModel) : FileEvent
 
         data class SortMaterials(
             var list: MutableList<MappedMaterialModel>,
@@ -28,6 +38,8 @@ object FileContract {
             var list: MutableList<MappedMaterialModel>,
             var text: String
         ): FileEvent
+
+        data object Clear : FileEvent
     }
 
     sealed interface FileEffect : UiEffect {
@@ -40,8 +52,9 @@ object FileContract {
     }
 
     data class FileState(
-        override var isLoading: Boolean = false,
+        override var isLoading: Boolean = true,
         var list: List<MappedMaterialModel>? = null,
+        var folders: List<MappedFolderModel>? = null,
         var material: MappedMaterialModel? = null,
         var result: CRUDModel? = null,
         var params: List<ParamsUIModel>? = null

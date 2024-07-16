@@ -40,18 +40,11 @@ class AddPasswordFileFragment(
     override fun onStateChange(state: ProtectFileContract.ProtectFileState) {
         when{
             state.isLoading -> {
-                changeVisibilityOfProgressBar(true)
-                errorResultConfig()
-            }
-
-            isIdleState(state) -> {
-                changeVisibilityOfProgressBar()
-                errorResultConfig(true)
+                binding.uiLayout.loadingState(true)
             }
 
             else -> {
-                changeVisibilityOfProgressBar()
-                errorResultConfig(false)
+                binding.uiLayout.successState()
 
                 if (state.material != null)
                     protectFileAction(state.material!!)
@@ -79,32 +72,6 @@ class AddPasswordFileFragment(
                     }
                 }
             }
-        }
-    }
-
-    private fun changeVisibilityOfProgressBar(isVisible: Boolean = false) {
-        if (isVisible) {
-            binding.apply {
-                uiLayout.visibility = View.GONE
-                progressBar.visibility = View.VISIBLE
-                progressBar.isIndeterminate = true
-            }
-        } else {
-            binding.apply {
-                uiLayout.visibility = View.VISIBLE
-                progressBar.visibility = View.GONE
-                progressBar.isIndeterminate = false
-            }
-        }
-    }
-
-    private fun errorResultConfig(isVisible: Boolean = false){
-        with(binding){
-            notFoundLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
-            uiLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
-
-            notFoundDescription.text = getString(com.natiqhaciyef.common.R.string.files_loading_error_description_result)
-            notFoundTitle.text = SOMETHING_WENT_WRONG
         }
     }
 
