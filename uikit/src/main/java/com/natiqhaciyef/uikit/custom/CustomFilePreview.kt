@@ -71,6 +71,15 @@ class CustomFilePreview(
         binding?.filePreviewImage?.load(icon)
     }
 
+    fun setImageIconByName(iconName: String) {
+        val res = resources.getDrawable(this.resources.getIdentifier(
+            iconName,
+            "drawable",
+            context.packageName
+        ), null)
+        binding?.filePreviewImage?.setImageDrawable(res)
+    }
+
     fun setImageIcon(@DrawableRes id: Int) {
         binding?.filePreviewImage?.setImageResource(id)
     }

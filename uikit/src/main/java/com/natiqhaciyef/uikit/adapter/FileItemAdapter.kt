@@ -97,10 +97,13 @@ class FileItemAdapter(
                     setCustomDate(file.createdDate)
 
                     if (file.icon != null)
-                        setImageIcon(file.icon!!)
+                        if (file.icon!!.startsWith("https"))
+                            setImageIcon(file.icon!!)
+                        else
+                            setImageIconByName(file.icon!!)
+
                     else
                         setImageIcon(R.drawable.folder_filled_icon)
-
                 }
                 holder.itemView.setOnClickListener { onFolderClickAction.invoke(file) }
             }

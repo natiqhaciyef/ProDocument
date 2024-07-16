@@ -5,9 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.natiqhaciyef.common.model.Status
 import com.natiqhaciyef.common.model.mapped.MappedMaterialModel
 import com.natiqhaciyef.core.base.ui.BaseViewModel
-import com.natiqhaciyef.data.mock.materials.GetAllFoldersMockGenerator
+import com.natiqhaciyef.domain.network.request.FolderRequest
+import com.natiqhaciyef.domain.usecase.material.CreateFolderUseCase
 import com.natiqhaciyef.domain.usecase.material.GetAllFoldersUseCase
-import com.natiqhaciyef.domain.usecase.material.GetAllMaterialsRemoteUseCase
 import com.natiqhaciyef.domain.usecase.material.GetAllMaterialsWithoutFolderUseCase
 import com.natiqhaciyef.domain.usecase.material.GetMaterialByIdRemoteUseCase
 import com.natiqhaciyef.domain.usecase.material.GetMaterialsByFolderIdUseCase
@@ -29,6 +29,7 @@ class FileViewModel @Inject constructor(
     private val getMaterialsByFolderId: GetMaterialsByFolderIdUseCase,
     private val getAllMaterialsWithoutFolderUseCase: GetAllMaterialsWithoutFolderUseCase,
     private val removeMaterialByIdUseCase: RemoveMaterialByIdUseCase,
+    private val createFolderUseCase: CreateFolderUseCase
 ) : BaseViewModel<FileContract.FileState, FileContract.FileEvent, FileContract.FileEffect>() {
 
     override fun onEventUpdate(event: FileContract.FileEvent) {
@@ -48,6 +49,8 @@ class FileViewModel @Inject constructor(
             is FileContract.FileEvent.GetAllFileParams -> generateParams(event.context)
 
             is FileContract.FileEvent.RemoveMaterial -> removeMaterial(event.materialId)
+
+            is FileContract.FileEvent.CreateFolder -> createFolder(event.folderRequest)
 
             is FileContract.FileEvent.Clear -> clearState()
         }
@@ -127,9 +130,9 @@ class FileViewModel @Inject constructor(
         }
     }
 
-    private fun getAllMaterialByFolderId(folderId: String){
+    private fun getAllMaterialByFolderId(folderId: String) {
         getMaterialsByFolderId.operate(folderId).onEach { result ->
-            when(result.status){
+            when (result.status) {
                 Status.SUCCESS -> {
                     if (result.data != null)
                         setBaseState(
@@ -179,14 +182,14 @@ class FileViewModel @Inject constructor(
                     isLoading = false,
                     list = list.filter { it.title.startsWith(text) })
             )
-        }else{
+        } else {
             postEffect(FileContract.FileEffect.FilteredFileNotFoundEffect)
         }
     }
 
-    private fun removeMaterial(materialId: String){
+    private fun removeMaterial(materialId: String) {
         removeMaterialByIdUseCase.operate(materialId).onEach { result ->
-            when(result.status){
+            when (result.status) {
                 Status.SUCCESS -> {
                     if (result.data != null)
                         setBaseState(getCurrentBaseState().copy(result = result.data, isLoading = false))
@@ -203,12 +206,31 @@ class FileViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    private fun createFolder(folderRequest: FolderRequest) {
+        createFolderUseCase.operate(folderRequest).onEach { result ->
+            when (result.status) {
+                Status.LOADING -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = true))
+                }
 
-    private fun generateParams(ctx: Context){
+                Status.SUCCESS -> {
+                    if (result.data != null)
+                        setBaseState(getCurrentBaseState().copy(isLoading = false, result = result.data))
+                }
+
+                Status.ERROR -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = false))
+                }
+            }
+
+        }.launchIn(viewModelScope)
+    }
+
+    private fun generateParams(ctx: Context) {
         setBaseState(getCurrentBaseState().copy(params = getOptions(ctx)))
     }
 
-    private fun clearState(){
+    private fun clearState() {
         setBaseState(getCurrentBaseState())
     }
 

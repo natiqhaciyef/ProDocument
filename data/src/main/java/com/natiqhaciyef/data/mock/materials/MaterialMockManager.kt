@@ -12,6 +12,7 @@ import com.natiqhaciyef.common.constants.ZERO
 import com.natiqhaciyef.core.CRUDResponse
 import com.natiqhaciyef.core.model.FileTypes.PDF
 import com.natiqhaciyef.core.model.FileTypes.URL
+import com.natiqhaciyef.domain.network.request.FolderRequest
 import com.natiqhaciyef.domain.network.request.MergeRequest
 import com.natiqhaciyef.domain.network.request.SplitRequest
 import com.natiqhaciyef.domain.network.request.WatermarkRequest
@@ -122,6 +123,22 @@ object MaterialMockManager {
     fun createMaterial(material: MaterialResponse, title: String): CRUDResponse {
         val customMaterial = material.copy(id = "${UUID.randomUUID()}")
         materialList.add(customMaterial)
+        return getCrudResult(title)
+    }
+
+    fun createFolder(folderRequest: FolderRequest, title: String): CRUDResponse{
+        val customFolderModel = FolderResponse(
+            id = "${UUID.randomUUID()}",
+            title = folderRequest.title,
+            description = folderRequest.description,
+            protectionKey = folderRequest.protectionKey,
+            icon = folderRequest.icon,
+            type = folderRequest.type,
+            createdDate = folderRequest.createdDate,
+            filesCount = ZERO,
+            result = crudResponse
+        )
+        folderList.add(customFolderModel)
         return getCrudResult(title)
     }
 

@@ -8,6 +8,7 @@ import com.natiqhaciyef.core.base.ui.UiEvent
 import com.natiqhaciyef.core.base.ui.UiState
 import com.natiqhaciyef.common.model.ParamsUIModel
 import com.natiqhaciyef.common.model.mapped.MappedFolderModel
+import com.natiqhaciyef.domain.network.request.FolderRequest
 
 object FileContract {
     sealed interface FileEvent : UiEvent {
@@ -21,6 +22,8 @@ object FileContract {
         data object GetAllFolders : FileEvent
 
         data class GetMaterialsByFolderId(val folderId: String) : FileEvent
+
+        data class CreateFolder(val folderRequest: FolderRequest) : FileEvent
 
         data class RemoveMaterial(val materialId: String) : FileEvent
 

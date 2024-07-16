@@ -56,24 +56,21 @@ class FilesFragment(
 
     override fun onStateChange(state: FileContract.FileState) {
         when {
-            state.isLoading -> {
-                binding.uiLayout.loadingState(true)
-            }
+            state.isLoading -> binding.uiLayout.loadingState(true)
 
-            isIdleState(state) -> {
-                binding.uiLayout.errorState(isVisible = true, isModified = false)
-            }
+            isIdleState(state) -> binding.uiLayout.errorState(isVisible = true, isModified = false)
 
             else -> {
                 binding.uiLayout.successState()
                 if (
                     state.material == null
-                    && state.list!!.isEmpty()
-                    && state.params!!.isEmpty()
+                    && !state.list.isNullOrEmpty()
+                    && !state.params.isNullOrEmpty()
                     && state.result == null
-                ) {
+                )
                     emptyResultConfig(true)
-                }
+                else
+                    emptyResultConfig()
 
                 if (state.folders != null && state.list != null) {
                     val customList = mutableListOf<Any>()
@@ -107,7 +104,6 @@ class FilesFragment(
             }
 
             is FileContract.FileEffect.FindMaterialByIdFailedEffect -> {}
-            else -> {}
         }
     }
 
@@ -192,6 +188,14 @@ class FilesFragment(
 
         with(binding) {
             sortIcon.setOnClickListener { sortFilesClickEvent() }
+            fabAddIcon.setOnClickListener {
+                CreateFolderFragment{
+                    viewModel.postEvent(FileContract.FileEvent.CreateFolder(it))
+                }.show(
+                    if (!isAdded) return@setOnClickListener else this@FilesFragment.childFragmentManager,
+                    CreateFolderFragment::class.simpleName
+                )
+            }
         }
     }
 

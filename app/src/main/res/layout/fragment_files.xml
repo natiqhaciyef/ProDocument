@@ -12,6 +12,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabAddIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="24dp"
+            android:backgroundTint="@color/primary_900"
+            android:foregroundTint="@color/white"
+            android:src="@drawable/plus_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:shapeAppearanceOverlay="@style/RoundedCornerImage"
+            app:tint="@color/white" />
+
         <TextView
             android:id="@+id/fileTotalAmountTitle"
             android:layout_width="wrap_content"
