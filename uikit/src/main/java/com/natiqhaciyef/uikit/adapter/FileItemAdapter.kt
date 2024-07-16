@@ -15,6 +15,7 @@ class FileItemAdapter(
     dataList: MutableList<Any>,
     private val type: String,
     private var fragment: Fragment? = null,
+    private var isActionsAvailable: Boolean = true
 ) : BaseRecyclerViewAdapter<Any, RecyclerFilesItemViewBinding>(dataList) {
     override val binding: (Context, ViewGroup, Boolean) -> RecyclerFilesItemViewBinding =
         { context, viewGroup, bool ->
@@ -61,52 +62,80 @@ class FileItemAdapter(
 
         when (file) {
             is MappedMaterialModel -> {
-                when (type) {
-                    holder.context.getString(R.string.scan_code), holder.context.getString(R.string.default_type) -> {
-                        configOfHome(view)
-                    }
-
-                    holder.context.getString(R.string.merge_pdf) -> {
-                        configOfMerge(view)
-                    }
+                if (isActionsAvailable) {
+                    fileClickActionAvailable(holder, view, file)
+                    holder.itemView.setOnClickListener { onFileClickAction.invoke(file) }
+                } else {
+                    fileClickActionNotAvailable(view, file)
+                    holder.itemView.setOnClickListener { onFileClickAction.invoke(file) }
                 }
-
-                with(view.customFilePreview) {
-                    changeFilesCountVisibility(View.GONE)
-                    setCustomTitle(file.title)
-                    setCustomDate(file.createdDate)
-                    setImageIcon(file.image)
-
-                    addActionToRemove { removeFileAction.invoke(file) }
-                    addActionToOptions { optionAction.invoke(file) }
-                    addActionToShare {
-
-                        if (fragment != null && context != null) {
-                            bottomSheetMaterialDialogOpen.invoke(file)
-                        }
-                    }
-                }
-                holder.itemView.setOnClickListener { onFileClickAction.invoke(file) }
             }
 
             is MappedFolderModel -> {
-                with(view.customFilePreview) {
-                    changeFilesCountVisibility(View.VISIBLE)
-                    setCustomTitle(file.title)
-                    setFilesCount(file.filesCount)
-                    setCustomDate(file.createdDate)
-
-                    if (file.icon != null)
-                        if (file.icon!!.startsWith("https"))
-                            setImageIcon(file.icon!!)
-                        else
-                            setImageIconByName(file.icon!!)
-
-                    else
-                        setImageIcon(R.drawable.folder_filled_icon)
-                }
+                folderClickAction(view, file)
                 holder.itemView.setOnClickListener { onFolderClickAction.invoke(file) }
             }
+        }
+    }
+
+    private fun folderClickAction(view: RecyclerFilesItemViewBinding, file: MappedFolderModel) {
+        with(view.customFilePreview) {
+            changeFilesCountVisibility(android.view.View.VISIBLE)
+            setCustomTitle(file.title)
+            setFilesCount(file.filesCount)
+            setCustomDate(file.createdDate)
+
+            if (file.icon != null)
+                if (file.icon!!.startsWith("https"))
+                    setImageIcon(file.icon!!)
+                else
+                    setImageIconByName(file.icon!!)
+            else
+                setImageIcon(R.drawable.folder_filled_icon)
+        }
+    }
+
+    private fun fileClickActionAvailable(
+        holder: BaseViewHolder,
+        view: RecyclerFilesItemViewBinding,
+        file: MappedMaterialModel
+    ) {
+        when (type) {
+            holder.context.getString(R.string.scan_code), holder.context.getString(R.string.default_type) -> {
+                configOfHome(view)
+            }
+
+            holder.context.getString(R.string.merge_pdf) -> {
+                configOfMerge(view)
+            }
+        }
+
+        with(view.customFilePreview) {
+            changeFilesCountVisibility(View.GONE)
+            setCustomTitle(file.title)
+            setCustomDate(file.createdDate)
+            setImageIcon(file.image)
+
+            addActionToRemove { removeFileAction.invoke(file) }
+            addActionToOptions { optionAction.invoke(file) }
+            addActionToShare {
+
+                if (fragment != null && context != null) {
+                    bottomSheetMaterialDialogOpen.invoke(file)
+                }
+            }
+        }
+    }
+
+    private fun fileClickActionNotAvailable(
+        view: RecyclerFilesItemViewBinding,
+        file: MappedMaterialModel
+    ) {
+        with(view.customFilePreview) {
+            changeFilesCountVisibility(View.GONE)
+            setCustomTitle(file.title)
+            setCustomDate(file.createdDate)
+            setImageIcon(file.image)
         }
     }
 }

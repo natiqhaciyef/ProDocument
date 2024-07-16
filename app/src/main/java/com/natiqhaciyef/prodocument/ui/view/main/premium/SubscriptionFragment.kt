@@ -25,6 +25,7 @@ import kotlin.reflect.KClass
 @AndroidEntryPoint
 class SubscriptionFragment(
     private val subscription: MappedSubscriptionModel? = null,
+    private var clearAction: () -> Unit = {  },
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentSubscriptionBinding = FragmentSubscriptionBinding::inflate,
     override val viewModelClass: KClass<PremiumViewModel> = PremiumViewModel::class
 ) : BaseFragment<FragmentSubscriptionBinding, PremiumViewModel, PremiumContract.PremiumState, PremiumContract.PremiumEvent, PremiumContract.PremiumEffect>() {
@@ -41,7 +42,6 @@ class SubscriptionFragment(
 
             else -> {
                 binding.uiLayout.successState()
-
             }
         }
     }
@@ -82,6 +82,7 @@ class SubscriptionFragment(
                 fragmentBackground.setBackgroundResource(subscriptionModel.backgroundColor.gradient)
 
                 selectPlanButton.setOnClickListener {
+                    clearAction.invoke()
                     goToPayment(selectedPlan = subscriptionModel)
                 }
             }

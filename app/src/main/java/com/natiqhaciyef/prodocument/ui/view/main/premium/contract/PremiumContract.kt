@@ -10,6 +10,8 @@ object PremiumContract {
 
     sealed interface PremiumEvent : UiEvent {
         data object GetAllSubscriptionPlans : PremiumEvent
+
+        data object Clear: PremiumEvent
     }
 
     sealed interface PremiumEffect : UiEffect {

@@ -165,6 +165,7 @@ class HomeFragment(
             list.toMutableList(),
             requireContext().getString(R.string.default_type),
             this,
+            false
         )
 
         adapter?.onFileClickAction = { material ->

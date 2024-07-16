@@ -20,6 +20,10 @@ class PremiumViewModel @Inject constructor(
             is PremiumContract.PremiumEvent.GetAllSubscriptionPlans -> {
                 getAllSubscriptionPlans()
             }
+
+            is PremiumContract.PremiumEvent.Clear -> {
+                clearState()
+            }
         }
     }
 
@@ -47,6 +51,10 @@ class PremiumViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun clearState(){
+        setBaseState(getCurrentBaseState().copy())
     }
 
     override fun getInitialState(): PremiumContract.PremiumState = PremiumContract.PremiumState()

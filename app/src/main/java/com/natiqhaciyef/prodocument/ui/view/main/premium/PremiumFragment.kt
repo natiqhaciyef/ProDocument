@@ -27,6 +27,7 @@ class PremiumFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         config()
+        viewModel.postEvent(PremiumContract.PremiumEvent.GetAllSubscriptionPlans)
     }
 
     override fun onStateChange(state: PremiumContract.PremiumState) {
@@ -63,10 +64,15 @@ class PremiumFragment(
 
     private fun viewPagerConfiguration(list: List<MappedSubscriptionModel>){
         for (subscriptionModel in list){
-            plansFragmentList.add(SubscriptionFragment(subscription = subscriptionModel))
+            plansFragmentList.add(SubscriptionFragment(subscription = subscriptionModel, clearAction = { clear() }))
         }
         val adapter = ViewPagerAdapter(plansFragmentList, this)
         binding.subscriptionViewPager.adapter = adapter
         binding.subscriptionViewPager.setPageTransformer(ZoomOutPageTransformer())
+    }
+
+    private fun clear(){
+        postEvent(PremiumContract.PremiumEvent.Clear)
+        plansFragmentList.clear()
     }
 }

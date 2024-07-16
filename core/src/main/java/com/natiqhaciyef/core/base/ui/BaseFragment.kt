@@ -109,17 +109,6 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel<State, Event, E
         pendingIntent.send()
     }
 
-    protected fun getToken(onSuccess: (String) -> Unit = { }) = lifecycleScope.launch {
-        val result = dataStore.readParcelableClassData(
-            context = requireContext(),
-            key = AppStorePrefKeys.TOKEN_KEY,
-            classType = MappedTokenModel::class.java
-        )
-
-        onSuccess(result?.accessToken ?: MATERIAL_TOKEN_MOCK_KEY)
-        return@launch
-    }
-
     private fun onStateSubscribers() {
         stateJob = viewModel.state.onEach {
             onStateChange(it)

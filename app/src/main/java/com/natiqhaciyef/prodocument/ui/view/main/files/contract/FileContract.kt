@@ -52,7 +52,7 @@ object FileContract {
     }
 
     data class FileState(
-        override var isLoading: Boolean = false,
+        override var isLoading: Boolean = true,
         var list: List<MappedMaterialModel>? = null,
         var folders: List<MappedFolderModel>? = null,
         var material: MappedMaterialModel? = null,
