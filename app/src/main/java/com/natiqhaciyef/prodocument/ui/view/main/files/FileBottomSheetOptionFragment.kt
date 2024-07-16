@@ -53,6 +53,7 @@ class FileBottomSheetOptionFragment(
     override val bindInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentFileBottomSheetOptionBinding =
         FragmentFileBottomSheetOptionBinding::inflate,
     override var onClickAction: () -> Unit = {},
+    var moveToFolderClickAction: (MappedMaterialModel) -> Unit = {},
     override var onItemClickAction: (MappedMaterialModel) -> Unit = {},
 ) : BaseBottomSheetFragment<FragmentFileBottomSheetOptionBinding, MappedMaterialModel>() {
     private var paramsAdapter: ParamsAdapter? = null
@@ -214,6 +215,10 @@ class FileBottomSheetOptionFragment(
                     val action = FilesFragmentDirections
                         .actionFilesFragmentToPreviewMaterialNavGraph(resourceBundle)
                     (parentFragment as FilesFragment).navigate(action)
+                }
+
+                getString(R.string.move_to_folder) -> {
+                    moveToFolderClickAction.invoke(material)
                 }
 
                 getString(R.string.print) -> {

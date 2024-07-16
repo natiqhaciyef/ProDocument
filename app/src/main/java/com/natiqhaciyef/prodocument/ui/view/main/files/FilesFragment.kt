@@ -189,7 +189,7 @@ class FilesFragment(
         with(binding) {
             sortIcon.setOnClickListener { sortFilesClickEvent() }
             fabAddIcon.setOnClickListener {
-                CreateFolderFragment{
+                CreateFolderFragment {
                     viewModel.postEvent(FileContract.FileEvent.CreateFolder(it))
                 }.show(
                     if (!isAdded) return@setOnClickListener else this@FilesFragment.childFragmentManager,
@@ -206,11 +206,18 @@ class FilesFragment(
     private fun optionClickAction(state: FileContract.FileState) {
         // add bottom sheet here
         storedMaterial?.let { material ->
-            FileBottomSheetOptionFragment(this, material, params,
+            FileBottomSheetOptionFragment(
+                this, material, params,
+                moveToFolderClickAction = {
+                    resBundle.putParcelable(BUNDLE_MATERIAL, it)
+                    val action =
+                        FilesFragmentDirections.actionFilesFragmentToMoveToFolderFragment(resBundle)
+                    navigate(action)
+                },
                 onClickAction = {
                     holdCurrentState(state)
                     getFilesAndFoldersEvent()
-                }
+                },
             ) {
                 removeFile(material)
             }.show(

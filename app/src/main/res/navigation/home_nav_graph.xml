@@ -79,6 +79,9 @@
         <action
             android:id="@+id/action_filesFragment_to_folderDetailsFragment"
             app:destination="@id/folderDetailsFragment" />
+        <action
+            android:id="@+id/action_filesFragment_to_moveToFolderFragment"
+            app:destination="@id/moveToFolderFragment" />
     </fragment>
     <fragment
         android:id="@+id/premiumFragment"
@@ -127,5 +130,14 @@
         <action
             android:id="@+id/action_folderDetailsFragment_to_scan_nav_graph"
             app:destination="@id/scan_nav_graph" />
+    </fragment>
+    <fragment
+        android:id="@+id/moveToFolderFragment"
+        android:name="com.natiqhaciyef.prodocument.ui.view.main.files.MoveToFolderFragment"
+        android:label="fragment_move_to_folder"
+        tools:layout="@layout/fragment_move_to_folder" >
+        <argument
+            android:name="resourceBundle"
+            app:argType="android.os.Bundle" />
     </fragment>
 </navigation>

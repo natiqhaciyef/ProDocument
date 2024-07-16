@@ -14,6 +14,7 @@ import com.natiqhaciyef.domain.usecase.material.GetMaterialsByFolderIdUseCase
 import com.natiqhaciyef.prodocument.ui.view.main.files.FilesFragment
 import com.natiqhaciyef.prodocument.ui.view.main.files.contract.FileContract
 import com.natiqhaciyef.domain.usecase.material.RemoveMaterialByIdUseCase
+import com.natiqhaciyef.domain.usecase.material.UpdateMaterialByIdUseCase
 import com.natiqhaciyef.prodocument.ui.util.getOptions
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -29,6 +30,7 @@ class FileViewModel @Inject constructor(
     private val getMaterialsByFolderId: GetMaterialsByFolderIdUseCase,
     private val getAllMaterialsWithoutFolderUseCase: GetAllMaterialsWithoutFolderUseCase,
     private val removeMaterialByIdUseCase: RemoveMaterialByIdUseCase,
+    private val updateMaterialByIdUseCase: UpdateMaterialByIdUseCase,
     private val createFolderUseCase: CreateFolderUseCase
 ) : BaseViewModel<FileContract.FileState, FileContract.FileEvent, FileContract.FileEffect>() {
 
@@ -49,6 +51,8 @@ class FileViewModel @Inject constructor(
             is FileContract.FileEvent.GetAllFileParams -> generateParams(event.context)
 
             is FileContract.FileEvent.RemoveMaterial -> removeMaterial(event.materialId)
+
+            is FileContract.FileEvent.UpdateMaterial -> updateMaterial(event.material)
 
             is FileContract.FileEvent.CreateFolder -> createFolder(event.folderRequest)
 
@@ -189,6 +193,25 @@ class FileViewModel @Inject constructor(
 
     private fun removeMaterial(materialId: String) {
         removeMaterialByIdUseCase.operate(materialId).onEach { result ->
+            when (result.status) {
+                Status.SUCCESS -> {
+                    if (result.data != null)
+                        setBaseState(getCurrentBaseState().copy(result = result.data, isLoading = false))
+                }
+
+                Status.ERROR -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = false))
+                }
+
+                Status.LOADING -> {
+                    setBaseState(getCurrentBaseState().copy(isLoading = true))
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    private fun updateMaterial(material: MappedMaterialModel) {
+        updateMaterialByIdUseCase.operate(material).onEach { result ->
             when (result.status) {
                 Status.SUCCESS -> {
                     if (result.data != null)

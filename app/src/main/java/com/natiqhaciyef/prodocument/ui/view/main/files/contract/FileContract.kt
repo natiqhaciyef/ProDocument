@@ -27,6 +27,8 @@ object FileContract {
 
         data class RemoveMaterial(val materialId: String) : FileEvent
 
+        data class UpdateMaterial(val material: MappedMaterialModel) : FileEvent
+
         data class SortMaterials(
             var list: MutableList<MappedMaterialModel>,
             var type: String

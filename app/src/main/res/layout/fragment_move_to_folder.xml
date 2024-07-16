@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.natiqhaciyef.core.base.ui.BaseXmlConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/uiLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.view.main.files.MoveToFolderFragment">
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerFolderView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</com.natiqhaciyef.core.base.ui.BaseXmlConstraintLayout>

@@ -70,7 +70,7 @@ object MaterialMockManager {
         material.copy(id = "$MATERIAL_ID $ONE", title = PROTECT),
         material.copy(id = "$MATERIAL_ID $TWO", title = COMPRESS),
         material.copy(id = "$MATERIAL_ID $THREE", title = MERGE, folderId = "$FOLDER_ID $ONE"),
-        material.copy(id = "$MATERIAL_ID $THREE", title = SPLIT, folderId = "$FOLDER_ID $ONE"),
+        material.copy(id = "$MATERIAL_ID $FOUR", title = SPLIT, folderId = "$FOLDER_ID $ONE"),
         material.copy(id = "$MATERIAL_ID $FIVE", title = E_SIGN, folderId = "$FOLDER_ID $TWO"),
     )
 
@@ -158,6 +158,11 @@ object MaterialMockManager {
             getCrudResult(title)
         else
             getCrudResult(title, FIVE_HUNDRED)
+
+        val folderId = customMaterial.folderId
+        val folder = folderList.first { it.id == folderId }
+        val count = folder.filesCount
+        folder.filesCount = count + ONE
 
         val foundMaterial = materialList.first { it.id == customMaterial.id }
         val index = materialList.indexOf(foundMaterial)
