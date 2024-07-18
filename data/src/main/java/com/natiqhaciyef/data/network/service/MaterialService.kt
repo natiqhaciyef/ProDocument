@@ -26,7 +26,7 @@ interface MaterialService {
     @GET("")
     suspend fun getMaterials(
         @Header(NetworkConfig.HEADER_AUTHORIZATION) token: String,
-    ): Response<ListMaterialResponse>
+    ): Response<List<MaterialResponse>>
 
     @GET("")
     suspend fun getMaterialsWithoutFolder(

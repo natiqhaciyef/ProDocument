@@ -99,16 +99,8 @@ object MaterialMockManager {
         return materialList.filter { it.folderId == folderId }
     }
 
-    fun getAllMaterials(): ListMaterialResponse {
-        return ListMaterialResponse(
-            materials = materialList,
-            id = LIST_MATERIAL_ID,
-            result = CRUDResponse(
-                resultCode = TWO_HUNDRED_NINETY_NINE,
-                message = CRUD_MOCK
-            ),
-            publishDate = DEFAULT_DATE
-        )
+    fun getAllMaterials(): List<MaterialResponse> {
+        return materialList
     }
 
     fun getAllMaterialsWithoutFolder(): List<MaterialResponse> {
