@@ -20,7 +20,7 @@ class GetAllMaterialsRemoteUseCase @Inject constructor(
         return handleFlowResult(
             networkResult = { repository.getAllMaterials() },
             operation = {
-                Resource.success(it.materials.map {
+                Resource.success(it.map {
                     it.toMapped() ?: it.copy(title = LINE).toMapped()!!
                 })
             }

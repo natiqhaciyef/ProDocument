@@ -17,7 +17,7 @@ import com.natiqhaciyef.domain.network.response.MaterialResponse
 
 interface MaterialRepository : BaseRepository {
 
-    suspend fun getAllMaterials(): NetworkResult<ListMaterialResponse>
+    suspend fun getAllMaterials(): NetworkResult<List<MaterialResponse>>
 
     suspend fun getAllMaterialsWithoutFolder(): NetworkResult<List<MaterialResponse>>
 
