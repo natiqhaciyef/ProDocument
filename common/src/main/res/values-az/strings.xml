@@ -49,7 +49,7 @@
     <!--  Titles  -->
     <string name="proscan">ProScan</string>
     <string name="file">Fayllar</string>
-    <string name="default_type">Susmaya görə</string>
+    <string name="default_type">Default</string>
 
 
     <!-- Result -->
