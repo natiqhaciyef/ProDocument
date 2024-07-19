@@ -34,6 +34,7 @@
     <string name="go_to_login">Daxil ol</string>
     <string name="sign_in">Giriş et</string>
     <string name="save">Yadda saxla</string>
+    <string name="understand">Anladım</string>
     <string name="confirm">Təsdiq et</string>
     <string name="select_plan">Plan seç</string>
     <string name="confirm_payment">Ödənişi təsdiq et</string>
@@ -50,7 +51,7 @@
     <string name="proscan">ProScan</string>
     <string name="file">Fayllar</string>
     <string name="default_type">Default</string>
-
+    <string name="document">Sənəd</string>
 
     <!-- Result -->
     <string name="sign_up_successful_result">Uğurlu qeydiyyat!</string>
@@ -61,6 +62,18 @@
     <string name="payment_failed">Ödəniş uğursuz oldu</string>
     <string name="payment_reversed">Ödəniş geri qaytarıldı</string>
     <string name="payment_waiting">Ödəniş gözləmədədir</string>
+    <string name="file_description_result">Fayl təsvir edilmişdir və siz faylı fərdiləşdirə bilərsiniz</string>
+    <string name="empty_list_result">%1$s boşdur</string>
+    <string name="add_new_payment_method_result">Proscan tətbiqində heç vaxt ödəniş üsullarından istifadə etməmisiniz, \"Yeni ödəniş əlavə et\" düyməsini klikləyin.</string>
+    <string name="files_not_inserted_yet_result">Siz heç vaxt faylları dəyişdirməmisiniz və buna görə də fayllar göstərilmir. Əsas səhifəyə keçin və funksiyalardan istifadə etməyə başlayın.</string>
+    <string name="nothing_modified_yet_result">Heç nə dəyişdirilməyib</string>
+    <string name="file_created_success_description">%1$s uğurlu yadda saxlama</string>
+    <string name="file_created_failed_description">%1$s uğursuz yadda saxlama</string>
+    <string name="remove_title_result">Təsdiq</string>
+    <string name="remove_description_result">Faylı silmək istədiyinizdən əminsinizmi?</string>
+    <string name="remove_button_result">Sil</string>
+    <string name="files_loading_error_description_result">Faylları yükləmək alınmadı. Ekranı yenidən yükləyin və internet bağlantınızı yoxlayın.</string>
+
 
 
     <!-- Onboarding & Walkthrough -->
@@ -175,6 +188,8 @@
     <string name="add_watermark">Su Nişanı Əlavə Et</string>
     <string name="watermark_input">Etiket Daxil Edin</string>
     <string name="watermark_add_image">+ Şəkil Əlavə Et</string>
+    <string name="watermark_info_text">Faylınıza su nişanı əlavə etmək istəyirsinizsə, göstərilən düyməni basın. Ekrana keçmək və davam etmək üçün toxunun.</string>
+
 
     <!--  Split  -->
     <string name="split_file">Faylı hissələrə böl</string>
@@ -213,6 +228,10 @@
     <string name="move_to_folder">Qovluqda Yerləşdir</string>
     <string name="print">Çap Et</string>
     <string name="delete">Sil</string>
+    <string name="count_of_files">%1$s fayl(lar)</string>
+    <string name="folder_title">Qovluq başlığı</string>
+    <string name="folder_description">Qovluq detalları</string>
+
 
     <!-- Premium -->
     <string name="subscription_price_text"><![CDATA[<font size="36">%1$s</font> <font size="24">/ %2$s</font>]]></string>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FFFFFFFF</color>
+    <color name="white">#212121</color>
+    <color name="transparent_50_percent">#80FFFFFF</color>
+    <color name="transparent">#00FFFFFF</color>
+
+    <color name="app_transparent">#00FFFFFF</color>
+    <color name="app_red">#FF0000</color>
+    <color name="app_gray">#B4B4B4</color>
+    <color name="app_dark_gray">#656F78</color>
+
+    <!-- Primary -->
+    <color name="primary_900">#4B68FF</color>
+    <color name="primary_800">#5D77FF</color>
+    <color name="primary_700">#6F86FF</color>
+    <color name="primary_600">#8195FF</color>
+    <color name="primary_500">#93A4FF</color>
+    <color name="primary_400">#A5B4FF</color>
+    <color name="primary_300">#B7C3FF</color>
+    <color name="primary_200">#C9D2FF</color>
+    <color name="primary_100">#DBE1FF</color>
+    <color name="primary_50">#EDF0FF</color>
+
+    <!-- Secondary -->
+    <color name="secondary_900">#335081</color>
+    <color name="secondary_800">#47628E</color>
+    <color name="secondary_700">#5C739A</color>
+    <color name="secondary_600">#7085A7</color>
+    <color name="secondary_500">#8596B3</color>
+    <color name="secondary_400">#99A8C0</color>
+    <color name="secondary_300">#ADB9CD</color>
+    <color name="secondary_200">#C2CBD9</color>
+    <color name="secondary_100">#D6DCE6</color>
+    <color name="secondary_50">#EBEEF2</color>
+
+    <!-- Grayscale -->
+    <color name="grayscale_900">#FAFAFA</color>
+    <color name="grayscale_800">#F5F5F5</color>
+    <color name="grayscale_700">#EEEEEE</color>
+    <color name="grayscale_600">#E0E0E0</color>
+    <color name="grayscale_500">#BDBDBD</color>
+    <color name="grayscale_400">#9E9E9E</color>
+    <color name="grayscale_300">#757575</color>
+    <color name="grayscale_200">#616161</color>
+    <color name="grayscale_100">#424242</color>
+    <color name="grayscale_50">#212121</color>
+
+    <!-- Alert & Status -->
+    <color name="success">#12D18E</color>
+    <color name="info">#246BFD</color>
+    <color name="warning">#FACC15</color>
+    <color name="error">#F75555</color>
+    <color name="disabled">#D8D8D8</color>
+    <color name="disabled_button">#3c53cc</color>
+
+    <!-- Dark colors -->
+    <color name="dark_1">#181A20</color>
+    <color name="dark_2">#1F222A</color>
+    <color name="dark_3">#262A35</color>
+    <color name="dark_4">#35383F</color>
+
+    <!-- Others -->
+    <color name="deep_purple">#673AB7</color>
+    <color name="indigo">#3F51B5</color>
+    <color name="blue">#2196F3</color>
+    <color name="light_blue">#03A9F4</color>
+    <color name="cyan">#00BCD4</color>
+    <color name="teal">#009688</color>
+    <color name="green">#4CAF50</color>
+    <color name="light_green">#8BC34A</color>
+    <color name="lime">#CDDC39</color>
+    <color name="red">#F44336</color>
+    <color name="pink">#E91E63</color>
+    <color name="purple">#9C27B0</color>
+    <color name="amber">#FFC107</color>
+    <color name="orange">#FF9800</color>
+    <color name="deep_orange">#FF5722</color>
+    <color name="brown">#795548</color>
+    <color name="blue_grey">#607D8B</color>
+
+    <!-- Background -->
+    <color name="background_blue">#F2F4FF</color>
+    <color name="background_teal">#EFF9F8</color>
+    <color name="background_brown">#FBF6F3</color>
+    <color name="background_red">#FFF4F4</color>
+    <color name="background_yellow">#FFFCEB</color>
+    <color name="background_orange">#FFF8EE</color>
+    <color name="background_green">#F1FDF5</color>
+    <color name="background_purple">#F9F8FF</color>
+
+    <!-- Transparent -->
+    <color name="transparent_blue">#1A4B68FF</color>
+    <color name="transparent_teal">#1A009B8D</color>
+    <color name="transparent_brown">#1AA4634D</color>
+    <color name="transparent_red">#1AF5484A</color>
+    <color name="transparent_yellow">#1AFFD300</color>
+    <color name="transparent_orange">#1AF89300</color>
+    <color name="transparent_green">#1A12D18E</color>
+    <color name="transparent_purple">#1A6949FF</color>
+    <color name="transparent_black">#9909101D</color>
+
+    <!-- Gradient types -->
+    <color name="gradient_start_red">#F5484A</color>
+    <color name="gradient_end_red">#FF7475</color>
+
+    <color name="gradient_start_pink">#F548EC</color>
+    <color name="gradient_end_pink">#FF74EC</color>
+
+    <color name="gradient_start_blue">#4B68FF</color>
+    <color name="gradient_end_blue">#7C90F8</color>
+
+    <color name="gradient_start_teal">#009B8D</color>
+    <color name="gradient_end_teal">#32D0C2</color>
+
+    <color name="gradient_start_green">#12D18E</color>
+    <color name="gradient_end_green">#71E3BB</color>
+
+    <color name="gradient_start_brown">#A4634D</color>
+    <color name="gradient_end_brown">#AC7E6E</color>
+
+    <color name="gradient_start_yellow">#FACC15</color>
+    <color name="gradient_end_yellow">#FFE580</color>
+
+    <color name="gradient_start_orange">#F89300</color>
+    <color name="gradient_end_orange">#FFBB58</color>
+
+    <color name="gradient_start_purple">#6949FF</color>
+    <color name="gradient_end_purple">#876DFF</color>
+
+</resources>
