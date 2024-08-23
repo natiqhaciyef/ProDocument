@@ -32,13 +32,14 @@ abstract class BaseViewModel<State : UiState, Event : UiEvent, Effect : UiEffect
 
     private val _effect = Channel<Effect>()
     val effect = _effect.receiveAsFlow()
+    private var eventJob: Job? = null
 
     init {
         initEventSubscribers()
     }
 
     private fun initEventSubscribers() {
-        event.onEach {
+        eventJob = event.onEach {
             onEventUpdate(it)
         }.launchIn(viewModelScope)
     }
@@ -83,5 +84,6 @@ abstract class BaseViewModel<State : UiState, Event : UiEvent, Effect : UiEffect
     override fun onCleared() {
         super.onCleared()
         job.cancel()
+        eventJob?.cancel()
     }
 }
