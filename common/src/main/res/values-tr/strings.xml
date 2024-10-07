@@ -34,6 +34,7 @@
     <string name="go_to_login">Girişe git</string>
     <string name="sign_in">Kayıt ol</string>
     <string name="save">Kaydet</string>
+    <string name="understand">Anladım</string>
     <string name="confirm">Onayla</string>
     <string name="select_plan">Plan seç</string>
     <string name="confirm_payment">Ödemeyi onayla</string>
@@ -50,6 +51,7 @@
     <string name="proscan">ProScan</string>
     <string name="file">Dosyalar</string>
     <string name="default_type">Default</string>
+    <string name="document">Belge</string>
 
 
     <!-- Result -->
@@ -61,6 +63,18 @@
     <string name="payment_failed">Ödeme Başarısız</string>
     <string name="payment_reversed">Ödeme Geri Alındı</string>
     <string name="payment_waiting">Ödeme Bekleniyor</string>
+    <string name="file_description_result">Açıklanan dosyayı özelleştirebilirsiniz</string>
+    <string name="empty_list_result">%1$s boştur</string>
+    <string name="add_new_payment_method_result">Proscan uygulamasında daha önce ödeme yöntemini kullanmadıysanız, \"Yeni ödeme ekle\" butonuna tıklayın.</string>
+    <string name="files_not_inserted_yet_result">Dosyaları hiç değiştirmediniz ve bu nedenle dosyalar gösterilmiyor. Ana sayfaya gidin ve işlevleri kullanmaya başlayın.</string>
+    <string name="nothing_modified_yet_result">Değiştirilen hiçbir şey yok</string>
+    <string name="file_created_success_description">%1$s dosya kaydetme başarılı</string>
+    <string name="file_created_failed_description">%1$s dosya kaydetme başarısız</string>
+    <string name="remove_title_result">Onaylama</string>
+    <string name="remove_description_result">Dosyayı silme konusunda emin misiniz?</string>
+    <string name="remove_button_result">Sil</string>
+    <string name="files_loading_error_description_result">Dosyalar yüklenemedi. Ekranı yeniden yükleyin ve internet bağlantınızı kontrol edin.</string>
+
 
 
     <!-- Onboarding & Walkthrough -->
@@ -175,6 +189,7 @@
     <string name="add_watermark">Filigran ekle</string>
     <string name="watermark_input">Etiket ekle</string>
     <string name="watermark_add_image">+ Resim ekle</string>
+    <string name="watermark_info_text">Dosyanıza filigran eklemek istiyorsanız görüntülenen düğmeye tıklayın. Ekrana gelip devam etmek için dokunun.</string>
 
     <!--  Split  -->
     <string name="split_file">Bölünmüş dosya</string>
@@ -182,7 +197,7 @@
     <string name="from_here">Buradan</string>
     <string name="until_here">Buraya</string>
     <string name="write_sentence">Cümle yaz</string>
-    <string name="addition_information_about_split">Bölünmüş pdf'in ilk satırını eklemelisiniz. Daha sonra bölünmüş pdf satırını sonlandıracak ikinci satırı seçmelisiniz. Bu bölüm pdf'ten kaldırılacak ve yeni dosya oluşturulacaktır.</string>
+    <string name="addition_information_about_split">Bölünmüş pdf\'in ilk satırını eklemelisiniz. Daha sonra bölünmüş pdf satırını sonlandıracak ikinci satırı seçmelisiniz. Bu bölüm pdf\'ten kaldırılacak ve yeni dosya oluşturulacaktır.</string>
     <string name="until_the_last_line">Sonuncu cümleye kadar</string>
 
     <!-- Protect pdf  -->
@@ -213,6 +228,9 @@
     <string name="move_to_folder">Klasöre taşı</string>
     <string name="print">Yazdır</string>
     <string name="delete">Sil</string>
+    <string name="count_of_files">%1$s dosya(lar)</string>
+    <string name="folder_title">Dosya ismi</string>
+    <string name="folder_description">Dosya açıklaması</string>
 
 
     <!-- Premium -->
@@ -254,7 +272,7 @@
 
     <!-- Profile account -->
     <string name="captured_files_size_ratio">%2$s %1$s / %3$s %1$s</string>
-    <string name="go_to_premium">Premium'a git</string>
+    <string name="go_to_premium">Premium\'a git</string>
     <string name="enjoy_all_benefits">Tüm avantajlardan yararlanın</string>
 
     <string name="personal_info">Kişisel bilgi</string>

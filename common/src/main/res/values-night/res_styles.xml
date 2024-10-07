@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="com.natiqhaciyef.uikit.custom.CustomInputView">
+        <attr name="customHint" format="string"/>
+        <attr name="customTitle" format="string"/>
+        <attr name="customInputType" format="integer">
+            <flag name="text" value="1"/>
+            <flag name="email" value="2"/>
+            <flag name="number" value="3"/>
+            <flag name="decimal" value="4"/>
+            <flag name="dob" value="5"/>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="com.natiqhaciyef.uikit.custom.CustomExpandedDropDownCardView">
+        <attr name="customDropDownHint" format="string"/>
+        <attr name="customDropDownTitle" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="com.natiqhaciyef.uikit.custom.CustomFilePreview">
+        <attr name="optionIconVisibility" format="boolean"/>
+        <attr name="shareIconVisibility" format="boolean"/>
+        <attr name="removeIconVisibility" format="boolean"/>
+    </declare-styleable>
+
+</resources>

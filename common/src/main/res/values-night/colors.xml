@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FFFFFFFF</color>
+    <color name="white">#212121</color>
     <color name="transparent_50_percent">#80FFFFFF</color>
     <color name="transparent">#00FFFFFF</color>
 
@@ -35,16 +35,16 @@
     <color name="secondary_50">#EBEEF2</color>
 
     <!-- Grayscale -->
-    <color name="grayscale_900">#212121</color>
-    <color name="grayscale_800">#424242</color>
-    <color name="grayscale_700">#616161</color>
-    <color name="grayscale_600">#757575</color>
-    <color name="grayscale_500">#9E9E9E</color>
-    <color name="grayscale_400">#BDBDBD</color>
-    <color name="grayscale_300">#E0E0E0</color>
-    <color name="grayscale_200">#EEEEEE</color>
-    <color name="grayscale_100">#F5F5F5</color>
-    <color name="grayscale_50">#FAFAFA</color>
+    <color name="grayscale_900">#FAFAFA</color>
+    <color name="grayscale_800">#F5F5F5</color>
+    <color name="grayscale_700">#EEEEEE</color>
+    <color name="grayscale_600">#E0E0E0</color>
+    <color name="grayscale_500">#BDBDBD</color>
+    <color name="grayscale_400">#9E9E9E</color>
+    <color name="grayscale_300">#757575</color>
+    <color name="grayscale_200">#616161</color>
+    <color name="grayscale_100">#424242</color>
+    <color name="grayscale_50">#212121</color>
 
     <!-- Alert & Status -->
     <color name="success">#12D18E</color>
@@ -78,9 +78,6 @@
     <color name="deep_orange">#FF5722</color>
     <color name="brown">#795548</color>
     <color name="blue_grey">#607D8B</color>
-
-    <color name="info2">#5CFAFAFA</color>
-
 
     <!-- Background -->
     <color name="background_blue">#F2F4FF</color>
