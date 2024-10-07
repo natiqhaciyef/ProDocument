@@ -71,7 +71,7 @@ abstract class BaseViewModel<State : UiState, Event : UiEvent, Effect : UiEffect
     }
 
     suspend fun updateEvent(event: Event) {
-        _event.emit(event)
+        viewModelScope.launch { _event.emit(event) }
     }
 
     fun postEffect(effect: Effect) {

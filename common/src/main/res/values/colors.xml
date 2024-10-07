@@ -79,6 +79,9 @@
     <color name="brown">#795548</color>
     <color name="blue_grey">#607D8B</color>
 
+    <color name="info2">#5CFAFAFA</color>
+
+
     <!-- Background -->
     <color name="background_blue">#F2F4FF</color>
     <color name="background_teal">#EFF9F8</color>
